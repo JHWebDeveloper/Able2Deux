@@ -33,7 +33,7 @@ label {
 }
 
 button:not([title="Save"], [title="Close"]),
-input[type=text] {
+input:matches([type=text], [type="number"]) {
 	height: 24px;
 	vertical-align: middle;
 }
@@ -92,7 +92,15 @@ button[name="down"]:last-of-type {
   visibility: hidden;
 }
 
-fieldset[name="scaleSliderMax"] { margin-top: 20px; }
+.number-selector {
+	display: block;
+	margin-top: 10px;
+}
+
+.number-selector > label {
+	display: inline-block;
+	margin-right: 6px;
+}
 
 #save-prefs {
 	position: fixed;

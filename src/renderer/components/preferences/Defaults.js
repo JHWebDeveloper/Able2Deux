@@ -28,16 +28,17 @@ const Defaults = ({ warnings, scaleSliderMax }) => {
 						name="sourceOnTop"
 						checked={warnings.sourceOnTop}
 						switchIcon />
-					<fieldset name="scaleSliderMax">
-						<legend>Scale Slider Max</legend>
+					<span className="number-selector">
+						<label htmlFor="scaleSliderMac">Scale Slider Max</label>
 						<input
 							type="number"
 							name="scaleSliderMax"
+							id="scaleSliderMax"
 							value={scaleSliderMax}
 							min="100"
 							max="9999"
 							data-number />
-					</fieldset>
+					</span>
 				</div>
 			</fieldset>
 		</div>
