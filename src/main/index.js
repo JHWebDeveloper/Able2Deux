@@ -19,268 +19,268 @@ let preferences = false
 const { app, BrowserWindow, Menu } = electron
 
 const openWindow = prefs => new BrowserWindow({
-  ...prefs,
-  show: false,
-  backgroundColor: '#eee',
-  webPreferences: {
-    nodeIntegration: dev,
-    enableEval: false,
-    preload: dev
-      ? path.join(__dirname, 'preload', 'babelRegister.js')
-      : path.join(__dirname, 'preload.js')
-  }
+	...prefs,
+	show: false,
+	backgroundColor: '#eee',
+	webPreferences: {
+		nodeIntegration: dev,
+		enableEval: false,
+		preload: dev
+			? path.join(__dirname, 'preload', 'babelRegister.js')
+			: path.join(__dirname, 'preload.js')
+	}
 })
 
 const createURL = view =>  url.format(dev ? {
-  protocol: 'http:',
-  host: 'localhost:3000',
-  pathname: `${view}.html`,
-  slashes: true
+	protocol: 'http:',
+	host: 'localhost:3000',
+	pathname: `${view}.html`,
+	slashes: true
 } : {
-  protocol: 'file:',
-  pathname: path.join(__dirname, 'renderer', `${view}.html`),
-  slashes: true
+	protocol: 'file:',
+	pathname: path.join(__dirname, 'renderer', `${view}.html`),
+	slashes: true
 })
 
 const createWindow = () => {
-  initExtDirectories()
+	initExtDirectories()
 
-  win = openWindow({
-    width: 952,
-    height: 780
-  })
+	win = openWindow({
+		width: 952,
+		height: 780
+	})
 
-  win.loadURL(createURL('index'))
+	win.loadURL(createURL('index'))
 
-  const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
+	const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
 
-  Menu.setApplicationMenu(mainMenu)
+	Menu.setApplicationMenu(mainMenu)
 
-  win.on('ready-to-show', () => {
-    win.show()
-    if (dev) win.webContents.openDevTools()
-  })
+	win.on('ready-to-show', () => {
+		win.show()
+		if (dev) win.webContents.openDevTools()
+	})
 
-  win.on('close', () => {
-    win = false
-  })
+	win.on('close', () => {
+		win = false
+	})
 }
 
 const lock = app.requestSingleInstanceLock()
 
 if (!lock) {
-  app.quit()
+	app.quit()
 } else {
-  app.on('second-instance', () => {
-    if (win) {
-      if (win.isMinimized()) win.restore()
-      win.focus()
-    }
-  })
+	app.on('second-instance', () => {
+		if (win) {
+			if (win.isMinimized()) win.restore()
+			win.focus()
+		}
+	})
 
-  app.on('ready', () => {
-    createWindow()
-  })
+	app.on('ready', () => {
+		createWindow()
+	})
 }
 
 app.on('window-all-closed', () => {
-  if (!mac) app.quit()
+	if (!mac) app.quit()
 })
 
 app.on('activate', () => {
-  if (!win) createWindow()
+	if (!win) createWindow()
 })
 
 
 // ---- MENU CONFIG --------
 
 const prefsMenuItem = [
-  { type: 'separator' },
-  {
-    label: 'Preferences',
-    accelerator: 'CmdOrCtrl+,',
-    click() {
-      preferences = openWindow({
-        parent: win,
-        width: 700,
-        height: 400,
-        minimizable: false,
-        maximizable: false
-      })
+	{ type: 'separator' },
+	{
+		label: 'Preferences',
+		accelerator: 'CmdOrCtrl+,',
+		click() {
+			preferences = openWindow({
+				parent: win,
+				width: 700,
+				height: 400,
+				minimizable: false,
+				maximizable: false
+			})
 
-      preferences.loadURL(createURL('preferences'))
+			preferences.loadURL(createURL('preferences'))
 
-      preferences.once('ready-to-show', () => {
-        preferences.show()
-      })
+			preferences.once('ready-to-show', () => {
+				preferences.show()
+			})
 
-      preferences.on('close', () => {
-        preferences = false
-      })
+			preferences.on('close', () => {
+				preferences = false
+			})
 
-      preferences.setMenu(null)
-    }
-  }
+			preferences.setMenu(null)
+		}
+	}
 ]
 
 const mainMenuTemplate = [
-  ...mac ? [{
-    label: app.name,
-    submenu: [
-      {
-        label: 'About',
-        role: 'about'
-      },
-      ...prefsMenuItem,
-      { type: 'separator' },
-      {
-        label: 'Hide',
-        role: 'hide'
-      },
-      { role: 'hideothers' },
-      { type: 'separator' },
-      { 
-        label: 'Quit',
-        role: 'quit'
-      }
-    ]
-  }] : [],
-  {
-    label: 'File',
-    submenu: [
-      mac ? { role: 'close' } : { role: 'quit' }
-    ]
-  },
-  {
-    label: 'Edit',
-    submenu: [
-      { role: 'undo' },
-      { role: 'redo'},
-      { type: 'separator' },
-      { role: 'cut' },
-      { role: 'copy' },
-      { role: 'paste' },
-      { type: 'separator' },
-      { role: 'selectall' },
-      ...(mac ?  [] : prefsMenuItem)
-    ]
-  }
+	...mac ? [{
+		label: app.name,
+		submenu: [
+			{
+				label: 'About',
+				role: 'about'
+			},
+			...prefsMenuItem,
+			{ type: 'separator' },
+			{
+				label: 'Hide',
+				role: 'hide'
+			},
+			{ role: 'hideothers' },
+			{ type: 'separator' },
+			{ 
+				label: 'Quit',
+				role: 'quit'
+			}
+		]
+	}] : [],
+	{
+		label: 'File',
+		submenu: [
+			mac ? { role: 'close' } : { role: 'quit' }
+		]
+	},
+	{
+		label: 'Edit',
+		submenu: [
+			{ role: 'undo' },
+			{ role: 'redo'},
+			{ type: 'separator' },
+			{ role: 'cut' },
+			{ role: 'copy' },
+			{ role: 'paste' },
+			{ type: 'separator' },
+			{ role: 'selectall' },
+			...(mac ?  [] : prefsMenuItem)
+		]
+	}
 ]
 
 if (dev) {
-  mainMenuTemplate.push({
-    label: 'Developer Tools',
-    submenu: [
-      {
-        label: 'Toggle DevTools',
-        click(item, focusedWindow) {
-          focusedWindow.toggleDevTools()
-        }
-      },
-      {
-        role: 'reload'
-      }
-    ]
-  })
+	mainMenuTemplate.push({
+		label: 'Developer Tools',
+		submenu: [
+			{
+				label: 'Toggle DevTools',
+				click(item, focusedWindow) {
+					focusedWindow.toggleDevTools()
+				}
+			},
+			{
+				role: 'reload'
+			}
+		]
+	})
 }
 
 ipcMain.on('getTitleFromURL', async (evt, data) => {
-  const { id, url } = data
+	const { id, url } = data
 
-  try {
-    evt.reply(`titleRecieved_${id}`, await getTitleFromURL(url))
-  } catch (err) {
-    evt.reply(`titleErr_${id}`, err)
-  }
+	try {
+		evt.reply(`titleRecieved_${id}`, await getTitleFromURL(url))
+	} catch (err) {
+		evt.reply(`titleErr_${id}`, err)
+	}
 })
 
 ipcMain.on('requestDownload', async (evt, data) => {
-  const { id } = data
+	const { id } = data
 
-  try {
-    const tempFilePath = await downloadVideo(data, win)
-    const mediaData = await getMediaInfo(id, 'video', tempFilePath)
+	try {
+		const tempFilePath = await downloadVideo(data, win)
+		const mediaData = await getMediaInfo(id, 'video', tempFilePath)
 
-    evt.reply(`downloadComplete_${id}`, mediaData)
-  } catch (err) {
-    evt.reply(`downloadErr_${id}`, err)
-  }
+		evt.reply(`downloadComplete_${id}`, mediaData)
+	} catch (err) {
+		evt.reply(`downloadErr_${id}`, err)
+	}
 })
 
 ipcMain.on('cancelDownload', async (evt, id) => {
-  try {
-    await cancelDownload(id)
-  } catch (err) {
-    console.error(err)
-  }
+	try {
+		await cancelDownload(id)
+	} catch (err) {
+		console.error(err)
+	}
 })
 
 ipcMain.on('checkFileType', async (evt, data) => {
-  try {
-    evt.reply(`fileTypeFound_${data.id}`, await checkFileType(data.file))
-  } catch (err) {
-    evt.reply(`fileTypeErr_${data.id}`, err)
-  }
+	try {
+		evt.reply(`fileTypeFound_${data.id}`, await checkFileType(data.file))
+	} catch (err) {
+		evt.reply(`fileTypeErr_${data.id}`, err)
+	}
 })
 
 ipcMain.on('requestUpload', async (evt, data) => {
-  const { id, mediaType } = data
+	const { id, mediaType } = data
 
-  try {
-    const tempFilePath = await upload(data)
-    const mediaData = await getMediaInfo(id, mediaType, tempFilePath)
+	try {
+		const tempFilePath = await upload(data)
+		const mediaData = await getMediaInfo(id, mediaType, tempFilePath)
 
-    evt.reply(`uploadComplete_${id}`, mediaData)
-  } catch (err) {
-    evt.reply(`uploadErr_${id}`, err)
-  }
+		evt.reply(`uploadComplete_${id}`, mediaData)
+	} catch (err) {
+		evt.reply(`uploadErr_${id}`, err)
+	}
 })
 
 ipcMain.on('saveScreenRecording', async (evt, data) => {
-  const { id } = data
+	const { id } = data
 
-  try {
-    const tempFilePath = await saveScreenRecording(data)
-    const mediaData = await getMediaInfo(id, 'video', tempFilePath)
-    
-    evt.reply(`screenRecordingSaved_${id}`, mediaData)
-  } catch (err) {
-    evt.reply(`saveScreenRecordingErr_${id}`, err)
-  }
+	try {
+		const tempFilePath = await saveScreenRecording(data)
+		const mediaData = await getMediaInfo(id, 'video', tempFilePath)
+		
+		evt.reply(`screenRecordingSaved_${id}`, mediaData)
+	} catch (err) {
+		evt.reply(`saveScreenRecordingErr_${id}`, err)
+	}
 })
 
 ipcMain.on('removeMediaFile', async (evt, id) => {
-  try {
-    await temp.imports.clear(id)
-  } catch (err) {
-    console.error(err)
-  }
+	try {
+		await temp.imports.clear(id)
+	} catch (err) {
+		console.error(err)
+	}
 })
 
 ipcMain.handle('initPreview', async (evt, data) => {
-  try {
-    return updatePreviewSourceImage(data)
-  } catch (err) {
-    console.error(err)
-  }
+	try {
+		return updatePreviewSourceImage(data)
+	} catch (err) {
+		console.error(err)
+	}
 })
 
 ipcMain.on('requestPreviewStill', async (evt, exportData) => {
-  try {
-    const dataURL = await previewStill(exportData)
+	try {
+		const dataURL = await previewStill(exportData)
 
-    evt.reply('previewStillCreated', dataURL)
-  } catch (err) {
-    if (err.toString() !== 'Error: ffmpeg was killed with signal SIGKILL') {
-      console.error(err)
-    }
-  }
+		evt.reply('previewStillCreated', dataURL)
+	} catch (err) {
+		if (err.toString() !== 'Error: ffmpeg was killed with signal SIGKILL') {
+			console.error(err)
+		}
+	}
 })
 
 ipcMain.on('requestPrefs', async evt => {
-  try {
-    evt.reply('prefsRecieved', await loadPrefs())
-  } catch (err) {
-    evt.reply('prefsErr', err)
-  }
+	try {
+		evt.reply('prefsRecieved', await loadPrefs())
+	} catch (err) {
+		evt.reply('prefsErr', err)
+	}
 })
