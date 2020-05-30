@@ -1,0 +1,51 @@
+#root {
+	display: grid;
+	grid-template-columns: 308px minmax(384px, auto);
+	grid-template-rows: min-content repeat(3, 1fr);
+	grid-gap: 18px;
+	padding: 18px;
+}
+
+header {
+	position: relative;
+	width: 308px;
+	padding-left: 10px;
+	border-left: 12px solid var(--primary);
+}
+
+header::after {
+	content: 'DEUX';
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 32px;
+	width: 103px;
+	background-color: var(--primary);
+	color: var(--background);
+	font: 600 32px/34px var(--font-stack);
+	text-align: center;
+	transform-origin: bottom right;
+	transform: translateY(-32px) rotate(-90deg);
+}
+
+header > h1 {
+	font-size: 4.45rem;
+	line-height: 3.8rem;
+	text-transform: uppercase;
+}
+
+header > svg {
+	width: 20px;
+	margin-right: 2px;
+}
+
+header > p { font-size: 0.9rem; }
+
+main { display: contents; }
+
+form { display: inherit; }
+
+button:matches([title="Format Media"], [title="Back"]) {
+	margin-right: 12px;
+}

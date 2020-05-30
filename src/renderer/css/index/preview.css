@@ -1,0 +1,83 @@
+#editor > details {
+	margin-bottom: 9px;
+	background-color: var(--primary);
+	color: var(--background);
+}
+
+#preview > div:first-child { background-color: #000; }
+
+#preview-container {
+	position: relative;
+	width: 384px;
+	height: 216px;
+	margin: auto;
+}
+
+#preview-container > :matches(video, span, canvas) {
+	width: inherit;
+	height: inherit;
+}
+
+#preview-container > :matches(span, canvas, svg) {
+	position: absolute;
+}
+
+#preview-container > :matches(span, canvas) {
+	top: 0;
+	left: 0;
+}
+
+video {
+	object-fit: fill;
+	display: block;
+}
+
+#preview-container > span {
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+#preview-container > svg {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#preview-controls {
+	display: grid;
+	grid-template-columns: min-content auto repeat(6, min-content);
+	grid-auto-flow: row;
+	font-size: 11px;
+}
+
+#preview-controls > :matches(span, input, button) { grid-row: 1; }
+
+#preview-controls > :matches(span, input) { margin: 0 8px; }
+
+#preview-controls > span { min-width: 68px; }
+
+#preview-controls > input[type="range"] {
+	align-self: center;
+	min-width: 0;
+	height: 6px;
+	background-color: var(--background-alt-2);
+}
+
+#preview-controls > input[type="range"]::-webkit-slider-thumb {
+	width: 12px;
+	height: 12px;
+	background-color: var(--background);
+}
+
+#preview-controls > button {
+	min-width: 24px;
+	height: 24px;
+	padding: 6px;
+}
+
+#preview-controls > .monospace { padding-top: 8px; }
+
+#preview-controls > button:nth-last-of-type(4) { grid-column: 5; }
+#preview-controls > button:nth-last-of-type(3) { grid-column: 6; }
+#preview-controls > button:nth-last-of-type(2) { grid-column: 7;  }
+#preview-controls > button:nth-last-of-type(1) { grid-column: 8;  }

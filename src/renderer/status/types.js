@@ -1,0 +1,6 @@
+export const PENDING = 'PENDING'
+export const DOWNLOADING = 'DOWNLOADING'
+export const LOADING = 'LOADING'
+export const READY = 'READY'
+export const FAILED = 'FAILED'
+export const CANCELLING = 'CANCELLING'

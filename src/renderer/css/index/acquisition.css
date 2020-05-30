@@ -1,0 +1,323 @@
+#downloader, #uploader, #screen-recorder { align-self: center; }
+
+#downloader, #ready-queue { display: grid; }
+
+#uploader, #screen-recorder {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: var(--secondary);
+}
+
+
+/* ---- DOWNLOADER AND UPLOADER -------- */
+
+#downloader {
+	grid-template-rows: min-content min-content;
+	grid-template-rows: min-content min-content;
+	grid-gap: 12px 6px;
+	grid-row: 2;
+}
+
+#downloader > input[type="text"] { grid-column: span 2; }
+
+#downloader > button { grid-row: 2; }
+
+#downloader > span {
+	align-content: center;
+	font-weight: 600;
+	font-size: 12px;
+}
+
+#uploader {
+	position: relative;
+	grid-row: 3;
+	height: 100%;
+	min-height: 110px;
+	max-height: 200px;
+	border: var(--main-border-style);
+	border-radius: 5px;
+	background-color: var(--background);
+	transition: background-color 150ms;
+}
+
+#uploader:matches(::before, ::after) {
+	content: '';
+	pointer-events: none;
+	position: absolute;
+	background-color: inherit;
+}
+
+#uploader::before {
+	width: calc(100% + 4px);
+	height: calc(100% - 50px);
+}
+
+#uploader::after {
+	width: calc(100% - 50px);
+	height: calc(100% + 4px);
+}
+
+#uploader:matches(.drag-enter, :active) {
+	background-color: var(--primary);
+	color: var(--background);
+}
+
+#uploader > p { z-index: 2 }
+
+input[type="file"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 3;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+}
+
+
+/* ---- SCREEN RECORDER -------- */
+
+#screen-recorder {
+	grid-template-rows: repeat(5, min-content);
+	grid-row: 4;
+}
+
+@keyframes blink {
+	0%, 50% { background-color: var(--highlight); }
+	51%, 100% { background-color: var(--background); }
+}
+
+button[name="record"] {
+	display: block;
+	position: relative;
+	width: 50px;
+	height: 50px;
+	margin: 10px auto;
+	border-radius: 50%;
+	background-color: var(--primary);
+}
+
+button[name="record"]:disabled {
+	background-color: var(--disabled);
+}
+
+button[name="record"]:enabled:hover {
+	background-color: var(--secondary);
+}
+
+button[name="record"]::after {
+	content: '';
+	display: inherit;
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	width: 26px;
+	height: 26px;
+	border-radius: inherit;
+	background-color: var(--background);
+}
+
+button[name="record"].recording::after {
+	animation: blink 1000ms infinite;
+}
+
+
+/* ---- RECORD SOURCE SELECTOR -------- */
+
+@keyframes modal-fade-in {
+	0% { background-color: rgba(238, 238, 238, 0); }
+	100% { background-color: rgba(238, 238, 238, 0.5); }
+}
+
+@keyframes modal-fade-out {
+	0% { background-color: rgba(238, 238, 238, 0.5); }
+	100% { background-color: rgba(238, 238, 238, 0); }
+}
+
+@keyframes reveal-source-select {
+	0% {
+		width: 50px;
+		height: 50px;
+	}
+	50% {
+		width: 304px;
+		height: 50px;
+	}
+	100% {
+		width: 304px;
+		height: 500px;
+	}
+}
+
+@keyframes close-source-select {
+	0% {
+		width: 304px;
+		height: 500px;
+	}
+	100% {
+		width: 50px;
+		height: 50px;
+	}
+}
+
+#record-source-selector {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999;
+	width: 100%;
+	height: 100%;
+	animation: modal-fade-in 250ms both;
+}
+
+#record-source-selector.close {
+	animation: modal-fade-out 250ms both;
+}
+
+#record-source-selector > div {
+	overflow-y: auto;
+	position: absolute;
+	bottom: 84px;
+	left: 147px;
+	border: 12px solid var(--primary);
+	border-radius: 25px;
+	background-color: var(--background);
+	color: var(--primary);
+	font-weight: 600;
+	animation: reveal-source-select 500ms both;
+}
+
+#record-source-selector.close > div {
+	animation: close-source-select 250ms both;
+}
+
+#record-source-selector h2 {
+	position: sticky;
+	top: 0;
+	padding: 12px 0;
+	background-color: inherit;
+	text-align: center;
+}
+
+#record-source-selector h2 > button {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#record-source-selector > div > button {
+	width: 100%;
+	padding: 12px 6px 6px;
+}
+
+#record-source-selector > div > button:hover {
+	background-color: var(--background-alt-1);
+}
+
+#record-source-selector :matches(img, span) {
+	display: block;
+	max-width: 100%;
+}
+
+#record-source-selector img {
+	max-height: 144px;
+	margin: 0 auto 6px;
+	object-fit: contain;
+	object-position: center;
+}
+
+#record-source-selector span {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+button[name="record"] ~ p {
+	font-size: 10px;
+	margin-top: 10px;
+}
+
+
+/* ---- READY QUEUE -------- */
+
+#ready-queue {
+	grid-template-rows: auto min-content;
+	grid-column: 2;
+	grid-gap: 18px;
+	grid-row: span 4;
+	height: 100%;
+}
+
+#ready-queue > div:first-of-type {
+	overflow-y: auto;
+	border-radius: 5px;
+	height: auto;
+	padding: 12px;
+	transition: background-color 250ms;
+}
+
+#ready-queue > div:last-of-type {
+	grid-row: 2;
+	white-space: nowrap;
+}
+
+.media-element {
+	overflow: hidden;
+	display: grid;
+	grid-template-columns: min-content auto min-content;
+	grid-auto-rows: 1fr 1fr;
+	height: 35px;
+	border-radius: inherit;
+	background-color: var(--background);
+}
+
+.media-element:nth-last-child(n+2) { margin-bottom: 12px; }
+
+.media-element > :matches(span, button) { height: inherit; }
+
+.media-element > :matches(span:first-of-type, button) { width: 35px; }
+
+.media-element > span { display: inherit; }
+
+.media-element > span:first-of-type {
+	justify-content: center;
+	align-content: center;
+	font-family: 'Material Icons';
+}
+
+.media-element > span:nth-of-type(2) {
+	grid-template-columns: auto min-content;
+	grid-auto-rows: auto auto;
+	grid-gap: 3px 6px;
+	align-content: center;
+	padding-right: 6px;
+	color: var(--primary);
+	font-weight: 600;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+.media-element > span:nth-of-type(2) > span:first-of-type {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.media-element progress {
+	overflow: hidden;
+	grid-column: 1 / span 2;
+	width: 100%;
+	height: 10px;
+	border-radius: 2px;
+}
+
+.media-element progress::-webkit-progress-bar {
+	background-color: var(--background-alt-1);
+}
+
+.media-element progress::-webkit-progress-value {
+	background-color: var(--primary);
+}
+
+.media-element > button { border-radius: 0; }
