@@ -59,7 +59,9 @@ const MediaElement = ({ id, refId, status, references, title, download, warnRemo
 
 MediaElement.propTypes = {
 	id: string.isRequired,
+	refId: string.isRequired,
 	status: string.isRequired,
+	references: bool.isRequired,
 	title: string.isRequired,
 	download: exact({
 		eta: string,

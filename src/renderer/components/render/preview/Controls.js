@@ -6,9 +6,6 @@ import { secondsToTC, zeroize } from '../../../utilities'
 const toggleTitle = state => state ? 'Hide' : 'Show'
 const toggleColor = state => ({ color: state ? '#f0f' : '#eee' })
 
-const buttonTitleBackward = 'Increment 1 Frame Backward (Shift+Click for 10 Frames)'
-const buttonTitleForward = 'Increment 1 Frame Forward (Shift+Click for 10 Frames)'
-
 const Controls = ({ id, mediaType, timecode, start, end, fps, duration, grids, toggleGrids, dispatch }) => {
 	const min = useMemo(() => start.enabled ? start.tc * fps : 0, [start])
 	const max = useMemo(() => end.enabled ? end.tc * fps : duration * fps, [end])

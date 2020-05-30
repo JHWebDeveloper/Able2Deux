@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { arrayOf, element, bool, oneOfType, string } from 'prop-types'
 
 import DropdownMenu from './DropdownMenu'
@@ -8,9 +8,7 @@ const DetailsWrapper = ({ summary, id = '', className = '', open, buttons, child
 		<summary>
 			{summary}
 		</summary>
-		{buttons && (
-			<DropdownMenu buttons={buttons} />
-		)}
+		{buttons && <DropdownMenu buttons={buttons} />}
 		<div id={id} className={className}>
 			{children}
 		</div>

@@ -96,26 +96,26 @@ interop.removePreviewListeners = () => {
 }
 
 interop.requestPrefs = () => sendMessage({
-  sendMsg: 'requestPrefs',
-  recieveMsg: 'prefsRecieved',
-  errMsg: 'prefsErr'
+	sendMsg: 'requestPrefs',
+	recieveMsg: 'prefsRecieved',
+	errMsg: 'prefsErr'
 })
 
 interop.savePrefs = prefs => sendMessage({
-  sendMsg: 'savePrefs',
-  recieveMsg: 'prefsSaved',
-  errMsg: 'savePrefsErr',
-  data: prefs
+	sendMsg: 'savePrefs',
+	recieveMsg: 'prefsSaved',
+	errMsg: 'savePrefsErr',
+	data: prefs
 })
 
 interop.addPrefsSyncListener = callback => {
-  ipcRenderer.on('syncPrefs', (evt, newPrefs) => {
-    callback(newPrefs)
-  })
+	ipcRenderer.on('syncPrefs', (evt, newPrefs) => {
+		callback(newPrefs)
+	})
 }
 
 interop.removePrefsSyncListener = () => {
-  ipcRenderer.removeAllListeners('syncPrefs')
+	ipcRenderer.removeAllListeners('syncPrefs')
 }
 
 window.ABLE2 = Object.freeze({

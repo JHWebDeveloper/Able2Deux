@@ -43,20 +43,20 @@ export const toggleNestedCheckbox = (nest, e) => ({
 // ---- 3RD LEVEL STATE --------
 
 export const updateMediaState = (id, properties, editAll) => {
-	return ({
+	return {
 		type: ACTION.UPDATE_MEDIA_STATE,
 		payload: {
 			id,
 			editAll,
 			properties
 		}
-	})
+	}
 }
 
 export const updateMediaStateFromEvent = (id, e, editAll) => {
 	const { name, dataset, value } = e.target
 
-	return ({
+	return {
 		type: ACTION.UPDATE_MEDIA_STATE,
 		payload: {
 			id,
@@ -65,7 +65,7 @@ export const updateMediaStateFromEvent = (id, e, editAll) => {
 				[name]: dataset.number ? parseFloat(value) : value
 			}
 		}
-	})
+	}
 }
 
 
@@ -84,7 +84,7 @@ export const updateMediaNestedState = (id, nest, properties, editAll) => ({
 export const updateMediaNestedStateFromEvent = (id, nest, e, editAll) => {
 	const { name, dataset, value } = e.target
 
-	return ({
+	return {
 		type: ACTION.UPDATE_MEDIA_NESTED_STATE,
 		payload: {
 			id,
@@ -94,7 +94,7 @@ export const updateMediaNestedStateFromEvent = (id, nest, e, editAll) => {
 				[name]: dataset.number ? parseFloat(value) : value
 			}
 		}
-	})
+	}
 }
 
 export const toggleMediaNestedCheckbox = (id, nest, e, editAll) => dispatch => {

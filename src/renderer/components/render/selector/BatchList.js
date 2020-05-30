@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { arrayOf, func, object, string } from 'prop-types'
 
 import { PrefsContext } from '../../../store/preferences'

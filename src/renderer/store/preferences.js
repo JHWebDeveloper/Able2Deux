@@ -36,12 +36,12 @@ export const PrefsProvider = ({ children }) => {
 		})()
 
 		interop.addPrefsSyncListener(newPrefs => {
-      dispatch(updateState(newPrefs))
-    })
+			dispatch(updateState(newPrefs))
+		})
 
-    return () => {
-      interop.removePrefsSyncListener()
-    }
+		return () => {
+			interop.removePrefsSyncListener()
+		}
 	}, [])
 
 	return (
@@ -51,7 +51,6 @@ export const PrefsProvider = ({ children }) => {
 				input instanceof Function ? input(dispatch, state) : dispatch(input)
 			)
 		}}>
-			{ console.log(state) }
 			{ children }
 		</PrefsContext.Provider>
 	)

@@ -68,7 +68,7 @@ BatchItem.propTypes = {
 	refId: string.isRequired,
 	title: string.isRequired,
 	selected: bool,
-	dispatch: func.isRequired,
+	dispatch: func.isRequired
 }
 
 export default BatchItem

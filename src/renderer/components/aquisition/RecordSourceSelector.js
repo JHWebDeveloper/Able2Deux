@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-
-const { interop } = window.ABLE2
+import { array, func, number } from 'prop-types'
 
 const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceData, startRecording }) => {
 	const [ visible, reveal ] = useState(false)
@@ -59,6 +58,13 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 			</div>
 		</div>
 	)
+}
+
+RecordSourceSelector.propTypes = {
+	selectMenuPos: number.isRequired,
+	recordSources: array.isRequired,
+	loadRecordSourceData: func.isRequired,
+	startRecording: func.isRequired
 }
 
 export default RecordSourceSelector

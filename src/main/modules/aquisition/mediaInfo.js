@@ -12,26 +12,26 @@ const round = (n, dec = 2) => (
 const base64Encode = async file => {
 	if (!file) return placeholder
 
-  try {
-    return `data:image/png;base64,${await fsp.readFile(file, 'base64')}`
-  } catch (err) {
-    return placeholder
-  }
+	try {
+		return `data:image/png;base64,${await fsp.readFile(file, 'base64')}`
+	} catch (err) {
+		return placeholder
+	}
 }
 
 const createThumbnail = (id, tempFilePath) => new Promise(resolve => {
-  const screenshot = `${id}.screenshot.jpg`
+	const screenshot = `${id}.screenshot.jpg`
 
-  ffmpeg(tempFilePath).on('end', () => {
-    resolve(path.join(temp.imports.path, screenshot))
-  }).on('error', () => {
-    resolve(false) // ignore error for thumbnails
-  }).screenshots({
-    timemarks: ['50%'],
-    folder: temp.imports.path,
-    filename: screenshot,
-    size: '384x?'
-  })
+	ffmpeg(tempFilePath).on('end', () => {
+		resolve(path.join(temp.imports.path, screenshot))
+	}).on('error', () => {
+		resolve(false) // ignore error for thumbnails
+	}).screenshots({
+		timemarks: ['50%'],
+		folder: temp.imports.path,
+		filename: screenshot,
+		size: '384x?'
+	})
 })
 
 const gcd = (a, b) => b === 0 ? a : gcd(b, a % b)

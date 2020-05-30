@@ -1,4 +1,4 @@
-import { desktopCapturer, remote } from 'electron'
+import { remote } from 'electron'
 import { sendMessage } from './sendMessage'
 
 let recorder = false

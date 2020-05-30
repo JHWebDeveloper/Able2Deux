@@ -14,7 +14,7 @@ export const none = (command, filterData) => {
 	const { angle, sourceData, reflect, renderWidth, renderHeight } = filterData
 
 	command.complexFilter(
-		`[0:v]${angle}${reflect}${sourceData ? `scale=w=${renderWidth}:h=${renderHeight}[vid];[vid][1:v]overlay[final];[final]` : ''}${finalCmd}`,
+		`[0:v]${angle}${reflect}${sourceData ? `scale=w=${renderWidth}:h=${renderHeight}[vid];[vid][1:v]overlay[final];[final]` : ''}${finalCmd}`
 	)
 }
 export const fill = (command, filterData) => {
@@ -46,7 +46,8 @@ export const fit = (command, background, filterData) => {
 }
 
 export const transform = (command, background, filterData) => {
-	let { angle, reflect, crop, scale, position, sourceData, overlayDim } = filterData
+	const { angle, reflect, sourceData, overlayDim } = filterData
+	let { crop, scale, position } = filterData
 
 	crop.t /= 100
 	crop.b /= 100

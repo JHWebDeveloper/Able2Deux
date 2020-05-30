@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
 import { arrayOf, bool, func, object } from 'prop-types'
 
@@ -12,13 +12,8 @@ import MediaElement from './MediaElement'
 const message = 'Remove all Entries?'
 const detail = 'Any current downloads will be canceled. This cannot be undone. Proceed?'
 
-const checkMediaReady = ({ status }) => (
-	status === STATUS.READY || status === STATUS.FAILED
-)
-
-const checkMediaFailed = ({ status }) => (
-	status === STATUS.FAILED
-)
+const checkMediaReady = ({ status }) => status === STATUS.READY || status === STATUS.FAILED
+const checkMediaFailed = ({ status }) => status === STATUS.FAILED
 
 const ReadyQueue = withRouter(({ media, recording, warnings, dispatch, history }) => {
 	const backgroundColor = !media.length ?  '#e0e0e0' : '#bbb'

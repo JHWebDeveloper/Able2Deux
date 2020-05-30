@@ -13,9 +13,7 @@ const Acquisition = () => {
 	const { url, optimize, recording, timer, media, dispatch } = useContext(MainContext)
 	const { renderOutput, warnings } = useContext(PrefsContext)
 
-	const output = useMemo(() => (
-		renderOutput.split('x')[1]
-	), [renderOutput])
+	const output = useMemo(() => renderOutput.split('x')[1], [renderOutput])
 
 	return (
 		<form>

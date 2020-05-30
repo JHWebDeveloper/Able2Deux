@@ -1,5 +1,4 @@
 import path from 'path'
-import fs from 'fs'
 import ffmpeg from '../utilities/ffmpeg'
 import { temp } from '../utilities/extFileHandlers'
 

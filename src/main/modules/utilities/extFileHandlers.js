@@ -21,9 +21,7 @@ const clearFiles = async (dir, id) => {
 		return Promise.all(matches.map(file => fsp.unlink(path.join(dir, file))))
 	}
 
-	return Promise.all(files.map(file => (
-		fsp.unlink(path.join(dir, file))
-	)))
+	return Promise.all(files.map(file => fsp.unlink(path.join(dir, file))))
 }
 
 export const temp = {

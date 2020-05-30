@@ -3,15 +3,15 @@ const { interop } = window.ABLE2
 // ---- NUMBER METHODS --------
 
 const countDigits = n => {
-  let count = 0
-  if (n >= 0) count++
+	let count = 0
+	if (n >= 0) count++
 
-  while (n / 10 >= 1) {
-    n /= 10
-    count++
-  }
+	while (n / 10 >= 1) {
+		n /= 10
+		count++
+	}
 
-  return count
+	return count
 }
 
 export const zeroize = (n, base) => {
@@ -45,7 +45,7 @@ export const simplifyTimecode = tc => secondsToTC(tcToSeconds(tc))
 
 const format12hr = d => {
 	let h = d.getHours()
-	let m = d.getMinutes()
+	const m = d.getMinutes()
 	const meridian = h < 12 ? 'am' : 'pm'
 
 	if (h === 0) h = 12
@@ -130,10 +130,10 @@ export const extractSettingsToArray = settings => {
 }
 
 export const toastrOpts = {
-  closeButton: true,
-  positionClass: 'toast-bottom-right',
-  hideDuration: 150,
-  timeOut: 0,
+	closeButton: true,
+	positionClass: 'toast-bottom-right',
+	hideDuration: 150,
+	timeOut: 0,
 	extendedTimeOut: 0,
 	tapToDismiss: false
 }

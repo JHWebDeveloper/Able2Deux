@@ -17,14 +17,14 @@ const Preview = ({ selected, dispatch }) => {
 
 	const [ previewReady, setPreviewReady ] = useState(false)
 	const [ open, toggleOpen ] = useState(false)
-  const [ previewStill, loadPreviewStill ] = useState('')
-  
-  const [ grids, toggleGrids ] = useState({
-    grid: false,
-    _43: false,
-    _11: false,
-    _916: false
-  })
+	const [ previewStill, loadPreviewStill ] = useState('')
+	
+	const [ grids, toggleGrids ] = useState({
+		grid: false,
+		_43: false,
+		_11: false,
+		_916: false
+	})
 
 	const sourceData = useMemo(() => (
 		source.sourceName && !(arc === 'none' && aspectRatio !== '16:9')
@@ -83,17 +83,17 @@ const Preview = ({ selected, dispatch }) => {
 							<Grid grids={grids} />
 						</div>
 					</div>
-          <Controls
-            id={id}
-            mediaType={mediaType}
-            timecode={timecode}
-            start={start}
-            end={end}
-            fps={fps}
-            duration={duration}
-            grids={grids}
-            toggleGrids={toggleGrids}
-            dispatch={dispatch} />
+					<Controls
+						id={id}
+						mediaType={mediaType}
+						timecode={timecode}
+						start={start}
+						end={end}
+						fps={fps}
+						duration={duration}
+						grids={grids}
+						toggleGrids={toggleGrids}
+						dispatch={dispatch} />
 				</div>
 			)}
 		</details>

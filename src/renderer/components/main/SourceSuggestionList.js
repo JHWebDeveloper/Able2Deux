@@ -4,7 +4,7 @@ import axios from 'axios'
 const SourceSuggestionList = () => {
 	const [ suggestions, loadSuggestions ] = useState([])
 
-  useEffect(() => {
+	useEffect(() => {
 		(async () => {
 			try {
 				const sources = await axios.get('https://jhwebdeveloper.github.io/Able2-public-resources/data.json')

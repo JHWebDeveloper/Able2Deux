@@ -42,7 +42,7 @@ const Formatting = memo(({ id, onlyItem, arc, background, overlay, mediaType, ed
 					}
 				]}/>
 		</fieldset>
-		<fieldset disabled={arc === 'none' || (arc === 'fill' && overlay === 'none')}>
+		<fieldset disabled={arc === 'none' || arc === 'fill' && overlay === 'none'}>
 			<legend>Background:</legend>
 			<RadioSet
 				name="background"

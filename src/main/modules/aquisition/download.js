@@ -33,7 +33,7 @@ const ytdlOpts = [
 	'--limit-rate',	'12500k',
 	'--retries', '3',
 	'--socket-timeout', '30',
-	'--no-warnings',
+	'--no-warnings'
 ]
 
 const parseYTDLOutput = (str, regex) => {
