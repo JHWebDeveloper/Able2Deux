@@ -14,12 +14,17 @@ import { compareProps, createSettingsMenu, warn } from '../../../utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Checkbox from '../../form_elements/Checkbox'
 
-const sourceOnTopWithWarning = () => {
-	
+const sourceOnTopWarning = (enabled, callback) => {
+	warn({
+		message: 'A source on top is not for aesthetics!',
+		detail: 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.',
+		enabled,
+		callback
+	})
 }
 
 const Source = memo(({ id, onlyItem, source, editAll, dispatch }) => {
-	const { warnings} = useContext(PrefsContext)
+	const { warnings } = useContext(PrefsContext)
 
 	const updateSourceName = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'source', e, editAll))
@@ -28,6 +33,14 @@ const Source = memo(({ id, onlyItem, source, editAll, dispatch }) => {
 	const toggleSourceOption = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'source', e, editAll))
 	}, [id, editAll])
+
+	const sourceOnTopWithWarning = useCallback(e => {
+		e.persist()
+
+		sourceOnTopWarning(warnings.sourceOnTop && !source.onTop, () => {
+			toggleSourceOption(e)
+		})
+	}, [id, editAll, warnings.sourceOnTop, source.onTop])
 
 	return (
 		<DetailsWrapper
@@ -59,7 +72,7 @@ const Source = memo(({ id, onlyItem, source, editAll, dispatch }) => {
 				label="Place source at top of video"
 				name="onTop"
 				checked={source.onTop}
-				onChange={toggleSourceOption} />
+				onChange={sourceOnTopWithWarning} />
 		</DetailsWrapper>
 	)
 }, compareProps)
