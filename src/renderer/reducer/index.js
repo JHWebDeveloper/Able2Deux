@@ -1,139 +1,139 @@
 import * as ACTION from '../actions/types'
 import * as STATUS from '../status/types'
+import * as shared from './shared'
 
-const matcher = media => (id, callback, editAll) => (
-	media.map(item => editAll || item.id === id ? callback(item) : item)
-)
+// ---- REDUCER --------
 
 export default (state, action) => {
 	const { type, payload } = action
 
-	const updateMedia = matcher(state.media)
-
 	switch (type) {
 		case ACTION.UPDATE_STATE:
-			return {
-				...state,
-				...payload
-			}
+			return shared.updateState(state, payload)
 		case ACTION.TOGGLE_CHECKBOX:
-			return {
-				...state,
-				[payload.property]: !state[payload.property]
-			}
+			return toggleCheckbox(state, payload)
 		case ACTION.UPDATE_NESTED_STATE:
-			return {
-				...state,
-				[payload.nest]: {
-					...state[payload.nest],
-					...payload.properties
-				}
-			}
-		case ACTION.TOGGLE_NESTED_CHECKBOX: {
-			const { nest, property } = payload
-
-			return {
-				...state,
-				[nest]: {
-					...state[nest],
-					[property]: !state[nest][property]
-				}
-			}
-		}
-		case ACTION.UPDATE_MEDIA_STATE: {
-			const { id, properties, editAll } = payload
-
-			return {
-				...state,
-				media: updateMedia(id, item => ({
-					...item,
-					...properties
-				}), editAll)
-			}
-		}
-		case ACTION.UPDATE_MEDIA_NESTED_STATE: {
-			const { id, nest, properties, editAll } = payload
-
-			return {
-				...state,
-				media: updateMedia(id, item => ({
-					...item,
-					[nest]: {
-						...item[nest],
-						...properties
-					}
-				}), editAll)
-			}
-		}
-		case ACTION.TOGGLE_MEDIA_NESTED_CHECKBOX: {
-			const { id, nest, property, editAll } = payload
-
-			return {
-				...state,
-				media: updateMedia(id, item => ({
-					...item,
-					[nest]: {
-						...item[nest],
-						[property]: !item[nest][property]
-					}
-				}), editAll)
-			}
-		}
+			return shared.updateNestedState(state, payload)
+		case ACTION.TOGGLE_NESTED_CHECKBOX:
+			return shared.toggleNestedCheckbox(state, payload)
+		case ACTION.UPDATE_MEDIA_STATE:
+			return updateMediaState(state, payload)
+		case ACTION.UPDATE_MEDIA_NESTED_STATE:
+			return updateMediaNestedState(state, payload)
+		case ACTION.TOGGLE_MEDIA_NESTED_CHECKBOX: 
+			return toggleMediaNestedCheckbox(state, payload)
 		case ACTION.ADD_MEDIA:
-			return {
-				...state,
-				media: [payload.newMedia].concat(state.media)
-			}
-		case ACTION.DUPLICATE_MEDIA: {
-			const index = state.media.findIndex(item => item.id === payload.id)
-			const media = Array.from(state.media)
-
-			media.splice(index, 0, {
-				...media[index],
-				id: payload.newId
-			})
-
-			return { ...state, media }
-		}
+			return addMedia(state, payload)
+		case ACTION.DUPLICATE_MEDIA: 
+			return duplicateMedia(state, payload)
 		case ACTION.REMOVE_MEDIA:
-			return {
-				...state,
-				media: state.media.filter(item => item.id !== payload.id)
-			}
-		case ACTION.PREPARE_MEDIA_FOR_FORMAT: {
-			const media = state.media.filter(item => item.status !== STATUS.FAILED)
-
-			return {
-				...state,
-				media,
-				selectedId: media[0].id
-			}
-		}
+			return removeMedia(state, payload)
+		case ACTION.PREPARE_MEDIA_FOR_FORMAT:
+			return prepareMediaForFormat(state)
 		case ACTION.PASTE_SETTINGS:
-			return {
-				...state,
-				media: updateMedia(payload.id, item => ({
-					...item,
-					...state.copiedSettings
-				}))
-			}
+			return pasteSettings(state, payload)
 		case ACTION.APPLY_TO_ALL:
-			return {
-				...state,
-				media: state.media.map(item => item.id !== payload.id ? {
-					...item,
-					...payload.properties
-				} : item)
-			}
+			return applyToAll(state, payload)
 		case ACTION.TOGGLE_SAVE_LOCATION:
-			return {
-				...state,
-				saveLocations: state.saveLocations.map(location => location.id === payload.id ? {
-					...location,
-					checked: !location.checked
-				} : location)
-			}
+			return shared.toggleSaveLocation(state, payload)
 		default:
 			return state
 	}
 }
+
+// ---- "REACTIONS" --------
+
+const toggleCheckbox = (state, payload) => ({
+	...state,
+	[payload.property]: !state[payload.property]
+})
+
+const updateMediaState = (state, payload) => {
+	const { id, properties, editAll } = payload
+
+	return {
+		...state,
+		media: state.media.map(item => item.id === id ? {
+			...item,
+			...properties
+		}: item, editAll)
+	}
+}
+
+const updateMediaNestedState = (state, payload) => {
+	const { id, nest, properties, editAll } = payload
+
+	return {
+		...state,
+		media: state.media.map(item => item.id == id ? {
+			...item,
+			[nest]: {
+				...item[nest],
+				...properties
+			}
+		}: item, editAll)
+	}
+}
+
+const toggleMediaNestedCheckbox = (state, payload) => {
+	const { id, nest, property, editAll } = payload
+
+	return {
+		...state,
+		media: state.media.map(item => item.id === id ? {
+			...item,
+			[nest]: {
+				...item[nest],
+				[property]: !item[nest][property]
+			}
+		} : item, editAll)
+	}
+}
+
+const addMedia = (state, payload) => ({
+	...state,
+	media: [payload.newMedia].concat(state.media)
+})
+
+const duplicateMedia = (state, payload) => {
+	const index = state.media.findIndex(item => item.id === payload.id)
+	const media = [...state.media]
+
+	media.splice(index, 0, {
+		...media[index],
+		id: payload.newId
+	})
+
+	return { ...state, media }
+}
+
+const removeMedia = (state, payload) => ({
+	...state,
+	media: state.media.filter(item => item.id !== payload.id)
+})
+
+const prepareMediaForFormat = state => {
+	const media = state.media.filter(item => item.status !== STATUS.FAILED)
+
+	return {
+		...state,
+		media,
+		selectedId: media[0].id
+	}
+}
+
+const pasteSettings = (state, payload) => ({
+	...state,
+	media: updateMedia(payload.id, item => ({
+		...item,
+		...state.copiedSettings
+	}))
+})
+
+const applyToAll = (state, payload) => ({
+	...state,
+	media: state.media.map(item => item.id !== payload.id ? {
+		...item,
+		...payload.properties
+	} : item)
+})
