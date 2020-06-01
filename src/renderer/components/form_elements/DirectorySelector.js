@@ -1,12 +1,20 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
-const DirectorySelector = ({ directory, onClick }) => (
-	<>
+const { interop } = window.ABLE2
+
+const DirectorySelector = ({ directory, onChange }) => {
+	const selectDirectory = useCallback(async () => {
+		const { filePaths, canceled } = await interop.chooseDirectory()
+		
+		onChange(canceled ? directory : filePaths[0])
+	}, [directory])
+	
+	return <>
 		<button
 			type="button"
 			className="app-button symbol"
 			title="Choose directory"
-			onClick={onClick}>folder</button>
+			onClick={selectDirectory}>folder</button>
 		<input
 			type="text"
 			name="directory"
@@ -14,6 +22,6 @@ const DirectorySelector = ({ directory, onClick }) => (
 			value={directory}
 			readOnly />
 	</>
-)
+}
 
 export default DirectorySelector
