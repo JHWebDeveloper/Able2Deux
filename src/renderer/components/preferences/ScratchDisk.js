@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+
+import { updateNestedState } from '../../actions'
 
 import DirectorySelector from '../form_elements/DirectorySelector'
 
-const ScratchDisk = ({ scratchDisk }) => {
+const ScratchDisk = ({ scratchDisk, dispatch }) => {
+	const updateScratchDisk = useCallback((property, value) => {
+		dispatch(updateNestedState('scratchDisk', {
+			[property]: value
+		}))
+	})
+
 	return (
 		<div id="scratch-disk">
 			<fieldset>
@@ -10,13 +18,16 @@ const ScratchDisk = ({ scratchDisk }) => {
 				<div>
 					<label>Import Cache</label>
 					<DirectorySelector
-						directory={scratchDisk.imports} />
+						directory={scratchDisk.imports}
+						onChange={dir => updateScratchDisk('imports', dir)} />
 					<label>Export Cache</label>
 					<DirectorySelector
-						directory={scratchDisk.exports}  />
+						directory={scratchDisk.exports}
+						onChange={dir => updateScratchDisk('exports', dir)}  />
 					<label>Preview Cache</label>
 					<DirectorySelector
-						directory={scratchDisk.previews}  />
+						directory={scratchDisk.previews}
+						onChange={dir => updateScratchDisk('previews', dir)}  />
 				</div>
 			</fieldset>
 		</div>

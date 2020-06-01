@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { updateStateFromEvent } from'../../actions'
+
 import RadioSet from '../form_elements/RadioSet'
 
 const _720  = [1280, 720].join('x')
@@ -14,7 +16,7 @@ const RenderOutput = ({ renderOutput, dispatch }) => {
 					<RadioSet 
 						name="renderOutput"
 						state={renderOutput}
-						dispatch={dispatch}
+						onChange={e => dispatch(updateStateFromEvent(e))}
 						buttons={[
 							{
 								label: _720,

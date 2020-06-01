@@ -118,6 +118,19 @@ interop.removePrefsSyncListener = () => {
 	ipcRenderer.removeAllListeners('syncPrefs')
 }
 
+interop.chooseDirectory = async () => {
+	const { filePaths, canceled } = await remote.dialog.showOpenDialog({
+		buttonLabel: 'Choose',
+		properties: ['openDirectory', 'createDirectory']
+	})
+
+	return { filePaths, canceled }
+}
+
+interop.closeCurrentWindow = () => {
+  remote.getCurrentWindow().close()
+}
+
 window.ABLE2 = Object.freeze({
 	interop: Object.freeze(interop)
 })

@@ -1,5 +1,15 @@
 import React from 'react'
 
+import { toggleSaveLocation } from '../../actions/render'
+
+import {
+	updateLocationFieldFromEvent,
+	updateLocationField,
+	addNewLocation,
+	removeLocation,
+	moveLocation
+} from '../../actions/preferences'
+
 import DirectorySelector from '../form_elements/DirectorySelector'
 
 const Directory = ({ dir, index, dispatch }) => {
@@ -11,65 +21,40 @@ const Directory = ({ dir, index, dispatch }) => {
 				type="checkbox"
 				checked={checked}
 				title="Selected by default"
-				//onChange={() => dispatch(checkDefault(id))}
-				 />
+				onChange={() => dispatch(toggleSaveLocation(id))} />
 			<button
 				type="button"
 				name="add"
 				className="app-button symbol"
 				title="Add directory"
-				//onClick={e => dispatch(addNewDirectory(index, e))}
-				>
-				add
-			</button>
+				onClick={e => dispatch(addNewLocation(index, e))}>add</button>
 			<button
 				type="button"
 				name="delete"
 				className="app-button symbol"
 				title="Delete directory"
-				//onClick={() => dispatch(deleteDirectoryWarn(id, label))}
-				>
-				remove
-			</button>
+				onClick={() => dispatch(removeLocation(id))}>remove</button>
 			<input
 				type="text"
 				name="label"
 				value={label}
-				//onChange={e => dispatch(updateLabel(id, e))}
+				onChange={e => dispatch(updateLocationFieldFromEvent(id, e))}
 				aria-labelledby="label" />
 			<DirectorySelector
-				directory={directory} />
-			{/* <button
-				type="button"
-				className="app-button symbol"
-				title="Choose directory"
-				//onClick={() => dispatch(chooseDirectory(id))}
-				>
-				folder
-			</button>
-			<input
-				type="text"
-				name="directory"
-				value={directory}
-				aria-labelledby="folder"
-				readOnly /> */}
+				directory={directory}
+				onChange={dir => dispatch(updateLocationField(id, 'directory', dir))} />
 			<button
 				type="button"
 				name="up"
 				className="app-button symbol"
 				title="Move directory up"
-				//onClick={() => dispatch(moveDirectory(dir, index - 1))}
-				>
-				keyboard_arrow_up
-			</button>
+				onClick={() => dispatch(moveLocation(index, -1))}>keyboard_arrow_up</button>
 			<button
 				type="button"
 				name="down"
 				className="app-button symbol"
 				title="Move directory down"
-				onClick={() => dispatch(moveDirectory(dir, index + 1))}>
-				keyboard_arrow_down
-			</button>
+				onClick={() => dispatch(moveLocation(index))}>keyboard_arrow_down</button>
 		</>
 	)
 }

@@ -17,6 +17,8 @@ form > div {
 	padding: 9px 12px;
 }
 
+form > div:nth-last-of-type(2) { margin-bottom: 55px; }
+
 form > div > fieldset > div {	padding: 6px; }
 
 legend { white-space: nowrap; }
@@ -33,7 +35,7 @@ label {
 }
 
 button:not([title="Save"], [title="Close"]),
-input:matches([type=text], [type="number"]) {
+input:matches([type=text], [type="number"], [type="color"]) {
 	height: 24px;
 	vertical-align: middle;
 }
@@ -63,9 +65,9 @@ input[type="text"]:read-only {
 
 #scratch-disk div { grid-template-columns: min-content auto; }
 
-#scratch-disk label { grid-column: 1 / span 2 }
+#scratch-disk label { grid-column: 1 / span 2; }
 
-#save-locations { grid-column: 1 / span 3 }
+#save-locations { grid-column: 1 / span 3; }
 
 #save-locations div {
 	grid-template-columns: repeat(3, min-content) auto min-content auto min-content min-content;
@@ -92,14 +94,28 @@ button[name="down"]:last-of-type {
   visibility: hidden;
 }
 
-.number-selector {
+.input-option:first-of-type { margin-top: 10px; }
+
+.input-option {
 	display: block;
-	margin-top: 10px;
+	margin-top: 5px;
 }
 
-.number-selector > label {
+.input-option > label {
 	display: inline-block;
+	width: 75px;
 	margin-right: 6px;
+}
+
+.input-option > input:matches([type="number"], [type="color"]) {
+	width: 58px;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+
+input[type="color"]::-webkit-color-swatch {
+	border: var(--main-border-style);
+	border-radius: 3px;
 }
 
 #save-prefs {

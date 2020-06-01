@@ -10,7 +10,15 @@ import SaveLocations from './SaveLocations'
 import SaveAndClose from './SaveAndClose'
 
 const Main = () => {
-	const { renderOutput, scratchDisk, warnings, scaleSliderMax, saveLocations, dispatch } = useContext(PrefsContext)
+	const {
+		renderOutput, 
+		scratchDisk,
+		warnings,
+		scaleSliderMax,
+		gridColor,
+		saveLocations,
+		dispatch
+	} = useContext(PrefsContext)
 
 	return (
 		<form>
@@ -23,11 +31,18 @@ const Main = () => {
 			<Defaults
 				warnings={warnings}
 				scaleSliderMax={scaleSliderMax}
+				gridColor={gridColor}
 				dispatch={dispatch} />
 			<SaveLocations
 				saveLocations={saveLocations}
 				dispatch={dispatch} />
-			<SaveAndClose />
+			<SaveAndClose
+				renderOutput={renderOutput}
+				scratchDisk={scratchDisk}
+				warnings={warnings}
+				scaleSliderMax={scaleSliderMax}
+				gridColor={gridColor}
+				saveLocations={saveLocations} />
 		</form>
 	)
 }

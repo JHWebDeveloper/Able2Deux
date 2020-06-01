@@ -1,4 +1,5 @@
 import toastr from 'toastr'
+import { v1 as uuid } from 'uuid'
 
 import * as ACTION from './types'
 import { toastrOpts } from '../utilities'
@@ -15,3 +16,49 @@ export const loadPrefs = () => async dispatch => {
 		toastr.error('Unable to load preferences', false, toastrOpts)
 	}
 }
+
+export const updateLocationField = (id, name, value) => ({
+	type: ACTION.UPDATE_LOCATION_FIELD,
+	payload: { id, name, value }
+})
+
+export const updateLocationFieldFromEvent = (id, e) => dispatch => {
+	const { name, value } = e.target
+
+	dispatch({
+		type: ACTION.UPDATE_LOCATION_FIELD,
+		payload: { id, name, value }
+	})
+}
+
+const addLocation = payload => ({
+	type: ACTION.ADD_LOCATION,
+	payload
+})
+
+export const addNewLocation = (index, e) => dispatch => {
+		const pos = e.shiftKey ? 1 : 0
+	
+		dispatch(addLocation({
+			pos: index + pos,
+			location: {
+				id: uuid(),
+				checked: false,
+				label: '',
+				directory: ''
+			}
+		}))
+}
+
+export const removeLocation = id => ({
+	type: ACTION.REMOVE_LOCATION,
+	payload: { id }
+})
+
+export const moveLocation = (pos, dir = 1) => ({
+	type: ACTION.MOVE_LOCATION,
+	payload: {
+		oldPos: pos,
+		newPos: pos + dir
+	}
+})

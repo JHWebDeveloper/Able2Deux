@@ -284,3 +284,14 @@ ipcMain.on('requestPrefs', async evt => {
 		evt.reply('prefsErr', err)
 	}
 })
+
+ipcMain.on('savePrefs', async (evt, prefs) => {
+	try {
+		await savePrefs(prefs)
+
+		evt.reply('prefsSaved')
+		win.webContents.send('syncPrefs', prefs)
+	} catch (err) {
+		evt.reply('savePrefsErr', err)
+	}
+})

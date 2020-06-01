@@ -11,14 +11,19 @@ const { interop } = window.ABLE2
 const initState = {
 	renderOutput: '1280x720',
 	saveLocations: [],
-	scratchDisk: {},
+	scratchDisk: {
+		imports: '',
+		exports: '',
+		previews: ''
+	},
 	warnings: {
 		remove: true,
 		removeAll: true,
 		applyToAll: true,
 		sourceOnTop: true
 	},
-	scaleSliderMax: 400
+	scaleSliderMax: 400,
+	gridColor: '#ff00ff'
 }
 
 export const PrefsContext = createContext()
