@@ -47,8 +47,7 @@ const ReadyQueue = withRouter(({ media, recording, warnings, dispatch, history }
 						warnRemove={warnings.remove}
 						references={arrayCount(media, item => item.refId === info.refId)}
 						{...info} />
-					)
-				)}
+				))}
 			</div>
 			<div>
 				<button
