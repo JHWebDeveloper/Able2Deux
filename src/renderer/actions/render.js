@@ -48,7 +48,7 @@ export const toggleSaveLocation = id => ({
 export const updateScale = (id, editAll, scale, e) => dispatch => {
 	const value = parseFloat(e.target.value)
 	const isx = e.target.name === 'x'
-	const offset = isx ? scale.y / scale.x : scale.x / scale.y
+	const offset = (isx ? scale.y / scale.x : scale.x / scale.y) || 1
 
 	dispatch(updateMediaNestedState(id, 'scale', {
 		x: isx ? value : value * offset,
