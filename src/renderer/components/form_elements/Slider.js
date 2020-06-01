@@ -2,6 +2,8 @@ import React, { useMemo } from 'react'
 import { v1 as uuid } from 'uuid'
 import { bool, func, number, oneOfType, string } from 'prop-types'
 
+import { keepInRange } from '../../utilities'
+
 const Slider = ({
 	label,
 	hideLabel,
@@ -9,6 +11,7 @@ const Slider = ({
 	value = 0,
 	min = -100,
 	max = 100,
+	inputMax,
 	points,
 	disabled,
 	onChange,
@@ -43,7 +46,10 @@ const Slider = ({
 				name={name}
 				title={label}
 				value={value}
+				min={min}
+				max={inputMax || max}
 				onChange={onChange}
+				onBlur={e => onChange(keepInRange(e))}
 				disabled={disabled}
 				data-number />
 			<span>%</span>

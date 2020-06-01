@@ -4,7 +4,7 @@ import { arrayOf, bool, func, number, shape, string } from 'prop-types'
 import Slider from './Slider'
 import LinkIcon from '../svg/LinkIcon'
 
-const SliderPair = ({ link, linkAction, sliders, pairAction }) => {
+const SliderPair = ({ link, linkAction, sliders, pairAction }) => {	
 	return (
 		<div className="slider-pair">
 			<Slider
