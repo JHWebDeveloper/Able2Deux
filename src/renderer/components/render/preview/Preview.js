@@ -74,7 +74,6 @@ const Preview = ({ selected, dispatch }) => {
 				<div id="preview">
 					<div>
 						<div id="preview-container">
-							<video muted></video>
 							{previewStill ? (
 								<span style={{ backgroundImage: `url("${previewStill}")`}}></span>
 							) : (

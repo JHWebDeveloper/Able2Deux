@@ -13,13 +13,9 @@
 	margin: auto;
 }
 
-#preview-container > :matches(video, span, canvas) {
+#preview-container > :matches(span, canvas) {
 	width: inherit;
 	height: inherit;
-}
-
-#preview-container > :matches(span, canvas, svg) {
-	position: absolute;
 }
 
 #preview-container > :matches(span, canvas) {
@@ -27,14 +23,14 @@
 	left: 0;
 }
 
-video {
-	object-fit: fill;
-	display: block;
-}
-
 #preview-container > span {
+	display: block;
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
+}
+
+#preview-container > :matches(canvas, svg) {
+	position: absolute;
 }
 
 #preview-container > svg {
