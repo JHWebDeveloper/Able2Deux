@@ -12,9 +12,7 @@ import Checkbox from '../form_elements/Checkbox'
 
 const Defaults = ({ warnings, scaleSliderMax, gridColor, dispatch }) => {
 	const keepScaleMaxInRange = useCallback(e => {
-		keepInRange(val => dispatch(updateState({
-			scaleSliderMax: val
-		})), e)
+		dispatch(updateStateFromEvent(keepInRange(e)))
 	}, [])
 
 	const toggleWarning = useCallback(e => {
