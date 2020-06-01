@@ -129,13 +129,24 @@ export const extractSettingsToArray = settings => {
 	return [ start, arc, background, overlay, source, centering, position, scale, crop, rotation ]
 }
 
+export const keepInRange = (callback, e) => {
+	const val = parseInt(e.target.value)
+	const min = parseInt(e.target.min)
+	const max = parseInt(e.target.max)
+
+	if (val < min) {
+		callback(min)
+	} else if (val > max) {
+		callback(max)
+	}
+}
+
 export const toastrOpts = {
 	closeButton: true,
 	positionClass: 'toast-bottom-right',
 	hideDuration: 150,
 	timeOut: 0,
-	extendedTimeOut: 0,
-	tapToDismiss: false
+	extendedTimeOut: 0
 }
 
 export const warn = async ({ enabled, message, detail, callback }) => {
