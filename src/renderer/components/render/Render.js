@@ -49,6 +49,7 @@ const Render = () => {
 					)}
 				</div>
 				<SaveOptions
+					onlyItem={media.length < 2}
 					batchName={batchName}
 					saveLocations={saveLocations}
 					dispatch={dispatch} />

@@ -4,11 +4,14 @@ import { updateMediaState, updateMediaStateFromEvent } from '../../../actions'
 import { secondsToTC, zeroize } from '../../../utilities'
 
 const toggleTitle = state => state ? 'Hide' : 'Show'
-const toggleColor = state => ({ color: state ? '#f0f' : '#eee' })
 
-const Controls = ({ id, mediaType, timecode, start, end, fps, duration, grids, toggleGrids, dispatch }) => {
+const Controls = ({ id, mediaType, timecode, start, end, fps, duration, grids, gridColor, toggleGrids, dispatch }) => {
 	const min = useMemo(() => start.enabled ? start.tc * fps : 0, [start])
 	const max = useMemo(() => end.enabled ? end.tc * fps : duration * fps, [end])
+
+	const toggleColor = useCallback(gridName => ({
+		color: gridName ? gridColor : '#eee'
+	}), [gridColor])
 
 	const toggleGrid = useCallback(e => {
 		toggleGrids({

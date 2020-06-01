@@ -1,6 +1,6 @@
 import React, { createRef, useEffect } from 'react'
 
-const Grid = ({ grids }) => {
+const Grid = ({ grids, gridColor }) => {
 	const ref = createRef()
 
 	useEffect(() => {
@@ -11,7 +11,7 @@ const Grid = ({ grids }) => {
 		cnv.height = 216
 
 		ctx.lineWidth = 1.25
-		ctx.strokeStyle = '#f0f'
+		ctx.strokeStyle = gridColor
 		
 		if (grids.grid) {
 			ctx.strokeRect(9.6, 5.4, 364.8, 205.2)
@@ -73,7 +73,7 @@ const Grid = ({ grids }) => {
 			ctx.lineTo(252.75, 216)
 			ctx.stroke()
 		}
-	}, [grids])
+	}, [grids, gridColor])
 
 	return <canvas ref={ref}></canvas>
 }

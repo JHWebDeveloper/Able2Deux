@@ -12,7 +12,7 @@ import Controls from './Controls'
 const { interop } = window.ABLE2 
 
 const Preview = ({ selected, dispatch }) => {
-	const { renderOutput } = useContext(PrefsContext)
+	const { renderOutput, gridColor } = useContext(PrefsContext)
 	const { id, mediaType, source, arc, aspectRatio, rotation, timecode, start, end, duration, fps } = selected
 
 	const [ previewReady, setPreviewReady ] = useState(false)
@@ -80,7 +80,7 @@ const Preview = ({ selected, dispatch }) => {
 							) : (
 								<Spinner />
 							)}
-							<Grid grids={grids} />
+							<Grid grids={grids} gridColor={gridColor} />
 						</div>
 					</div>
 					<Controls
@@ -92,6 +92,7 @@ const Preview = ({ selected, dispatch }) => {
 						fps={fps}
 						duration={duration}
 						grids={grids}
+						gridColor={gridColor}
 						toggleGrids={toggleGrids}
 						dispatch={dispatch} />
 				</div>
