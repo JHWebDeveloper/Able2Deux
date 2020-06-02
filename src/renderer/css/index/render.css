@@ -4,24 +4,25 @@
 	display: grid;
 	grid-column: 1;
 	grid-row: 2 / span 3;
-	grid-template-rows: min-content auto;
+	grid-template-rows: auto auto min-content;
 	grid-gap: 18px;
 	height: 100%;
 }
 
-#media-manager > div, details { position: relative; }
-
-#media-manager > div {
-	overflow-y: auto;
-	display: inherit;
-}
-
-#media-selector, details {
+#media-manager > div:first-child,
+details {
+	position: relative;
 	border-radius: 5px;
 	background-color: var(--background-alt-1);
 }
 
+#media-manager > div:nth-last-of-type(n+2) {
+	overflow-y: auto;
+	padding: 6px;
+}
+
 #media-selector {
+	display: inherit;
 	grid-auto-rows: min-content auto min-content;
 	grid-gap: 9px 0;
 	padding: 9px;
@@ -292,20 +293,16 @@ button[title="Fit to Width"] {
 
 /* ---- SAVE OPTIONS -------- */
 
-#save-options {
-	grid-auto-rows: min-content;
-	grid-gap: 6px;
-	padding-bottom: 50px;
+#save-options > fieldset:first-of-type {
+	margin-bottom: 18px;
 }
 
-#save-options > :matches(fieldset, label) { margin: 0 9px; }
+#save-options legend { margin-bottom: 6px; }
 
-#save-options > fieldset { margin-bottom: 12px; }
+#save-options label { display: block; }
 
-#save-options > div {
-	position: absolute;
+#media-manager > div:last-child {
 	bottom: 0;
 	width: 100%;
-	padding-top: 12px;
 	background-color: var(--background);
 }
