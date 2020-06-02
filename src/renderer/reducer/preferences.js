@@ -34,7 +34,7 @@ const updateLocationField = (state, payload) => ({
 	...state,
 	saveLocations: state.saveLocations.map(location => location.id === payload.id ? {
 		...location,
-		[payload.name]: [payload.value]
+		[payload.name]: payload.value
 	} : location)
 })
 
