@@ -1,4 +1,4 @@
-import { remote, ipcRenderer, desktopCapturer } from 'electron'
+import { remote, shell, ipcRenderer, desktopCapturer } from 'electron'
 import { v1 as uuid } from 'uuid'
 import path from 'path'
 
@@ -89,6 +89,10 @@ interop.setPreviewListeners = callback => {
 	ipcRenderer.on('previewStillCreated', (evt, still) => {
 		callback(still)
 	})
+}
+
+interop.revealInTempFolder = filePath => {
+	shell.showItemInFolder(filePath)
 }
 
 interop.removePreviewListeners = () => {

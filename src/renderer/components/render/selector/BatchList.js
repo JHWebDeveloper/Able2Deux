@@ -51,12 +51,13 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 
 	return (
 		<div>
-			{media.map(({ id, refId, title }) => (
+			{media.map(({ id, refId, title, tempFilePath }) => (
 				<BatchItem
 					key={id}
 					id={id}
 					refId={refId}
 					title={title}
+					tempFilePath={tempFilePath}
 					selected={selectedId === id}
 					copyAllSettings={copyAllSettings}
 					applyToAllWithWarning={applyToAllWithWarning}

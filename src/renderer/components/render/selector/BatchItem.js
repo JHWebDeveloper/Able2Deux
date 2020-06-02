@@ -5,6 +5,8 @@ import { selectMedia, pasteSettings, duplicateMedia } from '../../../actions/ren
 
 import DropdownMenu from '../../form_elements/DropdownMenu'
 
+const { interop } = window.ABLE2
+
 const BatchItem = props => {
 	const { id, refId, title, selected, onlyItem, dispatch } = props
 	
@@ -41,6 +43,13 @@ const BatchItem = props => {
 			label: 'Remove Media',
 			action() {
 				props.removeMediaWithWarning(id, refId, title)
+			}
+		},
+		{ role: 'spacer' },
+		{
+			label: 'Reveal in Cache',
+			action() {
+				interop.revealInTempFolder(props.tempFilePath)
 			}
 		}
 	]
