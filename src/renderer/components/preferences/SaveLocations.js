@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+
+import { addNewLocation } from '../../actions/preferences'
 
 import Directory from './Directory'
 
 const SaveLocations = ({ saveLocations, dispatch }) => {
+	useEffect(() => {
+		if (saveLocations.length === 0) {
+			dispatch(addNewLocation(0, false))
+		}
+	}, [saveLocations])
 
 	return (
 		<div id="save-locations">

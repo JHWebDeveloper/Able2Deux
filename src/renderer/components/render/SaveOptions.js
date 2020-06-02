@@ -7,7 +7,7 @@ import { toggleSaveLocation } from '../../actions/render'
 import Checkbox from '../form_elements/Checkbox'
 
 const SaveOptions = withRouter(({ onlyItem, batchName, saveLocations, dispatch, history }) => {
-	return (
+	return <>
 		<div id="save-options">
 			{!onlyItem && (
 				<fieldset>
@@ -21,26 +21,29 @@ const SaveOptions = withRouter(({ onlyItem, batchName, saveLocations, dispatch, 
 						placeholder="If none, leave blank" />
 				</fieldset>
 			)}
-			{saveLocations.map(({ id, label, checked }) => (
-				<Checkbox
-					key={id}
-					label={label}
-					checked={checked}
-					onChange={() => dispatch(toggleSaveLocation(id))} />
-			))}
-			<div>
-				<button
-					type="button"
-					className="app-button"
-					title="Back"
-					onClick={() => history.push('/')}>Back</button>
-				<button
-					type="button"
-					className="app-button"
-					title="Save">Save</button>
-			</div>
+			<fieldset>
+				<legend>Save Locations:</legend>
+				{saveLocations.map(({ id, label, checked }) => (
+					<Checkbox
+						key={id}
+						label={label}
+						checked={checked}
+						onChange={() => dispatch(toggleSaveLocation(id))} />
+				))}
+			</fieldset>
 		</div>
-	)
+		<div id="save">
+			<button
+				type="button"
+				className="app-button"
+				title="Back"
+				onClick={() => history.push('/')}>Back</button>
+			<button
+				type="button"
+				className="app-button"
+				title="Save">Save</button>
+		</div>
+	</>
 })
 
 export default SaveOptions

@@ -37,12 +37,15 @@ const Main = () => {
 				saveLocations={saveLocations}
 				dispatch={dispatch} />
 			<SaveAndClose
-				renderOutput={renderOutput}
-				scratchDisk={scratchDisk}
-				warnings={warnings}
-				scaleSliderMax={scaleSliderMax}
-				gridColor={gridColor}
-				saveLocations={saveLocations} />
+				prefs={{
+					renderOutput, 
+					scratchDisk,
+					warnings,
+					scaleSliderMax,
+					gridColor,
+					saveLocations
+				}}
+				dispatch={dispatch} />
 		</form>
 	)
 }

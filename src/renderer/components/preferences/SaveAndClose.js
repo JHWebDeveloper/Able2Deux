@@ -1,26 +1,16 @@
 import React from 'react'
-import toastr from 'toastr'
 
-import { toastrOpts } from '../../utilities'
+import { savePrefs } from '../../actions/preferences'
 
 const { interop } = window.ABLE2
 
-const savePrefs = async prefs => {
-	try {
-		await interop.savePrefs(prefs)
-		toastr.success('Preferences saved', false, { ...toastrOpts, timeOut: 2000 })
-	} catch (err) {
-		toastr.error('Preferences failed to save', false, toastrOpts)
-	}
-}
-
-const SaveAndClose = props => (
+const SaveAndClose = ({ prefs, dispatch }) => (
 	<div id="save-prefs">
 		<button
 			type="button"
 			className="app-button"
 			title="Save"
-			onClick={() => savePrefs(props)}>Save</button>
+			onClick={() => dispatch(savePrefs(prefs))}>Save</button>
 		<button
 			type="button"
 			className="app-button"
