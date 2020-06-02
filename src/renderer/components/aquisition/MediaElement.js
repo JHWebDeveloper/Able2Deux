@@ -61,7 +61,7 @@ MediaElement.propTypes = {
 	id: string.isRequired,
 	refId: string.isRequired,
 	status: string.isRequired,
-	references: bool.isRequired,
+	references: number.isRequired,
 	title: string.isRequired,
 	download: exact({
 		eta: string,
