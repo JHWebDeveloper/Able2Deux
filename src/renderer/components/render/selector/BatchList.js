@@ -47,7 +47,7 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 				references: arrayCount(media, item => item.refId === refId)
 			}))
 		})
-	}, [media, warnings.emove])
+	}, [media, warnings.remove])
 
 	return (
 		<div>
