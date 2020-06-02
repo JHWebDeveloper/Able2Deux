@@ -302,7 +302,6 @@ button[title="Fit to Width"] {
 #save-options label { display: block; }
 
 #media-manager > div:last-child {
-	bottom: 0;
 	width: 100%;
 	background-color: var(--background);
 }
