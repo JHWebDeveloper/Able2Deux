@@ -132,7 +132,7 @@ interop.chooseDirectory = async () => {
 }
 
 interop.closeCurrentWindow = () => {
-  remote.getCurrentWindow().close()
+	remote.getCurrentWindow().close()
 }
 
 window.ABLE2 = Object.freeze({

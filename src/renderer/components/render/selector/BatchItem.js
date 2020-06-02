@@ -74,9 +74,14 @@ const BatchItem = props => {
 
 BatchItem.propTypes = {
 	id: string.isRequired,
+	onlyItem: bool.isRequired,
 	refId: string.isRequired,
 	title: string.isRequired,
 	selected: bool,
+	copyAllSettings: func.isRequired,
+	applyToAllWithWarning: func.isRequired,
+	removeMediaWithWarning: func.isRequired,
+	tempFilePath: string.isRequired,
 	dispatch: func.isRequired
 }
 

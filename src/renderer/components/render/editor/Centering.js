@@ -31,6 +31,7 @@ const Centering = memo(({ id, onlyItem, centering, editAll, dispatch }) => (
 
 Centering.propTypes = {
 	id: string.isRequired,
+	onlyItem: bool.isRequired,
 	centering: number.isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired

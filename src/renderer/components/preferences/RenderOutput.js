@@ -1,6 +1,7 @@
 import React from 'react'
+import { func, oneOf } from 'prop-types'
 
-import { updateStateFromEvent } from'../../actions'
+import { updateStateFromEvent } from '../../actions'
 
 import RadioSet from '../form_elements/RadioSet'
 
@@ -31,6 +32,14 @@ const RenderOutput = ({ renderOutput, dispatch }) => {
 			</fieldset>
 		</div>
 	)
+}
+
+RenderOutput.propTypes = {
+	renderOutput: oneOf([
+		'1280x720',
+		'1920x1080'
+	]).isRequired,
+	dispatch: func.isRequired
 }
 
 export default RenderOutput

@@ -1,5 +1,5 @@
 import React from 'react'
-import { arrayOf, element, bool, oneOfType, string } from 'prop-types'
+import { arrayOf, element, func, bool, oneOfType, shape, string } from 'prop-types'
 
 import DropdownMenu from './DropdownMenu'
 
@@ -20,6 +20,12 @@ DetailsWrapper.propTypes = {
 	id: string,
 	className: string,
 	open: bool,
+	buttons: oneOfType(bool, arrayOf(shape({
+		role: string,
+		label: string,
+		hide: bool,
+		action: func
+	}))),
 	children: oneOfType([element, arrayOf(element)])
 }
 

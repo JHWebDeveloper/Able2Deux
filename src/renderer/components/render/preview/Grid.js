@@ -1,4 +1,5 @@
 import React, { createRef, useEffect } from 'react'
+import { bool, shape, string } from 'prop-types'
 
 const Grid = ({ grids, gridColor }) => {
 	const ref = createRef()
@@ -76,6 +77,16 @@ const Grid = ({ grids, gridColor }) => {
 	}, [grids, gridColor])
 
 	return <canvas ref={ref}></canvas>
+}
+
+Grid.propTypes = {
+	grids: shape({
+		grid: bool,
+		_43: bool,
+		_11: bool,
+		_916: bool
+	}).isRequired,
+	gridColor: string.isRequired
 }
 
 export default Grid

@@ -61,8 +61,12 @@ const EditorOptions = props => {
 
 EditorOptions.propTypes = {
 	id: string.isRequired,
+	onlyItem: bool.isRequired,
 	editAll: bool.isRequired,
 	mediaType: string.isRequired,
+	width: number.isRequired,
+	height: number.isRequired,
+	duration: number.isRequired,
 	aspectRatio: string.isRequired,
 	batchName: string,
 	filename: string,

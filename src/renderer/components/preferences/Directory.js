@@ -1,4 +1,5 @@
 import React from 'react'
+import { bool, func, number, exact, string } from 'prop-types'
 
 import { toggleSaveLocation } from '../../actions/render'
 
@@ -57,6 +58,17 @@ const Directory = ({ dir, index, dispatch }) => {
 				onClick={() => dispatch(moveLocation(index))}>keyboard_arrow_down</button>
 		</>
 	)
+}
+
+Directory.propTypes = {
+	dir: exact({
+		checked: bool,
+		label: string,
+		directory: string,
+		id: string
+	}).isRequired,
+	index: number.isRequired,
+	dispatch: func.isRequired
 }
 
 export default Directory

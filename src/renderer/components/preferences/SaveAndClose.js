@@ -1,4 +1,5 @@
 import React from 'react'
+import { func, object } from 'prop-types'
 
 import { savePrefs } from '../../actions/preferences'
 
@@ -18,5 +19,10 @@ const SaveAndClose = ({ prefs, dispatch }) => (
 			onClick={interop.closeCurrentWindow}>Close</button>
 	</div>
 )
+
+SaveAndClose.propTypes = {
+	prefs: object.isRequired,
+	dispatch: func.isRequired
+}
 
 export default SaveAndClose

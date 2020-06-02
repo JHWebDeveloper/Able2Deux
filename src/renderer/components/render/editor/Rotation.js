@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react'
-import { bool, exact, func, string, oneOf } from 'prop-types'
+import { bool, exact, func, oneOf, object, number, string } from 'prop-types'
 
 import { updateMediaState } from '../../../actions'
 import { copySettings, applySettingsToAll } from '../../../actions/render'
@@ -65,7 +65,7 @@ const Rotation = memo(props => {
 	}, [id, rotation, scale, crop, editAll])
 
 	const updateReflect = useCallback(e => {
-		let invertedCrop = {}
+		const invertedCrop = {}
 
 		if (detectReflection(rotation.reflect, e.target.value, flip[1])) {
 			invertedCrop.l = crop.r
@@ -121,42 +121,48 @@ const Rotation = memo(props => {
 							value: transpose[2]
 						}
 					]}/>
-		 	</fieldset>
+			</fieldset>
 			<fieldset>
-				 <legend>Reflect:</legend>
-				 <RadioSet
-						name="reflect"
-						state={rotation.reflect}
-						onChange={updateReflect}
-						buttons={[
-							{
-								label: 'None',
-								value: flip[0]
-							},
-							{
-								label: 'Horizontally',
-								value: flip[1]
-							},
-							{
-								label: 'Vertically',
-								value: flip[2]
-							},
-							{
-								label: 'Both',
-								value: flip[3]
-							}
-						]} />
-			 </fieldset>
+				<legend>Reflect:</legend>
+				<RadioSet
+					name="reflect"
+					state={rotation.reflect}
+					onChange={updateReflect}
+					buttons={[
+						{
+							label: 'None',
+							value: flip[0]
+						},
+						{
+							label: 'Horizontally',
+							value: flip[1]
+						},
+						{
+							label: 'Vertically',
+							value: flip[2]
+						},
+						{
+							label: 'Both',
+							value: flip[3]
+						}
+					]} />
+			</fieldset>
 		</DetailsWrapper>
 	)
 }, compareProps)
 
 Rotation.propTypes = {
 	id: string.isRequired,
+	onlyItem: bool.isRequired,
 	rotation: exact({
 		angle: oneOf(transpose),
 		reflect: oneOf(flip)
 	}).isRequired,
+	scale: object.isRequired,
+	crop: object.isRequired,
+	aspectRatio: string.isRequired,
+	width: number.isRequired,
+	height: number.isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }

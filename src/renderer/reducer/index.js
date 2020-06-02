@@ -53,10 +53,10 @@ const updateMediaState = (state, payload) => {
 
 	return {
 		...state,
-		media: state.media.map(item => item.id === id ? {
+		media: state.media.map(item => editAll || item.id === id ? {
 			...item,
 			...properties
-		}: item, editAll)
+		} : item)
 	}
 }
 
@@ -65,13 +65,13 @@ const updateMediaNestedState = (state, payload) => {
 
 	return {
 		...state,
-		media: state.media.map(item => item.id == id ? {
+		media: state.media.map(item => editAll || item.id === id ? {
 			...item,
 			[nest]: {
 				...item[nest],
 				...properties
 			}
-		}: item, editAll)
+		} : item)
 	}
 }
 
@@ -80,13 +80,13 @@ const toggleMediaNestedCheckbox = (state, payload) => {
 
 	return {
 		...state,
-		media: state.media.map(item => item.id === id ? {
+		media: state.media.map(item => editAll || item.id === id ? {
 			...item,
 			[nest]: {
 				...item[nest],
 				[property]: !item[nest][property]
 			}
-		} : item, editAll)
+		} : item)
 	}
 }
 
@@ -124,16 +124,18 @@ const prepareMediaForFormat = state => {
 
 const pasteSettings = (state, payload) => ({
 	...state,
-	media: updateMedia(payload.id, item => ({
+	media: state.media.map(item => item.id === payload.id ? {
 		...item,
 		...state.copiedSettings
-	}))
-})
-
-const applyToAll = (state, payload) => ({
-	...state,
-	media: state.media.map(item => item.id !== payload.id ? {
-		...item,
-		...payload.properties
 	} : item)
 })
+
+const applyToAll = (state, payload) => {
+	return {
+		...state,
+		media: state.media.map(item => item.id === payload.id ? {
+			...item,
+			...payload.properties
+		} : item)
+	}
+}

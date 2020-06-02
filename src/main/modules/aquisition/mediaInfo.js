@@ -5,9 +5,7 @@ import ffmpeg from '../utilities/ffmpeg'
 import placeholder from '../utilities/placeholder'
 import { temp } from '../utilities/extFileHandlers'
 
-const round = (n, dec = 2) => (
-	Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
-)
+const round = (n, dec = 2) => Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
 
 const base64Encode = async file => {
 	if (!file) return placeholder

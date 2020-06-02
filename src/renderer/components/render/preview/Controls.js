@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
+import { bool, func, number, object, shape, string } from 'prop-types'
 
 import { updateMediaState, updateMediaStateFromEvent } from '../../../actions'
 import { secondsToTC, zeroize } from '../../../utilities'
@@ -88,6 +89,25 @@ const Controls = ({ id, mediaType, timecode, start, end, fps, duration, grids, g
 				onClick={toggleGrid}>9:16</button>
 		</div>
 	)
+}
+
+Controls.propTypes = {
+	id: string.isRequired,
+	mediaType: string.isRequired,
+	timecode: number.isRequired,
+	start: object.isRequired,
+	end: object.isRequired,
+	fps: number.isRequired,
+	duration: number.isRequired,
+	grids: shape({
+		grid: bool,
+		_43: bool,
+		_11: bool,
+		_916: bool
+	}),
+	gridColor: string,
+	toggleGrids: func,
+	dispatch: func.isRequired
 }
 
 export default Controls

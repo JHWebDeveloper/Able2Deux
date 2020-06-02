@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { func, string } from 'prop-types'
 
 const { interop } = window.ABLE2
 
@@ -22,6 +23,11 @@ const DirectorySelector = ({ directory, onChange }) => {
 			value={directory}
 			readOnly />
 	</>
+}
+
+DirectorySelector.propTypes = {
+	directory: string,
+	onChange: func.isRequired
 }
 
 export default DirectorySelector

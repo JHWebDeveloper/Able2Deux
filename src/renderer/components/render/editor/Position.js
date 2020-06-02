@@ -45,6 +45,7 @@ const Position = memo(({ id, onlyItem, position, editAll, dispatch }) => {
 
 Position.propTypes = {
 	id: string.isRequired,
+	onlyItem: bool.isRequired,
 	position: exact({
 		x: number,
 		y: number

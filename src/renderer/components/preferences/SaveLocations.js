@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { arrayOf, bool, exact, func, string } from 'prop-types'
 
 import { addNewLocation } from '../../actions/preferences'
 
@@ -30,6 +31,16 @@ const SaveLocations = ({ saveLocations, dispatch }) => {
 			</fieldset>
 		</div>
 	)
+}
+
+SaveLocations.propTypes = {
+	saveLocations: arrayOf(exact({
+		checked: bool,
+		label: string,
+		directory: string,
+		id: string
+	})),
+	dispatch: func.isRequired
 }
 
 export default SaveLocations

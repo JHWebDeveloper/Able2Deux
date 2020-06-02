@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useContext, useMemo } from 'react'
-import { bool, func, number, exact, string } from 'prop-types'
+import { bool, exact, func, number, object, string } from 'prop-types'
 
 import { PrefsContext } from '../../../store/preferences'
 
@@ -102,12 +102,21 @@ const Scale = memo(({ id, onlyItem, scale, crop, width, height, editAll, dispatc
 
 Scale.propTypes = {
 	id: string.isRequired,
+	onlyItem: bool.isRequired,
+	width: number.isRequired,
+	height: number.isRequired,
 	scale: exact({
 		x: number,
 		y: number
 	}).isRequired,
+	crop: object.isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
+}
+
+FitButton.propTypes = {
+	title: string.isRequired,
+	onClick: func.isRequired
 }
 
 export default Scale

@@ -1,10 +1,7 @@
 import React, { useCallback } from 'react'
+import { bool, exact, func, number, string } from 'prop-types'
 
-import {
-	updateState,
-	updateStateFromEvent,
-	toggleNestedCheckbox
-} from '../../actions'
+import { updateStateFromEvent, toggleNestedCheckbox } from '../../actions'
 
 import { keepInRange } from '../../utilities'
 
@@ -74,6 +71,18 @@ const Defaults = ({ warnings, scaleSliderMax, gridColor, dispatch }) => {
 			</fieldset>
 		</div>
 	)
+}
+
+Defaults.propTypes = {
+	warnings: exact({
+		remove: bool,
+		removeAll: bool,
+		applyToAll: bool,
+		sourceOnTop: bool
+	}).isRequired,
+	scaleSliderMax: number.isRequired,
+	gridColor: string.isRequired,
+	dispatch: func.isRequired
 }
 
 export default Defaults

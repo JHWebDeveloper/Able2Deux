@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { v1 as uuid } from 'uuid'
-import { bool, func, number, oneOfType, string } from 'prop-types'
+import { arrayOf, bool, element, func, number, string } from 'prop-types'
 
 import { keepInRange } from '../../utilities'
 
@@ -64,9 +64,12 @@ Slider.propTypes = {
 	value: number,
 	min: number,
 	max: number,
-	defaultValue: oneOfType([bool, number]),
+	inputMax: number,
+	points: arrayOf(number),
 	unit: string,
 	disabled: bool,
+	inverted: bool,
+	Button: element,
 	onChange: func.isRequired
 }
 

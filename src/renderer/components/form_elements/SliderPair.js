@@ -25,7 +25,8 @@ const SliderPair = ({ link, linkAction, sliders, pairAction }) => {
 }
 
 SliderPair.propTypes = {
-	link: bool,
+	link: bool.isRequired,
+	linkAction: func.isRequired,
 	sliders: arrayOf(shape({
 		label: string,
 		name: string.isRequired,

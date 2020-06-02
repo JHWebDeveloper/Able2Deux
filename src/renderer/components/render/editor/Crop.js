@@ -90,6 +90,7 @@ const Crop = memo(({ id, onlyItem, crop, editAll, dispatch }) => {
 
 Crop.propTypes = {
 	id: string.isRequired,
+	onlyItem: bool.isRequired,
 	crop: exact({
 		t: number,
 		b: number,

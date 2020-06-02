@@ -46,8 +46,7 @@ export const fit = (command, background, filterData) => {
 }
 
 export const transform = (command, background, filterData) => {
-	const { angle, reflect, sourceData, overlayDim } = filterData
-	let { crop, scale, position } = filterData
+	const { crop, scale, position, angle, reflect, sourceData, overlayDim } = filterData
 
 	crop.t /= 100
 	crop.b /= 100
@@ -58,8 +57,8 @@ export const transform = (command, background, filterData) => {
 	position.x /= 100
 	position.y /= 100
 
-	let cropH = Math.max(1 - (crop.t + crop.b), 0.01)
-	let cropW = Math.max(1 - (crop.l + crop.r), 0.01)
+	const cropH = Math.max(1 - (crop.t + crop.b), 0.01)
+	const cropW = Math.max(1 - (crop.l + crop.r), 0.01)
 
 	command
 		.input(background)

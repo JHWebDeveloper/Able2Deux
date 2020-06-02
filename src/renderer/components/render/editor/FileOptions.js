@@ -66,6 +66,7 @@ const FileOptions = memo(({ id, batchName, filename, start, end, mediaType, dura
 
 FileOptions.propTypes = {
 	id: string.isRequired,
+	batchName: string.isRequired,
 	filename: string.isRequired,
 	start: exact({
 		enabled: bool,

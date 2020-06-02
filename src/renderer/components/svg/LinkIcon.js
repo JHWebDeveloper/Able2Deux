@@ -1,4 +1,5 @@
 import React from 'react'
+import { bool } from 'prop-types'
 
 const Linked = () => (
 	<svg fill="#4c4c4c" width="24px" height="22px" viewBox="0 0 24 22">
@@ -55,4 +56,10 @@ const Unlinked = () => (
 	</svg>
 )
 
-export default ({ linked }) => linked ? <Linked /> : <Unlinked />
+const LinkIcon = ({ linked }) => linked ? <Linked /> : <Unlinked />
+
+LinkIcon.propTypes = {
+	linked: bool.isRequired
+}
+
+export default LinkIcon

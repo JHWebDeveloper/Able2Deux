@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { func, object } from 'prop-types'
 import '../../../css/index/preview.css'
 
 import { PrefsContext } from '../../../store/preferences'
@@ -98,6 +99,11 @@ const Preview = ({ selected, dispatch }) => {
 			)}
 		</details>
 	)
+}
+
+Preview.propTypes = {
+	selected: object.isRequired,
+	dispatch: func.isRequired
 }
 
 export default Preview

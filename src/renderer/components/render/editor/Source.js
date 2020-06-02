@@ -79,6 +79,7 @@ const Source = memo(({ id, onlyItem, source, editAll, dispatch }) => {
 
 Source.propTypes = {
 	id: string.isRequired,
+	onlyItem: bool.isRequired,
 	source: exact({
 		sourceName: string,
 		prefix: bool.isRequired,

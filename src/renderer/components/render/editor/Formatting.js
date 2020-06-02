@@ -95,6 +95,7 @@ const Formatting = memo(({ id, onlyItem, arc, background, overlay, mediaType, ed
 
 Formatting.propTypes = {
 	id: string.isRequired,
+	onlyItem: bool.isRequired,
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
 	background: oneOf(['blue', 'grey', 'alpha', 'black']).isRequired,
 	overlay: oneOf(['none', 'tv', 'laptop']),
