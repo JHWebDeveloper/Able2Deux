@@ -20,12 +20,12 @@ DetailsWrapper.propTypes = {
 	id: string,
 	className: string,
 	open: bool,
-	buttons: oneOfType(bool, arrayOf(shape({
+	buttons: oneOfType([bool, arrayOf(shape({
 		role: string,
 		label: string,
 		hide: bool,
 		action: func
-	}))),
+	}))]),
 	children: oneOfType([element, arrayOf(element)])
 }
 
