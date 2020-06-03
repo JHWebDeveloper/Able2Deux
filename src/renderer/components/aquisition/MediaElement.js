@@ -43,8 +43,8 @@ const MediaElement = ({ id, refId, status, references, title, download, warnRemo
 				{downloading && <>
 					<span className="monospace">{download.eta}</span>
 					<progress
-						value={parseFloat(download.prc) / 100}
-						title={download.prc}></progress>
+						value={parseFloat(download.percent) / 100}
+						title={download.percent}></progress>
 				</>}
 			</span>
 			<button
@@ -65,7 +65,7 @@ MediaElement.propTypes = {
 	title: string.isRequired,
 	download: exact({
 		eta: string,
-		prc: string
+		percent: string
 	}).isRequired,
 	warnRemove: bool.isRequired,
 	dispatch: func.isRequired

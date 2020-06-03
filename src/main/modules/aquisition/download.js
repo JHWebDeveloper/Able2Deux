@@ -62,7 +62,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 	])
 
 	const progress = {
-		prc: '0%',
+		percent: '0%',
 		eta: '00:00',
 		id
 	}
@@ -72,7 +72,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 
 		if (!/^(\r)?\[download\]/.test(info)) return
 
-		progress.prc = parseYTDLOutput(info, /[.0-9]+%/) || progress.prc
+		progress.percent = parseYTDLOutput(info, /[.0-9]+%/) || progress.percent
 		progress.eta = parseYTDLOutput(info, /[:0-9]+$/) || progress.eta
 
 		win.webContents.send(`downloadProgress_${id}`, progress)

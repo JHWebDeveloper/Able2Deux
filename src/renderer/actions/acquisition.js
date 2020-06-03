@@ -65,12 +65,12 @@ export const prepareMediaForFormat = () => ({
 
 // ---- DOWNLOAD ------------
 
-const updateDownloadProgress = ({ id, eta, prc }) => ({
+const updateDownloadProgress = ({ id, eta, percent }) => ({
 	type: ACTION.UPDATE_MEDIA_STATE,
 	payload: {
 		id,
 		properties: {
-			download: { eta, prc }
+			download: { eta, percent }
 		}
 	}
 })
@@ -83,12 +83,7 @@ export const download = ({ url, optimize, output }) => async dispatch => {
 		title: url,
 		filename: 'download',
 		aquisitionType: 'download',
-		mediaType: 'video',
-		download: {
-			file: false,
-			prc: '0%',
-			eta: '00:00'
-		}
+		mediaType: 'video'
 	})
 
 	dispatch(addMedia(mediaElement))

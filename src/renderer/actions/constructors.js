@@ -22,7 +22,7 @@ class MediaElement {
 		this.tempFilePath = false
 		this.download = {
 			eta: '00:00:00',
-			prc: '0%'
+			percent: '0%'
 		}
 		this.title = title
 		this.filename = filename
@@ -32,11 +32,6 @@ class MediaElement {
 		this.height = 0
 		this.aspectRatio = false
 		this.fps = 0
-		this.render = {
-			prc: 0,
-			timemark: '00:00:00',
-			frames: 0
-		}
 		this.timecode = 0
 		this.start = {
 			enabled: false,
@@ -78,6 +73,11 @@ class MediaElement {
 		this.rotation = {
 			angle: '',
 			reflect: ''
+		},
+		this.render = {
+			percent: 0,
+			timemark: '00:00:00',
+			frames: 0
 		}
 	}
 }
