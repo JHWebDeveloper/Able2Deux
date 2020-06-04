@@ -95,7 +95,9 @@ Crop.propTypes = {
 		t: number,
 		b: number,
 		r: number,
-		l: number
+		l: number,
+		linkTB: bool,
+		linkLR: bool
 	}).isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired

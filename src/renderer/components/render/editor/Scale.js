@@ -107,7 +107,8 @@ Scale.propTypes = {
 	height: number.isRequired,
 	scale: exact({
 		x: number,
-		y: number
+		y: number,
+		link: bool
 	}).isRequired,
 	crop: object.isRequired,
 	editAll: bool.isRequired,
