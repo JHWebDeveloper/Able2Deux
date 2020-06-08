@@ -50,11 +50,11 @@ const Formatting = memo(({ id, onlyItem, arc, background, overlay, mediaType, ed
 				onChange={e => dispatch(updateMediaStateFromEvent(id, e, editAll))}
 				buttons={[
 					{
-						label: 'Animated Blue',
+						label: 'Blue',
 						value: 'blue'
 					},
 					{
-						label: 'Animated Grey',
+						label: 'Grey',
 						value: 'grey'
 					},
 					{
