@@ -39,6 +39,7 @@ const FileOptions = memo(({ id, batchName, filename, start, end, mediaType, dura
 					title="Filename"
 					className="underline"
 					value={filename}
+					maxLength={282}
 					onChange={e => dispatch(updateMediaStateFromEvent(id, e))}
 					placeholder="Required"
 					required />

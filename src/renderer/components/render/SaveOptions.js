@@ -2,14 +2,14 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { updateStateFromEvent } from '../../actions'
-import { toggleSaveLocation } from '../../actions/render'
+import { toggleSaveLocation, render } from '../../actions/render'
 
 import Checkbox from '../form_elements/Checkbox'
 
-const SaveOptions = withRouter(({ onlyItem, batchName, saveLocations, dispatch, history }) => {
+const SaveOptions = withRouter(({ media, batchName, saveLocations, setRendering, dispatch, history }) => {
 	return <>
 		<div id="save-options">
-			{!onlyItem && (
+			{media.length > 1 && (
 				<fieldset>
 					<legend>Batch Name:</legend>
 					<input
@@ -17,6 +17,7 @@ const SaveOptions = withRouter(({ onlyItem, batchName, saveLocations, dispatch, 
 						name="batchName"
 						className="underline"
 						value={batchName}
+						maxLength={282}
 						onChange={e => dispatch(updateStateFromEvent(e))}
 						placeholder="If none, leave blank" />
 				</fieldset>
@@ -32,7 +33,7 @@ const SaveOptions = withRouter(({ onlyItem, batchName, saveLocations, dispatch, 
 				))}
 			</fieldset>
 		</div>
-		<div id="save">
+		<div>
 			<button
 				type="button"
 				className="app-button"
@@ -41,7 +42,10 @@ const SaveOptions = withRouter(({ onlyItem, batchName, saveLocations, dispatch, 
 			<button
 				type="button"
 				className="app-button"
-				title="Save">Save</button>
+				title="Save"
+				onClick={() => {
+					setRendering(true)
+				}}>Save</button>
 		</div>
 	</>
 })
