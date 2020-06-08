@@ -25,6 +25,7 @@
 		"ffprobe-static-electron": "^2.0.0",
 		"file-type": "^14.3.0",
 		"fluent-ffmpeg": "^2.1.2",
+		"promise-queue": "^2.2.5",
 		"prop-types": "^15.7.2",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
@@ -35,6 +36,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.9.6",
+		"@babel/plugin-proposal-class-properties": "^7.10.1",
 		"@babel/preset-env": "^7.9.6",
 		"@babel/preset-react": "^7.9.4",
 		"@babel/register": "^7.9.0",
