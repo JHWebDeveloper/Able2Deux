@@ -11,7 +11,8 @@ import SaveAndClose from './SaveAndClose'
 
 const Main = () => {
 	const {
-		renderOutput, 
+		renderOutput,
+		concurrent,
 		scratchDisk,
 		warnings,
 		scaleSliderMax,
@@ -24,6 +25,7 @@ const Main = () => {
 		<form>
 			<RenderOutput
 				renderOutput={renderOutput}
+				concurrent={concurrent}
 				dispatch={dispatch} />
 			<ScratchDisk 
 				scratchDisk={scratchDisk}
