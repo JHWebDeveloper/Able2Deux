@@ -40,7 +40,8 @@ const Main = () => {
 				dispatch={dispatch} />
 			<SaveAndClose
 				prefs={{
-					renderOutput, 
+					renderOutput,
+					concurrent,
 					scratchDisk,
 					warnings,
 					scaleSliderMax,
