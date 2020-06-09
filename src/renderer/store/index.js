@@ -22,12 +22,12 @@ const initState = {
 
 export const MainContext = createContext()
 
-export const MainProvider = ({ children, saveLocations }) => {
+export const MainProvider = ({ children, prefs }) => {
 	const [ state, dispatch ] = useReducer(reducer, initState)
 
 	useEffect(() => {
-		dispatch(updateState({ saveLocations }))
-	}, [saveLocations])
+		dispatch(updateState({ ...prefs }))
+	}, [prefs])
 
 	return (
 		<MainContext.Provider value={{

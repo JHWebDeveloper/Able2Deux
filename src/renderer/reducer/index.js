@@ -11,7 +11,7 @@ export default (state, action) => {
 		case ACTION.UPDATE_STATE:
 			return shared.updateState(state, payload)
 		case ACTION.TOGGLE_CHECKBOX:
-			return toggleCheckbox(state, payload)
+			return shared.toggleCheckbox(state, payload)
 		case ACTION.UPDATE_NESTED_STATE:
 			return shared.updateNestedState(state, payload)
 		case ACTION.TOGGLE_NESTED_CHECKBOX:
@@ -44,11 +44,6 @@ export default (state, action) => {
 }
 
 // ---- "REACTIONS" --------
-
-const toggleCheckbox = (state, payload) => ({
-	...state,
-	[payload.property]: !state[payload.property]
-})
 
 const updateMediaState = (state, payload) => {
 	const { id, properties, editAll } = payload

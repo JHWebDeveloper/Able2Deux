@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
 import { bool, exact, func, number, string } from 'prop-types'
 
-import { updateStateFromEvent, toggleNestedCheckbox } from '../../actions'
+import { updateStateFromEvent, toggleCheckbox, toggleNestedCheckbox } from '../../actions'
 
 import { keepInRange } from '../../utilities'
 
 import Checkbox from '../form_elements/Checkbox'
 
-const Defaults = ({ warnings, scaleSliderMax, gridColor, dispatch }) => {
+const Defaults = ({ warnings, editAll, scaleSliderMax, gridColor, dispatch }) => {
 	const keepScaleMaxInRange = useCallback(e => {
 		dispatch(updateStateFromEvent(keepInRange(e)))
 	}, [])
@@ -44,6 +44,12 @@ const Defaults = ({ warnings, scaleSliderMax, gridColor, dispatch }) => {
 						name="sourceOnTop"
 						checked={warnings.sourceOnTop}
 						onChange={toggleWarning}
+						switchIcon />
+					<Checkbox
+						label="Edit All by Default"
+						name="editAll"
+						checked={editAll}
+						onChange={e => dispatch(toggleCheckbox(e))}
 						switchIcon />
 					<span className="input-option">
 						<label htmlFor="scaleSliderMax">Scale Max</label>

@@ -3,6 +3,11 @@ export const updateState = (state, payload) => ({
 	...payload
 })
 
+export const toggleCheckbox = (state, payload) => ({
+	...state,
+	[payload.property]: !state[payload.property]
+})
+
 export const updateNestedState = (state, payload) => ({
 	...state,
 	[payload.nest]: {

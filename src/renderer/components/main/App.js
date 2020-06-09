@@ -12,11 +12,11 @@ import SourceSuggestionList from './SourceSuggestionList'
 
 
 const Main = () => {
-	const { saveLocations } = useContext(PrefsContext)
+	const { saveLocations, editAll } = useContext(PrefsContext)
 
 	return (
 		<main>
-			<MainProvider saveLocations={saveLocations}>
+			<MainProvider prefs={{ saveLocations, editAll }}>
 				<HashRouter>
 					<Switch>
 						<Route path="/" exact component={Acquisition}/>

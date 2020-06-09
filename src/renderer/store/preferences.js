@@ -23,6 +23,7 @@ const initState = {
 		applyToAll: true,
 		sourceOnTop: true
 	},
+	editAll: false,
 	scaleSliderMax: 400,
 	gridColor: '#ff00ff'
 }

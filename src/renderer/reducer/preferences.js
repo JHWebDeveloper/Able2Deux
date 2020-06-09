@@ -9,6 +9,8 @@ export default (state, action) => {
 	switch (type) {
 		case ACTION.UPDATE_STATE:
 			return shared.updateState(state, payload)
+		case ACTION.TOGGLE_CHECKBOX: 
+			return shared.toggleCheckbox(state, payload)
 		case ACTION.UPDATE_NESTED_STATE:
 			return shared.updateNestedState(state, payload)
 		case ACTION.TOGGLE_NESTED_CHECKBOX: 

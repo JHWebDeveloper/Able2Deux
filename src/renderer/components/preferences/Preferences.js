@@ -15,6 +15,7 @@ const Main = () => {
 		concurrent,
 		scratchDisk,
 		warnings,
+		editAll,
 		scaleSliderMax,
 		gridColor,
 		saveLocations,
@@ -32,6 +33,7 @@ const Main = () => {
 				dispatch={dispatch} />
 			<Defaults
 				warnings={warnings}
+				editAll={editAll}
 				scaleSliderMax={scaleSliderMax}
 				gridColor={gridColor}
 				dispatch={dispatch} />
@@ -44,6 +46,7 @@ const Main = () => {
 					concurrent,
 					scratchDisk,
 					warnings,
+					editAll,
 					scaleSliderMax,
 					gridColor,
 					saveLocations
