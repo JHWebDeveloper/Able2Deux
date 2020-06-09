@@ -105,7 +105,7 @@ const prefsMenuItem = [
 		click() {
 			preferences = openWindow({
 				parent: win,
-				width: 700,
+				width: 755,
 				height: 400,
 				minWidth: 700,
 				minHeight: 400,
