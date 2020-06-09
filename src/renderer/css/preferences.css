@@ -103,7 +103,7 @@ button[name="down"]:last-of-type {
 
 .input-option > label {
 	display: inline-block;
-	width: 75px;
+	min-width: 75px;
 	margin-right: 6px;
 }
 
