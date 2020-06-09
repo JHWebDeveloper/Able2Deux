@@ -295,7 +295,7 @@ ipcMain.on('requestRender', async (evt, data) => {
 
 ipcMain.on('cancelRender', async (evt, id) => {
 	try {
-		await cancelRender(id)
+		return cancelRender(id)
 	} catch (err) {
 		console.error(err)
 	}
@@ -303,7 +303,15 @@ ipcMain.on('cancelRender', async (evt, id) => {
 
 ipcMain.on('cancelAllRenders', async () => {
 	try {
-		await cancelAllRenders()
+		return cancelAllRenders()
+	} catch (err) {
+		console.error(err)
+	}
+})
+
+ipcMain.on('clearTempFiles', async () => {
+	try {
+		return temp.clearAll()
 	} catch (err) {
 		console.error(err)
 	}

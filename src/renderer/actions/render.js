@@ -148,6 +148,10 @@ export const render = ({ media, batchName, saveLocations, renderOutput, concurre
 	}))
 
 	media.forEach(item => {
+		if (item.render.status !== STATUS.PENDING) {
+			dispatch(updateRenderStatus(item.id, STATUS.PENDING))
+		}
+
 		renderQueue.add(item.id, async () => {
 			try {
 				await interop.requestRenderChannel({
@@ -186,4 +190,9 @@ export const cancelRender = (id, status) => async dispatch => {
 	if (status === STATUS.PENDING) renderQueue.remove(id)
 
 	dispatch(updateRenderStatus(id, STATUS.CANCELLED))
+}
+
+export const startOver = () => dispatch => {
+	dispatch({ type: ACTION.START_OVER })
+	interop.clearTempFiles()
 }

@@ -36,6 +36,8 @@ export default (state, action) => {
 			return applyToAll(state, payload)
 		case ACTION.TOGGLE_SAVE_LOCATION:
 			return shared.toggleSaveLocation(state, payload)
+		case ACTION.START_OVER:
+			return startOver(state)
 		default:
 			return state
 	}
@@ -130,12 +132,15 @@ const pasteSettings = (state, payload) => ({
 	} : item)
 })
 
-const applyToAll = (state, payload) => {
-	return {
-		...state,
-		media: state.media.map(item => item.id === payload.id ? {
-			...item,
-			...payload.properties
-		} : item)
-	}
-}
+const applyToAll = (state, payload) => ({
+	...state,
+	media: state.media.map(item => item.id === payload.id ? {
+		...item,
+		...payload.properties
+	} : item)
+})
+
+const startOver = state => ({
+	...state,
+	media: []
+})

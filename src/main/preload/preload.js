@@ -152,6 +152,8 @@ interop.cancelRender = id => ipcRenderer.send('cancelRender', id)
 
 interop.cancelAllRenders = () => ipcRenderer.send('cancelAllRenders')
 
+interop.clearTempFiles = () => ipcRenderer.send('clearTempFiles')
+
 window.ABLE2 = Object.freeze({
 	interop: Object.freeze(interop)
 })

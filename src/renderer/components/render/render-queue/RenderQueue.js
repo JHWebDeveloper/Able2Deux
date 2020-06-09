@@ -1,14 +1,15 @@
 import React, { useCallback, useContext, useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
 import toastr from 'toastr'
 
 import { PrefsContext } from '../../../store/preferences'
 import * as STATUS from '../../../status/types'
-import { render, cancelRender } from '../../../actions/render'
+import { render, cancelRender, startOver } from '../../../actions/render'
 import { toastrOpts } from '../../../utilities'
 
 import RenderElement from './RenderElement'
 
-const RenderQueue = ({ media, batchName, saveLocations, closeRenderQueue, dispatch }) => {
+const RenderQueue = withRouter(({ media, batchName, saveLocations, closeRenderQueue, dispatch, history }) => {
 	const { renderOutput, concurrent } = useContext(PrefsContext)
 	
 	const complete = media.every(({ render }) => (
@@ -20,6 +21,11 @@ const RenderQueue = ({ media, batchName, saveLocations, closeRenderQueue, dispat
 	const cancelAll = useCallback(() => Promise.all(media.map(({ id, render }) => {
 		dispatch(cancelRender(id, render.status))
 	})), [media])
+
+	const backToMain = useCallback(() => {
+		dispatch(startOver())
+		history.push('/')
+	}, [])
 
 	useEffect(() => {
 		dispatch(render({
@@ -63,7 +69,8 @@ const RenderQueue = ({ media, batchName, saveLocations, closeRenderQueue, dispat
 							<button
 								type="button"
 								className="app-button"
-								title="Start Over">Start Over</button>
+								title="Start Over"
+								onClick={backToMain}>Start Over</button>
 						</>
 					) : (
 						<button
@@ -76,6 +83,6 @@ const RenderQueue = ({ media, batchName, saveLocations, closeRenderQueue, dispat
 			</div>
 		</div>
 	)
-}
+})
 
 export default RenderQueue
