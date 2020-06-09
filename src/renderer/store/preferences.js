@@ -10,6 +10,7 @@ const { interop } = window.ABLE2
 
 const initState = {
 	renderOutput: '1280x720',
+	concurrent: 2,
 	saveLocations: [],
 	scratchDisk: {
 		imports: '',

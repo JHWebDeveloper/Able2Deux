@@ -1,7 +1,14 @@
 import { v1 as uuid } from 'uuid'
+import toastr from 'toastr'
 
 import * as ACTION from './types'
+import * as STATUS from '../status/types'
+import { PromiseQueue } from './constructors'
 import { updateMediaNestedState } from '.'
+import { zeroize, cleanFileName, replaceTokens, toastrOpts } from '../utilities'
+
+
+const { interop } = window.ABLE2
 
 // ---- MEDIA MANAGER --------
 
@@ -80,4 +87,103 @@ export const updateCropBiDirectional = (id, editAll, d1, d2, e) => dispatch => {
 		[d1]: value,
 		[d2]: value
 	}, editAll))
+}
+
+
+// ---- RENDER --------
+
+const updateRenderStatus = (id, status) => ({
+	type: ACTION.UPDATE_MEDIA_NESTED_STATE,
+	payload: {
+		id: id,
+		nest: 'render',
+		properties: { status }
+	}
+})
+
+const updateRenderProgress = ({ id, percent }) => ({
+	type: ACTION.UPDATE_MEDIA_NESTED_STATE,
+	payload: {
+		id,
+		nest: 'render',
+		properties: { percent }
+	}
+})
+
+let renderQueue = false
+
+const preventDuplicateNames = (filename, media, index) => {
+	const count = media.filter(item => item.filename === filename)
+
+	if (count.length === 1) return media[index].filename
+
+	const firstIndex = media.findIndex(item => item.filename === filename)
+
+	return [
+		media[index].filename,
+		zeroize(firstIndex - index + 1, count)
+	].join('.')
+}
+
+export const render = ({ media, batchName, saveLocations, renderOutput, concurrent }) => dispatch => {
+	renderQueue = new PromiseQueue(concurrent)
+
+	if (batchName) {
+		if (!batchName.includes('$n')) batchName = `${batchName}.$n`
+
+		media = media.map(item => ({
+			...item,
+			filename: batchName
+		}))
+	} else {
+		media = media.map((item, i) => item.filename.includes('$n') ? item : {
+			...item,
+			filename: !!item.filename ? preventDuplicateNames(item.filename, media, i) : 'Able2 Export $t $d.$n'
+		})
+	}
+
+	media = media.map((item, i) => ({
+		...item,
+		filename: replaceTokens(cleanFileName(item.filename), i, media.length)
+	}))
+
+	media.forEach(item => {
+		renderQueue.add(item.id, async () => {
+			try {
+				await interop.requestRenderChannel({
+					data: {
+						...item,
+						renderOutput,
+						saveLocations
+					},
+					startCallback() {
+						dispatch(updateRenderStatus(item.id, STATUS.RENDERING))
+					},
+					progressCallback(data) {
+						dispatch(updateRenderProgress(data))
+					}
+				})
+		
+				dispatch(updateRenderStatus(item.id, STATUS.COMPLETE))
+			} catch (err) {
+				if (err.toString() === 'Error: ffmpeg was killed with signal SIGKILL') {
+					dispatch(updateRenderStatus(item.id, STATUS.CANCELLED))
+				} else {
+					dispatch(updateRenderStatus(item.id, STATUS.FAILED))
+					toastr.error(`${item.filename} failed to render`, false, toastrOpts)
+				}
+			}
+		})
+
+		renderQueue.start()
+	})
+}
+
+export const cancelRender = (id, status) => async dispatch => {
+	dispatch(updateRenderStatus(id, STATUS.CANCELLING))
+
+	if (status === STATUS.RENDERING) return interop.cancelRender(id)
+	if (status === STATUS.PENDING) renderQueue.remove(id)
+
+	dispatch(updateRenderStatus(id, STATUS.CANCELLED))
 }

@@ -5,27 +5,11 @@ import { fixPathForAsarUnpack } from 'electron-util'
 import ffmpeg from '../utilities/ffmpeg'
 import { temp } from '../utilities/extFileHandlers'
 import * as filter from './filters'
+import getOverlayInnerDimensions from './getOverlayInnerDimensions'
 
 const assetsPath = fixPathForAsarUnpack(process.env.NODE_ENV === 'development' 
 	? path.resolve(__dirname, '..', '..', 'assets')
 	: path.join(__dirname, 'assets'))
-
-const getOverlayInnerDimensions = (size, overlay) => {
-	const is1080 = size === '1080'
-
-	return {
-		tv: {
-			width: is1080 ? 1576 : 1050,
-			height: is1080 ? 886 : 590,
-			y: is1080 ? 78 : 52
-		},
-		laptop: {
-			width: is1080 ? 1366 : 912,
-			height: is1080 ? 778 : 518,
-			y: is1080 ? 86 : 58
-		}
-	}[overlay]
-}
 
 const previewStill = exportData => new Promise((resolve, reject) => {
 	const { id, renderOutput, arc, background, overlay, sourceData, rotation } = exportData
@@ -33,8 +17,7 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 
 	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.jpg`)
 	const previewPath = path.join(temp.previews.path, `${id}.preview.jpg`)
-	const backgroundFile = path.join(assetsPath, renderHeight, `${overlay === 'none' ? background : 'black'}.jpg`)
-
+	let backgroundFile = false
 	let overlayDim = false
 
 	const command = ffmpeg(previewSourcePath)
@@ -52,13 +35,16 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 		command.input(sourcePng)
 	}
 
-	if (overlay !== 'none') {
+	if (arc !== 'none' && !(arc === 'fill' && overlay === 'none')) {
+		backgroundFile = path.join(assetsPath, renderHeight, `${background}.jpg`)
+	}
+
+	if (arc !== 'none' && overlay !== 'none') {
 		const overlayPng = path.join(assetsPath, renderHeight, `${overlay}.png`)
 
-		command
-			.input(path.join(assetsPath, renderHeight, `${background}.jpg`))
-			.input(overlayPng)
-
+		command.input(backgroundFile).input(overlayPng)
+		
+		backgroundFile = path.join(assetsPath, renderHeight, 'black.jpg')
 		overlayDim = getOverlayInnerDimensions(renderHeight, overlay)
 	}
 
@@ -66,26 +52,26 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 		...rotation,
 		renderHeight,
 		renderWidth,
-		sourceData,
-		overlayDim
+		overlayDim,
+		sourceData: !!sourceData
 	}
 
 	if (arc === 'none') {
-		filter.none(command, filterData)
+		filter.none(command, filterData, true)
 	} else if (arc === 'fill') {
 		filter.fill(command, {
 			...filterData,
 			centering: exportData.centering
-		})
+		}, true)
 	} else if (arc === 'fit') {
-		filter.fit(command, backgroundFile, filterData)
+		filter.fit(command, backgroundFile, filterData, true)
 	} else if (arc === 'transform') {
 		filter.transform(command, backgroundFile, {
 			...filterData,
 			position: exportData.position,
 			scale: exportData.scale,
 			crop: exportData.crop
-		})
+		}, true)
 	}
 
 	command.run()

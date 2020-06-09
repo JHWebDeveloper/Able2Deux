@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import '../../css/index/render.css'
 
@@ -11,8 +11,10 @@ import EditAll from './selector/EditAll'
 import SaveOptions from './SaveOptions'
 import Preview from './preview/Preview'
 import EditorOptions from './editor/EditorOptions'
+import RenderQueue from './render-queue/RenderQueue'
 
 const Render = () => {
+	const [ rendering, setRendering ] = useState(false)
 	const { media, selectedId, batchName, editAll, saveLocations, dispatch } = useContext(MainContext)
 
 	if (!media.length) return <Redirect to="/" />
@@ -49,9 +51,10 @@ const Render = () => {
 					)}
 				</div>
 				<SaveOptions
-					onlyItem={media.length < 2}
+					media={media}
 					batchName={batchName}
 					saveLocations={saveLocations}
+					setRendering={setRendering}
 					dispatch={dispatch} />
 			</div>
 			<div id="editor">
@@ -65,6 +68,14 @@ const Render = () => {
 					dispatch={dispatch}
 					{...selected} />
 			</div>
+			{rendering && (
+				<RenderQueue
+					media={media}
+					batchName={batchName}
+					saveLocations={saveLocations}
+					closeRenderQueue={() => setRendering(false)}
+					dispatch={dispatch} />
+			)}
 		</form>
 	)
 }

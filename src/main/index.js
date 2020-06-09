@@ -7,8 +7,9 @@ import { getTitleFromURL, downloadVideo, cancelDownload } from './modules/aquisi
 import { checkFileType, upload } from './modules/aquisition/upload'
 import { saveScreenRecording } from './modules/aquisition/saveScreenRecording'
 import { getMediaInfo } from './modules/aquisition/mediaInfo'
-import previewStill from './modules/preview/preview'
-import updatePreviewSourceImage from './modules/preview/updatePreviewSourceImage'
+import previewStill from './modules/render/preview'
+import updatePreviewSourceImage from './modules/render/updatePreviewSourceImage'
+import { render, cancelRender, cancelAllRenders } from './modules/render/render'
 import { loadPrefs, savePrefs } from './modules/preferences/preferences'
 
 const dev = process.env.NODE_ENV === 'development'
@@ -19,7 +20,6 @@ let preferences = false
 const { app, BrowserWindow, Menu } = electron
 
 const openWindow = prefs => new BrowserWindow({
-	...prefs,
 	show: false,
 	backgroundColor: '#eee',
 	webPreferences: {
@@ -28,7 +28,8 @@ const openWindow = prefs => new BrowserWindow({
 		preload: dev
 			? path.join(__dirname, 'preload', 'babelRegister.js')
 			: path.join(__dirname, 'preload.js')
-	}
+	},
+	...prefs
 })
 
 const createURL = view =>  url.format(dev ? {
@@ -46,8 +47,10 @@ const createWindow = () => {
 	initExtDirectories()
 
 	win = openWindow({
-		width: 952,
-		height: 780
+		width: 746,
+		height: 800,
+		minWidth: 746,
+		minHeight: 620
 	})
 
 	win.loadURL(createURL('index'))
@@ -104,6 +107,8 @@ const prefsMenuItem = [
 				parent: win,
 				width: 700,
 				height: 400,
+				minWidth: 700,
+				minHeight: 400,
 				minimizable: false,
 				maximizable: false
 			})
@@ -265,15 +270,42 @@ ipcMain.handle('initPreview', async (evt, data) => {
 	}
 })
 
-ipcMain.on('requestPreviewStill', async (evt, exportData) => {
+ipcMain.on('requestPreviewStill', async (evt, data) => {
 	try {
-		const dataURL = await previewStill(exportData)
+		const dataURL = await previewStill(data)
 
 		evt.reply('previewStillCreated', dataURL)
 	} catch (err) {
 		if (err.toString() !== 'Error: ffmpeg was killed with signal SIGKILL') {
 			console.error(err)
 		}
+	}
+})
+
+ipcMain.on('requestRender', async (evt, data) => {
+	try {
+		await render(data, win)
+
+		evt.reply(`renderComplete_${data.id}`)
+	} catch (err) {
+		console.error(err)
+		evt.reply(`renderFailed_${data.id}`, err)
+	}
+})
+
+ipcMain.on('cancelRender', async (evt, id) => {
+	try {
+		await cancelRender(id)
+	} catch (err) {
+		console.error(err)
+	}
+})
+
+ipcMain.on('cancelAllRenders', async () => {
+	try {
+		await cancelAllRenders()
+	} catch (err) {
+		console.error(err)
 	}
 })
 

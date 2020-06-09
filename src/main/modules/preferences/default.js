@@ -8,6 +8,7 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 
 const defaultPrefs = {
 	renderOutput: '1280x720',
+	concurrent: 2,
 	saveLocations: [
 		{
 			checked: true,

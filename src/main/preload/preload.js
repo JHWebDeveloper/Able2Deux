@@ -135,6 +135,23 @@ interop.closeCurrentWindow = () => {
 	remote.getCurrentWindow().close()
 }
 
+interop.requestRenderChannel = ({ data, startCallback, progressCallback }) => (
+	requestChannel({
+		sendMsg: 'requestRender',
+		recieveMsg: `renderComplete_${data.id}`,
+		errMsg: `renderFailed_${data.id}`,
+		data,
+		startMsg: `renderStarted_${data.id}`,
+		progressMsg: `renderProgress_${data.id}`,
+		startCallback,
+		progressCallback
+	})
+)
+
+interop.cancelRender = id => ipcRenderer.send('cancelRender', id)
+
+interop.cancelAllRenders = () => ipcRenderer.send('cancelAllRenders')
+
 window.ABLE2 = Object.freeze({
 	interop: Object.freeze(interop)
 })

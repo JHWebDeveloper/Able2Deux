@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import '../../css/index/acquisition.css'
 
 import { MainContext } from '../../store'

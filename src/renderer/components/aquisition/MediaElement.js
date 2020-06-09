@@ -3,22 +3,7 @@ import { bool, exact, func, number, string } from 'prop-types'
 
 import * as STATUS from '../../status/types'
 import { removeMedia } from '../../actions/acquisition'
-import { warn, capitalize } from '../../utilities'
-
-const getStatusColor = status => {
-	switch (status) {
-		case STATUS.DOWNLOADING:
-		case STATUS.LOADING:
-			return '#fcdb03'
-		case STATUS.READY:
-			return '#0cf700'
-		case STATUS.FAILED:
-		case STATUS.CANCELLING:
-			return '#ff4800'
-		default:
-			return '#bbb'
-	}
-}
+import { warn, capitalize, getStatusColor } from '../../utilities'
 
 const MediaElement = ({ id, refId, status, references, title, download, warnRemove, dispatch }) => {
 	const downloading = status === STATUS.DOWNLOADING

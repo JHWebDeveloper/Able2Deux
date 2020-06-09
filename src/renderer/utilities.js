@@ -1,3 +1,5 @@
+import * as STATUS from './status/types'
+
 const { interop } = window.ABLE2
 
 // ---- NUMBER METHODS --------
@@ -61,12 +63,23 @@ export const capitalize = str => (
 	`${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase()}`
 )
 
+const filterBadChars = (str, p1, p2, p3, p4) => {
+  if (p1) return 'and'
+  if (p2) return 'prc'
+  if (p3) return '2A'
+  if (p4) return encodeURIComponent(p4).replace(/%/g, '')
+}
+
+export const cleanFileName = fileName => fileName
+  .replace(/(&)|(%)|(\*)|(["/:;<>?\\`|ŒœŠšŸ​]|[^!-ż\s])/g, filterBadChars)
+  .slice(0, 280)
+  .replace(/^\s*|\s*$/g, '')
+
 export const replaceTokens = (filename, i = 0, l = 0) => {
 	const d = new Date()
-	const z = l > 99 ? '00' : l > 10 ? '0' : ''
 
 	return filename
-		.replace(/\$n/g, `${z}${i + 1}`)
+		.replace(/\$n/g, zeroize(i + 1, l))
 		.replace(/\$d/g, d.toDateString())
 		.replace(/\$D/g, d.toLocaleDateString().replace(/\//g, '-'))
 		.replace(/\$t/g, format12hr(d))
@@ -129,6 +142,25 @@ export const extractSettingsToArray = settings => {
 	return [ start, arc, background, overlay, source, centering, position, scale, crop, rotation ]
 }
 
+export const getStatusColor = status => {
+	switch (status) {
+		case STATUS.DOWNLOADING:
+		case STATUS.LOADING:
+		case STATUS.RENDERING:
+			return '#fcdb03'
+		case STATUS.READY:
+		case STATUS.COMPLETE:
+			return '#0cf700'
+		case STATUS.CANCELLING:
+			return '#ff8000';
+		case STATUS.FAILED:
+		case STATUS.CANCELLED:
+			return '#ff4800'
+		default:
+			return '#bbb'
+	}
+}
+
 export const keepInRange = e => {
 	const val = parseInt(e.target.value)
 	const min = parseInt(e.target.min)
@@ -163,15 +195,3 @@ export const warn = async ({ enabled, message, detail, callback }) => {
 
 	if (proceed) callback()
 }
-
-// const filterBadChars = (str, p1, p2, p3, p4) => {
-//   if (p1) return 'and'
-//   if (p2) return 'prc'
-//   if (p3) return '2A'
-//   if (p4) return encodeURIComponent(p4).replace(/%/g, '')
-// }
-
-// export const cleanFileName = fileName => fileName
-//   .replace(/(&)|(%)|(\*)|(["/:;<>?\\`|ŒœŠšŸ​]|[^!-ż\s])/g, filterBadChars)
-//   .slice(0, 286)
-//   .replace(/^\s*|\s*$/g, '')

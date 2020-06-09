@@ -83,9 +83,9 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		reject(err.toString())
 	})
 
-	download.on('close', () => {
+	download.on('close', code => {
 		removeDownload(id)
-		getTempFilePath(id).then(resolve)
+		if (code !== null) getTempFilePath(id).then(resolve)
 	})
 
 	download.on('error', err => {

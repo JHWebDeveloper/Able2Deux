@@ -49,3 +49,70 @@ form { display: inherit; }
 button:matches([title="Format Media"], [title="Back"]) {
 	margin-right: 12px;
 }
+
+.media-element {
+	overflow: hidden;
+	display: grid;
+	grid-template-columns: min-content auto min-content;
+	grid-auto-rows: 1fr 1fr;
+	height: 35px;
+	border-radius: 5px;
+	background-color: var(--background);
+}
+
+.media-element:nth-last-child(n+2) { margin-bottom: 12px; }
+
+.media-element > :matches(span, button) { height: inherit; }
+
+.media-element > :matches(span:first-of-type, button) { width: 35px; }
+
+.media-element > span { display: inherit; }
+
+.media-element > span:first-of-type {
+	justify-content: center;
+	align-content: center;
+	font-family: 'Material Icons';
+}
+
+.media-element > span:nth-of-type(2) {
+	grid-template-columns: auto min-content;
+	grid-auto-rows: auto auto;
+	grid-gap: 3px 6px;
+	align-content: center;
+	padding-right: 6px;
+	color: var(--primary);
+	font-weight: 600;
+	font-size: 12px;
+}
+
+.media-element > span:nth-of-type(2) > span:first-of-type {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: block;
+	width: auto;
+}
+
+.media-element > span:nth-of-type(2) > span:last-of-type {
+	padding-top: 2px;
+}
+
+progress {
+	overflow: hidden;
+	grid-column: 1 / span 2;
+	width: 100%;
+	height: 10px;
+	border-radius: 2px;
+}
+
+progress::-webkit-progress-bar {
+	background-color: var(--background-alt-1);
+}
+
+progress::-webkit-progress-value {
+	background-color: var(--primary);
+}
+
+.media-element > button { border-radius: 0; }
+
+.media-element > button:disabled { color: var(--disabled); }
