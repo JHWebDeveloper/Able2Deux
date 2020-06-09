@@ -135,6 +135,19 @@ interop.closeCurrentWindow = () => {
 	remote.getCurrentWindow().close()
 }
 
+interop.checkIfDirectoryExists = async dir =>  ipcRenderer.invoke('checkDirectoryExists', dir)
+
+interop.directoryNotFoundAlert = async dir => {
+	const alert = await remote.dialog.showMessageBox({
+    type: 'warning',
+    buttons: ['Continue', 'Abort'],
+    message: 'Directory not found!',
+    detail: `Unable to locate the directory "${dir}". This folder may have been deleted, removed or taken offline. Continue without saving to this directory?`
+	})
+	
+	return alert.response === 1
+}
+
 interop.requestRenderChannel = ({ data, startCallback, progressCallback }) => (
 	requestChannel({
 		sendMsg: 'requestRender',

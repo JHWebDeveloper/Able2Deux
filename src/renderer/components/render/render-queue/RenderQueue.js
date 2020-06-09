@@ -4,6 +4,7 @@ import toastr from 'toastr'
 
 import { PrefsContext } from '../../../store/preferences'
 import * as STATUS from '../../../status/types'
+import { updateMediaNestedState } from '../../../actions'
 import { render, cancelRender, startOver } from '../../../actions/render'
 import { toastrOpts } from '../../../utilities'
 
@@ -22,6 +23,17 @@ const RenderQueue = withRouter(({ media, batchName, saveLocations, closeRenderQu
 		dispatch(cancelRender(id, render.status))
 	})), [media])
 
+	const goBack = useCallback(() => {
+		media.forEach(item => {
+			dispatch(updateMediaNestedState(item.id, 'render', {
+				status:	STATUS.PENDING,
+				percent: 0
+			}))
+		})
+
+		closeRenderQueue()
+	}, [media])
+
 	const backToMain = useCallback(() => {
 		dispatch(startOver())
 		history.push('/')
@@ -33,7 +45,8 @@ const RenderQueue = withRouter(({ media, batchName, saveLocations, closeRenderQu
 			batchName,
 			saveLocations,
 			renderOutput,
-			concurrent
+			concurrent,
+			goBack
 		}))
 	}, [])
 
@@ -65,7 +78,7 @@ const RenderQueue = withRouter(({ media, batchName, saveLocations, closeRenderQu
 								type="button"
 								className="app-button"
 								title="Back"
-								onClick={closeRenderQueue}>Back</button>
+								onClick={goBack}>Back</button>
 							<button
 								type="button"
 								className="app-button"

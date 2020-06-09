@@ -125,9 +125,48 @@ const preventDuplicateNames = (filename, media, index) => {
 	].join('.')
 }
 
-export const render = ({ media, batchName, saveLocations, renderOutput, concurrent }) => dispatch => {
-	renderQueue = new PromiseQueue(concurrent)
+export const render = params => async dispatch => {
+	let { media, saveLocations, batchName, goBack } = params
 
+	// Uncheck non existent directories and prompt to abort render if found
+
+	for await (const location of saveLocations) {
+		if (!location.checked) continue
+
+		const exists = await interop.checkIfDirectoryExists(location.directory)
+
+		if (exists) continue
+
+		dispatch(toggleSaveLocation(location.id))
+
+		if (await interop.directoryNotFoundAlert(location.directory)) {
+			return !goBack()
+		} else {
+			location.checked = false
+		}
+	}
+
+	// Prompt to choose a directory if no directories are selected or available
+
+	let tempDir = false
+
+  if (saveLocations.every(({ checked }) => !checked)) {
+    const { filePaths, canceled } = await interop.chooseDirectory()
+
+		if (canceled) return !goBack()
+		
+		tempDir = {
+			checked: true,
+			label: 'Temporary',
+      directory: filePaths[0]
+    }
+
+    saveLocations.push(tempDir)
+	}
+
+	// If batchname was entered, overwrite filenames
+		// If not check for blank or duplicate filenames
+	
 	if (batchName) {
 		if (!batchName.includes('$n')) batchName = `${batchName}.$n`
 
@@ -142,23 +181,25 @@ export const render = ({ media, batchName, saveLocations, renderOutput, concurre
 		})
 	}
 
+	// Sanitize all filenames and replace any tokens
+
 	media = media.map((item, i) => ({
 		...item,
 		filename: replaceTokens(cleanFileName(item.filename), i, media.length)
 	}))
 
-	media.forEach(item => {
-		if (item.render.status !== STATUS.PENDING) {
-			dispatch(updateRenderStatus(item.id, STATUS.PENDING))
-		}
+	// Create promise queue and begin rendering
 
+	renderQueue = new PromiseQueue(params.concurrent)
+
+	media.forEach(item => {
 		renderQueue.add(item.id, async () => {
 			try {
 				await interop.requestRenderChannel({
 					data: {
 						...item,
-						renderOutput,
-						saveLocations
+						renderOutput: params.renderOutput,
+						saveLocations: saveLocations.filter(({ checked }) => checked)
 					},
 					startCallback() {
 						dispatch(updateRenderStatus(item.id, STATUS.RENDERING))
@@ -178,9 +219,13 @@ export const render = ({ media, batchName, saveLocations, renderOutput, concurre
 				}
 			}
 		})
-
-		renderQueue.start()
 	})
+
+	renderQueue.start()
+
+	// Delete temp directory if used
+
+	if (tempDir) saveLocations.pop()
 }
 
 export const cancelRender = (id, status) => async dispatch => {

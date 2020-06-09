@@ -9,6 +9,7 @@ import { saveScreenRecording } from './modules/aquisition/saveScreenRecording'
 import { getMediaInfo } from './modules/aquisition/mediaInfo'
 import previewStill from './modules/render/preview'
 import updatePreviewSourceImage from './modules/render/updatePreviewSourceImage'
+import fileExistsPromise from './modules/utilities/fileExistsPromise'
 import { render, cancelRender, cancelAllRenders } from './modules/render/render'
 import { loadPrefs, savePrefs } from './modules/preferences/preferences'
 
@@ -280,6 +281,14 @@ ipcMain.on('requestPreviewStill', async (evt, data) => {
 			console.error(err)
 		}
 	}
+})
+
+ipcMain.handle('checkDirectoryExists', async (evt, dir) => {
+  try {
+    return fileExistsPromise(dir)
+  } catch (err) {
+    return false
+  }
 })
 
 ipcMain.on('requestRender', async (evt, data) => {
