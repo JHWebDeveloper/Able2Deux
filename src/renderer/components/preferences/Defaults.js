@@ -46,7 +46,7 @@ const Defaults = ({ warnings, scaleSliderMax, gridColor, dispatch }) => {
 						onChange={toggleWarning}
 						switchIcon />
 					<span className="input-option">
-						<label htmlFor="scaleSliderMac">Scale Max</label>
+						<label htmlFor="scaleSliderMax">Scale Max</label>
 						<input
 							type="number"
 							name="scaleSliderMax"
