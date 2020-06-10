@@ -85,9 +85,13 @@ details {
 /* ---- DROPDOWN MENU -------- */
 
 .dropdown {
-	z-index: 999;
+	z-index: 998;
 	font-size: 12px;
 	vertical-align: middle;
+}
+
+.dropdown:focus-within {
+	z-index: 999;
 }
 
 details .dropdown {
@@ -333,21 +337,27 @@ button[title="Fit to Width"] {
 }
 
 #render-queue > div {
-	width: calc(100% - 200px);
+	overflow: hidden;
+	display: grid;
+	grid-template-rows: 1fr min-content;
+	width: calc(100% - 100px);
 	height: min-content;
+	max-height: calc(100% - 100px);
 	margin: auto;
 }
 
 #render-queue > div > div { padding: 9px; }
 
 #render-queue > div > div:first-child {
-	display: grid;
+	overflow-y: auto;
+	display: inherit;
 	grid-auto-rows: min-content;
 	grid-gap: 9px;
 	padding-bottom: 0;
 }
 
 #render-queue .media-element {
+	margin-bottom: 0;
 	box-sizing: content-box;
 	border: var(--main-border-style);
 }
