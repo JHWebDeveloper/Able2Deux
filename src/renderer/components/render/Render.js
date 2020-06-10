@@ -14,11 +14,11 @@ import EditorOptions from './editor/EditorOptions'
 import RenderQueue from './render-queue/RenderQueue'
 
 const Render = () => {
-	const [ rendering, setRendering ] = useState(false)
 	const { media, selectedId, batchName, editAll, saveLocations, dispatch } = useContext(MainContext)
 
 	if (!media.length) return <Redirect to="/" />
 
+	const [ rendering, setRendering ] = useState(false)
 	const selected = media.find(item => item.id === selectedId)
 
 	useEffect(() => {
