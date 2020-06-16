@@ -1,4 +1,4 @@
-import { remote, shell, ipcRenderer, desktopCapturer } from 'electron'
+import { remote, shell, ipcRenderer, desktopCapturer, contextBridge } from 'electron'
 import { v1 as uuid } from 'uuid'
 import path from 'path'
 
@@ -167,6 +167,10 @@ interop.cancelAllRenders = () => ipcRenderer.send('cancelAllRenders')
 
 interop.clearTempFiles = () => ipcRenderer.send('clearTempFiles')
 
-window.ABLE2 = Object.freeze({
-	interop: Object.freeze(interop)
-})
+if (process.env.NODE_ENV === 'development') {
+	window.ABLE2 = Object.freeze({
+		interop: Object.freeze(interop)
+	})
+} else {
+	contextBridge.exposeInMainWorld('ABLE2', { interop })
+}
