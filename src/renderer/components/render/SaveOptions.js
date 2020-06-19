@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { updateStateFromEvent } from '../../actions'
-import { toggleSaveLocation, render } from '../../actions/render'
+import { toggleSaveLocation } from '../../actions/render'
 
 import Checkbox from '../form_elements/Checkbox'
 

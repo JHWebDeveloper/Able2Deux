@@ -3,7 +3,7 @@ import { string, func, arrayOf, shape, bool } from 'prop-types'
 import { v1 as uuid } from 'uuid'
 
 const RadioSet = ({ name, state, onChange, buttons }) => (
-	buttons.map(({ label, value, omit }) => (omit ? false :
+	buttons.map(({ label, value, omit }) => omit ? false :
 		<label key={uuid()}>
 			<input
 				type="radio"
@@ -13,7 +13,7 @@ const RadioSet = ({ name, state, onChange, buttons }) => (
 				onChange={onChange} />
 			<span>{label}</span>
 		</label>
-	))
+	)
 )
 
 RadioSet.propTypes = {

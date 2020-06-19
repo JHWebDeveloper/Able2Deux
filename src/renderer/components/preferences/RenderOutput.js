@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { func, oneOf } from 'prop-types'
+import { func, number, oneOf } from 'prop-types'
 
 import { updateStateFromEvent } from '../../actions'
 import { keepInRange } from '../../utilities'
@@ -57,6 +57,7 @@ RenderOutput.propTypes = {
 		'1280x720',
 		'1920x1080'
 	]).isRequired,
+	concurrent: number.isRequired,
 	dispatch: func.isRequired
 }
 

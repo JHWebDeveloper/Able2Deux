@@ -98,7 +98,6 @@ export const download = ({ url, optimize, output }) => async dispatch => {
 
 		dispatch(updateMediaTitle(id, title))
 	} catch (err) {
-		console.log(err)
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
 		return toastr.error(`Error finding video at ${url}. The url may not be a supported service.`, false, toastrOpts)

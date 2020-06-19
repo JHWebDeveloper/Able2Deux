@@ -41,17 +41,17 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 
 	const command = ffmpeg(exportData.tempFilePath)
 		.outputOptions(needsAlpha ? [
-      '-vcodec prores_ks',
-      '-pix_fmt yuva444p10le',
-      '-profile:v 4444',
-      '-preset:v ultrafast'
-    ] : [
-      '-vcodec h264',
-      '-b:v 7000k',
-      '-b:a 192k',
-      '-crf 17',
-      '-preset:v ultrafast'
-    ])
+			'-vcodec prores_ks',
+			'-pix_fmt yuva444p10le',
+			'-profile:v 4444',
+			'-preset:v ultrafast'
+		] : [
+			'-vcodec h264',
+			'-b:v 7000k',
+			'-b:a 192k',
+			'-crf 17',
+			'-preset:v ultrafast'
+		])
 		.output(exportPath)
 		.on('progress', progress => {
 			win.webContents.send(`renderProgress_${id}`, {

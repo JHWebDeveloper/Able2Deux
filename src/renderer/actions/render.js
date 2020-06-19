@@ -150,18 +150,18 @@ export const render = params => async dispatch => {
 
 	let tempDir = false
 
-  if (saveLocations.every(({ checked }) => !checked)) {
-    const { filePaths, canceled } = await interop.chooseDirectory()
+	if (saveLocations.every(({ checked }) => !checked)) {
+		const { filePaths, canceled } = await interop.chooseDirectory()
 
 		if (canceled) return !goBack()
 		
 		tempDir = {
 			checked: true,
 			label: 'Temporary',
-      directory: filePaths[0]
-    }
+			directory: filePaths[0]
+		}
 
-    saveLocations.push(tempDir)
+		saveLocations.push(tempDir)
 	}
 
 	// If batchname was entered, overwrite filenames
@@ -177,7 +177,7 @@ export const render = params => async dispatch => {
 	} else {
 		media = media.map((item, i) => item.filename.includes('$n') ? item : {
 			...item,
-			filename: !!item.filename ? preventDuplicateNames(item.filename, media, i) : 'Able2 Export $t $d.$n'
+			filename: item.filename ? preventDuplicateNames(item.filename, media, i) : 'Able2 Export $t $d.$n'
 		})
 	}
 

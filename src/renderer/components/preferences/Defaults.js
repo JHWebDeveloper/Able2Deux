@@ -86,6 +86,7 @@ Defaults.propTypes = {
 		applyToAll: bool,
 		sourceOnTop: bool
 	}).isRequired,
+	editAll: bool.isRequired,
 	scaleSliderMax: number.isRequired,
 	gridColor: string.isRequired,
 	dispatch: func.isRequired

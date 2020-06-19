@@ -93,13 +93,13 @@ const createUpdateWindow = version => new Promise(resolve => {
 	updateWin.on('close', () => updateWin = false)
 
 	autoUpdater.on('download-progress', ({ percent }) => {
-    updateWin.webContents.send('updateProgress', percent)
+		updateWin.webContents.send('updateProgress', percent)
 	})
 	
 	autoUpdater.on('update-downloaded', autoUpdater.quitAndInstall)
 
 	autoUpdater.on('error', () => {
-    updateWin.webContents.send('updateError')
+		updateWin.webContents.send('updateError')
 	})
 
 	updateWin.loadURL(createURL('update'))
@@ -239,7 +239,7 @@ const mainMenuTemplate = [
 			{ role: 'paste' },
 			{ type: 'separator' },
 			{ role: 'selectall' },
-			...(mac ?  [] : prefsMenuItem)
+			...mac ?  [] : prefsMenuItem
 		]
 	}
 ]
@@ -360,12 +360,12 @@ ipcMain.on('requestPreviewStill', async (evt, data) => {
 })
 
 ipcMain.handle('checkDirectoryExists', async (evt, dir) => {
-  try {
-    return fileExistsPromise(dir)
-  } catch (err) {
+	try {
+		return fileExistsPromise(dir)
+	} catch (err) {
 		console.error(err)
-    return false
-  }
+		return false
+	}
 })
 
 ipcMain.on('requestRender', async (evt, data) => {

@@ -46,9 +46,7 @@ const Render = () => {
 						media={media}
 						selectedId={selectedId}
 						dispatch={dispatch} />
-					{media.length > 1 && (
-						<EditAll editAll={editAll} dispatch={dispatch} />
-					)}
+					{media.length > 1 && <EditAll editAll={editAll} dispatch={dispatch} />}
 				</div>
 				<SaveOptions
 					media={media}
