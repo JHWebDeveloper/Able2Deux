@@ -1,5 +1,5 @@
 import path from 'path'
-import { promises as fsp } from 'fs'
+import fs, { promises as fsp } from 'fs'
 import { fixPathForAsarUnpack } from 'electron-util'
 
 import ffmpeg from '../utilities/ffmpeg'
