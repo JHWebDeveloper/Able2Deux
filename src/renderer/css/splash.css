@@ -1,0 +1,20 @@
+#root {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+canvas {
+	width: 212px;
+	height: 212px;
+	margin-bottom: 24px;
+}
+
+h1 { margin-bottom: 6px; }
+
+p, button { height: 31px; }
+
+button { min-width: 84px; }
+
+button:first-of-type { margin-right: 9px; }

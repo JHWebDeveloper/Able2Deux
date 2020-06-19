@@ -1,4 +1,6 @@
 import electron, { ipcMain } from 'electron'
+import { autoUpdater } from 'electron-updater'
+import log from 'electron-log'
 import url from 'url'
 import path from 'path'
 
@@ -15,12 +17,21 @@ import { loadPrefs, savePrefs } from './modules/preferences/preferences'
 
 const dev = process.env.NODE_ENV === 'development'
 const mac = process.platform === 'darwin'
-let win = false
+let splashWin = false
+let updateWin = false
+let mainWin = false
 let preferences = false
 
 const { app, BrowserWindow, Menu } = electron
 
-const openWindow = prefs => new BrowserWindow({
+autoUpdater.logger = log
+autoUpdater.logger.transports.file.level = 'info'
+
+log.catchErrors({ showDialog: false })
+
+if (!dev) console.error = log.error
+
+const openWindow = opts => new BrowserWindow({
 	show: false,
 	backgroundColor: '#eee',
 	webPreferences: {
@@ -30,7 +41,7 @@ const openWindow = prefs => new BrowserWindow({
 			? path.join(__dirname, 'preload', 'babelRegister.js')
 			: path.join(__dirname, 'preload.js')
 	},
-	...prefs
+	...opts
 })
 
 const createURL = view =>  url.format(dev ? {
@@ -44,30 +55,96 @@ const createURL = view =>  url.format(dev ? {
 	slashes: true
 })
 
-const createWindow = () => {
-	initExtDirectories()
+const checkForUpdate = () => dev ? Promise.resolve(false) : new Promise(resolve => {
+	autoUpdater.on('update-available', ({ version }) => resolve(version))
+	autoUpdater.on('update-not-available', () => resolve(false))
+	autoUpdater.checkForUpdatesAndNotify()
+})
 
-	win = openWindow({
+const startWindowOpts = {
+	width: 400,
+	height: 400,
+	resizable: dev,
+	frame: false,
+	maximizable: false
+}
+
+const createSplashWindow = () => new Promise(resolve => {
+	splashWin = openWindow(startWindowOpts)
+
+	splashWin.on('ready-to-show', () => {
+		splashWin.show()
+		resolve()
+	})
+
+	splashWin.on('close', () => splashWin = false)
+	splashWin.loadURL(createURL('splash'))
+})
+
+const createUpdateWindow = version => new Promise(resolve => {
+	updateWin = openWindow(startWindowOpts)
+
+	updateWin.on('ready-to-show', () => {
+		updateWin.show()
+		updateWin.webContents.send('updateStarted', version)
+		resolve()
+	})
+
+	updateWin.on('close', () => updateWin = false)
+
+	autoUpdater.on('download-progress', ({ percent }) => {
+    updateWin.webContents.send('updateProgress', percent)
+	})
+	
+	autoUpdater.on('update-downloaded', autoUpdater.quitAndInstall)
+
+	autoUpdater.on('error', () => {
+    updateWin.webContents.send('updateError')
+	})
+
+	updateWin.loadURL(createURL('update'))
+})
+
+const createMainWindow = () => new Promise(resolve => {
+	mainWin = openWindow({
 		width: 746,
 		height: 800,
 		minWidth: 746,
 		minHeight: 620
 	})
 
-	win.loadURL(createURL('index'))
+	mainWin.loadURL(createURL('index'))
 
 	const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
 
 	Menu.setApplicationMenu(mainMenu)
 
-	win.on('ready-to-show', () => {
-		win.show()
-		if (dev) win.webContents.openDevTools()
+	mainWin.on('ready-to-show', () => {
+		mainWin.show()
+		if (dev) mainWin.webContents.openDevTools()
+		resolve()
 	})
 
-	win.on('close', () => {
-		win = false
-	})
+	mainWin.on('close', () => mainWin = false)
+})
+
+const startApp = async () => {
+	await createSplashWindow()
+
+	const responses = await Promise.all([
+		checkForUpdate(),
+		initExtDirectories()
+	])
+
+	const version = responses[0]
+
+	if (version) {
+		await createUpdateWindow(version)
+	} else {
+		await createMainWindow()
+	}
+
+	splashWin.close()
 }
 
 const lock = app.requestSingleInstanceLock()
@@ -76,15 +153,13 @@ if (!lock) {
 	app.quit()
 } else {
 	app.on('second-instance', () => {
-		if (win) {
-			if (win.isMinimized()) win.restore()
-			win.focus()
+		if (mainWin) {
+			if (mainWin.isMinimized()) mainWin.restore()
+			mainWin.focus()
 		}
 	})
 
-	app.on('ready', () => {
-		createWindow()
-	})
+	app.on('ready', startApp)
 }
 
 app.on('window-all-closed', () => {
@@ -92,7 +167,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-	if (!win) createWindow()
+	if (!mainWin && !splashWin && !updateWin) createMainWindow()
 })
 
 
@@ -105,7 +180,7 @@ const prefsMenuItem = [
 		accelerator: 'CmdOrCtrl+,',
 		click() {
 			preferences = openWindow({
-				parent: win,
+				parent: mainWin,
 				width: 755,
 				height: 420,
 				minWidth: 700,
@@ -116,13 +191,9 @@ const prefsMenuItem = [
 
 			preferences.loadURL(createURL('preferences'))
 
-			preferences.once('ready-to-show', () => {
-				preferences.show()
-			})
+			preferences.once('ready-to-show', preferences.show)
 
-			preferences.on('close', () => {
-				preferences = false
-			})
+			preferences.on('close', () => preferences = false)
 
 			preferences.setMenu(null)
 		}
@@ -196,6 +267,7 @@ ipcMain.on('getTitleFromURL', async (evt, data) => {
 	try {
 		evt.reply(`titleRecieved_${id}`, await getTitleFromURL(url))
 	} catch (err) {
+		console.error(err)
 		evt.reply(`titleErr_${id}`, err)
 	}
 })
@@ -204,11 +276,12 @@ ipcMain.on('requestDownload', async (evt, data) => {
 	const { id } = data
 
 	try {
-		const tempFilePath = await downloadVideo(data, win)
+		const tempFilePath = await downloadVideo(data, mainWin)
 		const mediaData = await getMediaInfo(id, 'video', tempFilePath)
 
 		evt.reply(`downloadComplete_${id}`, mediaData)
 	} catch (err) {
+		console.error(err)
 		evt.reply(`downloadErr_${id}`, err)
 	}
 })
@@ -225,6 +298,7 @@ ipcMain.on('checkFileType', async (evt, data) => {
 	try {
 		evt.reply(`fileTypeFound_${data.id}`, await checkFileType(data.file))
 	} catch (err) {
+		console.error(err)
 		evt.reply(`fileTypeErr_${data.id}`, err)
 	}
 })
@@ -238,6 +312,7 @@ ipcMain.on('requestUpload', async (evt, data) => {
 
 		evt.reply(`uploadComplete_${id}`, mediaData)
 	} catch (err) {
+		console.error(err)
 		evt.reply(`uploadErr_${id}`, err)
 	}
 })
@@ -251,6 +326,7 @@ ipcMain.on('saveScreenRecording', async (evt, data) => {
 		
 		evt.reply(`screenRecordingSaved_${id}`, mediaData)
 	} catch (err) {
+		console.error(err)
 		evt.reply(`saveScreenRecordingErr_${id}`, err)
 	}
 })
@@ -287,13 +363,14 @@ ipcMain.handle('checkDirectoryExists', async (evt, dir) => {
   try {
     return fileExistsPromise(dir)
   } catch (err) {
+		console.error(err)
     return false
   }
 })
 
 ipcMain.on('requestRender', async (evt, data) => {
 	try {
-		await render(data, win)
+		await render(data, mainWin)
 
 		evt.reply(`renderComplete_${data.id}`)
 	} catch (err) {
@@ -330,6 +407,7 @@ ipcMain.on('requestPrefs', async evt => {
 	try {
 		evt.reply('prefsRecieved', await loadPrefs())
 	} catch (err) {
+		console.error(err)
 		evt.reply('prefsErr', err)
 	}
 })
@@ -339,8 +417,22 @@ ipcMain.on('savePrefs', async (evt, prefs) => {
 		await savePrefs(prefs)
 
 		evt.reply('prefsSaved')
-		win.webContents.send('syncPrefs', prefs)
+		mainWin.webContents.send('syncPrefs', prefs)
 	} catch (err) {
+		console.error(err)
 		evt.reply('savePrefsErr', err)
+	}
+})
+
+ipcMain.on('retryUpdate', () => {
+	autoUpdater.checkForUpdatesAndNotify()
+})
+
+ipcMain.on('checkForUpdateBackup', async () => {
+	const version = await checkForUpdate()
+
+	if (version) {
+		mainWin.close()
+		createUpdateWindow()
 	}
 })

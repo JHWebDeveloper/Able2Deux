@@ -129,7 +129,7 @@ const pasteSettings = (state, payload) => ({
 
 const applyToAll = (state, payload) => ({
 	...state,
-	media: state.media.map(item => item.id === payload.id ? {
+	media: state.media.map(item => item.id !== payload.id ? {
 		...item,
 		...payload.properties
 	} : item)

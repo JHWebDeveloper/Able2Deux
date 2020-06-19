@@ -1,17 +1,23 @@
 import React, { createRef, useEffect } from 'react'
 import { bool, shape, string } from 'prop-types'
 
+let cnv = false
+let ctx = false
+
 const Grid = ({ grids, gridColor }) => {
 	const ref = createRef()
-
-	useEffect(() => {
-		const cnv = ref.current
-		const ctx = cnv.getContext('2d')
 	
+	useEffect(() => {
+		cnv = ref.current
+		ctx = cnv.getContext('2d')
+
 		cnv.width = 384
 		cnv.height = 216
-
 		ctx.lineWidth = 1.25
+	}, [])
+
+	useEffect(() => {
+		ctx.clearRect(0, 0, cnv.width, cnv.height)
 		ctx.strokeStyle = gridColor
 		
 		if (grids.grid) {

@@ -9,6 +9,8 @@ const interop = {}
 
 interop.setContextMenu = setContextMenu
 
+interop.version = remote.app.getVersion()
+
 interop.isMac = process.platform === 'darwin'
 
 interop.getFileName = file => path.parse(file).name
@@ -139,10 +141,10 @@ interop.checkIfDirectoryExists = async dir =>  ipcRenderer.invoke('checkDirector
 
 interop.directoryNotFoundAlert = async dir => {
 	const alert = await remote.dialog.showMessageBox({
-    type: 'warning',
-    buttons: ['Continue', 'Abort'],
-    message: 'Directory not found!',
-    detail: `Unable to locate the directory "${dir}". This folder may have been deleted, removed or taken offline. Continue without saving to this directory?`
+		type: 'warning',
+		buttons: ['Continue', 'Abort'],
+		message: 'Directory not found!',
+		detail: `Unable to locate the directory "${dir}". This folder may have been deleted, removed or taken offline. Continue without saving to this directory?`
 	})
 	
 	return alert.response === 1
@@ -166,6 +168,29 @@ interop.cancelRender = id => ipcRenderer.send('cancelRender', id)
 interop.cancelAllRenders = () => ipcRenderer.send('cancelAllRenders')
 
 interop.clearTempFiles = () => ipcRenderer.send('clearTempFiles')
+
+interop.addUpdateListeners = ({ onStarted, onProgress, onError }) => {
+	ipcRenderer.once('updateStarted', (evt, version) => {
+		onStarted(version)
+	})
+
+	ipcRenderer.on('updateProgress', (evt, percent) => {
+		onProgress(percent)
+	})
+
+	ipcRenderer.on('updateError', onError)
+}
+
+interop.removeUpdateListeners = () => {
+	ipcRenderer.removeAllListeners('updateStarted')
+	ipcRenderer.removeAllListeners('updateProgress')
+}
+
+interop.retryUpdate = () => ipcRenderer.send('retryUpdate')
+
+interop.checkForUpdateBackup = () => ipcRenderer.send('checkForUpdateBackup')
+
+interop.quit = () => remote.app.exit(0)
 
 if (process.env.NODE_ENV === 'development') {
 	window.ABLE2 = Object.freeze({

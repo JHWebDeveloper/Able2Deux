@@ -1,18 +1,25 @@
 const webpack = require('webpack')
 const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const postcssPresetEnv = require('postcss-preset-env')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { spawn } = require('child_process')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
+const postcssPresetEnv = require('postcss-preset-env')
+
+const rendererPath = path.join(__dirname, 'src', 'renderer')
+
+const pages = {
+	index: rendererPath,
+	splash: path.join(rendererPath, 'splash.js'),
+	update: path.join(rendererPath, 'update.js'),
+	preferences: path.join(rendererPath, 'preferences.js')
+}
 
 module.exports = {
 	mode: 'development',
 	entry: {
-		index: path.join(__dirname, 'src', 'renderer'),
-		preferences: path.join(__dirname, 'src', 'renderer', 'preferences.js'),
-		global: path.join(__dirname, 'src', 'renderer', 'css', 'global.css'),
-		toastr: path.join(__dirname, 'src', 'renderer', 'css', 'toastr.css')
+		...pages,
+		global: path.join(rendererPath, 'css', 'global.css'),
+		toastr: path.join(rendererPath, 'css', 'toastr.css')
 	},
 	output: {
 		path: path.join(__dirname, 'build'),
@@ -59,16 +66,11 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: path.join('assets', 'css', '[name].min.css')
 		}),
-		new HTMLWebpackPlugin({
+		...Object.keys(pages).map(title => new HTMLWebpackPlugin({
 			inject: false,
-			filename: 'index.html',
-			template: path.join('src', 'renderer', 'index.html')
-		}),
-		new HTMLWebpackPlugin({
-			inject: false,
-			filename: 'preferences.html',
-			template: path.join('src', 'renderer', 'preferences.html')
-		})
+			filename: `${title}.html`,
+			template: path.join(rendererPath, `${title}.html`)
+		}))
 	],
 	devServer: {
 		contentBase: path.resolve(__dirname, 'dist'),

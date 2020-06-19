@@ -2,14 +2,16 @@ const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
 const cssnano = require('cssnano')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+
+const mainPath = path.join(__dirname, 'src', 'main')
 
 const mainConfig = {
 	entry: {
-		main: path.join(__dirname, 'src', 'main'),
-		preload: path.join(__dirname, 'src', 'main', 'preload', 'preload.js')
+		main: mainPath,
+		preload: path.join(mainPath, 'preload', 'preload.js')
 	},
 	output: {
 		path: path.join(__dirname, 'build'),
@@ -26,18 +28,34 @@ const mainConfig = {
 			}
 		]
 	},
+	plugins: [
+		new CopyWebpackPlugin([
+			{
+				from: path.join(mainPath, 'backgrounds'),
+				to: path.join('assets', 'backgrounds')
+			}
+		])
+	],
 	node: {
 		__dirname: false
 	}
 }
 
+const rendererPath = path.join(__dirname, 'src', 'renderer')
+
+const pages = {
+	index: rendererPath,
+	splash: path.join(rendererPath, 'splash.js'),
+	update: path.join(rendererPath, 'update.js'),
+	preferences: path.join(rendererPath, 'preferences.js')
+}
+
 const rendererConfig = {
 	mode: 'production',
 	entry: {
-		index: path.join(__dirname, 'src', 'renderer'),
-		preferences: path.join(__dirname, 'src', 'renderer', 'preferences.js'),
-		global: path.join(__dirname, 'src', 'renderer', 'css', 'global.css'),
-		toastr: path.join(__dirname, 'src', 'renderer', 'css', 'toastr.css')
+		...pages,
+		global: path.join(rendererPath, 'css', 'global.css'),
+		toastr: path.join(rendererPath, 'css', 'toastr.css')
 	},
 	output: {
 		path: path.join(__dirname, 'build', 'renderer'),
@@ -81,16 +99,11 @@ const rendererConfig = {
 		new MiniCssExtractPlugin({
 			filename: path.join('assets', 'css', '[name].min.css')
 		}),
-		new HTMLWebpackPlugin({
+		...Object.keys(pages).map(title => new HTMLWebpackPlugin({
 			inject: false,
-			filename: 'index.html',
-			template: path.join('src', 'renderer', 'index.html')
-		}),
-		new HTMLWebpackPlugin({
-			inject: false,
-			filename: 'preferences.html',
-			template: path.join('src', 'renderer', 'preferences.html')
-		})
+			filename: `${title}.html`,
+			template: path.join(rendererPath, `${title}.html`)
+		}))
 	],
 	node: {
 		__dirname: false
