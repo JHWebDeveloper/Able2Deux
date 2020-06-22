@@ -54,7 +54,22 @@ export const initExtDirectories = async () => {
 
 		const prefsExists = await fileExistsPromise(prefsPath)
 
-		if (!prefsExists) await fsp.writeFile(prefsPath, JSON.stringify(defaultPrefs))
+		if (!prefsExists) {
+			await fsp.writeFile(prefsPath, JSON.stringify(defaultPrefs))
+		} else {
+			 const prefs = JSON.parse(await fsp.readFile(prefsPath))
+
+			// legacy convert Able2 v1 prefs to v2
+			if (!prefs.version) await fsp.writeFile(prefsPath, JSON.stringify({
+				...defaultPrefs,
+				renderOutput: prefs.renderOutput,
+				saveLocations: prefs.directories,
+				warnings: {
+					...defaultPrefs.warnings,
+					sourceOnTop: prefs.sourceOnTopWarning
+				}
+			}))
+		}
 
 		await updateScratchDisk()
 
