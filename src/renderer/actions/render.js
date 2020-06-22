@@ -165,7 +165,7 @@ export const render = params => async dispatch => {
 	}
 
 	// If batchname was entered, overwrite filenames
-		// If not check for blank or duplicate filenames
+	// If not check for blank or duplicate filenames
 	
 	if (batchName) {
 		if (!batchName.includes('$n')) batchName = `${batchName}.$n`
