@@ -31,7 +31,7 @@ const Preview = ({ selected, dispatch }) => {
 		source.sourceName && !(arc === 'none' && aspectRatio !== '16:9')
 			? buildSource(source, renderOutput)
 			: false
-	), [source, arc, rotation])
+	), [source, arc, rotation, renderOutput])
 
 	const settings = extractSettingsToArray(selected)
 
