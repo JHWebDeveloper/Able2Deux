@@ -4,7 +4,7 @@ import log from 'electron-log'
 import url from 'url'
 import path from 'path'
 
-import { initExtDirectories, temp } from './modules/utilities/extFileHandlers'
+import { initExtDirectories, temp, updateScratchDisk } from './modules/utilities/extFileHandlers'
 import { getTitleFromURL, downloadVideo, cancelDownload } from './modules/aquisition/download'
 import { checkFileType, upload } from './modules/aquisition/upload'
 import { saveScreenRecording } from './modules/aquisition/saveScreenRecording'
@@ -414,7 +414,10 @@ ipcMain.on('requestPrefs', async evt => {
 
 ipcMain.on('savePrefs', async (evt, prefs) => {
 	try {
-		await savePrefs(prefs)
+		await Promise.all([
+			savePrefs(prefs),
+			updateScratchDisk()
+		])
 
 		evt.reply('prefsSaved')
 		mainWin.webContents.send('syncPrefs', prefs)
