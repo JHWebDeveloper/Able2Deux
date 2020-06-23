@@ -66,7 +66,7 @@ const Preview = ({ selected, dispatch }) => {
 				sourceData
 			})
 		}
-	}, [previewReady, open, ...settings, sourceData])
+	}, [previewReady, open, ...settings, sourceData, renderOutput])
 
 	return (
 		<details onToggle={() => { toggleOpen(!open) }} open>
