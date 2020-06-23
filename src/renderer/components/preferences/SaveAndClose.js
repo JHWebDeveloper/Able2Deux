@@ -10,6 +10,14 @@ const SaveAndClose = ({ prefs, dispatch }) => (
 		<button
 			type="button"
 			className="app-button"
+			title="Save and Close"
+			onClick={() => {
+				dispatch(savePrefs(prefs))
+				interop.closeCurrentWindow()
+			}}>Save & Close</button>
+		<button
+			type="button"
+			className="app-button"
 			title="Save"
 			onClick={() => dispatch(savePrefs(prefs))}>Save</button>
 		<button
