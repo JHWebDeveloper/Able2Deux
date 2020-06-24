@@ -124,6 +124,14 @@ interop.removePrefsSyncListener = () => {
 	ipcRenderer.removeAllListeners('syncPrefs')
 }
 
+interop.enablePrefs = () => {
+	remote.Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = true
+}
+
+interop.disablePrefs = () => {
+	remote.Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = false
+}
+
 interop.chooseDirectory = async () => {
 	const { filePaths, canceled } = await remote.dialog.showOpenDialog({
 		buttonLabel: 'Choose',

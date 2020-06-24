@@ -173,27 +173,37 @@ app.on('activate', () => {
 
 // ---- MENU CONFIG --------
 
+const enablePrefsMenu = enabled => {
+	Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = enabled
+}
+
 const prefsMenuItem = [
 	{ type: 'separator' },
 	{
 		label: 'Preferences',
+		id: 'Preferences',
 		accelerator: 'CmdOrCtrl+,',
 		click() {
+			enablePrefsMenu(false)
+
+			const [ width, height ] = mainWin.getSize()
+
 			preferences = openWindow({
 				parent: mainWin,
-				width: 755,
-				height: 420,
-				minWidth: 700,
-				minHeight: 420,
-				minimizable: false,
-				maximizable: false
+				width,
+				height,
+				resizable: false,
+				modal: true
 			})
 
 			preferences.loadURL(createURL('preferences'))
 
 			preferences.once('ready-to-show', preferences.show)
 
-			preferences.on('close', () => preferences = false)
+			preferences.on('close', () => {
+				enablePrefsMenu(true)
+				preferences = false
+			})
 
 			preferences.setMenu(null)
 		}

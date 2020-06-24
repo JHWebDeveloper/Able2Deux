@@ -10,6 +10,8 @@ import { toastrOpts } from '../../../utilities'
 
 import RenderElement from './RenderElement'
 
+const { interop } = window.ABLE2
+
 const RenderQueue = withRouter(({ media, batchName, saveLocations, closeRenderQueue, dispatch, history }) => {
 	const { renderOutput, concurrent } = useContext(PrefsContext)
 	
@@ -40,6 +42,8 @@ const RenderQueue = withRouter(({ media, batchName, saveLocations, closeRenderQu
 	}, [])
 
 	useEffect(() => {
+		interop.disablePrefs()
+
 		dispatch(render({
 			media,
 			batchName,
@@ -56,6 +60,8 @@ const RenderQueue = withRouter(({ media, batchName, saveLocations, closeRenderQu
 		if (complete && atleastOneSuccess) {
 			toastr.success('Thank you for using Able2.', 'Your Files are Ready!', { ...toastrOpts, timeOut: 4000 })
 		}
+
+		if (complete) interop.enablePrefs()
 	}, [complete])
 
 	return (
