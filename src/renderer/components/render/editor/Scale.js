@@ -79,7 +79,7 @@ const Scale = memo(({ id, onlyItem, scale, crop, width, height, editAll, dispatc
 						name: 'x',
 						value: scale.x,
 						Button: () => <FitButton
-							title="Fit to Width"
+							title={`${scale.link ? 'Fit' : 'Stretch'} to Width`}
 							onClick={() => {
 								dispatch(fitToFrameWidth(id, editAll, scale, frameWidthPrc))
 							}}/>
@@ -90,7 +90,7 @@ const Scale = memo(({ id, onlyItem, scale, crop, width, height, editAll, dispatc
 						name: 'y',
 						value: scale.y,
 						Button: () => <FitButton
-							title="Fit to Height"
+							title={`${scale.link ? 'Fit' : 'Stretch'} to Height`}
 							onClick={() => {
 								dispatch(fitToFrameHeight(id, editAll, scale, frameHeightPrc))
 							}}/>
