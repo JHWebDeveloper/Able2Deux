@@ -93,8 +93,9 @@ Defaults.propTypes = {
 		sourceOnTop: bool
 	}).isRequired,
 	editAll: bool.isRequired,
-	scaleSliderMax: number.isRequired,
+	enableWidescreenGrids: bool.isRequired,
 	gridColor: string.isRequired,
+	scaleSliderMax: number.isRequired,
 	dispatch: func.isRequired
 }
 

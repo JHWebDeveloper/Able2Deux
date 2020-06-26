@@ -195,7 +195,7 @@ export const render = params => async dispatch => {
 
 	media.forEach(item => {
 		renderQueue.add(item.id, async () => {
-			if(item.source.sourceName && !(item.arc === 'none' && item.aspectRatio !== '16:9')) {
+			if (item.source.sourceName && !(item.arc === 'none' && item.aspectRatio !== '16:9')) {
 				item.sourceData = buildSource(item.source, params.renderOutput)
 			}
 

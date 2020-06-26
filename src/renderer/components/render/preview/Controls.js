@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { bool, func, number, object, shape, string } from 'prop-types'
+import { bool, func, number, object, exact, string } from 'prop-types'
 
 import { updateMediaState, updateMediaStateFromEvent } from '../../../actions'
 import { secondsToTC, zeroize } from '../../../utilities'
@@ -116,13 +116,16 @@ Controls.propTypes = {
 	end: object.isRequired,
 	fps: number.isRequired,
 	duration: number.isRequired,
-	grids: shape({
+	grids: exact({
 		grid: bool,
+		_235: bool,
+		_185: bool,
 		_43: bool,
 		_11: bool,
 		_916: bool
-	}),
-	gridColor: string,
+	}).isRequired,
+	gridColor: string.isRequired,
+	enableWidescreenGrids: bool.isRequired,
 	toggleGrids: func,
 	dispatch: func.isRequired
 }

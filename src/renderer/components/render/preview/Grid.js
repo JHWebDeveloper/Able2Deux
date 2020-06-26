@@ -1,5 +1,5 @@
 import React, { createRef, useEffect } from 'react'
-import { bool, shape, string } from 'prop-types'
+import { bool, exact, string } from 'prop-types'
 
 let cnv = false
 let ctx = false
@@ -107,13 +107,16 @@ const Grid = props => {
 }
 
 Grid.propTypes = {
-	grids: shape({
+	grids: exact({
 		grid: bool,
+		_235: bool,
+		_185: bool,
 		_43: bool,
 		_11: bool,
 		_916: bool
 	}).isRequired,
-	gridColor: string.isRequired
+	gridColor: string.isRequired,
+	enableWidescreenGrids: bool.isRequired
 }
 
 export default Grid
