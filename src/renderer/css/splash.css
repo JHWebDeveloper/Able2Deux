@@ -15,6 +15,11 @@ h1 { margin-bottom: 6px; }
 
 p, button { height: 31px; }
 
-button { min-width: 84px; }
+button {
+	min-width: 84px;
+	-webkit-app-region: no-drag;
+}
 
 button:first-of-type { margin-right: 9px; }
+
+.draggable { -webkit-app-region: drag; }
