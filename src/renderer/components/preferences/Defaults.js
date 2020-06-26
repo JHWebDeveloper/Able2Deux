@@ -65,7 +65,7 @@ const Defaults = ({ warnings, editAll, scaleSliderMax, gridColor, dispatch }) =>
 							data-number />
 					</span>
 					<span className="input-option">
-						<label htmlFor="gird-color">Grid Color</label>
+						<label htmlFor="grid-color">Grid Color</label>
 						<input
 							type="color"
 							name="gridColor"
