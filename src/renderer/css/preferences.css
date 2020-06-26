@@ -111,6 +111,8 @@ button[name="down"]:last-of-type {
 	width: 58px;
 }
 
+.input-option > input[name="concurrent"] { width: 40px; }
+
 input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
 
 input[type="color"]::-webkit-color-swatch {
