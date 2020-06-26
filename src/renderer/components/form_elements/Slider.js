@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { v1 as uuid } from 'uuid'
-import { arrayOf, bool, element, func, number, string } from 'prop-types'
+import { arrayOf, bool, func, number, string } from 'prop-types'
 
 import { keepInRange } from '../../utilities'
 
@@ -51,6 +51,7 @@ const Slider = ({
 				onChange={onChange}
 				onBlur={e => onChange(keepInRange(e))}
 				disabled={disabled}
+				step="0.1"
 				data-number />
 			<span>%</span>
 		</div>
@@ -69,7 +70,7 @@ Slider.propTypes = {
 	unit: string,
 	disabled: bool,
 	inverted: bool,
-	Button: element,
+	Button: func,
 	onChange: func.isRequired
 }
 
