@@ -4,7 +4,8 @@ import { bool, shape, string } from 'prop-types'
 let cnv = false
 let ctx = false
 
-const Grid = ({ grids, gridColor }) => {
+const Grid = props => {
+	const { grids, gridColor, enableWidescreenGrids } = props
 	const ref = createRef()
 	
 	useEffect(() => {
@@ -80,7 +81,27 @@ const Grid = ({ grids, gridColor }) => {
 			ctx.lineTo(252.75, 216)
 			ctx.stroke()
 		}
-	}, [grids, gridColor])
+
+		if (enableWidescreenGrids) {
+			if (grids._185) {
+				ctx.beginPath()
+				ctx.moveTo(0, 4.21621621622)
+				ctx.lineTo(384, 4.21621621622)
+				ctx.moveTo(0, 211.783783784)
+				ctx.lineTo(384, 211.783783784)
+				ctx.stroke()
+			}
+	
+			if (grids._239) {
+				ctx.beginPath()
+				ctx.moveTo(0, 27.6652719665)
+				ctx.lineTo(384, 27.6652719665)
+				ctx.moveTo(0, 188.334728033)
+				ctx.lineTo(384, 188.334728033)
+				ctx.stroke()
+			}
+		}
+	}, [props])
 
 	return <canvas ref={ref}></canvas>
 }

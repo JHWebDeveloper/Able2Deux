@@ -24,8 +24,9 @@ const initState = {
 		sourceOnTop: true
 	},
 	editAll: false,
-	scaleSliderMax: 400,
-	gridColor: '#ff00ff'
+	enableWidescreenGrids: false,
+	gridColor: '#ff00ff',
+	scaleSliderMax: 400
 }
 
 export const PrefsContext = createContext()

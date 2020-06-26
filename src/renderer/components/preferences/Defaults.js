@@ -7,7 +7,7 @@ import { keepInRange } from '../../utilities'
 
 import Checkbox from '../form_elements/Checkbox'
 
-const Defaults = ({ warnings, editAll, scaleSliderMax, gridColor, dispatch }) => {
+const Defaults = ({ warnings, editAll, enableWidescreenGrids, gridColor, scaleSliderMax, dispatch }) => {
 	const keepScaleMaxInRange = useCallback(e => {
 		dispatch(updateStateFromEvent(keepInRange(e)))
 	}, [])
@@ -51,6 +51,21 @@ const Defaults = ({ warnings, editAll, scaleSliderMax, gridColor, dispatch }) =>
 						checked={editAll}
 						onChange={e => dispatch(toggleCheckbox(e))}
 						switchIcon />
+					<Checkbox
+						label="Widescreen Grids"
+						name="enableWidescreenGrids"
+						checked={enableWidescreenGrids}
+						onChange={e => dispatch(toggleCheckbox(e))}
+						switchIcon />
+					<span className="input-option">
+						<label htmlFor="grid-color">Grid Color</label>
+						<input
+							type="color"
+							name="gridColor"
+							id="grid-color"
+							value={gridColor}
+							onChange={e => dispatch(updateStateFromEvent(e))} />
+					</span>
 					<span className="input-option">
 						<label htmlFor="scaleSliderMax">Scale Max</label>
 						<input
@@ -63,15 +78,6 @@ const Defaults = ({ warnings, editAll, scaleSliderMax, gridColor, dispatch }) =>
 							max={9999}
 							onBlur={keepScaleMaxInRange}
 							data-number />
-					</span>
-					<span className="input-option">
-						<label htmlFor="grid-color">Grid Color</label>
-						<input
-							type="color"
-							name="gridColor"
-							id="grid-color"
-							value={gridColor}
-							onChange={e => dispatch(updateStateFromEvent(e))} />
 					</span>
 				</div>
 			</fieldset>

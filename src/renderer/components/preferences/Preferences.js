@@ -16,8 +16,9 @@ const Main = () => {
 		scratchDisk,
 		warnings,
 		editAll,
-		scaleSliderMax,
+		enableWidescreenGrids,
 		gridColor,
+		scaleSliderMax,
 		saveLocations,
 		dispatch
 	} = useContext(PrefsContext)
@@ -34,8 +35,9 @@ const Main = () => {
 			<Defaults
 				warnings={warnings}
 				editAll={editAll}
-				scaleSliderMax={scaleSliderMax}
+				enableWidescreenGrids={enableWidescreenGrids}
 				gridColor={gridColor}
+				scaleSliderMax={scaleSliderMax}
 				dispatch={dispatch} />
 			<SaveLocations
 				saveLocations={saveLocations}
@@ -47,8 +49,9 @@ const Main = () => {
 					scratchDisk,
 					warnings,
 					editAll,
-					scaleSliderMax,
+					enableWidescreenGrids,
 					gridColor,
+					scaleSliderMax,
 					saveLocations
 				}}
 				dispatch={dispatch} />

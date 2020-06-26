@@ -13,7 +13,7 @@ import Controls from './Controls'
 const { interop } = window.ABLE2 
 
 const Preview = ({ selected, dispatch }) => {
-	const { renderOutput, gridColor } = useContext(PrefsContext)
+	const { renderOutput, enableWidescreenGrids, gridColor } = useContext(PrefsContext)
 	const { id, mediaType, source, arc, aspectRatio, rotation, timecode, start, end, duration, fps } = selected
 
 	const [ previewReady, setPreviewReady ] = useState(false)
@@ -21,6 +21,8 @@ const Preview = ({ selected, dispatch }) => {
 	const [ previewStill, loadPreviewStill ] = useState('')
 	
 	const [ grids, toggleGrids ] = useState({
+		_239: false,
+		_185: false,
 		grid: false,
 		_43: false,
 		_11: false,
@@ -80,7 +82,10 @@ const Preview = ({ selected, dispatch }) => {
 							) : (
 								<Spinner />
 							)}
-							<Grid grids={grids} gridColor={gridColor} />
+							<Grid
+								grids={grids}
+								enableWidescreenGrids={enableWidescreenGrids}
+								gridColor={gridColor} />
 						</div>
 					</div>
 					<Controls
@@ -92,6 +97,7 @@ const Preview = ({ selected, dispatch }) => {
 						fps={fps}
 						duration={duration}
 						grids={grids}
+						enableWidescreenGrids={enableWidescreenGrids}
 						gridColor={gridColor}
 						toggleGrids={toggleGrids}
 						dispatch={dispatch} />

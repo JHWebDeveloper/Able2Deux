@@ -6,16 +6,17 @@ import { secondsToTC, zeroize } from '../../../utilities'
 
 const toggleTitle = state => state ? 'Hide' : 'Show'
 
-const Controls = ({ id, mediaType, timecode, start, end, fps, duration, grids, gridColor, toggleGrids, dispatch }) => {
+const Controls = props => {
+	const { id, timecode, start, end, fps, grids, gridColor, dispatch } = props
 	const min = useMemo(() => start.enabled ? start.tc * fps : 0, [start])
-	const max = useMemo(() => end.enabled ? end.tc * fps : duration * fps, [end])
+	const max = useMemo(() => end.enabled ? end.tc * fps : props.duration * fps, [end])
 
 	const toggleColor = useCallback(gridName => ({
 		color: gridName ? gridColor : '#eee'
 	}), [gridColor])
 
 	const toggleGrid = useCallback(e => {
-		toggleGrids({
+		props.toggleGrids({
 			...grids,
 			[e.target.name]: !grids[e.target.name]
 		})
@@ -35,7 +36,7 @@ const Controls = ({ id, mediaType, timecode, start, end, fps, duration, grids, g
 
 	return (
 		<div id="preview-controls">
-			{mediaType === 'video' && <>
+			{props.mediaType === 'video' && <>
 				<span className="monospace">
 					{secondsToTC(timecode / fps)};{zeroize(Math.round(timecode % fps), fps)}
 				</span>
@@ -66,6 +67,22 @@ const Controls = ({ id, mediaType, timecode, start, end, fps, duration, grids, g
 				title={`${toggleTitle(grids.grid)} Grid`}
 				style={toggleColor(grids.grid)}
 				onClick={toggleGrid}>{'grid_on'}</button>
+			{props.enableWidescreenGrids && <>
+				<button
+					type="button"
+					title={`${toggleTitle(grids._239)}  2.39:1 Markers`}
+					className="monospace"
+					name="_239"
+					style={toggleColor(grids._239)}
+					onClick={toggleGrid}>2.39</button>
+				<button
+					type="button"
+					title={`${toggleTitle(grids._185)}  1.85:1 Markers`}
+					className="monospace"
+					name="_185"
+					style={toggleColor(grids._185)}
+					onClick={toggleGrid}>1.85</button>
+			</>}
 			<button
 				type="button"
 				title={`${toggleTitle(grids._43)} 4:3 Markers`}
