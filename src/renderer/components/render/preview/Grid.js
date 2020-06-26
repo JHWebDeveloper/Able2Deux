@@ -109,7 +109,7 @@ const Grid = props => {
 Grid.propTypes = {
 	grids: exact({
 		grid: bool,
-		_235: bool,
+		_239: bool,
 		_185: bool,
 		_43: bool,
 		_11: bool,
