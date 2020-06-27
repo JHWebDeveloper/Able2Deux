@@ -33,7 +33,11 @@ const mainConfig = {
 			{
 				from: path.join(mainPath, 'backgrounds'),
 				to: path.join('assets', 'backgrounds')
-			}
+			},
+      {
+        from: path.join(mainPath, 'icons'),
+        to: path.join('assets', 'icons')
+      }
 		])
 	],
 	node: {
