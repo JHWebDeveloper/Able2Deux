@@ -77,11 +77,9 @@ const Preview = ({ selected, dispatch }) => {
 				<div id="preview">
 					<div>
 						<div id="preview-container">
-							{previewStill ? (
-								<span style={{ backgroundImage: `url("${previewStill}")`}}></span>
-							) : (
-								<Spinner />
-							)}
+							{previewStill
+								? <span style={{ backgroundImage: `url("${previewStill}")`}}></span>
+								: <Spinner />}
 							<Grid
 								grids={grids}
 								enableWidescreenGrids={enableWidescreenGrids}
