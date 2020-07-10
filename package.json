@@ -13,7 +13,7 @@
 		"postinstall": "electron-builder install-app-deps",
 		"start": "electron .",
 		"update-ytdl:mac": "node_modules/youtube-dl-ffmpeg-ffprobe-static/bin/darwin/x64/youtube-dl -U",
-		"update-ytdl:win": "cd node_modules/youtube-dl-ffmpeg-ffprobe-static/bin/win32/ia32 && youtube-dl.exe -U && cd ../x64 && youtube-dl.exe -U"
+		"update-ytdl:win": "node_modules/youtube-dl-ffmpeg-ffprobe-static/bin/win32/x64/youtube-dl.exe -U"
 	},
 	"author": "Jonathan Hamilton",
 	"license": "CC-BY-NC-4.0",
