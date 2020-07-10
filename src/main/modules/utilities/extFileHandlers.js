@@ -1,11 +1,14 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
 import { app } from 'electron'
+import { fixPathForAsarUnpack } from 'electron-util'
 
 import fileExistsPromise from './fileExistsPromise'
 import defaultPrefs from '../preferences/default'
 
-const prefsDir = process.env.NODE_ENV === 'development'
+const dev = process.env.NODE_ENV === 'development'
+
+const prefsDir = dev
 	? path.join(__dirname, '..', '..', 'data')
 	: path.join(app.getPath('appData'), 'able2', 'prefs')
 
@@ -93,3 +96,7 @@ export const updateScratchDisk = async () => {
 		fsp.mkdir(temp.previews.path, opts)
 	])
 }
+
+export const assetsPath = fixPathForAsarUnpack(dev
+	? path.resolve(__dirname, '..', '..', 'backgrounds')
+	: path.join(__dirname, 'assets', 'backgrounds'))

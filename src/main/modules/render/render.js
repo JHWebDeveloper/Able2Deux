@@ -1,15 +1,10 @@
 import path from 'path'
 import fs, { promises as fsp } from 'fs'
-import { fixPathForAsarUnpack } from 'electron-util'
 
 import ffmpeg from '../utilities/ffmpeg'
-import { temp } from '../utilities/extFileHandlers'
+import { temp, assetsPath } from '../utilities/extFileHandlers'
 import * as filter from './filters'
 import getOverlayInnerDimensions from './getOverlayInnerDimensions'
-
-const assetsPath = fixPathForAsarUnpack(process.env.NODE_ENV === 'development' 
-	? path.resolve(__dirname, '..', '..', 'assets')
-	: path.join(__dirname, 'assets'))
 
 let jobs = []
 
