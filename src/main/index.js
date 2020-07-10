@@ -37,6 +37,7 @@ const openWindow = opts => new BrowserWindow({
 	backgroundColor: '#eee',
 	webPreferences: {
 		nodeIntegration: dev,
+		contextIsolation: !dev,
 		enableEval: false,
 		preload: dev
 			? path.join(__dirname, 'preload', 'babelRegister.js')
@@ -56,13 +57,13 @@ const createURL = view =>  url.format(dev ? {
 	slashes: true
 })
 
-const checkForUpdate = () => dev ? Promise.resolve(false) : new Promise(resolve => {
+const checkForUpdate = () => dev || mac ? Promise.resolve(false) : new Promise(resolve => {
 	autoUpdater.on('update-available', ({ version }) => resolve(version))
 	autoUpdater.on('update-not-available', () => resolve(false))
 	autoUpdater.checkForUpdatesAndNotify()
 })
 
-const startWindowOpts = {
+const splashWindowOpts = {
 	width: 400,
 	height: 400,
 	resizable: dev,
@@ -71,7 +72,9 @@ const startWindowOpts = {
 }
 
 const createSplashWindow = () => new Promise(resolve => {
-	splashWin = openWindow(startWindowOpts)
+	splashWin = openWindow(splashWindowOpts)
+
+	if (mac) Menu.setApplicationMenu(Menu.buildFromTemplate(splashWindowMenuTemplate))
 
 	splashWin.on('ready-to-show', () => {
 		splashWin.show()
@@ -83,7 +86,7 @@ const createSplashWindow = () => new Promise(resolve => {
 })
 
 const createUpdateWindow = version => new Promise(resolve => {
-	updateWin = openWindow(startWindowOpts)
+	updateWin = openWindow(splashWindowOpts)
 
 	updateWin.on('ready-to-show', () => {
 		updateWin.show()
@@ -97,7 +100,9 @@ const createUpdateWindow = version => new Promise(resolve => {
 		updateWin.webContents.send('updateProgress', percent)
 	})
 	
-	autoUpdater.on('update-downloaded', autoUpdater.quitAndInstall)
+	autoUpdater.on('update-downloaded', () => {
+		autoUpdater.quitAndInstall()
+	})
 
 	autoUpdater.on('error', () => {
 		updateWin.webContents.send('updateError')
@@ -116,9 +121,7 @@ const createMainWindow = () => new Promise(resolve => {
 
 	mainWin.loadURL(createURL('index'))
 
-	const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
-
-	Menu.setApplicationMenu(mainMenu)
+	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate))
 
 	if (!mac) insertPCStyles(mainWin)
 
@@ -176,6 +179,27 @@ app.on('activate', () => {
 
 // ---- MENU CONFIG --------
 
+const splashWindowMenuTemplate = [{
+	label: app.name,
+	submenu: [
+		{
+			label: 'About',
+			role: 'about'
+		},
+		{ type: 'separator' },
+		{
+			label: 'Hide',
+			role: 'hide'
+		},
+		{ role: 'hideothers' },
+		{ type: 'separator' },
+		{ 
+			label: 'Quit',
+			role: 'quit'
+		}
+	]
+}]
+
 const enablePrefsMenu = enabled => {
 	Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = enabled
 }
@@ -203,7 +227,9 @@ const prefsMenuItem = [
 
 			if (!mac) insertPCStyles(preferences)
 
-			preferences.once('ready-to-show', preferences.show)
+			preferences.once('ready-to-show', () => {
+				preferences.show()
+			})
 
 			preferences.on('close', () => {
 				enablePrefsMenu(true)
@@ -216,7 +242,7 @@ const prefsMenuItem = [
 ]
 
 const mainMenuTemplate = [
-	...mac ? [{
+	mac ? {
 		label: app.name,
 		submenu: [
 			{
@@ -236,7 +262,7 @@ const mainMenuTemplate = [
 				role: 'quit'
 			}
 		]
-	}] : [],
+	} : {},
 	{
 		label: 'File',
 		submenu: [
@@ -259,7 +285,7 @@ const mainMenuTemplate = [
 	}
 ]
 
-if (dev) {
+//if (dev) {
 	mainMenuTemplate.push({
 		label: 'Developer Tools',
 		submenu: [
@@ -274,7 +300,7 @@ if (dev) {
 			}
 		]
 	})
-}
+//}
 
 ipcMain.on('getTitleFromURL', async (evt, data) => {
 	const { id, url } = data
