@@ -64,7 +64,7 @@ const Update = () => {
 						type="button"
 						className="app-button"
 						title="Quit"
-						onClick={interop.quit}>Quit</button>
+						onClick={() => interop.quit()}>Quit</button>
 				</span>
 			</> : <>
 				<h1>Update found!</h1>
