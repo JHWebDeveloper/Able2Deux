@@ -4,4 +4,5 @@ dist/
 src/main/temp/
 src/main/data/
 /electron-builder.yml
+/package-lock.json
 /.env
