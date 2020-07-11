@@ -28,8 +28,6 @@ export const fill = (command, filterData, isPreview) => {
 		overlayCmd(overlayDim, sourceData),
 		finalCmd(isPreview)
 	].join(''))
-
-	
 }
 
 export const fit = (command, background, filterData, isPreview) => {
