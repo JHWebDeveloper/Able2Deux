@@ -14,7 +14,6 @@ import updatePreviewSourceImage from './modules/render/updatePreviewSourceImage'
 import fileExistsPromise from './modules/utilities/fileExistsPromise'
 import { render, cancelRender, cancelAllRenders } from './modules/render/render'
 import { loadPrefs, savePrefs } from './modules/preferences/preferences'
-import insertPCStyles from './modules/utilities/insertPCStyles'
 
 const dev = process.env.NODE_ENV === 'development'
 const mac = process.platform === 'darwin'
@@ -123,8 +122,6 @@ const createMainWindow = () => new Promise(resolve => {
 
 	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate))
 
-	if (!mac) insertPCStyles(mainWin)
-
 	mainWin.on('ready-to-show', () => {
 		mainWin.show()
 		if (dev) mainWin.webContents.openDevTools()
@@ -224,8 +221,6 @@ const prefsMenuItem = [
 			})
 
 			preferences.loadURL(createURL('preferences'))
-
-			if (!mac) insertPCStyles(preferences)
 
 			preferences.once('ready-to-show', () => {
 				preferences.show()
