@@ -242,7 +242,7 @@ const prefsMenuItem = [
 ]
 
 const mainMenuTemplate = [
-	mac ? {
+	...mac ? [{
 		label: app.name,
 		submenu: [
 			{
@@ -262,7 +262,7 @@ const mainMenuTemplate = [
 				role: 'quit'
 			}
 		]
-	} : {},
+	}] : [],
 	{
 		label: 'File',
 		submenu: [
@@ -280,12 +280,12 @@ const mainMenuTemplate = [
 			{ role: 'paste' },
 			{ type: 'separator' },
 			{ role: 'selectall' },
-			...mac ?  [] : prefsMenuItem
+			...mac ? [] : prefsMenuItem
 		]
 	}
 ]
 
-//if (dev) {
+if (dev) {
 	mainMenuTemplate.push({
 		label: 'Developer Tools',
 		submenu: [
@@ -300,7 +300,7 @@ const mainMenuTemplate = [
 			}
 		]
 	})
-//}
+}
 
 ipcMain.on('getTitleFromURL', async (evt, data) => {
 	const { id, url } = data
