@@ -50,7 +50,7 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 							key={id}
 							type="button"
 							onClick={() => recordAfterClose(id)}>
-							<img src={thumbnail.toDataURL()} />
+							<img src={thumbnail} />
 							<span>{name}</span>
 						</button>
 					))}

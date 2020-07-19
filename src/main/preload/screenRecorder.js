@@ -1,20 +1,58 @@
-import { remote } from 'electron'
+import { desktopCapturer, remote } from 'electron'
+import { v1 as uuid } from 'uuid'
+
 import { sendMessage } from './sendMessage'
 
-let recorder = false
+export const getRecordSources = async () => {
+	const sources = await desktopCapturer.getSources({
+		types: ['window', 'screen'],
+		thumbnailSize: {
+			width: 256,
+			height: 144
+		}
+	})
 
-const handleStream = (stream, timer, onRecordChange) => new Promise((resolve, reject) => {
+	return sources.map(src => ({
+		...src,
+		thumbnail: src.thumbnail.toDataURL()
+	}))
+}
+
+let recorder = false
+let timeout = false
+
+const clearRecorder = () => {
+	recorder = false
+	clearTimeout(timeout)
+}
+
+const getStream = chromeMediaSourceId => navigator.mediaDevices.getUserMedia({
+	audio: process.platform === 'darwin' ? false : {
+		mandatory: {
+			chromeMediaSource: 'desktop',
+		}
+	},
+	video: {
+		mandatory: {
+			chromeMediaSource: 'desktop',
+			chromeMediaSourceId,
+			minFrameRate: 60,
+			maxFrameRate: 60
+		}
+	}
+})
+
+const handleStream = (stream, timer, setRecordIndicator) => new Promise((resolve, reject) => {
 	const blobs = []
-	let timeout = false
 
 	recorder = new MediaRecorder(stream)
 
 	recorder.onstart = () => {
-		onRecordChange(true)
+		setRecordIndicator(true)
 
 		if (timer.enabled) {
 			timeout = setTimeout(() => {
-				stopRecording()
+				recorder.stop()
 				remote.getCurrentWindow().show()
 			}, timer.tc * 1000)
 		}
@@ -25,14 +63,13 @@ const handleStream = (stream, timer, onRecordChange) => new Promise((resolve, re
 	}
 
 	recorder.onerror = err => {
-		clearTimeout(timeout)
-		recorder = false
+		clearRecorder()
 		reject(err)
 	}
 
 	recorder.onstop = () => {
-		clearTimeout(timeout)
-		onRecordChange(false)
+		clearRecorder()
+		setRecordIndicator(false)
 		resolve(blobs)
 	}
 
@@ -41,61 +78,48 @@ const handleStream = (stream, timer, onRecordChange) => new Promise((resolve, re
 	})
 })
 
-export const startRecording = async (timer, onRecordChange, onRecordEnd) => {
-	const media = await navigator.mediaDevices.getUserMedia({
-		audio: process.platform === 'darwin' ? false : {
-			mandatory: {
-				chromeMediaSource: 'desktop'
-			}
-		},
-		video: {
-			mandatory: {
-				chromeMediaSource: 'desktop',
-				minFrameRate: 60,
-				maxFrameRate: 60
-			}
+const getBuffer = blob => new Promise((resolve, reject) => {
+	const fileReader = new FileReader()
+
+	fileReader.onload = () => {
+		const buffer = Buffer.alloc(fileReader.result.byteLength)
+		const arr = new Uint8Array(fileReader.result)
+	
+		for (let i = 0, l = arr.byteLength; i < l; i++) {
+			buffer[i] = arr[i]
 		}
-	})
 
-	const blobs = await handleStream(media, timer, onRecordChange)
+		resolve(buffer)
+	}
 
-	return onRecordEnd(blobs)
+	fileReader.onerror = reject
+	fileReader.readAsArrayBuffer(blob)
+})
+
+export const startRecording = async ({ streamId, timer, setRecordIndicator, onStart, onComplete, onError }) => {
+	const stream = await getStream(streamId)
+	const blobs  = await handleStream(stream, timer, setRecordIndicator)
+	const buffer = await getBuffer(new Blob(blobs, { type: 'video/mp4' }))
+
+	const recordId = uuid()
+
+	onStart(recordId)
+
+	try {
+		const mediaData = await saveScreenRecording(recordId, buffer)
+		onComplete(recordId, mediaData)
+	} catch (err) {
+		onError(recordId)
+	}
 }
 
 export const stopRecording = () => {
 	recorder.stop()
 }
 
-export const saveScreenRecording = async (id, blobs) => {
-	const buffer = await getBuffer(new Blob(blobs, { type: 'video/mp4' }))
-
-	return sendMessage({
-		sendMsg: 'saveScreenRecording',
-		recieveMsg: `screenRecordingSaved_${id}`,
-		errMsg: `screenRecordingSaveErr_${id}`,
-		data: { id, buffer }
-	})
-}
-
-const getBuffer = blob => new Promise((resolve, reject) => {
-	const fileReader = new FileReader()
-
-	fileReader.onload = () => {
-		resolve(toBuffer(fileReader.result))
-	}
-
-	fileReader.onerror = reject
-
-	fileReader.readAsArrayBuffer(blob)
+const saveScreenRecording = (id, buffer) => sendMessage({
+	sendMsg: 'saveScreenRecording',
+	recieveMsg: `screenRecordingSaved_${id}`,
+	errMsg: `screenRecordingSaveErr_${id}`,
+	data: { id, buffer }
 })
-
-const toBuffer = ab => {
-	const buffer = Buffer.alloc(ab.byteLength)
-	const arr = new Uint8Array(ab)
-
-	for (let i = 0, len = arr.byteLength; i < len; i++) {
-		buffer[i] = arr[i]
-	}
-
-	return buffer
-}

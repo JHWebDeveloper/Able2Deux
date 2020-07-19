@@ -2,8 +2,9 @@ import React, { useCallback, useState } from 'react'
 import toastr from 'toastr'
 import { bool, func, number, shape, string } from 'prop-types'
 
+import * as STATUS from '../../status/types'
 import { updateNestedState, toggleNestedCheckbox } from '../../actions'
-import { setRecording, saveScreenRecording } from '../../actions/acquisition'
+import { setRecording, loadRecording, updateMediaStatus } from '../../actions/acquisition'
 import { toastrOpts } from '../../utilities'
 
 import RecordSourceSelector from './RecordSourceSelector'
@@ -11,95 +12,28 @@ import Timecode from '../form_elements/Timecode'
 
 const { interop } = window.ABLE2
 
-let recorder = false
-let timeout = false
-
-const clearRecorder = () => {
-	recorder = false
-	clearTimeout(timeout)
-}
-
-const getStream = chromeMediaSourceId => navigator.mediaDevices.getUserMedia({
-	audio: process.platform === 'darwin' ? false : {
-		mandatory: {
-			chromeMediaSource: 'desktop',
-			chromeMediaSourceId
-		}
-	},
-	video: {
-		mandatory: {
-			chromeMediaSource: 'desktop',
-			chromeMediaSourceId,
-			minFrameRate: 60,
-			maxFrameRate: 60
-		}
-	}
-})
-
-const handleStream = (stream, timer, dispatch) => new Promise((resolve, reject) => {
-	const blobs = []
-
-	recorder = new MediaRecorder(stream)
-
-	recorder.onstart = () => {
-		dispatch(setRecording(true))
-
-		if (timer.enabled) {
-			timeout = setTimeout(() => {
-				recorder.stop()
-				interop.bringToFront()
-			}, timer.tc * 1000)
-		}
-	}
-
-	recorder.ondataavailable = e => {
-		blobs.push(e.data)
-	}
-
-	recorder.onerror = err => {
-		clearRecorder()
-		reject(err)
-	}
-
-	recorder.onstop = () => {
-		clearRecorder()
-		dispatch(setRecording(false))
-		resolve(blobs)
-	}
-
-	requestAnimationFrame(() => {
-		recorder.start()
-	})
-})
-
-const getBuffer = blob => new Promise((resolve, reject) => {
-	const fileReader = new FileReader()
-
-	fileReader.onload = () => {
-		const buffer = Buffer.alloc(fileReader.result.byteLength)
-		const arr = new Uint8Array(fileReader.result)
-	
-		for (let i = 0, l = arr.byteLength; i < l; i++) {
-			buffer[i] = arr[i]
-		}
-
-		resolve(buffer)
-	}
-
-	fileReader.onerror = reject
-	fileReader.readAsArrayBuffer(blob)
-})
-
 const ScreenRecorder = ({ recording, timer, dispatch }) => {
 	const [ recordSourceData, loadRecordSourceData ] = useState(false)
 
-	const startRecording = useCallback(async id => {
+	const startRecording = useCallback(async streamId => {
 		try {
-			const stream = await getStream(id)
-			const blobs  = await handleStream(stream, timer, dispatch)
-			const buffer = await getBuffer(new Blob(blobs, { type: 'video/mp4' }))
-	
-			dispatch(saveScreenRecording(buffer))
+			interop.startRecording({
+				streamId,
+				timer,
+				setRecordIndicator: isRecording => {
+					dispatch(setRecording(isRecording))
+				},
+				onStart: recordId => {
+					dispatch(loadRecording(recordId))
+				},
+				onComplete: (recordId, mediaData) => {
+					dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
+				},
+				onError: recordId => {
+					dispatch(updateMediaStatus(recordId, STATUS.FAILED))
+					toastr.error('Error saving screen record', false, toastrOpts)
+				}
+			})
 		} catch (err) {
 			toastr.error('An error occurred during the screen record!', false, toastrOpts)
 		}
@@ -128,7 +62,7 @@ const ScreenRecorder = ({ recording, timer, dispatch }) => {
 
 	const toggleRecording = useCallback(e => {
 		if (recording) {
-			recorder.stop()
+			interop.stopRecording()
 		} else {
 			getRecordSources(e.currentTarget)
 		}

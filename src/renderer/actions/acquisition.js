@@ -23,7 +23,7 @@ const updateMediaTitle = (id, title) => ({
 	}
 })
 
-const updateMediaStatus = (id, status, mediaData) => ({
+export const updateMediaStatus = (id, status, mediaData) => ({
 	type: ACTION.UPDATE_MEDIA_STATE,
 	payload: {
 		id,
@@ -170,29 +170,17 @@ export const setRecording = recording => ({
 	payload: { recording }
 })
 
-export const saveScreenRecording = buffer => async dispatch => {
+export const loadRecording = id => async dispatch => {
 	const title = replaceTokens('Able2 Screen Record $t $D')
 
 	const mediaElement = new MediaElement({
+		id,
 		title,
 		filename: title,
 		aquisitionType: 'screen_record',
-		mediaType: 'video'
+		mediaType: 'video',
+		status: STATUS.LOADING
 	})
 
 	dispatch(addMedia(mediaElement))
-
-	const { id } = mediaElement
-
-	dispatch(updateMediaStatus(id, STATUS.LOADING))
-
-	try {
-		const mediaData = await interop.saveScreenRecording(id, buffer)
-
-		dispatch(updateMediaStatus(id, STATUS.READY, mediaData))
-	} catch (err) {
-		dispatch(updateMediaStatus(id, STATUS.FAILED))
-
-		toastr.error('Error saving screen record', false, toastrOpts)
-	}
 }
