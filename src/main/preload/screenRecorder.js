@@ -29,7 +29,7 @@ const clearRecorder = () => {
 const getStream = chromeMediaSourceId => navigator.mediaDevices.getUserMedia({
 	audio: process.platform === 'darwin' ? false : {
 		mandatory: {
-			chromeMediaSource: 'desktop',
+			chromeMediaSource: 'desktop'
 		}
 	},
 	video: {

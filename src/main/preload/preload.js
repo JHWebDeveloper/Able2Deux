@@ -1,4 +1,4 @@
-import { remote, shell, ipcRenderer, desktopCapturer, contextBridge } from 'electron'
+import { remote, shell, ipcRenderer, contextBridge } from 'electron'
 import { v1 as uuid } from 'uuid'
 import path from 'path'
 
