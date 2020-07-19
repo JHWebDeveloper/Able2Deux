@@ -56,7 +56,7 @@ const createURL = view =>  url.format(dev ? {
 	slashes: true
 })
 
-const checkForUpdate = () => dev || mac ? Promise.resolve(false) : new Promise(resolve => {
+const checkForUpdate = () => !app.isPackaged || mac ? Promise.resolve(false) : new Promise(resolve => {
 	autoUpdater.on('update-available', ({ version }) => resolve(version))
 	autoUpdater.on('update-not-available', () => resolve(false))
 	autoUpdater.checkForUpdatesAndNotify()
@@ -112,9 +112,9 @@ const createUpdateWindow = version => new Promise(resolve => {
 
 const createMainWindow = () => new Promise(resolve => {
 	mainWin = openWindow({
-		width: 746,
+		width: mac ? 746 : 762,
 		height: 800,
-		minWidth: 746,
+		minWidth: mac ? 746 : 762,
 		minHeight: 620
 	})
 
