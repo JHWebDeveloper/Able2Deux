@@ -3,18 +3,20 @@ import { PENDING } from '../status/types'
 
 class MediaElement {
 	constructor({
+		id,
+		status,
 		aquisitionType = false,
 		mediaType = false,
 		url = false,
 		sourceFilePath = false,
 		title = '',
-		filename = ''
+		filename = '',
 	}) {
-		const id = uuid()
+		const mediaId = id || uuid()
 		
-		this.id = id
-		this.refId = id
-		this.status = PENDING
+		this.id = mediaId
+		this.refId = mediaId
+		this.status = status || PENDING
 		this.aquisitionType = aquisitionType
 		this.mediaType = mediaType
 		this.url = url
