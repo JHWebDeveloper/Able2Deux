@@ -17,7 +17,7 @@ export const loadPrefs = () => async dispatch => {
 	}
 }
 
-export const savePrefs = prefs => async dispatch => {
+export const savePrefs = (prefs, saveAndClose) => async dispatch => {
 	prefs.saveLocations = prefs.saveLocations
 		.filter(loc => loc.directory)
 		.map(loc => loc.label ? loc : {
@@ -33,7 +33,11 @@ export const savePrefs = prefs => async dispatch => {
 			payload: prefs
 		})
 
-		toastr.success('Preferences saved', false, { ...toastrOpts, timeOut: 2000 })
+		if (saveAndClose) {
+			interop.closeCurrentWindow()
+		} else {
+			toastr.success('Preferences saved', false, { ...toastrOpts, timeOut: 2000 })
+		}
 	} catch (err) {
 		toastr.error('Preferences failed to save', false, toastrOpts)
 	}
