@@ -450,10 +450,8 @@ ipcMain.on('requestPrefs', async evt => {
 
 ipcMain.on('savePrefs', async (evt, prefs) => {
 	try {
-		await Promise.all([
-			savePrefs(prefs),
-			updateScratchDisk()
-		])
+		await savePrefs(prefs)
+		await updateScratchDisk()
 
 		evt.reply('prefsSaved')
 		mainWin.webContents.send('syncPrefs', prefs)
