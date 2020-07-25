@@ -42,33 +42,28 @@
 #preview-controls {
 	display: flex;
 	justify-content: flex-end;
+	height: 24px;
 	font-size: 11px;
 }
 
-/* #preview-controls > :matches(span, input, button) { grid-row: 1; } */
+#preview-controls > :matches(span, input) { align-self: center; }
 
-#preview-controls > span {
-	margin: 0 8px; 
-}
+#preview-controls > :matches(span, button) { padding: 0 6px; }
 
-#preview-controls > input[type="range"] {
+#preview-controls > input {
 	flex: 1;
-	align-self: center;
 	height: 6px;
 	width: 0;
 	background-color: var(--background-alt-2);
 }
 
-#preview-controls > input[type="range"]::-webkit-slider-thumb {
+#preview-controls > input::-webkit-slider-thumb {
 	width: 12px;
 	height: 12px;
 	background-color: var(--background);
 }
 
 #preview-controls > button {
+	height: inherit;
 	min-width: 24px;
-	height: 24px;
-	padding: 6px;
 }
-
-#preview-controls > .monospace { padding-top: 8px; }
