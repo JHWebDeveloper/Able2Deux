@@ -44,7 +44,7 @@ const Update = () => {
 		ctx.beginPath()
 		ctx.arc(212, 212, 200, -arcStart, percent / 100 * TAU - arcStart, false)
 		ctx.stroke()
-	}, [])
+	}, [percent])
 
 	return (
 		<>
