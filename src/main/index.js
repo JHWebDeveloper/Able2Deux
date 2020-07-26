@@ -473,7 +473,7 @@ ipcMain.on('checkForUpdateBackup', async () => {
 	const version = await checkForUpdate()
 
 	if (version) {
+		await createUpdateWindow()
 		mainWin.close()
-		createUpdateWindow()
 	}
 })
