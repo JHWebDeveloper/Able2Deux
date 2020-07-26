@@ -182,6 +182,7 @@ interop.addUpdateListeners = ({ onStarted, onProgress, onError }) => {
 interop.removeUpdateListeners = () => {
 	ipcRenderer.removeAllListeners('updateStarted')
 	ipcRenderer.removeAllListeners('updateProgress')
+	ipcRenderer.removeAllListeners('updateError')
 }
 
 interop.retryUpdate = () => ipcRenderer.send('retryUpdate')

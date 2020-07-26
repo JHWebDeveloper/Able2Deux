@@ -12,7 +12,7 @@ const arcStart = Math.PI / 2
 const Update = () => {
 	const [ version, onStarted ] = useState(false)
 	const [ percent, onProgress ] = useState(0)
-	const [ error, setError ] = useState(true)
+	const [ error, setError ] = useState(false)
 	const ref = createRef()
 
 	useEffect(() => {
@@ -39,7 +39,7 @@ const Update = () => {
 		drawAble2Logo(ctx)
 
 		ctx.strokeStyle = '#eeeeee'
-		ctx.lineWidth = 4
+		ctx.lineWidth = 6
 		ctx.lineCap = 'round'
 		ctx.beginPath()
 		ctx.arc(212, 212, 200, -arcStart, percent / 100 * TAU - arcStart, false)

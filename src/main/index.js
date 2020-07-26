@@ -24,6 +24,7 @@ let preferences = false
 
 const { app, BrowserWindow, Menu } = electron
 
+autoUpdater.autoDownload = false
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 
@@ -59,6 +60,7 @@ const createURL = view =>  url.format(dev ? {
 const checkForUpdate = () => !app.isPackaged || mac ? Promise.resolve(false) : new Promise(resolve => {
 	autoUpdater.on('update-available', ({ version }) => resolve(version))
 	autoUpdater.on('update-not-available', () => resolve(false))
+	autoUpdater.on('error', () => resolve(false))
 	autoUpdater.checkForUpdatesAndNotify()
 })
 
@@ -89,6 +91,7 @@ const createUpdateWindow = version => new Promise(resolve => {
 
 	updateWin.on('ready-to-show', () => {
 		updateWin.show()
+		autoUpdater.downloadUpdate()
 		updateWin.webContents.send('updateStarted', version)
 		resolve()
 	})
@@ -462,6 +465,7 @@ ipcMain.on('savePrefs', async (evt, prefs) => {
 })
 
 ipcMain.on('retryUpdate', () => {
+	autoUpdater.autoDownload = true
 	autoUpdater.checkForUpdatesAndNotify()
 })
 
