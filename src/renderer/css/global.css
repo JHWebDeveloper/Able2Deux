@@ -158,11 +158,11 @@ input[type="checkbox"]:checked::after { content: 'check_box'; }
 input[type="radio"]::after { content: 'radio_button_unchecked'; } 
 input[type="radio"]:checked::after { content: 'radio_button_checked'; }
 
-input[type="checkbox"].switch { opacity: 0; margin-right: -18px; }
+input[type="checkbox"].switch {	margin-right: -18px; }
 
-input[type="range"] {
-	border-radius: 3px;
-}
+input[type="checkbox"].switch::after { opacity: 0; }
+
+input[type="range"] { border-radius: 3px; }
 
 input[type="range"]::-webkit-slider-thumb {
 	border-radius: 50%;
@@ -210,7 +210,7 @@ label > :matches(input, span, svg) { vertical-align: middle; }
 	font: 400 1em 'Sax Mono', 'Courier New', Courier, monospace;
 }
 
-body:not(.accessable) :focus { outline: none; }
+body:not(.accessible) :focus { outline: none; }
 
 ::-webkit-scrollbar {
 	width: 10px;

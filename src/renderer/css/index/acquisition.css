@@ -59,7 +59,8 @@
 	height: calc(100% + 4px);
 }
 
-#uploader:matches(.drag-enter, :active) {
+#uploader:matches(.drag-enter, :active),
+body.accessible #uploader:focus-within {
 	background-color: var(--primary);
 	color: var(--background);
 }
