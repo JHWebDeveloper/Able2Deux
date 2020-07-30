@@ -194,6 +194,15 @@ export const warn = async ({ enabled, message, detail, callback }) => {
 	if (proceed) callback()
 }
 
+export const initTabbedBrowsing = () => {
+  document.body.onkeydown = function (e) {
+    if (e.keyCode !== 9) return
+    
+    this.className = 'accessible'
+    this.onkeydown = false
+  }
+}
+
 export const TAU = Math.PI * 2
 
 export const drawAble2Logo = ctx => {
