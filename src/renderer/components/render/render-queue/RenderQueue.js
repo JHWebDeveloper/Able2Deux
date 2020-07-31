@@ -13,7 +13,7 @@ import RenderElement from './RenderElement'
 const { interop } = window.ABLE2
 
 const RenderQueue = withRouter(({ media, batchName, saveLocations, closeRenderQueue, dispatch, history }) => {
-	const { renderOutput, concurrent } = useContext(PrefsContext)
+	const { renderOutput, renderFrameRate, concurrent } = useContext(PrefsContext)
 	
 	const complete = media.every(({ render }) => (
 		render.status === STATUS.COMPLETE ||
@@ -49,6 +49,7 @@ const RenderQueue = withRouter(({ media, batchName, saveLocations, closeRenderQu
 			batchName,
 			saveLocations,
 			renderOutput,
+			renderFrameRate,
 			concurrent,
 			goBack
 		}))

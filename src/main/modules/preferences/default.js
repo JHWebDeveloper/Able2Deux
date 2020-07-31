@@ -7,8 +7,9 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 	: path.join(app.getPath('temp'))
 
 const defaultPrefs = {
-	version: 2,
+	version: 3,
 	renderOutput: '1280x720',
+	renderFrameRate: 'auto',
 	concurrent: 2,
 	saveLocations: [
 		{

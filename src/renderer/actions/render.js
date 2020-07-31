@@ -204,6 +204,7 @@ export const render = params => async dispatch => {
 					data: {
 						...item,
 						renderOutput: params.renderOutput,
+						renderFrameRate: params.renderFrameRate,
 						saveLocations: saveLocations.filter(({ checked }) => checked)
 					},
 					startCallback() {

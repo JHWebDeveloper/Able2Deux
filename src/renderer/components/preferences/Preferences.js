@@ -12,6 +12,7 @@ import SaveAndClose from './SaveAndClose'
 const Main = () => {
 	const {
 		renderOutput,
+		renderFrameRate,
 		concurrent,
 		scratchDisk,
 		warnings,
@@ -27,6 +28,7 @@ const Main = () => {
 		<form>
 			<RenderOutput
 				renderOutput={renderOutput}
+				renderFrameRate={renderFrameRate}
 				concurrent={concurrent}
 				dispatch={dispatch} />
 			<ScratchDisk 
@@ -45,6 +47,7 @@ const Main = () => {
 			<SaveAndClose
 				prefs={{
 					renderOutput,
+					renderFrameRate,
 					concurrent,
 					scratchDisk,
 					warnings,

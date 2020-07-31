@@ -24,7 +24,7 @@ const removeJob = async id => {
 }
 
 export const render = (exportData, win) => new Promise((resolve, reject) => {
-	const { id, arc, background, overlay, sourceData, rotation, renderOutput, saveLocations, start, end } = exportData
+	const { id, arc, background, overlay, sourceData, rotation, renderOutput, renderFrameRate, saveLocations, start, end } = exportData
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
 	const needsAlpha = background === 'alpha' && (arc === 'fit' || arc === 'transform')
@@ -37,11 +37,13 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const command = ffmpeg(exportData.tempFilePath)
 		.outputOptions(needsAlpha ? [
 			'-vcodec prores_ks',
+			...renderFrameRate === 'auto' ? [] : ['-r 59.94'],
 			'-pix_fmt yuva444p10le',
 			'-profile:v 4444',
 			'-preset:v ultrafast'
 		] : [
 			'-vcodec h264',
+			...renderFrameRate === 'auto' ? [] : ['-r 59.94'],
 			'-b:v 7000k',
 			'-b:a 192k',
 			'-crf 17',

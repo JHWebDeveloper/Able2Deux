@@ -9,7 +9,7 @@ import RadioSet from '../form_elements/RadioSet'
 const _720  = [1280, 720].join('x')
 const _1080 = [1920, 1080].join('x')
 
-const RenderOutput = ({ renderOutput, concurrent, dispatch }) => {
+const RenderOutput = ({ renderOutput, renderFrameRate, concurrent, dispatch }) => {
 	const keepConcurrentInRange = useCallback(e => {
 		dispatch(updateStateFromEvent(keepInRange(e)))
 	}, [])
@@ -17,7 +17,7 @@ const RenderOutput = ({ renderOutput, concurrent, dispatch }) => {
 	return (
 		<div>
 			<fieldset>
-				<legend>Render Output</legend>
+				<legend>Output Resolution</legend>
 				<div>
 					<RadioSet 
 						name="renderOutput"
@@ -31,6 +31,25 @@ const RenderOutput = ({ renderOutput, concurrent, dispatch }) => {
 							{
 								label: _1080,
 								value: _1080
+							}
+						]}/>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Output Frame Rate</legend>
+				<div>
+					<RadioSet 
+						name="renderFrameRate"
+						state={renderFrameRate}
+						onChange={e => dispatch(updateStateFromEvent(e))}
+						buttons={[
+							{
+								label: 'Auto',
+								value: 'auto'
+							},
+							{
+								label: '59.94fps',
+								value: '59.94fps'
 							}
 						]}/>
 				</div>
@@ -56,6 +75,10 @@ RenderOutput.propTypes = {
 	renderOutput: oneOf([
 		'1280x720',
 		'1920x1080'
+	]).isRequired,
+	renderFrameRate: oneOf([
+		'auto',
+		'59.94fps'
 	]).isRequired,
 	concurrent: number.isRequired,
 	dispatch: func.isRequired
