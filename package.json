@@ -1,7 +1,7 @@
 {
 	"name": "able2",
 	"version": "2.0.1",
-	"description": "",
+	"description": "Able2 is an all-in-one News Editor's toolkit. Able2 is able to download video from the internet, do screen records and convert and process video for air.",
 	"main": "build/main.js",
 	"scripts": {
 		"lint": "eslint . --ext .js",
