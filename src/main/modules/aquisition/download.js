@@ -80,8 +80,10 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 	})
 
 	download.stderr.on('data', err => {
-		removeDownload(id)
-		reject(err.toString())
+		if (/^ERROR: Unable to download webpage/.test(err)) {
+			removeDownload(id)
+			reject(err.toString())
+		}
 	})
 
 	download.on('close', code => {
