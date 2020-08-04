@@ -4,8 +4,6 @@ import { bool, func, number, exact, string } from 'prop-types'
 import { updateMediaNestedStateFromEvent } from '../../../actions'
 import { copySettings, applySettingsToAll } from '../../../actions/render'
 
-
-
 import { compareProps, createSettingsMenu } from '../../../utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
