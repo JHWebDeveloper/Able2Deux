@@ -9,6 +9,7 @@ import Position from './Position'
 import Scale from './Scale'
 import Crop from './Crop'
 import Rotation from './Rotation'
+import Audio from './Audio'
 
 const EditorOptions = props => {
 	const { id, mediaType, editAll, onlyItem, width, height, aspectRatio, dispatch, arc } = props
@@ -23,38 +24,45 @@ const EditorOptions = props => {
 				end={props.end}
 				duration={props.duration}
 				{...common} />
-			<Formatting
-				arc={arc}
-				background={props.background}
-				overlay={props.overlay}
-				{...common} />
-			{!(arc === 'none' && aspectRatio !== '16:9') && (
-				<Source
-					source={props.source}
+			{(mediaType === 'video' || mediaType === 'audio') && (
+				<Audio
+					audio={props.audio}
 					{...common} />
 			)}
-			{arc === 'fill' && aspectRatio !== '16:9' && (
-				<Centering
-					centering={props.centering}
+			{mediaType !== 'audio' && props.audio.exportAs !== 'audio' && <>
+				<Formatting
+					arc={arc}
+					background={props.background}
+					overlay={props.overlay}
 					{...common} />
-			)}
-			{arc === 'transform' && <>
-				<Position
-					position={props.position}
-					{...common} />
-				<Scale
+				{!(arc === 'none' && aspectRatio !== '16:9') && (
+					<Source
+						source={props.source}
+						{...common} />
+				)}
+				{arc === 'fill' && aspectRatio !== '16:9' && (
+					<Centering
+						centering={props.centering}
+						{...common} />
+				)}
+				{arc === 'transform' && <>
+					<Position
+						position={props.position}
+						{...common} />
+					<Scale
+						scale={props.scale}
+						crop={props.crop}
+						{...common} />
+					<Crop
+						crop={props.crop}
+						{...common} />
+				</>}
+				<Rotation
+					rotation={props.rotation}
 					scale={props.scale}
 					crop={props.crop}
 					{...common} />
-				<Crop
-					crop={props.crop}
-					{...common} />
 			</>}
-			<Rotation
-				rotation={props.rotation}
-				scale={props.scale}
-				crop={props.crop}
-				{...common} />
 		</div>
 	)
 }
