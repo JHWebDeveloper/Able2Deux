@@ -10,7 +10,7 @@ class MediaElement {
 		url = false,
 		sourceFilePath = false,
 		title = '',
-		filename = '',
+		filename = ''
 	}) {
 		const mediaId = id || uuid()
 		
@@ -53,7 +53,7 @@ class MediaElement {
 			prefix: true,
 			onTop: false,
 			data: ''
-		},
+		}
 		this.centering = 0
 		this.position = {
 			x: 0,
@@ -75,7 +75,11 @@ class MediaElement {
 		this.rotation = {
 			angle: '',
 			reflect: ''
-		},
+		}
+		this.audio = {
+			exportAs: 'video_audio',
+			format: 'file'
+		}
 		this.render = {
 			status: PENDING,
 			percent: 0
