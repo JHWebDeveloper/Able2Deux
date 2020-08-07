@@ -136,8 +136,8 @@ export const extractSettings = settings => {
 }
 
 export const extractSettingsToArray = settings => {
-	const  { start, arc, background, overlay, source, centering, position, scale, crop, rotation } = settings
-	return [ start, arc, background, overlay, source, centering, position, scale, crop, rotation ]
+	const  { start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation } = settings
+	return [ start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation ]
 }
 
 export const getStatusColor = status => {
