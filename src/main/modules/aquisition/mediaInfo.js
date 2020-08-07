@@ -3,42 +3,7 @@ import path from 'path'
 
 import ffmpeg from '../utilities/ffmpeg'
 import placeholder from '../utilities/placeholder'
-import { temp } from '../utilities/extFileHandlers'
-
-const supportedImageCodecs = [
-	'alias_pix',
-	'bmp',
-	'brender_pix',
-	'dds',
-	'dpx',
-	'exr',
-	'fits',
-	'jpeg2000',
-	'libopenjpeg',
-	'jpegls',
-	'ljpeg',
-	'mjpeg',
-	'pam',
-	'pbm',
-	'pcx',
-	'pfm',
-	'pgm',
-	'pgmyuv',
-	'png',
-	'ppm',
-	'psd',
-	'ptx',
-	'sgi',
-	'sunrast',
-	'targa',
-	'tiff',
-	'vc1image',
-	'wmv3image',
-	'xbm',
-	'xface',
-	'xpm',
-	'xwd'
-]
+import supportedImageCodecs from '../utilities/supportedImageCodecs'
 
 const round = (n, dec = 2) => Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
 
