@@ -10,6 +10,7 @@ import BatchList from './selector/BatchList'
 import EditAll from './selector/EditAll'
 import SaveOptions from './SaveOptions'
 import Preview from './preview/Preview'
+import AudioPreview from './preview/AudioPreview'
 import EditorOptions from './editor/EditorOptions'
 import RenderQueue from './render-queue/RenderQueue'
 
@@ -27,7 +28,7 @@ const Render = () => {
 
 	if (!selected) return false
 
-	const { thumbnail, title, width, height, aspectRatio, duration, fps } = selected || {}
+	const { thumbnail, title, width, height, aspectRatio, duration, fps, mediaType } = selected || {}
 
 	return (
 		<form>
@@ -56,9 +57,9 @@ const Render = () => {
 					dispatch={dispatch} />
 			</div>
 			<div id="editor">
-				<Preview
-					selected={selected}
-					dispatch={dispatch} />
+				{(mediaType === 'audio' || mediaType == 'video' && selected.audio.exportAs === 'audio')
+					? <AudioPreview format={selected.audio.format}/>
+					: <Preview selected={selected} dispatch={dispatch} />}
 				<EditorOptions
 					batchName={batchName}
 					editAll={editAll}
