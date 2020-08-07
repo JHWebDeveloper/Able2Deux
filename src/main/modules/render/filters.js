@@ -71,3 +71,12 @@ export const transform = (command, background, filterData, isPreview) => {
 			finalCmd(isPreview)
 		].join(''))
 }
+
+export const videoToBars = (command, filterData) => {
+	const { renderWidth, renderHeight } = filterData
+
+	command.complexFilter([
+		`[0:v]scale=${renderWidth}:${renderHeight}:force_original_aspect_ratio=decrease,pad=${renderWidth}:${renderHeight}[vid];`,
+		'[vid][1:v]overlay'
+	].join(''))
+}
