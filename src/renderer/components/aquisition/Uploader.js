@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import { func } from 'prop-types'
 
-import accepted from '../../../main/modules/utilities/supportedExentions'
 import { upload } from '../../actions/acquisition'
 
 const dragOver = e => {
@@ -32,7 +31,6 @@ const Uploader = ({ dispatch }) => {
 				onDragEnter={dragOver}
 				onDragLeave={dragOut}
 				onDrop={dragOut}
-				accept={accepted.join()}
 				multiple />
 		</div>
 	)
