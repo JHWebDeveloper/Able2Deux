@@ -23,7 +23,7 @@ const removeJob = async id => {
 	return temp.exports.clear(id)
 }
 
-const sharedVideoOptions = (renderFrameRate) => [
+const sharedVideoOptions = renderFrameRate => [
 	...renderFrameRate === 'auto' ? [] : ['-r 59.94'],
 	'-b:v 7000k',
 	'-preset:v ultrafast',

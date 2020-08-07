@@ -1,4 +1,5 @@
 import React from 'react'
+import { string } from 'prop-types'
 
 import * as preview from './audioPreviewDataURLs'
 
@@ -15,5 +16,9 @@ const AudioPreview = ({ format }) => (
 		</div>
 	</details>
 )
+
+AudioPreview.propTypes = {
+	format: string.isRequired
+}
 
 export default AudioPreview

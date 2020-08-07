@@ -1,4 +1,5 @@
 import React, { memo, useCallback } from 'react'
+import { bool, exact, func, oneOf, string } from 'prop-types'
 
 import { updateMediaNestedStateFromEvent } from '../../../actions'
 import { copySettings, applySettingsToAll } from '../../../actions/render'
@@ -65,5 +66,17 @@ const Audio = memo(({ id, onlyItem, mediaType, audio, editAll, dispatch }) => {
 		</DetailsWrapper>
 	)
 }, compareProps)
+
+Audio.propTypes = {
+	id: string.isRequired,
+	onlyItem: bool.isRequired,
+	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
+	audio: exact({
+		exportAs: oneOf(['video_audio', 'video', 'audio']),
+		format: oneOf(['file', 'bars'])
+	}),
+	editAll: bool.isRequired,
+	dispatch: func.isRequired
+}
 
 export default Audio

@@ -57,7 +57,7 @@ const Render = () => {
 					dispatch={dispatch} />
 			</div>
 			<div id="editor">
-				{(mediaType === 'audio' || mediaType == 'video' && selected.audio.exportAs === 'audio')
+				{mediaType === 'audio' || mediaType === 'video' && selected.audio.exportAs === 'audio'
 					? <AudioPreview format={selected.audio.format}/>
 					: <Preview selected={selected} dispatch={dispatch} />}
 				<EditorOptions

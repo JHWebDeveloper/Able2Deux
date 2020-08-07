@@ -1,5 +1,5 @@
 import React from 'react'
-import { bool, func, number, object, string } from 'prop-types'
+import { bool, func, number, object, oneOf, string } from 'prop-types'
 
 import FileOptions from './FileOptions'
 import Formatting from './Formatting'
@@ -71,7 +71,7 @@ EditorOptions.propTypes = {
 	id: string.isRequired,
 	onlyItem: bool.isRequired,
 	editAll: bool.isRequired,
-	mediaType: string.isRequired,
+	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	width: number.isRequired,
 	height: number.isRequired,
 	duration: number.isRequired,
@@ -80,6 +80,7 @@ EditorOptions.propTypes = {
 	filename: string,
 	start: object,
 	end: object,
+	audio: object.isRequired,
 	arc: string.isRequired,
 	background: string.isRequired,
 	overlay: string.isRequired,

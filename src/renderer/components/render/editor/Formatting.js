@@ -99,7 +99,7 @@ Formatting.propTypes = {
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
 	background: oneOf(['blue', 'grey', 'alpha', 'black']).isRequired,
 	overlay: oneOf(['none', 'tv', 'laptop']),
-	mediaType: string.isRequired,
+	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }

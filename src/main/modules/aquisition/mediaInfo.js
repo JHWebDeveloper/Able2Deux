@@ -4,6 +4,7 @@ import path from 'path'
 import ffmpeg from '../utilities/ffmpeg'
 import placeholder from '../utilities/placeholder'
 import supportedImageCodecs from '../utilities/supportedImageCodecs'
+import { temp } from '../utilities/extFileHandlers'
 
 const round = (n, dec = 2) => Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
 
@@ -56,7 +57,7 @@ const calculateAspectRatio = (a, b) => {
 }
 
 const getMediaKind = (codec, ext) => {
-	if (/^gif|apng$/i.test(codec) || (/^mjpegb?$/i.test(codec) && /^mjpe?g$/i.test(ext))) {
+	if (/^gif|apng$/i.test(codec) || /^mjpegb?$/i.test(codec) && /^mjpe?g$/i.test(ext)) {
 		return 'gif'
 	} else if (supportedImageCodecs.includes(codec)) {
 		return 'image'

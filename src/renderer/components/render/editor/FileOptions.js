@@ -43,7 +43,7 @@ const FileOptions = memo(({ id, batchName, filename, start, end, mediaType, dura
 					onChange={e => dispatch(updateMediaStateFromEvent(id, e))}
 					required />
 			</fieldset>
-			{(mediaType === 'video' || mediaType === 'audio') ? <>
+			{mediaType === 'video' || mediaType === 'audio' ? <>
 				<Timecode
 					label="Start:"
 					name="start"
