@@ -27,7 +27,6 @@
 		"electron-util": "^0.14.2",
 		"ffmpeg-static-electron": "^2.0.1",
 		"ffprobe-static-electron": "^2.0.0",
-		"file-type": "^14.6.2",
 		"fluent-ffmpeg": "^2.1.2",
 		"prop-types": "^15.7.2",
 		"react": "^16.13.1",
