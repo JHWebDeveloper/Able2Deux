@@ -316,7 +316,7 @@ ipcMain.on('requestDownload', async (evt, data) => {
 
 	try {
 		const tempFilePath = await downloadVideo(data, mainWin)
-		const mediaData = await getMediaInfo(id, 'video', tempFilePath)
+		const mediaData = await getMediaInfo(id, false, tempFilePath)
 
 		evt.reply(`downloadComplete_${id}`, mediaData)
 	} catch (err) {
