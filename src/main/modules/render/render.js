@@ -37,7 +37,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
-	const needsAlpha = !isAudio && background === 'alpha' && (arc === 'fit' || arc === 'transform')
+	const needsAlpha = !isAudio && background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none')
 	let outputOptions = []
 	let extension = false
 	let backgroundFile = false
