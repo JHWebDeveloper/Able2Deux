@@ -5,6 +5,8 @@ import ffmpeg from '../utilities/ffmpeg'
 import placeholder from '../utilities/placeholder'
 import { temp } from '../utilities/extFileHandlers'
 
+import { checkFileType } from './upload'
+
 const round = (n, dec = 2) => Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
 
 const base64Encode = async file => {
@@ -17,8 +19,8 @@ const base64Encode = async file => {
 	}
 }
 
-const createThumbnail = (id, tempFilePath) => new Promise(resolve => {
-	const screenshot = `${id}.screenshot.jpg`
+const createScreenshot = (id, tempFilePath) => new Promise(resolve => {
+	const screenshot = `${id}.thumbnail.jpg`
 
 	ffmpeg(tempFilePath).on('end', () => {
 		resolve(path.join(temp.imports.path, screenshot))
@@ -30,6 +32,21 @@ const createThumbnail = (id, tempFilePath) => new Promise(resolve => {
 		filename: screenshot,
 		size: '384x?'
 	})
+})
+
+const createPNGCopy = (id, tempFilePath, mediaType) => new Promise(resolve => {
+	const png = path.join(temp.imports.path, `${id}.thumbnail.png`)
+	const opt = []
+
+	if (mediaType === 'gif') opt.push('-frames 1')
+
+	ffmpeg(tempFilePath)
+		.outputOption(opt)
+		.output(png)
+		.size('384x?')
+		.on('error', () => resolve(false))
+		.on('end', () => resolve(png))
+		.run()
 })
 
 const gcd = (a, b) => b === 0 ? a : gcd(b, a % b)
@@ -44,27 +61,49 @@ export const getMediaInfo = (id, mediaType, tempFilePath) => new Promise((resolv
 	ffmpeg(tempFilePath).ffprobe(async (ffprobeErr, metadata) => {
 		if (ffprobeErr) reject(ffprobeErr)
 
-		try {
-			const videoStream = metadata.streams.find(stream => stream.codec_type === 'video')
-			const { width, height, avg_frame_rate } = videoStream
-			const { duration } = metadata.format
+		if (!mediaType) {
+			try {
+				mediaType = await checkFileType(tempFilePath)
+			} catch (err) {
+				mediaType = 'video'
+			}
+		}
 
-			const mediaData = {
-				tempFilePath,
-				width,
-				height,
-				aspectRatio: calculateAspectRatio(width, height)
+		try {
+			const { duration } = metadata.format
+			const mediaData = { mediaType, tempFilePath }
+			let videoStream = false
+
+			if (mediaType === 'video' || mediaType === 'audio') {
+				mediaData.duration = duration || 0
 			}
 
-			if (mediaType === 'image' || mediaType === 'gif') {
-				mediaData.thumbnail = await base64Encode(tempFilePath)
-			} else {
-				const thumbnail = await createThumbnail(id, tempFilePath)
-				const fr = avg_frame_rate.split('/')
-	
+			if (mediaType !== 'audio') {
+				videoStream = metadata.streams.find(stream => stream.codec_type === 'video')
+				
+				const { width, height } = videoStream
+
+				Object.assign(mediaData, {
+					width,
+					height,
+					aspectRatio: calculateAspectRatio(width, height)
+				})
+			}
+
+			if (mediaType === 'video') {
+				const thumbnail = await createScreenshot(id, tempFilePath)
+				const fps = videoStream.avg_frame_rate.split('/').reduce((a, b) => a / b)
+
+				Object.assign(mediaData, {
+					thumbnail: await base64Encode(thumbnail),
+					fps: round(fps)
+				})
+			} else if (mediaType === 'image' || mediaType === 'gif') {
+				const thumbnail = await createPNGCopy(id, tempFilePath, mediaType)
+
 				mediaData.thumbnail = await base64Encode(thumbnail)
-				mediaData.fps = round(fr[0] / fr[1])
-				mediaData.duration = duration || 0
+			} else {
+				mediaData.thumbnail = placeholder
 			}
 
 			resolve(mediaData)
