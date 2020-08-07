@@ -134,6 +134,7 @@ export const upload = ({ name, path }) => async dispatch => {
 	try {
 		mediaType = await interop.checkFileType(path)
 	} catch (err) {
+		console.log(err)
 		return toastr.error(`${name} is not a supported file type`, false, toastrOpts)
 	}
 
