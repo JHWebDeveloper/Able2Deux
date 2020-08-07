@@ -85,8 +85,7 @@ export const download = ({ url, optimize, output }) => async dispatch => {
 		url,
 		title: url,
 		filename: 'download',
-		aquisitionType: 'download',
-		mediaType: 'video'
+		aquisitionType: 'download'
 	})
 
 	dispatch(addMedia(mediaElement))
@@ -133,7 +132,7 @@ export const upload = ({ name, path }) => async dispatch => {
 	let mediaType = false
 
 	try {
-		mediaType = await interop.checkFileType({ name, path })
+		mediaType = await interop.checkFileType(path)
 	} catch (err) {
 		return toastr.error(`${name} is not a supported file type`, false, toastrOpts)
 	}
@@ -143,7 +142,7 @@ export const upload = ({ name, path }) => async dispatch => {
 		filename: interop.getFileName(name),
 		sourceFilePath: path,
 		mediaType,
-		aquisitionType: 'upload'
+		aquisitionType: 'upload',
 	})
 
 	dispatch(addMedia(mediaElement))
