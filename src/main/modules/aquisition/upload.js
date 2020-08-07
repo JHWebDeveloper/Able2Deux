@@ -1,6 +1,5 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
-import ffmpeg from '../utilities/ffmpeg'
 
 import { temp } from '../utilities/extFileHandlers'
 
