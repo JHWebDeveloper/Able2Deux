@@ -169,7 +169,6 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			.loop()
 			.outputOptions([
 				'-r 59.94',
-				'-b:v 1k',
 				'-shortest'
 			])
 
