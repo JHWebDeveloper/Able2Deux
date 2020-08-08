@@ -19,6 +19,7 @@ const EditorOptions = props => {
 		<div id="editor-options">
 			<FileOptions
 				batchName={props.batchName}
+				batchNamePosition={props.batchNamePosition}
 				filename={props.filename}
 				start={props.start}
 				end={props.end}

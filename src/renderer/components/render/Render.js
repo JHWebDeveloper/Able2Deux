@@ -15,7 +15,15 @@ import EditorOptions from './editor/EditorOptions'
 import RenderQueue from './render-queue/RenderQueue'
 
 const Render = () => {
-	const { media, selectedId, batchName, editAll, saveLocations, dispatch } = useContext(MainContext)
+	const {
+		media,
+		selectedId,
+		batchName,
+		batchNamePosition,
+		editAll,
+		saveLocations,
+		dispatch
+	} = useContext(MainContext)
 
 	if (!media.length) return <Redirect to="/" />
 
@@ -52,6 +60,7 @@ const Render = () => {
 				<SaveOptions
 					media={media}
 					batchName={batchName}
+					batchNamePosition={batchNamePosition}
 					saveLocations={saveLocations}
 					setRendering={setRendering}
 					dispatch={dispatch} />
@@ -62,6 +71,7 @@ const Render = () => {
 					: <Preview selected={selected} dispatch={dispatch} />}
 				<EditorOptions
 					batchName={batchName}
+					batchNamePosition={batchNamePosition}
 					editAll={editAll}
 					onlyItem={media.length < 2}
 					dispatch={dispatch}
@@ -71,6 +81,7 @@ const Render = () => {
 				<RenderQueue
 					media={media}
 					batchName={batchName}
+					batchNamePosition={batchNamePosition}
 					saveLocations={saveLocations}
 					closeRenderQueue={() => setRendering(false)}
 					dispatch={dispatch} />
