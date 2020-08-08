@@ -6,7 +6,7 @@ import { PrefsProvider, PrefsContext } from '../../store/preferences'
 import { MainProvider } from '../../store'
 
 import Header from './Header'
-import Acquisition from '../aquisition/Acquisition'
+import Acquisition from '../acquisition/Acquisition'
 import Render from '../render/Render'
 import SourceSuggestionList from './SourceSuggestionList'
 
