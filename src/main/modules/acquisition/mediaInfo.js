@@ -134,14 +134,12 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 
 	mediaData.tempFilePath = tempFilePath
 
-	if (!mediaType) {
-		try {
-			mediaType = await checkFileType(tempFilePath, metadata)
-		} catch (err) {
-			mediaType = 'video'
-		} finally {
-			mediaData.mediaType = mediaType
-		}
+	if (!mediaType) try {
+		mediaType = await checkFileType(tempFilePath, metadata)
+	} catch (err) {
+		mediaType = 'video'
+	} finally {
+		mediaData.mediaType = mediaType
 	}
 
 	if (mediaType === 'video' || mediaType === 'audio') {
