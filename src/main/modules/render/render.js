@@ -23,8 +23,7 @@ const removeJob = async id => {
 	return temp.exports.clear(id)
 }
 
-const sharedVideoOptions = renderFrameRate => [
-	...renderFrameRate === 'auto' ? [] : ['-r 59.94'],
+const sharedVideoOptions = [
 	'-b:v 7000k',
 	'-preset:v ultrafast',
 	'-c:a aac',
@@ -33,7 +32,23 @@ const sharedVideoOptions = renderFrameRate => [
 ]
 
 export const render = (exportData, win) => new Promise((resolve, reject) => {
-	const { mediaType, id, audio, arc, background, overlay, sourceData, rotation, renderOutput, renderFrameRate, saveLocations, start, end } = exportData
+	const {
+		acquisitionType,
+		mediaType,
+		id,
+		start,
+		end,
+		audio,
+		arc,
+		background,
+		overlay,
+		sourceData,
+		rotation,
+		renderOutput,
+		renderFrameRate,
+		saveLocations
+	} = exportData
+
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
@@ -52,7 +67,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			'-c:v prores_ks',
 			'-pix_fmt yuva444p10le',
 			'-profile:v 4444',
-			...sharedVideoOptions(renderFrameRate)
+			...sharedVideoOptions
 		]
 
 		extension = 'mov'
@@ -60,7 +75,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		outputOptions = [
 			'-c:v libx264',
 			'-crf 17',
-			...sharedVideoOptions(renderFrameRate)
+			...sharedVideoOptions
 		]
 
 		extension = 'mp4'
@@ -118,6 +133,10 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	if (!isAudio) {
 		if (mediaType === 'video' && audio.exportAs === 'video') command.noAudio()
 		if (mediaType === 'image') command.loop(7)
+
+		if (exportData.renderFrameRate === '59.94fps' || exportData.acquisitionType === 'screen_record') {
+			command.outputOption('-r 59.94')
+		}
 	
 		if (sourceData) {
 			const sourcePng = path.join(temp.imports.path, `${id}.src-overlay.png`)
