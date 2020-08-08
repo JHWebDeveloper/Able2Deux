@@ -110,7 +110,7 @@ export const checkFileType = file => new Promise((resolve, reject) => {
 	})
 })
 
-export const getMediaInfo = (id, mediaType, tempFilePath) => new Promise((resolve, reject) => {
+export const getMediaInfo = (id, mediaType, tempFilePath, force60fps) => new Promise((resolve, reject) => {
 	ffmpeg(tempFilePath).ffprobe(async (ffprobeErr, metadata) => {
 		if (ffprobeErr) reject(ffprobeErr)
 
@@ -149,7 +149,7 @@ export const getMediaInfo = (id, mediaType, tempFilePath) => new Promise((resolv
 
 				Object.assign(mediaData, {
 					thumbnail: await base64Encode(thumbnail),
-					fps: round(fps)
+					fps: force60fps ? 60 : round(fps)
 				})
 			} else if (mediaType === 'image' || mediaType === 'gif') {
 				const thumbnail = await createPNGCopy(id, tempFilePath, mediaType)
