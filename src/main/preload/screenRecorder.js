@@ -1,5 +1,6 @@
 import { desktopCapturer, remote } from 'electron'
 import { v1 as uuid } from 'uuid'
+import { Decoder, Reader, tools } from 'ts-ebml'
 
 import { sendMessage } from './sendMessage'
 
@@ -78,6 +79,15 @@ const handleStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 	})
 })
 
+const getArrayBuffer = blob => new Promise((resolve, reject) => {
+	const fileReader = new FileReader()
+
+	fileReader.onloadend = () => resolve(fileReader.result)
+
+	fileReader.onerror = reject
+	fileReader.readAsArrayBuffer(blob)
+})
+
 const getBuffer = blob => new Promise((resolve, reject) => {
 	const fileReader = new FileReader()
 
@@ -96,10 +106,33 @@ const getBuffer = blob => new Promise((resolve, reject) => {
 	fileReader.readAsArrayBuffer(blob)
 })
 
+const fixDuration = async blobs => {
+	const blob = new Blob(blobs, { type: 'video/webm' })
+	const decoder = new Decoder()
+	const reader = new Reader()
+
+	reader.logging = false
+	reader.drop_default_duration = false
+
+	const buffer = await getArrayBuffer(blob)
+
+	const elms = decoder.decode(buffer)
+
+	elms.forEach((elm) => reader.read(elm))
+
+	reader.stop()
+
+	const metadata = tools.makeMetadataSeekable(reader.metadatas, reader.duration, reader.cues)
+	const body = buffer.slice(reader.metadataSize)
+	const fixedBlob = new Blob([metadata, body], { type: 'video/webm' })
+
+	return getBuffer(fixedBlob)
+}
+
 export const startRecording = async ({ streamId, timer, setRecordIndicator, onStart, onComplete, onError }) => {
 	const stream = await getStream(streamId)
 	const blobs  = await handleStream(stream, timer, setRecordIndicator)
-	const buffer = await getBuffer(new Blob(blobs, { type: 'video/webm' }))
+	const buffer = await fixDuration(blobs)
 
 	const recordId = uuid()
 
