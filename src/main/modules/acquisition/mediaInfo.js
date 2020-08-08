@@ -66,102 +66,115 @@ const getMediaKind = (codec, ext) => {
 	}
 }
 
-export const checkFileType = file => new Promise((resolve, reject) => {
-	ffmpeg.ffprobe(file, (ffprobeErr, metadata) => {
-		if (ffprobeErr) reject(ffprobeErr)
-
-		ffmpeg.getAvailableCodecs((err, codecs) => {
-			if (err) reject(err)
-			
-			if (!metadata.streams || metadata.streams.length === 0) {
-				reject(new Error('Unsupported file type'))
-			}
-
-			const video = {}
-			const audio = {}
-
-			video.stream = metadata.streams.find(stream => stream.codec_type === 'video')
-			audio.stream = metadata.streams.find(stream => stream.codec_type === 'audio')
-
-			if (video.stream) {
-				video.codec = codecs[video.stream.codec_name]
-				video.supported = video.codec && video.codec.canDecode
-			}
-
-			if (audio.stream) {
-				audio.codec = codecs[audio.stream.codec_name]
-				audio.supported = audio.codec && audio.codec.canDecode
-			}
-			
-			if (
-				audio.supported && !video.stream || // audio only
-				audio.supported && supportedImageCodecs.includes(video.stream.codec_name) // audio with album artwork
-			) {
-				resolve('audio')
-			} else if (
-				video.supported && audio.supported || // video with audio
-				video.supported && !audio.stream // video only
-			) {
-				resolve(getMediaKind(video.stream.codec_name, path.extname(file)))
-			} else {
-				reject(new Error('Unsupported file type'))
-			}
-		})
-	})
-})
-
-export const getMediaInfo = (id, mediaType, tempFilePath, force60fps) => new Promise((resolve, reject) => {
-	ffmpeg(tempFilePath).ffprobe(async (ffprobeErr, metadata) => {
-		if (ffprobeErr) reject(ffprobeErr)
-
-		if (!mediaType) {
-			try {
-				mediaType = await checkFileType(tempFilePath)
-			} catch (err) {
-				mediaType = 'video'
-			}
-		}
-
-		try {
-			const { duration } = metadata.format
-			const mediaData = { mediaType, tempFilePath }
-			let videoStream = false
-
-			if (mediaType === 'video' || mediaType === 'audio') {
-				mediaData.duration = duration || 0
-			}
-
-			if (mediaType !== 'audio') {
-				videoStream = metadata.streams.find(stream => stream.codec_type === 'video')
-				
-				const { width, height } = videoStream
-
-				Object.assign(mediaData, {
-					width,
-					height,
-					aspectRatio: calculateAspectRatio(width, height)
-				})
-			}
-
-			if (mediaType === 'video') {
-				const thumbnail = await createScreenshot(id, tempFilePath)
-				const fps = videoStream.avg_frame_rate.split('/').reduce((a, b) => a / b)
-
-				Object.assign(mediaData, {
-					thumbnail: await base64Encode(thumbnail),
-					fps: force60fps ? 60 : round(fps)
-				})
-			} else if (mediaType === 'image' || mediaType === 'gif') {
-				const thumbnail = await createPNGCopy(id, tempFilePath, mediaType)
-
-				mediaData.thumbnail = await base64Encode(thumbnail)
-			} else {
-				mediaData.thumbnail = placeholder
-			}
-
-			resolve(mediaData)
-		} catch (err) {
+const getMetadata = file => new Promise((resolve, reject) => {
+	ffmpeg.ffprobe(file, (err, metadata) => {
+		if (err) {
 			reject(err)
+		} else {
+			resolve(metadata)
 		}
 	})
 })
+
+const getSupportedCodecList = () => new Promise((resolve, reject) => {
+	ffmpeg.getAvailableCodecs((err, codecs) => {
+		if (err) {
+			reject(err)
+		} else {
+			resolve(codecs)
+		}
+	})
+})
+
+export const checkFileType = async (file, preGeneratedMetadata) => {
+	const [ metadata, codecs ] = await Promise.all([
+		preGeneratedMetadata || getMetadata(file),
+		getSupportedCodecList()
+	])
+
+	if (!metadata.streams || metadata.streams.length === 0) {
+		throw new Error('Unsupported file type')
+	}
+
+	const video = {}
+	const audio = {}
+
+	video.stream = metadata.streams.find(stream => stream.codec_type === 'video')
+	audio.stream = metadata.streams.find(stream => stream.codec_type === 'audio')
+
+	if (video.stream) {
+		video.codec = codecs[video.stream.codec_name]
+		video.supported = video.codec && video.codec.canDecode
+	}
+
+	if (audio.stream) {
+		audio.codec = codecs[audio.stream.codec_name]
+		audio.supported = audio.codec && audio.codec.canDecode
+	}
+	
+	if (
+		audio.supported && !video.stream || // audio only
+		audio.supported && supportedImageCodecs.includes(video.stream.codec_name) // audio with album artwork
+	) {
+		return 'audio'
+	} else if (
+		video.supported && audio.supported || // video with audio
+		video.supported && !audio.stream // video only
+	) {
+		return getMediaKind(video.stream.codec_name, path.extname(file))
+	} else {
+		throw new Error('Unsupported file type')
+	}
+}
+
+export const getMediaInfo = async (id, tempFilePath, mediaType, force60fps) => {
+	const metadata = await getMetadata(tempFilePath)
+	const mediaData = {}
+	let videoStream = false
+
+	mediaData.tempFilePath = tempFilePath
+
+	if (!mediaType) {
+		try {
+			mediaType = await checkFileType(tempFilePath, metadata)
+		} catch (err) {
+			mediaType = 'video'
+		} finally {
+			mediaData.mediaType = mediaType
+		}
+	}
+
+	if (mediaType === 'video' || mediaType === 'audio') {
+		mediaData.duration = metadata.format.duration || 0
+	}
+
+	if (mediaType !== 'audio') {
+		videoStream = metadata.streams.find(stream => stream.codec_type === 'video')
+		
+		const { width, height } = videoStream
+
+		Object.assign(mediaData, {
+			width,
+			height,
+			aspectRatio: calculateAspectRatio(width, height)
+		})
+	}
+
+	if (mediaType === 'video') {
+		const thumbnail = await createScreenshot(id, tempFilePath)
+		const fps = videoStream.avg_frame_rate.split('/').reduce((a, b) => a / b)
+
+		Object.assign(mediaData, {
+			thumbnail: await base64Encode(thumbnail),
+			fps: force60fps ? 60 : round(fps)
+		})
+	} else if (mediaType === 'image' || mediaType === 'gif') {
+		const thumbnail = await createPNGCopy(id, tempFilePath, mediaType)
+
+		mediaData.thumbnail = await base64Encode(thumbnail)
+	} else {
+		mediaData.thumbnail = placeholder
+	}
+
+	return mediaData
+}
