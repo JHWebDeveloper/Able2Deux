@@ -12,7 +12,8 @@ import RenderElement from './RenderElement'
 
 const { interop } = window.ABLE2
 
-const RenderQueue = withRouter(({ media, batchName, saveLocations, closeRenderQueue, dispatch, history }) => {
+const RenderQueue = withRouter(params => {
+	const { media, batchName, batchNamePosition, saveLocations, closeRenderQueue, dispatch, history } = params
 	const { renderOutput, renderFrameRate, concurrent } = useContext(PrefsContext)
 	
 	const complete = media.every(({ render }) => (
@@ -47,6 +48,7 @@ const RenderQueue = withRouter(({ media, batchName, saveLocations, closeRenderQu
 		dispatch(render({
 			media,
 			batchName,
+			batchNamePosition,
 			saveLocations,
 			renderOutput,
 			renderFrameRate,
