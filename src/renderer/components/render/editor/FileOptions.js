@@ -12,7 +12,9 @@ import { compareProps, secondsToTC } from '../../../utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Timecode from '../../form_elements/Timecode'
 
-const FileOptions = memo(({ id, batchName, filename, start, end, mediaType, duration, dispatch }) => {
+const FileOptions = memo(props => {
+	const { id, start, end, mediaType, dispatch } = props
+
 	const toggleStart = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'start', e))
 	}, [id])
@@ -31,14 +33,14 @@ const FileOptions = memo(({ id, batchName, filename, start, end, mediaType, dura
 
 	return (
 		<DetailsWrapper summary="File" id="file" open>
-			<fieldset disabled={!!batchName}>
+			<fieldset disabled={!!props.batchName && props.batchNamePosition === 'overwrite'}>
 				<legend>Filename:</legend>
 				<input
 					type="text"
 					name="filename"
 					title="Filename"
 					className="underline"
-					value={filename}
+					value={props.filename}
 					maxLength={282}
 					onChange={e => dispatch(updateMediaStateFromEvent(id, e))}
 					required />
@@ -56,7 +58,7 @@ const FileOptions = memo(({ id, batchName, filename, start, end, mediaType, dura
 					name="end"
 					enabled={end.enabled}
 					display={end.display}
-					initDisplay={secondsToTC(duration)}
+					initDisplay={secondsToTC(props.duration)}
 					toggleTimecode={toggleEnd}
 					onChange={updateEnd} />
 			</> : <></>}
