@@ -113,21 +113,81 @@ const updateRenderProgress = ({ id, percent }) => ({
 
 let renderQueue = false
 
-const preventDuplicateNames = (filename, media, index) => {
-	const count = media.filter(item => item.filename === filename)
+const fillMissingFilenames = media => media.map(item => {
+	if (!item.filename) item.filename = 'Able2 Export $t $d.$n'
 
-	if (count.length === 1) return media[index].filename
+	return item
+})
 
-	const firstIndex = media.findIndex(item => item.filename === filename)
+const applyBatchName = (media, batchName, batchNamePosition) => media.map(item => {
+	if (!batchName) return item
 
-	return [
-		media[index].filename,
-		zeroize(firstIndex - index + 1, count)
-	].join('.')
+	if (batchNamePosition === 'overwrite') {
+		item.filename = batchName.includes('$n') ? batchName : `${batchName}.$n`
+	} else {
+		const newName = [batchName.trim(), item.filename]
+
+		if (batchNamePosition === 'suffix') newName.reverse()
+
+		item.filename = newName.join(' ')
+	}
+})
+
+const preventDuplicateNames = media => {
+	const duplicates = {}
+	const { length } = media
+	let i = 0
+
+	// count duplicate filenames
+	while (i < length) {
+		const key = media[i].filename
+		i++
+
+		if (key.includes('$n')) continue
+
+		const count = media.filter(item => item.filename === key).length
+
+		// store tally and length
+		if (count > 1) duplicates[key] = [count, count]
+	}
+
+	// match duplicates to tally list and add instance number to filename
+	while (i--) {
+		const key = media[i].filename
+
+		if (!duplicates[key]) continue
+
+		media[i].filename += `.${zeroize(duplicates[key][0], duplicates[key][1])}`
+
+		duplicates[key][0] -= 1
+	}
+
+	return media
 }
 
+// const preventDuplicateNames = media => media.map((item, i) => {
+// 	if (item.filename.includes('$n')) return item
+
+// 	const duplicates = media.filter(({ filename }) => item.filename === filename).length
+
+// 	if (duplicates > 1) {
+// 		const firstIndex = media.findIndex(({ filename }) => item.filename === filename)
+// 		const fileNumber = zeroize(firstIndex - i + 1, duplicates)
+// 		console.log(firstIndex, i)
+	
+// 		item.filename = `${item.filename}.${fileNumber}`
+// 	}
+
+// 	return item
+// })
+
+const sanitizeFileNames = media => media.map((item, i) => ({
+	...item,
+	filename: replaceTokens(cleanFileName(item.filename), i, media.length)
+}))
+
 export const render = params => async dispatch => {
-	let { media, saveLocations, batchName, goBack } = params
+	let { media, saveLocations, batchName, batchNamePosition, goBack } = params
 
 	// Uncheck non existent directories and prompt to abort render if found
 
@@ -165,29 +225,9 @@ export const render = params => async dispatch => {
 		saveLocations.push(tempDir)
 	}
 
-	// If batchname was entered, overwrite filenames
-	// If not check for blank or duplicate filenames
-	
-	if (batchName) {
-		if (!batchName.includes('$n')) batchName = `${batchName}.$n`
+	// pipe filename modifiers
 
-		media = media.map(item => ({
-			...item,
-			filename: batchName
-		}))
-	} else {
-		media = media.map((item, i) => item.filename.includes('$n') ? item : {
-			...item,
-			filename: item.filename ? preventDuplicateNames(item.filename, media, i) : 'Able2 Export $t $d.$n'
-		})
-	}
-
-	// Sanitize all filenames and replace any tokens
-
-	media = media.map((item, i) => ({
-		...item,
-		filename: replaceTokens(cleanFileName(item.filename), i, media.length)
-	}))
+	media = sanitizeFileNames(preventDuplicateNames(applyBatchName(fillMissingFilenames(media), batchName, batchNamePosition)))
 
 	// Create promise queue and begin rendering
 
