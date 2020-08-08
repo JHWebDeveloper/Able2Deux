@@ -304,12 +304,15 @@ button[title="Fit to Width"] {
 	margin-bottom: 18px;
 }
 
-#save-options legend { margin-bottom: 6px; }
-
-#save-options label {
-	display: block;
+#save-options legend,
+input[name="batchName"] {
 	margin-bottom: 6px;
 }
+
+#save-options label { display: block; }
+
+#save-options > fieldset:first-of-type > label { font-size: 12px; }
+#save-options > fieldset:nth-of-type(2) label { margin-bottom: 6px; }
 
 #media-manager > div:last-child {
 	width: 100%;
