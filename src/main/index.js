@@ -361,7 +361,7 @@ ipcMain.on('saveScreenRecording', async (evt, data) => {
 
 	try {
 		const tempFilePath = await saveScreenRecording(data)
-		const mediaData = await getMediaInfo(id, 'video', tempFilePath)
+		const mediaData = await getMediaInfo(id, 'video', tempFilePath, true)
 		
 		evt.reply(`screenRecordingSaved_${id}`, mediaData)
 	} catch (err) {
