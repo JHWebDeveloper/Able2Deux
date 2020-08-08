@@ -33,7 +33,6 @@ const sharedVideoOptions = [
 
 export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const {
-		acquisitionType,
 		mediaType,
 		id,
 		start,
@@ -45,7 +44,6 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		sourceData,
 		rotation,
 		renderOutput,
-		renderFrameRate,
 		saveLocations
 	} = exportData
 
