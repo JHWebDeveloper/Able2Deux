@@ -85,7 +85,7 @@ export const download = ({ url, optimize, output }) => async dispatch => {
 		url,
 		title: url,
 		filename: 'download',
-		aquisitionType: 'download'
+		acquisitionType: 'download'
 	})
 
 	dispatch(addMedia(mediaElement))
@@ -142,7 +142,7 @@ export const upload = ({ name, path }) => async dispatch => {
 		filename: interop.getFileName(name),
 		sourceFilePath: path,
 		mediaType,
-		aquisitionType: 'upload'
+		acquisitionType: 'upload'
 	})
 
 	dispatch(addMedia(mediaElement))
@@ -176,7 +176,7 @@ export const loadRecording = id => async dispatch => {
 		id,
 		title,
 		filename: title,
-		aquisitionType: 'screen_record',
+		acquisitionType: 'screen_record',
 		mediaType: 'video',
 		status: STATUS.LOADING
 	})

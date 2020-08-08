@@ -5,7 +5,7 @@ class MediaElement {
 	constructor({
 		id,
 		status,
-		aquisitionType = false,
+		acquisitionType = false,
 		mediaType = false,
 		url = false,
 		sourceFilePath = false,
@@ -17,7 +17,7 @@ class MediaElement {
 		this.id = mediaId
 		this.refId = mediaId
 		this.status = status || PENDING
-		this.aquisitionType = aquisitionType
+		this.acquisitionType = acquisitionType
 		this.mediaType = mediaType
 		this.url = url
 		this.sourceFilePath = sourceFilePath
