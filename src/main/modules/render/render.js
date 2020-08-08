@@ -31,6 +31,31 @@ const sharedVideoOptions = [
 	'-ar 48000'
 ]
 
+const checkIsAudio = ({ mediaType, audio }) => (
+	mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
+)
+
+const checkIsStill = ({ mediaType, aspectRatio, arc, background }) => {
+	if (mediaType !== 'image') return false
+
+	const hasMovingBG = background === 'blue' || background === 'grey'
+
+	return (
+		arc === 'none' ||
+		arc === 'fill' ||
+		(arc === 'fit' && (aspectRatio === '16:9' || !hasMovingBG)) ||
+		(arc === 'transform' && !hasMovingBG)
+	)
+}
+
+const checkNeedsAlpha = ({ mediaType, arc, background, overlay }) => {
+	if (mediaType === 'audio') return false
+
+	return (
+		background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none')
+	)
+}
+
 export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const {
 		mediaType,
@@ -49,8 +74,10 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
-	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
-	const needsAlpha = !isAudio && background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none')
+	const isAudio = checkIsAudio(exportData)
+	const isStill = checkIsStill(exportData)
+	const needsAlpha = checkNeedsAlpha(exportData)
+
 	let outputOptions = []
 	let extension = false
 	let backgroundFile = false
@@ -60,6 +87,8 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		outputOptions = ['-c:a pcm_s24le']
 
 		extension = 'wav'
+	} else if (isStill) {
+		extension = '.png'
 	} else if (needsAlpha) {
 		outputOptions = [
 			'-c:v prores_ks',
@@ -129,11 +158,13 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	if (end.enabled) command.duration(start.enabled ? end.tc - start.tc : end.tc)
 
 	if (!isAudio) {
-		if (mediaType === 'video' && audio.exportAs === 'video') command.noAudio()
-		if (mediaType === 'image') command.loop(7)
-
-		if (exportData.renderFrameRate === '59.94fps' || exportData.acquisitionType === 'screen_record') {
-			command.outputOption('-r 59.94')
+		if (!isStill) {
+			if (mediaType === 'video' && audio.exportAs === 'video') command.noAudio()
+			if (mediaType === 'image') command.loop(7)
+	
+			if (exportData.renderFrameRate === '59.94fps' || exportData.acquisitionType === 'screen_record') {
+				command.outputOption('-r 59.94')
+			}
 		}
 	
 		if (sourceData) {
