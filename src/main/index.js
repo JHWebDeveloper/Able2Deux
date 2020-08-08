@@ -316,7 +316,7 @@ ipcMain.on('requestDownload', async (evt, data) => {
 
 	try {
 		const tempFilePath = await downloadVideo(data, mainWin)
-		const mediaData = await getMediaInfo(id, false, tempFilePath)
+		const mediaData = await getMediaInfo(id, tempFilePath)
 
 		evt.reply(`downloadComplete_${id}`, mediaData)
 	} catch (err) {
@@ -347,7 +347,7 @@ ipcMain.on('requestUpload', async (evt, data) => {
 
 	try {
 		const tempFilePath = await upload(data)
-		const mediaData = await getMediaInfo(id, mediaType, tempFilePath)
+		const mediaData = await getMediaInfo(id, tempFilePath, mediaType)
 
 		evt.reply(`uploadComplete_${id}`, mediaData)
 	} catch (err) {
@@ -361,7 +361,7 @@ ipcMain.on('saveScreenRecording', async (evt, data) => {
 
 	try {
 		const tempFilePath = await saveScreenRecording(data)
-		const mediaData = await getMediaInfo(id, 'video', tempFilePath, true)
+		const mediaData = await getMediaInfo(id, tempFilePath, 'video', true)
 		
 		evt.reply(`screenRecordingSaved_${id}`, mediaData)
 	} catch (err) {
