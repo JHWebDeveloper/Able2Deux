@@ -127,7 +127,7 @@ export const checkFileType = async (file, preGeneratedMetadata) => {
 	}
 }
 
-export const getMediaInfo = async (id, tempFilePath, mediaType, force60fps) => {
+export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 	const metadata = await getMetadata(tempFilePath)
 	const mediaData = {}
 	let videoStream = false
@@ -166,7 +166,7 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, force60fps) => {
 
 		Object.assign(mediaData, {
 			thumbnail: await base64Encode(thumbnail),
-			fps: force60fps ? 60 : round(fps)
+			fps: forcedFPS || round(fps)
 		})
 	} else if (mediaType === 'image' || mediaType === 'gif') {
 		const thumbnail = await createPNGCopy(id, tempFilePath, mediaType)
