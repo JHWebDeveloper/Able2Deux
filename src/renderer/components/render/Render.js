@@ -8,7 +8,9 @@ import { selectMedia } from '../../actions/render'
 import MediaInfo from './selector/MediaInfo'
 import BatchList from './selector/BatchList'
 import EditAll from './selector/EditAll'
+import BatchName from './BatchName'
 import SaveOptions from './SaveOptions'
+import SaveButtons from './SaveButtons'
 import Preview from './preview/Preview'
 import AudioPreview from './preview/AudioPreview'
 import EditorOptions from './editor/EditorOptions'
@@ -38,6 +40,8 @@ const Render = () => {
 
 	const { thumbnail, title, width, height, aspectRatio, duration, fps, mediaType } = selected || {}
 
+	const isBatch = media.length > 1
+
 	return (
 		<form>
 			<div id="media-manager">				
@@ -55,15 +59,19 @@ const Render = () => {
 						media={media}
 						selectedId={selectedId}
 						dispatch={dispatch} />
-					{media.length > 1 && <EditAll editAll={editAll} dispatch={dispatch} />}
+					{isBatch && <EditAll editAll={editAll} dispatch={dispatch} />}
 				</div>
+				{isBatch && (
+					<BatchName
+						batchName={batchName}
+						batchNamePosition={batchNamePosition}
+						dispatch={dispatch} />
+				)}
 				<SaveOptions
-					media={media}
-					batchName={batchName}
-					batchNamePosition={batchNamePosition}
+					isBatch={isBatch}
 					saveLocations={saveLocations}
-					setRendering={setRendering}
 					dispatch={dispatch} />
+				<SaveButtons setRendering={setRendering} />
 			</div>
 			<div id="editor">
 				{mediaType === 'audio' || mediaType === 'video' && selected.audio.exportAs === 'audio'
@@ -73,7 +81,7 @@ const Render = () => {
 					batchName={batchName}
 					batchNamePosition={batchNamePosition}
 					editAll={editAll}
-					onlyItem={media.length < 2}
+					onlyItem={!isBatch}
 					dispatch={dispatch}
 					{...selected} />
 			</div>
