@@ -145,7 +145,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				reject(err)
 			}
 		})
-	
+		
 	if (start.enabled && start.tc >= exportData.duration) {
 		reject(new Error(`Bad inputs for ${exportData.filename}: start timecode exceeds duration.`))
 	}
