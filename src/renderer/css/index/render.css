@@ -162,7 +162,10 @@ input[name="batchName"],
 	font-size: 12px; 
 }
 
-#save { grid-row: 4; }
+#save {
+	grid-row: 4;
+	padding-top: 9px;
+}
 
 
 /* ---- EDITOR -------- */
