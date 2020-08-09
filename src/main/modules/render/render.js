@@ -35,16 +35,19 @@ const checkIsAudio = ({ mediaType, audio }) => (
 	mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
 )
 
-const checkIsStill = ({ mediaType, aspectRatio, arc, background }) => {
-	if (mediaType !== 'image') return false
+const checkIsStill = (exportData, renderWidth, renderHeight) => {
+	if (exportData.mediaType !== 'image') return false
+
+	const { arc, background, width, height, scale } = exportData
 
 	const hasMovingBG = background === 'blue' || background === 'grey'
 
 	return (
 		arc === 'none' ||
 		arc === 'fill' ||
-		(arc === 'fit' && (aspectRatio === '16:9' || !hasMovingBG)) ||
-		(arc === 'transform' && !hasMovingBG)
+		(arc === 'fit' && (exportData.aspectRatio === '16:9' || !hasMovingBG)) ||
+		(arc === 'transform' && !hasMovingBG) ||
+		(arc === 'transform' && (scale.x / 100 * width >= renderWidth && scale.y / 100 * height >= renderHeight))
 	)
 }
 
@@ -75,7 +78,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
 	const isAudio = checkIsAudio(exportData)
-	const isStill = checkIsStill(exportData)
+	const isStill = checkIsStill(exportData, renderWidth, renderHeight)
 	const needsAlpha = checkNeedsAlpha(exportData)
 
 	let outputOptions = []
@@ -145,7 +148,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				reject(err)
 			}
 		})
-		
+
 	if (start.enabled && start.tc >= exportData.duration) {
 		reject(new Error(`Bad inputs for ${exportData.filename}: start timecode exceeds duration.`))
 	}
