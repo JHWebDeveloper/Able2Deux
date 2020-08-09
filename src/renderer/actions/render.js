@@ -131,6 +131,8 @@ const applyBatchName = (media, batch) => media.map(item => {
 
 		item.filename = newName.join(' ')
 	}
+
+	return item
 })
 
 const preventDuplicateFilenames = media => {
