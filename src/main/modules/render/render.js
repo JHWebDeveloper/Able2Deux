@@ -216,12 +216,9 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		}
 	} else if (audio.format === 'bars') {
 		command
-			.input(path.join(assetsPath, renderHeight, 'bars.png'))
-			.loop()
-			.outputOptions([
-				'-r 59.94',
-				'-shortest'
-			])
+			.input(`smptebars=size=${renderWidth}x${renderHeight}:rate=59.94`)
+			.inputOption('-f lavfi')
+			.outputOptions(['-shortest'])
 
 		if (mediaType === 'video') filter.videoToBars(command, { renderWidth, renderHeight })
 	}
