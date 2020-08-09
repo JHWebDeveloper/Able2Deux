@@ -31,6 +31,16 @@ export const updateNestedState = (nest, properties) => ({
 	}
 })
 
+export const updateNestedStateFromEvent = (nest, e) => ({
+	type: ACTION.UPDATE_NESTED_STATE,
+	payload: {
+		nest,
+		properties: {
+			[e.target.name]: e.target.value
+		}
+	}
+})
+
 export const toggleNestedCheckbox = (nest, e) => ({
 	type: ACTION.TOGGLE_NESTED_CHECKBOX,
 	payload: {
