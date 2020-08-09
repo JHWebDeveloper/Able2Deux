@@ -86,12 +86,14 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	let backgroundFile = false
 	let overlayDim = false
 
-	if (isAudio && audio.format === 'file') {
-		outputOptions = ['-c:a pcm_s24le']
+	if (isAudio && audio.format !== 'bars') {
+		outputOptions = audio.format === 'wav'
+			? ['-c:a pcm_s24le']
+			: ['-c:a libmp3lame', '-b:a 320k']
 
-		extension = 'wav'
+		extension = audio.format
 	} else if (isStill) {
-		extension = '.png'
+		extension = 'png'
 	} else if (needsAlpha) {
 		outputOptions = [
 			'-c:v prores_ks',

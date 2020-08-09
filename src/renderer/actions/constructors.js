@@ -78,7 +78,7 @@ class MediaElement {
 		}
 		this.audio = {
 			exportAs: 'video_audio',
-			format: 'file'
+			format: 'wav'
 		}
 		this.render = {
 			status: PENDING,

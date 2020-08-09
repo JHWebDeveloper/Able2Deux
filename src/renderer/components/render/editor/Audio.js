@@ -54,11 +54,15 @@ const Audio = memo(({ id, onlyItem, mediaType, audio, editAll, dispatch }) => {
 					onChange={updateAudio}
 					buttons={[
 						{
-							label: 'Audio File (.wav)',
-							value: 'file'
+							label: '.wav',
+							value: 'wav'
 						},
 						{
-							label: 'Video with Bars (.mp4)',
+							label: '.mp3',
+							value: 'mp3'
+						},
+						{
+							label: '.mp4 + SMPTE color bars',
 							value: 'bars'
 						}
 					]} />
@@ -73,7 +77,7 @@ Audio.propTypes = {
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	audio: exact({
 		exportAs: oneOf(['video_audio', 'video', 'audio']),
-		format: oneOf(['file', 'bars'])
+		format: oneOf(['wav', 'mp3', 'bars'])
 	}),
 	editAll: bool.isRequired,
 	dispatch: func.isRequired

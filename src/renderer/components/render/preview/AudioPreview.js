@@ -9,7 +9,11 @@ const AudioPreview = ({ format }) => (
 		<div id="preview">
 			<div>
 				<div id="preview-container">
-					<span style={{ backgroundImage: `url("data:image/jpeg;base64,/9j/${preview[format]}")` }}></span>
+					<span style={{
+						backgroundImage: `url("data:image/jpeg;base64,/9j/${
+							preview[format === 'bars' ? 'bars' : 'file']
+						}")`
+					}}></span>
 				</div>
 			</div>
 			<div style={{ height: '24px' }}></div>
