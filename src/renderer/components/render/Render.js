@@ -20,8 +20,7 @@ const Render = () => {
 	const {
 		media,
 		selectedId,
-		batchName,
-		batchNamePosition,
+		batch,
 		editAll,
 		saveLocations,
 		dispatch
@@ -63,8 +62,7 @@ const Render = () => {
 				</div>
 				{isBatch && (
 					<BatchName
-						batchName={batchName}
-						batchNamePosition={batchNamePosition}
+						batch={batch}
 						dispatch={dispatch} />
 				)}
 				<SaveOptions
@@ -78,8 +76,7 @@ const Render = () => {
 					? <AudioPreview format={selected.audio.format}/>
 					: <Preview selected={selected} dispatch={dispatch} />}
 				<EditorOptions
-					batchName={batchName}
-					batchNamePosition={batchNamePosition}
+					batch={batch}
 					editAll={editAll}
 					onlyItem={!isBatch}
 					dispatch={dispatch}
@@ -88,8 +85,7 @@ const Render = () => {
 			{rendering && (
 				<RenderQueue
 					media={media}
-					batchName={batchName}
-					batchNamePosition={batchNamePosition}
+					batch={batch}
 					saveLocations={saveLocations}
 					closeRenderQueue={() => setRendering(false)}
 					dispatch={dispatch} />

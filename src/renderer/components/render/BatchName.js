@@ -1,26 +1,26 @@
 import React from 'react'
 
-import { updateStateFromEvent } from '../../actions'
+import { updateNestedStateFromEvent } from '../../actions'
 
 import RadioSet from '../form_elements/RadioSet'
 
-const BatchName = ({ batchName, batchNamePosition, dispatch }) => {
+const BatchName = ({ batch, dispatch }) => {
 	return (
 		<div id="batch-name">
 			<fieldset>
 				<legend>Batch Name:</legend>
 				<input
 					type="text"
-					name="batchName"
+					name="name"
 					className="underline"
-					value={batchName}
+					value={batch.name}
 					maxLength={282}
-					onChange={e => dispatch(updateStateFromEvent(e))}
+					onChange={e => dispatch(updateNestedStateFromEvent('batch', e))}
 					placeholder="If none, leave blank" />
 				<RadioSet
-					name="batchNamePosition"
-					state={batchNamePosition}
-					onChange={e => dispatch(updateStateFromEvent(e))}
+					name="position"
+					state={batch.position}
+					onChange={e => dispatch(updateNestedStateFromEvent('batch', e))}
 					buttons={[
 						{
 							label: 'Overwrite Filename',

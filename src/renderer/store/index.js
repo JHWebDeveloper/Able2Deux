@@ -15,8 +15,12 @@ const initState = {
 	},
 	media: [],
 	selectedId: false,
-	batchName: '',
-	batchNamePosition: 'overwrite',
+	batch: {
+		name: '',
+		position: 'overwrite'
+	},
+	//batchName: '',
+	//batchNamePosition: 'overwrite',
 	editAll: false,
 	copiedSettings: {}
 }

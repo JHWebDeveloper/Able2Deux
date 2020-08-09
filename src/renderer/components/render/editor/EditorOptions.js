@@ -18,8 +18,7 @@ const EditorOptions = props => {
 	return (
 		<div id="editor-options">
 			<FileOptions
-				batchName={props.batchName}
-				batchNamePosition={props.batchNamePosition}
+				batch={props.batch}
 				filename={props.filename}
 				start={props.start}
 				end={props.end}
@@ -77,7 +76,7 @@ EditorOptions.propTypes = {
 	height: number.isRequired,
 	duration: number.isRequired,
 	aspectRatio: string.isRequired,
-	batchName: string,
+	batch: object.isRequired,
 	filename: string,
 	start: object,
 	end: object,

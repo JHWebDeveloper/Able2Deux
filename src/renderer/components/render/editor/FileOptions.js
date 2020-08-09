@@ -33,7 +33,7 @@ const FileOptions = memo(props => {
 
 	return (
 		<DetailsWrapper summary="File" id="file" open>
-			<fieldset disabled={!!props.batchName && props.batchNamePosition === 'overwrite'}>
+			<fieldset disabled={!!props.batch.name && props.batch.position === 'overwrite'}>
 				<legend>Filename:</legend>
 				<input
 					type="text"
@@ -68,7 +68,10 @@ const FileOptions = memo(props => {
 
 FileOptions.propTypes = {
 	id: string.isRequired,
-	batchName: string.isRequired,
+	batch: exact({
+		name: string,
+		position: string
+	}).isRequired,
 	filename: string.isRequired,
 	start: exact({
 		enabled: bool,

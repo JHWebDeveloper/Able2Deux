@@ -119,15 +119,15 @@ const fillMissingFilenames = media => media.map(item => {
 	return item
 })
 
-const applyBatchName = (media, batchName, batchNamePosition) => media.map(item => {
-	if (!batchName) return item
+const applyBatchName = (media, batch) => media.map(item => {
+	if (!batch.name) return item
 
-	if (batchNamePosition === 'overwrite') {
-		item.filename = batchName.includes('$n') ? batchName : `${batchName}.$n`
+	if (batch.position === 'overwrite') {
+		item.filename = batch.name.includes('$n') ? batch.name : `${batch.name}.$n`
 	} else {
-		const newName = [batchName.trim(), item.filename]
+		const newName = [batch.name.trim(), item.filename]
 
-		if (batchNamePosition === 'suffix') newName.reverse()
+		if (batch.position === 'suffix') newName.reverse()
 
 		item.filename = newName.join(' ')
 	}
@@ -171,7 +171,7 @@ const sanitizeFileNames = media => media.map((item, i) => ({
 }))
 
 export const render = params => async dispatch => {
-	let { media, saveLocations, batchName, batchNamePosition, goBack } = params
+	let { media, saveLocations, batch, goBack } = params
 
 	// Uncheck non existent directories and prompt to abort render if found
 
@@ -211,7 +211,7 @@ export const render = params => async dispatch => {
 
 	// Pipe filename modifiers
 
-	media = sanitizeFileNames(preventDuplicateFilenames(applyBatchName(fillMissingFilenames(media), batchName, batchNamePosition)))
+	media = sanitizeFileNames(preventDuplicateFilenames(applyBatchName(fillMissingFilenames(media), batch)))
 
 	// Create promise queue and begin rendering
 
