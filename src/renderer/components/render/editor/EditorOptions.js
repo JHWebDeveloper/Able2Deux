@@ -30,7 +30,7 @@ const EditorOptions = props => {
 					audio={props.audio}
 					{...common} />
 			)}
-			{mediaType !== 'audio' && props.audio.exportAs !== 'audio' && <>
+			{mediaType !== 'audio' && !(mediaType === 'video' && props.audio.exportAs === 'audio') && <>
 				<Formatting
 					arc={arc}
 					background={props.background}
