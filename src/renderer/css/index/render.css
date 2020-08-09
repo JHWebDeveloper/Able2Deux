@@ -152,7 +152,7 @@ details .dropdown > span {
 }
 
 :matches(#batch-name, #save-options) legend,
-input[name="batchName"],
+#batch-name input[type="text"],
 #save-options label {
 	margin-bottom: 6px;
 }
