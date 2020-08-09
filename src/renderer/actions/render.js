@@ -133,7 +133,7 @@ const applyBatchName = (media, batchName, batchNamePosition) => media.map(item =
 	}
 })
 
-const preventDuplicateNames = media => {
+const preventDuplicateFilenames = media => {
 	const duplicates = {}
 	const { length } = media
 	let i = 0
@@ -164,22 +164,6 @@ const preventDuplicateNames = media => {
 
 	return media
 }
-
-// const preventDuplicateNames = media => media.map((item, i) => {
-// 	if (item.filename.includes('$n')) return item
-
-// 	const duplicates = media.filter(({ filename }) => item.filename === filename).length
-
-// 	if (duplicates > 1) {
-// 		const firstIndex = media.findIndex(({ filename }) => item.filename === filename)
-// 		const fileNumber = zeroize(firstIndex - i + 1, duplicates)
-// 		console.log(firstIndex, i)
-	
-// 		item.filename = `${item.filename}.${fileNumber}`
-// 	}
-
-// 	return item
-// })
 
 const sanitizeFileNames = media => media.map((item, i) => ({
 	...item,
@@ -225,9 +209,9 @@ export const render = params => async dispatch => {
 		saveLocations.push(tempDir)
 	}
 
-	// pipe filename modifiers
+	// Pipe filename modifiers
 
-	media = sanitizeFileNames(preventDuplicateNames(applyBatchName(fillMissingFilenames(media), batchName, batchNamePosition)))
+	media = sanitizeFileNames(preventDuplicateFilenames(applyBatchName(fillMissingFilenames(media), batchName, batchNamePosition)))
 
 	// Create promise queue and begin rendering
 
