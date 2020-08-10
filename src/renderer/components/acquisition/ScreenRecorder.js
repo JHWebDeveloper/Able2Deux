@@ -1,18 +1,20 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import toastr from 'toastr'
 import { bool, func, number, shape, string } from 'prop-types'
 
 import * as STATUS from '../../status/types'
-import { updateNestedState, toggleNestedCheckbox } from '../../actions'
+import { updateNestedState, toggleCheckbox, toggleNestedCheckbox } from '../../actions'
 import { setRecording, loadRecording, updateMediaStatus } from '../../actions/acquisition'
 import { toastrOpts } from '../../utilities'
 
 import RecordSourceSelector from './RecordSourceSelector'
 import Timecode from '../form_elements/Timecode'
+import DurationPointer from '../svg/DurationPointer'
+import CaptureModeSwitch from '../svg/CaptureModeSwitch'
 
 const { interop } = window.ABLE2
 
-const ScreenRecorder = ({ recording, timer, dispatch }) => {
+const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 	const [ recordSourceData, loadRecordSourceData ] = useState(false)
 
 	const startRecording = useCallback(async streamId => {
@@ -39,6 +41,28 @@ const ScreenRecorder = ({ recording, timer, dispatch }) => {
 		}
 	}, [timer])
 
+	const captureScreenshot = useCallback(async (streamId) => {
+		try {
+			interop.captureScreenshot({
+				streamId,
+				onCapture: (recordId, mediaData) => {
+					dispatch(loadRecording(recordId, true))
+					dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
+				},
+				onError: recordId => {
+					dispatch(updateMediaStatus(recordId, STATUS.FAILED))
+					toastr.error('Error saving screenshot', false, toastrOpts)
+				}
+			})
+		} catch (err) {
+			toastr.error('An error occurred while capturing the screenshot!', false, toastrOpts)
+		}
+	}, [])
+
+	const selectedAction = useMemo(() => (
+		screenshot ? captureScreenshot : startRecording
+	), [screenshot, timer])
+
 	const getRecordSources = useCallback(async recordButton => {
 		let recordSources = []
 
@@ -51,7 +75,7 @@ const ScreenRecorder = ({ recording, timer, dispatch }) => {
 		recordSources = recordSources.filter(({ name }) => name !== 'Able2Deux')
 
 		if (recordSources.length === 1) {
-			return startRecording(recordSources[0].id)
+			return selectedAction(recordSources[0].id)
 		}
 
 		loadRecordSourceData({
@@ -67,30 +91,45 @@ const ScreenRecorder = ({ recording, timer, dispatch }) => {
 			getRecordSources(e.currentTarget)
 		}
 	}, [recording])
+
+	const modeMessage = `...or ${screenshot ? 'take a screenshot' : 'start a screen record'}`
 	
 	return (
 		<div id="screen-recorder">
-			<p>{recording ? 'Recording' : '...or start a screen record'}</p>
-			<button
-				type="button"
-				name="record"
-				title={`${recording ? 'Stop' : 'Start'} Record`}
-				className={recording ? 'recording' : ''}
-				onClick={e => toggleRecording(e)}></button>
+			<p>{recording ? 'Recording' : modeMessage}</p>
+			<div>
+				<DurationPointer />
+				<button
+					type="button"
+					name="record"
+					title={`${recording ? 'Stop' : 'Start'} Record`}
+					className={recording ? 'recording' : ''}
+					onClick={e => toggleRecording(e)}></button>
+				<button
+					type="button"
+					name="screenshot"
+					disabled={recording}
+					title={`Switch to Screen${screenshot ? ' Record' : 'shot'} Mode`}
+					onClick={e => { dispatch(toggleCheckbox(e))}}>
+					<CaptureModeSwitch
+						screenshot={screenshot}
+						fill={recording ? '#ccc' : '#444'} />
+				</button>
+			</div>
 			{!!recordSourceData && (
 				<RecordSourceSelector
 					loadRecordSourceData={loadRecordSourceData}
-					startRecording={startRecording}
+					selectedAction={selectedAction}
 					{...recordSourceData} />
 			)}
 			<Timecode
 				name="timer"
 				enabled={timer.enabled}
 				display={timer.display}
-				disabled={recording}
+				disabled={recording || screenshot}
 				toggleTimecode={e => dispatch(toggleNestedCheckbox('timer', e))}
 				onChange={tc => dispatch(updateNestedState('timer', tc))} />
-			{interop.isMac && <p>(Audio not supported on Mac)</p>}
+			{interop.isMac && <p className="mac-alert">(Audio not supported on Mac)</p>}
 		</div>
 	)
 }
