@@ -6,7 +6,7 @@ class MediaElement {
 		id,
 		status,
 		acquisitionType = false,
-		mediaType = false,
+		mediaType = 'video',
 		url = false,
 		sourceFilePath = false,
 		title = '',
