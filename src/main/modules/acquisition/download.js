@@ -30,7 +30,7 @@ const removeDownload = async id => {
 /* --- DOWNLOAD --- */
 
 const ytdlOpts = (disableRateLimit) => [
-	...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
+	...!!disableRateLimit ? [] : ['--limit-rate',	'12500k'],
 	'--retries', '3',
 	'--socket-timeout', '30',
 	'--no-warnings',
@@ -105,7 +105,6 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 /* --- GET TITLE --- */
 
 export const getTitleFromURL = ({ url, disableRateLimit }) => new Promise((resolve, reject) => {
-	console.log(disableRateLimit)
 	const info = spawn(ytdlPath, [
 		...ytdlOpts(disableRateLimit), 
 		'--get-title',
