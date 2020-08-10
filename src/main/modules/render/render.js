@@ -40,13 +40,13 @@ const checkIsStill = (exportData, renderWidth, renderHeight) => {
 
 	const { arc, background, width, height, scale } = exportData
 
-	const hasMovingBG = background === 'blue' || background === 'grey'
+	const stillBG = background === 'black' || background === 'alpha'
 
 	return (
 		arc === 'none' ||
 		arc === 'fill' ||
-		(arc === 'fit' && (exportData.aspectRatio === '16:9' || !hasMovingBG)) ||
-		(arc === 'transform' && !hasMovingBG) ||
+		(arc === 'fit' && (exportData.aspectRatio === '16:9' || stillBG)) ||
+		(arc === 'transform' && stillBG) ||
 		(arc === 'transform' && (scale.x / 100 * width >= renderWidth && scale.y / 100 * height >= renderHeight))
 	)
 }
