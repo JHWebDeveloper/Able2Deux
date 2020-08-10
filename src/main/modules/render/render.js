@@ -174,7 +174,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	
 		if (sourceData) {
 			const sourcePng = path.join(temp.imports.path, `${id}.src-overlay.png`)
-			fs.writeFileSync(sourcePng, sourceData, 'base64')		
+			fs.writeFileSync(sourcePng, sourceData, { encoding: 'base64' })		
 			command.input(sourcePng)
 		}
 	
