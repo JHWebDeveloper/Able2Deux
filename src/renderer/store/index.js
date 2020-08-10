@@ -8,6 +8,7 @@ const initState = {
 	url: '',
 	optimize: 'quality',
 	recording: false,
+	screenshot: true,
 	timer: {
 		enabled: false,
 		tc: 60,
@@ -19,8 +20,6 @@ const initState = {
 		name: '',
 		position: 'overwrite'
 	},
-	//batchName: '',
-	//batchNamePosition: 'overwrite',
 	editAll: false,
 	copiedSettings: {}
 }
