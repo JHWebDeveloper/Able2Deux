@@ -50,7 +50,7 @@ const getStream = chromeMediaSourceId => navigator.mediaDevices.getUserMedia({
 	}
 })
 
-const handleStream = (stream, timer, setRecordIndicator) => new Promise((resolve, reject) => {
+const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve, reject) => {
 	const blobs = []
 
 	recorder = new MediaRecorder(stream, { mediaType: 'video/webm' })
@@ -138,7 +138,7 @@ const fixDuration = async blobs => {
 
 export const startRecording = async ({ streamId, timer, setRecordIndicator, onStart, onComplete, onError }) => {
 	const stream = await getStream(streamId)
-	const blobs  = await handleStream(stream, timer, setRecordIndicator)
+	const blobs  = await recordStream(stream, timer, setRecordIndicator)
 	const buffer = await fixDuration(blobs)
 
 	const recordId = uuid()
