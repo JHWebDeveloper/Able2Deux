@@ -132,15 +132,13 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 	const mediaData = {}
 	let videoStream = false
 
-	mediaData.tempFilePath = tempFilePath
-
 	if (!mediaType) try {
 		mediaType = await checkFileType(tempFilePath, metadata)
 	} catch (err) {
 		mediaType = 'video'
-	} finally {
-		mediaData.mediaType = mediaType
 	}
+
+	Object.assign(mediaData, { tempFilePath, mediaType })
 
 	if (mediaType === 'video' || mediaType === 'audio') {
 		mediaData.duration = metadata.format.duration || 0
