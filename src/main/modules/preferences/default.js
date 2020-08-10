@@ -33,7 +33,8 @@ const defaultPrefs = {
 	editAll: false,
 	enableWidescreenGrids: false,
 	gridColor: '#ff00ff',
-	scaleSliderMax: 400
+	scaleSliderMax: 400,
+	disableRateLimit: 0
 }
 
 export default defaultPrefs
