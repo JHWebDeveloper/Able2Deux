@@ -4,11 +4,11 @@ import { Decoder, Reader, tools } from 'ts-ebml'
 
 import { sendMessage } from './sendMessage'
 
-const saveScreenRecording = (id, buffer) => sendMessage({
+const saveScreenRecording = (id, buffer, screenshot) => sendMessage({
 	sendMsg: 'saveScreenRecording',
 	recieveMsg: `screenRecordingSaved_${id}`,
 	errMsg: `screenRecordingSaveErr_${id}`,
-	data: { id, buffer }
+	data: { id, buffer, screenshot }
 })
 
 export const getRecordSources = async () => {
@@ -34,8 +34,8 @@ const clearRecorder = () => {
 	clearTimeout(timeout)
 }
 
-const getStream = chromeMediaSourceId => navigator.mediaDevices.getUserMedia({
-	audio: process.platform === 'darwin' ? false : {
+const getStream = (chromeMediaSourceId, noAudio) => navigator.mediaDevices.getUserMedia({
+	audio: noAudio || process.platform === 'darwin' ? false : {
 		mandatory: {
 			chromeMediaSource: 'desktop'
 		}
@@ -155,4 +155,45 @@ export const startRecording = async ({ streamId, timer, setRecordIndicator, onSt
 
 export const stopRecording = () => {
 	recorder.stop()
+}
+
+export const captureScreenshot = ({ streamId, onCapture, onError }) => {
+	const mainWin = remote.getCurrentWindow()
+	const video = document.createElement('video')
+
+	video.onloadeddata = async () => {
+		video.style.width  = `${video.videoWidth}px`
+		video.style.height = `${video.videoHeight}px`
+
+		video.play()
+
+		const cnv = document.createElement('canvas')
+		const ctx = cnv.getContext('2d')
+
+		cnv.width  = video.videoWidth
+		cnv.height = video.videoHeight
+		
+		ctx.drawImage(video, 0, 0, cnv.width, cnv.height)
+
+		const buffer = cnv.toDataURL('image/png').replace(/^data:image\/\w+;base64,/, '')
+		const recordId = uuid()
+
+		try {
+			const mediaData = await saveScreenRecording(recordId, buffer, true)
+			onCapture(recordId, mediaData)
+		} catch (err) {
+			onError(recordId)
+		} finally {
+			video.remove()
+			mainWin.show()
+		}
+	}
+
+	mainWin.hide()
+
+	setTimeout(async () => {
+		video.srcObject = await getStream(streamId, true)
+	
+		document.body.appendChild(video)
+	}, 500)
 }

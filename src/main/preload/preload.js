@@ -3,7 +3,7 @@ import { v1 as uuid } from 'uuid'
 import path from 'path'
 
 import { sendMessage, requestChannel } from './sendMessage'
-import { getRecordSources, startRecording, stopRecording } from './screenRecorder'
+import { getRecordSources, startRecording, stopRecording, captureScreenshot } from './screenRecorder'
 import setContextMenu from './contextMenu'
 
 const interop = {}
@@ -72,6 +72,7 @@ interop.bringToFront = () => {
 interop.getRecordSources = getRecordSources
 interop.startRecording = startRecording
 interop.stopRecording = stopRecording
+interop.captureScreenshot = captureScreenshot
 
 interop.initPreview = async data => ipcRenderer.invoke('initPreview', data)
 
