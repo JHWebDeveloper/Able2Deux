@@ -141,7 +141,10 @@ details .dropdown > span {
 	background-color: var(--background-alt-2);
 }
 
-.spacer:matches(:first-child, :last-child) { display: none; }
+.spacer:matches(:first-child, :last-child),
+.spacer + .spacer {
+	display: none;
+}
 
 
 /* ---- BATCH NAME AND SAVE OPTIONS -------- */
