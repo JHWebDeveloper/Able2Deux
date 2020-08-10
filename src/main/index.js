@@ -301,10 +301,10 @@ if (dev) {
 }
 
 ipcMain.on('getTitleFromURL', async (evt, data) => {
-	const { id, url } = data
+	const { id } = data
 
 	try {
-		evt.reply(`titleRecieved_${id}`, await getTitleFromURL(url))
+		evt.reply(`titleRecieved_${id}`, await getTitleFromURL(data))
 	} catch (err) {
 		console.error(err)
 		evt.reply(`titleErr_${id}`, err)
