@@ -30,12 +30,12 @@ interop.getTitleFromURL = data => sendMessage({
 	data
 })
 
-interop.requestDownloadChannel = ({ id, url, optimize, output, startCallback, progressCallback }) => (
+interop.requestDownloadChannel = ({ id, url, optimize, output, disableRateLimit, startCallback, progressCallback }) => (
 	requestChannel({
 		sendMsg: 'requestDownload',
 		recieveMsg: `downloadComplete_${id}`,
 		errMsg: `downloadErr_${id}`,
-		data: { id, url, optimize, output },
+		data: { id, url, optimize, output, disableRateLimit },
 		startMsg: `downloadStarted_${id}`,
 		progressMsg: `downloadProgress_${id}`,
 		startCallback,
