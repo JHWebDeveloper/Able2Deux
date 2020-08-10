@@ -78,7 +78,7 @@ const updateDownloadProgress = ({ id, eta, percent }) => ({
 	}
 })
 
-export const download = ({ url, optimize, output }) => async dispatch => {
+export const download = ({ url, optimize, output, disableRateLimit }) => async dispatch => {
 	dispatch(resetURL())
 
 	const mediaElement = new MediaElement({
@@ -93,7 +93,7 @@ export const download = ({ url, optimize, output }) => async dispatch => {
 	const { id } = mediaElement
 
 	try {
-		const title = await interop.getTitleFromURL({ id, url })
+		const title = await interop.getTitleFromURL({ id, url, disableRateLimit })
 
 		dispatch(updateMediaTitle(id, title))
 	} catch (err) {
@@ -107,6 +107,7 @@ export const download = ({ url, optimize, output }) => async dispatch => {
 		url,
 		optimize,
 		output,
+		disableRateLimit,
 		startCallback() {
 			dispatch(updateMediaStatus(id, STATUS.DOWNLOADING))
 		},
