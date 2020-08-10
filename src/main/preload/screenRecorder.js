@@ -4,6 +4,13 @@ import { Decoder, Reader, tools } from 'ts-ebml'
 
 import { sendMessage } from './sendMessage'
 
+const saveScreenRecording = (id, buffer) => sendMessage({
+	sendMsg: 'saveScreenRecording',
+	recieveMsg: `screenRecordingSaved_${id}`,
+	errMsg: `screenRecordingSaveErr_${id}`,
+	data: { id, buffer }
+})
+
 export const getRecordSources = async () => {
 	const sources = await desktopCapturer.getSources({
 		types: ['window', 'screen'],
@@ -149,10 +156,3 @@ export const startRecording = async ({ streamId, timer, setRecordIndicator, onSt
 export const stopRecording = () => {
 	recorder.stop()
 }
-
-const saveScreenRecording = (id, buffer) => sendMessage({
-	sendMsg: 'saveScreenRecording',
-	recieveMsg: `screenRecordingSaved_${id}`,
-	errMsg: `screenRecordingSaveErr_${id}`,
-	data: { id, buffer }
-})
