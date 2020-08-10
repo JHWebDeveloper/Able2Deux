@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { array, func, number } from 'prop-types'
 
-const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceData, startRecording }) => {
+const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceData, selectedAction }) => {
 	const [ visible, reveal ] = useState(false)
 
 	const close = useCallback(() => {
@@ -14,7 +14,7 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 		close()
 		setTimeout(() => {
 			loadRecordSourceData(false)
-			startRecording(id)
+			selectedAction(id)
 		}, 250)
 	}, [])
 
@@ -38,7 +38,7 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 			<div style={{ bottom: `${selectMenuPos}px` }}>
 				{visible && <>
 					<h2>
-						Select Window to Record
+						Select Screen or Window
 						<button
 							type="button"
 							className="symbol"
@@ -64,7 +64,7 @@ RecordSourceSelector.propTypes = {
 	selectMenuPos: number.isRequired,
 	recordSources: array.isRequired,
 	loadRecordSourceData: func.isRequired,
-	startRecording: func.isRequired
+	selectedAction: func.isRequired
 }
 
 export default RecordSourceSelector
