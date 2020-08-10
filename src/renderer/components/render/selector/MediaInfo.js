@@ -10,7 +10,8 @@ const scrollText = e => {
 
 	requestAnimationFrame(() => { // sync to framerate
 		interval = setInterval(() => {
-			if (e.target.scrollWidth <= e.target.clientWidth) {
+			if (e.target.scrollWidth === e.target.clientWidth) {
+				e.target.style.textOverflow = 'clip'
 				return clearInterval(interval)
 			}
 	
@@ -22,6 +23,7 @@ const scrollText = e => {
 const resetText = e => {
 	clearInterval(interval)
 	e.target.innerText = e.target.dataset.title
+	e.target.style.removeProperty('text-overflow')
 }
 
 const MediaInfo = memo(({ thumbnail, title, width, height, aspectRatio, duration, fps }) => (
