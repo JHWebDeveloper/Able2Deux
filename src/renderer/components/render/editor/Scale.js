@@ -56,7 +56,7 @@ const Scale = memo(({ id, onlyItem, scale, crop, width, height, editAll, dispatc
 	const sliderProps = {
 		min: 1,
 		max: scaleSliderMax,
-		inputMax: 9999,
+		inputMax: 4500,
 		points: [100],
 		onChange: updateAxis
 	}
