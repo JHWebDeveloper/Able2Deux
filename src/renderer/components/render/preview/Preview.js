@@ -58,7 +58,7 @@ const Preview = ({ selected, dispatch }) => {
 
 			setPreviewReady(true)
 		})()
-	}, [id, timecode, start, end])
+	}, [id, mediaType, timecode, start, end])
 
 	useEffect(() => {
 		if (previewReady && open) {
