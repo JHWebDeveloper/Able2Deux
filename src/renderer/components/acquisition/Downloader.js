@@ -8,7 +8,7 @@ import RadioSet from '../form_elements/RadioSet'
 
 const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
 
-const Downloader = ({ url, optimize, output, dispatch }) => (
+const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => (
 	<div id="downloader">
 		<input
 			type="text"
@@ -23,7 +23,7 @@ const Downloader = ({ url, optimize, output, dispatch }) => (
 			name="download"
 			title="Download Video"
 			disabled={!urlRegex.test(url)}
-			onClick={() => dispatch(download({ url, optimize, output }))}>
+			onClick={() => dispatch(download({ url, optimize, output, disableRateLimit }))}>
 			Download
 		</button>
 		<span>
