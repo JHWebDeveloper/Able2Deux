@@ -169,15 +169,14 @@ export const setRecording = recording => ({
 	payload: { recording }
 })
 
-export const loadRecording = id => async dispatch => {
-	const title = replaceTokens('Able2 Screen Record $t $D')
+export const loadRecording = (id, screenshot) => async dispatch => {
+	const title = replaceTokens(`Able2 Screen${screenshot ? 'shot' : ' Record'} $t $D`)
 
 	const mediaElement = new MediaElement({
 		id,
 		title,
 		filename: title,
-		acquisitionType: 'screen_record',
-		mediaType: 'video',
+		acquisitionType: screenshot ? 'screenshot' : 'screen_record',
 		status: STATUS.LOADING
 	})
 
