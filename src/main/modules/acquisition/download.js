@@ -1,11 +1,11 @@
 import { spawn } from 'child_process'
-import { promises as fsp } from 'fs'
+import fs, { promises as fsp } from 'fs'
 import path from 'path'
 import ytdlStatic from 'youtube-dl-ffmpeg-ffprobe-static'
 import ffmpegStatic from 'ffmpeg-static-electron'
 import { fixPathForAsarUnpack } from 'electron-util'
 
-import { temp } from '../utilities/extFileHandlers'
+import { temp, prefsPath } from '../utilities/extFileHandlers'
 
 const ytdlPath = fixPathForAsarUnpack(ytdlStatic.path)
 const ffmpegPath = fixPathForAsarUnpack(ffmpegStatic.path)
@@ -29,8 +29,8 @@ const removeDownload = async id => {
 
 /* --- DOWNLOAD --- */
 
-const ytdlOpts = [
-	'--limit-rate',	'12500k',
+const ytdlOpts = (disableRateLimit) => [
+	...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
 	'--retries', '3',
 	'--socket-timeout', '30',
 	'--no-warnings',
@@ -51,10 +51,10 @@ const getTempFilePath = async id => {
 }
 
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
-	const { id, url, optimize, output } = formData
+	const { id, url, optimize, output, disableRateLimit } = formData
 
 	const download = spawn(ytdlPath, [
-		...ytdlOpts,
+		...ytdlOpts(disableRateLimit),
 		'--restrict-filenames',
 		'--ffmpeg-location',	ffmpegPath,
 		'--output', `${temp.imports.path}/${id}.%(ext)s`,
@@ -104,8 +104,13 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 
 /* --- GET TITLE --- */
 
-export const getTitleFromURL = url => new Promise((resolve, reject) => {
-	const info = spawn(ytdlPath, [...ytdlOpts, '--get-title', url])
+export const getTitleFromURL = ({ url, disableRateLimit }) => new Promise((resolve, reject) => {
+	console.log(disableRateLimit)
+	const info = spawn(ytdlPath, [
+		...ytdlOpts(disableRateLimit), 
+		'--get-title',
+		url
+	])
 
 	let infoString = ''
 
