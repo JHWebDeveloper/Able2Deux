@@ -75,11 +75,11 @@ export const initExtDirectories = async () => {
 				})) 
 			}
 			
-			if (prefs.version < 3) {
+			if (prefs.version < 4) {
 				await fsp.writeFile(prefsPath, JSON.stringify({
 					...defaultPrefs,
 					...prefs,
-					version: 3
+					version: 4
 				}))
 			}
 		}
