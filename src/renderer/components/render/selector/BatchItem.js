@@ -1,14 +1,15 @@
 import React from 'react'
-import { bool, func, string } from 'prop-types'
+import { bool, func, string, number } from 'prop-types'
 
-import { selectMedia, pasteSettings, duplicateMedia } from '../../../actions/render'
+import { selectMedia, pasteSettings, moveMedia, duplicateMedia } from '../../../actions/render'
 
 import DropdownMenu from '../../form_elements/DropdownMenu'
 
 const { interop } = window.ABLE2
 
 const BatchItem = props => {
-	const { id, refId, title, selected, onlyItem, dispatch } = props
+	const { id, refId, title, selected, index, mediaLength, dispatch } = props
+	const onlyItem = mediaLength === 1
 	
 	const dropdown = [
 		{
@@ -30,6 +31,21 @@ const BatchItem = props => {
 			hide: onlyItem,
 			action() {
 				props.applyToAllWithWarning(id)
+			}
+		},
+		{ role: 'spacer' },
+		{
+			label: 'Move Up',
+			hide: onlyItem || index === 0,
+			action() {
+				dispatch(moveMedia(index, -1))
+			}
+		},
+		{
+			label: 'Move Down',
+			hide: onlyItem || index + 1 === mediaLength,
+			action() {
+				dispatch(moveMedia(index))
 			}
 		},
 		{ role: 'spacer' },
@@ -74,7 +90,6 @@ const BatchItem = props => {
 
 BatchItem.propTypes = {
 	id: string.isRequired,
-	onlyItem: bool.isRequired,
 	refId: string.isRequired,
 	title: string.isRequired,
 	selected: bool,
@@ -82,6 +97,8 @@ BatchItem.propTypes = {
 	applyToAllWithWarning: func.isRequired,
 	removeMediaWithWarning: func.isRequired,
 	tempFilePath: string.isRequired,
+	index: number.isRequired,
+	mediaLength: number.isRequired,
 	dispatch: func.isRequired
 }
 

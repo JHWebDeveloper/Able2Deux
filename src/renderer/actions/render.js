@@ -35,6 +35,14 @@ export const pasteSettings = id => ({
 	payload: { id }
 })
 
+export const moveMedia = (pos, dir = 1) => ({
+	type: ACTION.MOVE_MEDIA,
+	payload: {
+		oldPos: pos,
+		newPos: pos + dir
+	}
+})
+
 export const duplicateMedia = id => ({
 	type: ACTION.DUPLICATE_MEDIA,
 	payload: { id, newId: uuid() }

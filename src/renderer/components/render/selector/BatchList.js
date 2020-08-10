@@ -51,7 +51,7 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 
 	return (
 		<div>
-			{media.map(({ id, refId, title, tempFilePath }) => (
+			{media.map(({ id, refId, title, tempFilePath }, i) => (
 				<BatchItem
 					key={id}
 					id={id}
@@ -62,7 +62,8 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 					copyAllSettings={copyAllSettings}
 					applyToAllWithWarning={applyToAllWithWarning}
 					removeMediaWithWarning={removeMediaWithWarning}
-					onlyItem={media.length < 2}
+					index={i}
+					mediaLength={media.length}
 					dispatch={dispatch} />
 			))}
 		</div>

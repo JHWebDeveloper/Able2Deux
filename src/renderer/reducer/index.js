@@ -24,6 +24,8 @@ export default (state, action) => {
 			return toggleMediaNestedCheckbox(state, payload)
 		case ACTION.ADD_MEDIA:
 			return addMedia(state, payload)
+		case ACTION.MOVE_MEDIA:
+			return moveMedia(state, payload)
 		case ACTION.DUPLICATE_MEDIA: 
 			return duplicateMedia(state, payload)
 		case ACTION.REMOVE_MEDIA:
@@ -91,6 +93,18 @@ const addMedia = (state, payload) => ({
 	...state,
 	media: [payload.newMedia].concat(state.media)
 })
+
+const moveMedia = (state, payload) => {
+	const media = [...state.media]
+	const location = media.splice(payload.oldPos, 1)[0]
+
+	media.splice(payload.newPos, 0, location)
+
+	return {
+		...state,
+		media
+	}
+}
 
 const duplicateMedia = (state, payload) => {
 	const index = state.media.findIndex(item => item.id === payload.id)
