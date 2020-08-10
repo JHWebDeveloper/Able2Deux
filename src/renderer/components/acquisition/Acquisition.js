@@ -10,7 +10,7 @@ import ScreenRecorder from './ScreenRecorder'
 import ReadyQueue from './ReadyQueue'
 
 const Acquisition = () => {
-	const { url, optimize, recording, timer, media, dispatch } = useContext(MainContext)
+	const { url, optimize, recording, screenshot, timer, media, dispatch } = useContext(MainContext)
 	const { renderOutput, warnings } = useContext(PrefsContext)
 
 	const output = useMemo(() => renderOutput.split('x')[1], [renderOutput])
@@ -26,6 +26,7 @@ const Acquisition = () => {
 				dispatch={dispatch} />
 			<ScreenRecorder
 				recording={recording}
+				screenshot={screenshot}
 				timer={timer}
 				dispatch={dispatch} />
 			<ReadyQueue
