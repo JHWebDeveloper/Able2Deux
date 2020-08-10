@@ -75,7 +75,7 @@ const Defaults = ({ warnings, editAll, enableWidescreenGrids, gridColor, scaleSl
 							value={scaleSliderMax}
 							onChange={e => dispatch(updateStateFromEvent(e))}
 							min={100}
-							max={9999}
+							max={4500}
 							onBlur={keepScaleMaxInRange}
 							data-number />
 					</span>
