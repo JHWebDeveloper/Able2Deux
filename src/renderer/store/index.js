@@ -8,7 +8,7 @@ const initState = {
 	url: '',
 	optimize: 'quality',
 	recording: false,
-	screenshot: true,
+	screenshot: false,
 	timer: {
 		enabled: false,
 		tc: 60,
