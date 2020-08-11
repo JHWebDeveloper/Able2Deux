@@ -1,4 +1,4 @@
-import { desktopCapturer, remote } from 'electron'
+import { desktopCapturer, remote, shell } from 'electron'
 import { v1 as uuid } from 'uuid'
 import { Decoder, Reader, tools } from 'ts-ebml'
 
@@ -34,21 +34,57 @@ const clearRecorder = () => {
 	clearTimeout(timeout)
 }
 
-const getStream = (chromeMediaSourceId, noAudio) => navigator.mediaDevices.getUserMedia({
-	audio: noAudio || process.platform === 'darwin' ? false : {
-		mandatory: {
-			chromeMediaSource: 'desktop'
+export const findSoundflower = async () => {
+	const devices = await navigator.mediaDevices.enumerateDevices()
+
+	return devices.filter(device => (
+		device.kind === 'audiooutput' &&
+		device.label === 'Soundflower (2ch)' &&
+		device.deviceId !== 'default'
+	))[0]
+}
+
+export const getSoundflower = () => (
+	shell.openExternal('https://github.com/mattingalls/Soundflower/releases/tag/2.0b2')
+)
+
+const getStream = async (chromeMediaSourceId, noAudio) => {
+	const mac = process.platform === 'darwin'
+
+	let videoStream = await navigator.mediaDevices.getUserMedia({
+		audio: noAudio || mac ? false : {
+			mandatory: {
+				chromeMediaSource: 'desktop'
+			}
+		},
+		video: {
+			mandatory: {
+				chromeMediaSource: 'desktop',
+				chromeMediaSourceId,
+				minFrameRate: 60,
+				maxFrameRate: 60
+			}
 		}
-	},
-	video: {
-		mandatory: {
-			chromeMediaSource: 'desktop',
-			chromeMediaSourceId,
-			minFrameRate: 60,
-			maxFrameRate: 60
-		}
+	})
+
+	if (mac) {
+		const { deviceId } = await findSoundflower()
+
+		const audioStream = await navigator.mediaDevices.getUserMedia({
+			audio: {
+				deviceId: {
+					exact: deviceId
+				}
+			}
+		})
+
+		const audioTracks = audioStream.getAudioTracks()
+
+		if (audioTracks.length > 0) videoStream.addTrack(audioTracks[0])
 	}
-})
+
+	return videoStream
+}
 
 const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve, reject) => {
 	const blobs = []
