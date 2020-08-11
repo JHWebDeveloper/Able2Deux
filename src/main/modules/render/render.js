@@ -85,7 +85,6 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 
 	let outputOptions = []
 	let extension = false
-	let backgroundFile = false
 	let overlayDim = false
 
 	if (isAudio && audio.format !== 'bars') {
