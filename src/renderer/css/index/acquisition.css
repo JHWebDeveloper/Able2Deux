@@ -133,6 +133,16 @@ button[name="record"].recording::after {
 
 button[name="screenshot"] { height: 26px; }
 
+#screen-recorder a {
+	font-size: 10px;
+	margin-top: 10px;
+}
+
+#screen-recorder a:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
 
 /* ---- RECORD SOURCE SELECTOR -------- */
 
@@ -242,11 +252,6 @@ button[name="screenshot"] { height: 26px; }
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-}
-
-.mac-alert {
-	font-size: 10px;
-	margin-top: 10px;
 }
 
 
