@@ -8,6 +8,7 @@ import { setRecording, loadRecording, updateMediaStatus } from '../../actions/ac
 import { toastrOpts } from '../../utilities'
 
 import RecordSourceSelector from './RecordSourceSelector'
+import SoundflowerMessage from './SoundflowerMessage'
 import Timecode from '../form_elements/Timecode'
 import DurationPointer from '../svg/DurationPointer'
 import CaptureModeSwitch from '../svg/CaptureModeSwitch'
@@ -129,7 +130,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 				disabled={recording || screenshot}
 				toggleTimecode={e => dispatch(toggleNestedCheckbox('timer', e))}
 				onChange={tc => dispatch(updateNestedState('timer', tc))} />
-			{interop.isMac && <p className="mac-alert">(Audio not supported on Mac)</p>}
+			{interop.isMac && <SoundflowerMessage />}
 		</div>
 	)
 }
