@@ -29,6 +29,7 @@ const sharedVideoOptions = [
 	'-c:a aac',
 	'-b:a 192k',
 	'-ar 48000',
+	'-ac 2',
 	'-shortest'
 ]
 
@@ -89,8 +90,8 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 
 	if (isAudio && audio.format !== 'bars') {
 		outputOptions = audio.format === 'wav'
-			? ['-c:a pcm_s24le']
-			: ['-c:a libmp3lame', '-b:a 320k']
+			? ['-c:a pcm_s24le', '-ac 2']
+			: ['-c:a libmp3lame', '-b:a 320k', '-ac 2']
 
 		extension = audio.format
 	} else if (isStill) {
