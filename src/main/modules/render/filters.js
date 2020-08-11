@@ -1,6 +1,6 @@
-const backgroundCmd = (sourceData, overlayDim) => `[${sourceData ? (overlayDim ? 4 : 2) : (overlayDim ? 3 : 1)}:v]loop=-1:419.58042:0[bg];`
+const getBGLayerNumber = (sourceData, overlayDim) => sourceData ? (overlayDim ? 4 : 2) : (overlayDim ? 3 : 1)
 const sourceCmd = sourceData => !sourceData ? '' : '[tosrc];[tosrc][1:v]overlay'
-const overlayCmd = (overlayDim, sourceData) => !overlayDim ? '' : `[tooverlay];[tooverlay]scale=w=${overlayDim.width}:h=${overlayDim.height}:force_original_aspect_ratio=increase[scaled];[${sourceData ? 2 : 1}:v][scaled]overlay=(main_w-overlay_w)/2:${overlayDim.y}[positioned];[positioned][${sourceData ? 3 : 2}:v]overlay`
+const overlayCmd = (overlayDim, sourceData) => !overlayDim ? '' : `[tooverlay];[tooverlay]scale=w=${overlayDim.width}:h=${overlayDim.height}:force_original_aspect_ratio=increase[scaled];[${sourceData ? 2 : 1}:v][scaled]overlay=(main_w-overlay_w)/2:${overlayDim.y}:shortest=1[positioned];[positioned][${sourceData ? 3 : 2}:v]overlay`
 const finalCmd = isPreview => isPreview ? '[final];[final]scale=w=384:h=216:force_original_aspect_ratio=decrease' : ''
 
 export const none = (command, filterData, isPreview) => {
@@ -30,22 +30,20 @@ export const fill = (command, filterData, isPreview) => {
 	].join(''))
 }
 
-export const fit = (command, background, filterData, isPreview) => {
+export const fit = (command, filterData, isPreview) => {
 	const { sourceData, overlayDim, angle, reflect, renderWidth, renderHeight } = filterData
 
 	command
-		.input(background)
 		.complexFilter([
-			backgroundCmd(sourceData, overlayDim),
 			`[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}:force_original_aspect_ratio=decrease[fg];`,
-			'[bg][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:shortest=1',
+			`[${getBGLayerNumber(sourceData, overlayDim)}:v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:shortest=1`,
 			sourceCmd(sourceData),
 			overlayCmd(overlayDim, sourceData),
 			finalCmd(isPreview)
 		].join(''))
 }
 
-export const transform = (command, background, filterData, isPreview) => {
+export const transform = (command, filterData, isPreview) => {
 	const { crop, scale, position, angle, reflect, sourceData, overlayDim } = filterData
 
 	crop.t /= 100
@@ -61,11 +59,9 @@ export const transform = (command, background, filterData, isPreview) => {
 	const cropW = Math.max(1 - (crop.l + crop.r), 0.01)
 
 	command
-		.input(background)
 		.complexFilter([
-			backgroundCmd(sourceData, overlayDim),
 			`[0:v]${angle}${reflect}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih[fg];`,
-			`[bg][fg]overlay=(main_w-overlay_w)/2+${position.x}*(main_w/2+overlay_w/2):(main_h-overlay_h)/2+${position.y}*(main_h/2+overlay_h/2):shortest=1`,
+			`[${getBGLayerNumber(sourceData, overlayDim)}:v][fg]overlay=(main_w-overlay_w)/2+${position.x}*(main_w/2+overlay_w/2):(main_h-overlay_h)/2+${position.y}*(main_h/2+overlay_h/2):shortest=1`,
 			sourceCmd(sourceData),
 			overlayCmd(overlayDim, sourceData),
 			finalCmd(isPreview)

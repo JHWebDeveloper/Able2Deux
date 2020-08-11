@@ -12,7 +12,6 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 
 	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.jpg`)
 	const previewPath = path.join(temp.previews.path, `${id}.preview.jpg`)
-	let backgroundFile = false
 	let overlayDim = false
 
 	const command = ffmpeg(previewSourcePath)
@@ -31,15 +30,23 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 	}
 
 	if (arc !== 'none' && !(arc === 'fill' && overlay === 'none')) {
-		backgroundFile = path.join(assetsPath, renderHeight, `${background}.jpg`)
+		if (background === 'blue' || background === 'grey') {
+			command.input(path.join(assetsPath, renderHeight, `${background}.jpg`))
+		} else if (background === 'alpha') {
+			command.input(path.join(assetsPath, renderHeight, 'alpha.jpg'))
+		} else {
+			command
+				.input(`color=c=black:s=${renderWidth}x${renderHeight}`)
+				.inputOption('-f lavfi')
+		}
 	}
 
 	if (arc !== 'none' && overlay !== 'none') {
-		const overlayPng = path.join(assetsPath, renderHeight, `${overlay}.png`)
+		command
+			.input(path.join(assetsPath, renderHeight, `${overlay}.png`))
+			.input(`color=c=black:s=${renderWidth}x${renderHeight}`)
+			.inputOption('-f lavfi')
 
-		command.input(backgroundFile).input(overlayPng)
-		
-		backgroundFile = path.join(assetsPath, renderHeight, 'black.jpg')
 		overlayDim = getOverlayInnerDimensions(renderHeight, overlay)
 	}
 
@@ -59,9 +66,9 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 			centering: exportData.centering
 		}, true)
 	} else if (arc === 'fit') {
-		filter.fit(command, backgroundFile, filterData, true)
+		filter.fit(command, filterData, true)
 	} else if (arc === 'transform') {
-		filter.transform(command, backgroundFile, {
+		filter.transform(command, {
 			...filterData,
 			position: exportData.position,
 			scale: exportData.scale,

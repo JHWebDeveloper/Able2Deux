@@ -28,7 +28,8 @@ const sharedVideoOptions = [
 	'-preset:v ultrafast',
 	'-c:a aac',
 	'-b:a 192k',
-	'-ar 48000'
+	'-ar 48000',
+	'-shortest'
 ]
 
 const checkIsAudio = ({ mediaType, audio }) => (
@@ -177,17 +178,25 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			fs.writeFileSync(sourcePng, sourceData, { encoding: 'base64' })		
 			command.input(sourcePng)
 		}
-	
+
 		if (arc !== 'none' && !(arc === 'fill' && overlay === 'none')) {
-			backgroundFile = path.join(assetsPath, renderHeight, `${background}.${background === 'blue' || background === 'grey' ? 'mov' : 'png'}`)
+			if (background === 'blue' || background === 'grey') {
+				command
+					.input(path.join(assetsPath, renderHeight, `${background}.mov`))
+					.inputOption('-stream_loop -1')
+			} else {
+				command
+					.input(`color=c=black@${needsAlpha ? 0 : 1}.0:s=${renderWidth}x${renderHeight}:rate=59.94${needsAlpha ? ',format=rgba' : ''}`)
+					.inputOptions(['-f lavfi'])
+			}
 		}
-	
+
 		if (arc !== 'none' && overlay !== 'none') {
-			const overlayPng = path.join(assetsPath, renderHeight, `${overlay}.png`)
-	
-			command.input(backgroundFile).input(overlayPng)
-			
-			backgroundFile = path.join(assetsPath, renderHeight, 'black.png')
+			command
+				.input(path.join(assetsPath, renderHeight, `${overlay}.png`))
+				.input(`color=c=black:size=${renderWidth}x${renderHeight}:rate=59.94`)
+				.inputOptions(['-r 59.94', '-f lavfi'])
+
 			overlayDim = getOverlayInnerDimensions(renderHeight, overlay)
 		}
 	
@@ -207,9 +216,9 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				centering: exportData.centering
 			})
 		} else if (arc === 'fit') {
-			filter.fit(command, backgroundFile, filterData)
+			filter.fit(command, filterData)
 		} else if (arc === 'transform') {
-			filter.transform(command, backgroundFile, {
+			filter.transform(command, {
 				...filterData,
 				position: exportData.position,
 				scale: exportData.scale,
@@ -220,7 +229,6 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		command
 			.input(`smptebars=size=${renderWidth}x${renderHeight}:rate=59.94`)
 			.inputOption('-f lavfi')
-			.outputOptions(['-shortest'])
 
 		if (mediaType === 'video') filter.videoToBars(command, { renderWidth, renderHeight })
 	}
