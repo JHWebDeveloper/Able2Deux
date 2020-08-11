@@ -37,7 +37,7 @@
 
 html, body, div, header, nav, main,
 form, fieldset, legend, details, summary, label, input,
-h1, h2, h3, p, ul, li, button, span, img {
+h1, h2, h3, p, ul, li, button, a, span, img {
 	margin: 0;
 	padding: 0;
 	border: 0;
