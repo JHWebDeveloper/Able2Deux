@@ -39,6 +39,7 @@ const openWindow = opts => new BrowserWindow({
 		nodeIntegration: dev,
 		contextIsolation: !dev,
 		enableEval: false,
+		enableRemoteModule: true,
 		preload: dev
 			? path.join(__dirname, 'preload', 'babelRegister.js')
 			: path.join(__dirname, 'preload.js')
