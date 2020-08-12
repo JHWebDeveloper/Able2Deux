@@ -1,7 +1,8 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
-import { temp } from '../utilities/extFileHandlers'
 import { Decoder, Reader, tools } from 'ts-ebml'
+
+import { temp } from '../utilities/extFileHandlers'
 
 const fixDuration = async buffer => {
 	const decoder = new Decoder()
