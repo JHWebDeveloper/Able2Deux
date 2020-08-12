@@ -32,7 +32,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 				onComplete: (recordId, mediaData) => {
 					dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
 				},
-				onError: recordId => {
+				onSaveError: recordId => {
 					dispatch(updateMediaStatus(recordId, STATUS.FAILED))
 					toastr.error('Error saving screen record', false, toastrOpts)
 				}
