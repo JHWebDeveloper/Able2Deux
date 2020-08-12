@@ -88,9 +88,16 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	let overlayDim = false
 
 	if (isAudio && audio.format !== 'bars') {
-		outputOptions = audio.format === 'wav'
-			? ['-c:a pcm_s24le', '-ac 2']
-			: ['-c:a libmp3lame', '-b:a 320k', '-ac 2']
+		outputOptions = audio.format === 'wav' ? [
+			'-c:a pcm_s24le',
+			'-ac 2',
+			'-f wav'
+		] : [
+			'-c:a libmp3lame',
+			'-b:a 320k',
+			'-ac 2',
+			'-f mp3'
+		]
 
 		extension = audio.format
 	} else if (isStill) {
@@ -100,6 +107,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			'-c:v prores_ks',
 			'-pix_fmt yuva444p10le',
 			'-profile:v 4444',
+			'-f mov',
 			...sharedVideoOptions
 		]
 
@@ -108,6 +116,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		outputOptions = [
 			'-c:v libx264',
 			'-crf 17',
+			'-f mp4',
 			...sharedVideoOptions
 		]
 
