@@ -80,10 +80,12 @@ const getStream = async (chromeMediaSourceId, noAudio) => {
 const type = 'video/webm; codecs="vp8, opus"'
 let recorder = false
 let timeout = false
+let blockId = false
 
 const clearRecorder = () => {
 	recorder = false
 	clearTimeout(timeout)
+	remote.powerSaveBlocker.stop(blockId)
 }
 
 const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve, reject) => {
@@ -118,6 +120,7 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 	}
 
 	requestAnimationFrame(() => {
+		blockId = remote.powerSaveBlocker.start('prevent-display-sleep')
 		recorder.start()
 	})
 })
