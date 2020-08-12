@@ -23,16 +23,6 @@ const removeJob = async id => {
 	return temp.exports.clear(id)
 }
 
-const sharedVideoOptions = [
-	'-b:v 7000k',
-	'-preset:v ultrafast',
-	'-c:a aac',
-	'-b:a 192k',
-	'-ar 48000',
-	'-ac 2',
-	'-shortest'
-]
-
 const checkIsAudio = ({ mediaType, audio }) => (
 	mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
 )
@@ -60,6 +50,16 @@ const checkNeedsAlpha = ({ mediaType, arc, background, overlay }) => {
 		background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none')
 	)
 }
+
+const sharedVideoOptions = [
+	'-b:v 7000k',
+	'-preset:v ultrafast',
+	'-c:a aac',
+	'-b:a 192k',
+	'-ar 48000',
+	'-ac 2',
+	'-shortest'
+]
 
 export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const {
