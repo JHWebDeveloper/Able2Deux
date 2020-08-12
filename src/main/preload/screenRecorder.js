@@ -1,6 +1,5 @@
 import { desktopCapturer, remote, shell } from 'electron'
 import { v1 as uuid } from 'uuid'
-import { Decoder, Reader, tools } from 'ts-ebml'
 
 import { sendMessage } from './sendMessage'
 
@@ -24,14 +23,6 @@ export const getRecordSources = async () => {
 		...src,
 		thumbnail: src.thumbnail.toDataURL()
 	}))
-}
-
-let recorder = false
-let timeout = false
-
-const clearRecorder = () => {
-	recorder = false
-	clearTimeout(timeout)
 }
 
 export const findSoundflower = async () => {
@@ -86,10 +77,19 @@ const getStream = async (chromeMediaSourceId, noAudio) => {
 	return videoStream
 }
 
-const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve, reject) => {
-	const blobs = []
+const type = 'video/webm; codecs="vp8, opus"'
+let recorder = false
+let timeout = false
 
-	recorder = new MediaRecorder(stream, { mediaType: 'video/webm' })
+const clearRecorder = () => {
+	recorder = false
+	clearTimeout(timeout)
+}
+
+const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve, reject) => {
+	const chunks = []
+
+	recorder = new MediaRecorder(stream, { mediaType: type })
 
 	recorder.onstart = () => {
 		setRecordIndicator(true)
@@ -103,7 +103,7 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 	}
 
 	recorder.ondataavailable = e => {
-		blobs.push(e.data)
+		chunks.push(e.data)
 	}
 
 	recorder.onerror = err => {
@@ -122,7 +122,8 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 	})
 })
 
-const getArrayBuffer = blob => new Promise((resolve, reject) => {
+const getArrayBuffer = chunks => new Promise((resolve, reject) => {
+	const blob = new Blob(chunks, { type })
 	const fileReader = new FileReader()
 
 	fileReader.onloadend = () => resolve(fileReader.result)
@@ -131,52 +132,11 @@ const getArrayBuffer = blob => new Promise((resolve, reject) => {
 	fileReader.readAsArrayBuffer(blob)
 })
 
-const getBuffer = blob => new Promise((resolve, reject) => {
-	const fileReader = new FileReader()
-
-	fileReader.onload = () => {
-		const buffer = Buffer.alloc(fileReader.result.byteLength)
-		const arr = new Uint8Array(fileReader.result)
-	
-		for (let i = 0, l = arr.byteLength; i < l; i++) {
-			buffer[i] = arr[i]
-		}
-
-		resolve(buffer)
-	}
-
-	fileReader.onerror = reject
-	fileReader.readAsArrayBuffer(blob)
-})
-
-const fixDuration = async blobs => {
-	const blob = new Blob(blobs, { type: 'video/webm' })
-	const decoder = new Decoder()
-	const reader = new Reader()
-
-	reader.logging = false
-	reader.drop_default_duration = false
-
-	const buffer = await getArrayBuffer(blob)
-
-	const elms = decoder.decode(buffer)
-
-	elms.forEach((elm) => reader.read(elm))
-
-	reader.stop()
-
-	const metadata = tools.makeMetadataSeekable(reader.metadatas, reader.duration, reader.cues)
-	const body = buffer.slice(reader.metadataSize)
-	const fixedBlob = new Blob([metadata, body], { type: 'video/webm' })
-
-	return getBuffer(fixedBlob)
-}
-
-export const startRecording = async ({ streamId, timer, setRecordIndicator, onStart, onComplete, onError }) => {
+export const startRecording = async ({ streamId, timer, setRecordIndicator, onStart, onComplete, onSaveError }) => {
 	const stream = await getStream(streamId)
-	const blobs  = await recordStream(stream, timer, setRecordIndicator)
-	const buffer = await fixDuration(blobs)
-
+	const chunks = await recordStream(stream, timer, setRecordIndicator)
+	const arrBuf = await getArrayBuffer(chunks)
+	const buffer = Buffer.from(arrBuf)
 	const recordId = uuid()
 
 	onStart(recordId)
@@ -185,7 +145,7 @@ export const startRecording = async ({ streamId, timer, setRecordIndicator, onSt
 		const mediaData = await saveScreenRecording(recordId, buffer)
 		onComplete(recordId, mediaData)
 	} catch (err) {
-		onError(recordId)
+		onSaveError(recordId)
 	}
 }
 
