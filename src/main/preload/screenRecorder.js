@@ -116,7 +116,7 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 	recorder.onstop = () => {
 		clearRecorder()
 		setRecordIndicator(false)
-		resolve(blobs)
+		resolve(chunks)
 	}
 
 	requestAnimationFrame(() => {
