@@ -73,6 +73,8 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 			return toastr.error('The screen recorder will not work.', 'Unable to load record sources!', toastrOpts)
 		}
 
+		if (!recordSources.length) return false
+
 		recordSources = recordSources.filter(({ name }) => name !== 'Able2Deux')
 
 		if (recordSources.length === 1) {

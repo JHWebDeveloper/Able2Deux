@@ -10,6 +10,9 @@ const saveScreenRecording = (id, buffer, screenshot) => sendMessage({
 	data: { id, buffer, screenshot }
 })
 
+const prod = process.env.NODE_ENV === 'production'
+const mac  = process.platform === 'darwin'
+
 export const getRecordSources = async () => {
 	const sources = await desktopCapturer.getSources({
 		types: ['window', 'screen'],
@@ -18,6 +21,10 @@ export const getRecordSources = async () => {
 			height: 144
 		}
 	})
+
+	if (prod && mac && remote.systemPreferences.getMediaAccessStatus('screen') !== 'granted') {
+		return []
+	}
 
 	return sources.map(src => ({
 		...src,
@@ -40,8 +47,6 @@ export const getSoundflower = () => (
 )
 
 const getStream = async (chromeMediaSourceId, noAudio) => {
-	const mac = process.platform === 'darwin'
-
 	let videoStream = await navigator.mediaDevices.getUserMedia({
 		audio: noAudio || mac ? false : {
 			mandatory: {
