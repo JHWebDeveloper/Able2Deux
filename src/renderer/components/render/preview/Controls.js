@@ -35,7 +35,7 @@ const Controls = props => {
 	}, [id, timecode, end])
 
 	return (
-		<div id="preview-controls">
+		<>
 			{props.mediaType === 'video' && <>
 				<span className="monospace">
 					{secondsToTC(timecode / fps)};{zeroize(Math.round(timecode % fps), fps)}
@@ -104,7 +104,7 @@ const Controls = props => {
 				name="_916"
 				style={toggleColor(grids._916)}
 				onClick={toggleGrid}>9:16</button>
-		</div>
+		</>
 	)
 }
 
