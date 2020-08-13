@@ -6,11 +6,20 @@ import { temp, assetsPath } from '../utilities/extFileHandlers'
 import * as filter from './filters'
 import getOverlayInnerDimensions from './getOverlayInnerDimensions'
 
+const base64Encode = async file => (
+	`data:image/png;base64,${await fsp.readFile(file, 'base64')}`
+)
+
 const previewStill = exportData => new Promise((resolve, reject) => {
 	const { id, renderOutput, arc, background, overlay, sourceData, rotation } = exportData
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
 	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.jpg`)
+
+	if (exportData.isAudio) {
+		base64Encode(previewSourcePath).then(resolve)
+	}
+
 	const previewPath = path.join(temp.previews.path, `${id}.preview.jpg`)
 	let overlayDim = false
 
@@ -18,8 +27,7 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 		.outputOptions(['-q:v 2'])
 		.output(previewPath)
 		.on('end', async () => {
-			const dataURL = await fsp.readFile(previewPath, 'base64')
-			resolve(`data:image/png;base64,${dataURL}`)
+			resolve(await base64Encode(previewPath))
 		})
 		.on('error', reject)
 
