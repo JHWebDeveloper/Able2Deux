@@ -63,9 +63,11 @@ const getStream = async (chromeMediaSourceId, noAudio) => {
 		}
 	})
 
-	if (mac) {
-		const { deviceId } = await findSoundflower()
+	if (!mac) return videoStream
 
+	const { deviceId } = await findSoundflower()
+
+	if (deviceId) {
 		const audioStream = await navigator.mediaDevices.getUserMedia({
 			audio: {
 				deviceId: {
@@ -73,11 +75,12 @@ const getStream = async (chromeMediaSourceId, noAudio) => {
 				}
 			}
 		})
-
+	
 		const audioTracks = audioStream.getAudioTracks()
-
+	
 		if (audioTracks.length > 0) videoStream.addTrack(audioTracks[0])
 	}
+
 
 	return videoStream
 }
