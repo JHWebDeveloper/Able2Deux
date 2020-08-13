@@ -17,8 +17,8 @@ export const getRecordSources = async () => {
 	const sources = await desktopCapturer.getSources({
 		types: ['window', 'screen'],
 		thumbnailSize: {
-			width: 256,
-			height: 144
+			width: 560,
+			height: 288
 		}
 	})
 
