@@ -48,7 +48,7 @@ export const getSoundflower = () => (
 
 const getStream = async (chromeMediaSourceId, noAudio) => {
 	const videoStream = await navigator.mediaDevices.getUserMedia({
-		audio: noAudio || mac ? false : {
+		audio: !noAudio && !mac && {
 			mandatory: {
 				chromeMediaSource: 'desktop'
 			}
