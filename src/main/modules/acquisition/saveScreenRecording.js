@@ -27,9 +27,21 @@ const fixDuration = async buffer => {
 }
 
 export const saveScreenRecording = async ({ id, buffer, screenshot }) => {
-	const fixedBuffer = screenshot ? buffer : await fixDuration(buffer)
-	const filePath = path.join(temp.imports.path, `${id}.${screenshot ? 'png' : 'webm'}`)
-	const encoding = screenshot ? 'base64' : 'utf8'
+	let fixedBuffer = false
+	let extension = false
+	let encoding = false
+
+	if (screenshot) {
+		fixedBuffer = await fixDuration(buffer)
+		extension = 'webm'
+		encoding = 'utf8'
+	} else {
+		fixedBuffer = buffer
+		extension = 'png'
+		encoding = 'base64'
+	}
+
+	const filePath = path.join(temp.imports.path, `${id}.${extension}`)
 
 	await fsp.writeFile(filePath, fixedBuffer, { encoding })
 
