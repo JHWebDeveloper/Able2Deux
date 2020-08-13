@@ -1,5 +1,5 @@
 import React from 'react'
-import { func, string, bool } from 'prop-types'
+import { func, number, string } from 'prop-types'
 
 import { updateStateFromEvent } from '../../actions'
 import { download } from '../../actions/acquisition'
@@ -49,7 +49,7 @@ Downloader.propTypes = {
 	url: string.isRequired,
 	optimize: string.isRequired,
 	output: string.isRequired,
-	disableRateLimit: bool,
+	disableRateLimit: number,
 	dispatch: func.isRequired
 }
 
