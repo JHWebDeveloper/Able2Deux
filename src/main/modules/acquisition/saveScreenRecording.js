@@ -32,13 +32,13 @@ export const saveScreenRecording = async ({ id, buffer, screenshot }) => {
 	let encoding = false
 
 	if (screenshot) {
-		fixedBuffer = await fixDuration(buffer)
-		extension = 'webm'
-		encoding = 'utf8'
-	} else {
 		fixedBuffer = buffer
 		extension = 'png'
 		encoding = 'base64'
+	} else {
+		fixedBuffer = await fixDuration(buffer)
+		extension = 'webm'
+		encoding = 'utf8'
 	}
 
 	const filePath = path.join(temp.imports.path, `${id}.${extension}`)
