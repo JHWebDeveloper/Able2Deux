@@ -82,7 +82,7 @@ const getStream = async (chromeMediaSourceId, noAudio) => {
 	return videoStream
 }
 
-const type = 'video/webm; codecs="vp8, opus"'
+const type = 'video/webm; codecs="vp9, opus"'
 let recorder = false
 let timeout = false
 let blockId = false
@@ -122,6 +122,7 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 	recorder.onstop = () => {
 		clearRecorder()
 		setRecordIndicator(false)
+		console.time()
 		resolve(chunks)
 	}
 
@@ -152,6 +153,7 @@ export const startRecording = async ({ streamId, timer, setRecordIndicator, onSt
 
 	try {
 		const mediaData = await saveScreenRecording(recordId, buffer)
+		console.timeEnd()
 		onComplete(recordId, mediaData)
 	} catch (err) {
 		onSaveError(recordId)
