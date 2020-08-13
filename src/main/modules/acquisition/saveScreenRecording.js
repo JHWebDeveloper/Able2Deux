@@ -13,7 +13,7 @@ const fixDuration = async buffer => {
 
 	const elms = decoder.decode(buffer)
 
-	elms.forEach((elm) => reader.read(elm))
+	elms.forEach(elm => reader.read(elm))
 
 	reader.stop()
 

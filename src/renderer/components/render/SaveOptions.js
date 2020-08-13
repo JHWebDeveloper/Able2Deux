@@ -1,4 +1,5 @@
 import React from 'react'
+import { arrayOf, bool, exact, func, string } from 'prop-types'
 
 import { toggleSaveLocation } from '../../actions/render'
 
@@ -18,5 +19,15 @@ const SaveOptions = ({ isBatch, saveLocations, dispatch }) => (
 		</fieldset>
 	</div>
 )
+
+SaveOptions.propTypes = {
+	isBatch: bool.isRequired,
+	saveLocations: arrayOf(exact({
+		id: string,
+		label: string,
+		checked: bool
+	})).isRequired,
+	dispatch: func.isRequired
+}
 
 export default SaveOptions

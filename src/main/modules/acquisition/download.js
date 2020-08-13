@@ -1,11 +1,11 @@
 import { spawn } from 'child_process'
-import fs, { promises as fsp } from 'fs'
+import { promises as fsp } from 'fs'
 import path from 'path'
 import ytdlStatic from 'youtube-dl-ffmpeg-ffprobe-static'
 import ffmpegStatic from 'ffmpeg-static-electron'
 import { fixPathForAsarUnpack } from 'electron-util'
 
-import { temp, prefsPath } from '../utilities/extFileHandlers'
+import { temp } from '../utilities/extFileHandlers'
 
 const ytdlPath = fixPathForAsarUnpack(ytdlStatic.path)
 const ffmpegPath = fixPathForAsarUnpack(ffmpegStatic.path)
@@ -29,8 +29,8 @@ const removeDownload = async id => {
 
 /* --- DOWNLOAD --- */
 
-const ytdlOpts = (disableRateLimit) => [
-	...!!disableRateLimit ? [] : ['--limit-rate',	'12500k'],
+const ytdlOpts = disableRateLimit => [
+	...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
 	'--retries', '3',
 	'--socket-timeout', '30',
 	'--no-warnings',

@@ -42,7 +42,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 		}
 	}, [timer])
 
-	const captureScreenshot = useCallback(async (streamId) => {
+	const captureScreenshot = useCallback(async streamId => {
 		try {
 			interop.captureScreenshot({
 				streamId,
@@ -139,6 +139,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 
 ScreenRecorder.propTypes = {
 	recording: bool.isRequired,
+	screenshot: bool.isRequired,
 	timer: shape({
 		enabled: bool.isRequired,
 		tc: number.isRequired,

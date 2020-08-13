@@ -47,7 +47,7 @@ export const getSoundflower = () => (
 )
 
 const getStream = async (chromeMediaSourceId, noAudio) => {
-	let videoStream = await navigator.mediaDevices.getUserMedia({
+	const videoStream = await navigator.mediaDevices.getUserMedia({
 		audio: noAudio || mac ? false : {
 			mandatory: {
 				chromeMediaSource: 'desktop'
@@ -125,7 +125,6 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 	recorder.onstop = () => {
 		clearRecorder()
 		setRecordIndicator(false)
-		console.time()
 		resolve(chunks)
 	}
 
@@ -156,7 +155,6 @@ export const startRecording = async ({ streamId, timer, setRecordIndicator, onSt
 
 	try {
 		const mediaData = await saveScreenRecording(recordId, buffer)
-		console.timeEnd()
 		onComplete(recordId, mediaData)
 	} catch (err) {
 		onSaveError(recordId)

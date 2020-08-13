@@ -37,9 +37,9 @@ const checkIsStill = (exportData, renderWidth, renderHeight) => {
 	return (
 		arc === 'none' ||
 		arc === 'fill' ||
-		(arc === 'fit' && (exportData.aspectRatio === '16:9' || stillBG)) ||
-		(arc === 'transform' && stillBG) ||
-		(arc === 'transform' && (scale.x / 100 * width >= renderWidth && scale.y / 100 * height >= renderHeight))
+		arc === 'fit' && (exportData.aspectRatio === '16:9' || stillBG) ||
+		arc === 'transform' && stillBG ||
+		arc === 'transform' && (scale.x / 100 * width >= renderWidth && scale.y / 100 * height >= renderHeight)
 	)
 }
 

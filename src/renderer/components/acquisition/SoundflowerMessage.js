@@ -7,7 +7,7 @@ const SoundflowerMessage = () => {
 
 	useEffect(() => {
 		(async () => {
-			setShow(!(await interop.findSoundflower()))
+			setShow(!await interop.findSoundflower())
 		})()
 	}, [])
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { bool, string } from 'prop-types'
 
 const CaptureModeSwitch = ({ screenshot, fill = '#444' }) => (
 	<svg width="41px" height="26px" viewBox="0 0 41 26">
@@ -17,5 +18,10 @@ const CaptureModeSwitch = ({ screenshot, fill = '#444' }) => (
 			S9.083,13.544,8.806,13.544z"/>
 	</svg>
 )
+
+CaptureModeSwitch.propTypes = {
+	screenshot: bool.isRequired,
+	fill: string.isRequired
+}
 
 export default CaptureModeSwitch
