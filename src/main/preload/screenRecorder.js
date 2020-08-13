@@ -115,6 +115,7 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 
 	recorder.onerror = err => {
 		clearRecorder()
+		setRecordIndicator(false)
 		reject(err)
 	}
 
