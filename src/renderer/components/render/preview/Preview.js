@@ -14,7 +14,21 @@ const { interop } = window.ABLE2
 
 const Preview = ({ selected, dispatch }) => {
 	const { renderOutput, enableWidescreenGrids, gridColor } = useContext(PrefsContext)
-	const { id, mediaType, source, arc, aspectRatio, rotation, timecode, start, end, duration, fps } = selected
+
+	const {
+		id,
+		mediaType,
+		duration,
+		aspectRatio,
+		fps,
+		start,
+		end,
+		audio,
+		arc,
+		source,
+		rotation,
+		timecode
+	} = selected
 
 	const [ previewReady, setPreviewReady ] = useState(false)
 	const [ open, toggleOpen ] = useState(false)
@@ -35,6 +49,7 @@ const Preview = ({ selected, dispatch }) => {
 		buildSource(source, renderOutput)
 	), [source, arc, rotation, renderOutput])
 
+	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
 	const settings = extractSettingsToArray(selected)
 
 	useEffect(() => {
@@ -52,18 +67,21 @@ const Preview = ({ selected, dispatch }) => {
 			await interop.initPreview({
 				id,
 				mediaType,
+				isAudio,
+				format: audio.format,
 				tempFilePath: selected.tempFilePath,
 				tc: timecode / fps / duration * 100
 			})
 
 			setPreviewReady(true)
 		})()
-	}, [id, mediaType, timecode, start, end])
+	}, [id, mediaType, isAudio, audio.format, timecode])
 
 	useEffect(() => {
 		if (previewReady && open) {
 			interop.requestPreviewStill({
 				...selected,
+				isAudio,
 				renderOutput,
 				sourceData
 			})
@@ -86,19 +104,23 @@ const Preview = ({ selected, dispatch }) => {
 								gridColor={gridColor} />
 						</div>
 					</div>
-					<Controls
-						id={id}
-						mediaType={mediaType}
-						timecode={timecode}
-						start={start}
-						end={end}
-						fps={fps}
-						duration={duration}
-						grids={grids}
-						enableWidescreenGrids={enableWidescreenGrids}
-						gridColor={gridColor}
-						toggleGrids={toggleGrids}
-						dispatch={dispatch} />
+					<div id="preview-controls">
+						{!isAudio && (
+							<Controls
+								id={id}
+								mediaType={mediaType}
+								timecode={timecode}
+								start={start}
+								end={end}
+								fps={fps}
+								duration={duration}
+								grids={grids}
+								enableWidescreenGrids={enableWidescreenGrids}
+								gridColor={gridColor}
+								toggleGrids={toggleGrids}
+								dispatch={dispatch} />
+						)}
+					</div>
 				</div>
 			)}
 		</details>
