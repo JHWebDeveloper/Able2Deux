@@ -24,6 +24,7 @@ SaveOptions.propTypes = {
 	isBatch: bool.isRequired,
 	saveLocations: arrayOf(exact({
 		id: string,
+		directory: string,
 		label: string,
 		checked: bool
 	})).isRequired,
