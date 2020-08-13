@@ -144,7 +144,16 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 		mediaData.duration = metadata.format.duration || 0
 	}
 
-	if (mediaType !== 'audio') {
+	if (mediaType === 'audio') {
+		const audioStream = metadata.streams.find(stream => stream.codec_type === 'audio')
+		const { channel_layout, bit_rate, sample_rate } = audioStream
+
+		Object.assign(mediaData, {
+			channelLayout: channel_layout === 'unknown' ? false : channel_layout,
+			bitRate: bit_rate < 1000 ? `${bit_rate}bps` : `${bit_rate / 1000}kbps`,
+			sampleRate: sample_rate < 1000 ? `${sample_rate}hz` : `${sample_rate / 1000}khz`
+		})
+	} else {
 		videoStream = metadata.streams.find(stream => stream.codec_type === 'video')
 		
 		const { width, height } = videoStream

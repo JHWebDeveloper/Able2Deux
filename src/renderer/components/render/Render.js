@@ -37,8 +37,7 @@ const Render = () => {
 
 	if (!selected) return false
 
-	const { thumbnail, title, width, height, aspectRatio, duration, fps, mediaType } = selected || {}
-
+	const { mediaType } = selected || {}
 	const isBatch = media.length > 1
 
 	return (
@@ -46,13 +45,16 @@ const Render = () => {
 			<div id="media-manager">				
 				<div id="media-selector">
 					<MediaInfo
-						thumbnail={thumbnail}
-						title={title}
-						width={width}
-						height={height}
-						aspectRatio={aspectRatio}
-						duration={duration}
-						fps={fps}
+						thumbnail={selected.thumbnail}
+						title={selected.title}
+						width={selected.width}
+						height={selected.height}
+						aspectRatio={selected.aspectRatio}
+						duration={selected.duration}
+						fps={selected.fps}
+						channelLayout={selected.channelLayout}
+						sampleRate={selected.sampleRate}
+						bitRate={selected.bitRate}
 						dispatch={dispatch} />
 					<BatchList
 						media={media}

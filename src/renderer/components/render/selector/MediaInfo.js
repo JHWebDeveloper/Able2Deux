@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { number, string } from 'prop-types'
 
-import { compareProps, secondsToTC, zeroize } from '../../../utilities'
+import { compareProps, secondsToTC, zeroize, capitalize } from '../../../utilities'
 
 let interval = false
 
@@ -26,21 +26,39 @@ const resetText = e => {
 	e.target.style.removeProperty('text-overflow')
 }
 
-const MediaInfo = memo(({ thumbnail, title, width, height, aspectRatio, duration, fps }) => (
-	<div>
-		<img src={thumbnail} alt={title} />
-		<h2
-			data-title={title}
-			onMouseEnter={e => scrollText(e)}
-			onMouseLeave={e => resetText(e)}>{title}</h2>
-		<ul>
-			{!!duration && <li>{secondsToTC(duration)};{zeroize(Math.round(duration % 1 * fps))}</li>}
-			{!!width && !!height && <li>{width}x{height}</li>}
-			{!!aspectRatio &&  <li>{aspectRatio}</li>}
-			{!!fps && <li>{fps}fps</li>}
-		</ul>
-	</div>
-), compareProps)
+const MediaInfo = memo(props => {
+	const {
+		thumbnail,
+		title,
+		width,
+		height,
+		aspectRatio,
+		duration,
+		fps,
+		channelLayout,
+		sampleRate,
+		bitRate
+	} = props
+
+	return (
+		<div>
+			<img src={thumbnail} alt={title} />
+			<h2
+				data-title={title}
+				onMouseEnter={e => scrollText(e)}
+				onMouseLeave={e => resetText(e)}>{title}</h2>
+			<ul>
+				{!!duration && <li>{secondsToTC(duration)};{zeroize(Math.round(duration % 1 * fps))}</li>}
+				{!!width && !!height && <li>{width}x{height}</li>}
+				{!!aspectRatio &&  <li>{aspectRatio}</li>}
+				{!!fps && <li>{fps}fps</li>}
+				{!!channelLayout && <li>{capitalize(channelLayout)}</li>}
+				{!!bitRate && <li>{bitRate}</li>}
+				{!!sampleRate && <li>{sampleRate}</li>}
+			</ul>
+		</div>
+	)
+}, compareProps)
 
 MediaInfo.propTypes = {
 	thumbnail: string.isRequired,
