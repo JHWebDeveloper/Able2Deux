@@ -67,7 +67,10 @@ MediaInfo.propTypes = {
 	height: number,
 	aspectRatio: string,
 	duration: number,
-	fps: number
+	fps: number,
+	channelLayout: string,
+	sampleRate: string,
+	bitRate: string
 }
 
 export default MediaInfo
