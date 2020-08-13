@@ -39,7 +39,7 @@ const ytdlOpts = disableRateLimit => [
 
 const parseYTDLOutput = (str, regex) => {
 	const result = str.match(regex)
-	return result ? result[0] : false
+	return result && result[0]
 }
 
 const getTempFilePath = async id => {

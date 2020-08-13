@@ -40,7 +40,7 @@ const Crop = memo(({ id, onlyItem, crop, editAll, dispatch }) => {
 	return (
 		<DetailsWrapper
 			summary="Crop"
-			buttons={onlyItem ? false : createSettingsMenu([
+			buttons={onlyItem && createSettingsMenu([
 				() => dispatch(copySettings({ crop })),
 				() => dispatch(applySettingsToAll(id, { crop }))
 			])}>

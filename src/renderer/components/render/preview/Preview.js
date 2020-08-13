@@ -30,9 +30,9 @@ const Preview = ({ selected, dispatch }) => {
 	})
 
 	const sourceData = useMemo(() => (
-		source.sourceName && !(arc === 'none' && aspectRatio !== '16:9')
-			? buildSource(source, renderOutput)
-			: false
+		source.sourceName &&
+		!(arc === 'none' && aspectRatio !== '16:9') &&
+		buildSource(source, renderOutput)
 	), [source, arc, rotation, renderOutput])
 
 	const settings = extractSettingsToArray(selected)

@@ -64,7 +64,7 @@ const Scale = memo(({ id, onlyItem, scale, crop, width, height, editAll, dispatc
 	return (
 		<DetailsWrapper
 			summary="Scale"
-			buttons={onlyItem ? false : createSettingsMenu([
+			buttons={onlyItem && createSettingsMenu([
 				() => dispatch(copySettings({ scale })),
 				() => dispatch(applySettingsToAll(id, { scale }))
 			])}>

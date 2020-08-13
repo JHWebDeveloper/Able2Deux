@@ -12,7 +12,7 @@ const Formatting = memo(({ id, onlyItem, arc, background, overlay, mediaType, ed
 	<DetailsWrapper
 		summary="Formatting"
 		className="auto-columns"
-		buttons={onlyItem ? false : createSettingsMenu([
+		buttons={onlyItem && createSettingsMenu([
 			() => dispatch(copySettings({ arc, background, overlay })),
 			() => dispatch(applySettingsToAll(id, { arc, background, overlay }))
 		])}
@@ -67,7 +67,7 @@ const Formatting = memo(({ id, onlyItem, arc, background, overlay, mediaType, ed
 					}
 				]}/>
 		</fieldset>
-		{mediaType === 'video' ? (
+		{mediaType === 'video' && (
 			<fieldset disabled={arc === 'none'}>
 				<legend>Box Overlay:</legend>
 				<RadioSet
@@ -89,7 +89,7 @@ const Formatting = memo(({ id, onlyItem, arc, background, overlay, mediaType, ed
 						}
 					]}/>
 			</fieldset>
-		) : <></>}
+		)}
 	</DetailsWrapper>
 ), compareProps)
 

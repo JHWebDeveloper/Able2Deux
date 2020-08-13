@@ -11,7 +11,7 @@ import Slider from '../../form_elements/Slider'
 const Centering = memo(({ id, onlyItem, centering, editAll, dispatch }) => (
 	<DetailsWrapper
 		summary="Position"
-		buttons={onlyItem ? false : createSettingsMenu([
+		buttons={onlyItem && createSettingsMenu([
 			() => dispatch(copySettings({ centering })),
 			() => dispatch(applySettingsToAll(id, { centering }))
 		])}

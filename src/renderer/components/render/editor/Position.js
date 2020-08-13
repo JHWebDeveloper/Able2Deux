@@ -17,7 +17,7 @@ const Position = memo(({ id, onlyItem, position, editAll, dispatch }) => {
 	return (
 		<DetailsWrapper
 			summary="Position"
-			buttons={onlyItem ? false : createSettingsMenu([
+			buttons={onlyItem && createSettingsMenu([
 				() => dispatch(copySettings({ position })),
 				() => dispatch(applySettingsToAll(id, { position }))
 			])}>

@@ -93,7 +93,7 @@ const Rotation = memo(props => {
 		<DetailsWrapper
 			summary="Rotation"
 			className="auto-columns"
-			buttons={onlyItem ? false : createSettingsMenu([
+			buttons={onlyItem && createSettingsMenu([
 				() => dispatch(copySettings({ rotation })),
 				() => dispatch(applySettingsToAll(id, { rotation }))
 			])}>

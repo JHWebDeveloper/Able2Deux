@@ -18,7 +18,7 @@ const Audio = memo(({ id, onlyItem, mediaType, audio, editAll, dispatch }) => {
 		<DetailsWrapper
 			summary="Audio"
 			className="auto-columns"
-			buttons={onlyItem ? false : createSettingsMenu([
+			buttons={onlyItem && createSettingsMenu([
 				() => dispatch(copySettings({ audio })),
 				() => dispatch(applySettingsToAll(id, { audio }))
 			])}

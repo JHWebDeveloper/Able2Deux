@@ -45,7 +45,7 @@ const Source = memo(({ id, onlyItem, source, editAll, dispatch }) => {
 	return (
 		<DetailsWrapper
 			summary="Source"
-			buttons={onlyItem ? false : createSettingsMenu([
+			buttons={onlyItem && createSettingsMenu([
 				() => dispatch(copySettings({ source })),
 				() => dispatch(applySettingsToAll(id, { source }))
 			])}

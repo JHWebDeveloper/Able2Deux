@@ -11,11 +11,11 @@ const SoundflowerMessage = () => {
 		})()
 	}, [])
 
-	return show ? (
+	return show && (
 		<a title="Get Soundflower" onClick={interop.getSoundflower}>
 			(Soundflower is required for audio on Mac)
 		</a>
-	) : <></>
+	)
 }
 
 export default SoundflowerMessage
