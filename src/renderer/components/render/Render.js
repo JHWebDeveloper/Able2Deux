@@ -36,7 +36,6 @@ const Render = () => {
 
 	if (!selected) return false
 
-	const { mediaType } = selected || {}
 	const isBatch = media.length > 1
 
 	return (
