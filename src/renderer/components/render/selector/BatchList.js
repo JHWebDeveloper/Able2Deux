@@ -1,10 +1,10 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { arrayOf, func, object, string } from 'prop-types'
 
 import { PrefsContext } from '../../../store/preferences'
 import { removeMedia } from '../../../actions/acquisition'
 import { copySettings, applySettingsToAll } from '../../../actions/render'
-import { warn, extractSettings, arrayCount } from '../../../utilities'
+import { warn, extractSettings, arrayCount, ScrollbarPadder } from '../../../utilities'
 
 import BatchItem from './BatchItem'
 
@@ -25,6 +25,8 @@ const removeMediaWarning = (title, enabled, callback) => {
 		callback
 	})
 }
+
+const scrollbarPadder = new ScrollbarPadder()
 
 const BatchList = ({ media, selectedId, dispatch }) => {
 	const { warnings } = useContext(PrefsContext)
@@ -49,8 +51,18 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		})
 	}, [media, warnings.remove])
 
+	const ref = useRef()
+
+	useEffect(() => {
+		scrollbarPadder.observe(ref.current, 3)
+
+		return () => {
+			scrollbarPadder.disconnect()
+		}
+	}, [])
+
 	return (
-		<div>
+		<div ref={ref}>
 			{media.map(({ id, refId, title, tempFilePath }, i) => (
 				<BatchItem
 					key={id}
