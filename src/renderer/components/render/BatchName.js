@@ -7,8 +7,8 @@ import RadioSet from '../form_elements/RadioSet'
 
 const BatchName = ({ batch, dispatch }) => (
 	<div id="batch-name">
-		<fieldset>
-			<legend>Batch Name:</legend>
+		<h2>Batch Name</h2>
+		<div>
 			<input
 				type="text"
 				name="name"
@@ -23,19 +23,19 @@ const BatchName = ({ batch, dispatch }) => (
 				onChange={e => dispatch(updateNestedStateFromEvent('batch', e))}
 				buttons={[
 					{
-						label: 'Overwrite Filename',
+						label: 'Replace',
 						value: 'overwrite'
 					},
 					{
-						label: 'Add to front',
+						label: 'Prepend',
 						value: 'prefix'
 					},
 					{
-						label: 'Add to back',
+						label: 'Append',
 						value: 'suffix'
 					}
 				]}/>
-		</fieldset>
+		</div>
 	</div>
 )
 
