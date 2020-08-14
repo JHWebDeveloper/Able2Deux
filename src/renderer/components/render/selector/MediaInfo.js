@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { number, string } from 'prop-types'
+import { bool, number, oneOfType, string } from 'prop-types'
 
 import { compareProps, secondsToTC, zeroize, capitalize } from '../../../utilities'
 
@@ -63,14 +63,14 @@ const MediaInfo = memo(props => {
 MediaInfo.propTypes = {
 	thumbnail: string.isRequired,
 	title: string.isRequired,
-	width: number,
-	height: number,
-	aspectRatio: string,
-	duration: number,
-	fps: number,
-	channelLayout: string,
-	sampleRate: string,
-	bitRate: string
+	width: oneOfType([bool, number]),
+	height: oneOfType([bool, number]),
+	aspectRatio: oneOfType([bool, string]),
+	duration: oneOfType([bool, number]),
+	fps: oneOfType([bool, number]),
+	channelLayout: oneOfType([bool, string]),
+	sampleRate: oneOfType([bool, string]),
+	bitRate: oneOfType([bool, string])
 }
 
 export default MediaInfo

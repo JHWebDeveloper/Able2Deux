@@ -11,6 +11,7 @@ const DetailsWrapper = ({ summary, id = '', className = '', open, buttons, child
 		{buttons && <DropdownMenu buttons={buttons} />}
 		<div id={id} className={className}>
 			{children}
+			{console.log(children)}
 		</div>
 	</details>
 )
@@ -26,7 +27,7 @@ DetailsWrapper.propTypes = {
 		hide: bool,
 		action: func
 	}))]),
-	children: oneOfType([element, arrayOf(element)])
+	children: oneOfType([element, arrayOf(oneOfType([bool, element]))])
 }
 
 export default DetailsWrapper
