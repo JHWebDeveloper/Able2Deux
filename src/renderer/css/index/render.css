@@ -9,15 +9,13 @@
 	height: 100%;
 }
 
+#media-manager > div { overflow-y: hidden; }
+
 #media-manager > div:nth-last-of-type(n+2),
 details {
 	position: relative;
 	border-radius: 5px;
 	background-color: var(--background-alt-1);
-}
-
-#media-manager > div:nth-last-of-type(n+2) {
-	overflow-y: auto;
 }
 
 #media-selector {
@@ -51,6 +49,8 @@ details {
 	background-color: var(--primary);
 	object-fit: contain;
 }
+
+#media-selector > div:nth-of-type(2) { overflow-y: auto; }
 
 .batch-item {
 	display: grid;
@@ -151,18 +151,31 @@ details .dropdown > span {
 
 #batch-name,
 #save-options {
+	display: inherit;
+	grid-gap: 3px;
 	padding: 9px 12px;
 }
 
-:matches(#batch-name, #save-options) legend,
-#batch-name input[type="text"],
-#save-options label {
-	margin-bottom: 6px;
-}
+:matches(#batch-name, #save-options) > h2::after { content: ':' }
 
-:matches(#batch-name, #save-options) label {
+#batch-name input[type="text"] { margin-bottom: 6px; }
+
+:matches(#batch-name, #save-options) label { font-size: 12px;  }
+
+#batch-name label:nth-last-of-type(n+2) { margin-right: 12px; }
+
+#save-options { grid-template-rows: min-content auto; }
+
+#save-options div { overflow-y: auto; }
+
+#save-options > fieldset { max-width: 100%; }
+
+#save-options label {
+	overflow: hidden;
+	text-overflow: ellipsis;
 	display: block;
-	font-size: 12px; 
+	width: 100%;
+	margin-bottom: 3px;
 }
 
 #save {
