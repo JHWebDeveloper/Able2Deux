@@ -23,7 +23,7 @@ const sourceOnTopWarning = (enabled, callback) => {
 	})
 }
 
-const Source = memo(({ id, onlyItem, source, editAll, dispatch }) => {
+const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
 	const { warnings } = useContext(PrefsContext)
 
 	const updateSourceName = useCallback(e => {
@@ -45,7 +45,7 @@ const Source = memo(({ id, onlyItem, source, editAll, dispatch }) => {
 	return (
 		<DetailsWrapper
 			summary="Source"
-			buttons={onlyItem && createSettingsMenu([
+			buttons={isBatch && createSettingsMenu([
 				() => dispatch(copySettings({ source })),
 				() => dispatch(applySettingsToAll(id, { source }))
 			])}
@@ -79,7 +79,7 @@ const Source = memo(({ id, onlyItem, source, editAll, dispatch }) => {
 
 Source.propTypes = {
 	id: string.isRequired,
-	onlyItem: bool.isRequired,
+	isBatch: bool.isRequired,
 	source: exact({
 		sourceName: string,
 		prefix: bool.isRequired,

@@ -9,7 +9,7 @@ import { compareProps, createSettingsMenu } from '../../../utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Slider from '../../form_elements/Slider'
 
-const Position = memo(({ id, onlyItem, position, editAll, dispatch }) => {
+const Position = memo(({ id, isBatch, position, editAll, dispatch }) => {
 	const updatePosition = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'position', e, editAll))
 	}, [id, editAll])
@@ -17,7 +17,7 @@ const Position = memo(({ id, onlyItem, position, editAll, dispatch }) => {
 	return (
 		<DetailsWrapper
 			summary="Position"
-			buttons={onlyItem && createSettingsMenu([
+			buttons={isBatch && createSettingsMenu([
 				() => dispatch(copySettings({ position })),
 				() => dispatch(applySettingsToAll(id, { position }))
 			])}>
@@ -43,7 +43,7 @@ const Position = memo(({ id, onlyItem, position, editAll, dispatch }) => {
 
 Position.propTypes = {
 	id: string.isRequired,
-	onlyItem: bool.isRequired,
+	isBatch: bool.isRequired,
 	position: exact({
 		x: number,
 		y: number

@@ -8,11 +8,11 @@ import { compareProps, createSettingsMenu } from '../../../utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
 
-const Formatting = memo(({ id, onlyItem, arc, background, overlay, mediaType, editAll, dispatch }) => (
+const Formatting = memo(({ id, isBatch, arc, background, overlay, mediaType, editAll, dispatch }) => (
 	<DetailsWrapper
 		summary="Formatting"
 		className="auto-columns"
-		buttons={onlyItem && createSettingsMenu([
+		buttons={isBatch && createSettingsMenu([
 			() => dispatch(copySettings({ arc, background, overlay })),
 			() => dispatch(applySettingsToAll(id, { arc, background, overlay }))
 		])}
@@ -95,7 +95,7 @@ const Formatting = memo(({ id, onlyItem, arc, background, overlay, mediaType, ed
 
 Formatting.propTypes = {
 	id: string.isRequired,
-	onlyItem: bool.isRequired,
+	isBatch: bool.isRequired,
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
 	background: oneOf(['blue', 'grey', 'alpha', 'black']).isRequired,
 	overlay: oneOf(['none', 'tv', 'laptop']),

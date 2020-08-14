@@ -9,7 +9,7 @@ import { compareProps, createSettingsMenu } from '../../../utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
 
-const Audio = memo(({ id, onlyItem, mediaType, audio, editAll, dispatch }) => {
+const Audio = memo(({ id, isBatch, mediaType, audio, editAll, dispatch }) => {
 	const updateAudio = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'audio', e, editAll))
 	}, [id, editAll])
@@ -18,7 +18,7 @@ const Audio = memo(({ id, onlyItem, mediaType, audio, editAll, dispatch }) => {
 		<DetailsWrapper
 			summary="Audio"
 			className="auto-columns"
-			buttons={onlyItem && createSettingsMenu([
+			buttons={isBatch && createSettingsMenu([
 				() => dispatch(copySettings({ audio })),
 				() => dispatch(applySettingsToAll(id, { audio }))
 			])}
@@ -73,7 +73,7 @@ const Audio = memo(({ id, onlyItem, mediaType, audio, editAll, dispatch }) => {
 
 Audio.propTypes = {
 	id: string.isRequired,
-	onlyItem: bool.isRequired,
+	isBatch: bool.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	audio: exact({
 		exportAs: oneOf(['video_audio', 'video', 'audio']),

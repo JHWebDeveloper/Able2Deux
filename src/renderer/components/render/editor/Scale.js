@@ -31,7 +31,7 @@ const FitButton = ({ title, onClick }) => (
 		onClick={onClick}>unfold_more</button>
 )
 
-const Scale = memo(({ id, onlyItem, scale, crop, width, height, editAll, dispatch }) => {
+const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext)
 
 	const [ frameWidthPrc, frameHeightPrc ] = useMemo(() => {
@@ -64,7 +64,7 @@ const Scale = memo(({ id, onlyItem, scale, crop, width, height, editAll, dispatc
 	return (
 		<DetailsWrapper
 			summary="Scale"
-			buttons={onlyItem && createSettingsMenu([
+			buttons={isBatch && createSettingsMenu([
 				() => dispatch(copySettings({ scale })),
 				() => dispatch(applySettingsToAll(id, { scale }))
 			])}>
@@ -102,7 +102,7 @@ const Scale = memo(({ id, onlyItem, scale, crop, width, height, editAll, dispatc
 
 Scale.propTypes = {
 	id: string.isRequired,
-	onlyItem: bool.isRequired,
+	isBatch: bool.isRequired,
 	width: number.isRequired,
 	height: number.isRequired,
 	scale: exact({

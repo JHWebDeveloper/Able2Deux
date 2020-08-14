@@ -16,8 +16,8 @@ import Audio from './Audio'
 const scrollbarPadder = new ScrollbarPadder()
 
 const EditorOptions = props => {
-	const { id, mediaType, editAll, onlyItem, width, height, aspectRatio, dispatch, arc } = props
-	const common = { id, mediaType, editAll, onlyItem, width, height, aspectRatio, dispatch }
+	const { id, mediaType, editAll, isBatch, width, height, aspectRatio, dispatch, arc } = props
+	const common = { id, mediaType, editAll, isBatch, width, height, aspectRatio, dispatch }
 
 	const ref = useRef()
 
@@ -83,7 +83,7 @@ const EditorOptions = props => {
 
 EditorOptions.propTypes = {
 	id: string.isRequired,
-	onlyItem: bool.isRequired,
+	isBatch: bool.isRequired,
 	editAll: bool.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	width: number.isRequired,

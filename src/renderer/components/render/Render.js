@@ -78,7 +78,7 @@ const Render = () => {
 				<EditorOptions
 					batch={batch}
 					editAll={editAll}
-					onlyItem={!isBatch}
+					isBatch={isBatch}
 					dispatch={dispatch}
 					{...selected} />
 			</div>

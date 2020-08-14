@@ -8,10 +8,10 @@ import { compareProps, createSettingsMenu } from '../../../utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Slider from '../../form_elements/Slider'
 
-const Centering = memo(({ id, onlyItem, centering, editAll, dispatch }) => (
+const Centering = memo(({ id, isBatch, centering, editAll, dispatch }) => (
 	<DetailsWrapper
 		summary="Position"
-		buttons={onlyItem && createSettingsMenu([
+		buttons={isBatch && createSettingsMenu([
 			() => dispatch(copySettings({ centering })),
 			() => dispatch(applySettingsToAll(id, { centering }))
 		])}
@@ -31,7 +31,7 @@ const Centering = memo(({ id, onlyItem, centering, editAll, dispatch }) => (
 
 Centering.propTypes = {
 	id: string.isRequired,
-	onlyItem: bool.isRequired,
+	isBatch: bool.isRequired,
 	centering: number.isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired

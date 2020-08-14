@@ -31,7 +31,7 @@ const rotateCropValues = (prev, next, crop) => {
 }
 
 const Rotation = memo(props => {
-	const { id, onlyItem, rotation, scale, crop, editAll, dispatch } = props
+	const { id, isBatch, rotation, scale, crop, editAll, dispatch } = props
 
 	const updateAngle = useCallback(e => {
 		let invertedProps = {}
@@ -93,7 +93,7 @@ const Rotation = memo(props => {
 		<DetailsWrapper
 			summary="Rotation"
 			className="auto-columns"
-			buttons={onlyItem && createSettingsMenu([
+			buttons={isBatch && createSettingsMenu([
 				() => dispatch(copySettings({ rotation })),
 				() => dispatch(applySettingsToAll(id, { rotation }))
 			])}>
@@ -153,7 +153,7 @@ const Rotation = memo(props => {
 
 Rotation.propTypes = {
 	id: string.isRequired,
-	onlyItem: bool.isRequired,
+	isBatch: bool.isRequired,
 	rotation: exact({
 		angle: oneOf(transpose),
 		reflect: oneOf(flip)

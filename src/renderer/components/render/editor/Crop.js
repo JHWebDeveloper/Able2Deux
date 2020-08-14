@@ -17,7 +17,7 @@ import { compareProps, createSettingsMenu } from '../../../utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import SliderPair from '../../form_elements/SliderPair'
 
-const Crop = memo(({ id, onlyItem, crop, editAll, dispatch }) => {
+const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 	const updateCrop = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'crop', e, editAll))
 	}, [id, editAll])
@@ -40,7 +40,7 @@ const Crop = memo(({ id, onlyItem, crop, editAll, dispatch }) => {
 	return (
 		<DetailsWrapper
 			summary="Crop"
-			buttons={onlyItem && createSettingsMenu([
+			buttons={isBatch && createSettingsMenu([
 				() => dispatch(copySettings({ crop })),
 				() => dispatch(applySettingsToAll(id, { crop }))
 			])}>
@@ -90,7 +90,7 @@ const Crop = memo(({ id, onlyItem, crop, editAll, dispatch }) => {
 
 Crop.propTypes = {
 	id: string.isRequired,
-	onlyItem: bool.isRequired,
+	isBatch: bool.isRequired,
 	crop: exact({
 		t: number,
 		b: number,
