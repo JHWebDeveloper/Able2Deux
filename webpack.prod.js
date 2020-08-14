@@ -29,16 +29,18 @@ const mainConfig = {
 		]
 	},
 	plugins: [
-		new CopyWebpackPlugin([
-			{
-				from: path.join(mainPath, 'backgrounds'),
-				to: path.join('assets', 'backgrounds')
-			},
-			{
-				from: path.join(mainPath, 'icons'),
-				to: path.join('assets', 'icons')
-			}
-		])
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: path.join(mainPath, 'backgrounds'),
+					to: path.join('assets', 'backgrounds')
+				},
+				{
+					from: path.join(mainPath, 'icons'),
+					to: path.join('assets', 'icons')
+				}
+			]
+		})
 	],
 	node: {
 		__dirname: false
