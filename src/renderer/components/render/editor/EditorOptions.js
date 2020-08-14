@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { bool, func, number, object, oneOf, string } from 'prop-types'
+
+import { ScrollbarPadder } from '../../../utilities'
 
 import FileOptions from './FileOptions'
 import Formatting from './Formatting'
@@ -11,12 +13,24 @@ import Crop from './Crop'
 import Rotation from './Rotation'
 import Audio from './Audio'
 
+const scrollbarPadder = new ScrollbarPadder()
+
 const EditorOptions = props => {
 	const { id, mediaType, editAll, onlyItem, width, height, aspectRatio, dispatch, arc } = props
 	const common = { id, mediaType, editAll, onlyItem, width, height, aspectRatio, dispatch }
 
+	const ref = useRef()
+
+	useEffect(() => {
+		scrollbarPadder.observe(ref.current, 6)
+
+		return () => {
+			scrollbarPadder.disconnect()
+		}
+	}, [])
+
 	return (
-		<div id="editor-options">
+		<div ref={ref} id="editor-options">
 			<FileOptions
 				batch={props.batch}
 				filename={props.filename}
