@@ -8,7 +8,7 @@ const updatePreviewSourceImage = ({ id, mediaType, isAudio, format, tempFilePath
 
 	if (isAudio && format === 'bars') {
 		command
-			.input(`smptebars=size=384x216:duration=1`)
+			.input('smptebars=size=384x216:duration=1')
 			.inputOption('-f lavfi')
 			.output(outputPath)
 			.outputOptions(['-q:v 2', '-frames 1'])
