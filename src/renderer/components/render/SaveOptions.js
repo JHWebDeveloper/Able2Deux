@@ -7,8 +7,8 @@ import Checkbox from '../form_elements/Checkbox'
 
 const SaveOptions = ({ isBatch, saveLocations, dispatch }) => (
 	<div id="save-options" style={{ gridRow: isBatch ?  3 : '2 / span 2' }}>
-		<fieldset>
-			<legend>Save Locations:</legend>
+		<h2>Save Locations</h2>
+		<div>
 			{saveLocations.map(({ id, label, checked }) => (
 				<Checkbox
 					key={id}
@@ -16,7 +16,7 @@ const SaveOptions = ({ isBatch, saveLocations, dispatch }) => (
 					checked={checked}
 					onChange={() => dispatch(toggleSaveLocation(id))} />
 			))}
-		</fieldset>
+		</div>
 	</div>
 )
 
