@@ -4,7 +4,7 @@ import { temp } from '../utilities/extFileHandlers'
 
 const updatePreviewSourceImage = ({ id, mediaType, isAudio, format, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
 	const command = ffmpeg().on('end', resolve).on('error', reject)
-	const outputPath = path.join(temp.previews.path, `${id}.preview-source.jpg`)
+	const outputPath = path.join(temp.previews.path, `${id}.preview-source.tiff`)
 
 	if (isAudio && format === 'bars') {
 		command
@@ -26,11 +26,11 @@ const updatePreviewSourceImage = ({ id, mediaType, isAudio, format, tempFilePath
 			command.screenshot({
 				timemarks: [`${tc}%`],
 				folder: temp.previews.path,
-				filename: `${id}.preview-source.jpg`
+				filename: `${id}.preview-source.tiff`
 			})
 		} else {
-			const opts = ['-q:v 2']
-	
+			const opts = []
+
 			if (mediaType === 'gif') opts.push('-frames 1')
 	
 			command

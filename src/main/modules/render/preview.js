@@ -14,7 +14,7 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 	const { id, renderOutput, arc, background, overlay, sourceData, rotation } = exportData
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
-	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.jpg`)
+	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.tiff`)
 
 	if (exportData.isAudio) {
 		base64Encode(previewSourcePath).then(resolve)
