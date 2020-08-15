@@ -19,7 +19,7 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 	let overlayDim = false
 
 	const command = ffmpeg(previewSourcePath)
-		.outputOptions(['-q:v 2'])
+		.outputOption('-q:v 2')
 		.output(previewPath)
 		.on('end', async () => {
 			resolve(await base64Encode(previewPath))
