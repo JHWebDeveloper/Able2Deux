@@ -33,6 +33,7 @@ class MediaElement {
 		this.width = 0
 		this.height = 0
 		this.aspectRatio = false
+		this.hasAlpha = false
 		this.fps = 0
 		this.timecode = 0
 		this.start = {
