@@ -75,7 +75,7 @@ const Preview = ({ selected, dispatch }) => {
 
 			setPreviewReady(true)
 		})()
-	}, [id, mediaType, isAudio, audio.format, timecode])
+	}, [id, mediaType, isAudio, audio.format, timecode, start, end])
 
 	useEffect(() => {
 		if (previewReady && open) {
