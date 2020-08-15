@@ -18,7 +18,7 @@ const initState = {
 	selectedId: false,
 	batch: {
 		name: '',
-		position: 'overwrite'
+		position: 'replace'
 	},
 	editAll: false,
 	copiedSettings: {}

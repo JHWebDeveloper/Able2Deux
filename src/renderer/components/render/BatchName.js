@@ -24,15 +24,15 @@ const BatchName = ({ batch, dispatch }) => (
 				buttons={[
 					{
 						label: 'Replace',
-						value: 'overwrite'
+						value: 'replace'
 					},
 					{
 						label: 'Prepend',
-						value: 'prefix'
+						value: 'prepend'
 					},
 					{
 						label: 'Append',
-						value: 'suffix'
+						value: 'append'
 					}
 				]}/>
 		</div>

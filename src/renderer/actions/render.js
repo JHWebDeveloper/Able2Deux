@@ -130,12 +130,12 @@ const fillMissingFilenames = media => media.map(item => {
 const applyBatchName = (media, batch) => media.map(item => {
 	if (!batch.name) return item
 
-	if (batch.position === 'overwrite') {
+	if (batch.position === 'replace') {
 		item.filename = batch.name.includes('$n') ? batch.name : `${batch.name}.$n`
 	} else {
 		const newName = [batch.name.trim(), item.filename]
 
-		if (batch.position === 'suffix') newName.reverse()
+		if (batch.position === 'append') newName.reverse()
 
 		item.filename = newName.join(' ')
 	}
