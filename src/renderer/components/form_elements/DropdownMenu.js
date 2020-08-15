@@ -5,7 +5,6 @@ import { arrayOf, bool, func, shape, string } from 'prop-types'
 const DropdownMenu = ({ buttons }) => {
 	const [ revealMenu, toggleRevealMenu ] = useState(false)
 	const [ position, setPosition ] = useState({ top: 0, left: 0 })
-	let timer = false
 
 	const getPositionRelativeToWindow = useCallback(e => {
 		const { bottom, left } = e.target.getBoundingClientRect()
@@ -27,7 +26,7 @@ const DropdownMenu = ({ buttons }) => {
 					toggleRevealMenu(!revealMenu)
 				}}
 				onBlur={() => {
-					timer = setTimeout(() => toggleRevealMenu(false), 250)
+					setTimeout(() => toggleRevealMenu(false), 250)
 				}}
 				aria-haspopup="true"
 				aria-expanded={revealMenu}>more_vert</button>
