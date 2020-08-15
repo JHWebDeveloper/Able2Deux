@@ -196,7 +196,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			} else {
 				command
 					.input(`color=c=black@${needsAlpha ? 0 : 1}.0:s=${renderWidth}x${renderHeight}:rate=59.94${needsAlpha ? ',format=rgba' : ''}`)
-					.inputOptions(['-f lavfi'])
+					.inputOption('-f lavfi')
 			}
 		}
 
@@ -204,7 +204,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			command
 				.input(path.join(assetsPath, renderHeight, `${overlay}.png`))
 				.input(`color=c=black:size=${renderWidth}x${renderHeight}:rate=59.94`)
-				.inputOptions(['-r 59.94', '-f lavfi'])
+				.inputOption('-f lavfi')
 
 			overlayDim = getOverlayInnerDimensions(renderHeight, overlay)
 		}
