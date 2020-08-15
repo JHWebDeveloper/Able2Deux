@@ -27,7 +27,7 @@ const DropdownMenu = ({ buttons }) => {
 					toggleRevealMenu(!revealMenu)
 				}}
 				onBlur={() => {
-					timer = setTimeout(() => toggleRevealMenu(false), 100)
+					timer = setTimeout(() => toggleRevealMenu(false), 250)
 				}}
 				aria-haspopup="true"
 				aria-expanded={revealMenu}>more_vert</button>
