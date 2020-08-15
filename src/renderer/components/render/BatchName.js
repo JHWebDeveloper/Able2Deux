@@ -42,7 +42,7 @@ const BatchName = ({ batch, dispatch }) => (
 BatchName.propTypes = {
 	batch: exact({
 		name: string,
-		position: oneOf(['overwrite', 'prefix', 'suffix'])
+		position: oneOf(['replace', 'prepend', 'append'])
 	}).isRequired,
 	dispatch: func.isRequired
 }
