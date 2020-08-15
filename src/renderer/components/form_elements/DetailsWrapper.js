@@ -11,7 +11,6 @@ const DetailsWrapper = ({ summary, id = '', className = '', open, buttons, child
 		{buttons && <DropdownMenu buttons={buttons} />}
 		<div id={id} className={className}>
 			{children}
-			{console.log(children)}
 		</div>
 	</details>
 )
