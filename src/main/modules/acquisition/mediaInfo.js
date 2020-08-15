@@ -76,6 +76,16 @@ const getMetadata = file => new Promise((resolve, reject) => {
 	})
 })
 
+const detectAlphaChannel = file => new Promise(resolve => {
+	ffmpeg(file)
+		.on('end', async () => resolve(true))
+		.on('error', () => resolve(false))
+		.videoFilter('alphaextract,format=yuv420p')
+		.output('out.null')
+		.outputOption('-f null')
+		.run()
+})
+
 const getSupportedCodecList = () => new Promise((resolve, reject) => {
 	ffmpeg.getAvailableCodecs((err, codecs) => {
 		if (err) {
@@ -162,11 +172,13 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 		const { width, height } = videoStream
 		const hasW = checkMetadata(width)
 		const hasH = checkMetadata(height)
+		const hasAlpha = await detectAlphaChannel(tempFilePath)
 
 		Object.assign(mediaData, {
 			width: hasW && width,
 			height: hasH && height,
-			aspectRatio: hasW && hasH && calculateAspectRatio(width, height)
+			aspectRatio: hasW && hasH && calculateAspectRatio(width, height),
+			hasAlpha
 		})
 	}
 
