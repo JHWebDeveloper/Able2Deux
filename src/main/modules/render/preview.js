@@ -15,11 +15,6 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
 	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.tiff`)
-
-	if (exportData.isAudio) {
-		base64Encode(previewSourcePath).then(resolve)
-	}
-
 	const previewPath = path.join(temp.previews.path, `${id}.preview.jpg`)
 	let overlayDim = false
 
@@ -30,6 +25,8 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 			resolve(await base64Encode(previewPath))
 		})
 		.on('error', reject)
+
+	if (exportData.isAudio) return command.run()
 
 	if (sourceData) {
 		const sourcePng = path.join(temp.previews.path, `${id}.src-overlay.png`)
