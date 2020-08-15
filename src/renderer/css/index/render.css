@@ -152,22 +152,18 @@ details .dropdown > span {
 #batch-name,
 #save-options {
 	display: inherit;
-	grid-gap: 3px;
+	grid-gap: 6px;
 	padding: 9px 12px;
 }
 
 :matches(#batch-name, #save-options) > h2::after { content: ':' }
 
 #batch-name input[type="text"] { margin-bottom: 6px; }
-
-:matches(#batch-name, #save-options) label { font-size: 12px;  }
-
+#batch-name label { font-size: 12px;  }
 #batch-name label:nth-last-of-type(n+2) { margin-right: 12px; }
 
 #save-options { grid-template-rows: min-content auto; }
-
-#save-options div { overflow-y: auto; }
-
+#save-options > div { overflow-y: auto; }
 #save-options > fieldset { max-width: 100%; }
 
 #save-options label {
@@ -175,7 +171,8 @@ details .dropdown > span {
 	text-overflow: ellipsis;
 	display: block;
 	width: 100%;
-	margin-bottom: 3px;
+	margin-bottom: 6px;
+	font-size: 14px;
 }
 
 #save {
