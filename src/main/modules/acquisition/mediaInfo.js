@@ -19,7 +19,7 @@ const base64Encode = async file => {
 }
 
 const createScreenshot = (id, tempFilePath) => new Promise(resolve => {
-	const screenshot = `${id}.thumbnail.jpg`
+	const screenshot = `${id}.thumbnail.png`
 
 	ffmpeg(tempFilePath).on('end', () => {
 		resolve(path.join(temp.imports.path, screenshot))
