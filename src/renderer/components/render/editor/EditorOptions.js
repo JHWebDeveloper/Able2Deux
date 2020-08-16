@@ -45,6 +45,7 @@ const EditorOptions = props => {
 			)}
 			{mediaType !== 'audio' && !(mediaType === 'video' && props.audio.exportAs === 'audio') && <>
 				<Formatting
+					hasAlpha={props.hasAlpha}
 					arc={arc}
 					background={props.background}
 					overlay={props.overlay}
