@@ -10,6 +10,7 @@ const defaultPrefs = {
 	version: 3,
 	renderOutput: '1280x720',
 	renderFrameRate: 'auto',
+	autoPNG: true,
 	concurrent: 2,
 	saveLocations: [
 		{
