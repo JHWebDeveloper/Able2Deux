@@ -28,7 +28,7 @@ const checkIsAudio = ({ mediaType, audio }) => (
 )
 
 const checkIsStill = exportData => {
-	if (exportData.mediaType !== 'image') return false
+	if (exportData.mediaType !== 'image' || !exportData.autoPNG) return false
 
 	const { arc, background } = exportData
 
@@ -81,7 +81,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
 	const isAudio = checkIsAudio(exportData)
-	const isStill = exportData.autoPNG && checkIsStill(exportData)
+	const isStill = checkIsStill(exportData)
 	const needsAlpha = checkNeedsAlpha(exportData)
 
 	let outputOptions = []
