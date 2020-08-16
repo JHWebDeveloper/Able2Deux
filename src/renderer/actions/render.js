@@ -239,6 +239,7 @@ export const render = params => async dispatch => {
 						...item,
 						renderOutput: params.renderOutput,
 						renderFrameRate: params.renderFrameRate,
+						autoPNG: params.autoPNG,
 						saveLocations: saveLocations.filter(({ checked }) => checked)
 					},
 					startCallback() {
