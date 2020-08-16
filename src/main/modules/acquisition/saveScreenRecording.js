@@ -3,6 +3,7 @@ import path from 'path'
 import { Decoder, Reader, tools } from 'ts-ebml'
 
 import { temp } from '../utilities/extFileHandlers'
+import ffmpeg from '../utilities/ffmpeg'
 
 const fixDuration = async buffer => {
 	const decoder = new Decoder()
@@ -26,6 +27,15 @@ const fixDuration = async buffer => {
 	])
 }
 
+const removeAlpha = file => new Promise((resolve, reject) => {
+	ffmpeg(file)
+		.on('end', () => resolve())
+		.on('error', () => reject())
+		.output(file)
+		.outputOption('-pix_fmt yuv420p')
+		.run()
+})
+
 export const saveScreenRecording = async ({ id, buffer, screenshot }) => {
 	let fixedBuffer = false
 	let extension = false
@@ -44,6 +54,8 @@ export const saveScreenRecording = async ({ id, buffer, screenshot }) => {
 	const filePath = path.join(temp.imports.path, `${id}.${extension}`)
 
 	await fsp.writeFile(filePath, fixedBuffer, { encoding })
+
+	if (screenshot) await removeAlpha(filePath)
 
 	return filePath
 }
