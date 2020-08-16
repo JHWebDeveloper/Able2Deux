@@ -91,6 +91,7 @@ EditorOptions.propTypes = {
 	height: number.isRequired,
 	duration: number.isRequired,
 	aspectRatio: oneOfType([bool, string]),
+	hasAlpha: bool.isRequired,
 	batch: object.isRequired,
 	filename: string,
 	start: object,

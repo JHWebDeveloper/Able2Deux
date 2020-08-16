@@ -98,6 +98,7 @@ const Formatting = memo(props => {
 Formatting.propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
+	hasAlpha: bool.isRequired,
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
 	background: oneOf(['blue', 'grey', 'alpha', 'black']).isRequired,
 	overlay: oneOf(['none', 'tv', 'laptop']),

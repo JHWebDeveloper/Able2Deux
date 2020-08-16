@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { func, number, oneOf } from 'prop-types'
+import { func, number, oneOf, bool } from 'prop-types'
 
 import { updateStateFromEvent, toggleCheckbox } from '../../actions'
 import { keepInRange } from '../../utilities'
@@ -87,6 +87,7 @@ RenderOutput.propTypes = {
 		'auto',
 		'59.94fps'
 	]).isRequired,
+	autoPNG: bool.isRequired,
 	concurrent: number.isRequired,
 	dispatch: func.isRequired
 }
