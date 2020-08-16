@@ -1,6 +1,7 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
 import getRGBAPalette from 'get-rgba-palette'
+import getPixels from 'get-pixels'
 
 import ffmpeg from '../utilities/ffmpeg'
 import placeholder from '../utilities/placeholder'
@@ -77,12 +78,16 @@ const getMetadata = file => new Promise((resolve, reject) => {
 	})
 })
 
-const detectImageNecessaryAlphaChannel = async id => {
-	const file = await fsp.readFile(path.join(temp.imports.path, `${id}.alpha.jpg`))
-	const colors = getRGBAPalette(file)
+const detectImageNecessaryAlphaChannel = id => new Promise((resolve, reject) => {
+	getPixels(path.join(temp.imports.path, `${id}.alpha.jpg`), (err, pixels) => {
+		if (err) reject(err)
 
-	return colors.length > 1
-}
+		const colors = getRGBAPalette(pixels.data)
+		const isWhite = colors.every(color => color.every(ch => ch > 250))
+
+		resolve(!isWhite)
+	})
+})
 
 const detectAlphaChannel = (file, mediaType, id) => new Promise(resolve => {
 	const isImage = mediaType === 'image'
