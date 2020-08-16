@@ -11,7 +11,7 @@ const base64Encode = async file => (
 )
 
 const previewStill = exportData => new Promise((resolve, reject) => {
-	const { id, renderOutput, arc, background, overlay, sourceData, rotation } = exportData
+	const { id, renderOutput, hasAlpha, arc, background, overlay, sourceData, rotation } = exportData
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
 	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.tiff`)
@@ -34,7 +34,7 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 		command.input(sourcePng)
 	}
 
-	if (arc !== 'none' && !(arc === 'fill' && overlay === 'none')) {
+	if (arc !== 'none' && !(arc === 'fill' && overlay === 'none' && !hasAlpha)) {
 		if (background === 'blue' || background === 'grey') {
 			command.input(path.join(assetsPath, renderHeight, `${background}.jpg`))
 		} else if (background === 'alpha') {
@@ -60,6 +60,7 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 		renderHeight,
 		renderWidth,
 		overlayDim,
+		hasAlpha,
 		sourceData: !!sourceData
 	}
 

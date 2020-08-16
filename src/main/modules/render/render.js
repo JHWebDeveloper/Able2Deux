@@ -27,19 +27,19 @@ const checkIsAudio = ({ mediaType, audio }) => (
 	mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
 )
 
-const checkIsStill = (exportData, renderWidth, renderHeight) => {
+const checkIsStill = exportData => {
 	if (exportData.mediaType !== 'image') return false
 
-	const { arc, background, width, height, scale } = exportData
-
-	const stillBG = background === 'black' || background === 'alpha'
+	const { arc, background } = exportData
 
 	return (
 		arc === 'none' ||
-		arc === 'fill' ||
-		arc === 'fit' && (exportData.aspectRatio === '16:9' || stillBG) ||
-		arc === 'transform' && stillBG ||
-		arc === 'transform' && (scale.x / 100 * width >= renderWidth && scale.y / 100 * height >= renderHeight)
+		(background === 'black' || background === 'alpha') ||
+		exportData.overlay === 'none' &&
+		(!exportData.hasAlpha && (
+			arc === 'fill' || 
+			arc === 'fit' && exportData.aspectRatio === '16:9'
+		))
 	)
 }
 
@@ -65,6 +65,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const {
 		mediaType,
 		id,
+		hasAlpha,
 		start,
 		end,
 		audio,
@@ -188,7 +189,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			command.input(sourcePng)
 		}
 
-		if (arc !== 'none' && !(arc === 'fill' && overlay === 'none')) {
+		if (arc !== 'none' && !(arc === 'fill' && overlay === 'none' && !hasAlpha)) {
 			if (background === 'blue' || background === 'grey') {
 				command
 					.input(path.join(assetsPath, renderHeight, `${background}.mov`))
@@ -214,6 +215,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			renderHeight,
 			renderWidth,
 			overlayDim,
+			hasAlpha,
 			sourceData: !!sourceData
 		}
 	

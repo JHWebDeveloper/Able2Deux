@@ -18,12 +18,13 @@ export const none = (command, filterData, isPreview) => {
 }
 
 export const fill = (command, filterData, isPreview) => {
-	let { centering, angle, reflect, renderWidth, renderHeight, sourceData, overlayDim } = filterData
+	let { sourceData, overlayDim, centering, angle, reflect, renderWidth, renderHeight, hasAlpha } = filterData
 
 	centering /= -100
 
 	command.complexFilter([
 		`[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}:force_original_aspect_ratio=increase,crop=${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}*(iw-ow)/2:(ih-oh)/2+${centering}*(ih-oh)/2`,
+		!hasAlpha ? '' : `[fg];[${getBGLayerNumber(sourceData, overlayDim)}:v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:shortest=1`,
 		sourceCmd(sourceData),
 		overlayCmd(overlayDim, sourceData),
 		finalCmd(isPreview)
