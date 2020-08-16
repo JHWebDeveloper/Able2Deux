@@ -14,7 +14,7 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 	const { id, renderOutput, hasAlpha, arc, background, overlay, sourceData, rotation } = exportData
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
-	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.tiff`)
+	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.${hasAlpha ? 'tiff' : 'jpg'}`)
 	const previewPath = path.join(temp.previews.path, `${id}.preview.jpg`)
 	let overlayDim = false
 

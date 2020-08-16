@@ -2,9 +2,10 @@ import path from 'path'
 import ffmpeg from '../utilities/ffmpeg'
 import { temp } from '../utilities/extFileHandlers'
 
-const updatePreviewSourceImage = ({ id, mediaType, isAudio, format, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
+const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
 	const command = ffmpeg().on('end', resolve).on('error', reject)
-	const outputPath = path.join(temp.previews.path, `${id}.preview-source.tiff`)
+	const extension = hasAlpha ? 'tiff' : 'jpg'
+	const outputPath = path.join(temp.previews.path, `${id}.preview-source.${extension}`)
 
 	if (isAudio && format === 'bars') {
 		command
@@ -26,10 +27,10 @@ const updatePreviewSourceImage = ({ id, mediaType, isAudio, format, tempFilePath
 			command.screenshot({
 				timemarks: [`${tc}%`],
 				folder: temp.previews.path,
-				filename: `${id}.preview-source.tiff`
+				filename: `${id}.preview-source.${extension}`
 			})
 		} else {
-			const opts = []
+			const opts = hasAlpha ? [] : ['-q:v 5']
 
 			if (mediaType === 'gif') opts.push('-frames 1')
 	
