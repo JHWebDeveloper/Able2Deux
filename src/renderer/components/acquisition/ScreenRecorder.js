@@ -116,7 +116,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 					onClick={e => { dispatch(toggleCheckbox(e))}}>
 					<CaptureModeSwitch
 						screenshot={screenshot}
-						fill={recording ? '#ccc' : '#444'} />
+						fill={recording ? '#ccc' : '#4c4c4c'} />
 				</button>
 			</div>
 			{!!recordSourceData && (

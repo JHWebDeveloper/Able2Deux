@@ -1,7 +1,7 @@
 import React from 'react'
 import { bool, string } from 'prop-types'
 
-const CaptureModeSwitch = ({ screenshot, fill = '#444' }) => (
+const CaptureModeSwitch = ({ screenshot, fill = '#4c4c4c' }) => (
 	<svg width="41px" height="26px" viewBox="0 0 41 26">
 		<circle fill={fill} cx="34.263" cy="20.21" r="1.935"/>
 		<path fill={fill} d="M32.451,14.167l-1.107,1.209h-1.914c-0.666,0-1.209,0.543-1.209,1.209v7.25
