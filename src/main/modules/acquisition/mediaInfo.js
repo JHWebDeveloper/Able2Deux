@@ -1,4 +1,3 @@
-import { promises as fsp } from 'fs'
 import path from 'path'
 import getRGBAPalette from 'get-rgba-palette'
 import getPixels from 'get-pixels'
@@ -207,7 +206,7 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 
 		mediaData.thumbnail = await base64EncodeOrPlaceholder(thumbnail)
 	} else {
-		mediaData.thumbnail = placeholder
+		mediaData.thumbnail = await base64EncodeOrPlaceholder(false)
 	}
 
 	return mediaData
