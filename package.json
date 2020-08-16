@@ -28,6 +28,7 @@
 		"ffmpeg-static-electron": "^2.0.1",
 		"ffprobe-static-electron": "^2.0.0",
 		"fluent-ffmpeg": "^2.1.2",
+		"get-pixels": "^3.3.2",
 		"get-rgba-palette": "^2.0.1",
 		"prop-types": "^15.7.2",
 		"react": "^16.13.1",
