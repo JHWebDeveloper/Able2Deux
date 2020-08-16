@@ -4,21 +4,11 @@ import getRGBAPalette from 'get-rgba-palette'
 import getPixels from 'get-pixels'
 
 import ffmpeg from '../utilities/ffmpeg'
-import placeholder from '../utilities/placeholder'
 import supportedImageCodecs from '../utilities/supportedImageCodecs'
+import { base64EncodeOrPlaceholder } from '../utilities/base64Encode'
 import { temp } from '../utilities/extFileHandlers'
 
 const round = (n, dec = 2) => Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
-
-const base64Encode = async file => {
-	if (!file) return placeholder
-
-	try {
-		return `data:image/png;base64,${await fsp.readFile(file, 'base64')}`
-	} catch (err) {
-		return placeholder
-	}
-}
 
 const createScreenshot = (id, tempFilePath) => new Promise(resolve => {
 	const screenshot = `${id}.thumbnail.png`
@@ -209,13 +199,13 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 		const fps = checkMetadata(avg_frame_rate) && avg_frame_rate.split('/').reduce((a, b) => a / b)
 
 		Object.assign(mediaData, {
-			thumbnail: await base64Encode(thumbnail),
+			thumbnail: await base64EncodeOrPlaceholder(thumbnail),
 			fps: forcedFPS || round(fps)
 		})
 	} else if (mediaType === 'image' || mediaType === 'gif') {
 		const thumbnail = await createPNGCopy(id, tempFilePath, mediaType)
 
-		mediaData.thumbnail = await base64Encode(thumbnail)
+		mediaData.thumbnail = await base64EncodeOrPlaceholder(thumbnail)
 	} else {
 		mediaData.thumbnail = placeholder
 	}

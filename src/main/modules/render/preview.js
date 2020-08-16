@@ -3,12 +3,9 @@ import fs, { promises as fsp } from 'fs'
 
 import ffmpeg from '../utilities/ffmpeg'
 import { temp, assetsPath } from '../utilities/extFileHandlers'
+import { base64Encode } from '../utilities/base64Encode'
 import * as filter from './filters'
 import getOverlayInnerDimensions from './getOverlayInnerDimensions'
-
-const base64Encode = async file => (
-	`data:image/png;base64,${await fsp.readFile(file, 'base64')}`
-)
 
 const previewStill = exportData => new Promise((resolve, reject) => {
 	const { id, renderOutput, hasAlpha, arc, background, overlay, sourceData, rotation } = exportData
