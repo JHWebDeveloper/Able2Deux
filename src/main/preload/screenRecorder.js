@@ -6,7 +6,7 @@ import { sendMessage } from './sendMessage'
 const saveScreenRecording = (id, buffer, screenshot) => sendMessage({
 	sendMsg: 'saveScreenRecording',
 	recieveMsg: `screenRecordingSaved_${id}`,
-	errMsg: `screenRecordingSaveErr_${id}`,
+	errMsg: `saveScreenRecordingErr_${id}`,
 	data: { id, buffer, screenshot }
 })
 
@@ -203,5 +203,5 @@ export const captureScreenshot = ({ streamId, onCapture, onError }) => {
 		video.srcObject = await getStream(streamId, true)
 	
 		document.body.appendChild(video)
-	}, 500)
+	}, 360)
 }
