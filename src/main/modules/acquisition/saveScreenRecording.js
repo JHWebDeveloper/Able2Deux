@@ -3,7 +3,6 @@ import path from 'path'
 import { Decoder, Reader, tools } from 'ts-ebml'
 
 import { temp } from '../utilities/extFileHandlers'
-import ffmpeg from '../utilities/ffmpeg'
 
 const fixDuration = async buffer => {
 	const decoder = new Decoder()
