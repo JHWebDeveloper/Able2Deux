@@ -1,15 +1,16 @@
 import React, { useCallback } from 'react'
 import { func, number, oneOf } from 'prop-types'
 
-import { updateStateFromEvent } from '../../actions'
+import { updateStateFromEvent, toggleCheckbox } from '../../actions'
 import { keepInRange } from '../../utilities'
 
 import RadioSet from '../form_elements/RadioSet'
+import Checkbox from '../form_elements/Checkbox'
 
 const _720  = [1280, 720].join('x')
 const _1080 = [1920, 1080].join('x')
 
-const RenderOutput = ({ renderOutput, renderFrameRate, concurrent, dispatch }) => {
+const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, concurrent, dispatch }) => {
 	const keepConcurrentInRange = useCallback(e => {
 		dispatch(updateStateFromEvent(keepInRange(e)))
 	}, [])
@@ -54,6 +55,12 @@ const RenderOutput = ({ renderOutput, renderFrameRate, concurrent, dispatch }) =
 						]}/>
 				</div>
 			</fieldset>
+			<Checkbox
+				label="Auto Export as .png"
+				name="autoPNG"
+				checked={autoPNG}
+				onChange={e => dispatch(toggleCheckbox(e))}
+				switchIcon/>
 			<span className="input-option">
 				<label htmlFor="concurrent">Concurrent Renders</label>
 				<input

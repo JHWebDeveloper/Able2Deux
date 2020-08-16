@@ -13,6 +13,7 @@ const Main = () => {
 	const {
 		renderOutput,
 		renderFrameRate,
+		autoPNG,
 		concurrent,
 		scratchDisk,
 		warnings,
@@ -29,6 +30,7 @@ const Main = () => {
 			<RenderOutput
 				renderOutput={renderOutput}
 				renderFrameRate={renderFrameRate}
+				autoPNG={autoPNG}
 				concurrent={concurrent}
 				dispatch={dispatch} />
 			<ScratchDisk 
@@ -48,6 +50,7 @@ const Main = () => {
 				prefs={{
 					renderOutput,
 					renderFrameRate,
+					autoPNG,
 					concurrent,
 					scratchDisk,
 					warnings,
