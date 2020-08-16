@@ -21,6 +21,7 @@ const Preview = ({ selected, dispatch }) => {
 		duration,
 		aspectRatio,
 		fps,
+		hasAlpha,
 		start,
 		end,
 		audio,
@@ -67,6 +68,7 @@ const Preview = ({ selected, dispatch }) => {
 			await interop.initPreview({
 				id,
 				mediaType,
+				hasAlpha,
 				isAudio,
 				format: audio.format,
 				tempFilePath: selected.tempFilePath,
