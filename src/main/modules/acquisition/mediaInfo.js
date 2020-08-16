@@ -1,5 +1,6 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
+import getRGBAPalette from 'get-rgba-palette'
 
 import ffmpeg from '../utilities/ffmpeg'
 import placeholder from '../utilities/placeholder'
@@ -76,13 +77,28 @@ const getMetadata = file => new Promise((resolve, reject) => {
 	})
 })
 
-const detectAlphaChannel = file => new Promise(resolve => {
+const detectImageNecessaryAlphaChannel = async id => {
+	const file = await fsp.readFile(path.join(temp.imports.path, `${id}.alpha.jpg`))
+	const colors = getRGBAPalette(file)
+
+	return colors.length > 1
+}
+
+const detectAlphaChannel = (file, mediaType, id) => new Promise(resolve => {
+	const isImage = mediaType === 'image'
+
 	ffmpeg(file)
-		.on('end', async () => resolve(true))
+		.on('end', async () => {
+			if (isImage && id) {
+				resolve(await detectImageNecessaryAlphaChannel(id))
+			} else {
+				resolve(true)
+			}
+		})
 		.on('error', () => resolve(false))
 		.videoFilter('alphaextract,format=yuv420p')
-		.output('out.null')
-		.outputOption('-f null')
+		.output(isImage ? path.join(temp.imports.path, `${id}.alpha.jpg`) : 'out.null')
+		.outputOption(isImage ? [] : ['-f null'])
 		.run()
 })
 
@@ -172,7 +188,7 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 		const { width, height } = videoStream
 		const hasW = checkMetadata(width)
 		const hasH = checkMetadata(height)
-		const hasAlpha = await detectAlphaChannel(tempFilePath)
+		const hasAlpha = await detectAlphaChannel(tempFilePath, mediaType, id)
 
 		Object.assign(mediaData, {
 			width: hasW && width,
