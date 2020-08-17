@@ -32,7 +32,7 @@ const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, te
 				filename: `${id}.preview-source.${extension}`
 			})
 		} else {
-			const opts = hasAlpha ? [] : ['-q:v 5']
+			const opts = hasAlpha ? [] : ['-q:v 2']
 
 			if (mediaType === 'gif') opts.push('-frames 1')
 	
