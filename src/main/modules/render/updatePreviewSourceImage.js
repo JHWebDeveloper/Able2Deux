@@ -19,9 +19,9 @@ const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, te
 
 		if (isAudio) {
 			command
-				.input('color=c=4C4C4C:s=384x216')
+				.input('color=c=4C4C4C:s=1920x1080')
 				.inputOption('-f lavfi')
-				.complexFilter('showwavespic=s=384x216:colors=EEEEEE:split_channels=1[fg];[1:v][fg]overlay')
+				.complexFilter('showwavespic=s=1920x1080:colors=EEEEEE:split_channels=1[fg];[1:v][fg]overlay')
 				.output(outputPath)
 				.outputOption('-frames 1')
 				.run()
