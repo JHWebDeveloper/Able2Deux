@@ -71,10 +71,11 @@ const RenderQueue = withRouter(params => {
 		<div id="render-queue">
 			<div>
 				<div>
-					{media.map(({ id, filename, render }) => (
+					{media.map(({ id, mediaType, filename, render }) => (
 						<RenderElement
 							key={id}
 							id={id}
+							mediaType={mediaType}
 							filename={filename}
 							render={render}
 							dispatch={dispatch} />)
