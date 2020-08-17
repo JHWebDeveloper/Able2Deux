@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { bool, exact, func, number, string } from 'prop-types'
 
 import * as STATUS from '../../status/types'
@@ -8,6 +8,7 @@ import { warn, capitalize, getStatusColor } from '../../utilities'
 const MediaElement = ({ id, refId, status, references, title, download, warnRemove, dispatch }) => {
 	const downloading = status === STATUS.DOWNLOADING
 	const color = useMemo(() => getStatusColor(status), [status])
+	const ref = useRef()
 
 	const removeMediaWithWarning = useCallback(() => {
 		warn({
@@ -18,6 +19,13 @@ const MediaElement = ({ id, refId, status, references, title, download, warnRemo
 		})
 	}, [status, references, warnRemove])
 
+	useEffect(() => {
+		if (downloading) {
+			const percent = parseFloat(download.percent)
+			if (percent > 0 && percent < 101) ref.current.value = percent / 100
+		}
+	}, [download, status])
+
 	return (
 		<div className="media-element">
 			<span
@@ -27,9 +35,7 @@ const MediaElement = ({ id, refId, status, references, title, download, warnRemo
 				<span>{title}</span>
 				{downloading && <>
 					<span className="monospace">{download.eta}</span>
-					<progress
-						value={parseFloat(download.percent) / 100}
-						title={download.percent}></progress>
+					<progress ref={ref} title={download.percent}></progress>
 				</>}
 			</span>
 			<button

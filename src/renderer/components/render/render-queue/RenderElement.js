@@ -1,13 +1,27 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { func, exact, number, string } from 'prop-types'
 
 import { COMPLETE } from '../../../status/types'
 import { cancelRender } from '../../../actions/render'
 import { capitalize, getStatusColor, replaceTokens } from '../../../utilities'
 
-const RenderElement = ({ id, filename, render, dispatch }) => {
+const RenderElement = ({ id, mediaType, filename, render, dispatch }) => {
 	const color = useMemo(() => getStatusColor(render.status), [render.status])
+	const ref = useRef()
 
+	useEffect(() => {
+		if (
+			mediaType === 'video' ||
+			mediaType === 'audio' &&
+			render.percent > 0 &&
+			render.percent < 101
+		) {
+			ref.current.value = render.percent / 100
+		}
+
+		if (render.status === COMPLETE) ref.current.value = 1
+	}, [render])
+	
 	return (
 		<div className="media-element">
 			<span
@@ -16,7 +30,7 @@ const RenderElement = ({ id, filename, render, dispatch }) => {
 			<span>
 				<span>{filename || replaceTokens('Able2 Export $t $d')}</span>
 				<span></span>
-				<progress value={render.percent / 100}></progress>
+				<progress ref={ref}></progress>
 			</span>
 			<button
 				type="button"
