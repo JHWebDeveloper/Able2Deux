@@ -22,6 +22,7 @@ const MediaElement = ({ id, refId, status, references, title, download, warnRemo
 	useEffect(() => {
 		if (downloading) {
 			const percent = parseFloat(download.percent)
+
 			if (percent > 0 && percent < 101) ref.current.value = percent / 100
 		}
 	}, [download, status])
@@ -37,7 +38,6 @@ const MediaElement = ({ id, refId, status, references, title, download, warnRemo
 					<span className="monospace">{download.eta}</span>
 					<progress
 						ref={ref}
-						title={download.percent}
 						data-status={status}></progress>
 				</>}
 			</span>
