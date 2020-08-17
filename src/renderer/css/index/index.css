@@ -120,14 +120,14 @@ progress::-webkit-progress-value {
 	100% { transform: translate(1000%) scaleX(1); }
 }
 
-progress:indeterminate::after {
+progress:matches([data-status="RENDERING"], [data-status="DOWNLOADING"]):indeterminate::after {
 	content: '';
 	position: absolute;
 	top: 0;
 	width: 10%;
 	height: inherit;
 	background-color: var(--primary);
-	animation: indeterminate linear 1000ms infinite;
+	animation: indeterminate linear 1000ms 1000ms backwards infinite;
 }
 
 .media-element > button { border-radius: 0; }

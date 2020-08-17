@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import { func, exact, number, string } from 'prop-types'
 
-import { COMPLETE } from '../../../status/types'
+import { PENDING, COMPLETE } from '../../../status/types'
 import { cancelRender } from '../../../actions/render'
 import { capitalize, getStatusColor, replaceTokens } from '../../../utilities'
 
@@ -30,7 +30,9 @@ const RenderElement = ({ id, mediaType, filename, render, dispatch }) => {
 			<span>
 				<span>{filename || replaceTokens('Able2 Export $t $d')}</span>
 				<span></span>
-				<progress ref={ref}></progress>
+				<progress
+					ref={ref}
+					data-status={render.status}></progress>
 			</span>
 			<button
 				type="button"

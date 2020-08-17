@@ -35,7 +35,10 @@ const MediaElement = ({ id, refId, status, references, title, download, warnRemo
 				<span>{title}</span>
 				{downloading && <>
 					<span className="monospace">{download.eta}</span>
-					<progress ref={ref} title={download.percent}></progress>
+					<progress
+						ref={ref}
+						title={download.percent}
+						data-status={status}></progress>
 				</>}
 			</span>
 			<button
