@@ -10,12 +10,7 @@ const RenderElement = ({ id, mediaType, filename, render, dispatch }) => {
 	const ref = useRef()
 
 	useEffect(() => {
-		if (
-			mediaType === 'video' ||
-			mediaType === 'audio' &&
-			render.percent > 0 &&
-			render.percent < 101
-		) {
+		if (mediaType !== 'image' && render.percent > 0 && render.percent < 101) {
 			ref.current.value = render.percent / 100
 		}
 
