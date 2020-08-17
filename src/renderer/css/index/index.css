@@ -100,6 +100,7 @@ button:matches([title="Format Media"], [title="Back"]) {
 progress {
 	overflow: hidden;
 	grid-column: 1 / span 2;
+	position: relative;
 	width: 100%;
 	height: 10px;
 	border-radius: 2px;
@@ -111,6 +112,22 @@ progress::-webkit-progress-bar {
 
 progress::-webkit-progress-value {
 	background-color: var(--primary);
+}
+
+@keyframes indeterminate {
+	0%   { transform: translate(-100%) scaleX(1); }
+	50%  { transform: translate(500%) scaleX(7.5); }
+	100% { transform: translate(1000%) scaleX(1); }
+}
+
+progress:indeterminate::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	width: 10%;
+	height: inherit;
+	background-color: var(--primary);
+	animation: indeterminate linear 1000ms infinite;
 }
 
 .media-element > button { border-radius: 0; }
