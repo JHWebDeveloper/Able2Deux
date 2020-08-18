@@ -163,11 +163,11 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		})
 
 	if (start.enabled && start.tc >= exportData.duration) {
-		reject(new Error(`Bad inputs for ${exportData.filename}: start timecode exceeds duration.`))
+		reject(new Error('Start timecode exceeds duration'))
 	}
 
 	if (start.enabled && end.enabled && end.tc <= start.tc) {
-		reject(new Error(`Bad inputs for ${exportData.filename}: end timecode preceeds start timecode.`))
+		reject(new Error('End timecode preceeds start timecode'))
 	}
 
 	if (start.enabled) command.seekInput(start.tc)
