@@ -252,11 +252,19 @@ export const render = params => async dispatch => {
 		
 				dispatch(updateRenderStatus(item.id, STATUS.COMPLETE))
 			} catch (err) {
-				if (err.toString() === 'Error: ffmpeg was killed with signal SIGKILL') {
+				const errStr = err.toString()
+
+				if (errStr === 'Error: ffmpeg was killed with signal SIGKILL') {
 					dispatch(updateRenderStatus(item.id, STATUS.CANCELLED))
 				} else {
 					dispatch(updateRenderStatus(item.id, STATUS.FAILED))
-					toastr.error(`${item.filename} failed to render`, false, toastrOpts)
+
+					let errMsg = `Failed to render ${item.filename}`
+
+					if (/^Error: Start timecode/.test(err)) errMsg += '. Start timecode exceeds duration.'
+					if (/^Error: End timecode/.test(err)) errMsg += '. End timecode preceeds start timecode.'
+
+					toastr.error(errMsg, false, toastrOpts)
 				}
 			}
 		})
