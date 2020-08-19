@@ -8,11 +8,12 @@ import * as filter from './filters'
 import getOverlayInnerDimensions from './getOverlayInnerDimensions'
 
 const previewStill = exportData => new Promise((resolve, reject) => {
-	const { id, renderOutput, hasAlpha, arc, background, overlay, sourceData, rotation } = exportData
+	const { id, renderOutput, hasAlpha, isAudio, arc, background, overlay, sourceData, rotation } = exportData
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
-	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.${hasAlpha ? 'tiff' : 'jpg'}`)
-	const previewPath = path.join(temp.previews.path, `${id}.preview.jpg`)
+	const outputExtension = isAudio ? 'png' : 'jpg'
+	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.${hasAlpha ? 'tiff' : outputExtension}`)
+	const previewPath = path.join(temp.previews.path, `${id}.preview.${outputExtension}`)
 	let overlayDim = false
 
 	const command = ffmpeg(previewSourcePath)

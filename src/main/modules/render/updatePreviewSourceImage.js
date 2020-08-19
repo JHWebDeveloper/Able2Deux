@@ -4,7 +4,7 @@ import { temp } from '../utilities/extFileHandlers'
 
 const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
 	const command = ffmpeg().on('end', resolve).on('error', reject)
-	const extension = hasAlpha ? 'tiff' : 'jpg'
+	const extension = hasAlpha ? 'tiff' : isAudio ? 'png' : 'jpg'
 	const outputPath = path.join(temp.previews.path, `${id}.preview-source.${extension}`)
 
 	if (isAudio && format === 'bars') {
@@ -19,11 +19,9 @@ const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, te
 
 		if (isAudio) {
 			command
-				.input('color=c=4C4C4C:s=1920x1080')
-				.inputOption('-f lavfi')
-				.complexFilter('showwavespic=s=1920x1080:colors=EEEEEE:split_channels=1[fg];[1:v][fg]overlay')
+				.complexFilter('showwavespic=size=384x216:colors=#EEEEEE:split_channels=1')
 				.output(outputPath)
-				.outputOption('-frames 1')
+				.outputOption('-frames:v 1')
 				.run()
 		} else if (mediaType === 'video') {
 			command.screenshot({
