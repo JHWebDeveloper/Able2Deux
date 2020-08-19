@@ -4,7 +4,7 @@ const textElement = 'input[type="text"], input[type="number"]'
 
 const setContextMenu = () => {
 	const textEditor = new remote.Menu()
-	const dev = process.env.NODE_ENV === 'development'
+	const dev = process.env.NODE_ENV === 'development' || process.env.devtools
 	let inspectMenu = []
 	let ctxEvent = false
 
@@ -28,7 +28,7 @@ const setContextMenu = () => {
 		new remote.MenuItem({ role: 'selectAll' })
 	]
 
-	if (dev || process.env.devtools) {
+	if (dev) {
 		inspectMenu = new remote.Menu()
 		inspectMenu.append(...inspect)
 	}
@@ -42,7 +42,7 @@ const setContextMenu = () => {
 
 		if (e.target.matches(textElement) && !e.target.disabled) {
 			textEditor.popup(remote.getCurrentWindow())
-		} else if (dev || process.env.devtools) {
+		} else if (dev) {
 			inspectMenu.popup(remote.getCurrentWindow())
 		}
 	})
