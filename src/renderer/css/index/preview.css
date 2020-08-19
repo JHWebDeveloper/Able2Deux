@@ -4,8 +4,6 @@
 	color: var(--background);
 }
 
-#preview > div:first-child { background-color: #000; }
-
 #preview-container {
 	position: relative;
 	width: 384px;
