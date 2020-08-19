@@ -28,7 +28,7 @@ const setContextMenu = () => {
 		new remote.MenuItem({ role: 'selectAll' })
 	]
 
-	if (dev) {
+	if (dev || process.env.devtools) {
 		inspectMenu = new remote.Menu()
 		inspectMenu.append(...inspect)
 	}
@@ -42,7 +42,7 @@ const setContextMenu = () => {
 
 		if (e.target.matches(textElement) && !e.target.disabled) {
 			textEditor.popup(remote.getCurrentWindow())
-		} else if (dev) {
+		} else if (dev || process.env.devtools) {
 			inspectMenu.popup(remote.getCurrentWindow())
 		}
 	})
