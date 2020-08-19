@@ -393,7 +393,7 @@ ipcMain.on('requestPreviewStill', async (evt, data) => {
 
 		evt.reply('previewStillCreated', dataURL)
 	} catch (err) {
-		if (err.toString() !== 'Error: ffmpeg was killed with signal SIGKILL') {
+		if (!/^Error: ffmpeg (was killed with signal SIGKILL)|(exited with code 1)/.test(err.toString())) {
 			console.error(err)
 		}
 	}
