@@ -9,6 +9,7 @@ const cssnano = require('cssnano')
 const mainPath = path.join(__dirname, 'src', 'main')
 
 const mainConfig = {
+	mode: 'production',
 	entry: {
 		main: mainPath,
 		preload: path.join(mainPath, 'preload', 'preload.js')
