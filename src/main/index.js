@@ -284,7 +284,7 @@ const mainMenuTemplate = [
 	}
 ]
 
-if (dev) {
+if (dev || process.env.devtools) {
 	mainMenuTemplate.push({
 		label: 'Developer Tools',
 		submenu: [
