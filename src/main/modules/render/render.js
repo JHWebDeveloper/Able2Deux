@@ -90,7 +90,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 
 	if (isAudio && audio.format !== 'bars') {
 		outputOptions = audio.format === 'wav' ? [
-			'-c:a pcm_s24le',
+			'-c:a pcm_s16le',
 			'-ac 2',
 			'-f wav'
 		] : [
