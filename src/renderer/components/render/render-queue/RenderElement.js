@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useRef } from 'react'
-import { func, exact, number, string } from 'prop-types'
+import { bool, func, exact, number, oneOfType, string } from 'prop-types'
 
-import { PENDING, COMPLETE } from '../../../status/types'
+import { COMPLETE } from '../../../status/types'
 import { cancelRender } from '../../../actions/render'
 import { capitalize, getStatusColor, replaceTokens } from '../../../utilities'
 
-const RenderElement = ({ id, mediaType, filename, render, dispatch }) => {
+const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispatch }) => {
 	const color = useMemo(() => getStatusColor(render.status), [render.status])
 	const ref = useRef()
 
@@ -23,7 +23,7 @@ const RenderElement = ({ id, mediaType, filename, render, dispatch }) => {
 				title={capitalize(render.status)}
 				style={{ color }}>lens</span>
 			<span>
-				<span>{filename || replaceTokens('Able2 Export $t $d')}</span>
+				<span>{exportFilename || filename}</span>
 				<span></span>
 				<progress
 					ref={ref}
@@ -42,6 +42,7 @@ const RenderElement = ({ id, mediaType, filename, render, dispatch }) => {
 RenderElement.propTypes = {
 	id: string.isRequired,
 	filename: string.isRequired,
+	exportFilename: oneOfType(bool, string),
 	render: exact({
 		status: string,
 		percent: number
