@@ -330,7 +330,7 @@ button[name="link"] {
 	border-radius: 3px;
 }
 
-button[title="Fit to Width"] {
+button:matches([title="Fit to Width"], [title="Stretch to Width"]) {
 	transform: rotate(90deg);
 }
 
