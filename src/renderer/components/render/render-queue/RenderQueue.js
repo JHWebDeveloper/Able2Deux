@@ -4,7 +4,7 @@ import toastr from 'toastr'
 
 import { PrefsContext } from '../../../store/preferences'
 import * as STATUS from '../../../status/types'
-import { updateMediaNestedState } from '../../../actions'
+import { updateMediaState } from '../../../actions'
 import { render, cancelRender, startOver } from '../../../actions/render'
 import { toastrOpts } from '../../../utilities'
 
@@ -28,9 +28,12 @@ const RenderQueue = withRouter(params => {
 
 	const goBack = useCallback(() => {
 		media.forEach(item => {
-			dispatch(updateMediaNestedState(item.id, 'render', {
-				status:	STATUS.PENDING,
-				percent: 0
+			dispatch(updateMediaState(item.id, {
+				exportFilename: false,
+				render: {
+					status:	STATUS.PENDING,
+					percent: 0
+				}
 			}))
 		})
 
@@ -71,12 +74,13 @@ const RenderQueue = withRouter(params => {
 		<div id="render-queue">
 			<div>
 				<div>
-					{media.map(({ id, mediaType, filename, render }) => (
+					{media.map(({ id, mediaType, filename, exportFilename, render }) => (
 						<RenderElement
 							key={id}
 							id={id}
 							mediaType={mediaType}
 							filename={filename}
+							exportFilename={exportFilename}
 							render={render}
 							dispatch={dispatch} />)
 					)}
