@@ -28,6 +28,7 @@ class MediaElement {
 		}
 		this.title = title
 		this.filename = filename
+		this.exportFilename = false
 		this.thumbnail = false
 		this.duration = 0
 		this.width = 0
