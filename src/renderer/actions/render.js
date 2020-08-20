@@ -8,7 +8,6 @@ import { updateMediaNestedState, updateMediaState } from '.'
 import buildSource from './buildSource'
 import { zeroize, cleanFileName, replaceTokens, toastrOpts } from '../utilities'
 
-
 const { interop } = window.ABLE2
 
 // ---- MEDIA MANAGER --------
