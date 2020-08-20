@@ -205,20 +205,18 @@ export const render = params => async dispatch => {
 
 	// Prompt to choose a directory if no directories are selected or available
 
-	let tempDir = false
-
 	if (saveLocations.every(({ checked }) => !checked)) {
 		const { filePaths, canceled } = await interop.chooseDirectory()
 
 		if (canceled) return !goBack()
-		
-		tempDir = {
+
+		const tempDir = {
 			checked: true,
 			label: 'Temporary',
 			directory: filePaths[0]
 		}
 
-		saveLocations.push(tempDir)
+		saveLocations = [	...saveLocations, tempDir ]
 	}
 
 	// prepare filenames
@@ -282,10 +280,6 @@ export const render = params => async dispatch => {
 	})
 
 	renderQueue.start()
-
-	// Delete temp directory if used
-
-	if (tempDir) saveLocations.pop()
 }
 
 export const cancelRender = (id, status) => async dispatch => {
