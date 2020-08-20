@@ -3,7 +3,7 @@ import { bool, func, exact, number, oneOfType, string } from 'prop-types'
 
 import { COMPLETE } from '../../../status/types'
 import { cancelRender } from '../../../actions/render'
-import { capitalize, getStatusColor, replaceTokens } from '../../../utilities'
+import { capitalize, getStatusColor } from '../../../utilities'
 
 const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispatch }) => {
 	const color = useMemo(() => getStatusColor(render.status), [render.status])
@@ -41,6 +41,7 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispat
 
 RenderElement.propTypes = {
 	id: string.isRequired,
+	mediaType: string.isRequired,
 	filename: string.isRequired,
 	exportFilename: oneOfType(bool, string),
 	render: exact({
