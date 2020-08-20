@@ -4,7 +4,7 @@ import toastr from 'toastr'
 import * as ACTION from './types'
 import * as STATUS from '../status/types'
 import { PromiseQueue } from './constructors'
-import { updateMediaNestedState } from '.'
+import { updateMediaNestedState, updateMediaState } from '.'
 import buildSource from './buildSource'
 import { zeroize, cleanFileName, replaceTokens, toastrOpts } from '../utilities'
 
@@ -104,7 +104,7 @@ export const updateCropBiDirectional = (id, editAll, d1, d2, e) => dispatch => {
 const updateRenderStatus = (id, status) => ({
 	type: ACTION.UPDATE_MEDIA_NESTED_STATE,
 	payload: {
-		id: id,
+		id,
 		nest: 'render',
 		properties: { status }
 	}
@@ -121,41 +121,43 @@ const updateRenderProgress = ({ id, percent }) => ({
 
 let renderQueue = false
 
-const fillMissingFilenames = media => media.map(item => {
-	if (!item.filename) item.filename = 'Able2 Export $t $d.$n'
-
-	return item
-})
+const fillMissingFilenames = media => media.map(item => ({
+	...item,
+	filename: item.filename || 'Able2 Export $t $d.$n'
+}))
 
 const applyBatchName = (media, batch) => media.map(item => {
 	if (!batch.name) return item
 
+	let filename = ''
+
 	if (batch.position === 'replace') {
-		item.filename = batch.name.includes('$n') ? batch.name : `${batch.name}.$n`
+		filename = batch.name.includes('$n') ? batch.name : `${batch.name}.$n`
 	} else {
 		const newName = [batch.name.trim(), item.filename]
 
 		if (batch.position === 'append') newName.reverse()
 
-		item.filename = newName.join(' ')
+		filename = newName.join(' ')
 	}
 
-	return item
+	return ({ ...item, filename })
 })
 
 const preventDuplicateFilenames = media => {
 	const duplicates = {}
-	const { length } = media
+	const mediaCopy = [...media]
+	const { length } = mediaCopy
 	let i = 0
 
 	// count duplicate filenames
 	while (i < length) {
-		const key = media[i].filename
+		const key = mediaCopy[i].filename
 		i++
 
 		if (key.includes('$n')) continue
 
-		const count = media.filter(item => item.filename === key).length
+		const count = mediaCopy.filter(item => item.filename === key).length
 
 		// store tally and length
 		if (count > 1) duplicates[key] = [count, count]
@@ -163,16 +165,16 @@ const preventDuplicateFilenames = media => {
 
 	// match duplicates to tally list and add instance number to filename
 	while (i--) {
-		const key = media[i].filename
+		const key = mediaCopy[i].filename
 
 		if (!duplicates[key]) continue
 
-		media[i].filename += `.${zeroize(duplicates[key][0], duplicates[key][1])}`
+		mediaCopy[i].filename += `.${zeroize(duplicates[key][0], duplicates[key][1])}`
 
 		duplicates[key][0] -= 1
 	}
 
-	return media
+	return mediaCopy
 }
 
 const sanitizeFileNames = media => media.map((item, i) => ({
@@ -219,9 +221,18 @@ export const render = params => async dispatch => {
 		saveLocations.push(tempDir)
 	}
 
-	// Pipe filename modifiers
+	// prepare filenames
 
-	media = sanitizeFileNames(preventDuplicateFilenames(applyBatchName(fillMissingFilenames(media), batch)))
+	media = fillMissingFilenames(media)
+	media = applyBatchName(media, batch)
+	media = preventDuplicateFilenames(media)
+	media = sanitizeFileNames(media)
+
+	media.forEach(async item => {
+		dispatch(updateMediaState(item.id, {
+			exportFilename: item.filename
+		}))
+	})
 
 	// Create promise queue and begin rendering
 
