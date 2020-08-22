@@ -9,10 +9,10 @@ import { getTitleFromURL, downloadVideo, cancelDownload } from './modules/acquis
 import { upload } from './modules/acquisition/upload'
 import { saveScreenRecording } from './modules/acquisition/saveScreenRecording'
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
-import previewStill from './modules/render/preview'
-import updatePreviewSourceImage from './modules/render/updatePreviewSourceImage'
+import previewStill from './modules/formatting/preview'
+import updatePreviewSourceImage from './modules/formatting/updatePreviewSourceImage'
 import fileExistsPromise from './modules/utilities/fileExistsPromise'
-import { render, cancelRender, cancelAllRenders } from './modules/render/render'
+import { render, cancelRender, cancelAllRenders } from './modules/formatting/formatting'
 import { loadPrefs, savePrefs } from './modules/preferences/preferences'
 
 const dev = process.env.NODE_ENV === 'development'

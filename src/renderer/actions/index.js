@@ -1,4 +1,4 @@
 export * from './acquisition'
 export * from './main'
 export * from './preferences'
-export * from './render'
+export * from './formatting'

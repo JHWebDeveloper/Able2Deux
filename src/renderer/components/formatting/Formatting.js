@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import '../../css/index/render.css'
+import '../../css/index/formatting.css'
 
 import { MainContext } from '../../store'
 import { selectMedia } from '../../actions'

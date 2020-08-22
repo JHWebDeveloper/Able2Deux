@@ -7,7 +7,7 @@ import { MainProvider } from '../../store'
 
 import Header from './Header'
 import Acquisition from '../acquisition/Acquisition'
-import Render from '../render/Render'
+import Render from '../formatting/Formatting'
 import SourceSuggestionList from './SourceSuggestionList'
 
 
