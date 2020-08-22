@@ -1,0 +1,51 @@
+const countDigits = n => {
+	let count = 0
+	if (n >= 0) count++
+
+	while (n / 10 >= 1) {
+		n /= 10
+		count++
+	}
+
+	return count
+}
+
+export const zeroize = (n, base) => {
+	const bl = countDigits(base) || 2
+	const nl = countDigits(n)
+
+	return `${'0'.repeat(bl - nl)}${n}`
+}
+
+export const zeroize10 = n => n < 10 ? `0${n}` : n
+
+export const secondsToTC = secs => [
+	Math.floor(secs / 3600),
+	Math.floor(secs / 60) % 60,
+	Math.floor(secs % 60)
+].map(zeroize10).join(':')
+
+const mult = [1, 60, 3600]
+
+export const tcToSeconds = hms => {
+	const secs = hms
+		.split(':')
+		.reverse()
+		.map(val => parseInt(val) || 0)
+		.reduce((acc, val, i) => acc + val * mult[i], 0)
+	
+	return Math.min(secs, 86399)
+}
+
+export const simplifyTimecode = tc => secondsToTC(tcToSeconds(tc))
+
+export const format12hr = d => {
+	let h = d.getHours()
+	const m = d.getMinutes()
+	const meridian = h < 12 ? 'am' : 'pm'
+
+	if (h === 0) h = 12
+	if (h > 12) h -= 12
+
+	return `${h}${zeroize10(m)}${meridian}`
+}
