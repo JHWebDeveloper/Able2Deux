@@ -29,7 +29,7 @@ const initState = {
 	enableWidescreenGrids: false,
 	gridColor: '#ff00ff',
 	scaleSliderMax: 400,
-	disableRateLimit: 0
+	disableRateLimit: false
 }
 
 export const PrefsContext = createContext()
@@ -57,7 +57,7 @@ export const PrefsProvider = ({ children }) => {
 
 	return (
 		<PrefsContext.Provider value={{
-			...state,
+			preferences: state,
 			dispatch: input => (
 				input instanceof Function ? input(dispatch, state) : dispatch(input)
 			)
