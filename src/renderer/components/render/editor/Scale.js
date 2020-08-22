@@ -32,7 +32,7 @@ const FitButton = ({ title, onClick }) => (
 )
 
 const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch }) => {
-	const { renderOutput, scaleSliderMax } = useContext(PrefsContext)
+	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
 	const [ frameWidthPrc, frameHeightPrc ] = useMemo(() => {
 		const [ w, h ] = renderOutput.split('x')

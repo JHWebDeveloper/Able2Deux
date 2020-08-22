@@ -14,7 +14,7 @@ const { interop } = window.ABLE2
 
 const RenderQueue = withRouter(params => {
 	const { media, batch, saveLocations, closeRenderQueue, dispatch, history } = params
-	const { renderOutput, renderFrameRate, autoPNG, concurrent } = useContext(PrefsContext)
+	const { renderOutput, renderFrameRate, autoPNG, concurrent } = useContext(PrefsContext).preferences
 	
 	const complete = media.every(({ render }) => (
 		render.status === STATUS.COMPLETE ||

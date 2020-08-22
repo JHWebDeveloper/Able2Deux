@@ -11,7 +11,7 @@ import ReadyQueue from './ReadyQueue'
 
 const Acquisition = () => {
 	const { url, optimize, recording, screenshot, timer, media, dispatch } = useContext(MainContext)
-	const { renderOutput, warnings, disableRateLimit } = useContext(PrefsContext)
+	const { renderOutput, warnings, disableRateLimit } = useContext(PrefsContext).preferences
 
 	const output = useMemo(() => renderOutput.split('x')[1], [renderOutput])
 

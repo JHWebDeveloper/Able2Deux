@@ -12,7 +12,7 @@ import SourceSuggestionList from './SourceSuggestionList'
 
 
 const Main = () => {
-	const { saveLocations, editAll } = useContext(PrefsContext)
+	const { saveLocations, editAll } = useContext(PrefsContext).preferences
 
 	return (
 		<main>

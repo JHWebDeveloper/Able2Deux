@@ -29,7 +29,7 @@ const removeMediaWarning = (title, enabled, callback) => {
 const scrollbarPadder = new ScrollbarPadder()
 
 const BatchList = ({ media, selectedId, dispatch }) => {
-	const { warnings } = useContext(PrefsContext)
+	const { warnings } = useContext(PrefsContext).preferences
 
 	const copyAllSettings = useCallback(id => {
 		dispatch(copySettings(extractSettings(media.find(item => item.id === id))))

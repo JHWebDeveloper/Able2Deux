@@ -24,7 +24,7 @@ const sourceOnTopWarning = (enabled, callback) => {
 }
 
 const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
-	const { warnings } = useContext(PrefsContext)
+	const { warnings } = useContext(PrefsContext).preferences
 
 	const updateSourceName = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'source', e, editAll))

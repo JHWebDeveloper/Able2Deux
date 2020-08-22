@@ -13,7 +13,7 @@ import Controls from './Controls'
 const { interop } = window.ABLE2 
 
 const Preview = ({ selected, dispatch }) => {
-	const { renderOutput, enableWidescreenGrids, gridColor } = useContext(PrefsContext)
+	const { renderOutput, enableWidescreenGrids, gridColor } = useContext(PrefsContext).preferences
 
 	const {
 		id,
