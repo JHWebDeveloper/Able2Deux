@@ -1,7 +1,7 @@
 import { v1 as uuid } from 'uuid'
 import { PENDING } from '../status/types'
 
-class MediaElement {
+export class MediaElement {
 	constructor({
 		id,
 		status,
@@ -89,7 +89,7 @@ class MediaElement {
 	}
 }
 
-class PromiseQueue {
+export class PromiseQueue {
 	constructor(concurrent) {
 		this.concurrent = concurrent
 		this.active = 0
@@ -127,5 +127,3 @@ class PromiseQueue {
 
 	start = () => this.next()
 }
-
-export { MediaElement, PromiseQueue }
