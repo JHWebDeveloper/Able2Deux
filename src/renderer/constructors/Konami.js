@@ -1,4 +1,4 @@
-class Konami {
+export class Konami {
 	constructor() {
 		this.keys = [38, 38, 40, 40, 37, 39, 37, 39, 65, 66, 13]
 		this.count = 0
