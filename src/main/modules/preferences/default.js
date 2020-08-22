@@ -35,7 +35,7 @@ const defaultPrefs = {
 	enableWidescreenGrids: false,
 	gridColor: '#ff00ff',
 	scaleSliderMax: 400,
-	disableRateLimit: 0
+	disableRateLimit: false
 }
 
 export default defaultPrefs
