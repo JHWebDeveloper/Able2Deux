@@ -3,14 +3,11 @@ import { bool, func, number, exact, string } from 'prop-types'
 
 import {
 	updateMediaNestedState,
-	updateMediaNestedStateFromEvent
-} from '../../../actions'
-
-import {
+	updateMediaNestedStateFromEvent,
 	copySettings,
 	applySettingsToAll,
 	updateCropBiDirectional
-} from '../../../actions/render'
+} from '../../../actions'
 
 import { compareProps, createSettingsMenu } from '../../../utilities'
 

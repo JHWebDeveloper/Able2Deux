@@ -1,7 +1,7 @@
 import React from 'react'
 import { bool, func, number, exact, string } from 'prop-types'
 
-import { toggleSaveLocation } from '../../actions/render'
+import { toggleSaveLocation } from '../../actions'
 
 import {
 	updateLocationFieldFromEvent,

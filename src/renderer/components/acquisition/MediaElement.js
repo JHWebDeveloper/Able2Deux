@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { bool, exact, func, number, string } from 'prop-types'
 
 import * as STATUS from '../../status/types'
-import { removeMedia } from '../../actions/acquisition'
+import { removeMedia } from '../../actions'
 import { warn, capitalize, getStatusColor } from '../../utilities'
 
 const MediaElement = ({ id, refId, status, references, title, download, warnRemove, dispatch }) => {

@@ -1,8 +1,12 @@
 import React, { memo, useCallback } from 'react'
 import { bool, exact, func, oneOf, object, number, string } from 'prop-types'
 
-import { updateMediaState } from '../../../actions'
-import { copySettings, applySettingsToAll } from '../../../actions/render'
+import {
+	updateMediaState,
+	copySettings,
+	applySettingsToAll
+} from '../../../actions'
+
 import { compareProps, createSettingsMenu } from '../../../utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'

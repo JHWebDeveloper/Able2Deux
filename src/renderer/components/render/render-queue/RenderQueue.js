@@ -4,8 +4,14 @@ import toastr from 'toastr'
 
 import { PrefsContext } from '../../../store/preferences'
 import * as STATUS from '../../../status/types'
-import { updateMediaState } from '../../../actions'
-import { render, cancelRender, startOver } from '../../../actions/render'
+
+import {
+	updateMediaState,
+	render,
+	cancelRender,
+	startOver
+} from '../../../actions'
+
 import { toastrOpts } from '../../../utilities'
 
 import RenderElement from './RenderElement'

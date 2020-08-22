@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react'
 import { bool, func, exact, number, oneOfType, string } from 'prop-types'
 
 import { COMPLETE } from '../../../status/types'
-import { cancelRender } from '../../../actions/render'
+import { cancelRender } from '../../../actions'
 import { capitalize, getStatusColor } from '../../../utilities'
 
 const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispatch }) => {

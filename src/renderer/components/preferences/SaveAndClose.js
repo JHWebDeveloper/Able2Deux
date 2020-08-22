@@ -1,7 +1,7 @@
 import React from 'react'
 import { func, object } from 'prop-types'
 
-import { savePrefs } from '../../actions/preferences'
+import { savePrefs } from '../../actions'
 
 const { interop } = window.ABLE2
 

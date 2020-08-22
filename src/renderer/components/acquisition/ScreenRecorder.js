@@ -3,8 +3,16 @@ import toastr from 'toastr'
 import { bool, func, number, shape, string } from 'prop-types'
 
 import * as STATUS from '../../status/types'
-import { updateNestedState, toggleCheckbox, toggleNestedCheckbox } from '../../actions'
-import { setRecording, loadRecording, updateMediaStatus } from '../../actions/acquisition'
+
+import {
+	updateNestedState,
+	toggleCheckbox,
+	toggleNestedCheckbox,
+	setRecording,
+	loadRecording,
+	updateMediaStatus
+} from '../../actions'
+
 import { toastrOpts } from '../../utilities'
 
 import RecordSourceSelector from './RecordSourceSelector'

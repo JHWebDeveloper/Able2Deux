@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
 import { arrayOf, bool, func, object } from 'prop-types'
 
-import { removeAllMedia, prepareMediaForFormat } from '../../actions/acquisition'
+import { removeAllMedia, prepareMediaForFormat } from '../../actions'
 import { warn, arrayCount } from '../../utilities'
 import * as STATUS from '../../status/types'
 

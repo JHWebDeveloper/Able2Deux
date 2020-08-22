@@ -1,8 +1,11 @@
 import React, { memo, useCallback } from 'react'
 import { bool, exact, func, oneOf, string } from 'prop-types'
 
-import { updateMediaNestedStateFromEvent } from '../../../actions'
-import { copySettings, applySettingsToAll } from '../../../actions/render'
+import {
+	updateMediaNestedStateFromEvent,
+	copySettings,
+	applySettingsToAll
+} from '../../../actions'
 
 import { compareProps, createSettingsMenu } from '../../../utilities'
 

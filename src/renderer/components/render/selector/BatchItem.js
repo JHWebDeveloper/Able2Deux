@@ -1,7 +1,12 @@
 import React from 'react'
 import { bool, func, string, number } from 'prop-types'
 
-import { selectMedia, pasteSettings, moveMedia, duplicateMedia } from '../../../actions/render'
+import {
+	selectMedia,
+	pasteSettings,
+	moveMedia,
+	duplicateMedia
+} from '../../../actions'
 
 import DropdownMenu from '../../form_elements/DropdownMenu'
 

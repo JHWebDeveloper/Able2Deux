@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import '../../css/index/render.css'
 
 import { MainContext } from '../../store'
-import { selectMedia } from '../../actions/render'
+import { selectMedia } from '../../actions'
 
 import MediaInfo from './selector/MediaInfo'
 import BatchList from './selector/BatchList'

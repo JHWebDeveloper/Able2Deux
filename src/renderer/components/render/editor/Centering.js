@@ -1,8 +1,12 @@
 import React, { memo } from 'react'
 import { bool, func, number, string } from 'prop-types'
 
-import { updateMediaStateFromEvent } from '../../../actions'
-import { copySettings, applySettingsToAll } from '../../../actions/render'
+import {
+	updateMediaStateFromEvent,
+	copySettings,
+	applySettingsToAll
+} from '../../../actions'
+
 import { compareProps, createSettingsMenu } from '../../../utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'

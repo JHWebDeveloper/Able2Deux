@@ -2,8 +2,13 @@ import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { arrayOf, func, object, string } from 'prop-types'
 
 import { PrefsContext } from '../../../store/preferences'
-import { removeMedia } from '../../../actions/acquisition'
-import { copySettings, applySettingsToAll } from '../../../actions/render'
+
+import {
+	removeMedia,
+	copySettings,
+	applySettingsToAll
+} from '../../../actions'
+
 import { warn, extractSettings, arrayCount, ScrollbarPadder } from '../../../utilities'
 
 import BatchItem from './BatchItem'

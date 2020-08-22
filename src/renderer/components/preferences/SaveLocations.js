@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { arrayOf, bool, exact, func, string } from 'prop-types'
 
-import { addNewLocation } from '../../actions/preferences'
+import { addNewLocation } from '../../actions'
 
 import Directory from './Directory'
 

@@ -5,10 +5,11 @@ import { PrefsContext } from '../../../store/preferences'
 
 import {
 	updateMediaNestedStateFromEvent,
-	toggleMediaNestedCheckbox
+	toggleMediaNestedCheckbox,
+	copySettings,
+	applySettingsToAll
 } from '../../../actions'
 
-import { copySettings, applySettingsToAll } from '../../../actions/render'
 import { compareProps, createSettingsMenu, warn } from '../../../utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'

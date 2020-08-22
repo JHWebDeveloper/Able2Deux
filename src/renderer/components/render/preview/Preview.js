@@ -3,7 +3,7 @@ import { func, object } from 'prop-types'
 import '../../../css/index/preview.css'
 
 import { PrefsContext } from '../../../store/preferences'
-import buildSource from '../../../actions/buildSource'
+import buildSource from '../../../actions'
 import { extractSettingsToArray } from '../../../utilities'
 
 import Spinner from '../../svg/Spinner'

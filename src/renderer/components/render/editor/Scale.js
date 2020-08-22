@@ -5,16 +5,13 @@ import { PrefsContext } from '../../../store/preferences'
 
 import {
 	updateMediaNestedStateFromEvent,
-	updateMediaNestedState
-} from '../../../actions'
-
-import {
+	updateMediaNestedState,
 	copySettings,
 	applySettingsToAll,
 	updateScale,
 	fitToFrameWidth,
 	fitToFrameHeight
-} from '../../../actions/render'
+} from '../../../actions'
 
 import { compareProps, createSettingsMenu } from '../../../utilities'
 
