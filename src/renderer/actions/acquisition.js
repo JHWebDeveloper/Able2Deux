@@ -2,7 +2,7 @@ import toastr from 'toastr'
 
 import * as ACTION from './types'
 import * as STATUS from '../status/types'
-import { MediaElement } from './constructors'
+import { MediaElement } from '../constructors'
 import { replaceTokens, toastrOpts } from '../utilities'
 
 const { interop } = window.ABLE2
