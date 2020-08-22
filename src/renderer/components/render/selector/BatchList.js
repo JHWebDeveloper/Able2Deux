@@ -9,7 +9,8 @@ import {
 	applySettingsToAll
 } from '../../../actions'
 
-import { warn, extractSettings, arrayCount, ScrollbarPadder } from '../../../utilities'
+import { warn, extractSettings, arrayCount } from '../../../utilities'
+import { ScrollbarPadder } from '../../../constructors'
 
 import BatchItem from './BatchItem'
 

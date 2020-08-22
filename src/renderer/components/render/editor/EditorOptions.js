@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
-import { ScrollbarPadder } from '../../../utilities'
+import { ScrollbarPadder } from '../../../constructors'
 
 import FileOptions from './FileOptions'
 import Formatting from './Formatting'
