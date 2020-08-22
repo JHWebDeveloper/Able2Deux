@@ -5,8 +5,7 @@ import * as ACTION from './types'
 import * as STATUS from '../status/types'
 import { PromiseQueue } from './constructors'
 import { updateMediaNestedState, updateMediaState } from '.'
-import { buildSource } from './buildSource'
-import { zeroize, cleanFileName, replaceTokens, toastrOpts } from '../utilities'
+import { buildSource, zeroize, cleanFileName, replaceTokens, toastrOpts } from '../utilities'
 
 const { interop } = window.ABLE2
 
