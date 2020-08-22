@@ -3,7 +3,7 @@ import toastr from 'toastr'
 
 import * as ACTION from './types'
 import * as STATUS from '../status/types'
-import { PromiseQueue } from './constructors'
+import { PromiseQueue } from '../constructors'
 import { updateMediaNestedState, updateMediaState } from '.'
 import { buildSource, zeroize, cleanFileName, replaceTokens, toastrOpts } from '../utilities'
 
