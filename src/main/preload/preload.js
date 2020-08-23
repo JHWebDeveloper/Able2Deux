@@ -11,11 +11,34 @@ const interop = {}
 Object.assign(interop, screenRecorder)
 Object.assign(interop, setContextMenu)
 
-interop.version = remote.app.getVersion()
+interop.bringToFront = () => {
+	remote.getCurrentWindow().show()
+}
+
+interop.closeCurrentWindow = () => {
+	remote.getCurrentWindow().close()
+}
+
+interop.chooseDirectory = async () => {
+	const { filePaths, canceled } = await remote.dialog.showOpenDialog({
+		buttonLabel: 'Choose',
+		properties: ['openDirectory', 'createDirectory']
+	})
+
+	return { filePaths, canceled }
+}
+
+interop.getFileName = file => path.parse(file).name
 
 interop.isMac = process.platform === 'darwin'
 
-interop.getFileName = file => path.parse(file).name
+interop.quit = () => remote.app.exit(0)
+
+interop.revealInTempFolder = filePath => {
+	shell.showItemInFolder(filePath)
+}
+
+interop.version = remote.app.getVersion()
 
 interop.warning = async ({ message, detail }) => (await remote.dialog.showMessageBox({
 	type: 'warning',
@@ -23,6 +46,8 @@ interop.warning = async ({ message, detail }) => (await remote.dialog.showMessag
 	message,
 	detail
 })).response
+
+interop.clearTempFiles = () => ipcRenderer.send('clearTempFiles')
 
 interop.getTitleFromURL = data => sendMessage({
 	sendMsg: 'getTitleFromURL',
@@ -66,10 +91,6 @@ interop.requestUpload = data => sendMessage({
 
 interop.removeMediaFile = id => ipcRenderer.send('removeMediaFile', id)
 
-interop.bringToFront = () => {
-	remote.getCurrentWindow().show()
-}
-
 interop.initPreview = async data => ipcRenderer.invoke('initPreview', data)
 
 interop.requestPreviewStill = async data => ipcRenderer.send('requestPreviewStill', data)
@@ -78,10 +99,6 @@ interop.setPreviewListeners = callback => {
 	ipcRenderer.on('previewStillCreated', (evt, still) => {
 		callback(still)
 	})
-}
-
-interop.revealInTempFolder = filePath => {
-	shell.showItemInFolder(filePath)
 }
 
 interop.removePreviewListeners = () => {
@@ -119,19 +136,6 @@ interop.disablePrefs = () => {
 	remote.Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = false
 }
 
-interop.chooseDirectory = async () => {
-	const { filePaths, canceled } = await remote.dialog.showOpenDialog({
-		buttonLabel: 'Choose',
-		properties: ['openDirectory', 'createDirectory']
-	})
-
-	return { filePaths, canceled }
-}
-
-interop.closeCurrentWindow = () => {
-	remote.getCurrentWindow().close()
-}
-
 interop.checkIfDirectoryExists = async dir =>  ipcRenderer.invoke('checkDirectoryExists', dir)
 
 interop.directoryNotFoundAlert = async dir => {
@@ -162,8 +166,6 @@ interop.cancelRender = id => ipcRenderer.send('cancelRender', id)
 
 interop.cancelAllRenders = () => ipcRenderer.send('cancelAllRenders')
 
-interop.clearTempFiles = () => ipcRenderer.send('clearTempFiles')
-
 interop.addUpdateListeners = ({ onStarted, onProgress, onError }) => {
 	ipcRenderer.once('updateStarted', (evt, version) => {
 		onStarted(version)
@@ -185,8 +187,6 @@ interop.removeUpdateListeners = () => {
 interop.retryUpdate = () => ipcRenderer.send('retryUpdate')
 
 interop.checkForUpdateBackup = () => ipcRenderer.send('checkForUpdateBackup')
-
-interop.quit = () => remote.app.exit(0)
 
 if (process.env.NODE_ENV === 'development') {
 	window.ABLE2 = Object.freeze({
