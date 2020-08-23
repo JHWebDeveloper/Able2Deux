@@ -47,7 +47,7 @@ const openWindow = opts => new BrowserWindow({
 	...opts
 })
 
-const createURL = view =>  url.format(dev ? {
+const createURL = view => url.format(dev ? {
 	protocol: 'http:',
 	host: 'localhost:3000',
 	pathname: `${view}.html`,
