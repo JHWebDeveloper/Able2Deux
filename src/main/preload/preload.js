@@ -3,12 +3,13 @@ import { v1 as uuid } from 'uuid'
 import path from 'path'
 
 import { sendMessage, requestChannel } from './sendMessage'
-import * as screenRecoder from './screenRecorder'
-import setContextMenu from './contextMenu'
+import * as screenRecorder from './screenRecorder'
+import * as setContextMenu from './contextMenu'
 
 const interop = {}
 
-interop.setContextMenu = setContextMenu
+Object.assign(interop, screenRecorder)
+Object.assign(interop, setContextMenu)
 
 interop.version = remote.app.getVersion()
 
@@ -68,8 +69,6 @@ interop.removeMediaFile = id => ipcRenderer.send('removeMediaFile', id)
 interop.bringToFront = () => {
 	remote.getCurrentWindow().show()
 }
-
-Object.assign(interop, screenRecoder)
 
 interop.initPreview = async data => ipcRenderer.invoke('initPreview', data)
 

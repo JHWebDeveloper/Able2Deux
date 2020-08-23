@@ -2,7 +2,7 @@ import { remote } from 'electron'
 
 const textElement = 'input[type="text"], input[type="number"]'
 
-const setContextMenu = () => {
+export const setContextMenu = () => {
 	const textEditor = new remote.Menu()
 	const dev = process.env.NODE_ENV === 'development' || process.env.devtools
 	let inspectMenu = []
@@ -47,5 +47,3 @@ const setContextMenu = () => {
 		}
 	})
 }
-
-export default setContextMenu
