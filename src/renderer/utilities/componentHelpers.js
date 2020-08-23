@@ -1,16 +1,5 @@
 import * as STATUS from '../status/types'
 
-export const arrayCount = (arr, exp) => {
-	let i = arr.length
-	let count = 0
-
-	while (i--) {
-		if (exp(arr[i])) count += 1
-	}
-
-	return count
-}
-
 export const compareProps = (prev, next) => {
 	for (const key in prev) {
 		if (typeof prev[key] === 'function' && typeof next[key] === 'function') continue
