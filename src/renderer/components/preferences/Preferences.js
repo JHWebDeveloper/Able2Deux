@@ -3,6 +3,7 @@ import toastr from 'toastr'
 import '../../css/preferences.css'
 
 import { PrefsProvider, PrefsContext } from '../../store/preferences'
+import { updateState } from '../../actions'
 import { toastrOpts } from '../../utilities'
 import { Konami } from '../../constructors'
 
@@ -16,10 +17,18 @@ const konami = new Konami()
 
 const Main = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
+	const { disableRateLimit } = preferences
 
 	useEffect(() => {
 		konami.listen(() => {
-			toastr.success(`Download Rate Limit ${preferences.disableRateLimit ? 'Dis' : 'En'}abled`, toastrOpts)
+			dispatch(updateState({
+				disableRateLimit: !disableRateLimit
+			}))
+
+			toastr.success(
+				`Download Rate Limit is now ${disableRateLimit ? 'En' : 'Dis'}abled`,
+				'You entered the Konami Code!',
+				toastrOpts)
 		})
 
 		return () => {
