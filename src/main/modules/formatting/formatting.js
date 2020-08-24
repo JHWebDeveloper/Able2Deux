@@ -4,7 +4,7 @@ import fs, { promises as fsp } from 'fs'
 import ffmpeg from '../ffmpeg'
 import { temp, assetsPath } from '../extFileHandlers'
 import * as filter from './filters'
-import getOverlayInnerDimensions from './getOverlayInnerDimensions'
+import getOverlayInnerDimensions from '../utilities/getOverlayInnerDimensions'
 
 let jobs = []
 
