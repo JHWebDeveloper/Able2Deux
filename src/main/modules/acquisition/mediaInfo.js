@@ -2,10 +2,10 @@ import path from 'path'
 import getRGBAPalette from 'get-rgba-palette'
 import getPixels from 'get-pixels'
 
-import ffmpeg from '../utilities/ffmpeg'
+import ffmpeg from '../ffmpeg'
+import { temp } from '../extFileHandlers'
 import supportedImageCodecs from '../utilities/supportedImageCodecs'
 import { base64EncodeOrPlaceholder } from '../utilities/base64Encode'
-import { temp } from '../extFileHandlers'
 
 const round = (n, dec = 2) => Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
 
