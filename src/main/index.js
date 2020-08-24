@@ -4,16 +4,16 @@ import log from 'electron-log'
 import url from 'url'
 import path from 'path'
 
-import { initExtDirectories, temp, updateScratchDisk } from './modules/utilities/extFileHandlers'
+import { initPreferences, loadPrefs, savePrefs } from './modules/preferences/preferences'
+import { initScratchDisk, temp, updateScratchDisk } from './modules/scratchDisk'
 import { getTitleFromURL, downloadVideo, cancelDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
 import { saveScreenRecording } from './modules/acquisition/saveScreenRecording'
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
 import previewStill from './modules/formatting/preview'
 import updatePreviewSourceImage from './modules/formatting/updatePreviewSourceImage'
-import fileExistsPromise from './modules/utilities/fileExistsPromise'
 import { render, cancelRender, cancelAllRenders } from './modules/formatting/formatting'
-import { loadPrefs, savePrefs } from './modules/preferences/preferences'
+import { fileExistsPromise } from './modules/utilities'
 
 const dev = process.env.NODE_ENV === 'development'
 const mac = process.platform === 'darwin'
@@ -137,13 +137,10 @@ const createMainWindow = () => new Promise(resolve => {
 
 const startApp = async () => {
 	await createSplashWindow()
+	await initPreferences()
+	await initScratchDisk()
 
-	const responses = await Promise.all([
-		checkForUpdate(),
-		initExtDirectories()
-	])
-
-	const version = responses[0]
+	const version = await checkForUpdate()
 
 	if (version) {
 		await createUpdateWindow(version)

@@ -1,7 +1,7 @@
 import path from 'path'
 
 import ffmpeg from '../ffmpeg'
-import { temp } from '../extFileHandlers'
+import { temp } from '../scratchDisk'
 
 const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
 	const command = ffmpeg().on('end', resolve).on('error', reject)

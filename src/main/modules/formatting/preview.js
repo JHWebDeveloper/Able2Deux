@@ -2,8 +2,8 @@ import path from 'path'
 import fs from 'fs'
 
 import ffmpeg from '../ffmpeg'
-import { temp, assetsPath } from '../extFileHandlers'
-import { base64Encode, getOverlayInnerDimensions } from '../utilities'
+import { temp } from '../scratchDisk'
+import { assetsPath, base64Encode, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
 
 const previewStill = exportData => new Promise((resolve, reject) => {

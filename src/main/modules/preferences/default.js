@@ -1,5 +1,5 @@
-import path from 'path'
 import { app } from 'electron'
+import path from 'path'
 import { v1 as uuid } from 'uuid'
 
 const tempDirectory = process.env.NODE_ENV === 'development'

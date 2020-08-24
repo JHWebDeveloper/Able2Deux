@@ -2,7 +2,7 @@ import { promises as fsp } from 'fs'
 import path from 'path'
 import { Decoder, Reader, tools } from 'ts-ebml'
 
-import { temp } from '../extFileHandlers'
+import { temp } from '../scratchDisk'
 
 const fixDuration = async buffer => {
 	const decoder = new Decoder()

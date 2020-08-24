@@ -2,8 +2,8 @@ import path from 'path'
 import fs, { promises as fsp } from 'fs'
 
 import ffmpeg from '../ffmpeg'
-import { temp, assetsPath } from '../extFileHandlers'
-import { getOverlayInnerDimensions } from '../utilities'
+import { temp } from '../scratchDisk'
+import { assetsPath, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
 
 let jobs = []

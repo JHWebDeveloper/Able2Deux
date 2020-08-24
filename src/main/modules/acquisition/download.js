@@ -5,7 +5,7 @@ import ytdlStatic from 'youtube-dl-ffmpeg-ffprobe-static'
 import ffmpegStatic from 'ffmpeg-static-electron'
 import { fixPathForAsarUnpack } from 'electron-util'
 
-import { temp } from '../extFileHandlers'
+import { temp } from '../scratchDisk'
 
 const ytdlPath = fixPathForAsarUnpack(ytdlStatic.path)
 const ffmpegPath = fixPathForAsarUnpack(ffmpegStatic.path)

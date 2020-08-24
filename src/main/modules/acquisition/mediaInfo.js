@@ -3,7 +3,7 @@ import getRGBAPalette from 'get-rgba-palette'
 import getPixels from 'get-pixels'
 
 import ffmpeg from '../ffmpeg'
-import { temp } from '../extFileHandlers'
+import { temp } from '../scratchDisk'
 import { supportedImageCodecs, base64EncodeOrPlaceholder } from '../utilities'
 
 const round = (n, dec = 2) => Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
