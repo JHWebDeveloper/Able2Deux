@@ -42,6 +42,7 @@ const Main = () => {
 				renderOutput={preferences.renderOutput}
 				renderFrameRate={preferences.renderFrameRate}
 				autoPNG={preferences.autoPNG}
+				asperaSafe={preferences.asperaSafe}
 				concurrent={preferences.concurrent}
 				dispatch={dispatch} />
 			<ScratchDisk 
