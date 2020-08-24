@@ -28,7 +28,7 @@ const Main = () => {
 			toastr.success(
 				`Download Rate Limit is now ${disableRateLimit ? 'En' : 'Dis'}abled`,
 				'You entered the Konami Code!',
-				toastrOpts)
+				{ ...toastrOpts, timeOut: 2000 })
 		})
 
 		return () => {
