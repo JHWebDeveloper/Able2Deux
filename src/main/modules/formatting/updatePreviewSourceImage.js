@@ -1,6 +1,6 @@
 import path from 'path'
 import ffmpeg from '../utilities/ffmpeg'
-import { temp } from '../utilities/extFileHandlers'
+import { temp } from '../extFileHandlers'
 
 const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
 	const command = ffmpeg().on('end', resolve).on('error', reject)

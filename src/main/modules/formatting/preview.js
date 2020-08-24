@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs'
 
 import ffmpeg from '../utilities/ffmpeg'
-import { temp, assetsPath } from '../utilities/extFileHandlers'
+import { temp, assetsPath } from '../extFileHandlers'
 import { base64Encode } from '../utilities/base64Encode'
 import * as filter from './filters'
 import getOverlayInnerDimensions from './getOverlayInnerDimensions'

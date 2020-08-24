@@ -5,7 +5,7 @@ import getPixels from 'get-pixels'
 import ffmpeg from '../utilities/ffmpeg'
 import supportedImageCodecs from '../utilities/supportedImageCodecs'
 import { base64EncodeOrPlaceholder } from '../utilities/base64Encode'
-import { temp } from '../utilities/extFileHandlers'
+import { temp } from '../extFileHandlers'
 
 const round = (n, dec = 2) => Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
 
