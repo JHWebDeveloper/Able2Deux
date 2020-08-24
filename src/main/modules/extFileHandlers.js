@@ -3,7 +3,7 @@ import path from 'path'
 import { app } from 'electron'
 import { fixPathForAsarUnpack } from 'electron-util'
 
-import fileExistsPromise from './utilities/fileExistsPromise'
+import fileExistsPromise from './utilities'
 import defaultPrefs from './preferences/default'
 
 const dev = process.env.NODE_ENV === 'development'

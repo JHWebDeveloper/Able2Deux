@@ -3,9 +3,8 @@ import fs from 'fs'
 
 import ffmpeg from '../ffmpeg'
 import { temp, assetsPath } from '../extFileHandlers'
-import { base64Encode } from '../utilities/base64Encode'
+import { base64Encode, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
-import getOverlayInnerDimensions from '../utilities/getOverlayInnerDimensions'
 
 const previewStill = exportData => new Promise((resolve, reject) => {
 	const { id, renderOutput, hasAlpha, isAudio, arc, background, overlay, sourceData, rotation } = exportData

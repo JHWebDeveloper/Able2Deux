@@ -1,4 +1,4 @@
-export default [
+export const supportedImageCodecs = [
 	'alias_pix',
 	'bmp',
 	'brender_pix',

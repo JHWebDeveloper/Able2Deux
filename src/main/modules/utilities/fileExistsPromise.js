@@ -1,6 +1,6 @@
 import { promises as fsp } from 'fs'
 
-const fileExistsPromise = async fileOrDir => {
+export const fileExistsPromise = async fileOrDir => {
 	try {
 		await fsp.access(fileOrDir)
 		return true
@@ -8,5 +8,3 @@ const fileExistsPromise = async fileOrDir => {
 		return false
 	}
 }
-
-export default fileExistsPromise

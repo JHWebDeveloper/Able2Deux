@@ -3,8 +3,8 @@ import fs, { promises as fsp } from 'fs'
 
 import ffmpeg from '../ffmpeg'
 import { temp, assetsPath } from '../extFileHandlers'
+import { getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
-import getOverlayInnerDimensions from '../utilities/getOverlayInnerDimensions'
 
 let jobs = []
 

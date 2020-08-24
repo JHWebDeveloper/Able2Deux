@@ -1,4 +1,4 @@
-const getOverlayInnerDimensions = (size, overlay) => {
+export const getOverlayInnerDimensions = (size, overlay) => {
 	const is1080 = size === '1080'
 
 	return {
@@ -14,5 +14,3 @@ const getOverlayInnerDimensions = (size, overlay) => {
 		}
 	}[overlay]
 }
-
-export default getOverlayInnerDimensions

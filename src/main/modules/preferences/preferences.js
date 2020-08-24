@@ -1,4 +1,5 @@
 import { promises as fsp } from 'fs'
+
 import { prefsPath } from '../extFileHandlers'
 import defaultPrefs from './default'
 
