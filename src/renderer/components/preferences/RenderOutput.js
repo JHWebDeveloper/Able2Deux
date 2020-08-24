@@ -10,7 +10,7 @@ import Checkbox from '../form_elements/Checkbox'
 const _720  = [1280, 720].join('x')
 const _1080 = [1920, 1080].join('x')
 
-const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, concurrent, dispatch }) => {
+const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, concurrent, dispatch }) => {
 	const keepConcurrentInRange = useCallback(e => {
 		dispatch(updateStateFromEvent(keepInRange(e)))
 	}, [])
@@ -59,6 +59,12 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, concurrent, disp
 				label="Auto Export as .png"
 				name="autoPNG"
 				checked={autoPNG}
+				onChange={e => dispatch(toggleCheckbox(e))}
+				switchIcon/>
+			<Checkbox
+				label="Aspera Safe Characters"
+				name="asperaSafe"
+				checked={asperaSafe}
 				onChange={e => dispatch(toggleCheckbox(e))}
 				switchIcon/>
 			<span className="input-option">

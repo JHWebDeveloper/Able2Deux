@@ -12,15 +12,18 @@ const countDigits = n => {
 	return count
 }
 
-const filterBadChars = (str, p1, p2, p3, p4) => {
+const getRegex = asperaSafe => (
+	new RegExp(`(&)|(\\*)|([%"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
+)
+
+const filterBadChars = (str, p1, p2, p3) => {
 	if (p1) return 'and'
-	if (p2) return 'prc'
-	if (p3) return '2A'
-	if (p4) return encodeURIComponent(p4).replace(/%/g, '')
+	if (p2) return '2A'
+	if (p3) return encodeURIComponent(p3).replace(/%/g, '')
 }
 
-export const cleanFileName = fileName => fileName
-	.replace(/(&)|(%)|(\*)|(["/:;<>?\\`|ŒœŠšŸ​]|[^!-ż\s])/g, filterBadChars)
+export const cleanFileName = (fileName, asperaSafe) => fileName
+	.replace(getRegex(asperaSafe), filterBadChars)
 	.slice(0, 280)
 	.trim()
 
@@ -41,6 +44,15 @@ export const keepInRange = e => {
 	return e
 }
 
+export const zeroize = (n, base) => {
+	const bl = countDigits(base) || 2
+	const nl = countDigits(n)
+
+	return `${'0'.repeat(bl - nl)}${n}`
+}
+
+export const zeroize10 = n => n < 10 ? `0${n}` : n
+
 export const replaceTokens = (filename, i = 0, l = 0) => {
 	const d = new Date()
 
@@ -51,15 +63,6 @@ export const replaceTokens = (filename, i = 0, l = 0) => {
 		.replace(/\$t/g, format12hr(d))
 		.replace(/\$T/g, `${d.getHours()}${d.getMinutes()}`)
 }
-
-export const zeroize = (n, base) => {
-	const bl = countDigits(base) || 2
-	const nl = countDigits(n)
-
-	return `${'0'.repeat(bl - nl)}${n}`
-}
-
-export const zeroize10 = n => n < 10 ? `0${n}` : n
 
 export const format12hr = d => {
 	let h = d.getHours()
