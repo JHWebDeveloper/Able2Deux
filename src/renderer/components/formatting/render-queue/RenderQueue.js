@@ -20,7 +20,7 @@ const { interop } = window.ABLE2
 
 const RenderQueue = withRouter(params => {
 	const { media, batch, saveLocations, closeRenderQueue, dispatch, history } = params
-	const { renderOutput, renderFrameRate, autoPNG, concurrent } = useContext(PrefsContext).preferences
+	const { renderOutput, renderFrameRate, autoPNG, asperaSafe, concurrent } = useContext(PrefsContext).preferences
 	
 	const complete = media.every(({ render }) => (
 		render.status === STATUS.COMPLETE ||
@@ -61,6 +61,7 @@ const RenderQueue = withRouter(params => {
 			renderOutput,
 			renderFrameRate,
 			autoPNG,
+			asperaSafe,
 			concurrent,
 			goBack
 		}))
