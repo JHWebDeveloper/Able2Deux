@@ -2,7 +2,7 @@ import path from 'path'
 import fs, { promises as fsp } from 'fs'
 
 import ffmpeg from '../ffmpeg'
-import { temp } from '../scratchDisk'
+import { scratchDisk } from '../scratchDisk'
 import { assetsPath, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
 
@@ -20,7 +20,7 @@ export const cancelAllRenders = async () => (
 
 const removeJob = async id => {
 	jobs = jobs.filter(dl => dl.id !== id)
-	return temp.exports.clear(id)
+	return scratchDisk.exports.clear(id)
 }
 
 const checkIsAudio = ({ mediaType, audio }) => (
@@ -124,7 +124,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		extension = 'mp4'
 	}
 
-	const exportPath = path.join(temp.exports.path, `${id}.${extension}`)
+	const exportPath = path.join(scratchDisk.exports.path, `${id}.${extension}`)
 	const saveName = `${exportData.filename}.${extension}`
 
 	const command = ffmpeg(exportData.tempFilePath)
@@ -184,7 +184,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		}
 	
 		if (sourceData) {
-			const sourcePng = path.join(temp.imports.path, `${id}.src-overlay.png`)
+			const sourcePng = path.join(scratchDisk.imports.path, `${id}.src-overlay.png`)
 			fs.writeFileSync(sourcePng, sourceData, { encoding: 'base64' })		
 			command.input(sourcePng)
 		}

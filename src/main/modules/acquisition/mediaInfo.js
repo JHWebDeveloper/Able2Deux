@@ -3,7 +3,7 @@ import getRGBAPalette from 'get-rgba-palette'
 import getPixels from 'get-pixels'
 
 import ffmpeg from '../ffmpeg'
-import { temp } from '../scratchDisk'
+import { scratchDisk } from '../scratchDisk'
 import { supportedImageCodecs, base64EncodeOrPlaceholder } from '../utilities'
 
 const round = (n, dec = 2) => Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
@@ -12,19 +12,19 @@ const createScreenshot = (id, tempFilePath) => new Promise(resolve => {
 	const screenshot = `${id}.thumbnail.png`
 
 	ffmpeg(tempFilePath).on('end', () => {
-		resolve(path.join(temp.imports.path, screenshot))
+		resolve(path.join(scratchDisk.imports.path, screenshot))
 	}).on('error', () => {
 		resolve(false) // ignore error for thumbnails
 	}).screenshots({
 		timemarks: ['50%'],
-		folder: temp.imports.path,
+		folder: scratchDisk.imports.path,
 		filename: screenshot,
 		size: '384x?'
 	})
 })
 
 const createPNGCopy = (id, tempFilePath, mediaType) => new Promise(resolve => {
-	const png = path.join(temp.imports.path, `${id}.thumbnail.png`)
+	const png = path.join(scratchDisk.imports.path, `${id}.thumbnail.png`)
 	const opt = []
 
 	if (mediaType === 'gif') opt.push('-frames 1')
@@ -67,7 +67,7 @@ const getMetadata = file => new Promise((resolve, reject) => {
 })
 
 const detectImageNecessaryAlphaChannel = id => new Promise((resolve, reject) => {
-	getPixels(path.join(temp.imports.path, `${id}.alpha.jpg`), (err, pixels) => {
+	getPixels(path.join(scratchDisk.imports.path, `${id}.alpha.jpg`), (err, pixels) => {
 		if (err) reject(err)
 
 		const colors = getRGBAPalette(pixels.data)
@@ -90,7 +90,7 @@ const detectAlphaChannel = (file, mediaType, id) => new Promise(resolve => {
 		})
 		.on('error', () => resolve(false))
 		.videoFilter('alphaextract,format=yuv420p')
-		.output(isImage ? path.join(temp.imports.path, `${id}.alpha.jpg`) : 'out.null')
+		.output(isImage ? path.join(scratchDisk.imports.path, `${id}.alpha.jpg`) : 'out.null')
 		.outputOption(isImage ? [] : ['-f null'])
 		.run()
 })

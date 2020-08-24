@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs'
 
 import ffmpeg from '../ffmpeg'
-import { temp } from '../scratchDisk'
+import { scratchDisk } from '../scratchDisk'
 import { assetsPath, base64Encode, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
 
@@ -11,8 +11,8 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
 	const outputExtension = isAudio ? 'png' : 'jpg'
-	const previewSourcePath = path.join(temp.previews.path, `${id}.preview-source.${hasAlpha ? 'tiff' : outputExtension}`)
-	const previewPath = path.join(temp.previews.path, `${id}.preview.${outputExtension}`)
+	const previewSourcePath = path.join(scratchDisk.previews.path, `${id}.preview-source.${hasAlpha ? 'tiff' : outputExtension}`)
+	const previewPath = path.join(scratchDisk.previews.path, `${id}.preview.${outputExtension}`)
 	let overlayDim = false
 
 	const command = ffmpeg(previewSourcePath)
@@ -26,7 +26,7 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 	if (exportData.isAudio) return command.run()
 
 	if (sourceData) {
-		const sourcePng = path.join(temp.previews.path, `${id}.src-overlay.png`)
+		const sourcePng = path.join(scratchDisk.previews.path, `${id}.src-overlay.png`)
 		fs.writeFileSync(sourcePng, sourceData, 'base64')		
 		command.input(sourcePng)
 	}

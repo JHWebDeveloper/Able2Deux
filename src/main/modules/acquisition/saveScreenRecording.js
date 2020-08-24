@@ -2,7 +2,7 @@ import { promises as fsp } from 'fs'
 import path from 'path'
 import { Decoder, Reader, tools } from 'ts-ebml'
 
-import { temp } from '../scratchDisk'
+import { scratchDisk } from '../scratchDisk'
 
 const fixDuration = async buffer => {
 	const decoder = new Decoder()
@@ -41,7 +41,7 @@ export const saveScreenRecording = async ({ id, buffer, screenshot }) => {
 		encoding = 'utf8'
 	}
 
-	const filePath = path.join(temp.imports.path, `${id}.${extension}`)
+	const filePath = path.join(scratchDisk.imports.path, `${id}.${extension}`)
 
 	await fsp.writeFile(filePath, fixedBuffer, { encoding })
 

@@ -1,12 +1,12 @@
 import path from 'path'
 
 import ffmpeg from '../ffmpeg'
-import { temp } from '../scratchDisk'
+import { scratchDisk } from '../scratchDisk'
 
 const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
 	const command = ffmpeg().on('end', resolve).on('error', reject)
 	const extension = hasAlpha ? 'tiff' : isAudio ? 'png' : 'jpg'
-	const outputPath = path.join(temp.previews.path, `${id}.preview-source.${extension}`)
+	const outputPath = path.join(scratchDisk.previews.path, `${id}.preview-source.${extension}`)
 
 	if (isAudio && format === 'bars') {
 		command
@@ -27,7 +27,7 @@ const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, te
 		} else if (mediaType === 'video') {
 			command.screenshot({
 				timemarks: [`${tc}%`],
-				folder: temp.previews.path,
+				folder: scratchDisk.previews.path,
 				filename: `${id}.preview-source.${extension}`
 			})
 		} else {

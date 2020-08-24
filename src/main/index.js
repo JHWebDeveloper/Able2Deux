@@ -5,7 +5,7 @@ import url from 'url'
 import path from 'path'
 
 import { initPreferences, loadPrefs, savePrefs } from './modules/preferences/preferences'
-import { initScratchDisk, temp, updateScratchDisk } from './modules/scratchDisk'
+import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getTitleFromURL, downloadVideo, cancelDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
 import { saveScreenRecording } from './modules/acquisition/saveScreenRecording'
@@ -370,7 +370,7 @@ ipcMain.on('saveScreenRecording', async (evt, data) => {
 
 ipcMain.on('removeMediaFile', async (evt, id) => {
 	try {
-		await temp.imports.clear(id)
+		await scratchDisk.imports.clear(id)
 	} catch (err) {
 		console.error(err)
 	}
@@ -434,7 +434,7 @@ ipcMain.on('cancelAllRenders', async () => {
 
 ipcMain.on('clearTempFiles', async () => {
 	try {
-		return temp.clearAll()
+		return scratchDisk.clearAll()
 	} catch (err) {
 		console.error(err)
 	}

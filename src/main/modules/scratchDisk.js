@@ -18,23 +18,23 @@ const clearFiles = async (dir, id) => {
 	return Promise.all(files.map(file => fsp.unlink(path.join(dir, file))))
 }
 
-export const temp = {
+export const scratchDisk = {
 	imports: {
 		path: '',
-		clear: id => clearFiles(temp.imports.path, id)
+		clear: id => clearFiles(scratchDisk.imports.path, id)
 	},
 	exports: {
 		path: '',
-		clear: id => clearFiles(temp.exports.path, id)
+		clear: id => clearFiles(scratchDisk.exports.path, id)
 	},
 	previews: {
 		path: '',
-		clear: id => clearFiles(temp.previews.path, id)
+		clear: id => clearFiles(scratchDisk.previews.path, id)
 	},
 	clearAll: () => Promise.all([
-		temp.imports.clear(),
-		temp.exports.clear(),
-		temp.previews.clear()
+		scratchDisk.imports.clear(),
+		scratchDisk.exports.clear(),
+		scratchDisk.previews.clear()
 	])
 }
 
@@ -42,23 +42,23 @@ export const initScratchDisk = async () => {
 	try {
 		await updateScratchDisk()
 
-		temp.clearAll()	
+		scratchDisk.clearAll()	
 	} catch (err) {
 		console.error(err)
 	}
 }
 
 export const updateScratchDisk = async () => {
-	const { scratchDisk } = JSON.parse(await fsp.readFile(prefsPath))
+	const prefs = JSON.parse(await fsp.readFile(prefsPath))
 	const opts = { recursive: true }
 
-	temp.imports.path = path.join(scratchDisk.imports, 'able2_imports')
-	temp.exports.path = path.join(scratchDisk.exports, 'able2_exports')
-	temp.previews.path = path.join(scratchDisk.previews, 'able2_previews')
+	scratchDisk.imports.path = path.join(prefs.scratchDisk.imports, 'able2_imports')
+	scratchDisk.exports.path = path.join(prefs.scratchDisk.exports, 'able2_exports')
+	scratchDisk.previews.path = path.join(prefs.scratchDisk.previews, 'able2_previews')
 
 	return Promise.all([
-		fsp.mkdir(temp.imports.path, opts),
-		fsp.mkdir(temp.exports.path, opts),
-		fsp.mkdir(temp.previews.path, opts)
+		fsp.mkdir(scratchDisk.imports.path, opts),
+		fsp.mkdir(scratchDisk.exports.path, opts),
+		fsp.mkdir(scratchDisk.previews.path, opts)
 	])
 }

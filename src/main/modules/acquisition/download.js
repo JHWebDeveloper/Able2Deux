@@ -5,7 +5,7 @@ import ytdlStatic from 'youtube-dl-ffmpeg-ffprobe-static'
 import ffmpegStatic from 'ffmpeg-static-electron'
 import { fixPathForAsarUnpack } from 'electron-util'
 
-import { temp } from '../scratchDisk'
+import { scratchDisk } from '../scratchDisk'
 
 const ytdlPath = fixPathForAsarUnpack(ytdlStatic.path)
 const ffmpegPath = fixPathForAsarUnpack(ffmpegStatic.path)
@@ -19,7 +19,7 @@ export const cancelDownload = async id => {
 		await downloads.find(dl => dl.id === id).download.kill()
 	}
 
-	return temp.imports.clear(id)
+	return scratchDisk.imports.clear(id)
 }
 
 const removeDownload = async id => {
@@ -44,10 +44,10 @@ const parseYTDLOutput = (str, regex) => {
 
 const getTempFilePath = async id => {
 	const regex = new RegExp(`^${id}`)
-	const files = await fsp.readdir(temp.imports.path)
+	const files = await fsp.readdir(scratchDisk.imports.path)
 	const file = files.find(f => regex.test(f))
 
-	return path.join(temp.imports.path, file)
+	return path.join(scratchDisk.imports.path, file)
 }
 
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
@@ -57,7 +57,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		...ytdlOpts(disableRateLimit),
 		'--restrict-filenames',
 		'--ffmpeg-location',	ffmpegPath,
-		'--output', `${temp.imports.path}/${id}.%(ext)s`,
+		'--output', `${scratchDisk.imports.path}/${id}.%(ext)s`,
 		'--format', `${optimize === 'quality' ? `bestvideo[height<=${output}][fps<=60]+bestaudio/` : ''}best[height<=${output}][fps<=60]/best`,
 		url
 	])
