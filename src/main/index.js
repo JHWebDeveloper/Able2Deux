@@ -6,7 +6,7 @@ import path from 'path'
 
 import { initPreferences, loadPrefs, savePrefs } from './modules/preferences/preferences'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
-import { getTitleFromURL, downloadVideo, cancelDownload } from './modules/acquisition/download'
+import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
 import { saveScreenRecording } from './modules/acquisition/saveScreenRecording'
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
@@ -298,14 +298,14 @@ if (dev || process.env.devtools) {
 	})
 }
 
-ipcMain.on('getTitleFromURL', async (evt, data) => {
+ipcMain.on('getURLInfo', async (evt, data) => {
 	const { id } = data
 
 	try {
-		evt.reply(`titleRecieved_${id}`, await getTitleFromURL(data))
+		evt.reply(`URLInfoRecieved_${id}`, await getURLInfo(data))
 	} catch (err) {
 		console.error(err)
-		evt.reply(`titleErr_${id}`, err)
+		evt.reply(`URLInfoErr_${id}`, err)
 	}
 })
 
@@ -326,6 +326,14 @@ ipcMain.on('requestDownload', async (evt, data) => {
 ipcMain.on('cancelDownload', async (evt, id) => {
 	try {
 		await cancelDownload(id)
+	} catch (err) {
+		console.error(err)
+	}
+})
+
+ipcMain.on('stopLiveDownload', async (evt, id) => {
+	try {
+		await stopLiveDownload(id)
 	} catch (err) {
 		console.error(err)
 	}
