@@ -2,6 +2,7 @@ import toastr from 'toastr'
 
 import * as ACTION from './types'
 import * as STATUS from '../status/types'
+import { updateMediaState } from '.'
 import { MediaElement } from '../constructors'
 import { replaceTokens, toastrOpts } from '../utilities'
 
@@ -10,17 +11,6 @@ const { interop } = window.ABLE2
 const resetURL = () => ({
 	type: ACTION.UPDATE_STATE,
 	payload: { url: '' }
-})
-
-const updateMediaTitle = (id, title) => ({
-	type: ACTION.UPDATE_MEDIA_STATE,
-	payload: {
-		id,
-		properties: {
-			title,
-			filename: title
-		}
-	}
 })
 
 export const updateMediaStatus = (id, status, mediaData) => ({
@@ -46,7 +36,7 @@ export const removeMedia = ({ status, id, refId, references = 0 }) => async disp
 	dispatch(updateMediaStatus(id, STATUS.CANCELLING))
 
 	if (status === STATUS.DOWNLOADING) {
-		await interop.cancelDownload(refId)
+		await interop.cancelDownload(id)
 	} else if (references < 2) {
 		await interop.removeMediaFile(refId)
 	}
@@ -93,9 +83,12 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 	const { id } = mediaElement
 
 	try {
-		const title = await interop.getTitleFromURL({ id, url, disableRateLimit })
+		const urlInfo = await interop.getURLInfo({ id, url, disableRateLimit })
 
-		dispatch(updateMediaTitle(id, title))
+		dispatch(updateMediaState(id, {
+			filename: urlInfo.title,
+			...urlInfo
+		}))
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
@@ -103,11 +96,13 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 	}
 
 	const downloadParams = {
-		id,
-		url,
-		optimize,
-		output,
-		disableRateLimit,
+		data: {
+			id,
+			url,
+			optimize,
+			output,
+			disableRateLimit
+		},
 		startCallback() {
 			dispatch(updateMediaStatus(id, STATUS.DOWNLOADING))
 		},
@@ -118,6 +113,8 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 
 	try {
 		const mediaData = await interop.requestDownloadChannel(downloadParams)
+
+		mediaData.isLive = false
 
 		dispatch(updateMediaStatus(id, STATUS.READY, mediaData))
 	} catch (err) {
