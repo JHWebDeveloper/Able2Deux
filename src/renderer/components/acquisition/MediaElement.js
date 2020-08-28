@@ -5,7 +5,9 @@ import * as STATUS from '../../status/types'
 import { removeMedia } from '../../actions'
 import { warn, capitalize, getStatusColor } from '../../utilities'
 
-const MediaElement = ({ id, refId, status, references, title, download, warnRemove, dispatch }) => {
+const { interop } = window.ABLE2
+
+const MediaElement = ({ id, refId, status, references, title, isLive, download, warnRemove, dispatch }) => {
 	const downloading = status === STATUS.DOWNLOADING
 	const color = useMemo(() => getStatusColor(status), [status])
 	const ref = useRef()
@@ -18,6 +20,10 @@ const MediaElement = ({ id, refId, status, references, title, download, warnRemo
 			callback() { dispatch(removeMedia({ id, refId, status, references })) }
 		})
 	}, [status, references, warnRemove])
+
+	const stopLiveDownload = useCallback(() => {
+		interop.stopLiveDownload(id)
+	}, [id])
 
 	useEffect(() => {
 		if (downloading) {
@@ -35,7 +41,7 @@ const MediaElement = ({ id, refId, status, references, title, download, warnRemo
 			<span>
 				<span>{title}</span>
 				{downloading && <>
-					<span className="monospace">{download.eta}</span>
+					{!isLive && <span className="monospace">{download.eta}</span>}
 					<progress
 						ref={ref}
 						data-status={status}></progress>
@@ -44,9 +50,11 @@ const MediaElement = ({ id, refId, status, references, title, download, warnRemo
 			<button
 				type="button"
 				className="symbol"
-				title={downloading ? 'Cancel Download' : 'Remove'}
-				onClick={removeMediaWithWarning}
-				disabled={status === STATUS.PENDING}>close</button>
+				title={downloading ? isLive ? 'Stop Stream' : 'Cancel Download' : 'Remove'}
+				onClick={isLive ? stopLiveDownload : removeMediaWithWarning}
+				disabled={status === STATUS.PENDING}>
+				{downloading && isLive ? 'stop' : 'close'}
+			</button>
 		</div>
 	)
 }
