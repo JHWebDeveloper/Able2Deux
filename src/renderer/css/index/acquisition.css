@@ -277,3 +277,7 @@ button[name="screenshot"] { height: 26px; }
 	grid-row: 2;
 	white-space: nowrap;
 }
+
+button[title="Stop Stream"] { font-size: 20px; }
+
+button[title="Stop Stream"]:active { color: #0cf700; }
