@@ -11,27 +11,29 @@ export * from './screenRecorder'
 
 // ---- DOWNLOAD --------
 
-export const getTitleFromURL = data => sendMessage({
-	sendMsg: 'getTitleFromURL',
-	recieveMsg: `titleRecieved_${data.id}`,
-	errMsg: `titleErr_${data.id}`,
+export const getURLInfo = data => sendMessage({
+	sendMsg: 'getURLInfo',
+	recieveMsg: `URLInfoRecieved_${data.id}`,
+	errMsg: `URLInfoErr_${data.id}`,
 	data
 })
 
-export const requestDownloadChannel = ({ id, url, optimize, output, disableRateLimit, startCallback, progressCallback }) => (
+export const requestDownloadChannel = ({ data, startCallback, progressCallback }) => (
 	requestChannel({
 		sendMsg: 'requestDownload',
-		recieveMsg: `downloadComplete_${id}`,
-		errMsg: `downloadErr_${id}`,
-		data: { id, url, optimize, output, disableRateLimit },
-		startMsg: `downloadStarted_${id}`,
-		progressMsg: `downloadProgress_${id}`,
+		recieveMsg: `downloadComplete_${data.id}`,
+		errMsg: `downloadErr_${data.id}`,
+		startMsg: `downloadStarted_${data.id}`,
+		progressMsg: `downloadProgress_${data.id}`,
+		data,
 		startCallback,
 		progressCallback
 	})
 )
 
 export const cancelDownload = id => ipcRenderer.send('cancelDownload', id)
+
+export const stopLiveDownload = id => ipcRenderer.send('stopLiveDownload', id)
 
 
 // ---- UPLOAD --------
