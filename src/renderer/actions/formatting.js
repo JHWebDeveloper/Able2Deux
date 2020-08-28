@@ -125,7 +125,7 @@ const fillMissingFilenames = media => media.map(item => ({
 }))
 
 const applyBatchName = (media, batch) => media.map(item => {
-	if (!batch.name) return item
+	if (!batch.name || media.length < 2) return item
 
 	let filename = ''
 
