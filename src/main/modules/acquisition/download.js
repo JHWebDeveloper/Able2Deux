@@ -22,7 +22,7 @@ export const cancelDownload = async id => {
 	return scratchDisk.imports.clear(id)
 }
 
-export const stopLiveDownload = async (id) => (
+export const stopLiveDownload = async id => (
 	downloads.find(dl => dl.id === id).download.kill('SIGINT')
 )
 
