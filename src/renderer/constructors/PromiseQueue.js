@@ -5,7 +5,7 @@ export class PromiseQueue {
 		this.queue = []
 	}
 
-	next = () => {
+	next() {
 		while (this.active < this.concurrent && this.queue.length) {
 			this.active += 1
 
@@ -15,7 +15,7 @@ export class PromiseQueue {
 		}
 	}
 
-	add = (id, promise) => {
+	add(id, promise) {
 		this.queue.push({
 			id,
 			promise: async () => {
@@ -26,11 +26,11 @@ export class PromiseQueue {
 		})
 	}
 
-	remove = id => {
+	remove(id) {
 		this.queue = this.queue.filter(promise => promise.id !== id)
 	}
 
-	clear = () => {
+	clear() {
 		this.queue = []
 	}
 
