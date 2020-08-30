@@ -34,5 +34,7 @@ export class PromiseQueue {
 		this.queue = []
 	}
 
-	start = () => this.next()
+	start() {
+		this.next()
+	}
 }
