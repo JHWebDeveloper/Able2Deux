@@ -115,38 +115,22 @@ export const checkFileType = async (file, preGeneratedMetadata) => {
 		throw new Error('Unsupported file type')
 	}
 
-	const video = {}
-	const audio = {}
+	const videoStream = metadata.streams.find(stream => stream.codec_type === 'video')
+	const audioStream = metadata.streams.find(stream => stream.codec_type === 'audio')
+	const videoSupport = codecs[videoStream?.codec_name]?.canDecode
+	const audioSupport = codecs[audioStream?.codec_name]?.canDecode
 
-	video.stream = metadata.streams.find(stream => stream.codec_type === 'video')
-	audio.stream = metadata.streams.find(stream => stream.codec_type === 'audio')
-
-	if (video.stream) {
-		video.codec = codecs[video.stream.codec_name]
-		video.supported = video.codec && video.codec.canDecode
-	}
-
-	if (audio.stream) {
-		audio.codec = codecs[audio.stream.codec_name]
-		audio.supported = audio.codec && audio.codec.canDecode
-	}
-	
-	if (
-		audio.supported && !video.stream || // audio only
-		audio.supported && supportedImageCodecs.includes(video.stream.codec_name) // audio with album artwork
-	) {
+	if (audioSupport && (!videoStream || supportedImageCodecs.includes(videoStream?.codec_name))) { // audio only or audio with album artwork
+		console.log('Made it Here!')
 		return 'audio'
-	} else if (
-		video.supported && audio.supported || // video with audio
-		video.supported && !audio.stream // video only
-	) {
-		return getMediaKind(video.stream.codec_name, path.extname(file))
+	} else if (videoSupport && (audioSupport || !audioStream)) { // video+audio or video only
+		return getMediaKind(videoStream.codec_name, path.extname(file))
 	} else {
 		throw new Error('Unsupported file type')
 	}
 }
 
-const checkMetadata = data => data !== 'unknown' && data !== 'N/A'
+const checkMetadata = data => !!data && data !== 'unknown' && data !== 'N/A'
 
 export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 	const metadata = await getMetadata(tempFilePath)
