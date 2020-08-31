@@ -9,11 +9,7 @@ import * as update from './update'
 
 const interop = {}
 
-Object.assign(interop, setContextMenu)
-Object.assign(interop, acquisition)
-Object.assign(interop, formatting)
-Object.assign(interop, preferences)
-Object.assign(interop, update)
+Object.assign(interop, setContextMenu, acquisition, formatting, preferences, update)
 
 
 // ---- GET INFO --------
