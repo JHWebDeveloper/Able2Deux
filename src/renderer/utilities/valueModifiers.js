@@ -24,7 +24,7 @@ const filterBadChars = (str, p1, p2, p3) => {
 
 export const cleanFileName = (fileName, asperaSafe) => fileName
 	.replace(getRegex(asperaSafe), filterBadChars)
-	.slice(0, 280)
+	.slice(0, 250)
 	.trim()
 
 export const keepInRange = e => {
