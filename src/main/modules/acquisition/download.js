@@ -63,6 +63,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		'--ffmpeg-location',	ffmpegPath,
 		'--output', `${scratchDisk.imports.path}/${id}.%(ext)s`,
 		'--format', `${optimize === 'quality' ? `bestvideo[height<=${output}][fps<=60]+bestaudio/` : ''}best[height<=${output}][fps<=60]/best`,
+		'--merge-output-format', 'mkv',
 		url
 	])
 
