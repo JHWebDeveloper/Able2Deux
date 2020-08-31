@@ -177,7 +177,7 @@ const preventDuplicateFilenames = media => {
 
 const sanitizeFileNames = (media, asperaSafe) => media.map((item, i) => ({
 	...item,
-	filename: replaceTokens(cleanFileName(item.filename, asperaSafe), i, media.length)
+	filename: cleanFileName(replaceTokens(item.filename, i, media.length), asperaSafe)
 }))
 
 export const render = params => async dispatch => {
