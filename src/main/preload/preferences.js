@@ -8,6 +8,8 @@ export const requestPrefs = () => sendMessage({
 	errMsg: 'prefsErr'
 })
 
+export const requestDefaultPrefs = () => ipcRenderer.invoke('requestDefaultPrefs')
+
 export const savePrefs = prefs => sendMessage({
 	sendMsg: 'savePrefs',
 	recieveMsg: 'prefsSaved',
