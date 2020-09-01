@@ -4,7 +4,7 @@ import log from 'electron-log'
 import url from 'url'
 import path from 'path'
 
-import { initPreferences, loadPrefs, savePrefs } from './modules/preferences/preferences'
+import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs } from './modules/preferences/preferences'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -456,6 +456,8 @@ ipcMain.on('requestPrefs', async evt => {
 		evt.reply('prefsErr', err)
 	}
 })
+
+ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
 
 ipcMain.on('savePrefs', async (evt, prefs) => {
 	try {
