@@ -60,3 +60,5 @@ export const savePrefs = async prefs => (
 		version: defaultPrefs.version
 	}))
 )
+
+export const getDefaultPrefs = () => defaultPrefs
