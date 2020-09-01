@@ -88,3 +88,12 @@ export const moveLocation = (pos, dir = 1) => ({
 		newPos: pos + dir
 	}
 })
+
+export const restoreDefaultPrefs = () => async dispatch => {
+	const defaults = await interop.requestDefaultPrefs()
+
+	dispatch({
+		type: ACTION.UPDATE_STATE,
+		payload: defaults
+	})
+}
