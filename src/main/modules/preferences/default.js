@@ -11,6 +11,7 @@ const defaultPrefs = {
 	renderOutput: '1280x720',
 	renderFrameRate: 'auto',
 	autoPNG: true,
+	asperaSafe: true,
 	concurrent: 2,
 	saveLocations: [
 		{
