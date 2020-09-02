@@ -94,6 +94,7 @@ RenderOutput.propTypes = {
 		'59.94fps'
 	]).isRequired,
 	autoPNG: bool.isRequired,
+	asperaSafe: bool.isRequired,
 	concurrent: number.isRequired,
 	dispatch: func.isRequired
 }
