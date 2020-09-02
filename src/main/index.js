@@ -1,4 +1,4 @@
-import electron, { ipcMain } from 'electron'
+import { app, BrowserWindow, Menu, ipcMain } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 import url from 'url'
@@ -21,8 +21,6 @@ let splashWin = false
 let updateWin = false
 let mainWin = false
 let preferences = false
-
-const { app, BrowserWindow, Menu } = electron
 
 autoUpdater.autoDownload = false
 autoUpdater.logger = log
