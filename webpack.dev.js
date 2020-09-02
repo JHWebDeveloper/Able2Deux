@@ -62,7 +62,6 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new webpack.NamedModulesPlugin(),
 		new MiniCssExtractPlugin({
 			filename: path.join('assets', 'css', '[name].min.css')
 		}),
