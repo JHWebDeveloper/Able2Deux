@@ -142,6 +142,11 @@ const applyBatchName = (media, batch) => media.map(item => {
 	return { ...item, filename }
 })
 
+const cleanFileNames = (media, asperaSafe) => media.map(item => ({
+	...item,
+	filename: cleanFileName(item.filename, asperaSafe)
+}))
+
 const preventDuplicateFilenames = media => {
 	const duplicates = {}
 	const mediaCopy = [...media]
@@ -175,9 +180,9 @@ const preventDuplicateFilenames = media => {
 	return mediaCopy
 }
 
-const sanitizeFileNames = (media, asperaSafe) => media.map((item, i) => ({
+const replaceFileNameTokens = media => media.map((item, i) => ({
 	...item,
-	filename: cleanFileName(replaceTokens(item.filename, i, media.length), asperaSafe)
+	filename: replaceTokens(item.filename, i, media.length)
 }))
 
 export const render = params => async dispatch => {
@@ -221,8 +226,9 @@ export const render = params => async dispatch => {
 
 	media = fillMissingFilenames(media)
 	media = applyBatchName(media, batch)
+	media = cleanFileNames(media, params.asperaSafe)
 	media = preventDuplicateFilenames(media)
-	media = sanitizeFileNames(media, params.asperaSafe)
+	media = replaceFileNameTokens(media)
 
 	media.forEach(async item => {
 		dispatch(updateMediaState(item.id, {
