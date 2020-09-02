@@ -13,16 +13,11 @@ const countDigits = n => {
 }
 
 const getRegex = asperaSafe => (
-	new RegExp(`(&)|([%"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
+	new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
 )
 
-const filterBadChars = (str, p1, p2) => {
-	if (p1) return 'and'
-	if (p2) return '_'
-}
-
 export const cleanFileName = (fileName, asperaSafe) => fileName
-	.replace(getRegex(asperaSafe), filterBadChars)
+	.replace(getRegex(asperaSafe), '_')
 	.slice(0, 250)
 	.trim()
 
