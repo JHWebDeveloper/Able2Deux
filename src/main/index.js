@@ -419,7 +419,10 @@ ipcMain.on('requestRender', async (evt, data) => {
 
 		evt.reply(`renderComplete_${data.id}`)
 	} catch (err) {
-		console.error(err)
+		if (err.toString() !== 'Error: ffmpeg was killed with signal SIGKILL') {
+			console.error(err)
+		}
+
 		evt.reply(`renderFailed_${data.id}`, err)
 	}
 })
