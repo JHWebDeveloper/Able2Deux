@@ -22,6 +22,8 @@ let updateWin = false
 let mainWin = false
 let preferences = false
 
+process.noDeprecation = !dev
+
 autoUpdater.autoDownload = false
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
