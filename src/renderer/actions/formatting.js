@@ -170,7 +170,9 @@ const preventDuplicateFilenames = media => {
 
 		if (tally[key].total === 1) continue
 
-		mediaCopy[i].filename += ` ${zeroize(tally[key].count, tally[key].total)}`
+		const { count, total } = tally[key]
+
+		mediaCopy[i].filename += ` ${zeroize(count, total)} of ${total}`
 
 		tally[key].count -= 1
 	}
