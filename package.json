@@ -70,5 +70,5 @@
 		"webpack-dev-server": "^3.11.0",
 		"webpack-node-externals": "^2.5.2"
 	},
-	"browserslist": "electron 6.0.1"
+	"browserslist": "chrome 85"
 }
