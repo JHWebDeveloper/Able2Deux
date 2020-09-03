@@ -130,7 +130,7 @@ const applyBatchName = (media, batch) => media.map(item => {
 	let filename = ''
 
 	if (batch.position === 'replace') {
-		filename = batch.name.includes('$n') ? batch.name : `${batch.name}.$n`
+		filename = batch.name
 	} else {
 		const newName = [batch.name.trim(), item.filename]
 
