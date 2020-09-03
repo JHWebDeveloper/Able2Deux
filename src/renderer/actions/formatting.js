@@ -121,7 +121,7 @@ let renderQueue = false
 
 const fillMissingFilenames = media => media.map(item => ({
 	...item,
-	filename: item.filename || 'Able2 Export $t $d $n'
+	filename: item.filename || 'Able2 Export $t $d'
 }))
 
 const applyBatchName = (media, batch) => media.map(item => {
