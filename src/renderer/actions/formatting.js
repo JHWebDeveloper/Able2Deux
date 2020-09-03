@@ -153,28 +153,26 @@ const preventDuplicateFilenames = media => {
 	const { length } = mediaCopy
 	let i = 0
 
-	// count duplicate filenames
 	while (i < length) {
 		const key = mediaCopy[i].filename
 		i++
 
-		if (key.includes('$n')) continue
-
-		const count = mediaCopy.filter(item => item.filename === key).length
-
-		// store tally and length
-		if (count > 1) duplicates[key] = [count, count]
+		if (duplicates[key]) {
+			duplicates[key].count += 1
+			duplicates[key].total += 1
+		} else {
+			duplicates[key] = { count: 1, total: 1 }
+		}
 	}
 
-	// match duplicates to tally list and add instance number to filename
 	while (i--) {
 		const key = mediaCopy[i].filename
 
-		if (!duplicates[key]) continue
+		if (duplicates[key].total === 1) continue
 
-		mediaCopy[i].filename += ` ${zeroize(duplicates[key][0], duplicates[key][1])}`
+		mediaCopy[i].filename += ` ${zeroize(duplicates[key].count, duplicates[key].total)}`
 
-		duplicates[key][0] -= 1
+		duplicates[key].count -= 1
 	}
 
 	return mediaCopy
@@ -240,7 +238,7 @@ export const render = params => async dispatch => {
 
 	renderQueue = new PromiseQueue(params.concurrent)
 
-	media.forEach(item => {
+	for (const item of media) {
 		renderQueue.add(item.id, async () => {
 			if (item.source.sourceName && !(item.arc === 'none' && item.aspectRatio !== '16:9')) {
 				item.sourceData = buildSource(item.source, params.renderOutput)
@@ -281,7 +279,7 @@ export const render = params => async dispatch => {
 				}
 			}
 		})
-	})
+	}
 
 	renderQueue.start()
 }
