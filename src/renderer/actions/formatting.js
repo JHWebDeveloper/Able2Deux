@@ -144,7 +144,7 @@ const applyBatchName = (media, batch) => media.map(item => {
 
 const sanitizeFilenames = (media, asperaSafe) => media.map((item, i) => ({
 	...item,
-	filename: replaceTokens(cleanFilename(item.filename, asperaSafe), i, media.length)
+	filename: cleanFilename(replaceTokens(item.filename, i, media.length), asperaSafe)
 }))
 
 const preventDuplicateFilenames = media => {
