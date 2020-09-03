@@ -16,7 +16,7 @@ const getRegex = asperaSafe => (
 	new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
 )
 
-export const cleanFileName = (fileName, asperaSafe) => fileName
+export const cleanFilename = (fileName, asperaSafe) => fileName
 	.replace(getRegex(asperaSafe), '_')
 	.slice(0, 250)
 	.trim()

@@ -5,7 +5,7 @@ import * as ACTION from './types'
 import * as STATUS from '../status/types'
 import { PromiseQueue } from '../constructors'
 import { updateMediaNestedState, updateMediaState } from '.'
-import { buildSource, zeroize, cleanFileName, replaceTokens, toastrOpts } from '../utilities'
+import { buildSource, zeroize, cleanFilename, replaceTokens, toastrOpts } from '../utilities'
 
 const { interop } = window.ABLE2
 
@@ -142,9 +142,9 @@ const applyBatchName = (media, batch) => media.map(item => {
 	return { ...item, filename }
 })
 
-const sanitizeFileNames = (media, asperaSafe) => media.map((item, i) => ({
+const sanitizeFilenames = (media, asperaSafe) => media.map((item, i) => ({
 	...item,
-	filename: replaceTokens(cleanFileName(item.filename, asperaSafe), i, media.length)
+	filename: replaceTokens(cleanFilename(item.filename, asperaSafe), i, media.length)
 }))
 
 const preventDuplicateFilenames = media => {
@@ -219,7 +219,7 @@ export const render = params => async dispatch => {
 
 	media = fillMissingFilenames(media)
 	media = applyBatchName(media, batch)
-	media = sanitizeFileNames(media, params.asperaSafe)
+	media = sanitizeFilenames(media, params.asperaSafe)
 	media = preventDuplicateFilenames(media)
 
 	media.forEach(async item => {
