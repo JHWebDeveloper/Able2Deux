@@ -148,7 +148,7 @@ const sanitizeFileNames = (media, asperaSafe) => media.map((item, i) => ({
 }))
 
 const preventDuplicateFilenames = media => {
-	const duplicates = {}
+	const tally = {}
 	const mediaCopy = [...media]
 	const { length } = mediaCopy
 	let i = 0
@@ -157,22 +157,22 @@ const preventDuplicateFilenames = media => {
 		const key = mediaCopy[i].filename
 		i++
 
-		if (duplicates[key]) {
-			duplicates[key].count += 1
-			duplicates[key].total += 1
+		if (tally[key]) {
+			tally[key].count += 1
+			tally[key].total += 1
 		} else {
-			duplicates[key] = { count: 1, total: 1 }
+			tally[key] = { count: 1, total: 1 }
 		}
 	}
 
 	while (i--) {
 		const key = mediaCopy[i].filename
 
-		if (duplicates[key].total === 1) continue
+		if (tally[key].total === 1) continue
 
-		mediaCopy[i].filename += ` ${zeroize(duplicates[key].count, duplicates[key].total)}`
+		mediaCopy[i].filename += ` ${zeroize(tally[key].count, tally[key].total)}`
 
-		duplicates[key].count -= 1
+		tally[key].count -= 1
 	}
 
 	return mediaCopy
