@@ -16,5 +16,8 @@
 				"builtIns": false
 			}
 		]
+	],
+	"plugins": [
+		"@babel/plugin-proposal-optional-chaining"
 	]
 }
