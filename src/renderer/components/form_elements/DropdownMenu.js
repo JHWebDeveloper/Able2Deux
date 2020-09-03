@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { v1 as uuid } from 'uuid'
 import { arrayOf, bool, func, shape, string } from 'prop-types'
 
 const DropdownMenu = ({ buttons }) => {
 	const [ revealMenu, toggleRevealMenu ] = useState(false)
 	const [ position, setPosition ] = useState({ top: 0, left: 0 })
-	let timer = false
 
 	const getPositionRelativeToWindow = useCallback(e => {
 		const { bottom, left } = e.target.getBoundingClientRect()
@@ -15,8 +14,6 @@ const DropdownMenu = ({ buttons }) => {
 			left: `${left}px`
 		})
 	}, [])
-
-	useEffect(() => () => clearTimeout(timer))
 
 	return (
 		<span className="dropdown">
@@ -28,8 +25,8 @@ const DropdownMenu = ({ buttons }) => {
 					getPositionRelativeToWindow(e)
 					toggleRevealMenu(!revealMenu)
 				}}
-				onBlur={() => {
-					timer = setTimeout(() => toggleRevealMenu(false), 250)
+				onBlur={e => {
+					if (!e.target.nextElementSibling.contains(e.relatedTarget)) toggleRevealMenu(false)
 				}}
 				aria-haspopup="true"
 				aria-expanded={revealMenu}>more_vert</button>
