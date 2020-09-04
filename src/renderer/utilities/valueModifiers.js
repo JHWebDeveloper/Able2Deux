@@ -1,16 +1,6 @@
+import { coutDigits } from '.'
+
 export const capitalize = str => `${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase()}`
-
-const countDigits = n => {
-	let count = 0
-	if (n >= 0) count++
-
-	while (n / 10 >= 1) {
-		n /= 10
-		count++
-	}
-
-	return count
-}
 
 const getRegex = asperaSafe => (
 	new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
@@ -18,7 +8,7 @@ const getRegex = asperaSafe => (
 
 export const cleanFilename = (fileName, asperaSafe) => fileName
 	.replace(getRegex(asperaSafe), '_')
-	.slice(0, 252)
+	.slice(0, 251)
 	.trim()
 
 export const keepInRange = e => {

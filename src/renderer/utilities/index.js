@@ -14,6 +14,18 @@ export const arrayCount = (arr, exp) => {
 	return count
 }
 
+export const countDigits = n => {
+	let count = 0
+	if (n >= 0) count++
+
+	while (n / 10 >= 1) {
+		n /= 10
+		count++
+	}
+
+	return count
+}
+
 export const initTabbedBrowsing = () => {
 	document.body.onkeydown = function (e) {
 		if (e.keyCode !== 9) return
