@@ -196,6 +196,50 @@ const preventDuplicateFilenames = media => {
 	return mediaCopy
 }
 
+const renderItem = async (item, params, dispatch) => {
+	const { id, arc, aspectRatio, source, filename } = item
+	const { renderOutput, renderFrameRate, autoPNG } = params
+
+	if (item.source.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
+		item.sourceData = buildSource(source, renderOutput)
+	}
+
+	try {
+		await interop.requestRenderChannel({
+			data: {
+				...item,
+				renderOutput,
+				renderFrameRate,
+				autoPNG,
+				saveLocations: params.saveLocations.filter(({ checked }) => checked)
+			},
+			startCallback() {
+				dispatch(updateRenderStatus(id, STATUS.RENDERING))
+			},
+			progressCallback(data) {
+				dispatch(updateRenderProgress(data))
+			}
+		})
+
+		dispatch(updateRenderStatus(id, STATUS.COMPLETE))
+	} catch (err) {
+		const errStr = err.toString()
+
+		if (errStr === 'Error: ffmpeg was killed with signal SIGKILL') {
+			dispatch(updateRenderStatus(id, STATUS.CANCELLED))
+		} else {
+			dispatch(updateRenderStatus(id, STATUS.FAILED))
+
+			let errMsg = `Failed to render ${filename}`
+
+			if (/^Error: Start timecode/.test(err)) errMsg += '. Start timecode exceeds duration.'
+			if (/^Error: End timecode/.test(err)) errMsg += '. End timecode preceeds start timecode.'
+
+			toastr.error(errMsg, false, toastrOpts)
+		}
+	}
+}
+
 export const render = params => async dispatch => {
 	let { media, saveLocations, batch, goBack } = params
 
@@ -230,7 +274,10 @@ export const render = params => async dispatch => {
 			directory: filePaths[0]
 		}
 
-		saveLocations = [	...saveLocations, tempDir ]
+		params = {
+			...params,
+			saveLocations: [	...saveLocations, tempDir ]
+		}
 	}
 
 	// prepare filenames
@@ -251,46 +298,7 @@ export const render = params => async dispatch => {
 	renderQueue = new PromiseQueue(params.concurrent)
 
 	for (const item of media) {
-		renderQueue.add(item.id, async () => {
-			if (item.source.sourceName && !(item.arc === 'none' && item.aspectRatio !== '16:9')) {
-				item.sourceData = buildSource(item.source, params.renderOutput)
-			}
-
-			try {
-				await interop.requestRenderChannel({
-					data: {
-						...item,
-						renderOutput: params.renderOutput,
-						renderFrameRate: params.renderFrameRate,
-						autoPNG: params.autoPNG,
-						saveLocations: saveLocations.filter(({ checked }) => checked)
-					},
-					startCallback() {
-						dispatch(updateRenderStatus(item.id, STATUS.RENDERING))
-					},
-					progressCallback(data) {
-						dispatch(updateRenderProgress(data))
-					}
-				})
-		
-				dispatch(updateRenderStatus(item.id, STATUS.COMPLETE))
-			} catch (err) {
-				const errStr = err.toString()
-
-				if (errStr === 'Error: ffmpeg was killed with signal SIGKILL') {
-					dispatch(updateRenderStatus(item.id, STATUS.CANCELLED))
-				} else {
-					dispatch(updateRenderStatus(item.id, STATUS.FAILED))
-
-					let errMsg = `Failed to render ${item.filename}`
-
-					if (/^Error: Start timecode/.test(err)) errMsg += '. Start timecode exceeds duration.'
-					if (/^Error: End timecode/.test(err)) errMsg += '. End timecode preceeds start timecode.'
-
-					toastr.error(errMsg, false, toastrOpts)
-				}
-			}
-		})
+		renderQueue.add(item.id, () => renderItem(item, params, dispatch))
 	}
 
 	renderQueue.start()
