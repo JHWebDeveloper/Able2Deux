@@ -124,7 +124,7 @@ const fillMissingFilenames = media => media.map(item => ({
 	filename: item.filename || 'Able2 Export $t $d'
 }))
 
-const getRenamer = batch => {
+const getBatchNamer = batch => {
 	switch (batch.position) {
 		case 'replace':
 			return () => batch.name
@@ -140,11 +140,11 @@ const getRenamer = batch => {
 const applyBatchName = (media, batch) => {
 	if (!batch.name || media.length < 2) return media
 
-	const renamer = getRenamer(batch)
+	const batchNamer = getBatchNamer(batch)
 
 	return media.map(item => ({
 		...item,
-		filename: renamer(item.filename)
+		filename: batchNamer(item.filename)
 	}))
 }
 
