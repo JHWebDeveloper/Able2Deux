@@ -191,52 +191,6 @@ const preventDuplicateFilenames = media => {
 	return mediaCopy
 }
 
-// const preventDuplicateFilenames = media => {
-// 	if (media.length < 2) return media
-
-// 	const tally = {}
-// 	const mediaCopy = [...media]
-// 	const { length } = mediaCopy
-// 	let noDuplicates = true
-// 	let i = 0
-
-// 	while (i < length) {
-// 		const key = mediaCopy[i].filename
-// 		i++
-
-// 		if (tally[key]) {
-// 			tally[key].count += 1
-// 			tally[key].total += 1
-// 			noDuplicates = false
-// 		} else {
-// 			tally[key] = { count: 1, total: 1 }
-// 		}
-// 	}
-
-// 	if (noDuplicates) return mediaCopy
-
-// 	const maxFilenameLength = 251 - (countDigits(mediaCopy.length) * 2 + 5)
-
-// 	while (i--) {
-// 		const key = mediaCopy[i].filename
-
-// 		if (tally[key].total === 1) continue
-
-// 		// make sure there are enough available characters to concatenate number count
-// 		if (key.length > maxFilenameLength) {
-// 			mediaCopy[i].filename = key.slice(0, maxFilenameLength)
-// 		}
-
-// 		const { count, total } = tally[key]
-
-// 		mediaCopy[i].filename += ` ${zeroize(count, total)} of ${total}`
-
-// 		tally[key].count -= 1
-// 	}
-
-// 	return mediaCopy
-// }
-
 export const render = params => async dispatch => {
 	let { media, saveLocations, batch, goBack } = params
 
