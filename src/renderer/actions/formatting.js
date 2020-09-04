@@ -124,23 +124,29 @@ const fillMissingFilenames = media => media.map(item => ({
 	filename: item.filename || 'Able2 Export $t $d'
 }))
 
-const applyBatchName = (media, batch) => media.map(item => {
-	if (!batch.name || media.length < 2) return item
-
-	let filename = ''
-
-	if (batch.position === 'replace') {
-		filename = batch.name
-	} else {
-		const newName = [batch.name.trim(), item.filename]
-
-		if (batch.position === 'append') newName.reverse()
-
-		filename = newName.join(' ')
+const getRenamer = (batch) => {
+	switch (batch.position) {
+		case 'replace':
+			return () => batch.name
+		case 'prepend':
+			return filename => `${batch.name.trim()} ${filename}`
+		case 'append':
+			return filename => `${filename} ${batch.name.trim()}`
+		default:
+			return filename => filename
 	}
+}
 
-	return { ...item, filename }
-})
+const applyBatchName = (media, batch) => {
+	if (!batch.name || media.length < 2) return media
+
+	const renamer = getRenamer(batch)
+
+	return media.map(item => ({
+		...item,
+		filename: renamer(item.filename)
+	}))
+}
 
 const sanitizeFilenames = (media, asperaSafe) => media.map((item, i) => ({
 	...item,
