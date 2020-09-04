@@ -167,9 +167,9 @@ const preventDuplicateFilenames = media => {
 		}
 	}
 
-	if (tally.size === mediaCopy.length) return mediaCopy
+	if (tally.size === length) return mediaCopy
 
-	const maxFilenameLength = 251 - (countDigits(mediaCopy.length) * 2 + 5)
+	const maxFilenameLength = 251 - (countDigits(length) * 2 + 5)
 
 	while (i--) {
 		const key = mediaCopy[i].filename
