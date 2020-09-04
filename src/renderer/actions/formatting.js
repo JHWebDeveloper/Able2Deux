@@ -165,10 +165,18 @@ const preventDuplicateFilenames = media => {
 		}
 	}
 
+	const numberingLength = mediaCopy.length * 2 + 4
+	const maxFilenameLength = 252 - numberingLength
+
 	while (i--) {
 		const key = mediaCopy[i].filename
 
 		if (tally[key].total === 1) continue
+
+		// make sure there are enough available characters to concatenate numbers
+		if (key.length > maxFilenameLength) {
+			mediaCopy[i].filename = key.slice(0, key.length - numberingLength)
+		}
 
 		const { count, total } = tally[key]
 
