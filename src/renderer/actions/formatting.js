@@ -171,8 +171,7 @@ const preventDuplicateFilenames = media => {
 
 	if (noDuplicates) return mediaCopy
 
-	const numberingLength = mediaCopy.length * 2 + 4
-	const maxFilenameLength = 252 - numberingLength
+	const maxFilenameLength = 252 - mediaCopy.length * 2 + 4
 
 	while (i--) {
 		const key = mediaCopy[i].filename
@@ -181,7 +180,7 @@ const preventDuplicateFilenames = media => {
 
 		// make sure there are enough available characters to concatenate number count
 		if (key.length > maxFilenameLength) {
-			mediaCopy[i].filename = key.slice(0, key.length - numberingLength)
+			mediaCopy[i].filename = key.slice(0, maxFilenameLength)
 		}
 
 		const { count, total } = tally[key]
