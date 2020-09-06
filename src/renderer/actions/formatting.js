@@ -157,12 +157,11 @@ const preventDuplicateFilenames = media => {
 	if (media.length < 2) return media
 
 	const tally = new Map()
-	const mediaCopy = [...media]
-	const { length } = mediaCopy
+	const { length } = media
 	let i = 0
 
 	while (i < length) {
-		const key = mediaCopy[i].filename
+		const key = media[i].filename
 		i++
 
 		if (tally.has(key)) {
@@ -173,8 +172,9 @@ const preventDuplicateFilenames = media => {
 		}
 	}
 
-	if (tally.size === length) return mediaCopy
+	if (tally.size === length) return media
 
+	const mediaCopy = [...media]
 	const maxFilenameLength = 251 - (countDigits(length) * 2 + 5)
 
 	while (i--) {
