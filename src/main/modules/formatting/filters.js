@@ -13,7 +13,7 @@ const addLayers = (filter, sourceData, overlayDim, isPreview) => {
 export const none = (filterData, isPreview) => {
 	const { angle, sourceData, reflect, renderWidth, renderHeight } = filterData
 
-	let filter = angle + reflect
+	let filter = `${angle}${reflect}`
 
 	if (sourceData || isPreview) filter = `[0:v]${filter}`
 	if (sourceData) filter += `scale=w=${renderWidth}:h=${renderHeight}[vid];[vid][1:v]overlay`
