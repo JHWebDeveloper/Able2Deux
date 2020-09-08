@@ -6,20 +6,18 @@ const previewCmd = '[final];[final]scale=w=384:h=216:force_original_aspect_ratio
 export const none = (filterData, isPreview) => {
 	const { angle, sourceData, reflect, renderWidth, renderHeight } = filterData
 
-	let filter = [angle, reflect]
+	let filter = angle + reflect
 
-	if (sourceData || isPreview) filter.unshift('[0:v]')
-	if (sourceData) filter.push(`scale=w=${renderWidth}:h=${renderHeight}[vid];[vid][1:v]overlay`)
+	if (sourceData || isPreview) filter = '[0:v]' + filter
+	if (sourceData) filter += `scale=w=${renderWidth}:h=${renderHeight}[vid];[vid][1:v]overlay`
 
 	if (sourceData && isPreview) {
-		filter.push(previewCmd)
+		filter += previewCmd
 	} else if (isPreview) {
-		filter.push('scale=w=384:h=216:force_original_aspect_ratio=decrease')
+		filter += 'scale=w=384:h=216:force_original_aspect_ratio=decrease'
 	}
 
-	filter = filter.join('').replace(/,$/, '')
-
-	return filter || 'nullsink'
+	return filter ? filter.replace(/,$/, '') : 'nullsink'
 }
 
 export const fill = (filterData, isPreview) => {
@@ -27,34 +25,32 @@ export const fill = (filterData, isPreview) => {
 
 	centering /= -100
 
-	const filter = [
-		`[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}:force_original_aspect_ratio=increase,crop=${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}*(iw-ow)/2:(ih-oh)/2+${centering}*(ih-oh)/2`
-	]
+	const filter = `[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}:force_original_aspect_ratio=increase,crop=${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}*(iw-ow)/2:(ih-oh)/2+${centering}*(ih-oh)/2`
 
 	if (hasAlpha) {
-		filter.push(`[fg];[${getBGLayerNumber(sourceData, overlayDim)}:v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:shortest=1`)
+		filter += `[fg];[${getBGLayerNumber(sourceData, overlayDim)}:v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:shortest=1`
 	}
 
-	if (sourceData) filter.push(sourceCmd)
-	if (overlayDim) filter.push(overlayCmd(overlayDim, sourceData))
-	if (isPreview) filter.push(previewCmd)
+	if (sourceData) filter += sourceCmd
+	if (overlayDim) filter += overlayCmd(overlayDim, sourceData)
+	if (isPreview) filter += previewCmd
 
-	return filter.join('')
+	return filter
 }
 
 export const fit = (filterData, isPreview) => {
 	const { sourceData, overlayDim, angle, reflect, renderWidth, renderHeight } = filterData
 
 	const filter = [
-		`[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}:force_original_aspect_ratio=decrease[fg];`,
+		`[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}:force_original_aspect_ratio=decrease[fg];`
 		`[${getBGLayerNumber(sourceData, overlayDim)}:v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:shortest=1`
 	]
 
-	if (sourceData) filter.push(sourceCmd)
-	if (overlayDim) filter.push(overlayCmd(overlayDim, sourceData))
-	if (isPreview) filter.push(previewCmd)
+	if (sourceData) filter += sourceCmd
+	if (overlayDim) filter += overlayCmd(overlayDim, sourceData)
+	if (isPreview) filter += previewCmd
 
-	return filter.join('')
+	return filter
 }
 
 export const transform = (filterData, isPreview) => {
@@ -75,13 +71,13 @@ export const transform = (filterData, isPreview) => {
 	const filter = [
 		`[0:v]${angle}${reflect}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih[fg];`,
 		`[${getBGLayerNumber(sourceData, overlayDim)}:v][fg]overlay=(main_w-overlay_w)/2+${position.x}*(main_w/2+overlay_w/2):(main_h-overlay_h)/2+${position.y}*(main_h/2+overlay_h/2):shortest=1`
-	]
+	].join('')
 
-	if (sourceData) filter.push(sourceCmd)
-	if (overlayDim) filter.push(overlayCmd(overlayDim, sourceData))
-	if (isPreview) filter.push(previewCmd)
+	if (sourceData) filter += sourceCmd
+	if (overlayDim) filter += overlayCmd(overlayDim, sourceData)
+	if (isPreview) filter += previewCmd
 
-	return filter.join('')
+	return filter
 }
 
 export const videoToBars = filterData => {
