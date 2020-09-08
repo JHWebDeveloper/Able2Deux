@@ -20,6 +20,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Fixed
 - Duplicates filename numbering no longer adds characters to filename beyond max character length. If filename is nearing 255 characters, enough characters will be deleted to make room for numbering concatenation.
+- Bug causing filename in a single item batch to remain disabled if a left over batch name is present with "replace" selected.
 
 ## [2.1.1] - 9.3.2020
 
