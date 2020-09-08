@@ -147,7 +147,9 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 	if (mediaType === 'video' || mediaType === 'audio') {
 		const { duration } = metadata.format
 
-		if (!checkMetadata(duration)) throw new Error('cannot detect video duration')
+		if (!checkMetadata(duration)) {
+			throw new Error('Cannot detect media duration')
+		}
 
 		mediaData.duration = duration
 	}
