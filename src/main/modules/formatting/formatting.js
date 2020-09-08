@@ -209,39 +209,27 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 
 			overlayDim = getOverlayInnerDimensions(renderHeight, overlay)
 		}
-	
-		const filterData = {
+
+		command.complexFilter(filter[arc]({
 			...rotation,
 			renderHeight,
 			renderWidth,
 			overlayDim,
 			hasAlpha,
-			sourceData: !!sourceData
-		}
-	
-		if (arc === 'none') {
-			filter.none(command, filterData)
-		} else if (arc === 'fill') {
-			filter.fill(command, {
-				...filterData,
-				centering: exportData.centering
-			})
-		} else if (arc === 'fit') {
-			filter.fit(command, filterData)
-		} else if (arc === 'transform') {
-			filter.transform(command, {
-				...filterData,
-				position: exportData.position,
-				scale: exportData.scale,
-				crop: exportData.crop
-			})
-		}
+			sourceData: !!sourceData,
+			centering: exportData.centering,
+			position: exportData.position,
+			scale: exportData.scale,
+			crop: exportData.crop
+		}))
 	} else if (audio.format === 'bars') {
 		command
 			.input(`smptebars=size=${renderWidth}x${renderHeight}:rate=59.94`)
 			.inputOption('-f lavfi')
 
-		if (mediaType === 'video') filter.videoToBars(command, { renderWidth, renderHeight })
+		if (mediaType === 'video') {
+			command.complexFilter(filter.videoToBars({ renderWidth, renderHeight }))
+		}
 	}
 	
 	command.run()

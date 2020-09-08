@@ -52,34 +52,20 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 		overlayDim = getOverlayInnerDimensions(renderHeight, overlay)
 	}
 
-	const filterData = {
-		...rotation,
-		renderHeight,
-		renderWidth,
-		overlayDim,
-		hasAlpha,
-		sourceData: !!sourceData
-	}
-
-	if (arc === 'none') {
-		filter.none(command, filterData, true)
-	} else if (arc === 'fill') {
-		filter.fill(command, {
-			...filterData,
-			centering: exportData.centering
-		}, true)
-	} else if (arc === 'fit') {
-		filter.fit(command, filterData, true)
-	} else if (arc === 'transform') {
-		filter.transform(command, {
-			...filterData,
+	command
+		.complexFilter(filter[arc]({
+			...rotation,
+			renderHeight,
+			renderWidth,
+			overlayDim,
+			hasAlpha,
+			sourceData: !!sourceData,
+			centering: exportData.centering,
 			position: exportData.position,
 			scale: exportData.scale,
 			crop: exportData.crop
-		}, true)
-	}
-
-	command.run()
+		}, true))
+		.run()
 })
 
 export default previewStill
