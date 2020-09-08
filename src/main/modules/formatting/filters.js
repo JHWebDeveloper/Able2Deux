@@ -12,7 +12,7 @@ export const none = (filterData, isPreview) => {
 		reflect,
 		!sourceData ? '' : `scale=w=${renderWidth}:h=${renderHeight}[vid];[vid][1:v]overlay`,
 		!isPreview ? '' : `${sourceData ? '[final];[final]' : ''}scale=w=384:h=216:force_original_aspect_ratio=decrease`
-	].join('')
+	].join('').replace(/,$/, '')
 
 	return filter || 'nullsink'
 }
