@@ -27,7 +27,7 @@ export const fill = (filterData, isPreview) => {
 
 	centering /= -100
 
-	let filter = [
+	const filter = [
 		`[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}:force_original_aspect_ratio=increase,crop=${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}*(iw-ow)/2:(ih-oh)/2+${centering}*(ih-oh)/2`
 	]
 
