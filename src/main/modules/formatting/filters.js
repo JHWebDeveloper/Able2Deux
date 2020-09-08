@@ -1,7 +1,13 @@
 const getBGLayerNumber = (sourceData, overlayDim) => sourceData ? (overlayDim ? 4 : 2) : (overlayDim ? 3 : 1)
-const overlayCmd = (overlayDim, sourceData) => `[tooverlay];[tooverlay]scale=w=${overlayDim.width}:h=${overlayDim.height}:force_original_aspect_ratio=increase[scaled];[${sourceData ? 2 : 1}:v][scaled]overlay=(main_w-overlay_w)/2:${overlayDim.y}:shortest=1[positioned];[positioned][${sourceData ? 3 : 2}:v]overlay`
-const sourceCmd = '[tosrc];[tosrc][1:v]overlay'
 const previewCmd = '[final];[final]scale=w=384:h=216:force_original_aspect_ratio=decrease'
+
+const addLayers = (filter, sourceData, overlayDim, isPreview) => {
+	if (sourceData) filter += '[tosrc];[tosrc][1:v]overlay'
+	if (overlayDim) filter += `[tooverlay];[tooverlay]scale=w=${overlayDim.width}:h=${overlayDim.height}:force_original_aspect_ratio=increase[scaled];[${sourceData ? 2 : 1}:v][scaled]overlay=(main_w-overlay_w)/2:${overlayDim.y}:shortest=1[positioned];[positioned][${sourceData ? 3 : 2}:v]overlay`
+	if (isPreview) filter += previewCmd
+
+	return filter
+}
 
 export const none = (filterData, isPreview) => {
 	const { angle, sourceData, reflect, renderWidth, renderHeight } = filterData
@@ -31,26 +37,18 @@ export const fill = (filterData, isPreview) => {
 		filter += `[fg];[${getBGLayerNumber(sourceData, overlayDim)}:v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:shortest=1`
 	}
 
-	if (sourceData) filter += sourceCmd
-	if (overlayDim) filter += overlayCmd(overlayDim, sourceData)
-	if (isPreview) filter += previewCmd
-
-	return filter
+	return addLayers(filter, sourceData, overlayDim, isPreview)
 }
 
 export const fit = (filterData, isPreview) => {
 	const { sourceData, overlayDim, angle, reflect, renderWidth, renderHeight } = filterData
 
 	const filter = [
-		`[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}:force_original_aspect_ratio=decrease[fg];`
+		`[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}:force_original_aspect_ratio=decrease[fg];`,
 		`[${getBGLayerNumber(sourceData, overlayDim)}:v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:shortest=1`
-	]
+	].join('')
 
-	if (sourceData) filter += sourceCmd
-	if (overlayDim) filter += overlayCmd(overlayDim, sourceData)
-	if (isPreview) filter += previewCmd
-
-	return filter
+	return addLayers(filter, sourceData, overlayDim, isPreview)
 }
 
 export const transform = (filterData, isPreview) => {
@@ -73,11 +71,7 @@ export const transform = (filterData, isPreview) => {
 		`[${getBGLayerNumber(sourceData, overlayDim)}:v][fg]overlay=(main_w-overlay_w)/2+${position.x}*(main_w/2+overlay_w/2):(main_h-overlay_h)/2+${position.y}*(main_h/2+overlay_h/2):shortest=1`
 	].join('')
 
-	if (sourceData) filter += sourceCmd
-	if (overlayDim) filter += overlayCmd(overlayDim, sourceData)
-	if (isPreview) filter += previewCmd
-
-	return filter
+	return addLayers(filter, sourceData, overlayDim, isPreview)
 }
 
 export const videoToBars = filterData => {
