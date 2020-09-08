@@ -1,10 +1,11 @@
 const getBGLayerNumber = (sourceData, overlayDim) => sourceData ? (overlayDim ? 4 : 2) : (overlayDim ? 3 : 1)
-const previewCmd = '[final];[final]scale=w=384:h=216:force_original_aspect_ratio=decrease'
+const previewResize = 'scale=w=384:h=216:force_original_aspect_ratio=decrease'
+const previewMixdown = `[final];[final]${previewResize}`
 
 const addLayers = (filter, sourceData, overlayDim, isPreview) => {
 	if (sourceData) filter += '[tosrc];[tosrc][1:v]overlay'
 	if (overlayDim) filter += `[tooverlay];[tooverlay]scale=w=${overlayDim.width}:h=${overlayDim.height}:force_original_aspect_ratio=increase[scaled];[${sourceData ? 2 : 1}:v][scaled]overlay=(main_w-overlay_w)/2:${overlayDim.y}:shortest=1[positioned];[positioned][${sourceData ? 3 : 2}:v]overlay`
-	if (isPreview) filter += previewCmd
+	if (isPreview) filter += previewMixdown
 
 	return filter
 }
@@ -18,9 +19,9 @@ export const none = (filterData, isPreview) => {
 	if (sourceData) filter += `scale=w=${renderWidth}:h=${renderHeight}[vid];[vid][1:v]overlay`
 
 	if (sourceData && isPreview) {
-		filter += previewCmd
+		filter += previewMixdown
 	} else if (isPreview) {
-		filter += 'scale=w=384:h=216:force_original_aspect_ratio=decrease'
+		filter += previewResize
 	}
 
 	return filter ? filter.replace(/,$/, '') : 'nullsink'
