@@ -10,7 +10,12 @@ export const none = (filterData, isPreview) => {
 
 	if (sourceData || isPreview) filter.unshift('[0:v]')
 	if (sourceData) filter.push(`scale=w=${renderWidth}:h=${renderHeight}[vid];[vid][1:v]overlay`)
-	if (isPreview) filter.push(`${sourceData ? '[final];[final]' : ''}scale=w=384:h=216:force_original_aspect_ratio=decrease`)
+
+	if (sourceData && isPreview) {
+		filter.push(previewCmd)
+	} else if (isPreview) {
+		filter.push('scale=w=384:h=216:force_original_aspect_ratio=decrease')
+	}
 
 	filter = filter.join('').replace(/,$/, '')
 
