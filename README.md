@@ -15,6 +15,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ### Changed
 - Duplicate filenames now follow the "1 of 1" pattern instead of just a single digit.
 
+### Updated
+- Video service compatibility
+
 ### Fixed
 - Duplicates filename numbering no longer adds characters to filename beyond max character length. If filename is nearing 255 characters, enough characters will be deleted to make room for numbering concatenation.
 
