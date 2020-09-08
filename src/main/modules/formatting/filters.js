@@ -87,8 +87,5 @@ export const transform = (filterData, isPreview) => {
 export const videoToBars = filterData => {
 	const { renderWidth, renderHeight } = filterData
 
-	return [
-		`[0:v]scale=${renderWidth}:${renderHeight}:force_original_aspect_ratio=decrease,pad=${renderWidth}:${renderHeight}[vid];`,
-		'[vid][1:v]overlay'
-	].join('')
+	return `[0:v]scale=${renderWidth}:${renderHeight}:force_original_aspect_ratio=decrease,pad=${renderWidth}:${renderHeight}[vid];[vid][1:v]overlay`
 }
