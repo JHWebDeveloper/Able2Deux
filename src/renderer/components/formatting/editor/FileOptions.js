@@ -33,7 +33,7 @@ const FileOptions = memo(props => {
 
 	return (
 		<DetailsWrapper summary="File" id="file" open>
-			<fieldset disabled={!!props.batch.name && props.batch.position === 'replace'}>
+			<fieldset disabled={props.isBatch && props.batch.name && props.batch.position === 'replace'}>
 				<legend>Filename:</legend>
 				<input
 					type="text"
