@@ -28,11 +28,12 @@ export const keepInRange = e => {
 	return e
 }
 
-export const zeroize = (n, base) => {
-	const bl = countDigits(base) || 2
-	const nl = countDigits(n)
+export const zeroize = (n, total) => {
+	let zeroCount = countDigits(total) - countDigits(n)
 
-	return `${'0'.repeat(bl - nl)}${n}`
+	while (zeroCount--) n = `0${n}`
+
+	return n
 }
 
 export const zeroize10 = n => n < 10 ? `0${n}` : n
