@@ -12,9 +12,9 @@ export const cleanFilename = (fileName, asperaSafe) => fileName
 	.trim()
 
 export const keepInRange = e => {
-	const val = parseInt(e.target.value)
-	const min = parseInt(e.target.min)
-	const max = parseInt(e.target.max)
+	const val = parseFloat(e.target.value)
+	const min = parseFloat(e.target.min)
+	const max = parseFloat(e.target.max)
 	let fixed = val
 
 	if (val < min || val !== val) {
