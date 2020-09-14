@@ -1,6 +1,15 @@
 import { countDigits } from '.'
 
-export const capitalize = str => `${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase()}`
+export const capitalize = str => {
+	let newStr = str[0].toUpperCase()
+	let len = str.length
+
+	for (let i = 1; i < len; i++) {
+		newStr += str[i].toLowerCase()
+	}
+
+	return newStr
+}
 
 const getRegex = asperaSafe => (
 	new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
