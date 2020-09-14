@@ -29,6 +29,8 @@ export const keepInRange = e => {
 }
 
 export const zeroize = (n = 1, total = 1) => {
+	if (total < 9) return n
+	
 	let zeroCount = countDigits(total) - countDigits(n)
 
 	while (zeroCount--) n = `0${n}`
