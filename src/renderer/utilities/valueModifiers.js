@@ -28,7 +28,7 @@ export const keepInRange = e => {
 	return e
 }
 
-export const zeroize = (n, total) => {
+export const zeroize = (n = 1, total = 1) => {
 	let zeroCount = countDigits(total) - countDigits(n)
 
 	while (zeroCount--) n = `0${n}`
