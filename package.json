@@ -41,7 +41,7 @@
 		"youtube-dl-ffmpeg-ffprobe-static": "^1.2.1"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.11.5",
+		"@babel/core": "^7.11.6",
 		"@babel/plugin-proposal-optional-chaining": "^7.11.0",
 		"@babel/preset-env": "^7.11.5",
 		"@babel/preset-react": "^7.10.4",
@@ -52,9 +52,9 @@
 		"core-js": "^3.6.5",
 		"css-loader": "^3.6.0",
 		"cssnano": "^4.1.10",
-		"electron": "^10.1.1",
+		"electron": "^10.1.2",
 		"electron-builder": "^22.8.0",
-		"eslint": "^7.8.1",
+		"eslint": "^7.9.0",
 		"eslint-plugin-react": "^7.20.6",
 		"file-loader": "^6.1.0",
 		"html-webpack-plugin": "^4.4.1",
