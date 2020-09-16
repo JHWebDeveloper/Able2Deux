@@ -3,6 +3,40 @@ export * from './componentHelpers'
 export * from './drawAble2Logo'
 export * from './valueModifiers'
 
+export const debounce = (callback, wait) => {
+	let timeout = false
+
+	return (...args) => {
+		clearTimeout(timeout)
+
+		timeout = setTimeout(() => {
+			clearTimeout(timeout)
+			callback(...args)
+		}, wait)
+	}
+}
+
+export const throttle = (callback, wait) => {
+	let timeout = false
+	let initialCall = true
+
+	return (...args) => {
+		const caller = () => {
+			callback(...args)
+			timeout = false
+		}
+
+		if (initialCall) {
+			initialCall = false
+			caller()
+		}
+
+		if (!timeout) {
+			timeout = setTimeout(caller, wait)
+		}
+	}
+}
+
 export const arrayCount = (arr, exp) => {
 	let i = arr.length
 	let count = 0
