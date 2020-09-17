@@ -1,5 +1,4 @@
 import React from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
 
 const { interop } = window.ABLE2
 
@@ -17,11 +16,11 @@ const Preferences = () => (
 		<p>The only exception to this is when AR Correction is set to Transform. In this case, if an image completely covers a moving background, a video will still be exported. A workaround is to simply set the background to transparent or black.</p>
 		<h4 id="aspera-safe-characters">Aspera Safe Characters</h4>
 		<p>When this option is enabled, any characters inside a file or batch name that cause Aspera imports to error out will be automatically replaced with an underscore. This will include all characters foreign to the roman alphabet.</p>
-		<p>The characters % &amp; " ` / \ : ; &lt; &gt; and ? will always be replaced regardless of whether this option is enabled or disabled.</p>
+		<p>The characters % &amp; &quot; ` / \ : ; &lt; &gt; and ? will always be replaced regardless of whether this option is enabled or disabled.</p>
 		<h4 id="concurrent-renders">Concurrent Renders</h4>
 		<p>Sets how many exports Able2 will render simultaneously. Default is 2.</p>
 		<h3 id="scratch-disks">Scratch Disks</h3>
-		<p>Able2 uses three temporary folders to create media. They default to the user's temp folder, but can be changed manually. If you were using a device with multiple hard drives, you could set the folders on different drives and potentially get a slight performance boost.</p>
+		<p>Able2 uses three temporary folders to create media. They default to the user&apos;s temp folder, but can be changed manually. If you were using a device with multiple hard drives, you could set the folders on different drives and potentially get a slight performance boost.</p>
 		<table>
 			<thead>
 				<tr>

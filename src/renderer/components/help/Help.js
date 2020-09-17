@@ -1,4 +1,4 @@
-import React, { createRef } from 'react'
+import React from 'react'
 import '../../css/help.css'
 
 import TableOfContents from './TableOfContents'
@@ -17,7 +17,7 @@ const Help = () => {
 			<header>
 				<h1>Able2 Help</h1>
 				<p>Able2 Version {interop.version}</p>
-				<p>Able2 is an all-in-one News Editor's video acquisition tool developed by Jonathan Hamilton and customized for the Editors and Photographers of WFTV in Orlando, FL. Able2 is able to download media from various online services, record video and audio from a user's desktop and convert and format video, image and audio files for air.</p>
+				<p>Able2 is an all-in-one News Editor&apos;s video acquisition tool developed by Jonathan Hamilton and customized for the Editors and Photographers of WFTV in Orlando, FL. Able2 is able to download media from various online services, record video and audio from a user&apos;s desktop and convert and format video, image and audio files for air.</p>
 			</header>
 			<TableOfContents />
 			<main>

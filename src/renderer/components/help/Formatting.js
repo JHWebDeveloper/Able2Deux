@@ -25,7 +25,7 @@ const Formatting = () => (
 			<tbody>
 				<tr>
 					<td>Copy All Settings</td>
-					<td>Copies all of the media element's format settings to be pasted to another media element.</td>
+					<td>Copies all of the media element&apos;s format settings to be pasted to another media element.</td>
 				</tr>
 				<tr>
 					<td>Paste Settings</td>
@@ -103,15 +103,15 @@ const Formatting = () => (
 			<tbody>
 				<tr>
 					<td>None</td>
-					<td>Preserves the media's original aspect ratio and does not resize or distort it.</td>
+					<td>Preserves the media&apos;s original aspect ratio and does not resize or distort it.</td>
 				</tr>
 				<tr>
 					<td>Fill Frame</td>
-					<td>Resizes the media so that the entire frame is covered, cropping if necessary. The edges of the media's smallest dimension will be touching the edges of the frame. Selecting Fill Frame will enable a position slider to adjust the media's centering.</td>
+					<td>Resizes the media so that the entire frame is covered, cropping if necessary. The edges of the media&apos;s smallest dimension will be touching the edges of the frame. Selecting Fill Frame will enable a position slider to adjust the media&apos;s centering.</td>
 				</tr>
 				<tr>
 					<td>Fit Inside Frame</td>
-					<td>Resizes the media to its maximum size inside the frame without cropping. The edges of the media's largest dimension will be touching the edges of the frame.</td>
+					<td>Resizes the media to its maximum size inside the frame without cropping. The edges of the media&apos;s largest dimension will be touching the edges of the frame.</td>
 				</tr>
 				<tr>
 					<td>Transform</td>
@@ -126,7 +126,7 @@ const Formatting = () => (
 		<p>Contains the video in a graphic box. Options are None or standard WFTV TV and Laptop graphics.</p>
 		<h4 id="source">Source</h4>
 		<p>The Source section allows you to overlay a source attribution on a video or image. The source overlay features the WFTV standard sourcing format.</p>
-		<p>The Source section will appear when AR Correction is set to Fill Frame, Fit Inside Frame or Transform. When set to None, the section will only appear if the media's native aspect ratio is 16:9.</p>
+		<p>The Source section will appear when AR Correction is set to Fill Frame, Fit Inside Frame or Transform. When set to None, the section will only appear if the media&apos;s native aspect ratio is 16:9.</p>
 		<h5 id="source-name">Source Name</h5>
 		<p>The source name field is where you may enter the name of the person, company, etc. you wish to attribute.</p>
 		<p>Source names will be suggested as you type. An internet connection is required for source name suggestions as the source list is stored remotely. Since Able2 is customized for WFTV in Orlando, Fl, the suggested source names are predominately Central Florida related.</p>
@@ -141,19 +141,19 @@ const Formatting = () => (
 		<h4 id="position-transform">Position (Transform)</h4>
 		<p>Accessible when AR Correction is set to Transform</p>
 		<p>Allows you to adjust the position percentage of the media along the X and Y axis.</p>
-		<p>Both position percentages can be manually entered into the each slider's adjacent number field. These fields accept decimal values and can be incremented by pressing the up and down arrow keys.</p>
+		<p>Both position percentages can be manually entered into the each slider&apos;s adjacent number field. These fields accept decimal values and can be incremented by pressing the up and down arrow keys.</p>
 		<h4 id="scale">Scale</h4>
 		<p>Accessible when AR Correction is set to Transform</p>
 		<p>Allows you to resize or distort the media along the X and Y Axis.</p>
-		<p>The link button, enabled by default, will preserve to media's current proportions as you adjust either slider.</p>
-		<p>Both sliders have a small button adjacent to them. While the link is enabled, the X slider's button will resize the media to fit inside the frame width while the Y slider's button will resize the media to fit inside the frame height. If the link is disabled, the buttons will stretch the media to the frame dimensions instead of fit.</p>
-		<p>Both scale percentages can be manually entered into the each slider's adjacent number field. These fields accept decimal values, can be set higher than the slider's maximum value, and can be incremented by pressing the up and down arrow keys.</p>
+		<p>The link button, enabled by default, will preserve to media&apos;s current proportions as you adjust either slider.</p>
+		<p>Both sliders have a small button adjacent to them. While the link is enabled, the X slider&apos;s button will resize the media to fit inside the frame width while the Y slider&apos;s button will resize the media to fit inside the frame height. If the link is disabled, the buttons will stretch the media to the frame dimensions instead of fit.</p>
+		<p>Both scale percentages can be manually entered into the each slider&apos;s adjacent number field. These fields accept decimal values, can be set higher than the slider&apos;s maximum value, and can be incremented by pressing the up and down arrow keys.</p>
 		<p>Both sliders default maximum value is 400%. This can be increased or decreased under {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences.</p>
 		<h4 id="crop">Crop</h4>
 		<p>Accessible when AR Correction is set to Transform</p>
 		<p>Allows you to crop the media from the Top, Bottom, Left and Right edges. The resulting crop will auto center at the set X/Y Position.</p>
 		<p>There are two buttons enabled by default that link the Top and Bottom sliders and Left and Right sliders. While enabled, adjusting one edge will auto crop the opposite edge with the same percentage.</p>
-		<p>Crop percentages for all four edges can be manually entered into the each slider's adjacent number field. These fields accept decimal values and can be incremented by pressing the up and down arrow keys.</p>
+		<p>Crop percentages for all four edges can be manually entered into the each slider&apos;s adjacent number field. These fields accept decimal values and can be incremented by pressing the up and down arrow keys.</p>
 		<h4 id="rotation">Rotation</h4>
 		<p>Allows you to adjust the orientation of the video.</p>
 		<h5 id="rotate">Rotate</h5>
@@ -251,7 +251,7 @@ const Formatting = () => (
 		<h3 id="save-locations">Save Locations</h3>
 		<p>Select the directories where Able2 will save the export(s).</p>
 		<p>Save Locations are customizable under {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences. For more details see Save Locations the Preferences section.</p>
-    <p>When clicking Save, if all Save Locations are unchecked and/or not found, you will be prompted to choose a directory.</p>
+		<p>When clicking Save, if all Save Locations are unchecked and/or not found, you will be prompted to choose a directory.</p>
 	</section>
 )
 

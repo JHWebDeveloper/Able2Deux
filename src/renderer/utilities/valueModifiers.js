@@ -1,8 +1,8 @@
 import { countDigits } from '.'
 
 export const capitalize = str => {
+	const len = str.length
 	let newStr = str[0].toUpperCase()
-	let len = str.length
 
 	for (let i = 1; i < len; i++) {
 		newStr += str[i].toLowerCase()

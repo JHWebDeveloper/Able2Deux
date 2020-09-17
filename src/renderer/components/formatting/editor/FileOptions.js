@@ -68,6 +68,7 @@ const FileOptions = memo(props => {
 
 FileOptions.propTypes = {
 	id: string.isRequired,
+	isBatch: bool.isRequired,
 	batch: exact({
 		name: string,
 		position: string

@@ -281,14 +281,14 @@ const mainMenuTemplate = [
 		]
 	},
 	{
-    label: 'Help',
-    submenu: [
-      {
-        label: 'Able2 Help',
-        click() {
+		label: 'Help',
+		submenu: [
+			{
+				label: 'Able2 Help',
+				click() {
 					const { x, y, width, height } = mainWin.getNormalBounds()
 
-          help = openWindow({
+					help = openWindow({
 						parent: mainWin,
 						x: x + 20,
 						y: y + 20,
@@ -296,23 +296,23 @@ const mainMenuTemplate = [
 						height,
 						minWidth: mac ? 746 : 762,
 						minHeight: 620
-          })
+					})
 
-          help.loadURL(createURL('help'))
+					help.loadURL(createURL('help'))
 
-          help.once('ready-to-show', () => {
-            help.show()
-          })
+					help.once('ready-to-show', () => {
+						help.show()
+					})
 
-          help.on('close', () => {
-            help = false
-          })
+					help.on('close', () => {
+						help = false
+					})
 
-          help.setMenu(null)
-        }
-      }
-    ]
-  }
+					help.setMenu(null)
+				}
+			}
+		]
+	}
 ]
 
 if (dev || process.env.devtools) {
