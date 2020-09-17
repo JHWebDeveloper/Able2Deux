@@ -35,9 +35,10 @@
 	user-select: none;
 }
 
-html, body, div, header, nav, main,
+html, body, div, header, nav, main, section,
 form, fieldset, legend, details, summary, label, input,
-h1, h2, h3, p, ul, li, button, a, span, img {
+table, thead, tbody, tr, th, td,
+h1, h2, h3, h4, h5, img, p, ol, ul, li, button, a, span, q, i {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -51,13 +52,18 @@ body {
 	text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4 { font-weight: 600; }
+h1, h2, h3, h4, h5, legend, summary, th { font-weight: 600; }
 
 ul { list-style-type: none; }
 
+a { text-decoration: underline; }
+
+a:link, a:visited, button { color: currentColor; }
+
+a:hover { cursor: pointer; }
+
 button {
 	display: inline-block;
-	color: currentColor;
 	background-color: transparent;
 }
 
@@ -112,8 +118,6 @@ fieldset:disabled > :matches(input, input::placeholder, div) {
 fieldset:disabled > :matches(input, div) {
 	border-color: var(--disabled);
 }
-
-legend, summary { font-weight: 600; }
 
 input {
 	background-color: transparent;
