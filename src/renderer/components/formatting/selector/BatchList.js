@@ -117,7 +117,7 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 					className="insert-last"
 					onDragOver={dragOver}
 					onDragLeave={dragLeave}
-					onDrop={e => drop(media.length - 1, e)}></span>
+					onDrop={e => drop(media.length, e)}></span>
 			)}
 		</div>
 	)
