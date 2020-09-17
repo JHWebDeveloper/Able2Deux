@@ -33,7 +33,7 @@ const Acquisition = () => (
 		<p>Unless the video is required in a timely fashion, Optimize Video Quality should always be set.</p>
 		<h4 id="downloading-a-livestream">Downloading a Live Stream</h4>
 		<p>Able2 has limited support for downloading live streams as they are streaming.</p>
-		<p>To download from a supported live stream service, enter the URL as you would any normal download. When the media element appears in the Ready Queue, instead of the usual <i>close</i> button on the right, you will see a stop button <i>stop</i>. Clicking this button at any time will stop the live download.</p>
+		<p>To download from a supported live stream service, enter the URL as you would any normal download. When the media item appears in the Ready Queue, instead of the usual <i>close</i> button on the right, you will see a stop button <i>stop</i>. Clicking this button at any time will stop the live download.</p>
 		<p>As stated live stream support is limited. YouTube and Twitch Livestreams work like any regular download. Other live stream services will likely not work with a simple website url, but if you are savvy with Chrome Developer Tools (or an equivalent feature in your browser of choice) and can locate the url for the stream&apos;s .m3u8 file, Able2 will likely be able to download from it.</p>
 		<p>Currently Facebook Live is not compatible with Able2.</p>
 		<h3 id="loading-files-from-your-device">Loading File(s) from your Device</h3>
@@ -80,11 +80,11 @@ const Acquisition = () => (
 		}
 		<h3 id="the-ready-queue">The Ready Queue</h3>
 		<p>The Ready Queue is the area taking up the entire right side of the application. It lists all of the media files you have loaded into Able2.</p>
-		<p>On the left side of each Media Element is a circular icon <i style={{ color: '#bbb' }}>lens</i> indicating the status of each Media Element. When the media is ready to format it will turn green <i style={{ color: '#0cf700' }}>lens</i>. Should there be an error loading the media or cancelled download it will turn red <i style={{ color: '#ff4800' }}>lens</i>. For all loading processes, the icon will be yellow <i style={{ color: '#fcdb03' }}>lens</i>.</p>
-		<p>On the right side of each Media Element is a remove button labeled with an <i>close</i>. Click this button at any time to remove the media or cancel a current download. If you are downloading from a live stream, this button will temporarily be replaced with a stop button <i>stop</i>. Clicking the stop button will stop the live download.</p>
+		<p>On the left side of each media item is a circular icon <i style={{ color: '#bbb' }}>lens</i> indicating the status of each media item. When the media is ready to format it will turn green <i style={{ color: '#0cf700' }}>lens</i>. Should there be an error loading the media or cancelled download it will turn red <i style={{ color: '#ff4800' }}>lens</i>. For all loading processes, the icon will be yellow <i style={{ color: '#fcdb03' }}>lens</i>.</p>
+		<p>On the right side of each media item is a remove button labeled with an <i>close</i>. Click this button at any time to remove the media or cancel a current download. If you are downloading from a live stream, this button will temporarily be replaced with a stop button <i>stop</i>. Clicking the stop button will stop the live download.</p>
 		<p>A progress bar will display for all downloads with an ETA in the upper right corner.</p>
 		<p>You can clear the entire queue by clicking the Remove All button at the bottom.</p>
-		<p>When all media has finished processing, you may click the Format button to move on to Able2&apos;s formatting phase. Any media elements that have failed on an error or been cancelled will be automatically removed.</p>
+		<p>When all media has finished processing, you may click the Format button to move on to Able2&apos;s formatting phase. Any media items that have failed on an error or been cancelled will be automatically removed.</p>
 	</section>
 )
 
