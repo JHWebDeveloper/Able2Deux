@@ -11,10 +11,11 @@ const Formatting = () => (
 		<p>If at any time you wish add media to the batch, you may hit the Back button at the bottom left corner of the app to go back to Acquisition phase. All current format settings will be retained when you return.</p>
 		<h3 id="media-selector">Media Selector</h3>
 		<p>Directly under the Able2 title you will see the Media Selector window. There you will see each media item you imported listed. Here we can select which media item to edit.</p>
-		<p>Simply click the media item to select it. Once clicked you will some basic media data populate at the top of the selector. The data will vary depending on the media type. You will also see the section in the right hand column populate. At the top is a preview of how the media will appear in Avid. All sections below the preview are where we will format the media for export.</p>
+		<p>Click the media item to select it. You will then see some basic media data populate at the top of the selector. The data will vary depending on the media type. You will also see the section in the right hand column populate. At the top is a preview of how the media will appear in Avid. All sections below the preview are where we will format the media for export.</p>
+		<p>Media items are automatically ordered by most recent import descending. This order can be rearranged by dragging and dropping the media items on top of each other. This feature can be used to change numbering inside the filename and/or render priority.</p>
 		<p>Clicking the <i>close</i> button to the right of any media item will remove it from the batch.</p>
 		<h4 id="media-options">Media Options</h4>
-		<p>Each media element has an options menu. It can be accessed by clicking the <i>more_vert</i> icon to the left of the media element.</p>
+		<p>Each media item has an options menu. It can be accessed by clicking the <i>more_vert</i> icon to the left of the media item.</p>
 		<table>
 			<thead>
 				<tr>
@@ -25,30 +26,30 @@ const Formatting = () => (
 			<tbody>
 				<tr>
 					<td>Copy All Settings</td>
-					<td>Copies all of the media element&apos;s format settings to be pasted to another media element.</td>
+					<td>Copies all of the media item&apos;s format settings to be pasted to another media item.</td>
 				</tr>
 				<tr>
 					<td>Paste Settings</td>
-					<td>Applies copied format setting(s) to the media element.</td>
+					<td>Applies copied format setting(s) to the media item.</td>
 				</tr>
 				<tr>
 					<td>Apply Settings to All</td>
-					<td>Applies the media elements format settings to all other media elements.</td>
+					<td>Applies the media items format settings to all other media items.</td>
 				</tr>
 				<tr>
 					<td>Move Up</td>
-					<td rowSpan="2">Media Elements are automatically ordered by most recent import descending. Move Up and Down allows you to rearrange this order. Can be used to adjust batch numbering or render priority.</td>
+					<td rowSpan="2">Moves the media item up or down by once position.</td>
 				</tr>
 				<tr>
 					<td>Move Down</td>
 				</tr>
 				<tr>
 					<td>Duplicate Media</td>
-					<td>Makes a copy of the media element and inserts it above. Different format settings can be applied to the copy allowing you export multiple versions of the same media.</td>
+					<td>Makes a copy of the media item and inserts it above. Different format settings can be applied to the copy allowing you export multiple versions of the same media.</td>
 				</tr>
 				<tr>
 					<td>Remove Media</td>
-					<td>Removes a media element from the batch. Same as clicking the <i>close</i> button to the right of the media element.</td>
+					<td>Removes a media item from the batch. Same as clicking the <i>close</i> button to the right of the media item.</td>
 				</tr>
 				<tr>
 					<td>Reveal in Cache</td>
@@ -57,12 +58,12 @@ const Formatting = () => (
 			</tbody>
 		</table>
 		<h4 id="edit-all">Edit All</h4>
-		<p>The Edit All switch can be found at the bottom of the Media Selector. It will only appear if more than one Media Element is present. When Edit All is enabled, changes to any media element will be applied to all others in the batch.</p>
+		<p>The Edit All switch can be found at the bottom of the Media Selector. It will only appear if more than one media item is present. When Edit All is enabled, changes to any media item will be applied to all others in the batch.</p>
 		<p>It is important to note that Edit All is not the same as Apply to All. Only changes made AFTER enabling Edit All will be applied to all. To apply current settings to all media, see the previous section.</p>
-		<p>Filename, Start and End are the only settings unique to their media element and are unaffected by Edit All.</p>
+		<p>Filename, Start and End are the only settings unique to their media item and are unaffected by Edit All.</p>
 		<p>Edit All can be switched on by default under {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences</p>
 		<h3 id="preview-window">Preview Window</h3>
-		<p>When a media element is selected, the Preview Window will display a thumbnail preview of the media with current settings applied.</p>
+		<p>When a media item is selected, the Preview Window will display a thumbnail preview of the media with current settings applied.</p>
 		<p>For audio exports, the preview window displays split channel waveform data.</p>
 		<h4 id="frame-slider">Frame Slider</h4>
 		<p>The Frame Slider allows you to select a frame inside the video to preview. The timecode is displayed on the left side of the slider. It is only available for videos.</p>
@@ -162,7 +163,7 @@ const Formatting = () => (
 		<p>Mirror the video along a horizontal or vertical axis or both.</p>
 		<p>Please note that setting Reflect to Horizontal + Vertical is the same as setting Rotate to 180°, thus if both of these settings are applied they will cancel each other out.</p>
 		<h4 id="setting-options">Setting Options</h4>
-		<p>If more than one Media Element is present, you will see a small <i>more_vert</i> icon in the top right corner of each section (with the exception of the File section). Clicking this will reveal a menu with two options outlined below.</p>
+		<p>If more than one media item is present, you will see a small <i>more_vert</i> icon in the top right corner of each section (with the exception of the File section). Clicking this will reveal a menu with two options outlined below.</p>
 		<table>
 			<thead>
 				<tr>
@@ -173,11 +174,11 @@ const Formatting = () => (
 			<tbody>
 				<tr>
 					<td>Copy Setting</td>
-					<td>Copies all settings within the containing section. These settings can then be applied to other individual Media Elements using the Paste option in the Media Selector. See the <a href="#media-options" title="Go to Media Options">Media Options section</a> for details.</td>
+					<td>Copies all settings within the containing section. These settings can then be applied to other individual media items using the Paste option in the Media Selector. See the <a href="#media-options" title="Go to Media Options">Media Options section</a> for details.</td>
 				</tr>
 				<tr>
 					<td>Apply to All</td>
-					<td>Applies all settings within the containing section to all other media elements in the batch.</td>
+					<td>Applies all settings within the containing section to all other media items in the batch.</td>
 				</tr>
 			</tbody>
 		</table>
