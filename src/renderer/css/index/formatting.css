@@ -74,14 +74,14 @@ details {
 	color: var(--background);
 }
 
-:matches(.batch-item, .insert-below).drag-enter::before,
-.insert-below {
+:matches(.batch-item, .insert-last).drag-enter::before,
+.insert-last {
 	position: absolute;
 	width: 100%;
 	height: 10px;
 }
 
-:matches(.batch-item, .insert-below).drag-enter::before {
+:matches(.batch-item, .insert-last).drag-enter::before {
 	content: '';
 	border: 4px solid;
 	border-color: transparent var(--primary);
@@ -96,12 +96,12 @@ details {
 	font-weight: 600;
 }
 
-.insert-below {
+.insert-last {
 	display: block;
 	top: calc(100% - 10px);
 }
 
-.insert-below.drag-enter::before { transform: translateY(-2.75px); }
+.insert-last.drag-enter::before { transform: translateY(-2.75px); }
 
 #media-selector > div:nth-child(3) {
 	padding: 0 9px;
