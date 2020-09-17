@@ -43,14 +43,14 @@ const BatchItem = props => {
 			label: 'Move Up',
 			hide: onlyItem || index === 0,
 			action() {
-				dispatch(moveMedia(index, -1))
+				dispatch(moveMedia(index, index - 1))
 			}
 		},
 		{
 			label: 'Move Down',
 			hide: onlyItem || index + 1 === mediaLength,
 			action() {
-				dispatch(moveMedia(index))
+				dispatch(moveMedia(index, index + 1))
 			}
 		},
 		{ role: 'spacer' },
@@ -76,7 +76,13 @@ const BatchItem = props => {
 	]
 
 	return (
-		<div className={`batch-item${selected ? ' selected' : ''}`}>
+		<div
+			className={`batch-item${selected ? ' selected' : ''}`}
+			onDragStart={props.dragStart}
+			onDragOver={props.dragOver}
+			onDragLeave={props.dragLeave}
+			onDrop={props.drop}
+			draggable={mediaLength > 1}>
 			<DropdownMenu buttons={dropdown} />
 			<button
 				type="button"

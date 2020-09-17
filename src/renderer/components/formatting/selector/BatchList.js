@@ -4,6 +4,7 @@ import { arrayOf, func, object, string } from 'prop-types'
 import { PrefsContext } from '../../../store/preferences'
 
 import {
+	moveMedia,
 	removeMedia,
 	copySettings,
 	applySettingsToAll
@@ -57,6 +58,25 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		})
 	}, [media, warnings.remove])
 
+	const dragStart = useCallback((i, e) => {
+		e.dataTransfer.setData('insert', i)
+	}, [])
+
+	const dragOver = useCallback(e => {
+		e.preventDefault()
+		e.currentTarget.classList.add('drag-enter')
+	}, [])
+
+	const dragLeave = useCallback(e => {
+		e.currentTarget.classList.remove('drag-enter')
+	}, [])
+
+	const drop = useCallback((i, e) => {
+		e.preventDefault()
+		e.currentTarget.classList.remove('drag-enter')
+		dispatch(moveMedia(e.dataTransfer.getData('insert'), i))
+	}, [])
+
 	const ref = useRef()
 
 	useEffect(() => {
@@ -80,10 +100,19 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 					copyAllSettings={copyAllSettings}
 					applyToAllWithWarning={applyToAllWithWarning}
 					removeMediaWithWarning={removeMediaWithWarning}
+					dragStart={e => dragStart(i, e)}
+					dragOver={dragOver}
+					dragLeave={dragLeave}
+					drop={e => drop(i, e)}
 					index={i}
 					mediaLength={media.length}
 					dispatch={dispatch} />
 			))}
+			<span
+				className="insert-below"
+				onDragOver={dragOver}
+				onDragLeave={dragLeave}
+				onDrop={e => drop(media.length - 1, e)}></span>
 		</div>
 	)
 }
