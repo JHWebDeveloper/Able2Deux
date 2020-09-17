@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { arrayOf, func, object, string } from 'prop-types'
 
 import { PrefsContext } from '../../../store/preferences'
@@ -58,14 +58,17 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		})
 	}, [media, warnings.remove])
 
+	const [ dragging, setDragging ] = useState(false)
+
 	const dragStart = useCallback((i, e) => {
 		e.dataTransfer.setData('insert', i)
+		setDragging(true)
 	}, [])
 
 	const dragOver = useCallback(e => {
 		e.preventDefault()
-		e.currentTarget.classList.add('drag-enter')
-	}, [])
+		if (dragging) e.currentTarget.classList.add('drag-enter')
+	}, [dragging])
 
 	const dragLeave = useCallback(e => {
 		e.currentTarget.classList.remove('drag-enter')
@@ -73,8 +76,9 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 
 	const drop = useCallback((i, e) => {
 		e.preventDefault()
-		e.currentTarget.classList.remove('drag-enter')
 		dispatch(moveMedia(e.dataTransfer.getData('insert'), i))
+		dragLeave(e)
+		setDragging(false)
 	}, [])
 
 	const ref = useRef()
