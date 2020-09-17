@@ -50,7 +50,7 @@ const BatchItem = props => {
 			label: 'Move Down',
 			hide: onlyItem || index + 1 === mediaLength,
 			action() {
-				dispatch(moveMedia(index, index + 1))
+				dispatch(moveMedia(index, index + 2))
 			}
 		},
 		{ role: 'spacer' },
