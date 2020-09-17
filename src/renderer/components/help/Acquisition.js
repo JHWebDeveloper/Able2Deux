@@ -34,15 +34,15 @@ const Acquisition = () => (
 		<h4 id="downloading-a-livestream">Downloading a Live Stream</h4>
 		<p>Able2 has limited support for downloading live streams as they are streaming.</p>
 		<p>To download from a supported live stream service, enter the URL as you would any normal download. When the media element appears in the Ready Queue, instead of the usual <i>close</i> button on the right, you will see a stop button <i>stop</i>. Clicking this button at any time will stop the live download.</p>
-		<p>As stated live stream support is limited. YouTube and Twitch Livestreams work like any regular download. Other live stream services will likely not work with a simple website url, but if you are savy with Chrome Developer Tools (or an equivalent feature in your browser of choice) and can locate the url for the stream's .m3u8 file, Able2 will likely be able to download from it.</p>
+		<p>As stated live stream support is limited. YouTube and Twitch Livestreams work like any regular download. Other live stream services will likely not work with a simple website url, but if you are savvy with Chrome Developer Tools (or an equivalent feature in your browser of choice) and can locate the url for the stream's .m3u8 file, Able2 will likely be able to download from it.</p>
 		<p>Currently Facebook Live is not compatible with Able2.</p>
 		<h3 id="loading-files-from-your-device">Loading File(s) from your Device</h3>
-		<p>In addition to downloading, Able2 offers several video processing options. To use these features on a media file already in your posession, drag and drop the file into area labeled <q>drag and drop file(s) here</q>. Alternatively, clicking on this area will display a file browser.</p>
+		<p>In addition to downloading, Able2 offers several video processing options. To use these features on a media file already in your possession, drag and drop the file into area labeled <q>drag and drop file(s) here</q>. Alternatively, clicking on this area will display a file browser.</p>
     <p>Able2 has support for most video, image and audio files. You may drag and drop multiple files of mixed media types at the same time.</p>
 		<h3 id="screen-recording">Screen Recording</h3>
 		<p>Able2 has a built in screen recorder intended as a work around for when a URL or file is rejected.</p>
     <p>To start a screen record click the button labeled <q>start a screen record</q>.</p>
-		<p>The button will transform into a popup window prompting you to select a record source. Able2 is able to record on your screen or isolate the recording to any open window on your device. If you are using a computer with multiple monitors, each monitor will be listed as a record source. If you're not prompted to select a record source, then you dont have any additional open windows or monitors. The recording has already started.</p>
+		<p>The button will transform into a popup window prompting you to select a record source. Able2 is able to record on your screen or isolate the recording to any open window on your device. If you are using a computer with multiple monitors, each monitor will be listed as a record source. If you're not prompted to select a record source, then you don't have any additional open windows or monitors. The recording has already started.</p>
 		<p>Once a record source is selected, the button will blink red to indicate that Able2 is recording your screen. To stop recording, simply click the button again.</p>
 		<p>It is recommended that you play your media in fullscreen if the option is available.</p>
 		<p>Please note while Able2 can isolate the recording to a single open window, it will not isolate the audio to the window. The entire audio output of your device is recorded. Isolating the audio from a single window is not possible.</p>
@@ -64,7 +64,7 @@ const Acquisition = () => (
 					<li>You may see a popup window alerting you that <q>macOS cannot verify the developer of Soundflower.pkg</q>. If so, click <q>Open</q>.</li>
 					<li>Follow the onscreen instructions from the Soundflower installer.</li>
 					<li>When the installation is complete open Audio Midi Setup. Audio Midi Setup can be found under /Applications/Utilities.</li>
-					<li>Click the + button at the bottom left corner of the application and select <q>Create Multi-Ouput Device</q>.</li>
+					<li>Click the + button at the bottom left corner of the application and select <q>Create Multi-Output Device</q>.</li>
 					<li>You will see a new Multi-Output device listed in the left column with a list of audio devices to the right. Check both <q>Built-in Output</q> and <q>Soundflower (2ch)</q>.</li>
 					<li>You may now close Audio Midi Setup.</li>
 				</ol>
@@ -84,7 +84,7 @@ const Acquisition = () => (
 		<p>On the right side of each Media Element is a remove button labeled with an <i>close</i>. Click this button at any time to remove the media or cancel a current download. If you are downloading from a live stream, this button will temporarily be replaced with a stop button <i>stop</i>. Clicking the stop button will stop the live download.</p>
 		<p>A progress bar will display for all downloads with an ETA in the upper right corner.</p>
 		<p>You can clear the entire queue by clicking the Remove All button at the bottom.</p>
-		<p>When all media has finished processing, you may click the Format button to move on to Able2's formatting phase. Any media elements that have errored or been cancelled will be automatically removed.</p>
+		<p>When all media has finished processing, you may click the Format button to move on to Able2's formatting phase. Any media elements that have failed on an error or been cancelled will be automatically removed.</p>
 	</section>
 )
 

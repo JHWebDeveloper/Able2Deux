@@ -21,7 +21,7 @@ const Preferences = () => (
 		<h4 id="concurrent-renders">Concurrent Renders</h4>
 		<p>Sets how many exports Able2 will render simultaneously. Default is 2.</p>
 		<h3 id="scratch-disks">Scratch Disks</h3>
-		<p>Able2 uses three temporary folders to create media. They default to the user's temp folder, but can be changed manually. If you were using a device with multiple hardrives, you could set the folders on different drives and potentially get a slight performance boost.</p>
+		<p>Able2 uses three temporary folders to create media. They default to the user's temp folder, but can be changed manually. If you were using a device with multiple hard drives, you could set the folders on different drives and potentially get a slight performance boost.</p>
 		<table>
 			<thead>
 				<tr>

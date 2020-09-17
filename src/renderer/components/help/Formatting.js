@@ -59,14 +59,14 @@ const Formatting = () => (
 		<h4 id="edit-all">Edit All</h4>
 		<p>The Edit All switch can be found at the bottom of the Media Selector. It will only appear if more than one Media Element is present. When Edit All is enabled, changes to any media element will be applied to all others in the batch.</p>
 		<p>It is important to note that Edit All is not the same as Apply to All. Only changes made AFTER enabling Edit All will be applied to all. To apply current settings to all media, see the previous section.</p>
-		<p>Filename, Start and End are the only settings unique to their media element and are uneffected by Edit All.</p>
+		<p>Filename, Start and End are the only settings unique to their media element and are unaffected by Edit All.</p>
 		<p>Edit All can be switched on by default under {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences</p>
 		<h3 id="preview-window">Preview Window</h3>
 		<p>When a media element is selected, the Preview Window will display a thumbnail preview of the media with current settings applied.</p>
 		<p>For audio exports, the preview window displays split channel waveform data.</p>
 		<h4 id="frame-slider">Frame Slider</h4>
 		<p>The Frame Slider allows you to select a frame inside the video to preview. The timecode is displayed on the left side of the slider. It is only available for videos.</p>
-		<p>To the right of the slider are two increment buttons. Clicking these will increment the frame slider by 1 frame. Holding the shift will the increment ammount to 10 frames.</p>
+		<p>To the right of the slider are two increment buttons. Clicking these will increment the frame slider by 1 frame. Holding the shift will the increment amount to 10 frames.</p>
 		<h4 id="grids">Grids</h4>
 		<p>The Preview Window has four grid overlays that can be toggled on or off the first of which is a standard 16:9 title safe grid with thirds and center markers. The other grid buttons will reveal markers for aspect ratios 4:3, 1:1, and 9:16.</p>
 		<p>The grid color can be changed and additional grid buttons for 1.85:1 and 2.39:1 can be enabled under {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences.</p>
@@ -132,9 +132,9 @@ const Formatting = () => (
 		<p>Source names will be suggested as you type. An internet connection is required for source name suggestions as the source list is stored remotely. Since Able2 is customized for WFTV in Orlando, Fl, the suggested source names are predominately Central Florida related.</p>
 		<h5 id="add-source-to-beginning">Add <q>Source: </q> to beginning</h5>
 		<p>Whether to insert <q>Source: </q> in front of the attribution. This option is checked by default and in almost all cases should stay that way. Exceptions would be for important notes like <q>SIMULATION</q> or <q>FAMILY PHOTO</q>.</p>
-		<p>If you accentally type <q>Source: </q> in the source name field, Able2 will detect it and delete it. It will not appear twice.</p>
+		<p>If you accidentally type <q>Source: </q> in the source name field, Able2 will detect it and delete it. It will not appear twice.</p>
 		<h5 id="place-source-at-top-of-video">Place source at top of video</h5>
-		<p>Puts the source at the top edge of the video or image rather than the bottom. The WFTV standard is to have the source at the bottom, so in most cases this should be left unchecked as it is by default. The Source on Top feature should only be used when the source overlay appears illegable or is obscuring important details at the bottom of the video.</p>
+		<p>Puts the source at the top edge of the video or image rather than the bottom. The WFTV standard is to have the source at the bottom, so in most cases this should be left unchecked as it is by default. The Source on Top feature should only be used when the source overlay appears illegible or is obscuring important details at the bottom of the video.</p>
 		<h4 id="position-fill-frame">Position (Fill Frame)</h4>
 		<p>Accessible when AR Correction is set to Fill Frame</p>
 		<p>Allows you to set the center Position percentage of the video as it is cropped in the frame. Whether the X or Y axis are adjusted will be automatically determined by the orientation of the video. If the video has a 16:9 aspect ratio, the Position slider will not appear.</p>
