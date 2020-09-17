@@ -54,7 +54,8 @@ const pages = {
 	index: rendererPath,
 	splash: path.join(rendererPath, 'splash.js'),
 	update: path.join(rendererPath, 'update.js'),
-	preferences: path.join(rendererPath, 'preferences.js')
+	preferences: path.join(rendererPath, 'preferences.js'),
+	help: path.join(rendererPath, 'help.js')
 }
 
 const rendererConfig = {

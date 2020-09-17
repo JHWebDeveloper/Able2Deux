@@ -21,6 +21,7 @@ let splashWin = false
 let updateWin = false
 let mainWin = false
 let preferences = false
+let help = false
 
 process.noDeprecation = !dev
 
@@ -278,7 +279,40 @@ const mainMenuTemplate = [
 			{ role: 'selectall' },
 			...mac ? [] : prefsMenuItem
 		]
-	}
+	},
+	{
+    label: 'Help',
+    submenu: [
+      {
+        label: 'Able2 Help',
+        click() {
+					const { x, y, width, height } = mainWin.getNormalBounds()
+
+          help = openWindow({
+						parent: mainWin,
+						x: x + 20,
+						y: y + 20,
+						width,
+						height,
+						minWidth: mac ? 746 : 762,
+						minHeight: 620
+          })
+
+          help.loadURL(createURL('help'))
+
+          help.once('ready-to-show', () => {
+            help.show()
+          })
+
+          help.on('close', () => {
+            help = false
+          })
+
+          help.setMenu(null)
+        }
+      }
+    ]
+  }
 ]
 
 if (dev || process.env.devtools) {
