@@ -1,0 +1,122 @@
+import React from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+
+const { interop } = window.ABLE2
+
+const Preferences = () => (
+	<section id="preferences">
+		<h2>Preferences</h2>
+		<p>The Preferences window can be opened by selecting {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences.</p>
+		<h3 id="output-options">Output Options</h3>
+		<h4 id="output-resolution">Output Resolution</h4>
+		<p>Set the resolution of the exported video or image. The two available resolutions are 1280x720 (default) and 1920x1080.</p>
+		<h4 id="output-frame-rate">Output Frame Rate</h4>
+		<p>Able2 will attempt to use the original frame rate of a video. You may set this option to 59.94fps to always exports at that frame rate. Any added backgrounds will force a 59.94fps export regardless of this setting.</p>
+		<h4 id="auto-export-as-png">Auto Export as .png</h4>
+		<p>When exporting an uploaded image, Able2 can detect if a moving background is visible. If one is not visible Able2 will export a .png instead of a video file. Disabling this option will force Able2 to always export a video.</p>
+		<p>The only exception to this is when AR Correction is set to Transform. In this case, if an image completely covers a moving background, a video will still be exported. A workaround is to simply set the background to transparent or black.</p>
+		<h4 id="aspera-safe-characters">Aspera Safe Characters</h4>
+		<p>When this option is enabled, any characters inside a file or batch name that cause Aspera imports to error out will be automatically replaced with an underscore. This will include all characters foreign to the roman alphabet.</p>
+		<p>The characters % &amp; " ` / \ : ; &lt; &gt; and ? will always be replaced regardless of whether this option is enabled or disabled.</p>
+		<h4 id="concurrent-renders">Concurrent Renders</h4>
+		<p>Sets how many exports Able2 will render simultaneously. Default is 2.</p>
+		<h3 id="scratch-disks">Scratch Disks</h3>
+		<p>Able2 uses three temporary folders to create media. They default to the user's temp folder, but can be changed manually. If you were using a device with multiple hardrives, you could set the folders on different drives and potentially get a slight performance boost.</p>
+		<table>
+			<thead>
+				<tr>
+					<th>Folder</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>					
+					<td>Import Cache</td>
+					<td>The folder where Able2 creates or copies any downloaded or loaded media files, screen records, screenshots, selector thumbnails and source overlays.</td>
+				</tr>
+				<tr>
+					<td>Export Cache</td>
+					<td>The folder where Able2 creates the exported file before copying it to the selected Save Locations.</td>
+				</tr>
+				<tr>
+					<td>Preview Cache</td>
+					<td>The folder where Able2 creates the preview thumbnails visible in the Preview window.</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 id="warnings-and-defaults">Warnings and Defaults</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Option</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Remove Warning</td>
+					<td rowSpan="4">Enable or disable the various warning dialogues throughout the app.</td>
+				</tr>
+				<tr>
+					<td>Remove All Warning</td>
+				</tr>
+				<tr>
+					<td>Apply to All Warning</td>
+				</tr>
+				<tr>
+					<td>Source On Top Warning</td>
+				</tr>
+				<tr>
+					<td>Edit All by Default</td>
+					<td>Enabling this option will keep Edit All enabled by default when Able2 starts.</td>
+				</tr>
+				<tr>
+					<td>Widescreen Grids</td>
+					<td>Enabling this option will add grid markers for 1.85:1 and 2.39:1 in the preview window.</td>
+				</tr>
+				<tr>
+					<td>Grid Color</td>
+					<td>Select a color for the grid lines. Default is magenta.</td>
+				</tr>
+				<tr>
+					<td>Scale Max</td>
+					<td>Allows you to set a maximum value for the scale slider. Default is 400%.</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 id="save-locations-prefs">Save Locations</h3>
+		<p>This is where you may edit Save Locations checklist that appears on Formatting phase.</p>
+		<table>
+			<thead>
+				<tr>
+					<th>Button/Field</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Default</td>
+					<td>Sets whether the location is selected by default.</td>
+				</tr>
+				<tr>
+					<td><i>add</i> / <i>remove</i></td>
+					<td>Allows you to add a new Save Location or delete an existing one.</td>
+				</tr>
+				<tr>
+					<td>Label</td>
+					<td>Sets the label for the location that will appear in the Save Locations section. If this field is left blank, it will default to the folder name.</td>
+				</tr>
+				<tr>
+					<td>Folder</td>
+					<td>Sets the directory to save to.</td>
+				</tr>
+				<tr>
+					<td><i>keyboard_arrow_up</i> / <i>keyboard_arrow_down</i></td>
+					<td>Allows you to rearrange the order of the save locations.</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+)
+
+export default Preferences
