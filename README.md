@@ -10,13 +10,17 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ## [Unreleased][2.1.2] - TBD
 
 ### Added
-- Added $s token for file and batch names. Can be used for inserting batch size ('Video $n of $s' ---> 'Video 1 of 10', 'Video 2 of 10', 'Video 3 of 10'...)
+- Media items can now be rearranged by dragging and dropping.
+- Help page is back.
+- Added $b token for file and batch names. Can be used for inserting batch size ('Video $n of $b' ---> 'Video 1 of 10', 'Video 2 of 10', 'Video 3 of 10'...)
+- Added $r token for file and batch names. Will number media items in descending order.
 
 ### Changed
-- Duplicate filenames now follow the "1 of 1" pattern instead of just a single digit.
+- Duplicate filenames now follow the "&lt;#&gt; of &lt;total&gt;" pattern instead of just a single digit.
 
 ### Updated
 - Video service compatibility
+- Electron 10.1.2. It seems this fixed the not-opening bug.
 
 ### Fixed
 - Duplicates filename numbering no longer adds characters to filename beyond max character length. If filename is nearing 255 characters, enough characters will be deleted to make room for numbering concatenation.
