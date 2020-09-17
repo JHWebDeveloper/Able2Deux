@@ -38,7 +38,7 @@ const Formatting = () => (
 				</tr>
 				<tr>
 					<td>Move Up</td>
-					<td rowSpan="2">Moves the media item up or down by once position.</td>
+					<td rowSpan="2">Moves the media item up or down by one position.</td>
 				</tr>
 				<tr>
 					<td>Move Down</td>
