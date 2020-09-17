@@ -95,10 +95,13 @@ const addMedia = (state, payload) => ({
 })
 
 const moveMedia = (state, payload) => {
+	let { oldPos, newPos } = payload
 	const media = [...state.media]
-	const location = media.splice(payload.oldPos, 1)[0]
+	const targetMedia = media.splice(oldPos, 1)[0]
 
-	media.splice(payload.newPos, 0, location)
+	if (oldPos < newPos) newPos--
+
+	media.splice(newPos, 0, targetMedia)
 
 	return {
 		...state,
