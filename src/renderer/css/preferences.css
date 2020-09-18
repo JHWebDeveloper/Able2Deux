@@ -96,10 +96,12 @@ input[type="text"]:read-only {
 
 #folder { grid-column: 5 / span 4; }
 
-#save-locations div > div:nth-child(4) > button[name="up"]:nth-of-type(4),
-#save-locations div > div:last-of-type > button[name="down"] {
-  visibility: hidden;
+div:only-of-type > input[name="directory"] {
+	grid-column: span 3;
 }
+
+button[name="up"] { grid-column: 7; }
+button[name="down"] { grid-column: 8; }
 
 .input-option:first-of-type { margin-top: 10px; }
 
