@@ -211,33 +211,30 @@ label > :matches(input, span, svg) { vertical-align: middle; }
 }
 
 .draggable,
-.insert::before,
-.insert-last {
-	width: 100%;
-}
-
-.draggable,
 .insert-last {
 	position: relative;
+	width: 100%;
 }
 
 .draggable:nth-last-of-type(n+2) { margin-bottom: 6px; }
 
+.insert-last {
+	display: block;
+	height: 6px;
+}
+
 .insert::before {
 	content: '';
 	pointer-events: none;
+	display: block;
 	position: absolute;
 	top: -9px;
+	width: inherit;
 	height: 12px;
 	border: 5px solid;
 	border-color: transparent var(--primary);
 	background-color: var(--primary);
 	background-clip: content-box;
-}
-
-.insert-last {
-	display: block;
-	height: 6px;
 }
 
 .insert-last.insert::before { top: -3px; }
