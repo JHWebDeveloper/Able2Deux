@@ -15,6 +15,15 @@ const DropdownMenu = ({ buttons }) => {
 		})
 	}, [])
 
+	const closeMenuOnBlur = useCallback(e => {
+		const parent = e.currentTarget.parentElement
+		const trgt = e.relatedTarget
+
+		if (!parent.contains(trgt) || !parent.parentElement.contains(trgt)) {
+			toggleRevealMenu(false)
+		}
+	}, [])
+
 	return (
 		<span className="dropdown">
 			<button
@@ -25,9 +34,7 @@ const DropdownMenu = ({ buttons }) => {
 					getPositionRelativeToWindow(e)
 					toggleRevealMenu(!revealMenu)
 				}}
-				onBlur={e => {
-					if (!e.target.nextElementSibling.contains(e.relatedTarget)) toggleRevealMenu(false)
-				}}
+				onBlur={closeMenuOnBlur}
 				aria-haspopup="true"
 				aria-expanded={revealMenu}>more_vert</button>
 			{revealMenu && (
@@ -42,6 +49,7 @@ const DropdownMenu = ({ buttons }) => {
 							key={uuid()}
 							type="button"
 							autoFocus={i === 0}
+							onBlur={closeMenuOnBlur}
 							onClick={() => {
 								action()
 								toggleRevealMenu(false)
