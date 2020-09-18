@@ -267,11 +267,16 @@ button[name="screenshot"] { height: 26px; }
 
 #ready-queue > div:first-of-type {
 	overflow-y: auto;
-	border-radius: 5px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
 	height: auto;
 	padding: 12px;
+	border-radius: 5px;
 	transition: background-color 250ms;
 }
+
+#ready-queue .insert-last { flex: 1; }
 
 #ready-queue > div:last-of-type {
 	grid-row: 2;
