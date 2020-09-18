@@ -81,12 +81,9 @@ export const removeLocation = id => ({
 	payload: { id }
 })
 
-export const moveLocation = (pos, dir = 1) => ({
+export const moveLocation = (oldPos, newPos) => ({
 	type: ACTION.MOVE_LOCATION,
-	payload: {
-		oldPos: pos,
-		newPos: pos + dir
-	}
+	payload: { oldPos, newPos }
 })
 
 export const restoreDefaultPrefs = () => async dispatch => {
