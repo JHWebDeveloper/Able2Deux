@@ -13,7 +13,7 @@ import {
 
 import DirectorySelector from '../form_elements/DirectorySelector'
 
-const Directory = ({ dir, index, dispatch }) => {
+const Directory = ({ dir, index, isLast, dispatch }) => {
 	const { checked, label, directory, id } = dir
 
 	return (
@@ -44,18 +44,22 @@ const Directory = ({ dir, index, dispatch }) => {
 			<DirectorySelector
 				directory={directory}
 				onChange={dir => dispatch(updateLocationField(id, 'directory', dir))} />
-			<button
-				type="button"
-				name="up"
-				className="app-button symbol"
-				title="Move directory up"
-				onClick={() => dispatch(moveLocation(index, index - 1))}>keyboard_arrow_up</button>
-			<button
-				type="button"
-				name="down"
-				className="app-button symbol"
-				title="Move directory down"
-				onClick={() => dispatch(moveLocation(index, index + 2))}>keyboard_arrow_down</button>
+			{index !== 0 && (
+				<button
+					type="button"
+					name="up"
+					className="app-button symbol"
+					title="Move directory up"
+					onClick={() => dispatch(moveLocation(index, index - 1))}>keyboard_arrow_up</button>
+			)}
+			{!isLast && (
+				<button
+					type="button"
+					name="down"
+					className="app-button symbol"
+					title="Move directory down"
+					onClick={() => dispatch(moveLocation(index, index + 2))}>keyboard_arrow_down</button>
+			)}
 		</>
 	)
 }
@@ -68,6 +72,7 @@ Directory.propTypes = {
 		id: string
 	}).isRequired,
 	index: number.isRequired,
+	isLast: bool.isRequired,
 	dispatch: func.isRequired
 }
 
