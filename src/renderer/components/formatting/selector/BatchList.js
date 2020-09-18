@@ -67,11 +67,11 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 
 	const dragOver = useCallback(e => {
 		e.preventDefault()
-		if (dragging) e.currentTarget.classList.add('drag-enter')
+		if (dragging) e.currentTarget.classList.add('insert')
 	}, [dragging])
 
 	const dragLeave = useCallback(e => {
-		e.currentTarget.classList.remove('drag-enter')
+		e.currentTarget.classList.remove('insert')
 	}, [])
 
 	const drop = useCallback((i, e) => {

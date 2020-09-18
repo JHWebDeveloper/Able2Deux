@@ -74,14 +74,14 @@ details {
 	color: var(--background);
 }
 
-:matches(.batch-item, .insert-last).drag-enter::before,
+.insert::before,
 .insert-last {
 	position: absolute;
 	width: 100%;
 	height: 10px;
 }
 
-:matches(.batch-item, .insert-last).drag-enter::before {
+.insert::before {
 	content: '';
 	border: 4px solid;
 	border-color: transparent var(--primary);
@@ -89,7 +89,8 @@ details {
 	background-clip: content-box;
 }
 
-.batch-item.drag-enter::before { transform: translateY(-7.5px); }
+.batch-item.insert::before { transform: translateY(-7.5px); }
+.insert-last.insert::before { transform: translateY(-2.75px); }
 
 .batch-item > button:first-of-type {
 	text-align: left;
@@ -100,8 +101,6 @@ details {
 	display: block;
 	top: calc(100% - 10px);
 }
-
-.insert-last.drag-enter::before { transform: translateY(-2.75px); }
 
 #media-selector > div:nth-child(3) {
 	padding: 0 9px;
