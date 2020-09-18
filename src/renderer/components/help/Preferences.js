@@ -85,6 +85,7 @@ const Preferences = () => (
 		</table>
 		<h3 id="save-locations-prefs">Save Locations</h3>
 		<p>This is where you may edit Save Locations checklist that appears on Formatting phase.</p>
+		<p>You may rearrange the order of the Save Locations by dragging and dropping.</p>
 		<table>
 			<thead>
 				<tr>
@@ -111,7 +112,7 @@ const Preferences = () => (
 				</tr>
 				<tr>
 					<td><i>keyboard_arrow_up</i> / <i>keyboard_arrow_down</i></td>
-					<td>Allows you to rearrange the order of the save locations.</td>
+					<td>Allows you to rearrange the order of the save locations. An accessible alternative ordering by drag and drop.</td>
 				</tr>
 			</tbody>
 		</table>
