@@ -58,30 +58,37 @@ input[type="text"]:read-only {
 	background-color: var(--background-alt-2);
 }
 
-:matches(#scratch-disk, #save-locations) div {
+#scratch-disk div {
 	display: grid;
 	grid-gap: 4px;
 }
-
-#scratch-disk div { grid-template-columns: min-content auto; }
 
 #scratch-disk label { grid-column: 1 / span 2; }
 
 #save-locations { grid-column: 1 / span 3; }
 
 #save-locations div {
-	grid-template-columns: repeat(3, min-content) auto min-content auto min-content min-content;
+	display: grid;
+	grid-template-columns: repeat(3, 24px) 251px 24px 251px 24px 24px;
+	grid-gap: 0 6px;
 }
 
-#save-locations input[type="checkbox"] {
-	height: 24px;
-	width: 24px;
+#save-locations div > :matches(div, span) { grid-column: 1 / span 8; }
+
+#save-locations div > div {
+	display: inherit;
+	grid-template-columns: inherit;
+	grid-gap: inherit;
 }
+
+#save-locations label { margin-bottom: 6px; }
 
 #save-locations input[type="checkbox"] {
   display: flex;
   justify-content: center;
 	align-items: center;
+	height: 24px;
+	width: 24px;
 	margin: 0;
 }
 
@@ -89,8 +96,8 @@ input[type="text"]:read-only {
 
 #folder { grid-column: 5 / span 4; }
 
-button[name="up"]:nth-of-type(4),
-button[name="down"]:last-of-type {
+#save-locations div > div:nth-child(4) > button[name="up"]:nth-of-type(4),
+#save-locations div > div:last-of-type > button[name="down"] {
   visibility: hidden;
 }
 
