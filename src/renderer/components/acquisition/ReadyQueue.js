@@ -2,10 +2,11 @@ import React, { useCallback, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
 import { arrayOf, bool, func, object } from 'prop-types'
 
-import { removeAllMedia, prepareMediaForFormat } from '../../actions'
+import { moveMedia, removeAllMedia, prepareMediaForFormat } from '../../actions'
 import { warn, arrayCount } from '../../utilities'
 import * as STATUS from '../../status/types'
 
+import DraggableList from '../form_elements/DraggableList'
 import MediaElement from './MediaElement'
 
 // ---- store warning strings
@@ -37,17 +38,23 @@ const ReadyQueue = withRouter(({ media, recording, warnings, dispatch, history }
 		history.push('/render')
 	}, [])
 
+	const sortingAction = useCallback((newPos, oldPos) => {
+		dispatch(moveMedia(newPos, oldPos))
+	}, [])
+
 	return (
 		<div id="ready-queue">
 			<div style={{ backgroundColor }}>
-				{media.map(info => (
-					<MediaElement
-						key={info.id}
-						dispatch={dispatch}
-						warnRemove={warnings.remove}
-						references={arrayCount(media, item => item.refId === info.refId)}
-						{...info} />
-				))}
+				<DraggableList sortingAction={sortingAction}>
+					{media.map(info => (
+						<MediaElement
+							key={info.id}
+							dispatch={dispatch}
+							warnRemove={warnings.remove}
+							references={arrayCount(media, item => item.refId === info.refId)}
+							{...info} />
+					))}
+				</DraggableList>
 			</div>
 			<div>
 				<button
