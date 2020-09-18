@@ -49,13 +49,13 @@ const Directory = ({ dir, index, dispatch }) => {
 				name="up"
 				className="app-button symbol"
 				title="Move directory up"
-				onClick={() => dispatch(moveLocation(index, -1))}>keyboard_arrow_up</button>
+				onClick={() => dispatch(moveLocation(index, index - 1))}>keyboard_arrow_up</button>
 			<button
 				type="button"
 				name="down"
 				className="app-button symbol"
 				title="Move directory down"
-				onClick={() => dispatch(moveLocation(index))}>keyboard_arrow_down</button>
+				onClick={() => dispatch(moveLocation(index, index + 2))}>keyboard_arrow_down</button>
 		</>
 	)
 }
