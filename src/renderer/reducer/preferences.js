@@ -57,10 +57,13 @@ const removeLocation = (state, payload) => ({
 })
 
 const moveLocation = (state, payload) => {
+	let { oldPos, newPos } = payload
 	const saveLocations = [...state.saveLocations]
-	const location = saveLocations.splice(payload.oldPos, 1)[0]
+	const targetLocation = saveLocations.splice(oldPos, 1)[0]
 
-	saveLocations.splice(payload.newPos, 0, location)
+	if (oldPos < newPos) newPos--
+
+	saveLocations.splice(newPos, 0, targetLocation)
 
 	return {
 		...state,
