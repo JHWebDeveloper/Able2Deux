@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { v1 as uuid } from 'uuid'
+import { arrayOf, element, func, oneOfType } from 'prop-types'
 
 const dragLeave = e => {
 	e.currentTarget.classList.remove('insert')
@@ -47,6 +48,11 @@ const DraggableList = ({ sortingAction, children }) => {
 			)}
 		</>
 	)
+}
+
+DraggableList.propTypes = {
+	sortingAction: func.isRequired,
+	children: oneOfType([element, arrayOf(element)]).isRequired
 }
 
 export default DraggableList
