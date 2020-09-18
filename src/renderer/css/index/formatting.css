@@ -63,8 +63,6 @@ details {
 	background-color: var(--background);
 }
 
-.batch-item:nth-last-of-type(n+2) { margin-bottom: 5px; }
-
 .batch-item:not(.selected):hover {
 	background-color: var(--background-alt-2);
 }
@@ -74,32 +72,9 @@ details {
 	color: var(--background);
 }
 
-.insert::before,
-.insert-last {
-	position: absolute;
-	width: 100%;
-	height: 10px;
-}
-
-.insert::before {
-	content: '';
-	border: 4px solid;
-	border-color: transparent var(--primary);
-	background-color: var(--primary);
-	background-clip: content-box;
-}
-
-.batch-item.insert::before { transform: translateY(-7.5px); }
-.insert-last.insert::before { transform: translateY(-2.75px); }
-
 .batch-item > button:first-of-type {
 	text-align: left;
 	font-weight: 600;
-}
-
-.insert-last {
-	display: block;
-	top: calc(100% - 10px);
 }
 
 #media-selector > div:nth-child(3) {

@@ -210,6 +210,38 @@ label > :matches(input, span, svg) { vertical-align: middle; }
 	vertical-align: -1px;
 }
 
+.draggable,
+.insert::before,
+.insert-last {
+	width: 100%;
+}
+
+.draggable,
+.insert-last {
+	position: relative;
+}
+
+.draggable:nth-last-of-type(n+2) { margin-bottom: 6px; }
+
+.insert::before {
+	content: '';
+	pointer-events: none;
+	position: absolute;
+	top: -9px;
+	height: 12px;
+	border: 5px solid;
+	border-color: transparent var(--primary);
+	background-color: var(--primary);
+	background-clip: content-box;
+}
+
+.insert-last {
+	display: block;
+	height: 6px;
+}
+
+.insert-last.insert::before { top: -3px; }
+
 .monospace {
 	font: 400 1em 'Sax Mono', 'Courier New', Courier, monospace;
 }
