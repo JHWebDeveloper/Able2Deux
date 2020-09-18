@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { arrayOf, func, object, string } from 'prop-types'
 
 import { PrefsContext } from '../../../store/preferences'
@@ -13,6 +13,7 @@ import {
 import { warn, extractSettings, arrayCount } from '../../../utilities'
 import { ScrollbarPadder } from '../../../constructors'
 
+import DraggableList from '../../form_elements/DraggableList'
 import BatchItem from './BatchItem'
 
 const applyToAllWarning = (enabled, callback) => {
@@ -58,29 +59,6 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		})
 	}, [media, warnings.remove])
 
-	const [ dragging, setDragging ] = useState(false)
-
-	const dragStart = useCallback((i, e) => {
-		e.dataTransfer.setData('insert', i)
-		setDragging(true)
-	}, [])
-
-	const dragOver = useCallback(e => {
-		e.preventDefault()
-		if (dragging) e.currentTarget.classList.add('insert')
-	}, [dragging])
-
-	const dragLeave = useCallback(e => {
-		e.currentTarget.classList.remove('insert')
-	}, [])
-
-	const drop = useCallback((i, e) => {
-		e.preventDefault()
-		dispatch(moveMedia(e.dataTransfer.getData('insert'), i))
-		dragLeave(e)
-		setDragging(false)
-	}, [])
-
 	const ref = useRef()
 
 	useEffect(() => {
@@ -91,34 +69,29 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		}
 	}, [])
 
+	const sortingAction = useCallback((oldPos, newPos) => {
+		dispatch(moveMedia(oldPos, newPos))
+	}, [])
+
 	return (
 		<div ref={ref}>
-			{media.map(({ id, refId, title, tempFilePath }, i) => (
-				<BatchItem
-					key={id}
-					id={id}
-					refId={refId}
-					title={title}
-					tempFilePath={tempFilePath}
-					selected={selectedId === id}
-					copyAllSettings={copyAllSettings}
-					applyToAllWithWarning={applyToAllWithWarning}
-					removeMediaWithWarning={removeMediaWithWarning}
-					dragStart={e => dragStart(i, e)}
-					dragOver={dragOver}
-					dragLeave={dragLeave}
-					drop={e => drop(i, e)}
-					index={i}
-					mediaLength={media.length}
-					dispatch={dispatch} />
-			))}
-			{media.length > 1 && (
-				<span
-					className="insert-last"
-					onDragOver={dragOver}
-					onDragLeave={dragLeave}
-					onDrop={e => drop(media.length, e)}></span>
-			)}
+			<DraggableList gap={6} sortingAction={sortingAction}>
+				{media.map(({ id, refId, title, tempFilePath }, i) => (
+					<BatchItem
+						key={id}
+						id={id}
+						refId={refId}
+						title={title}
+						tempFilePath={tempFilePath}
+						selected={selectedId === id}
+						copyAllSettings={copyAllSettings}
+						applyToAllWithWarning={applyToAllWithWarning}
+						removeMediaWithWarning={removeMediaWithWarning}
+						index={i}
+						mediaLength={media.length}
+						dispatch={dispatch} />
+				))}
+			</DraggableList>
 		</div>
 	)
 }

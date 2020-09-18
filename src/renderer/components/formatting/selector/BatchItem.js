@@ -77,12 +77,7 @@ const BatchItem = props => {
 
 	return (
 		<div
-			className={`batch-item${selected ? ' selected' : ''}`}
-			onDragStart={props.dragStart}
-			onDragOver={props.dragOver}
-			onDragLeave={props.dragLeave}
-			onDrop={props.drop}
-			draggable={mediaLength > 1}>
+			className={`batch-item${selected ? ' selected' : ''}`}>
 			<DropdownMenu buttons={dropdown} />
 			<button
 				type="button"
@@ -107,10 +102,10 @@ BatchItem.propTypes = {
 	copyAllSettings: func.isRequired,
 	applyToAllWithWarning: func.isRequired,
 	removeMediaWithWarning: func.isRequired,
-	dragStart: func.isRequired,
-	dragOver: func.isRequired,
-	dragLeave: func.isRequired,
-	drop: func.isRequired,
+	// dragStart: func.isRequired,
+	// dragOver: func.isRequired,
+	// dragLeave: func.isRequired,
+	// drop: func.isRequired,
 	tempFilePath: string.isRequired,
 	index: number.isRequired,
 	mediaLength: number.isRequired,
