@@ -30,6 +30,7 @@ const SaveLocations = ({ saveLocations, dispatch }) => {
 							<Directory
 								key={dir.id}
 								index={i}
+								isLast={i === saveLocations.length - 1}
 								dispatch={dispatch}
 								dir={dir} />
 						))}
