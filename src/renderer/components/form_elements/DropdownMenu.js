@@ -32,7 +32,7 @@ const DropdownMenu = ({ buttons }) => {
 				aria-expanded={revealMenu}>more_vert</button>
 			{revealMenu && (
 				<span style={position}>
-					{buttons.map(({ hide, role, label, action }) => !hide && (role === 'spacer' ? (
+					{buttons.map(({ hide, role, label, action }, i) => !hide && (role === 'spacer' ? (
 						<span
 							key={uuid()}
 							className="spacer"
@@ -41,6 +41,7 @@ const DropdownMenu = ({ buttons }) => {
 						<button
 							key={uuid()}
 							type="button"
+							autoFocus={i === 0}
 							onClick={() => {
 								action()
 								toggleRevealMenu(false)
