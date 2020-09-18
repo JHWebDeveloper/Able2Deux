@@ -76,8 +76,7 @@ const BatchItem = props => {
 	]
 
 	return (
-		<div
-			className={`batch-item${selected ? ' selected' : ''}`}>
+		<div className={`batch-item${selected ? ' selected' : ''}`}>
 			<DropdownMenu buttons={dropdown} />
 			<button
 				type="button"
