@@ -1,11 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { arrayOf, bool, exact, func, string } from 'prop-types'
 
-import { addNewLocation } from '../../actions'
+import { addNewLocation, moveLocation } from '../../actions'
 
+import DraggableList from '../form_elements/DraggableList'
 import Directory from './Directory'
 
 const SaveLocations = ({ saveLocations, dispatch }) => {
+	const sortingAction = useCallback((oldPos, newPos) => {
+		dispatch(moveLocation(oldPos, newPos))
+	}, [])
+
 	useEffect(() => {
 		if (saveLocations.length === 0) {
 			dispatch(addNewLocation(0, false))
@@ -20,13 +25,15 @@ const SaveLocations = ({ saveLocations, dispatch }) => {
 					<label id="default">Default</label>
 					<label id="label">Label</label>
 					<label id="folder">Folder</label>
-					{saveLocations.map((dir, i) => (
-						<Directory
-							key={dir.id}
-							index={i}
-							dispatch={dispatch}
-							dir={dir} />
-					))}
+					<DraggableList sortingAction={sortingAction}>
+						{saveLocations.map((dir, i) => (
+							<Directory
+								key={dir.id}
+								index={i}
+								dispatch={dispatch}
+								dir={dir} />
+						))}
+					</DraggableList>
 				</div>
 			</fieldset>
 		</div>
