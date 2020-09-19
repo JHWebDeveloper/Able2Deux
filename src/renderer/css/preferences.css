@@ -69,16 +69,17 @@ input[type="text"]:read-only {
 
 #save-locations div {
 	display: grid;
-	grid-template-columns: repeat(3, 24px) 251px 24px 251px 24px 24px;
+	grid-template-columns: repeat(3, 24px) 239px 24px 239px 24px 24px 24px;
 	grid-gap: 0 6px;
 }
 
-#save-locations div > :matches(div, span) { grid-column: 1 / span 8; }
+#save-locations div > :matches(div, span) { grid-column: 1 / span 9; }
 
 #save-locations div > div {
 	display: inherit;
 	grid-template-columns: inherit;
 	grid-gap: inherit;
+	background-color: var(--background-color);
 }
 
 #save-locations label { margin-bottom: 6px; }
@@ -96,12 +97,17 @@ input[type="text"]:read-only {
 
 #folder { grid-column: 5 / span 4; }
 
-div:only-of-type > input[name="directory"] {
-	grid-column: span 3;
+#save-locations div:only-of-type > input[name="directory"] {
+	grid-column: span 4;
 }
 
 button[name="up"] { grid-column: 7; }
 button[name="down"] { grid-column: 8; }
+
+#save-locations svg {
+	grid-column: 9;
+	fill: var(--secondary);
+}
 
 .input-option:first-of-type { margin-top: 10px; }
 
