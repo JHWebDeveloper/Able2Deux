@@ -6,20 +6,20 @@ import { scratchDisk } from '../scratchDisk'
 import { assetsPath, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
 
-let jobs = []
+let renderJobs = []
 
 export const cancelRender = async id => {
-	if (jobs.length) {
-		await jobs.find(job => job.id === id).cmd.kill()
+	if (renderJobs.length) {
+		await renderJobs.find(job => job.id === id).cmd.kill()
 	}
 }
 
 export const cancelAllRenders = async () => (
-	Promise.all(jobs.map(job => job.cmd.kill()))
+	Promise.all(renderJobs.map(job => job.cmd.kill()))
 )
 
 const removeJob = async id => {
-	jobs = jobs.filter(dl => dl.id !== id)
+	renderJobs = renderJobs.filter(dl => dl.id !== id)
 	return scratchDisk.exports.clear(id)
 }
 
@@ -268,7 +268,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	
 	renderCmd.run()
 
-	jobs.push({ id, cmd: renderCmd })
+	renderJobs.push({ id, cmd: renderCmd })
 
-	win.webContents.send(`renderStarted_${id}`)
+	win.webContents.send(`renderJobstarted_${id}`)
 })
