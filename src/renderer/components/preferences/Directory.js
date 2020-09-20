@@ -45,23 +45,25 @@ const Directory = ({ dir, index, total, dispatch }) => {
 			<DirectorySelector
 				directory={directory}
 				onChange={dir => dispatch(updateLocationField(id, 'directory', dir))} />
-			{index > 0 && (
-				<button
-					type="button"
-					name="up"
-					className="app-button symbol"
-					title="Move directory up"
-					onClick={() => dispatch(moveLocation(index, index - 1))}>keyboard_arrow_up</button>
-			)}
-			{index < total - 1 && (
-				<button
-					type="button"
-					name="down"
-					className="app-button symbol"
-					title="Move directory down"
-					onClick={() => dispatch(moveLocation(index, index + 2))}>keyboard_arrow_down</button>
-			)}
-			{total > 1 && <DragIndicator />}
+			{total > 1 && <>
+				{index > 0 && (
+					<button
+						type="button"
+						name="up"
+						className="app-button symbol"
+						title="Move directory up"
+						onClick={() => dispatch(moveLocation(index, index - 1))}>keyboard_arrow_up</button>
+				)}
+				{index < total - 1 && (
+					<button
+						type="button"
+						name="down"
+						className="app-button symbol"
+						title="Move directory down"
+						onClick={() => dispatch(moveLocation(index, index + 2))}>keyboard_arrow_down</button>
+				)}
+				<DragIndicator />
+			</>}
 		</>
 	)
 }
