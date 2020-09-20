@@ -10,7 +10,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ## [Unreleased][2.1.2] - TBD
 
 ### Added
-- Media items can now be rearranged by dragging and dropping in both the Ready Queue and Batch Selector as can Save Locations in Preference.
+- Media items can now be rearranged by dragging and dropping in both the Ready Queue and Batch Selector as can Save Locations in Preferences.
 - Help page is back.
 - Added $b token for file and batch names. Can be used for inserting batch size ('Video $n of $b' ---> 'Video 1 of 10', 'Video 2 of 10', 'Video 3 of 10'...)
 - Added $r token for file and batch names. Will number media items in descending order.
