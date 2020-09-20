@@ -12,8 +12,9 @@ import {
 } from '../../actions/preferences'
 
 import DirectorySelector from '../form_elements/DirectorySelector'
+import DragIndicator from '../svg/DragIndicator'
 
-const Directory = ({ dir, index, isLast, dispatch }) => {
+const Directory = ({ dir, index, total, dispatch }) => {
 	const { checked, label, directory, id } = dir
 
 	return (
@@ -44,7 +45,7 @@ const Directory = ({ dir, index, isLast, dispatch }) => {
 			<DirectorySelector
 				directory={directory}
 				onChange={dir => dispatch(updateLocationField(id, 'directory', dir))} />
-			{index !== 0 && (
+			{index > 0 && (
 				<button
 					type="button"
 					name="up"
@@ -52,7 +53,7 @@ const Directory = ({ dir, index, isLast, dispatch }) => {
 					title="Move directory up"
 					onClick={() => dispatch(moveLocation(index, index - 1))}>keyboard_arrow_up</button>
 			)}
-			{!isLast && (
+			{index < total - 1 && (
 				<button
 					type="button"
 					name="down"
@@ -60,6 +61,7 @@ const Directory = ({ dir, index, isLast, dispatch }) => {
 					title="Move directory down"
 					onClick={() => dispatch(moveLocation(index, index + 2))}>keyboard_arrow_down</button>
 			)}
+			{total > 1 && <DragIndicator />}
 		</>
 	)
 }
@@ -72,7 +74,7 @@ Directory.propTypes = {
 		id: string
 	}).isRequired,
 	index: number.isRequired,
-	isLast: bool.isRequired,
+	total: number.isRequired,
 	dispatch: func.isRequired
 }
 
