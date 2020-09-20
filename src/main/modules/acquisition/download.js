@@ -133,17 +133,17 @@ export const getURLInfo = ({ url, disableRateLimit }) => new Promise((resolve, r
 	infoCmd.on('close', code => {
 		if (code === null) return false
 
-		let json = ''
+		let info = ''
 
 		try {
-			json = JSON.parse(infoString)
+			info = JSON.parse(infoString)
 		} catch (err) {
 			reject(err)
 		}
 
 		resolve({
-			title: json.title.replace(/\n/g, ''),
-			isLive: json.is_live || json.protocol === 'm3u8'
+			title: info.title.replace(/\n/g, ''),
+			isLive: info.is_live || info.protocol === 'm3u8'
 		})
 	})
 
