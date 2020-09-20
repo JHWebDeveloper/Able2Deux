@@ -10,12 +10,12 @@ let jobs = []
 
 export const cancelRender = async id => {
 	if (jobs.length) {
-		await jobs.find(job => job.id === id).command.kill()
+		await jobs.find(job => job.id === id).cmd.kill()
 	}
 }
 
 export const cancelAllRenders = async () => (
-	Promise.all(jobs.map(job => job.command.kill()))
+	Promise.all(jobs.map(job => job.cmd.kill()))
 )
 
 const removeJob = async id => {
@@ -162,7 +162,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const exportPath = path.join(scratchDisk.exports.path, `${id}.${extension}`)
 	const saveName = `${exportData.filename}.${extension}`
 
-	const command = ffmpeg(exportData.tempFilePath)
+	const renderCmd = ffmpeg(exportData.tempFilePath)
 		.outputOptions(outputOptions)
 		.output(exportPath)
 		.on('progress', progress => {
@@ -204,39 +204,39 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		reject(new Error('End timecode preceeds start timecode'))
 	}
 
-	if (start.enabled) command.seekInput(start.tc)
-	if (end.enabled) command.duration(start.enabled ? end.tc - start.tc : end.tc)
+	if (start.enabled) renderCmd.seekInput(start.tc)
+	if (end.enabled) renderCmd.duration(start.enabled ? end.tc - start.tc : end.tc)
 
 	if (!isAudio) {
 		if (!isStill) {
-			if (mediaType === 'video' && audio.exportAs === 'video') command.noAudio()
-			if (mediaType === 'image') command.loop(7)
+			if (mediaType === 'video' && audio.exportAs === 'video') renderCmd.noAudio()
+			if (mediaType === 'image') renderCmd.loop(7)
 	
 			if (exportData.renderFrameRate === '59.94fps' || exportData.acquisitionType === 'screen_record') {
-				command.outputOption('-r 59.94')
+				renderCmd.outputOption('-r 59.94')
 			}
 		}
 	
 		if (sourceData) {
 			const sourcePng = path.join(scratchDisk.imports.path, `${id}.src-overlay.png`)
 			fs.writeFileSync(sourcePng, sourceData, { encoding: 'base64' })		
-			command.input(sourcePng)
+			renderCmd.input(sourcePng)
 		}
 
 		if (arc !== 'none' && !(arc === 'fill' && overlay === 'none' && !hasAlpha)) {
 			if (background === 'blue' || background === 'grey') {
-				command
+				renderCmd
 					.input(path.join(assetsPath, renderHeight, `${background}.mov`))
 					.inputOption('-stream_loop -1')
 			} else {
-				command
+				renderCmd
 					.input(`color=c=black@${needsAlpha ? 0 : 1}.0:s=${renderWidth}x${renderHeight}:rate=59.94${needsAlpha ? ',format=rgba' : ''}`)
 					.inputOption('-f lavfi')
 			}
 		}
 
 		if (arc !== 'none' && overlay !== 'none') {
-			command
+			renderCmd
 				.input(path.join(assetsPath, renderHeight, `${overlay}.png`))
 				.input(`color=c=black:size=${renderWidth}x${renderHeight}:rate=59.94`)
 				.inputOption('-f lavfi')
@@ -244,7 +244,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			overlayDim = getOverlayInnerDimensions(renderHeight, overlay)
 		}
 
-		command.complexFilter(filter[arc]({
+		renderCmd.complexFilter(filter[arc]({
 			...rotation,
 			renderHeight,
 			renderWidth,
@@ -257,18 +257,18 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			crop: exportData.crop
 		}))
 	} else if (audio.format === 'bars') {
-		command
+		renderCmd
 			.input(`smptebars=size=${renderWidth}x${renderHeight}:rate=59.94`)
 			.inputOption('-f lavfi')
 
 		if (mediaType === 'video') {
-			command.complexFilter(filter.videoToBars({ renderWidth, renderHeight }))
+			renderCmd.complexFilter(filter.videoToBars({ renderWidth, renderHeight }))
 		}
 	}
 	
-	command.run()
+	renderCmd.run()
 
-	jobs.push({ id, command })
+	jobs.push({ id, cmd: renderCmd })
 
 	win.webContents.send(`renderStarted_${id}`)
 })
