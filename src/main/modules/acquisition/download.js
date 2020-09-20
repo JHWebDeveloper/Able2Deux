@@ -16,14 +16,14 @@ let downloads = []
 
 export const cancelDownload = async id => {
 	if (downloads.length) {
-		await downloads.find(dl => dl.id === id).download.kill('SIGTERM')
+		await downloads.find(dl => dl.id === id).cmd.kill('SIGTERM')
 	}
 
 	return scratchDisk.imports.clear(id)
 }
 
 export const stopLiveDownload = async id => (
-	downloads.find(dl => dl.id === id).download.kill('SIGINT')
+	downloads.find(dl => dl.id === id).cmd.kill('SIGINT')
 )
 
 const removeDownload = async id => {
@@ -58,7 +58,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 	const { id, url, optimize, output, disableRateLimit } = formData
 	let pending = true
 
-	const download = spawn(ytdlPath, [
+	const downloadCmd = spawn(ytdlPath, [
 		...ytdlOpts(disableRateLimit),
 		'--ffmpeg-location',	ffmpegPath,
 		'--output', `${scratchDisk.imports.path}/${id}.%(ext)s`,
@@ -73,7 +73,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		id
 	}
 
-	download.stdout.on('data', data => {
+	downloadCmd.stdout.on('data', data => {
 		const info = data.toString()
 
 		if (!/\[download\]/.test(info)) return false
@@ -89,24 +89,24 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		win.webContents.send(`downloadProgress_${id}`, progress)
 	})
 
-	download.stderr.on('data', err => {
+	downloadCmd.stderr.on('data', err => {
 		if (/^ERROR: Unable to download webpage/.test(err)) {
 			removeDownload(id)
 			reject(err.toString())
 		}
 	})
 
-	download.on('close', code => {
+	downloadCmd.on('close', code => {
 		removeDownload(id)
 		if (code !== null) getTempFilePath(id).then(resolve)
 	})
 
-	download.on('error', err => {
+	downloadCmd.on('error', err => {
 		removeDownload(id)
 		reject(err)
 	})
 
-	downloads.push({ id, download })
+	downloads.push({ id, cmd: downloadCmd })
 })
 
 
