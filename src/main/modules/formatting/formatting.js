@@ -51,6 +51,26 @@ const checkNeedsAlpha = ({ mediaType, arc, background, overlay }) => {
 	)
 }
 
+const copyFileNoOverwrite = async (src, dest, n = 0) => {
+	let _dest = dest
+
+	if (n > 0) {
+		const extIndex = dest.lastIndexOf('.')
+
+		_dest = `${dest.slice(0, extIndex)} ${n}${dest.slice(extIndex)}`
+	}
+
+	try {
+		await fsp.copyFile(src, _dest, fs.constants.COPYFILE_EXCL)
+	} catch (err) {
+		if (/^Error: EEXIST: file already exists/.test(err.toString())) {
+			return copyFile(src, dest, n + 1)
+		} else {
+			throw err
+		}
+	}
+}
+
 const sharedVideoOptions = [
 	'-b:v 7000k',
 	'-preset:v ultrafast',
@@ -138,8 +158,8 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		})
 		.on('end', async () => {
 			try {
-				await Promise.all(saveLocations.map(location => (
-					fsp.copyFile(exportPath, path.join(location.directory, saveName))
+				await Promise.all(saveLocations.map(saveLocation => (
+					copyFileNoOverwrite(exportPath, path.join(saveLocation.directory, saveName))
 				)))
 
 				win.webContents.send(`renderComplete_${id}`)
