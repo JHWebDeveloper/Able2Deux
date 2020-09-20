@@ -77,12 +77,14 @@ interop.clearTempFiles = () => ipcRenderer.send('clearTempFiles')
 
 // ---- ATTACH ALL TO RENDERER--------
 
+const nameSpace = 'ABLE2'
+
 const freeze = Object.freeze({
 	interop: Object.freeze(interop)
 })
 
 if (process.env.NODE_ENV === 'development') {
-	window.ABLE2 = freeze
+	window[nameSpace] = freeze
 } else {
-	contextBridge.exposeInMainWorld('ABLE2', freeze)
+	contextBridge.exposeInMainWorld(nameSpace, freeze)
 }
