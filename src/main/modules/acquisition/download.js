@@ -113,7 +113,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 /* --- GET TITLE --- */
 
 export const getURLInfo = ({ url, disableRateLimit }) => new Promise((resolve, reject) => {
-	const info = spawn(ytdlPath, [
+	const infoCmd = spawn(ytdlPath, [
 		...ytdlOpts(disableRateLimit), 
 		'--dump-json',
 		url
@@ -121,16 +121,16 @@ export const getURLInfo = ({ url, disableRateLimit }) => new Promise((resolve, r
 
 	let infoString = ''
 
-	info.stdout.on('data', data => {
+	infoCmd.stdout.on('data', data => {
 		infoString += data.toString()
 	})
 
-	info.stderr.on('data', err => {
-		info.kill()
+	infoCmd.stderr.on('data', err => {
+		infoCmd.kill()
 		reject(err.toString())
 	})
 
-	info.on('close', code => {
+	infoCmd.on('close', code => {
 		if (code === null) return false
 
 		let json = ''
@@ -147,7 +147,7 @@ export const getURLInfo = ({ url, disableRateLimit }) => new Promise((resolve, r
 		})
 	})
 
-	info.on('error', err => {
+	infoCmd.on('error', err => {
 		reject(err)
 	})
 })
