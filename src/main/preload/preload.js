@@ -82,5 +82,5 @@ if (process.env.NODE_ENV === 'development') {
 		interop: Object.freeze(interop)
 	})
 } else {
-	contextBridge.exposeInMainWorld('ABLE2', { interop })
+	contextBridge.exposeInMainWorld('ABLE2', Object.freeze({ interop }))
 }
