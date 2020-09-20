@@ -49,8 +49,9 @@ export const arrayCount = (arr, exp) => {
 }
 
 export const countDigits = n => {
-	let count = 0
-	if (n >= 0) count++
+	if (n < 0) n = Math.abs(n)
+	
+	let count = 1
 
 	while (n / 10 >= 1) {
 		n /= 10
