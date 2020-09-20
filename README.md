@@ -17,7 +17,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Changed
 - Duplicate filenames now follow the "&lt;#&gt; of &lt;total&gt;" pattern instead of just a single digit.
-- No more overwrites on save. Number will be added to end of filename if file with same name already exists.
+- No more overwrites on save. Number will append to filename if file with same name already exists.
 
 ### Updated
 - Video service compatibility
