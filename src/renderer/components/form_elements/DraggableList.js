@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
-import { v1 as uuid } from 'uuid'
 import { arrayOf, element, func, oneOfType } from 'prop-types'
+import { v1 as uuid } from 'uuid'
 
 const dragLeave = e => {
 	e.currentTarget.classList.remove('insert')
@@ -31,7 +31,7 @@ const DraggableList = ({ sortingAction, children }) => {
 		<>
 			{children.map((child, i) => (
 				<div
-					key={child?.props?.id || uuid()}
+					key={child.key}
 					className="draggable"
 					onDragStart={e => dragStart(i, e)}
 					onDragOver={dragOver}
