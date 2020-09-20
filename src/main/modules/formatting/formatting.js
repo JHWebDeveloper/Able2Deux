@@ -43,7 +43,7 @@ const checkIsStill = exportData => {
 	)
 }
 
-const countDigits = n => {
+const getIntegerLength = n => {
 	let count = 1
 
 	while (n / 10 >= 1) {
@@ -59,7 +59,7 @@ const copyFileNoOverwrite = async (src, dest, n = 0) => {
 
 	if (n > 0) {
 		const extIndex = dest.lastIndexOf('.')
-		const maxLength = 250 - countDigits(n)
+		const maxLength = 250 - getIntegerLength(n)
 		let truncate = 0
 
 		if (extIndex > maxLength) truncate += extIndex - maxLength

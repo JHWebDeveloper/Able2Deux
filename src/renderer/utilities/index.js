@@ -48,7 +48,7 @@ export const arrayCount = (arr, exp) => {
 	return count
 }
 
-export const countDigits = n => {
+export const getIntegerLength = n => {
 	if (n < 0) n *= -1
 
 	let count = 1

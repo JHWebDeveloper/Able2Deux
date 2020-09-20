@@ -1,4 +1,4 @@
-import { countDigits } from '.'
+import { getIntegerLength } from '.'
 
 export const capitalize = str => {
 	const len = str.length
@@ -40,7 +40,7 @@ export const keepInRange = e => {
 export const zeroize = (n = 1, total = 1) => {
 	if (total < 9) return n
 	
-	let zeroCount = countDigits(total) - countDigits(n)
+	let zeroCount = getIntegerLength(total) - getIntegerLength(n)
 
 	while (zeroCount--) n = `0${n}`
 

@@ -5,7 +5,7 @@ import * as ACTION from './types'
 import * as STATUS from '../status/types'
 import { PromiseQueue } from '../constructors'
 import { updateMediaNestedState, updateMediaState } from '.'
-import { buildSource, countDigits, zeroize, cleanFilename, replaceTokens, toastrOpts } from '../utilities'
+import { buildSource, getIntegerLength, zeroize, cleanFilename, replaceTokens, toastrOpts } from '../utilities'
 
 const { interop } = window.ABLE2
 
@@ -172,7 +172,7 @@ const preventDuplicateFilenames = media => {
 	if (tally.size === length) return media
 
 	const mediaCopy = [...media]
-	const maxFilenameLength = 246 - countDigits(length) * 2
+	const maxFilenameLength = 246 - getIntegerLength(length) * 2
 
 	while (i--) {
 		const key = mediaCopy[i].filename
