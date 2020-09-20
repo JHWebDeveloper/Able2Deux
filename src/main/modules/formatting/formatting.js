@@ -43,12 +43,15 @@ const checkIsStill = exportData => {
 	)
 }
 
-const checkNeedsAlpha = ({ mediaType, arc, background, overlay }) => {
-	if (mediaType === 'audio') return false
+const countDigits = n => {
+	let count = 1
 
-	return (
-		background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none')
-	)
+	while (n / 10 >= 1) {
+		n /= 10
+		count++
+	}
+
+	return count
 }
 
 const copyFileNoOverwrite = async (src, dest, n = 0) => {
@@ -56,8 +59,12 @@ const copyFileNoOverwrite = async (src, dest, n = 0) => {
 
 	if (n > 0) {
 		const extIndex = dest.lastIndexOf('.')
+		const maxLength = 250 - countDigits(n)
+		let truncate = 0
 
-		_dest = `${dest.slice(0, extIndex)} ${n}${dest.slice(extIndex)}`
+		if (extIndex > maxLength) truncate += maxLength
+
+		_dest = `${dest.slice(0, extIndex - truncate)} ${n}${dest.slice(extIndex)}`
 	}
 
 	try {
@@ -69,6 +76,14 @@ const copyFileNoOverwrite = async (src, dest, n = 0) => {
 			throw err
 		}
 	}
+}
+
+const checkNeedsAlpha = ({ mediaType, arc, background, overlay }) => {
+	if (mediaType === 'audio') return false
+
+	return (
+		background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none')
+	)
 }
 
 const sharedVideoOptions = [
