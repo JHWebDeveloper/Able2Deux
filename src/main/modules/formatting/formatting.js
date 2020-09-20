@@ -165,7 +165,6 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				win.webContents.send(`renderComplete_${id}`)
 				resolve()
 			} catch (err) {
-				win.webContents.send(`renderErr_${id}`)
 				reject(err)
 			} finally {
 				removeJob(id)
