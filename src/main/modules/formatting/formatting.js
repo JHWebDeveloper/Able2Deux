@@ -62,7 +62,7 @@ const copyFileNoOverwrite = async (src, dest, n = 0) => {
 		const maxLength = 250 - countDigits(n)
 		let truncate = 0
 
-		if (extIndex > maxLength) truncate += maxLength
+		if (extIndex > maxLength) truncate += extIndex - maxLength
 
 		_dest = `${dest.slice(0, extIndex - truncate)} ${n}${dest.slice(extIndex)}`
 	}
