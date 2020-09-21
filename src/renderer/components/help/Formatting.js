@@ -8,7 +8,7 @@ const Formatting = () => (
 	<section id="formatting">
 		<h2>Formatting</h2>
 		<p>The formatting phase is where we edit the appearance of the media and export it.</p>
-		<p>If at any time you wish add media to the batch, you may hit the Back button at the bottom left corner of the app to go back to Acquisition phase. All current format settings will be retained when you return.</p>
+		<p>If at any time you wish to add additional media to the batch, you may hit the Back button at the bottom left corner of the app to go back to the Acquisition phase. All current format settings will be retained when you return.</p>
 		<h3 id="media-selector">Media Selector</h3>
 		<p>Directly under the Able2 title you will see the Media Selector window. There you will see each media item you imported listed. Here we can select which media item to edit.</p>
 		<p>Click the media item to select it. You will then see some basic media data populate at the top of the selector. The data will vary depending on the media type. You will also see the section in the right hand column populate. At the top is a preview of how the media will appear in Avid. All sections below the preview are where we will format the media for export.</p>
