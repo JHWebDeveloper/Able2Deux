@@ -7,7 +7,7 @@ Able2 is an all-in-one News Editor's video acquisition tool customized for the E
 This repo and is intended for portfolio viewing purposes only. For official releases please download from the following repo:
 https://github.com/JHWebDeveloper/Able2-public-resources
 
-## [Unreleased][2.1.2] - TBD
+## [2.1.2] - 9.21.20
 
 ### Added
 - Media items can now be rearranged by dragging and dropping in both the Ready Queue and Batch Selector as can Save Locations in Preferences.
