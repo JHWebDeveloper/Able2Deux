@@ -43,7 +43,8 @@ const DropdownMenu = ({ buttons }) => {
 						<span
 							key={uuid()}
 							className="spacer"
-							aria-hidden="true"></span>
+							aria-hidden="true"
+							data-no-drag></span>
 					) : (
 						<button
 							key={uuid()}
@@ -53,7 +54,8 @@ const DropdownMenu = ({ buttons }) => {
 							onClick={() => {
 								action()
 								toggleRevealMenu(false)
-							}}>{label}</button>
+							}}
+							data-no-drag>{label}</button>
 					)))}
 				</span>
 			)}
