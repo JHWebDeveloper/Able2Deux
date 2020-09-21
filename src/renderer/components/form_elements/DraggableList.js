@@ -5,6 +5,14 @@ const dragLeave = e => {
 	e.currentTarget.classList.remove('insert')
 }
 
+const disableDrag = e => {
+	if (e.target.matches('[data-no-drag]')) e.currentTarget.draggable = false
+}
+
+const enableDrag = e => {
+	e.currentTarget.draggable = true
+}
+
 const DraggableList = ({ sortingAction, children }) => {
 	const [ dragging, setDragging ] = useState(false)
 	const draggable = children.length > 1
@@ -37,12 +45,8 @@ const DraggableList = ({ sortingAction, children }) => {
 					onDragLeave={dragLeave}
 					onDrop={e => drop(i, e)}
 					draggable={draggable}
-					onMouseDown={e => {
-						if (e.target.matches('[data-no-drag]')) e.currentTarget.draggable = false
-					}}
-					onMouseUp={e => {
-						e.currentTarget.draggable = true
-					}}>{child}</div>
+					onMouseDown={disableDrag}
+					onMouseUp={enableDrag}>{child}</div>
 			))}
 			{draggable && (
 				<span
