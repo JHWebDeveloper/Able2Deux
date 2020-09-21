@@ -36,7 +36,13 @@ const DraggableList = ({ sortingAction, children }) => {
 					onDragOver={dragOver}
 					onDragLeave={dragLeave}
 					onDrop={e => drop(i, e)}
-					draggable={draggable}>{child}</div>
+					draggable={draggable}
+					onMouseDown={e => {
+						if (e.target.matches('[data-no-drag]')) e.currentTarget.draggable = false
+					}}
+					onMouseUp={e => {
+						e.currentTarget.draggable = true
+					}}>{child}</div>
 			))}
 			{draggable && (
 				<span
