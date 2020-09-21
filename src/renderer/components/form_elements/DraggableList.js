@@ -6,7 +6,7 @@ const dragLeave = e => {
 }
 
 const disableDrag = e => {
-	if (e.target.matches('[data-no-drag]')) e.currentTarget.draggable = false
+	if (e.target.dataset.noDrag) e.currentTarget.draggable = false
 }
 
 const enableDrag = e => {
