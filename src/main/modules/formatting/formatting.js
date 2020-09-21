@@ -270,5 +270,5 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 
 	renderJobs.push({ id, cmd: renderCmd })
 
-	win.webContents.send(`renderJobstarted_${id}`)
+	win.webContents.send(`renderStarted_${id}`)
 })
