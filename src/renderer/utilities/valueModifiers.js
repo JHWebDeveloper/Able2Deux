@@ -54,7 +54,7 @@ export const replaceTokens = (filename, i = 0, l = 0) => {
 
 	return filename
 		.replace(/\$n/g, zeroize(i + 1, l))
-		.replace(/\$r/g, zeroize(l - (i + 1), l))
+		.replace(/\$r/g, zeroize(l - i, l))
 		.replace(/\$b/g, l)
 		.replace(/\$d/g, d.toDateString())
 		.replace(/\$D/g, d.toLocaleDateString().replace(/\//g, '-'))
