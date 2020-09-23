@@ -86,13 +86,14 @@ const rendererConfig = {
 					{
 						loader: 'postcss-loader',
 						options: {
-							ident: 'postcss',
-							plugins: [
-								postcssPresetEnv({ stage: 0 }),
-								cssnano({
-									preset: ['default', { calc: false }]
-								})
-							]
+							postcssOptions: {
+								plugins: [
+									postcssPresetEnv({ stage: 0 }),
+									cssnano({
+										preset: ['default', { calc: false }]
+									})
+								]
+							}
 						}
 					}
 				]
