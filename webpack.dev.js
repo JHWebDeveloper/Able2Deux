@@ -73,7 +73,7 @@ module.exports = {
 		}))
 	],
 	devServer: {
-		contentBase: path.resolve(__dirname, 'dist'),
+		contentBase: path.join(__dirname, 'dist'),
 		port: 3000,
 		hot: true,
 		before() {
