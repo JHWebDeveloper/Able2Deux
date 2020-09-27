@@ -7,7 +7,7 @@ export class PromiseQueue {
 
 	next() {
 		while (this.active < this.concurrent && this.queue.length) {
-			this.active += 1
+			this.active++
 
 			const nextPromise = this.queue.shift()
 
@@ -20,7 +20,7 @@ export class PromiseQueue {
 			id,
 			promise: async () => {
 				await promise()
-				this.active -= 1
+				this.active--
 				this.next()
 			}
 		})
