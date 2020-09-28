@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react'
-import { bool, func, number, exact, string } from 'prop-types'
+import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	updateMediaNestedStateFromEvent,
@@ -48,8 +48,8 @@ Position.propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	position: exact({
-		x: number,
-		y: number
+		x: oneOfType([oneOf(['']), number]),
+		y: oneOfType([oneOf(['']), number])
 	}).isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
