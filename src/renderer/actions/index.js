@@ -76,7 +76,7 @@ export const updateMediaStateFromEvent = (id, e, editAll) => {
 			id,
 			editAll,
 			properties: {
-				[name]: dataset.number ? parseFloat(value) : value
+				[name]: value && dataset.number ? parseFloat(value) : value
 			}
 		}
 	}
@@ -105,7 +105,7 @@ export const updateMediaNestedStateFromEvent = (id, nest, e, editAll) => {
 			nest,
 			editAll,
 			properties: {
-				[name]: dataset.number ? parseFloat(value) : value
+				[name]: value && dataset.number ? parseFloat(value) : value
 			}
 		}
 	}
