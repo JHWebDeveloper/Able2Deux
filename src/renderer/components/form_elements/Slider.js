@@ -4,6 +4,14 @@ import { arrayOf, bool, func, number, oneOf, oneOfType, string } from 'prop-type
 
 import { keepInRange } from '../../utilities'
 
+const fineTuneOn = e => {
+	if (e.shiftKey) e.currentTarget.step = 0.1
+}
+
+const fineTuneOff = e => {
+	e.currentTarget.step = 1
+}
+
 const Slider = ({
 	label,
 	hideLabel,
@@ -35,6 +43,8 @@ const Slider = ({
 				max={max}
 				onChange={onChange}
 				step={1}
+				onKeyDown={fineTuneOn}
+				onKeyUp={fineTuneOff}
 				disabled={disabled}
 				data-default-value={defaultValue}
 				data-number />
@@ -54,8 +64,10 @@ const Slider = ({
 				onChange={onChange}
 				onClick={e => e.currentTarget.select()}
 				onBlur={e => onChange(keepInRange(e))}
+				step={1}
+				onKeyDown={fineTuneOn}
+				onKeyUp={fineTuneOff}
 				disabled={disabled}
-				step="0.1"
 				data-default-value={defaultValue}
 				data-number />
 			<span>%</span>
