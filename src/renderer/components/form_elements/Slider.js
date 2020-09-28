@@ -5,11 +5,11 @@ import { arrayOf, bool, func, number, oneOf, oneOfType, string } from 'prop-type
 import { keepInRange } from '../../utilities'
 
 const fineTuneOn = e => {
-	if (e.shiftKey) e.currentTarget.step = 0.1
+	if (e.shiftKey) e.target.step = 0.1
 }
 
 const fineTuneOff = e => {
-	e.currentTarget.step = 1
+	e.target.step = 1
 }
 
 const Slider = ({
