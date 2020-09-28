@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { v1 as uuid } from 'uuid'
-import { arrayOf, bool, func, number, string } from 'prop-types'
+import { arrayOf, bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import { keepInRange } from '../../utilities'
 
@@ -11,6 +11,7 @@ const Slider = ({
 	value = 0,
 	min = -100,
 	max = 100,
+	defaultValue = 0,
 	inputMax,
 	points,
 	disabled,
@@ -33,7 +34,9 @@ const Slider = ({
 				min={min}
 				max={max}
 				onChange={onChange}
+				step={1}
 				disabled={disabled}
+				data-default-value={defaultValue}
 				data-number />
 			{points && (
 				<datalist id={listID}>
@@ -47,11 +50,12 @@ const Slider = ({
 				title={label}
 				value={value}
 				min={min}
-				max={inputMax || max}
+				max={inputMax ?? max}
 				onChange={onChange}
 				onBlur={e => onChange(keepInRange(e))}
 				disabled={disabled}
 				step="0.1"
+				data-default-value={defaultValue}
 				data-number />
 			<span>%</span>
 		</div>
@@ -62,9 +66,10 @@ Slider.propTypes = {
 	label: string.isRequired,
 	hideLabel: bool,
 	name: string.isRequired,
-	value: number,
+	value: oneOfType([oneOf(['']), number]),
 	min: number,
 	max: number,
+	defaultValue: number,
 	inputMax: number,
 	points: arrayOf(number),
 	unit: string,
