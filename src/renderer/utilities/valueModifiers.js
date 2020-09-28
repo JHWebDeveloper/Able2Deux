@@ -21,7 +21,7 @@ export const cleanFilename = (fileName, asperaSafe) => fileName
 	.trim()
 
 export const keepInRange = e => {
-	const val = parseFloat(e.target.value) ?? parseFloat(e.target.defaultValue)
+	const val = parseFloat(e.target.value) ?? parseFloat(e.target.dataset.defaultValue)
 	const min = parseFloat(e.target.min)
 	const max = parseFloat(e.target.max)
 	let fixed = val
