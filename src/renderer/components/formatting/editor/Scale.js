@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useContext, useMemo } from 'react'
-import { bool, exact, func, number, object, string } from 'prop-types'
+import { bool, exact, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
 import { PrefsContext } from '../../../store/preferences'
 
@@ -53,6 +53,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 	const sliderProps = {
 		min: 1,
 		max: scaleSliderMax,
+		defaultValue: 100,
 		inputMax: 4500,
 		points: [100],
 		onChange: updateAxis
@@ -74,7 +75,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 						...sliderProps,
 						label: 'X',
 						name: 'x',
-						value: scale.x,
+						value: parseFloat(scale.x) || 0,
 						Button: () => <FitButton
 							title={`${scale.link ? 'Fit' : 'Stretch'} to Width`}
 							onClick={() => {
@@ -85,7 +86,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 						...sliderProps,
 						label: 'Y',
 						name: 'y',
-						value: scale.y,
+						value: parseFloat(scale.y) || 0,
 						Button: () => <FitButton
 							title={`${scale.link ? 'Fit' : 'Stretch'} to Height`}
 							onClick={() => {
@@ -103,8 +104,8 @@ Scale.propTypes = {
 	width: number.isRequired,
 	height: number.isRequired,
 	scale: exact({
-		x: number,
-		y: number,
+		x: oneOfType([oneOf(['']), number]),
+		y: oneOfType([oneOf(['']), number]),
 		link: bool
 	}).isRequired,
 	crop: object.isRequired,
