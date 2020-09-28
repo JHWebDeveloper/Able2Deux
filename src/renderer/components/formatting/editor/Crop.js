@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react'
-import { bool, func, number, exact, string } from 'prop-types'
+import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	updateMediaNestedState,
@@ -49,14 +49,14 @@ const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 					{
 						label: 'T',
 						name: 't',
-						value: crop.t,
+						value: parseFloat(crop.t) ?? 0,
 						inverted: invertedTB,
 						...sliderProps
 					},
 					{
 						label: 'B',
 						name: 'b',
-						value: crop.b,
+						value: parseFloat(crop.b) ?? 0,
 						inverted: invertedTB,
 						...sliderProps
 					}
@@ -69,14 +69,14 @@ const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 					{
 						label: 'L',
 						name: 'l',
-						value: crop.l,
+						value: parseFloat(crop.l) || 0,
 						inverted: invertedLR,
 						...sliderProps
 					},
 					{
 						label: 'R',
 						name: 'r',
-						value: crop.r,
+						value: parseFloat(crop.r) || 0,
 						inverted: invertedLR,
 						...sliderProps
 					}
@@ -89,10 +89,10 @@ Crop.propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	crop: exact({
-		t: number,
-		b: number,
-		r: number,
-		l: number,
+		t: oneOfType([oneOf(['']), number]),
+		b: oneOfType([oneOf(['']), number]),
+		r: oneOfType([oneOf(['']), number]),
+		l: oneOfType([oneOf(['']), number]),
 		linkTB: bool,
 		linkLR: bool
 	}).isRequired,
