@@ -52,6 +52,7 @@ const Slider = ({
 				min={min}
 				max={inputMax ?? max}
 				onChange={onChange}
+				onClick={e => e.currentTarget.select()}
 				onBlur={e => onChange(keepInRange(e))}
 				disabled={disabled}
 				step="0.1"
