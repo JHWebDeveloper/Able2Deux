@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { bool, func, number, string } from 'prop-types'
+import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	updateMediaStateFromEvent,
@@ -36,7 +36,7 @@ const Centering = memo(({ id, isBatch, centering, editAll, dispatch }) => (
 Centering.propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
-	centering: number.isRequired,
+	centering: oneOfType([oneOf(['']), number]).isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
