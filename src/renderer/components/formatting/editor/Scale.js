@@ -75,7 +75,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 						...sliderProps,
 						label: 'X',
 						name: 'x',
-						value: parseFloat(scale.x) || 0,
+						value: scale.x || 0,
 						Button: () => <FitButton
 							title={`${scale.link ? 'Fit' : 'Stretch'} to Width`}
 							onClick={() => {
@@ -86,7 +86,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 						...sliderProps,
 						label: 'Y',
 						name: 'y',
-						value: parseFloat(scale.y) || 0,
+						value: scale.y || 0,
 						Button: () => <FitButton
 							title={`${scale.link ? 'Fit' : 'Stretch'} to Height`}
 							onClick={() => {

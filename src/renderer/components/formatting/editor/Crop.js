@@ -49,14 +49,14 @@ const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 					{
 						label: 'T',
 						name: 't',
-						value: parseFloat(crop.t) ?? 0,
+						value: crop.t || 0,
 						inverted: invertedTB,
 						...sliderProps
 					},
 					{
 						label: 'B',
 						name: 'b',
-						value: parseFloat(crop.b) ?? 0,
+						value: crop.b || 0,
 						inverted: invertedTB,
 						...sliderProps
 					}
@@ -69,14 +69,14 @@ const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 					{
 						label: 'L',
 						name: 'l',
-						value: parseFloat(crop.l) || 0,
+						value: crop.l || 0,
 						inverted: invertedLR,
 						...sliderProps
 					},
 					{
 						label: 'R',
 						name: 'r',
-						value: parseFloat(crop.r) || 0,
+						value: crop.r || 0,
 						inverted: invertedLR,
 						...sliderProps
 					}
