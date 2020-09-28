@@ -13,7 +13,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Holding shift allows for fine tuning of Position, Scale and Crop sliders
 
 ### Fixed
-- Bug preventing negative numbers from being typed in the number fields next to the position sliders
+- Bug preventing negative numbers from being typed into the number fields next to the position sliders
 
 ## [2.1.2] - 9.21.20
 
