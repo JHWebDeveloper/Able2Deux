@@ -139,7 +139,7 @@ const Formatting = () => (
 		<h4 id="position-fill-frame">Position (Fill Frame)</h4>
 		<p>Accessible when AR Correction is set to Fill Frame</p>
 		<p>Allows you to set the center Position percentage of the video as it is cropped in the frame. Whether the X or Y axis are adjusted will be automatically determined by the orientation of the video. If the video has a 16:9 aspect ratio, the Position slider will not appear.</p>
-		<p>The slider and number field increments by 1%. Holding shift will reduce the increment to 0.1% allowing for finer adjustments.</p>
+		<p>The slider and number field increment by 1%. Holding shift will reduce the increments to 0.1% allowing for finer adjustments.</p>
 		<h4 id="position-transform">Position (Transform)</h4>
 		<p>Accessible when AR Correction is set to Transform</p>
 		<p>Allows you to adjust the position percentage of the media along the X and Y axis.</p>
