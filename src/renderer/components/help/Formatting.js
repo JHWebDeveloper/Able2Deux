@@ -139,10 +139,12 @@ const Formatting = () => (
 		<h4 id="position-fill-frame">Position (Fill Frame)</h4>
 		<p>Accessible when AR Correction is set to Fill Frame</p>
 		<p>Allows you to set the center Position percentage of the video as it is cropped in the frame. Whether the X or Y axis are adjusted will be automatically determined by the orientation of the video. If the video has a 16:9 aspect ratio, the Position slider will not appear.</p>
+		<p>The slider and number field increments by 1%. Holding shift will reduce the increment to 0.1% allowing for finer adjustments.</p>
 		<h4 id="position-transform">Position (Transform)</h4>
 		<p>Accessible when AR Correction is set to Transform</p>
 		<p>Allows you to adjust the position percentage of the media along the X and Y axis.</p>
 		<p>Both position percentages can be manually entered into the each slider&apos;s adjacent number field. These fields accept decimal values and can be incremented by pressing the up and down arrow keys.</p>
+		<p>The sliders and number fields increment by 1%. Holding shift will reduce increments to 0.1% allowing for finer adjustments.</p>
 		<h4 id="scale">Scale</h4>
 		<p>Accessible when AR Correction is set to Transform</p>
 		<p>Allows you to resize or distort the media along the X and Y Axis.</p>
@@ -150,11 +152,13 @@ const Formatting = () => (
 		<p>Both sliders have a small button adjacent to them. While the link is enabled, the X slider&apos;s button will resize the media to fit inside the frame width while the Y slider&apos;s button will resize the media to fit inside the frame height. If the link is disabled, the buttons will stretch the media to the frame dimensions instead of fit.</p>
 		<p>Both scale percentages can be manually entered into the each slider&apos;s adjacent number field. These fields accept decimal values, can be set higher than the slider&apos;s maximum value, and can be incremented by pressing the up and down arrow keys.</p>
 		<p>Both sliders default maximum value is 400%. This can be increased or decreased under {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences.</p>
+		<p>The sliders and number fields increment by 1%. Holding shift will reduce increments to 0.1% allowing for finer adjustments.</p>
 		<h4 id="crop">Crop</h4>
 		<p>Accessible when AR Correction is set to Transform</p>
 		<p>Allows you to crop the media from the Top, Bottom, Left and Right edges. The resulting crop will auto center at the set X/Y Position.</p>
 		<p>There are two buttons enabled by default that link the Top and Bottom sliders and Left and Right sliders. While enabled, adjusting one edge will auto crop the opposite edge with the same percentage.</p>
 		<p>Crop percentages for all four edges can be manually entered into the each slider&apos;s adjacent number field. These fields accept decimal values and can be incremented by pressing the up and down arrow keys.</p>
+		<p>The sliders and number fields increment by 1%. Holding shift will reduce increments to 0.1% allowing for finer adjustments.</p>
 		<h4 id="rotation">Rotation</h4>
 		<p>Allows you to adjust the orientation of the video.</p>
 		<h5 id="rotate">Rotate</h5>
