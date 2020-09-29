@@ -1,5 +1,5 @@
 import React from 'react'
-import { arrayOf, bool, func, number, shape, string } from 'prop-types'
+import { arrayOf, bool, func, number, oneOf, oneOfType, shape, string } from 'prop-types'
 
 import Slider from './Slider'
 import LinkIcon from '../svg/LinkIcon'
@@ -30,7 +30,7 @@ SliderPair.propTypes = {
 	sliders: arrayOf(shape({
 		label: string,
 		name: string.isRequired,
-		value: number,
+		value: oneOfType([oneOf(['']), number]),
 		defaultValue: number,
 		points: arrayOf(number),
 		min: number,
