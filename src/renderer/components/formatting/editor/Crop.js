@@ -49,14 +49,14 @@ const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 					{
 						label: 'T',
 						name: 't',
-						value: crop.t || 0,
+						value: crop.t,
 						inverted: invertedTB,
 						...sliderProps
 					},
 					{
 						label: 'B',
 						name: 'b',
-						value: crop.b || 0,
+						value: crop.b,
 						inverted: invertedTB,
 						...sliderProps
 					}
