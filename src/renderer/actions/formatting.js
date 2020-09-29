@@ -57,13 +57,25 @@ export const toggleSaveLocation = id => ({
 // ---- SCALE --------
 
 export const updateScale = (id, editAll, scale, e) => dispatch => {
-	const value = parseFloat(e.target.value)
-	const isx = e.target.name === 'x'
-	const offset = (isx ? scale.y / scale.x : scale.x / scale.y) || 1
+	let { value } = e.target
+
+	if (value === '') {
+		dispatch(updateMediaNestedState(id, 'scale', {
+			x: value,
+			y: value
+		}))
+
+		return false
+	}
+
+	value = parseFloat(e.target.value)
+	
+	const xIsActive = e.target.name === 'x'
+	const offset = (xIsActive ? scale.y / scale.x : scale.x / scale.y) || 1
 
 	dispatch(updateMediaNestedState(id, 'scale', {
-		x: isx ? value : value * offset,
-		y: isx ? value * offset : value
+		x: xIsActive ? value : value * offset,
+		y: xIsActive ? value * offset : value
 	}, editAll))
 }
 
@@ -85,7 +97,9 @@ export const fitToFrameHeight = (id, editAll, scale, frameHeightPrc) => dispatch
 // ---- CROP --------
 
 export const updateCropBiDirectional = (id, editAll, d1, d2, e) => dispatch => {
-	const value = parseFloat(e.target.value)
+	let { value } = e.target
+
+	value = value === '' ? value : parseFloat(e.target.value)
 
 	dispatch(updateMediaNestedState(id, 'crop', {
 		[d1]: value,
