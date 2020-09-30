@@ -14,7 +14,7 @@ const BatchName = ({ batch, dispatch }) => (
 				name="name"
 				className="underline"
 				value={batch.name}
-				maxLength={282}
+				maxLength={251}
 				onChange={e => dispatch(updateNestedStateFromEvent('batch', e))}
 				placeholder="If none, leave blank" />
 			<RadioSet
