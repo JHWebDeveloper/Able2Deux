@@ -41,7 +41,7 @@ const FileOptions = memo(props => {
 					title="Filename"
 					className="underline"
 					value={props.filename}
-					maxLength={282}
+					maxLength={251}
 					onChange={e => dispatch(updateMediaStateFromEvent(id, e))}
 					required />
 			</fieldset>
