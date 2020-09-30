@@ -17,8 +17,9 @@ const getRegex = asperaSafe => (
 
 export const cleanFilename = (fileName, asperaSafe) => fileName
 	.replace(getRegex(asperaSafe), '_')
-	.slice(0, 251)
 	.trim()
+	.slice(0, 251)
+	.trimEnd()
 
 export const keepInRange = e => {
 	let { value, dataset, min, max } = e.target
