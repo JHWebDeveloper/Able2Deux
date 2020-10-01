@@ -4,8 +4,7 @@ import '../../css/preferences.css'
 
 import { PrefsProvider, PrefsContext } from '../../store/preferences'
 import { updateState } from '../../actions'
-import { toastrOpts } from '../../utilities'
-import { Konami } from '../../constructors'
+import { toastrOpts, createKonamiListener } from '../../utilities'
 
 import RenderOutput from './RenderOutput'
 import ScratchDisk from './ScratchDisk'
@@ -13,7 +12,7 @@ import Defaults from './Defaults'
 import SaveLocations from './SaveLocations'
 import SaveAndClose from './SaveAndClose'
 
-const konami = new Konami()
+const konami = createKonamiListener()
 
 const Main = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
