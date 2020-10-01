@@ -3,9 +3,8 @@ import toastr from 'toastr'
 
 import * as ACTION from './types'
 import * as STATUS from '../status/types'
-import { PromiseQueue } from '../constructors'
 import { updateMediaNestedState, updateMediaState } from '.'
-import { buildSource, getIntegerLength, zeroize, cleanFilename, replaceTokens, toastrOpts } from '../utilities'
+import { createPromiseQueue, buildSource, getIntegerLength, zeroize, cleanFilename, replaceTokens, toastrOpts } from '../utilities'
 
 const { interop } = window.ABLE2
 
@@ -306,7 +305,7 @@ export const render = params => async dispatch => {
 
 	// Create promise queue and begin rendering
 
-	renderQueue = new PromiseQueue(params.concurrent)
+	renderQueue = createPromiseQueue(params.concurrent)
 
 	for (const item of media) {
 		renderQueue.add(item.id, () => renderItem(item, params, dispatch))
