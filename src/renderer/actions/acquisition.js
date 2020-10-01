@@ -3,8 +3,7 @@ import toastr from 'toastr'
 import * as ACTION from './types'
 import * as STATUS from '../status/types'
 import { updateMediaState } from '.'
-import { MediaElement } from '../constructors'
-import { replaceTokens, toastrOpts } from '../utilities'
+import { createMediaData, replaceTokens, toastrOpts } from '../utilities'
 
 const { interop } = window.ABLE2
 
@@ -71,7 +70,7 @@ const updateDownloadProgress = ({ id, eta, percent }) => ({
 export const download = ({ url, optimize, output, disableRateLimit }) => async dispatch => {
 	dispatch(resetURL())
 
-	const mediaElement = new MediaElement({
+	const mediaElement = createMediaData({
 		url,
 		title: url,
 		filename: 'download',
@@ -135,7 +134,7 @@ export const upload = ({ name, path }) => async dispatch => {
 		return toastr.error(`${name} is not a supported file type`, false, toastrOpts)
 	}
 
-	const mediaElement = new MediaElement({
+	const mediaElement = createMediaData({
 		title: name,
 		filename: interop.getFileName(name),
 		sourceFilePath: path,
@@ -170,7 +169,7 @@ export const setRecording = recording => ({
 export const loadRecording = (id, screenshot) => async dispatch => {
 	const title = replaceTokens(`Able2 Screen${screenshot ? 'shot' : ' Record'} $t $d`)
 
-	const mediaElement = new MediaElement({
+	const mediaElement = createMediaData({
 		id,
 		title,
 		filename: title,
