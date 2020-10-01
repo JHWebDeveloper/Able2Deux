@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
-import { ScrollbarPadder } from '../../../constructors'
+import { createScrollbarPadder } from '../../../utilities'
 
 import FileOptions from './FileOptions'
 import Formatting from './Formatting'
@@ -13,7 +13,7 @@ import Crop from './Crop'
 import Rotation from './Rotation'
 import Audio from './Audio'
 
-const scrollbarPadder = new ScrollbarPadder()
+const scrollbarPadder = createScrollbarPadder()
 
 const EditorOptions = props => {
 	const { id, mediaType, editAll, isBatch, width, height, aspectRatio, dispatch, arc } = props

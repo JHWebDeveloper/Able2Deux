@@ -10,8 +10,7 @@ import {
 	applySettingsToAll
 } from '../../../actions'
 
-import { warn, extractSettings, arrayCount } from '../../../utilities'
-import { ScrollbarPadder } from '../../../constructors'
+import { warn, extractSettings, arrayCount, createScrollbarPadder } from '../../../utilities'
 
 import DraggableList from '../../form_elements/DraggableList'
 import BatchItem from './BatchItem'
@@ -34,7 +33,7 @@ const removeMediaWarning = (title, enabled, callback) => {
 	})
 }
 
-const scrollbarPadder = new ScrollbarPadder()
+const scrollbarPadder = createScrollbarPadder()
 
 const BatchList = ({ media, selectedId, dispatch }) => {
 	const { warnings } = useContext(PrefsContext).preferences
