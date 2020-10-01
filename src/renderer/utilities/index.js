@@ -1,6 +1,7 @@
 export * from './buildSource'
 export * from './componentHelpers'
 export * from './drawAble2Logo'
+export * from './factories'
 export * from './valueModifiers'
 
 export const debounce = (callback, wait) => {
