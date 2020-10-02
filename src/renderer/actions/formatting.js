@@ -207,9 +207,7 @@ const preventDuplicateFilenames = media => {
 }
 
 const renderItem = (params, dispatch) => {
-	let { saveLocations, renderOutput, renderFrameRate, autoPNG } = params
-
-	saveLocations = saveLocations.filter(({ checked }) => checked)
+	const { saveLocations, renderOutput, renderFrameRate, autoPNG } = params
 
 	return async (item) => {
 		const { id, arc, aspectRatio, source, filename } = item
@@ -258,13 +256,11 @@ const renderItem = (params, dispatch) => {
 export const render = params => async dispatch => {
 	let { media, saveLocations, batch, goBack } = params
 
-	// Uncheck non existent directories and prompt to abort render if found
+	// Remove non existent directories and prompt to abort render if found
 
-	saveLocations = [...saveLocations]
+	saveLocations = saveLocations.filter(({ checked }) => checked)
 
 	for await (const location of saveLocations) {
-		if (!location.checked) continue
-
 		const exists = await interop.checkIfDirectoryExists(location.directory)
 
 		if (exists) continue
@@ -274,13 +270,13 @@ export const render = params => async dispatch => {
 		if (await interop.directoryNotFoundAlert(location.directory)) {
 			return !goBack()
 		} else {
-			location.checked = false
+			saveLocations = saveLocations.filter(({ id }) => id !== location.id)
 		}
 	}
 
 	// Prompt to choose a directory if no directories are selected or available
 
-	if (saveLocations.every(({ checked }) => !checked)) {
+	if (!saveLocations.length) {
 		const { filePaths, canceled } = await interop.chooseDirectory()
 
 		if (canceled) return !goBack()
@@ -309,7 +305,12 @@ export const render = params => async dispatch => {
 
 	renderQueue = createPromiseQueue(params.concurrent)
 
-	const renderItemReady = renderItem(params, dispatch)
+	const renderItemReady = renderItem({
+		saveLocations,
+		renderOutput: params.renderOutput,
+		renderFrameRate: params.renderFrameRate,
+		autoPNG: params.autoPNG
+	}, dispatch)
 
 	for (const item of media) {
 		renderQueue.add(item.id, () => renderItemReady(item))
