@@ -209,7 +209,7 @@ const preventDuplicateFilenames = media => {
 const renderItem = (params, dispatch) => {
 	const { saveLocations, renderOutput, renderFrameRate, autoPNG } = params
 
-	return async (item) => {
+	return async item => {
 		const { id, arc, aspectRatio, source, filename } = item
 
 		if (item.source.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {

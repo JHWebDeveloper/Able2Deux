@@ -11,9 +11,7 @@ export const capitalize = str => {
 	return newStr
 }
 
-const getRegex = asperaSafe => (
-	new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
-)
+const getRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
 
 export const cleanFilename = (fileName, asperaSafe) => fileName
 	.replace(getRegex(asperaSafe), '_')

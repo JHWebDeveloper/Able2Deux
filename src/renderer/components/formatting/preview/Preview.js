@@ -43,6 +43,7 @@ const Preview = ({ selected, dispatch }) => {
 		_916: false
 	})
 
+	// eslint-disable-next-line no-extra-parens
 	const sourceData = useMemo(() => (
 		source.sourceName &&
 		!(arc === 'none' && aspectRatio !== '16:9') &&

@@ -46,6 +46,7 @@ export const removeMedia = ({ status, id, refId, references = 0 }) => async disp
 	})
 }
 
+// eslint-disable-next-line no-extra-parens
 export const removeAllMedia = media => async dispatch => (
 	Promise.all(media.map(item => removeMedia(item)(dispatch)))
 )

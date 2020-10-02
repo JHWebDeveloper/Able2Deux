@@ -18,6 +18,7 @@ export const getURLInfo = data => sendMessage({
 	data
 })
 
+// eslint-disable-next-line no-extra-parens
 export const requestDownloadChannel = ({ data, startCallback, progressCallback }) => (
 	requestChannel({
 		sendMsg: 'requestDownload',

@@ -22,6 +22,7 @@ const RenderQueue = withRouter(params => {
 	const { media, batch, saveLocations, closeRenderQueue, dispatch, history } = params
 	const { renderOutput, renderFrameRate, autoPNG, asperaSafe, concurrent } = useContext(PrefsContext).preferences
 	
+	// eslint-disable-next-line no-extra-parens
 	const complete = media.every(({ render }) => (
 		render.status === STATUS.COMPLETE ||
 		render.status === STATUS.CANCELLED ||

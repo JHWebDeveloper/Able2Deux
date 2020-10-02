@@ -21,6 +21,7 @@ export const removePreviewListeners = () => {
 
 // ---- RENDER --------
 
+// eslint-disable-next-line no-extra-parens
 export const requestRenderChannel = ({ data, startCallback, progressCallback }) => (
 	requestChannel({
 		sendMsg: 'requestRender',

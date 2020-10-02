@@ -35,6 +35,7 @@ export const getRecordSources = async () => {
 export const findSoundflower = async () => {
 	const devices = await navigator.mediaDevices.enumerateDevices()
 
+	// eslint-disable-next-line no-extra-parens
 	return devices.filter(device => (
 		device.kind === 'audiooutput' &&
 		device.label === 'Soundflower (2ch)' &&
@@ -42,9 +43,9 @@ export const findSoundflower = async () => {
 	))[0]
 }
 
-export const getSoundflower = () => (
+export const getSoundflower = () => {
 	shell.openExternal('https://github.com/mattingalls/Soundflower/releases/tag/2.0b2')
-)
+}
 
 const getStream = async (chromeMediaSourceId, noAudio) => {
 	const videoStream = await navigator.mediaDevices.getUserMedia({

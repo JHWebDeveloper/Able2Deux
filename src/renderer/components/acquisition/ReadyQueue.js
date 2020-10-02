@@ -19,6 +19,7 @@ const checkMediaFailed = ({ status }) => status === STATUS.FAILED
 const ReadyQueue = withRouter(({ media, recording, warnings, dispatch, history }) => {
 	const backgroundColor = !media.length ? '#e0e0e0' : '#bbb'
 
+	// eslint-disable-next-line no-extra-parens
 	const notReady = useMemo(() => (
 		recording || !media.length || !media.every(checkMediaReady) || media.every(checkMediaFailed)
 	), [recording, media])

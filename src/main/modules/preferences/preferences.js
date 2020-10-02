@@ -54,11 +54,9 @@ export const initPreferences = async () => {
 
 export const loadPrefs = async () => JSON.parse(await fsp.readFile(prefsPath))
 
-export const savePrefs = async prefs => (
-	fsp.writeFile(prefsPath, JSON.stringify({
-		...prefs,
-		version: defaultPrefs.version
-	}))
-)
+export const savePrefs = async prefs => fsp.writeFile(prefsPath, JSON.stringify({
+	...prefs,
+	version: defaultPrefs.version
+}))
 
 export const getDefaultPrefs = () => defaultPrefs

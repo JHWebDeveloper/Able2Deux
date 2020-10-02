@@ -2,6 +2,7 @@ import React from 'react'
 import { string, func, arrayOf, shape, bool } from 'prop-types'
 import { v1 as uuid } from 'uuid'
 
+// eslint-disable-next-line no-extra-parens
 const RadioSet = ({ name, state, onChange, buttons }) => (
 	buttons.map(({ label, value, omit }) => omit || (
 		<label key={uuid()}>

@@ -14,15 +14,14 @@ export const cancelRender = async id => {
 	}
 }
 
-export const cancelAllRenders = async () => (
-	Promise.all(renderJobs.map(job => job.cmd.kill()))
-)
+export const cancelAllRenders = async () => Promise.all(renderJobs.map(job => job.cmd.kill()))
 
 const removeJob = async id => {
 	renderJobs = renderJobs.filter(dl => dl.id !== id)
 	return scratchDisk.exports.clear(id)
 }
 
+// eslint-disable-next-line no-extra-parens
 const checkIsAudio = ({ mediaType, audio }) => (
 	mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
 )
@@ -173,6 +172,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		})
 		.on('end', async () => {
 			try {
+				// eslint-disable-next-line no-extra-parens
 				await Promise.all(saveLocations.map(saveLocation => (
 					copyFileNoOverwrite(exportPath, path.join(saveLocation.directory, saveName))
 				)))

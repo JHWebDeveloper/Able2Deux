@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-extra-parens
 const getBGLayerNumber = (sourceData, overlayDim) => sourceData ? (overlayDim ? 4 : 2) : (overlayDim ? 3 : 1)
 const previewResize = 'scale=w=384:h=216:force_original_aspect_ratio=decrease'
 const previewMixdown = `[final];[final]${previewResize}`
