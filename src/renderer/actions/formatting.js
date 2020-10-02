@@ -269,6 +269,8 @@ export const render = params => async dispatch => {
 
 		if (await interop.directoryNotFoundAlert(location.directory)) {
 			return !goBack()
+		} else {
+			location.checked = false
 		}
 	}
 
