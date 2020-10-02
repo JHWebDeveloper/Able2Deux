@@ -21,9 +21,10 @@ export const removePreviewListeners = () => {
 
 // ---- RENDER --------
 
-// eslint-disable-next-line no-extra-parens
-export const requestRenderChannel = ({ data, startCallback, progressCallback }) => (
-	requestChannel({
+export const requestRenderChannel = params => {
+	const { data, startCallback, progressCallback } = params
+	
+	return requestChannel({
 		sendMsg: 'requestRender',
 		recieveMsg: `renderComplete_${data.id}`,
 		errMsg: `renderFailed_${data.id}`,
@@ -33,7 +34,7 @@ export const requestRenderChannel = ({ data, startCallback, progressCallback }) 
 		startCallback,
 		progressCallback
 	})
-)
+}
 
 export const cancelRender = id => ipcRenderer.send('cancelRender', id)
 

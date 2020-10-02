@@ -18,9 +18,10 @@ export const getURLInfo = data => sendMessage({
 	data
 })
 
-// eslint-disable-next-line no-extra-parens
-export const requestDownloadChannel = ({ data, startCallback, progressCallback }) => (
-	requestChannel({
+export const requestDownloadChannel = params => {
+	const { data, startCallback, progressCallback } = params
+	
+	return requestChannel({
 		sendMsg: 'requestDownload',
 		recieveMsg: `downloadComplete_${data.id}`,
 		errMsg: `downloadErr_${data.id}`,
@@ -30,7 +31,7 @@ export const requestDownloadChannel = ({ data, startCallback, progressCallback }
 		startCallback,
 		progressCallback
 	})
-)
+}
 
 export const cancelDownload = id => ipcRenderer.send('cancelDownload', id)
 
