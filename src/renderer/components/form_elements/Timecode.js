@@ -5,14 +5,14 @@ import { tcToSeconds, simplifyTimecode } from '../../utilities'
 
 import Checkbox from './Checkbox'
 
+const limitChars = e => {
+	const colons = e.target.value.match(/:/g) || []
+	const regex = colons.length === 2 ? /[0-9]/ : /[:0-9]/
+
+	if (!regex.test(e.key)) e.preventDefault()
+}
+
 const Timecode = ({ label, name, enabled, display, initDisplay, disabled, toggleTimecode, onChange }) => {
-	const limitChars = useCallback(e => {
-		const colons = e.target.value.match(/:/g) || []
-		const regex = colons.length === 2 ? /[0-9]/ : /[:0-9]/
-
-		if (!regex.test(e.key)) e.preventDefault()
-	}, [])
-
 	const onTimecodeChange = useCallback(display => {
 		onChange({
 			display,
@@ -38,7 +38,7 @@ const Timecode = ({ label, name, enabled, display, initDisplay, disabled, toggle
 				name="enabled"
 				label={label}
 				checked={enabled}
-				onChange={e => toggleTimecode(e)}
+				onChange={toggleTimecode}
 				disabled={disabled}
 				switchIcon />
 			<input
@@ -46,7 +46,7 @@ const Timecode = ({ label, name, enabled, display, initDisplay, disabled, toggle
 				name={name}
 				value={display}
 				onKeyPress={limitChars}
-				onPaste={e => pasteTimecode(e)}
+				onPaste={pasteTimecode}
 				onChange={e => onTimecodeChange(e.target.value)}
 				onBlur={e => onTimecodeChange(simplifyTimecode(e.target.value))}
 				disabled={disabled || !enabled}
