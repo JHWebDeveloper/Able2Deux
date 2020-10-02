@@ -1,4 +1,4 @@
-export const createPromiseQueue = concurrent => {
+export const createPromiseQueue = function (concurrent = 1) {
 	let _concurrent = concurrent
 	let _active = 0
 	let _queue = []
@@ -11,6 +11,11 @@ export const createPromiseQueue = concurrent => {
 	}
 
 	return {
+		updateConcurrent(concurrent) {
+			_concurrent = concurrent
+
+			return this
+		},
 		add(id, fn) {
 			const promise = async () => {
 				await fn()
@@ -19,13 +24,20 @@ export const createPromiseQueue = concurrent => {
 			}
 
 			_queue.push({ id, promise })
+
+			return this
 		},
 		remove(id) {
 			_queue = _queue.filter(promise => promise.id !== id)
+			return this
 		},
 		clear() {
 			_queue = []
+			return this
 		},
-		start: _next
+		start() {
+			_next()
+			return this
+		}	
 	}
 }
