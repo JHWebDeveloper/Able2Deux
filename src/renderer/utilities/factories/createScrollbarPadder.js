@@ -6,7 +6,7 @@ export const createScrollbarPadder = () => {
 		_el.style.paddingRight = _el.scrollHeight > _el.clientHeight ? `${_pad}px` : 0
 	}
 
-	let _observer = new MutationObserver(_addPad)
+	const _observer = new MutationObserver(_addPad)
 
 	return {
 		observe(el, pad) {

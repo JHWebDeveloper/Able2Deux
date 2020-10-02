@@ -4,7 +4,7 @@ export const createKonamiListener = () => {
 	let _callback = false
 
 	const _log = e => {
-		const match = e.keyCode === _keys[count]
+		const match = e.keyCode === _keys[_count]
 
 		if (match && _count === _keys.length - 1) {
 			_callback()

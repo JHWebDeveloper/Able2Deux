@@ -127,7 +127,7 @@ const updateRenderProgress = ({ id, percent }) => ({
 	}
 })
 
-let renderQueue = createPromiseQueue()
+const renderQueue = createPromiseQueue()
 
 const fillMissingFilenames = media => media.map(item => ({
 	...item,
