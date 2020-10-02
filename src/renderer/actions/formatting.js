@@ -207,7 +207,9 @@ const preventDuplicateFilenames = media => {
 }
 
 const renderItem = (params, dispatch) => {
-	const { renderOutput, renderFrameRate, autoPNG } = params
+	let { saveLocations, renderOutput, renderFrameRate, autoPNG } = params
+
+	saveLocations = saveLocations.filter(({ checked }) => checked)
 
 	return async (item) => {
 		const { id, arc, aspectRatio, source, filename } = item
@@ -223,7 +225,7 @@ const renderItem = (params, dispatch) => {
 					renderOutput,
 					renderFrameRate,
 					autoPNG,
-					saveLocations: params.saveLocations.filter(({ checked }) => checked)
+					saveLocations
 				},
 				startCallback() {
 					dispatch(updateRenderStatus(id, STATUS.RENDERING))
