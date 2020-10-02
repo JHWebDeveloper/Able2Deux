@@ -11,7 +11,7 @@ const saveScreenRecording = (id, buffer, screenshot) => sendMessage({
 })
 
 const prod = process.env.NODE_ENV === 'production'
-const mac  = process.platform === 'darwin'
+const mac = process.platform === 'darwin'
 
 export const getRecordSources = async () => {
 	const sources = await desktopCapturer.getSources({
@@ -169,7 +169,7 @@ export const captureScreenshot = ({ streamId, onCapture, onError }) => {
 	const video = document.createElement('video')
 
 	video.onloadeddata = async () => {
-		video.style.width  = `${video.videoWidth}px`
+		video.style.width = `${video.videoWidth}px`
 		video.style.height = `${video.videoHeight}px`
 
 		video.play()
@@ -177,7 +177,7 @@ export const captureScreenshot = ({ streamId, onCapture, onError }) => {
 		const cnv = document.createElement('canvas')
 		const ctx = cnv.getContext('2d')
 
-		cnv.width  = video.videoWidth
+		cnv.width = video.videoWidth
 		cnv.height = video.videoHeight
 		
 		ctx.drawImage(video, 0, 0, cnv.width, cnv.height)

@@ -36,7 +36,7 @@ export const buildSource = (source, output) => {
 	ctx.globalCompositeOperation = 'destination-over'
 
 	ctx.fillStyle = '#ffffff'
-	ctx.font      = `${fontSize}px Gotham`
+	ctx.font = `${fontSize}px Gotham`
 	ctx.textAlign = 'center'
 	ctx.fillText(src, txtX, txtY)
 

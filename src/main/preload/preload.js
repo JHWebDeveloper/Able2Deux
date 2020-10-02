@@ -70,7 +70,7 @@ interop.warning = async ({ message, detail }) => (await remote.dialog.showMessag
 
 // ---- GLOBAL METHODS --------
 
-interop.checkIfDirectoryExists = async dir =>  ipcRenderer.invoke('checkDirectoryExists', dir)
+interop.checkIfDirectoryExists = async dir => ipcRenderer.invoke('checkDirectoryExists', dir)
 
 interop.clearTempFiles = () => ipcRenderer.send('clearTempFiles')
 

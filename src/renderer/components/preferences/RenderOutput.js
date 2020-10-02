@@ -7,7 +7,7 @@ import { keepInRange } from '../../utilities'
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 
-const _720  = [1280, 720].join('x')
+const _720 = [1280, 720].join('x')
 const _1080 = [1920, 1080].join('x')
 
 const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, concurrent, dispatch }) => {

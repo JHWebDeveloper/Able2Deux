@@ -56,16 +56,14 @@ export const toggleNestedCheckbox = (nest, e) => ({
 
 // ---- 3RD LEVEL STATE --------
 
-export const updateMediaState = (id, properties, editAll) => {
-	return {
-		type: ACTION.UPDATE_MEDIA_STATE,
-		payload: {
-			id,
-			editAll,
-			properties
-		}
+export const updateMediaState = (id, properties, editAll) => ({
+	type: ACTION.UPDATE_MEDIA_STATE,
+	payload: {
+		id,
+		editAll,
+		properties
 	}
-}
+})
 
 export const updateMediaStateFromEvent = (id, e, editAll) => {
 	const { name, dataset, value } = e.target

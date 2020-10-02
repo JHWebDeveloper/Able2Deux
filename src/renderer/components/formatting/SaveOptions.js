@@ -6,7 +6,7 @@ import { toggleSaveLocation } from '../../actions'
 import Checkbox from '../form_elements/Checkbox'
 
 const SaveOptions = ({ isBatch, saveLocations, dispatch }) => (
-	<div id="save-options" style={{ gridRow: isBatch ?  3 : '2 / span 2' }}>
+	<div id="save-options" style={{ gridRow: isBatch ? 3 : '2 / span 2' }}>
 		<h2>Save Locations</h2>
 		<div>
 			{saveLocations.map(({ id, label, checked }) => (

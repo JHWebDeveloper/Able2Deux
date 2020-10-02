@@ -50,7 +50,7 @@ const MediaInfo = memo(props => {
 			<ul>
 				{!!duration && <li>{secondsToTC(duration)};{zeroize(Math.round(duration % 1 * fps))}</li>}
 				{!!width && !!height && <li>{width}x{height}</li>}
-				{!!aspectRatio &&  <li>{aspectRatio}</li>}
+				{!!aspectRatio && <li>{aspectRatio}</li>}
 				{!!fps && <li>{fps}fps</li>}
 				{!!channelLayout && <li>{capitalize(channelLayout)}</li>}
 				{!!bitRate && <li>{bitRate}</li>}

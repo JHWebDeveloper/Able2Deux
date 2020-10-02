@@ -17,7 +17,7 @@ const checkMediaReady = ({ status }) => status === STATUS.READY || status === ST
 const checkMediaFailed = ({ status }) => status === STATUS.FAILED
 
 const ReadyQueue = withRouter(({ media, recording, warnings, dispatch, history }) => {
-	const backgroundColor = !media.length ?  '#e0e0e0' : '#bbb'
+	const backgroundColor = !media.length ? '#e0e0e0' : '#bbb'
 
 	const notReady = useMemo(() => (
 		recording || !media.length || !media.every(checkMediaReady) || media.every(checkMediaFailed)

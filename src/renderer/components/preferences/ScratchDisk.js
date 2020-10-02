@@ -24,11 +24,11 @@ const ScratchDisk = ({ scratchDisk, dispatch }) => {
 					<label>Export Cache</label>
 					<DirectorySelector
 						directory={scratchDisk.exports}
-						onChange={dir => updateScratchDisk('exports', dir)}  />
+						onChange={dir => updateScratchDisk('exports', dir)} />
 					<label>Preview Cache</label>
 					<DirectorySelector
 						directory={scratchDisk.previews}
-						onChange={dir => updateScratchDisk('previews', dir)}  />
+						onChange={dir => updateScratchDisk('previews', dir)} />
 				</div>
 			</fieldset>
 		</div>
