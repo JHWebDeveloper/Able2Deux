@@ -13,7 +13,6 @@ export const createPromiseQueue = function (concurrent = 1) {
 	return {
 		updateConcurrent(concurrent) {
 			_concurrent = concurrent
-
 			return this
 		},
 		add(id, fn) {
