@@ -12,9 +12,11 @@ const limitChars = e => {
 	if (!regex.test(e.key)) e.preventDefault()
 }
 
-const Timecode = ({ label, name, enabled, display, initDisplay, disabled, toggleTimecode, onChange }) => {
+const Timecode = props => {
+	const { enabled, initDisplay, disabled } = props
+
 	const onTimecodeChange = useCallback(display => {
-		onChange({
+		props.onChange({
 			display,
 			tc: tcToSeconds(display)
 		})
@@ -36,15 +38,15 @@ const Timecode = ({ label, name, enabled, display, initDisplay, disabled, toggle
 		<div className="timecode">
 			<Checkbox
 				name="enabled"
-				label={label}
+				label={props.label}
 				checked={enabled}
-				onChange={toggleTimecode}
+				onChange={props.toggleTimecode}
 				disabled={disabled}
 				switchIcon />
 			<input
 				type="text"
-				name={name}
-				value={display}
+				name={props.name}
+				value={props.display}
 				onKeyPress={limitChars}
 				onPaste={pasteTimecode}
 				onChange={e => onTimecodeChange(e.target.value)}
