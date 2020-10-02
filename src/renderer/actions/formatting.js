@@ -258,6 +258,8 @@ export const render = params => async dispatch => {
 
 	// Uncheck non existent directories and prompt to abort render if found
 
+	saveLocations = [...saveLocations]
+
 	for await (const location of saveLocations) {
 		if (!location.checked) continue
 
