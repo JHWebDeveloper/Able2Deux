@@ -282,8 +282,6 @@ export const render = params => async dispatch => {
 		if (canceled) return !goBack()
 
 		saveLocations.push({
-			checked: true,
-			label: 'Temporary',
 			directory: filePaths[0]
 		})
 	}
