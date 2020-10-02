@@ -256,9 +256,9 @@ const renderItem = (params, dispatch) => {
 export const render = params => async dispatch => {
 	let { media, saveLocations, batch, goBack } = params
 
-	// Remove non existent directories and prompt to abort render if found
-
 	saveLocations = saveLocations.filter(({ checked }) => checked)
+
+	// Check for non-existent directories and prompt to abort render if found
 
 	for await (const location of saveLocations) {
 		const exists = await interop.checkIfDirectoryExists(location.directory)
