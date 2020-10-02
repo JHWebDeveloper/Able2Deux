@@ -36,9 +36,9 @@ export const MainProvider = ({ children, prefs }) => {
 	return (
 		<MainContext.Provider value={{
 			...state,
-			dispatch: input => (
-				input instanceof Function ? input(dispatch, state) : dispatch(input)
-			)
+			dispatch: input => input instanceof Function
+				? input(dispatch, state)
+				: dispatch(input)
 		}}>
 			{ children }
 		</MainContext.Provider>

@@ -59,9 +59,9 @@ export const PrefsProvider = ({ children }) => {
 	return (
 		<PrefsContext.Provider value={{
 			preferences: state,
-			dispatch: input => (
-				input instanceof Function ? input(dispatch, state) : dispatch(input)
-			)
+			dispatch: input => input instanceof Function
+				? input(dispatch, state)
+				: dispatch(input)
 		}}>
 			{ children }
 		</PrefsContext.Provider>
