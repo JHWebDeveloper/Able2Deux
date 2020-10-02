@@ -283,16 +283,11 @@ export const render = params => async dispatch => {
 
 		if (canceled) return !goBack()
 
-		const tempDir = {
+		saveLocations.push({
 			checked: true,
 			label: 'Temporary',
 			directory: filePaths[0]
-		}
-
-		params = {
-			...params,
-			saveLocations: [	...saveLocations, tempDir ]
-		}
+		})
 	}
 
 	// prepare filenames
