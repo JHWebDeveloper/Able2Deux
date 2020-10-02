@@ -31,6 +31,7 @@
 		"node-modules/"
 	],
 	"rules": {
+		"arrow-body-style": ["error", "as-needed"],
 		"arrow-parens": ["error", "as-needed"],
 		"comma-dangle": ["error", "never"],
 		"comma-spacing": ["error", {
