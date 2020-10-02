@@ -10,7 +10,12 @@ import {
 	applySettingsToAll
 } from '../../../actions'
 
-import { warn, extractSettings, arrayCount, createScrollbarPadder } from '../../../utilities'
+import {
+	warn,
+	extractSettings,
+	arrayCount,
+	createScrollbarPadder
+} from '../../../utilities'
 
 import DraggableList from '../../form_elements/DraggableList'
 import BatchItem from './BatchItem'
