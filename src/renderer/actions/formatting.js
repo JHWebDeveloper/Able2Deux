@@ -127,7 +127,7 @@ const updateRenderProgress = ({ id, percent }) => ({
 	}
 })
 
-let renderQueue = false
+let renderQueue = createPromiseQueue()
 
 const fillMissingFilenames = media => media.map(item => ({
 	...item,
@@ -299,9 +299,7 @@ export const render = params => async dispatch => {
 		}))
 	})
 
-	// Create promise queue and begin rendering
-
-	renderQueue = createPromiseQueue(params.concurrent)
+	// add to promise queue and begin render
 
 	const renderItemReady = renderItem({
 		saveLocations,
@@ -314,7 +312,9 @@ export const render = params => async dispatch => {
 		renderQueue.add(item.id, () => renderItemReady(item))
 	}
 
-	renderQueue.start()
+	renderQueue
+		.updateConcurrent(params.concurrent)
+		.start()
 }
 
 export const cancelRender = (id, status) => async dispatch => {
