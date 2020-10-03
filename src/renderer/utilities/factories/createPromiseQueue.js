@@ -1,4 +1,4 @@
-export const createPromiseQueue = function (concurrent = 1) {
+export const createPromiseQueue = (concurrent = 1) => {
 	let _concurrent = concurrent
 	let _active = 0
 	let _queue = []
