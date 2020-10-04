@@ -71,23 +71,23 @@ const updateDownloadProgress = ({ id, eta, percent }) => ({
 export const download = ({ url, optimize, output, disableRateLimit }) => async dispatch => {
 	dispatch(resetURL())
 
-	const mediaElement = createMediaData({
+	const mediaData = createMediaData({
 		url,
 		title: url,
 		filename: 'download',
 		acquisitionType: 'download'
 	})
 
-	dispatch(addMedia(mediaElement))
+	dispatch(addMedia(mediaData))
 
-	const { id } = mediaElement
+	const { id } = mediaData
 
 	try {
-		const urlInfo = await interop.getURLInfo({ id, url, disableRateLimit })
+		const urlData = await interop.getURLInfo({ id, url, disableRateLimit })
 
 		dispatch(updateMediaState(id, {
-			filename: urlInfo.title,
-			...urlInfo
+			filename: urlData.title,
+			...urlData
 		}))
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
@@ -112,11 +112,11 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 	}
 
 	try {
-		const mediaData = await interop.requestDownloadChannel(downloadParams)
+		const downloadData = await interop.requestDownloadChannel(downloadParams)
 
-		mediaData.isLive = false
+		downloadData.isLive = false
 
-		dispatch(updateMediaStatus(id, STATUS.READY, mediaData))
+		dispatch(updateMediaStatus(id, STATUS.READY, downloadData))
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
@@ -135,7 +135,7 @@ export const upload = ({ name, path }) => async dispatch => {
 		return toastr.error(`${name} is not a supported file type`, false, toastrOpts)
 	}
 
-	const mediaElement = createMediaData({
+	const mediaData = createMediaData({
 		title: name,
 		filename: interop.getFileName(name),
 		sourceFilePath: path,
@@ -143,16 +143,16 @@ export const upload = ({ name, path }) => async dispatch => {
 		acquisitionType: 'upload'
 	})
 
-	dispatch(addMedia(mediaElement))
+	dispatch(addMedia(mediaData))
 
-	const { id } = mediaElement
+	const { id } = mediaData
 
 	dispatch(updateMediaStatus(id, STATUS.LOADING))
 
 	try {
-		const mediaData = await interop.requestUpload(mediaElement)
+		const fileData = await interop.requestUpload(mediaData)
 
-		dispatch(updateMediaStatus(id, STATUS.READY, mediaData))
+		dispatch(updateMediaStatus(id, STATUS.READY, fileData))
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
@@ -170,7 +170,7 @@ export const setRecording = recording => ({
 export const loadRecording = (id, screenshot) => async dispatch => {
 	const title = replaceTokens(`Able2 Screen${screenshot ? 'shot' : ' Record'} $t $d`)
 
-	const mediaElement = createMediaData({
+	const mediaData = createMediaData({
 		id,
 		title,
 		filename: title,
@@ -178,5 +178,5 @@ export const loadRecording = (id, screenshot) => async dispatch => {
 		status: STATUS.LOADING
 	})
 
-	dispatch(addMedia(mediaElement))
+	dispatch(addMedia(mediaData))
 }
