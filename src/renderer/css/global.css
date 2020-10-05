@@ -94,7 +94,6 @@ input:matches(
 	--secondary: #7c7c7c;
 	--disabled: #ccc;
 	--highlight: #ff4800;
-	--error-background: #ffb0b0;
 	--main-border-style: 2px solid var(--primary);
 	--font-stack: Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
