@@ -206,7 +206,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 
 	if (end.enabled && end.tc === 0) {
 		reject(new RangeError('End timecode is set to zero. Media has no duration.'))
-	} 
+	}
 
 	if (start.enabled) renderCmd.seekInput(start.tc)
 	if (end.enabled) renderCmd.duration(start.enabled ? end.tc - start.tc : end.tc)
