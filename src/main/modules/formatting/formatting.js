@@ -196,13 +196,17 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			}
 		})
 
-	if (start.enabled && start.tc >= exportData.duration) {
-		reject(new Error('Start timecode exceeds duration'))
+	if (start.enabled && end.enabled && end.tc <= start.tc) {
+		reject(new RangeError('End timecode preceeds start timecode.'))
 	}
 
-	if (start.enabled && end.enabled && end.tc <= start.tc) {
-		reject(new Error('End timecode preceeds start timecode'))
+	if (start.enabled && start.tc >= exportData.duration) {
+		reject(new RangeError('Start timecode exceeds duration.'))
 	}
+
+	if (end.enabled && end.tc === 0) {
+		reject(new RangeError('End timecode is set to zero. Media has no duration.'))
+	} 
 
 	if (start.enabled) renderCmd.seekInput(start.tc)
 	if (end.enabled) renderCmd.duration(start.enabled ? end.tc - start.tc : end.tc)
