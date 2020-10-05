@@ -64,6 +64,7 @@ Timecode.propTypes = {
 	display: string.isRequired,
 	initDisplay: string,
 	disabled: bool,
+	invalid: bool,
 	toggleTimecode: func.isRequired,
 	onChange: func.isRequired
 }
