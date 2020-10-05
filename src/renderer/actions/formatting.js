@@ -243,9 +243,8 @@ const renderItem = (params, dispatch) => {
 				dispatch(updateRenderStatus(id, STATUS.FAILED))
 	
 				let errMsg = `Failed to render ${filename}`
-	
-				if (/^Error: Start timecode/.test(err)) errMsg += '. Start timecode exceeds duration.'
-				if (/^Error: End timecode/.test(err)) errMsg += '. End timecode preceeds start timecode.'
+
+				if (/^RangeError: /.test(err)) errMsg = `${errMsg}. ${err.toString().replace(/^RangeError: /, '')}`
 	
 				toastr.error(errMsg, false, toastrOpts)
 			}
