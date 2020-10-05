@@ -13,6 +13,7 @@ import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Timecode from '../../form_elements/Timecode'
 
 const startOverEndMsg = 'End timecode preceeds start timecode. Media will error on export'
+const endOverStartMsg = 'End timecode preceeds start timecode. Media will error on export'
 const startOverDurationMsg = 'Start timecode exceeds media duration. Media will error on export'
 const endZeroMsg = 'End timecode preceeds start timecode. Media will error on export'
 
@@ -72,7 +73,7 @@ const FileOptions = memo(props => {
 					toggleTimecode={toggleEnd}
 					onChange={updateEnd}
 					invalid={startOverEnd || endZero}
-					title={startOverEnd ? startOverEndMsg : endZero ? endZeroMsg : ''} />
+					title={startOverEnd ? endOverStartMsg : endZero ? endZeroMsg : ''} />
 			</> : <></>}
 		</DetailsWrapper>
 	)
