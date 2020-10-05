@@ -15,7 +15,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Fixed
 - Bug preventing negative sign and leading decimal point from being typed into the number fields next to the sliders.
-- No longer renders an 0 duration video when end timcode is set to zero. Error message now displays during render.
+- No longer renders a dud file when end timecode is set to zero. Error message now displays during render.
 
 ## [2.1.2] - 9.21.20
 
