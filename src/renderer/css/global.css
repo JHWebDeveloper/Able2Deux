@@ -210,6 +210,10 @@ label > :matches(input, span, svg) { vertical-align: middle; }
 	vertical-align: -1px;
 }
 
+.timecode > input[type="text"].invalid {
+	color: var(--highlight);
+}
+
 .draggable,
 .insert-last {
 	position: relative;
