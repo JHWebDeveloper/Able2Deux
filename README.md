@@ -11,9 +11,11 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Added
 - Holding shift allows for fine tuning of Position, Scale and Crop sliders and number fields.
+- Start and end timecode fields now turn red when start exceeds and matches end, start exceeds or matches media duration or end is set to zero 0.
 
 ### Fixed
 - Bug preventing negative sign and leading decimal point from being typed into the number fields next to the sliders.
+- No longer renders an 0 duration video when end timcode is set to zero. Error message now displays during render.
 
 ## [2.1.2] - 9.21.20
 
