@@ -13,7 +13,7 @@ import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Timecode from '../../form_elements/Timecode'
 
 const FileOptions = memo(props => {
-	const { id, start, end, mediaType, dispatch } = props
+	const { id, start, end, mediaType, duration, dispatch } = props
 
 	const toggleStart = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'start', e))
@@ -52,15 +52,17 @@ const FileOptions = memo(props => {
 					enabled={start.enabled}
 					display={start.display}
 					toggleTimecode={toggleStart}
-					onChange={updateStart} />
+					onChange={updateStart}
+					invalid={start.enabled && (end.enabled && start.tc >= end.tc || start.tc >= duration)} />
 				<Timecode
 					label="End:"
 					name="end"
 					enabled={end.enabled}
 					display={end.display}
-					initDisplay={secondsToTC(props.duration)}
+					initDisplay={secondsToTC(duration)}
 					toggleTimecode={toggleEnd}
-					onChange={updateEnd} />
+					onChange={updateEnd}
+					invalid={end.enabled && start.enabled && start.tc >= end.tc} />
 			</> : <></>}
 		</DetailsWrapper>
 	)
