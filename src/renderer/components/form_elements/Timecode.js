@@ -52,7 +52,7 @@ const Timecode = props => {
 				onChange={e => onTimecodeChange(e.target.value)}
 				onBlur={e => onTimecodeChange(simplifyTimecode(e.target.value))}
 				disabled={disabled || !enabled}
-				className="monospace" />
+				className={`monospace ${props.invalid ? 'invalid' : ''}`} />
 		</div>
 	)
 }
