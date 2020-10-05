@@ -12,7 +12,7 @@ import { compareProps, secondsToTC } from '../../../utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Timecode from '../../form_elements/Timecode'
 
-const startOverEndMsg = 'End timecode preceeds start timecode. Media will error on export'
+const startOverEndMsg = 'Start timecode exceeds end timecode. Media will error on export'
 const endOverStartMsg = 'End timecode preceeds start timecode. Media will error on export'
 const startOverDurationMsg = 'Start timecode exceeds media duration. Media will error on export'
 const endZeroMsg = 'End timecode preceeds start timecode. Media will error on export'
