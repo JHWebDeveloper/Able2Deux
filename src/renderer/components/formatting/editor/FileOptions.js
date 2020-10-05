@@ -33,7 +33,8 @@ const FileOptions = memo(props => {
 
 	const startOverEnd = start.enabled && end.enabled && start.tc >= end.tc
 	const startOverDuration = start.enabled && start.tc >= duration
-	
+	const endZero = end.enabled && end.tc === 0
+
 	return (
 		<DetailsWrapper summary="File" id="file" open>
 			<fieldset disabled={props.isBatch && props.batch.name && props.batch.position === 'replace'}>
@@ -61,7 +62,8 @@ const FileOptions = memo(props => {
 						? 'Start timecode exceeds end timecode. Media will error on export'
 						: startOverDuration
 							? 'Start timecode exceeds media duration. Media will error on export'
-							: ''} />
+							: ''
+					} />
 				<Timecode
 					label="End:"
 					name="end"
@@ -70,8 +72,13 @@ const FileOptions = memo(props => {
 					initDisplay={secondsToTC(duration)}
 					toggleTimecode={toggleEnd}
 					onChange={updateEnd}
-					invalid={startOverEnd}
-					title={startOverEnd ? 'End timecode preceeds start timecode. Media will error on export' : ''} />
+					invalid={startOverEnd || endZero}
+					title={startOverEnd
+						? 'End timecode preceeds start timecode. Media will error on export'
+						: endZero
+							? 'End timecode is set to zero. Media will error on export'
+							: ''
+					} />
 			</> : <></>}
 		</DetailsWrapper>
 	)
