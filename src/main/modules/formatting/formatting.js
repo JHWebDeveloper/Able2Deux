@@ -173,8 +173,8 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		.on('end', async () => {
 			try {
 				// eslint-disable-next-line no-extra-parens
-				await Promise.all(saveLocations.map(saveLocation => (
-					copyFileNoOverwrite(exportPath, path.join(saveLocation.directory, saveName))
+				await Promise.all(saveLocations.map(({ directory }) => (
+					copyFileNoOverwrite(exportPath, path.join(directory, saveName))
 				)))
 
 				win.webContents.send(`renderComplete_${id}`)
