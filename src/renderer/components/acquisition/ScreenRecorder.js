@@ -139,7 +139,8 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 				display={timer.display}
 				disabled={recording || screenshot}
 				toggleTimecode={e => dispatch(toggleNestedCheckbox('timer', e))}
-				onChange={tc => dispatch(updateNestedState('timer', tc))} />
+				onChange={tc => dispatch(updateNestedState('timer', tc))}
+				title="Set record duration" />
 			{interop.isMac && <SoundflowerMessage />}
 		</div>
 	)
