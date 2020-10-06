@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
+import { bool, func, number, object, oneOf, string } from 'prop-types'
 
 import { createScrollbarPadder } from '../../../utilities'
 
@@ -90,7 +90,7 @@ EditorOptions.propTypes = {
 	width: number.isRequired,
 	height: number.isRequired,
 	duration: number.isRequired,
-	aspectRatio: oneOfType([bool, string]),
+	aspectRatio: string,
 	hasAlpha: bool.isRequired,
 	batch: object.isRequired,
 	filename: string,
