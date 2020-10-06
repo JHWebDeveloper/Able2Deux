@@ -134,7 +134,7 @@ const checkMetadata = data => !!data && data !== 'unknown' && data !== 'N/A'
 export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 	const metadata = await getMetadata(tempFilePath)
 	const mediaData = {}
-	let videoStream = false
+	let videoStream = {}
 
 	if (!mediaType) try {
 		mediaType = await checkFileType(tempFilePath, metadata)
@@ -159,9 +159,9 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 		const { channel_layout, bit_rate, sample_rate } = audioStream
 
 		Object.assign(mediaData, {
-			channelLayout: checkMetadata(channel_layout) && channel_layout.toString(),
-			bitRate: checkMetadata(bit_rate) && bit_rate < 1000 ? `${bit_rate}bps` : `${bit_rate / 1000}kbps`,
-			sampleRate: checkMetadata(sample_rate) && sample_rate < 1000 ? `${sample_rate}hz` : `${sample_rate / 1000}khz`
+			channelLayout: checkMetadata(channel_layout) ? channel_layout.toString() : '',
+			bitRate: checkMetadata(bit_rate) ? (bit_rate < 1000 ? `${bit_rate}bps` : `${bit_rate / 1000}kbps`) : '',
+			sampleRate: checkMetadata(sample_rate) ? (sample_rate < 1000 ? `${sample_rate}hz` : `${sample_rate / 1000}khz`) : ''
 		})
 	} else {
 		videoStream = metadata.streams.find(stream => stream.codec_type === 'video')
@@ -172,9 +172,9 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 		const hasAlpha = await detectAlphaChannel(tempFilePath, mediaType, id)
 
 		Object.assign(mediaData, {
-			width: hasW && width,
-			height: hasH && height,
-			aspectRatio: hasW && hasH && calculateAspectRatio(width, height),
+			width: hasW ? width : 0,
+			height: hasH ? height : 0,
+			aspectRatio: hasW && (hasH ? calculateAspectRatio(width, height) : ''),
 			hasAlpha
 		})
 	}
@@ -182,7 +182,7 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 	if (mediaType === 'video') {
 		const thumbnail = await createScreenshot(id, tempFilePath)
 		const { avg_frame_rate } = videoStream
-		const fps = checkMetadata(avg_frame_rate) && avg_frame_rate.split('/').reduce((a, b) => a / b)
+		const fps = checkMetadata(avg_frame_rate) ? avg_frame_rate.split('/').reduce((a, b) => a / b) : 0
 
 		Object.assign(mediaData, {
 			thumbnail: await base64EncodeOrPlaceholder(thumbnail),
