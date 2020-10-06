@@ -166,7 +166,7 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 				? bit_rate < 1000 ? `${bit_rate}bps` : `${bit_rate / 1000}kbps`
 				: '',
 			sampleRate: checkMetadata(sample_rate)
-				? (sample_rate < 1000 ? `${sample_rate}hz` : `${sample_rate / 1000}khz`)
+				? sample_rate < 1000 ? `${sample_rate}hz` : `${sample_rate / 1000}khz`
 				: ''
 		})
 	} else {
@@ -180,7 +180,7 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 		Object.assign(mediaData, {
 			width: hasW ? width : 0,
 			height: hasH ? height : 0,
-			aspectRatio: (hasW && hasH) ? calculateAspectRatio(width, height) : '',
+			aspectRatio: hasW && hasH ? calculateAspectRatio(width, height) : '',
 			hasAlpha
 		})
 	}
