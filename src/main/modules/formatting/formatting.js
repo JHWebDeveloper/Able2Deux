@@ -119,7 +119,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const needsAlpha = checkNeedsAlpha(exportData)
 
 	let outputOptions = []
-	let extension = false
+	let extension = ''
 	let overlayDim = false
 
 	if (isAudio && audio.format !== 'bars') {
