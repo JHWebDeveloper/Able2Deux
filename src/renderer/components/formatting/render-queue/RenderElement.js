@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react'
-import { bool, func, exact, number, oneOfType, string } from 'prop-types'
+import { func, exact, number, string } from 'prop-types'
 
 import { COMPLETE } from '../../../status/types'
 import { cancelRender } from '../../../actions'

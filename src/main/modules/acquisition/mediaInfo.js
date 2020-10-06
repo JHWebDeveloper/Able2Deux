@@ -159,9 +159,15 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 		const { channel_layout, bit_rate, sample_rate } = audioStream
 
 		Object.assign(mediaData, {
-			channelLayout: checkMetadata(channel_layout) ? channel_layout.toString() : '',
-			bitRate: checkMetadata(bit_rate) ? (bit_rate < 1000 ? `${bit_rate}bps` : `${bit_rate / 1000}kbps`) : '',
-			sampleRate: checkMetadata(sample_rate) ? (sample_rate < 1000 ? `${sample_rate}hz` : `${sample_rate / 1000}khz`) : ''
+			channelLayout: checkMetadata(channel_layout)
+				? channel_layout.toString()
+				: '',
+			bitRate: checkMetadata(bit_rate)
+				? bit_rate < 1000 ? `${bit_rate}bps` : `${bit_rate / 1000}kbps`
+				: '',
+			sampleRate: checkMetadata(sample_rate)
+				? (sample_rate < 1000 ? `${sample_rate}hz` : `${sample_rate / 1000}khz`)
+				: ''
 		})
 	} else {
 		videoStream = metadata.streams.find(stream => stream.codec_type === 'video')
@@ -174,7 +180,7 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 		Object.assign(mediaData, {
 			width: hasW ? width : 0,
 			height: hasH ? height : 0,
-			aspectRatio: hasW && (hasH ? calculateAspectRatio(width, height) : ''),
+			aspectRatio: (hasW && hasH) ? calculateAspectRatio(width, height) : '',
 			hasAlpha
 		})
 	}
