@@ -127,7 +127,7 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 // ---- UPLOAD ------------
 
 export const upload = ({ name, path }) => async dispatch => {
-	let mediaType = false
+	let mediaType = ''
 
 	try {
 		mediaType = await interop.checkFileType(path)
