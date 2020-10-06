@@ -41,7 +41,7 @@ const ytdlOpts = disableRateLimit => [
 
 const parseYTDLOutput = (str, regex) => {
 	const result = str.match(regex)
-	return result && result[0]
+	return result?.[0]
 }
 
 const getTempFilePath = async id => {
@@ -81,8 +81,8 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 			pending = false
 		}
 
-		progress.percent = parseYTDLOutput(info, /[.0-9]+%/) || progress.percent
-		progress.eta = parseYTDLOutput(info, /[:0-9]+$/) || progress.eta
+		progress.percent = parseYTDLOutput(info, /[.0-9]+%/) ?? progress.percent
+		progress.eta = parseYTDLOutput(info, /[:0-9]+$/) ?? progress.eta
 
 		win.webContents.send(`downloadProgress_${id}`, progress)
 	})
