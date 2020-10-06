@@ -13,7 +13,7 @@ const previewStill = exportData => new Promise((resolve, reject) => {
 	const outputExtension = isAudio ? 'png' : 'jpg'
 	const previewSourcePath = path.join(scratchDisk.previews.path, `${id}.preview-source.${hasAlpha ? 'tiff' : outputExtension}`)
 	const previewPath = path.join(scratchDisk.previews.path, `${id}.preview.${outputExtension}`)
-	let overlayDim = false
+	let overlayDim = {}
 
 	const command = ffmpeg(previewSourcePath)
 		.outputOption('-q:v 2')
