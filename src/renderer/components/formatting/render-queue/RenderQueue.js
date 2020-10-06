@@ -36,7 +36,7 @@ const RenderQueue = withRouter(params => {
 	const goBack = useCallback(() => {
 		media.forEach(item => {
 			dispatch(updateMediaState(item.id, {
-				exportFilename: false,
+				exportFilename: '',
 				render: {
 					status:	STATUS.PENDING,
 					percent: 0

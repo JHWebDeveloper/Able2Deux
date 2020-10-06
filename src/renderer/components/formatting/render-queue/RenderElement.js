@@ -43,7 +43,7 @@ RenderElement.propTypes = {
 	id: string.isRequired,
 	mediaType: string.isRequired,
 	filename: string.isRequired,
-	exportFilename: oneOfType([bool, string]),
+	exportFilename: string,
 	render: exact({
 		status: string,
 		percent: number
