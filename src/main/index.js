@@ -59,12 +59,16 @@ const createURL = view => url.format(dev ? {
 	slashes: true
 })
 
-const checkForUpdate = () => !app.isPackaged || mac ? Promise.resolve(false) : new Promise(resolve => {
-	autoUpdater.on('update-available', ({ version }) => resolve(version))
-	autoUpdater.on('update-not-available', () => resolve(false))
-	autoUpdater.on('error', () => resolve(false))
-	autoUpdater.checkForUpdatesAndNotify()
-})
+const checkForUpdate = () => {
+	if (!app.isPackaged || mac) return Promise.resolve(false)
+
+	return new Promise(resolve => {
+		autoUpdater.on('update-available', ({ version }) => resolve(version))
+		autoUpdater.on('update-not-available', () => resolve(false))
+		autoUpdater.on('error', () => resolve(false))
+		autoUpdater.checkForUpdatesAndNotify()
+	})
+}
 
 const splashWindowOpts = {
 	width: 400,
@@ -332,7 +336,9 @@ if (dev || process.env.devtools) {
 	})
 }
 
-ipcMain.on('getURLInfo', async (evt, data) => {
+// ---- IPC ROUTES ----
+
+async function getURLInfoIPC (evt, data) {
 	const { id } = data
 
 	try {
@@ -341,9 +347,9 @@ ipcMain.on('getURLInfo', async (evt, data) => {
 		console.error(err)
 		evt.reply(`URLInfoErr_${id}`, err)
 	}
-})
+}
 
-ipcMain.on('requestDownload', async (evt, data) => {
+async function requestDownloadIPC (evt, data) {
 	const { id } = data
 
 	try {
@@ -355,34 +361,34 @@ ipcMain.on('requestDownload', async (evt, data) => {
 		console.error(err)
 		evt.reply(`downloadErr_${id}`, err)
 	}
-})
+}
 
-ipcMain.on('cancelDownload', async (evt, id) => {
+async function cancelDownloadIPC (evt, id) {
 	try {
 		await cancelDownload(id)
 	} catch (err) {
 		console.error(err)
 	}
-})
+}
 
-ipcMain.on('stopLiveDownload', async (evt, id) => {
+async function stopLiveDownloadIPC (evt, id) {
 	try {
 		await stopLiveDownload(id)
 	} catch (err) {
 		console.error(err)
 	}
-})
+}
 
-ipcMain.on('checkFileType', async (evt, data) => {
+async function checkFileTypeIPC (evt, data) {
 	try {
 		evt.reply(`fileTypeFound_${data.id}`, await checkFileType(data.file))
 	} catch (err) {
 		console.error(err)
 		evt.reply(`fileTypeErr_${data.id}`, err)
 	}
-})
+}
 
-ipcMain.on('requestUpload', async (evt, data) => {
+async function requestUploadIPC (evt, data) {
 	const { id, mediaType } = data
 
 	try {
@@ -394,9 +400,9 @@ ipcMain.on('requestUpload', async (evt, data) => {
 		console.error(err)
 		evt.reply(`uploadErr_${id}`, err)
 	}
-})
+}
 
-ipcMain.on('saveScreenRecording', async (evt, data) => {
+async function saveScreenRecordingIPC (evt, data) {
 	const { id, screenshot } = data
 
 	try {
@@ -408,25 +414,25 @@ ipcMain.on('saveScreenRecording', async (evt, data) => {
 		console.error(err)
 		evt.reply(`saveScreenRecordingErr_${id}`, err)
 	}
-})
+}
 
-ipcMain.on('removeMediaFile', async (evt, id) => {
+async function removeMediaFileIPC (evt, id) {
 	try {
 		await scratchDisk.imports.clear(id)
 	} catch (err) {
 		console.error(err)
 	}
-})
+}
 
-ipcMain.handle('initPreview', async (evt, data) => {
+async function initPreviewIPC (evt, data) {
 	try {
 		return updatePreviewSourceImage(data)
 	} catch (err) {
 		console.error(err)
 	}
-})
+}
 
-ipcMain.on('requestPreviewStill', async (evt, data) => {
+async function requestPreviewStillIPC (evt, data) {
 	try {
 		const dataURL = await previewStill(data)
 
@@ -436,18 +442,18 @@ ipcMain.on('requestPreviewStill', async (evt, data) => {
 			console.error(err)
 		}
 	}
-})
+}
 
-ipcMain.handle('checkDirectoryExists', async (evt, dir) => {
+async function checkDirectoryExistsIPC (evt, dir) {
 	try {
 		return fileExistsPromise(dir)
 	} catch (err) {
 		console.error(err)
 		return false
 	}
-})
+}
 
-ipcMain.on('requestRender', async (evt, data) => {
+async function requestRenderIPC (evt, data) {
 	try {
 		await render(data, mainWin)
 
@@ -459,44 +465,42 @@ ipcMain.on('requestRender', async (evt, data) => {
 
 		evt.reply(`renderFailed_${data.id}`, err)
 	}
-})
+}
 
-ipcMain.on('cancelRender', async (evt, id) => {
+async function cancelRenderIPC (evt, id) {
 	try {
 		return cancelRender(id)
 	} catch (err) {
 		console.error(err)
 	}
-})
+}
 
-ipcMain.on('cancelAllRenders', async () => {
+async function cancelAllRendersIPC () {
 	try {
 		return cancelAllRenders()
 	} catch (err) {
 		console.error(err)
 	}
-})
+}
 
-ipcMain.on('clearTempFiles', async () => {
+async function clearTempFilesIPC () {
 	try {
 		return scratchDisk.clearAll()
 	} catch (err) {
 		console.error(err)
 	}
-})
+}
 
-ipcMain.on('requestPrefs', async evt => {
+async function requestPrefsIPC (evt) {
 	try {
 		evt.reply('prefsRecieved', await loadPrefs())
 	} catch (err) {
 		console.error(err)
 		evt.reply('prefsErr', err)
 	}
-})
+}
 
-ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
-
-ipcMain.on('savePrefs', async (evt, prefs) => {
+async function savePrefsIPC (evt, prefs) {
 	try {
 		await savePrefs(prefs)
 		await updateScratchDisk()
@@ -507,18 +511,39 @@ ipcMain.on('savePrefs', async (evt, prefs) => {
 		console.error(err)
 		evt.reply('savePrefsErr', err)
 	}
-})
+}
 
-ipcMain.on('retryUpdate', () => {
+async function retryUpdate () {
 	autoUpdater.autoDownload = true
 	autoUpdater.checkForUpdatesAndNotify()
-})
+}
 
-ipcMain.on('checkForUpdateBackup', async () => {
+async function checkForUpdateBackup () {
 	const version = await checkForUpdate()
 
 	if (version) {
 		await createUpdateWindow()
 		mainWin.close()
 	}
-})
+}
+
+ipcMain.on('getURLInfo', getURLInfoIPC)
+ipcMain.on('requestDownload', requestDownloadIPC)
+ipcMain.on('cancelDownload', cancelDownloadIPC)
+ipcMain.on('stopLiveDownload', stopLiveDownloadIPC)
+ipcMain.on('checkFileType', checkFileTypeIPC)
+ipcMain.on('requestUpload', requestUploadIPC)
+ipcMain.on('saveScreenRecording', saveScreenRecordingIPC)
+ipcMain.on('removeMediaFile', removeMediaFileIPC)
+ipcMain.handle('initPreview', initPreviewIPC)
+ipcMain.on('requestPreviewStill', requestPreviewStillIPC)
+ipcMain.handle('checkDirectoryExists', checkDirectoryExistsIPC)
+ipcMain.on('requestRender', requestRenderIPC)
+ipcMain.on('cancelRender', cancelRenderIPC)
+ipcMain.on('cancelAllRenders', cancelAllRendersIPC)
+ipcMain.on('clearTempFiles', clearTempFilesIPC)
+ipcMain.on('requestPrefs', requestPrefsIPC)
+ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
+ipcMain.on('savePrefs', savePrefsIPC)
+ipcMain.on('retryUpdate', retryUpdate)
+ipcMain.on('checkForUpdateBackup', checkForUpdateBackup)
