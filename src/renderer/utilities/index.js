@@ -64,7 +64,7 @@ export const getIntegerLength = n => {
 
 export const initTabbedBrowsing = () => {
 	document.body.onkeydown = function (e) {
-		if (e.keyCode !== 9) return
+		if (e.key !== 'Tab') return false
 		
 		this.className = 'accessible'
 		this.onkeydown = false
