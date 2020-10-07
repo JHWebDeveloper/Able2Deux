@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { string, func, arrayOf, shape, bool } from 'prop-types'
 import { v1 as uuid } from 'uuid'
 
-// eslint-disable-next-line no-extra-parens
-const RadioSet = ({ name, state, onChange, buttons }) => (
-	buttons.map(({ label, value, omit }) => omit || (
-		<label key={uuid()}>
+const RadioSet = ({ name, state, onChange, buttons }) => {
+	const setKey = useMemo(uuid, [])
+
+	return buttons.map(({ label, value, omit }, i) => omit || (
+		<label key={`${setKey}_${i}`}>
 			<input
 				type="radio"
 				name={name}
@@ -15,7 +16,7 @@ const RadioSet = ({ name, state, onChange, buttons }) => (
 			<span>{label}</span>
 		</label>
 	))
-)
+	}
 
 RadioSet.propTypes = {
 	name: string.isRequired,
