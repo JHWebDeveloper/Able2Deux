@@ -4,7 +4,16 @@ import toastr from 'toastr'
 import * as ACTION from './types'
 import * as STATUS from '../status/types'
 import { updateMediaNestedState, updateMediaState } from '.'
-import { createPromiseQueue, buildSource, getIntegerLength, zeroize, cleanFilename, replaceTokens, toastrOpts } from '../utilities'
+
+import {
+	createPromiseQueue,
+	buildSource,
+	getIntegerLength,
+	zeroize,
+	cleanFilename,
+	replaceTokens,
+	toastrOpts
+} from '../utilities'
 
 const { interop } = window.ABLE2
 
