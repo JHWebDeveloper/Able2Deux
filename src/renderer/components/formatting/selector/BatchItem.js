@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { bool, func, string, number } from 'prop-types'
 
 import {
@@ -16,8 +16,9 @@ const ctrlOrCmdKey = interop.isMac ? 'metaKey' : 'ctrlKey'
 
 const BatchItem = props => {
 	const { id, refId, title, selected, index, isFirst, isLast, isOnly, dispatch } = props
+	const triggers = [title, index, isFirst, isLast, isOnly]
 	
-	const dropdown = [
+	const dropdown = useMemo(() => [
 		{
 			label: 'Copy All Settings',
 			hide: isOnly,
@@ -74,9 +75,9 @@ const BatchItem = props => {
 				interop.revealInTempFolder(props.tempFilePath)
 			}
 		}
-	]
+	], triggers)
 
-	const onKeyDown = e => {
+	const onKeyDown = useCallback(e => {
 		const ctrl = e[ctrlOrCmdKey]
 
 		if (ctrl && !isOnly && e.key === 'c') {
@@ -96,7 +97,7 @@ const BatchItem = props => {
 		} else if (!isLast && e.key === 'ArrowDown') {
 			props.selectNeighbor(index + 1)
 		}
-	}
+	}, triggers)
 
 	const ref = useRef()
 
