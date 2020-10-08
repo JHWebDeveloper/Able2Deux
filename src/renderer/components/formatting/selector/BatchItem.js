@@ -77,24 +77,20 @@ const BatchItem = props => {
 	]
 
 	const onKeyDown = e => {
-		if (/^(Backspace|Delete)$/.test(e.key)) {
-			return props.removeMediaWithWarning(id, refId, title)
-		}
-
 		const ctrl = e[ctrlOrCmdKey]
 
-		if (ctrl && e.key === 'd') {
-			dispatch(duplicateMedia(id))
-		} else if (ctrl && !isOnly && e.key === 'c') {
-			props.copyAllSettings(id)
+		if (ctrl && !isOnly && e.key === 'c') {
+			dropdown[0].action() // Copy All Settings
 		} else if (ctrl && !isOnly && e.key === 'v') {
-			dispatch(pasteSettings(id))
-		} else if (ctrl && !isOnly && e.key === 'a') {
-			props.applyToAllWithWarning(id)
+			dropdown[1].action() // Paste Settings
 		} else if (ctrl && !isFirst && e.key === 'ArrowUp') {
-			dispatch(moveMedia(index, index - 1))
+			dropdown[4].action() // Move Up
 		} else if (ctrl && !isLast && e.key === 'ArrowDown') {
-			dispatch(moveMedia(index, index + 2))
+			dropdown[5].action() // Move Down
+		} else if (ctrl && e.key === 'd') {
+			dropdown[7].action() // Duplicate Media
+		} else if (e.key === 'Backspace' || e.key === 'Delete') {
+			dropdown[8].action() // Remove Media
 		} else if (!isFirst && e.key === 'ArrowUp') {
 			props.selectNeighbor(index - 1)
 		} else if (!isLast && e.key === 'ArrowDown') {
