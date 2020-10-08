@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import toastr from 'toastr'
 import { bool, func, number, shape, string } from 'prop-types'
 
@@ -103,6 +103,8 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 		}
 	}, [recording])
 
+	const ref = useRef()
+
 	const modeMessage = `...or ${screenshot ? 'take a screenshot' : 'start a screen record'}`
 	
 	return (
@@ -113,6 +115,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 				<button
 					type="button"
 					name="record"
+					ref={ref}
 					title={`${recording ? 'Stop' : 'Start'} Record`}
 					className={recording ? 'recording' : ''}
 					onClick={e => toggleRecording(e)}></button>
@@ -129,6 +132,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 			</div>
 			{!!recordSourceData && (
 				<RecordSourceSelector
+					recordButton={ref.current}
 					loadRecordSourceData={loadRecordSourceData}
 					captureScreen={captureScreen}
 					{...recordSourceData} />
