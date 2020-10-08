@@ -3,7 +3,7 @@ import { array, element, func, number } from 'prop-types'
 
 import { detectTabExit } from '../../utilities'
 
-const RecordSourceSelector = ({ recordButton, recordSources, setRecordSources, captureScreen }) => {
+const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources, captureScreen }) => {
 	const [ visible, reveal ] = useState(false)
 
 	const ref = useRef()
@@ -16,7 +16,7 @@ const RecordSourceSelector = ({ recordButton, recordSources, setRecordSources, c
 		recordButton.focus()
 
 		setTimeout(() => {
-			setRecordSources(false)
+			closeRecordSources()
 			if (recordSrcId) captureScreen(recordSrcId)
 		}, 250)
 	}, [])
@@ -65,7 +65,7 @@ const RecordSourceSelector = ({ recordButton, recordSources, setRecordSources, c
 RecordSourceSelector.propTypes = {
 	recordButton: element.isRequired,
 	recordSources: array.isRequired,
-	setRecordSources: func.isRequired,
+	closeRecordSources: func.isRequired,
 	captureScreen: func.isRequired
 }
 

@@ -130,7 +130,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 			{!!recordSources && (
 				<RecordSourceSelector
 					recordButton={ref.current}
-					setRecordSources={setRecordSources}
+					closeRecordSources={() => setRecordSources(false)}
 					recordSources={recordSources}
 					captureScreen={captureScreen} />
 			)}
