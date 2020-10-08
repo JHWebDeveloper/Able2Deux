@@ -36,8 +36,8 @@ th, td {
 
 td { vertical-align: middle; }
 
-td:first-child {
-	white-space: nowrap;
+td:nth-child(odd) {
+	white-space: pre;
 	text-align: center;
 }
 
