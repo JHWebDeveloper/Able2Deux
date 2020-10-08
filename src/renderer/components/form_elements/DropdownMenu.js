@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { v1 as uuid } from 'uuid'
 import { arrayOf, bool, func, shape, string } from 'prop-types'
 
@@ -19,6 +19,8 @@ const DropdownMenu = ({ buttons }) => {
 
 	const closeMenuOnBlur = useCallback(detectTabExit(toggleRevealMenu), [])
 
+	const menuId = useMemo(uuid, [])
+
 	return (
 		<span className="dropdown" onBlur={closeMenuOnBlur}>
 			<button
@@ -35,13 +37,13 @@ const DropdownMenu = ({ buttons }) => {
 				<span style={position}>
 					{buttons.map(({ hide, role, label, action }, i) => !hide && (role === 'spacer' ? (
 						<span
-							key={uuid()}
+							key={`${menuId}_${i}`}
 							className="spacer"
 							aria-hidden="true"
 							data-no-drag></span>
 					) : (
 						<button
-							key={uuid()}
+							key={`${menuId}_${i}`}
 							type="button"
 							autoFocus={i === 0}
 							onClick={() => {
