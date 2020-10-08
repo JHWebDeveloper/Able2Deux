@@ -24,7 +24,7 @@ import CaptureModeSwitch from '../svg/CaptureModeSwitch'
 const { interop } = window.ABLE2
 
 const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
-	const [ recordSources, setRecordSources ] = useState(false)
+	const [ recordSources, setRecordSources ] = useState([])
 
 	const startRecording = useCallback(async streamId => {
 		try {
@@ -73,23 +73,23 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 	), [screenshot, timer])
 
 	const getRecordSources = useCallback(async () => {
-		let recordSources = []
+		let recordSourceList = []
 
 		try {
-			recordSources = await interop.getRecordSources()
+			recordSourceList = await interop.getRecordSources()
 		} catch (err) {
 			return toastr.error('The screen recorder will not work.', 'Unable to load record sources!', toastrOpts)
 		}
 
-		if (!recordSources.length) return false
+		if (!recordSourceList.length) return false
 
-		recordSources = recordSources.filter(({ name }) => name !== 'Able2Deux')
+		recordSourceList = recordSourceList.filter(({ name }) => name !== 'Able2Deux')
 
-		if (recordSources.length === 1) {
-			return captureScreen(recordSources[0].id)
+		if (recordSourceList.length === 1) {
+			return captureScreen(recordSourceList[0].id)
 		}
 
-		setRecordSources(recordSources)
+		setRecordSources(recordSourceList)
 	}, [])
 
 	const toggleRecording = useCallback(() => {
@@ -127,10 +127,10 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 						fill={recording ? '#ccc' : '#4c4c4c'} />
 				</button>
 			</div>
-			{!!recordSources && (
+			{recordSources.length && (
 				<RecordSourceSelector
 					recordButton={ref.current}
-					closeRecordSources={() => setRecordSources(false)}
+					closeRecordSources={() => setRecordSources([])}
 					recordSources={recordSources}
 					captureScreen={captureScreen} />
 			)}
