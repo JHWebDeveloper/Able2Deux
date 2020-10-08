@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { array, element, func, number } from 'prop-types'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { array, element, func } from 'prop-types'
 
 import { detectTabExit } from '../../utilities'
 

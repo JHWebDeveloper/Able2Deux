@@ -85,7 +85,6 @@ const createSplashWindow = () => {
 
 	splashWin.on('ready-to-show', () => {
 		splashWin.show()
-		resolve()
 	})
 
 	splashWin.on('close', () => splashWin = false)
