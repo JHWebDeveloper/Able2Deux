@@ -6,9 +6,6 @@ import { MainContext } from '../../store'
 import { selectMedia } from '../../actions'
 
 import MediaSelector from './selector/MediaSelector'
-// import MediaInfo from './selector/MediaInfo'
-// import BatchList from './selector/BatchList'
-// import EditAll from './selector/EditAll'
 import BatchName from './BatchName'
 import SaveOptions from './SaveOptions'
 import SaveButtons from './SaveButtons'
@@ -48,25 +45,6 @@ const Render = () => {
 					isBatch={isBatch}
 					editAll={editAll}
 					dispatch={dispatch} />	
-				{/* <div id="media-selector">
-					<MediaInfo
-						thumbnail={selected.thumbnail}
-						title={selected.title}
-						width={selected.width}
-						height={selected.height}
-						aspectRatio={selected.aspectRatio}
-						duration={selected.duration}
-						fps={selected.fps}
-						channelLayout={selected.channelLayout}
-						sampleRate={selected.sampleRate}
-						bitRate={selected.bitRate}
-						dispatch={dispatch} />
-					<BatchList
-						media={media}
-						selectedId={selectedId}
-						dispatch={dispatch} />
-					{isBatch && <EditAll editAll={editAll} dispatch={dispatch} />}
-				</div> */}
 				{isBatch && (
 					<BatchName
 						batch={batch}
