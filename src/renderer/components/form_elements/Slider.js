@@ -27,7 +27,7 @@ const Slider = ({
 	inverted,
 	Button
 }) => {
-	const listID = useMemo(uuid, [])
+	const listId = useMemo(uuid, [])
 
 	return (
 		<div className="slider">
@@ -37,7 +37,7 @@ const Slider = ({
 				name={name}
 				className={inverted ? 'inverted' : ''}
 				title={label}
-				list={listID}
+				list={listId}
 				value={value}
 				min={min}
 				max={max}
@@ -49,7 +49,7 @@ const Slider = ({
 				data-default-value={defaultValue}
 				data-number />
 			{points && (
-				<datalist id={listID}>
+				<datalist id={listId}>
 					{points.map((point, i) => <option key={`${listId}_${i}`}>{point}</option>)}
 				</datalist>
 			)}
