@@ -14,41 +14,37 @@ const prefsDir = dev
 export const prefsPath = path.join(prefsDir, 'preferences.json')
 
 export const initPreferences = async () => {
-	try {
-		const prefsDirExists = await fileExistsPromise(prefsDir)
+	const prefsDirExists = await fileExistsPromise(prefsDir)
 
-		if (!prefsDirExists) await fsp.mkdir(prefsDir)
+	if (!prefsDirExists) await fsp.mkdir(prefsDir)
 
-		const prefsExists = await fileExistsPromise(prefsPath)
+	const prefsExists = await fileExistsPromise(prefsPath)
 
-		if (!prefsExists) {
-			await fsp.writeFile(prefsPath, JSON.stringify(defaultPrefs))
-		} else {
-			const prefs = JSON.parse(await fsp.readFile(prefsPath))
+	if (!prefsExists) {
+		await fsp.writeFile(prefsPath, JSON.stringify(defaultPrefs))
+	} else {
+		const prefs = JSON.parse(await fsp.readFile(prefsPath))
 
-			// legacy convert Able2 v1 prefs to v2
-			if (!prefs.version) {
-				await fsp.writeFile(prefsPath, JSON.stringify({
-					...defaultPrefs,
-					renderOutput: prefs.renderOutput,
-					saveLocations: prefs.directories,
-					warnings: {
-						...defaultPrefs.warnings,
-						sourceOnTop: prefs.sourceOnTopWarning
-					}
-				})) 
-			}
-			
-			if (prefs.version < 5) {
-				await fsp.writeFile(prefsPath, JSON.stringify({
-					...defaultPrefs,
-					...prefs,
-					version: 5
-				}))
-			}
+		// legacy convert Able2 v1 prefs to v2
+		if (!prefs.version) {
+			await fsp.writeFile(prefsPath, JSON.stringify({
+				...defaultPrefs,
+				renderOutput: prefs.renderOutput,
+				saveLocations: prefs.directories,
+				warnings: {
+					...defaultPrefs.warnings,
+					sourceOnTop: prefs.sourceOnTopWarning
+				}
+			})) 
 		}
-	} catch (err) {
-		console.error(err)
+		
+		if (prefs.version < 5) {
+			await fsp.writeFile(prefsPath, JSON.stringify({
+				...defaultPrefs,
+				...prefs,
+				version: 5
+			}))
+		}
 	}
 }
 
