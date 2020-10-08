@@ -11,7 +11,7 @@ import Controls from './Controls'
 
 const { interop } = window.ABLE2
 
-const extractSettingsToArray = settings => {
+const extractPreviewTriggers = settings => {
 	const { start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation } = settings
 	return [ start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation ]
 }
@@ -57,7 +57,6 @@ const Preview = ({ selected, dispatch }) => {
 	}, [source, arc, rotation, renderOutput])
 
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
-	const settings = extractSettingsToArray(selected)
 
 	useEffect(() => {
 		interop.setPreviewListeners(loadPreviewStill)
@@ -94,7 +93,7 @@ const Preview = ({ selected, dispatch }) => {
 				sourceData
 			})
 		}
-	}, [previewReady, open, sourceData, renderOutput, ...settings])
+	}, [previewReady, open, renderOutput, ...extractPreviewTriggers(selected)])
 
 	return (
 		<details onToggle={() => { toggleOpen(!open) }} open>
