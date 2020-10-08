@@ -4,18 +4,21 @@ export const detectTabExit = callback => e => {
 	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)
 }
 
-export const compareProps = (prev, next) => {
-	for (const key in prev) {
-		if (typeof prev[key] === 'function' && typeof next[key] === 'function') continue
+export const compareProps = (prevProps, nextProps) => {
+	const keys = prevProps.keys()
 
-		if (prev[key] instanceof Object) {
-			if (next[key] instanceof Object) {
-				if (!compareProps(prev[key], next[key])) return false
-			} else {
-				return false
-			}
+	for (const key of keys) {
+		const prev = prevProps[key]
+		const next = nextProps[key]
+
+		if (typeof prev === 'function' && typeof next === 'function') continue
+
+		if (prev instanceof Object) {
+			if (next instanceof Object) return compareProps(prev, next)
+			
+			return false
 		} else {
-			if (prev[key] !== next[key]) return false
+			if (prev !== next) return false
 		}
 	}
 
