@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { array, func, number } from 'prop-types'
+import { array, element, func, number } from 'prop-types'
 
 import { detectTabExit } from '../../utilities'
 
-const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceData, captureScreen }) => {
+const RecordSourceSelector = ({ recordButton, selectMenuPos, recordSources, loadRecordSourceData, captureScreen }) => {
 	const [ visible, reveal ] = useState(false)
 
 	const ref = useRef()
@@ -12,6 +12,8 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 		reveal(false)
 
 		ref.current.className = 'close'
+
+		recordButton.focus()
 
 		setTimeout(() => {
 			loadRecordSourceData(false)
@@ -38,7 +40,7 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 							type="button"
 							className="symbol"
 							title="close"
-							onClick={close}
+							onClick={() => close(false)}
 							autoFocus>close</button>
 					</h2>
 					{recordSources.map(({ id, name, thumbnail }) => (
@@ -57,6 +59,7 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 }
 
 RecordSourceSelector.propTypes = {
+	recordButton: element.isRequired,
 	selectMenuPos: number.isRequired,
 	recordSources: array.isRequired,
 	loadRecordSourceData: func.isRequired,
