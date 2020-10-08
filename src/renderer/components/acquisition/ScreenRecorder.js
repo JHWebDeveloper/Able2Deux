@@ -68,7 +68,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 		}
 	}, [])
 
-	const selectedAction = useMemo(() => (
+	const captureScreen = useMemo(() => (
 		screenshot ? captureScreenshot : startRecording
 	), [screenshot, timer])
 
@@ -86,7 +86,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 		recordSources = recordSources.filter(({ name }) => name !== 'Able2Deux')
 
 		if (recordSources.length === 1) {
-			return selectedAction(recordSources[0].id)
+			return captureScreen(recordSources[0].id)
 		}
 
 		loadRecordSourceData({
@@ -130,7 +130,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 			{!!recordSourceData && (
 				<RecordSourceSelector
 					loadRecordSourceData={loadRecordSourceData}
-					selectedAction={selectedAction}
+					captureScreen={captureScreen}
 					{...recordSourceData} />
 			)}
 			<Timecode

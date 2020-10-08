@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { array, func, number } from 'prop-types'
 
-const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceData, selectedAction }) => {
+const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceData, captureScreen }) => {
 	const [ visible, reveal ] = useState(false)
 
 	const ref = useRef()
@@ -13,7 +13,7 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 
 		setTimeout(() => {
 			loadRecordSourceData(false)
-			if (recordSrcId) selectedAction(recordSrcId)
+			if (recordSrcId) captureScreen(recordSrcId)
 		}, 250)
 	}, [])
 
@@ -60,7 +60,7 @@ RecordSourceSelector.propTypes = {
 	selectMenuPos: number.isRequired,
 	recordSources: array.isRequired,
 	loadRecordSourceData: func.isRequired,
-	selectedAction: func.isRequired
+	captureScreen: func.isRequired
 }
 
 export default RecordSourceSelector
