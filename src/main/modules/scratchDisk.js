@@ -40,7 +40,7 @@ export const scratchDisk = {
 
 export const initScratchDisk = async () => {
 	await updateScratchDisk()
-	scratchDisk.clearAll()	
+	await scratchDisk.clearAll()	
 }
 
 export const updateScratchDisk = async () => {
