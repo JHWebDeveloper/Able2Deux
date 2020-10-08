@@ -34,6 +34,10 @@ const Controls = props => {
 		}))
 	}, [id, timecode, end])
 
+	const updateTimecode = useCallback(e => {
+		dispatch(updateMediaStateFromEvent(id, e))
+	}, [])
+
 	return (
 		<>
 			{props.mediaType === 'video' && <>
@@ -47,7 +51,7 @@ const Controls = props => {
 					value={timecode}
 					min={min}
 					max={max}
-					onChange={e => dispatch(updateMediaStateFromEvent(id, e))}
+					onChange={updateTimecode}
 					data-number />
 				<button
 					type="button"
