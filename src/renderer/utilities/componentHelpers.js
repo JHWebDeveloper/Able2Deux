@@ -1,5 +1,9 @@
 import * as STATUS from '../status/types'
 
+export const closeOnBlur = callback => e => {
+	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)
+}
+
 export const compareProps = (prev, next) => {
 	for (const key in prev) {
 		if (typeof prev[key] === 'function' && typeof next[key] === 'function') continue
