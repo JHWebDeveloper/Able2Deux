@@ -39,13 +39,8 @@ export const scratchDisk = {
 }
 
 export const initScratchDisk = async () => {
-	try {
-		await updateScratchDisk()
-
-		scratchDisk.clearAll()	
-	} catch (err) {
-		console.error(err)
-	}
+	await updateScratchDisk()
+	scratchDisk.clearAll()	
 }
 
 export const updateScratchDisk = async () => {
