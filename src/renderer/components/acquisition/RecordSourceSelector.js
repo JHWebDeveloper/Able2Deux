@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { array, func, number } from 'prop-types'
 
+import { closeOnBlur } from '../../utilities'
+
 const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceData, captureScreen }) => {
 	const [ visible, reveal ] = useState(false)
 
@@ -17,9 +19,7 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 		}, 250)
 	}, [])
 
-	const closeOnBlur = useCallback(e => {
-		if (!ref.current.contains(e.relatedTarget)) close()
-	}, [])
+	const closeSelectorOnBlur = useCallback(closeOnBlur(close), [])
 
 	useEffect(() => {
 		setTimeout(() => reveal(true), 500)
@@ -29,7 +29,7 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 		<div
 			id="record-source-selector"
 			ref={ref}
-			onBlur={closeOnBlur}>
+			onBlur={closeSelectorOnBlur}>
 			<div style={{ bottom: `${selectMenuPos}px` }}>
 				{visible && <>
 					<h2>

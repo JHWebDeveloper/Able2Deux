@@ -2,6 +2,8 @@ import React, { useCallback, useState } from 'react'
 import { v1 as uuid } from 'uuid'
 import { arrayOf, bool, func, shape, string } from 'prop-types'
 
+import { closeOnBlur } from '../../utilities'
+
 const DropdownMenu = ({ buttons }) => {
 	const [ revealMenu, toggleRevealMenu ] = useState(false)
 	const [ position, setPosition ] = useState({ top: 0, left: 0 })
@@ -15,17 +17,10 @@ const DropdownMenu = ({ buttons }) => {
 		})
 	}, [])
 
-	const closeMenuOnBlur = useCallback(e => {
-		const parent = e.currentTarget.parentElement
-		const trgt = e.relatedTarget
-
-		if (!parent.contains(trgt) || !parent.parentElement.contains(trgt)) {
-			toggleRevealMenu(false)
-		}
-	}, [])
+	const closeMenuOnBlur = useCallback(closeOnBlur(toggleRevealMenu), [])
 
 	return (
-		<span className="dropdown">
+		<span className="dropdown" onBlur={closeMenuOnBlur}>
 			<button
 				type="button"
 				title="Options"
@@ -34,7 +29,6 @@ const DropdownMenu = ({ buttons }) => {
 					getPositionRelativeToWindow(e)
 					toggleRevealMenu(!revealMenu)
 				}}
-				onBlur={closeMenuOnBlur}
 				aria-haspopup="true"
 				aria-expanded={revealMenu}>more_vert</button>
 			{revealMenu && (
@@ -50,7 +44,6 @@ const DropdownMenu = ({ buttons }) => {
 							key={uuid()}
 							type="button"
 							autoFocus={i === 0}
-							onBlur={closeMenuOnBlur}
 							onClick={() => {
 								action()
 								toggleRevealMenu(false)
