@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { array, element, func } from 'prop-types'
+import { array, func, object } from 'prop-types'
 
 import { detectTabExit } from '../../utilities'
 
@@ -63,7 +63,7 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 }
 
 RecordSourceSelector.propTypes = {
-	recordButton: element.isRequired,
+	recordButton: object.isRequired,
 	recordSources: array.isRequired,
 	closeRecordSources: func.isRequired,
 	captureScreen: func.isRequired
