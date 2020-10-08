@@ -24,7 +24,7 @@ import CaptureModeSwitch from '../svg/CaptureModeSwitch'
 const { interop } = window.ABLE2
 
 const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
-	const [ recordSourceData, loadRecordSourceData ] = useState(false)
+	const [ recordSources, setRecordSources ] = useState(false)
 
 	const startRecording = useCallback(async streamId => {
 		try {
@@ -72,7 +72,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 		screenshot ? captureScreenshot : startRecording
 	), [screenshot, timer])
 
-	const getRecordSources = useCallback(async recordButton => {
+	const getRecordSources = useCallback(async () => {
 		let recordSources = []
 
 		try {
@@ -89,17 +89,14 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 			return captureScreen(recordSources[0].id)
 		}
 
-		loadRecordSourceData({
-			recordSources,
-			selectMenuPos: window.innerHeight - recordButton.getBoundingClientRect().bottom
-		})
+		setRecordSources(recordSources)
 	}, [])
 
-	const toggleRecording = useCallback(e => {
+	const toggleRecording = useCallback(() => {
 		if (recording) {
 			interop.stopRecording()
 		} else {
-			getRecordSources(e.currentTarget)
+			getRecordSources()
 		}
 	}, [recording])
 
@@ -130,12 +127,12 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 						fill={recording ? '#ccc' : '#4c4c4c'} />
 				</button>
 			</div>
-			{!!recordSourceData && (
+			{!!recordSources && (
 				<RecordSourceSelector
 					recordButton={ref.current}
-					loadRecordSourceData={loadRecordSourceData}
-					captureScreen={captureScreen}
-					{...recordSourceData} />
+					setRecordSources={setRecordSources}
+					recordSources={recordSources}
+					captureScreen={captureScreen} />
 			)}
 			<Timecode
 				name="timer"

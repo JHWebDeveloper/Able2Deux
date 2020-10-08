@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { array, element, func, number } from 'prop-types'
 
 import { detectTabExit } from '../../utilities'
 
-const RecordSourceSelector = ({ recordButton, selectMenuPos, recordSources, loadRecordSourceData, captureScreen }) => {
+const RecordSourceSelector = ({ recordButton, recordSources, setRecordSources, captureScreen }) => {
 	const [ visible, reveal ] = useState(false)
 
 	const ref = useRef()
@@ -16,7 +16,7 @@ const RecordSourceSelector = ({ recordButton, selectMenuPos, recordSources, load
 		recordButton.focus()
 
 		setTimeout(() => {
-			loadRecordSourceData(false)
+			setRecordSources(false)
 			if (recordSrcId) captureScreen(recordSrcId)
 		}, 250)
 	}, [])
@@ -27,12 +27,16 @@ const RecordSourceSelector = ({ recordButton, selectMenuPos, recordSources, load
 		setTimeout(() => reveal(true), 500)
 	}, [])
 
+	const getRecordButtonPos = useCallback(() => ({
+		bottom: `${window.innerHeight - recordButton.getBoundingClientRect().bottom}px`
+	}), [])
+
 	return (
 		<div
 			id="record-source-selector"
 			ref={ref}
 			onBlur={closeSelectorOnBlur}>
-			<div style={{ bottom: `${selectMenuPos}px` }}>
+			<div style={getRecordButtonPos()}>
 				{visible && <>
 					<h2>
 						Select Screen or Window
@@ -60,9 +64,8 @@ const RecordSourceSelector = ({ recordButton, selectMenuPos, recordSources, load
 
 RecordSourceSelector.propTypes = {
 	recordButton: element.isRequired,
-	selectMenuPos: number.isRequired,
 	recordSources: array.isRequired,
-	loadRecordSourceData: func.isRequired,
+	setRecordSources: func.isRequired,
 	captureScreen: func.isRequired
 }
 
