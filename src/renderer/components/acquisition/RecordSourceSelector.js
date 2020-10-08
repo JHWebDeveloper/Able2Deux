@@ -6,14 +6,14 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 
 	const ref = useRef()
 
-	const close = useCallback(id => {
+	const close = useCallback(recordSrcId => {
 		reveal(false)
 
 		ref.current.className = 'close'
 
 		setTimeout(() => {
 			loadRecordSourceData(false)
-			if (id) selectedAction(id)
+			if (recordSrcId) selectedAction(recordSrcId)
 		}, 250)
 	}, [])
 
