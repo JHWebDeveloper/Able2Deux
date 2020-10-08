@@ -4,6 +4,7 @@ import { arrayOf, func, object, string } from 'prop-types'
 import { PrefsContext } from '../../../store/preferences'
 
 import {
+	selectMedia,
 	moveMedia,
 	removeMedia,
 	copySettings,
@@ -63,6 +64,15 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		})
 	}, [media, warnings.remove])
 
+	const selectNeighbor = useCallback(index => {
+		console.log(index)
+		dispatch(selectMedia(media[index].id))
+	}, [media])
+
+	const sortingAction = useCallback((oldPos, newPos) => {
+		dispatch(moveMedia(oldPos, newPos))
+	}, [])
+
 	const ref = useRef()
 
 	useEffect(() => {
@@ -73,13 +83,9 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		}
 	}, [])
 
-	const sortingAction = useCallback((oldPos, newPos) => {
-		dispatch(moveMedia(oldPos, newPos))
-	}, [])
-
 	return (
 		<div ref={ref}>
-			<DraggableList gap={6} sortingAction={sortingAction}>
+			<DraggableList sortingAction={sortingAction}>
 				{media.map(({ id, refId, title, tempFilePath }, i) => (
 					<BatchItem
 						key={id}
@@ -88,11 +94,14 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 						title={title}
 						tempFilePath={tempFilePath}
 						selected={selectedId === id}
+						index={i}
+						isFirst={i === 0}
+						isLast={i + 1 === media.length}
+						isOnly={media.length === 1}
 						copyAllSettings={copyAllSettings}
 						applyToAllWithWarning={applyToAllWithWarning}
 						removeMediaWithWarning={removeMediaWithWarning}
-						index={i}
-						mediaLength={media.length}
+						selectNeighbor={selectNeighbor}
 						dispatch={dispatch} />
 				))}
 			</DraggableList>

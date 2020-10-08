@@ -4,6 +4,8 @@ import { replaceTokens } from '../../utilities'
 
 const { interop } = window.ABLE2
 
+const cmdORCtrl = interop.isMac ? 'Cmd' : 'Ctrl'
+
 const Formatting = () => (
 	<section id="formatting">
 		<h2>Formatting</h2>
@@ -21,39 +23,48 @@ const Formatting = () => (
 				<tr>
 					<th>Option</th>
 					<th>Description</th>
+					<th>Shortcut</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>Copy All Settings</td>
 					<td>Copies all of the media item&apos;s format settings to be pasted to another media item.</td>
+					<td>{cmdORCtrl}+C</td>
 				</tr>
 				<tr>
 					<td>Paste Settings</td>
 					<td>Applies copied format setting(s) to the media item.</td>
+					<td>{cmdORCtrl}+V</td>
 				</tr>
 				<tr>
 					<td>Apply Settings to All</td>
 					<td>Applies the media items format settings to all other media items.</td>
+					<td>{cmdORCtrl}+A</td>
 				</tr>
 				<tr>
 					<td>Move Up</td>
 					<td rowSpan="2">Moves the media item up or down by one position. An accessible alternative to ordering by drag and drop.</td>
+					<td>{cmdORCtrl}+Up</td>
 				</tr>
 				<tr>
 					<td>Move Down</td>
+					<td>{cmdORCtrl}+Down</td>
 				</tr>
 				<tr>
 					<td>Duplicate Media</td>
 					<td>Makes a copy of the media item and inserts it above. Different format settings can be applied to the copy allowing you export multiple versions of the same media.</td>
+					<td>{cmdORCtrl}+D</td>
 				</tr>
 				<tr>
 					<td>Remove Media</td>
 					<td>Removes a media item from the batch. Same as clicking the <i>close</i> button to the right of the media item.</td>
+					<td>Delete</td>
 				</tr>
 				<tr>
 					<td>Reveal in Cache</td>
 					<td>Reveals the media file in the imports cache folder. Can be used as a failsafe for when a download succeeds but a render fails. This will give you access to the original download file.</td>
+					<td>N/A</td>
 				</tr>
 			</tbody>
 		</table>

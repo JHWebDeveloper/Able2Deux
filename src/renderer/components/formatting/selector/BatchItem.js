@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useRef, useEffect } from 'react'
 import { bool, func, string, number } from 'prop-types'
 
 import {
@@ -12,28 +12,29 @@ import DropdownMenu from '../../form_elements/DropdownMenu'
 
 const { interop } = window.ABLE2
 
+const ctrlOrCmdKey = interop.isMac ? 'metaKey' : 'ctrlKey'
+
 const BatchItem = props => {
-	const { id, refId, title, selected, index, mediaLength, dispatch } = props
-	const onlyItem = mediaLength === 1
+	const { id, refId, title, selected, index, isFirst, isLast, isOnly, dispatch } = props
 	
 	const dropdown = [
 		{
 			label: 'Copy All Settings',
-			hide: onlyItem,
+			hide: isOnly,
 			action() {
 				props.copyAllSettings(id)
 			}
 		},
 		{
 			label: 'Paste Settings',
-			hide: onlyItem,
+			hide: isOnly,
 			action() {
 				dispatch(pasteSettings(id))
 			}
 		},
 		{
 			label: 'Apply Settings to All',
-			hide: onlyItem,
+			hide: isOnly,
 			action() {
 				props.applyToAllWithWarning(id)
 			}
@@ -41,14 +42,14 @@ const BatchItem = props => {
 		{ role: 'spacer' },
 		{
 			label: 'Move Up',
-			hide: onlyItem || index === 0,
+			hide: isFirst,
 			action() {
 				dispatch(moveMedia(index, index - 1))
 			}
 		},
 		{
 			label: 'Move Down',
-			hide: onlyItem || index + 1 === mediaLength,
+			hide: isLast,
 			action() {
 				dispatch(moveMedia(index, index + 2))
 			}
@@ -75,11 +76,46 @@ const BatchItem = props => {
 		}
 	]
 
+	const onKeyDown = e => {
+		if (e.key === 'Backspace') {
+			return props.removeMediaWithWarning(id, refId, title)
+		}
+
+		const ctrl = e[ctrlOrCmdKey]
+
+		if (ctrl && e.key === 'd') {
+			dispatch(duplicateMedia(id))
+		} else if (ctrl && !isOnly && e.key === 'c') {
+			props.copyAllSettings(id)
+		} else if (ctrl && !isOnly && e.key === 'v') {
+			dispatch(pasteSettings(id))
+		} else if (ctrl && !isOnly && e.key === 'a') {
+			props.applyToAllWithWarning(id)
+		} else if (ctrl && !isFirst && e.key === 'ArrowUp') {
+			dispatch(moveMedia(index, index - 1))
+		} else if (ctrl && !isLast && e.key === 'ArrowDown') {
+			dispatch(moveMedia(index, index + 2))
+		} else if (!isFirst && e.key === 'ArrowUp') {
+			props.selectNeighbor(index - 1)
+		} else if (!isLast && e.key === 'ArrowDown') {
+			props.selectNeighbor(index + 1)
+		}
+	}
+
+	const ref = useRef()
+
+	useEffect(() => {
+		if (selected) ref.current.focus()
+	}, [selected])
+
 	return (
-		<div className={`batch-item${selected ? ' selected' : ''}`}>
+		<div
+			className={`batch-item${selected ? ' selected' : ''}`}
+			onKeyDown={onKeyDown}>
 			<DropdownMenu buttons={dropdown} />
 			<button
 				type="button"
+				ref={ref}
 				title={selected ? title : 'Select Media'}
 				onClick={() => dispatch(selectMedia(id))}>{title}</button>
 			<button
@@ -97,13 +133,16 @@ BatchItem.propTypes = {
 	id: string.isRequired,
 	refId: string.isRequired,
 	title: string.isRequired,
-	selected: bool,
+	tempFilePath: string.isRequired,
+	index: number.isRequired,
+	selected: bool.isRequired,
+	isFirst: bool.isRequired,
+	isLast: bool.isRequired,
+	isOnly: bool.isRequired,
 	copyAllSettings: func.isRequired,
 	applyToAllWithWarning: func.isRequired,
 	removeMediaWithWarning: func.isRequired,
-	tempFilePath: string.isRequired,
-	index: number.isRequired,
-	mediaLength: number.isRequired,
+	selectNeighbor: func.isRequired,
 	dispatch: func.isRequired
 }
 
