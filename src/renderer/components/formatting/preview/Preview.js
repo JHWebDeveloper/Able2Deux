@@ -48,12 +48,13 @@ const Preview = ({ selected, dispatch }) => {
 		_916: false
 	})
 
-	// eslint-disable-next-line no-extra-parens
-	const sourceData = useMemo(() => (
-		source.sourceName &&
-		!(arc === 'none' && aspectRatio !== '16:9') &&
-		buildSource(source, renderOutput)
-	), [source, arc, rotation, renderOutput])
+	const sourceData = useMemo(() => {
+		if (source.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
+			return buildSource(source, renderOutput)
+		}
+
+		return false
+	}, [source, arc, rotation, renderOutput])
 
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
 	const settings = extractSettingsToArray(selected)
@@ -93,7 +94,7 @@ const Preview = ({ selected, dispatch }) => {
 				sourceData
 			})
 		}
-	}, [previewReady, open, ...settings, sourceData, renderOutput])
+	}, [previewReady, open, sourceData, renderOutput, ...settings])
 
 	return (
 		<details onToggle={() => { toggleOpen(!open) }} open>
