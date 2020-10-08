@@ -1,28 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { array, func, number } from 'prop-types'
 
 const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceData, selectedAction }) => {
 	const [ visible, reveal ] = useState(false)
 
-	const close = useCallback(() => {
+	const ref = useRef()
+
+	const close = useCallback(id => {
 		reveal(false)
-		document.querySelector('#record-source-selector').className = 'close'
-	}, [])
 
+		ref.current.className = 'close'
 
-	const recordAfterClose = useCallback(id => {
-		close()
 		setTimeout(() => {
 			loadRecordSourceData(false)
-			selectedAction(id)
+			if (id) selectedAction(id)
 		}, 250)
 	}, [])
 
-	const cancel = useCallback(() => {
-		close()
-		setTimeout(() => {
-			loadRecordSourceData(false)
-		}, 250)
+	const closeOnBlur = useCallback(e => {
+		if (!ref.current.contains(e.relatedTarget)) close()
 	}, [])
 
 	useEffect(() => {
@@ -32,9 +28,8 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 	return (
 		<div
 			id="record-source-selector"
-			onClick={e => {
-				if (e.target === e.currentTarget) cancel()
-			}}>
+			ref={ref}
+			onBlur={closeOnBlur}>
 			<div style={{ bottom: `${selectMenuPos}px` }}>
 				{visible && <>
 					<h2>
@@ -43,13 +38,14 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 							type="button"
 							className="symbol"
 							title="close"
-							onClick={cancel}>close</button>
+							onClick={close}
+							autoFocus>close</button>
 					</h2>
 					{recordSources.map(({ id, name, thumbnail }) => (
 						<button
 							key={id}
 							type="button"
-							onClick={() => recordAfterClose(id)}>
+							onClick={() => close(id)}>
 							<img src={thumbnail} />
 							<span>{name}</span>
 						</button>
