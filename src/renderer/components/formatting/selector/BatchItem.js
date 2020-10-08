@@ -77,7 +77,7 @@ const BatchItem = props => {
 	]
 
 	const onKeyDown = e => {
-		if (e.key === 'Backspace') {
+		if (/^(Backspace|Delete)$/.test(e.key)) {
 			return props.removeMediaWithWarning(id, refId, title)
 		}
 
