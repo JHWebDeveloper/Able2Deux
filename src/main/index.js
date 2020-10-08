@@ -62,10 +62,10 @@ const createURL = view => url.format(dev ? {
 const checkForUpdate = () => {
 	if (!app.isPackaged || mac) return Promise.resolve(false)
 
-	return new Promise(resolve => {
+	return new Promise((resolve, reject) => {
 		autoUpdater.on('update-available', ({ version }) => resolve(version))
 		autoUpdater.on('update-not-available', () => resolve(false))
-		autoUpdater.on('error', () => resolve(false))
+		autoUpdater.on('error', err => reject(err))
 		autoUpdater.checkForUpdatesAndNotify()
 	})
 }
@@ -78,7 +78,7 @@ const splashWindowOpts = {
 	maximizable: false
 }
 
-const createSplashWindow = () => new Promise(resolve => {
+const createSplashWindow = () => {
 	splashWin = openWindow(splashWindowOpts)
 
 	if (mac) Menu.setApplicationMenu(Menu.buildFromTemplate(splashWindowMenuTemplate))
@@ -90,16 +90,15 @@ const createSplashWindow = () => new Promise(resolve => {
 
 	splashWin.on('close', () => splashWin = false)
 	splashWin.loadURL(createURL('splash'))
-})
+}
 
-const createUpdateWindow = version => new Promise(resolve => {
+const createUpdateWindow = version => {
 	updateWin = openWindow(splashWindowOpts)
 
 	updateWin.on('ready-to-show', () => {
 		updateWin.show()
 		autoUpdater.downloadUpdate()
 		updateWin.webContents.send('updateStarted', version)
-		resolve()
 	})
 
 	updateWin.on('close', () => updateWin = false)
@@ -117,9 +116,9 @@ const createUpdateWindow = version => new Promise(resolve => {
 	})
 
 	updateWin.loadURL(createURL('update'))
-})
+}
 
-const createMainWindow = () => new Promise(resolve => {
+const createMainWindow = () => {
 	mainWin = openWindow({
 		width: mac ? 746 : 762,
 		height: 800,
@@ -134,23 +133,29 @@ const createMainWindow = () => new Promise(resolve => {
 	mainWin.on('ready-to-show', () => {
 		mainWin.show()
 		if (dev) mainWin.webContents.openDevTools()
-		resolve()
 	})
 
 	mainWin.on('close', () => mainWin = false)
-})
+}
 
 const startApp = async () => {
-	await createSplashWindow()
-	await initPreferences()
-	await initScratchDisk()
+	let version = ''
 
-	const version = await checkForUpdate()
+	createSplashWindow()
+
+	try {
+		await initPreferences()
+		await initScratchDisk()
+
+		version = await checkForUpdate()
+	} catch (err) {
+		console.error(err)
+	}
 
 	if (version) {
-		await createUpdateWindow(version)
+		createUpdateWindow(version)
 	} else {
-		await createMainWindow()
+		createMainWindow()
 	}
 
 	splashWin.close()
