@@ -1,6 +1,6 @@
 import * as STATUS from '../status/types'
 
-export const closeOnBlur = callback => e => {
+export const detectTabExit = callback => e => {
 	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)
 }
 

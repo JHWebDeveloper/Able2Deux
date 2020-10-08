@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { array, func, number } from 'prop-types'
 
-import { closeOnBlur } from '../../utilities'
+import { detectTabExit } from '../../utilities'
 
 const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceData, captureScreen }) => {
 	const [ visible, reveal ] = useState(false)
@@ -19,7 +19,7 @@ const RecordSourceSelector = ({ selectMenuPos, recordSources, loadRecordSourceDa
 		}, 250)
 	}, [])
 
-	const closeSelectorOnBlur = useCallback(closeOnBlur(close), [])
+	const closeSelectorOnBlur = useCallback(detectTabExit(close), [])
 
 	useEffect(() => {
 		setTimeout(() => reveal(true), 500)

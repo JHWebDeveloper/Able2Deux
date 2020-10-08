@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { v1 as uuid } from 'uuid'
 import { arrayOf, bool, func, shape, string } from 'prop-types'
 
-import { closeOnBlur } from '../../utilities'
+import { detectTabExit } from '../../utilities'
 
 const DropdownMenu = ({ buttons }) => {
 	const [ revealMenu, toggleRevealMenu ] = useState(false)
@@ -17,7 +17,7 @@ const DropdownMenu = ({ buttons }) => {
 		})
 	}, [])
 
-	const closeMenuOnBlur = useCallback(closeOnBlur(toggleRevealMenu), [])
+	const closeMenuOnBlur = useCallback(detectTabExit(toggleRevealMenu), [])
 
 	return (
 		<span className="dropdown" onBlur={closeMenuOnBlur}>

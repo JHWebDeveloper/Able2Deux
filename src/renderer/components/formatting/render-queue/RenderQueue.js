@@ -12,7 +12,7 @@ import {
 	startOver
 } from '../../../actions'
 
-import { toastrOpts, closeOnBlur } from '../../../utilities'
+import { toastrOpts, detectTabExit } from '../../../utilities'
 
 import RenderElement from './RenderElement'
 
@@ -54,7 +54,7 @@ const RenderQueue = withRouter(params => {
 
 	const ref = useRef()
 
-	const containFocus = useCallback(closeOnBlur(() => {
+	const containFocus = useCallback(detectTabExit(() => {
 		ref.current.focus()
 	}), [ref])
 
