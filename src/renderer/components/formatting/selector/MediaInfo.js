@@ -45,8 +45,8 @@ const MediaInfo = memo(props => {
 			<img src={thumbnail} alt={title} />
 			<h2
 				data-title={title}
-				onMouseEnter={e => scrollText(e)}
-				onMouseLeave={e => resetText(e)}>{title}</h2>
+				onMouseEnter={scrollText}
+				onMouseLeave={resetText}>{title}</h2>
 			<ul>
 				{!!duration && <li>{secondsToTC(duration)};{zeroize(Math.round(duration % 1 * fps))}</li>}
 				{!!width && !!height && <li>{width}x{height}</li>}
