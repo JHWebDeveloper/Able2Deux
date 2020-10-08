@@ -54,7 +54,7 @@ const RenderQueue = withRouter(params => {
 
 	const ref = useRef()
 
-	const focusOnBack = useCallback(closeOnBlur(() => {
+	const containFocus = useCallback(closeOnBlur(() => {
 		ref.current.focus()
 	}), [ref])
 
@@ -85,7 +85,7 @@ const RenderQueue = withRouter(params => {
 	}, [complete])
 
 	return (
-		<div id="render-queue" onBlur={focusOnBack}>
+		<div id="render-queue" onBlur={containFocus}>
 			<div>
 				<div>
 					{media.map(({ id, mediaType, filename, exportFilename, render }) => (
