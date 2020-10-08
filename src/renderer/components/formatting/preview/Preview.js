@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { memo, useContext, useEffect, useMemo, useState } from 'react'
 import { func, object } from 'prop-types'
 import '../../../css/index/preview.css'
 
 import { PrefsContext } from '../../../store/preferences'
-import { buildSource } from '../../../utilities'
+import { buildSource, compareProps } from '../../../utilities'
 
 import Spinner from '../../svg/Spinner'
 import Grid from './Grid'
@@ -16,7 +16,7 @@ const extractPreviewTriggers = settings => {
 	return [ start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation ]
 }
 
-const Preview = ({ selected, dispatch }) => {
+const Preview = memo(({ selected, dispatch }) => {
 	const { renderOutput, enableWidescreenGrids, gridColor } = useContext(PrefsContext).preferences
 
 	const {
@@ -132,7 +132,7 @@ const Preview = ({ selected, dispatch }) => {
 			)}
 		</details>
 	)
-}
+}, compareProps)
 
 Preview.propTypes = {
 	selected: object.isRequired,
