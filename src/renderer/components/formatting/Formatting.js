@@ -5,9 +5,10 @@ import '../../css/index/formatting.css'
 import { MainContext } from '../../store'
 import { selectMedia } from '../../actions'
 
-import MediaInfo from './selector/MediaInfo'
-import BatchList from './selector/BatchList'
-import EditAll from './selector/EditAll'
+import MediaSelector from './selector/MediaSelector'
+// import MediaInfo from './selector/MediaInfo'
+// import BatchList from './selector/BatchList'
+// import EditAll from './selector/EditAll'
 import BatchName from './BatchName'
 import SaveOptions from './SaveOptions'
 import SaveButtons from './SaveButtons'
@@ -40,8 +41,14 @@ const Render = () => {
 
 	return (
 		<form>
-			<div id="media-manager">				
-				<div id="media-selector">
+			<div id="media-manager">			
+				<MediaSelector
+					media={media}
+					selected={selected}
+					isBatch={isBatch}
+					editAll={editAll}
+					dispatch={dispatch} />	
+				{/* <div id="media-selector">
 					<MediaInfo
 						thumbnail={selected.thumbnail}
 						title={selected.title}
@@ -59,7 +66,7 @@ const Render = () => {
 						selectedId={selectedId}
 						dispatch={dispatch} />
 					{isBatch && <EditAll editAll={editAll} dispatch={dispatch} />}
-				</div>
+				</div> */}
 				{isBatch && (
 					<BatchName
 						batch={batch}
