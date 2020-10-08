@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { withRouter } from 'react-router-dom'
 import toastr from 'toastr'
 
@@ -12,7 +12,7 @@ import {
 	startOver
 } from '../../../actions'
 
-import { toastrOpts } from '../../../utilities'
+import { toastrOpts, closeOnBlur } from '../../../utilities'
 
 import RenderElement from './RenderElement'
 
@@ -52,6 +52,12 @@ const RenderQueue = withRouter(params => {
 		history.push('/')
 	}, [])
 
+	const ref = useRef()
+
+	const focusOnBack = useCallback(closeOnBlur(() => {
+		ref.current.focus()
+	}), [ref])
+
 	useEffect(() => {
 		interop.disablePrefs()
 
@@ -79,7 +85,7 @@ const RenderQueue = withRouter(params => {
 	}, [complete])
 
 	return (
-		<div id="render-queue">
+		<div id="render-queue" onBlur={focusOnBack}>
 			<div>
 				<div>
 					{media.map(({ id, mediaType, filename, exportFilename, render }) => (
@@ -100,6 +106,7 @@ const RenderQueue = withRouter(params => {
 								type="button"
 								className="app-button"
 								title="Back"
+								ref={ref}
 								onClick={goBack}>Back</button>
 							<button
 								type="button"
@@ -112,7 +119,9 @@ const RenderQueue = withRouter(params => {
 							type="button"
 							className="app-button"
 							title="Cancell All"
-							onClick={cancelAll}>Cancel All</button>
+							ref={ref}
+							onClick={cancelAll}
+							autoFocus>Cancel All</button>
 					)}
 				</div>
 			</div>
