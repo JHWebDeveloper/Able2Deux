@@ -40,7 +40,7 @@ const Formatting = () => (
 				<tr>
 					<td>Apply Settings to All</td>
 					<td>Applies the media items format settings to all other media items.</td>
-					<td>{cmdORCtrl}+A</td>
+					<td>N/A</td>
 				</tr>
 				<tr>
 					<td>Move Up</td>
