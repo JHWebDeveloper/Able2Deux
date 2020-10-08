@@ -50,7 +50,7 @@ const Slider = ({
 				data-number />
 			{points && (
 				<datalist id={listID}>
-					{points.map(point => <option key={uuid()}>{point}</option>)}
+					{points.map((point, i) => <option key={`${listId}_${i}`}>{point}</option>)}
 				</datalist>
 			)}
 			{Button && <Button />}
