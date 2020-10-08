@@ -25,6 +25,9 @@ const defaultMediaData = {
 	aspectRatio: '',
 	hasAlpha: false,
 	fps: 0,
+	channelLayout: '',
+	sampleRate: '',
+	bitRate: '',
 	timecode: 0,
 	start: {
 		enabled: false,
