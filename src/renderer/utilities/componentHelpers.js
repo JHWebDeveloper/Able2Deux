@@ -5,7 +5,7 @@ export const detectTabExit = callback => e => {
 }
 
 export const compareProps = (prevProps, nextProps) => {
-	const keys = prevProps.keys()
+	const keys = Object.keys(prevProps)
 
 	for (const key of keys) {
 		const prev = prevProps[key]
