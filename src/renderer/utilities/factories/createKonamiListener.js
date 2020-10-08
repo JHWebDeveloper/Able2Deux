@@ -1,10 +1,18 @@
+const U = 'ArrowUp'
+const D = 'ArrowDown'
+const L = 'ArrowLeft'
+const R = 'ArrowRight'
+const A = 'a'
+const B = 'b'
+const START = 'Enter'
+
 export const createKonamiListener = () => {
-	const _keys = [38, 38, 40, 40, 37, 39, 37, 39, 65, 66, 13]
+	const _keys = [ U, U, D, D, L, R, L, R, A, B, START ]
 	let _count = 0
 	let _callback = false
 
 	const _log = e => {
-		const match = e.keyCode === _keys[_count]
+		const match = e.key === _keys[_count]
 
 		if (match && _count === _keys.length - 1) {
 			_callback()
