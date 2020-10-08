@@ -3,13 +3,18 @@ import { func, object } from 'prop-types'
 import '../../../css/index/preview.css'
 
 import { PrefsContext } from '../../../store/preferences'
-import { buildSource, extractSettingsToArray } from '../../../utilities'
+import { buildSource } from '../../../utilities'
 
 import Spinner from '../../svg/Spinner'
 import Grid from './Grid'
 import Controls from './Controls'
 
-const { interop } = window.ABLE2 
+const { interop } = window.ABLE2
+
+const extractSettingsToArray = opts => {
+	const { start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation } = opts
+	return [ start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation ]
+}
 
 const Preview = ({ selected, dispatch }) => {
 	const { renderOutput, enableWidescreenGrids, gridColor } = useContext(PrefsContext).preferences

@@ -13,7 +13,6 @@ import {
 
 import {
 	warn,
-	extractSettings,
 	arrayCount,
 	createScrollbarPadder
 } from '../../../utilities'
@@ -39,18 +38,23 @@ const removeMediaWarning = (title, enabled, callback) => {
 	})
 }
 
+export const extractSettingsToCopy = settings => {
+	const { arc, background, overlay, source, centering, position, scale, crop, rotation } = settings
+	return { arc, background, overlay, source, centering, position, scale, crop, rotation }
+}
+
 const scrollbarPadder = createScrollbarPadder()
 
 const BatchList = ({ media, selectedId, dispatch }) => {
 	const { warnings } = useContext(PrefsContext).preferences
 
 	const copyAllSettings = useCallback(id => {
-		dispatch(copySettings(extractSettings(media.find(item => item.id === id))))
+		dispatch(copySettings(extractSettingsToCopy(media.find(item => item.id === id))))
 	}, [media])
 
 	const applyToAllWithWarning = useCallback(id => {
 		applyToAllWarning(warnings.applyToAll, () => {
-			dispatch(applySettingsToAll(id, extractSettings(media.find(item => item.id === id))))
+			dispatch(applySettingsToAll(id, extractSettingsToCopy(media.find(item => item.id === id))))
 		})
 	}, [media, warnings.applyToAll])
 
