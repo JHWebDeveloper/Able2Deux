@@ -11,10 +11,14 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Added
 - Holding shift allows for fine tuning of Position, Scale and Crop sliders and number fields.
+- Pressing Up and Down arrows now control which media item is selected.
+- Keyboard Shortcuts in batch selector for Copy All Settings (Ctrl|Cmd+C), Paste Settings (Ctrl|Cmd+V), Duplicate Media(Ctrl|Cmd+D), Remove Media (Backspace|Delete), Move Up (Ctrl|Cmd+ArrowUp) and Move Down (Ctrl|Cmd+ArrowDown)
 - Start and end timecode fields now turn red when start exceeds or matches end, start exceeds or matches media duration or end is set to zero.
 
 ### Fixed
 - Bug preventing negative sign and leading decimal point from being typed into the number fields next to the sliders.
+- Bug causing Radio buttons to lose focus on select.
+- Bug allowing tabbed browsing under record source selector. Record source selector now closes when tabbed out.
 - No longer renders a dud file when end timecode is set to zero. Error message now displays during render.
 
 ## [2.1.2] - 9.21.20
