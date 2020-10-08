@@ -15,7 +15,7 @@ const initState = {
 		display: '00:01:00'
 	},
 	media: [],
-	selectedId: false,
+	selectedId: '',
 	batch: {
 		name: '',
 		position: 'replace'
