@@ -16,7 +16,7 @@ const RadioSet = ({ name, state, onChange, buttons }) => {
 			<span>{label}</span>
 		</label>
 	))
-	}
+}
 
 RadioSet.propTypes = {
 	name: string.isRequired,

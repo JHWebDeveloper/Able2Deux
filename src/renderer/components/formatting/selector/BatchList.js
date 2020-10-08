@@ -65,7 +65,6 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 	}, [media, warnings.remove])
 
 	const selectNeighbor = useCallback(index => {
-		console.log(index)
 		dispatch(selectMedia(media[index].id))
 	}, [media])
 

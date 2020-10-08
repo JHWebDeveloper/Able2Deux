@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { bool, func, string, number } from 'prop-types'
 
 import {
