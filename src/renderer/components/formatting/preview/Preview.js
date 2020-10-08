@@ -11,8 +11,8 @@ import Controls from './Controls'
 
 const { interop } = window.ABLE2
 
-const extractSettingsToArray = opts => {
-	const { start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation } = opts
+const extractSettingsToArray = settings => {
+	const { start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation } = settings
 	return [ start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation ]
 }
 
