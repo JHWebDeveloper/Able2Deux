@@ -1,30 +1,15 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { number, string } from 'prop-types'
 
-import { compareProps, secondsToTC, zeroize, capitalize } from '../../../utilities'
+import {
+	compareProps,
+	secondsToTC,
+	zeroize,
+	capitalize,
+	createAnimator
+} from '../../../utilities'
 
-let interval = false
-
-const scrollText = e => {
-	e.persist()
-
-	requestAnimationFrame(() => { // sync to framerate
-		interval = setInterval(() => {
-			if (e.target.scrollWidth === e.target.clientWidth) {
-				e.target.style.textOverflow = 'clip'
-				return clearInterval(interval)
-			}
-	
-			e.target.innerText = e.target.innerText.slice(1)
-		}, 1000 / 6) // run every 10 frames
-	})
-}
-
-const resetText = e => {
-	clearInterval(interval)
-	e.target.innerText = e.target.dataset.title
-	e.target.style.removeProperty('text-overflow')
-}
+const textReveal = createAnimator()
 
 const MediaInfo = memo(props => {
 	const {
@@ -40,13 +25,36 @@ const MediaInfo = memo(props => {
 		bitRate
 	} = props
 
+	const ref = useRef()
+
+	const panTitle = useCallback(pause => {
+		if (ref.current.scrollWidth === ref.current.clientWidth) {
+			ref.current.style.textOverflow = 'clip'
+			pause()
+		} else {
+			ref.current.innerText = ref.current.innerText.slice(1)
+		}
+	}, [])
+
+	const resetPanTitle = useCallback(() => {
+		ref.current.innerText = ref.current.dataset.title
+		ref.current.style.removeProperty('text-overflow')
+	}, [])
+
+	useEffect(() => {
+		textReveal
+			.onFrame(panTitle, 10)
+			.onStop(resetPanTitle)
+	}, [])
+
 	return (
 		<div>
 			<img src={thumbnail} alt={title} />
 			<h2
 				data-title={title}
-				onMouseEnter={scrollText}
-				onMouseLeave={resetText}>{title}</h2>
+				ref={ref}
+				onMouseEnter={textReveal.start}
+				onMouseLeave={textReveal.stop}>{title}</h2>
 			<ul>
 				{!!duration && <li>{secondsToTC(duration)};{zeroize(Math.round(duration % 1 * fps))}</li>}
 				{!!width && !!height && <li>{width}x{height}</li>}
