@@ -1,5 +1,5 @@
 import React from 'react'
-import { arrayOf, bool, func, number, object, shape, string } from 'prop-types'
+import { arrayOf, bool, func, object } from 'prop-types'
 
 import MediaInfo from './MediaInfo'
 import BatchList from './BatchList'
@@ -29,19 +29,7 @@ const MediaSelector = ({ media, selected, isBatch, editAll, dispatch }) => (
 
 MediaSelector.propTypes = {
 	media: arrayOf(object).isRequired,
-	selected: shape({
-		id: string,
-		thumbnail: string,
-		title: string,
-		width: number,
-		height: number,
-		aspectRatio: string,
-		duration: number,
-		fps: number,
-		channelLayout: string,
-		sampleRate: string,
-		bitRate: string
-	}).isRequired,
+	selected: object.isRequired,
 	isBatch: bool.isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
