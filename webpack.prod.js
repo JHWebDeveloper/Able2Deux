@@ -50,18 +50,15 @@ const mainConfig = {
 
 const rendererPath = path.join(__dirname, 'src', 'renderer')
 
-const pages = {
-	index: rendererPath,
-	splash: path.join(rendererPath, 'splash.js'),
-	update: path.join(rendererPath, 'update.js'),
-	preferences: path.join(rendererPath, 'preferences.js'),
-	help: path.join(rendererPath, 'help.js')
-}
+const pages = [ 'index', 'splash', 'update', 'preferences', 'help' ]
 
 const rendererConfig = {
 	mode: 'production',
 	entry: {
-		...pages,
+		...pages.reduce((obj, pg) => {
+			obj[pg] = path.join(rendererPath, `${pg}.js`)
+			return obj
+		}, {}),
 		global: path.join(rendererPath, 'css', 'global.css'),
 		toastr: path.join(rendererPath, 'css', 'toastr.css')
 	},
@@ -108,10 +105,10 @@ const rendererConfig = {
 		new MiniCssExtractPlugin({
 			filename: path.join('assets', 'css', '[name].min.css')
 		}),
-		...Object.keys(pages).map(title => new HTMLWebpackPlugin({
+		...pages.map(pg => new HTMLWebpackPlugin({
 			inject: false,
-			filename: `${title}.html`,
-			template: path.join(rendererPath, `${title}.html`)
+			filename: `${pg}.html`,
+			template: path.join(rendererPath, `${pg}.html`)
 		}))
 	],
 	node: {
