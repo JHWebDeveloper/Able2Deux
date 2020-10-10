@@ -96,6 +96,7 @@ const createUpdateWindow = version => {
 
 	updateWin.on('ready-to-show', () => {
 		updateWin.show()
+		splashWin.close()
 		autoUpdater.downloadUpdate()
 		updateWin.webContents.send('updateStarted', version)
 	})
@@ -131,6 +132,7 @@ const createMainWindow = () => {
 
 	mainWin.on('ready-to-show', () => {
 		mainWin.show()
+		splashWin.close()
 		if (dev) mainWin.webContents.openDevTools()
 	})
 
@@ -156,8 +158,6 @@ const startApp = async () => {
 	} else {
 		createMainWindow()
 	}
-
-	splashWin.close()
 }
 
 const lock = app.requestSingleInstanceLock()
