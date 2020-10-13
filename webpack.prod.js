@@ -7,28 +7,34 @@ const postcssPresetEnv = require('postcss-preset-env')
 const cssnano = require('cssnano')
 
 const mainPath = path.join(__dirname, 'src', 'main')
+const rendererPath = path.join(__dirname, 'src', 'renderer')
+const pages = [ 'index', 'splash', 'update', 'preferences', 'help' ]
 
-const mainConfig = {
+const common = {
 	mode: 'production',
-	entry: {
-		main: mainPath,
-		preload: path.join(mainPath, 'preload', 'preload.js')
-	},
-	output: {
-		path: path.join(__dirname, 'build'),
-		filename: '[name].js'
-	},
-	target: 'electron-main',
-	externals: [nodeExternals()],
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.(js)$/,
 				exclude: /node_modules/,
 				use: ['babel-loader']
 			}
 		]
 	},
+	node: {
+		__dirname: false
+	}
+}
+
+const mainConfig = {
+	...common,
+	entry: mainPath,
+	output: {
+		path: path.join(__dirname, 'build'),
+		filename: 'main.js'
+	},
+	target: 'electron-main',
+	externals: [nodeExternals()],
 	plugins: [
 		new CopyWebpackPlugin({
 			patterns: [
@@ -42,18 +48,22 @@ const mainConfig = {
 				}
 			]
 		})
-	],
-	node: {
-		__dirname: false
-	}
+	]
 }
 
-const rendererPath = path.join(__dirname, 'src', 'renderer')
-
-const pages = [ 'index', 'splash', 'update', 'preferences', 'help' ]
+const preloadConfig = {
+	...common,
+	entry: path.join(mainPath, 'preload', 'preload.js'),
+	output: {
+		path: path.join(__dirname, 'build'),
+		filename: 'preload.js'
+	},
+	target: 'electron-preload',
+	externals: [nodeExternals()]
+}
 
 const rendererConfig = {
-	mode: 'production',
+	...common,
 	entry: {
 		...pages.reduce((obj, pg) => {
 			obj[pg] = path.join(rendererPath, `${pg}.js`)
@@ -70,11 +80,7 @@ const rendererConfig = {
 	target: 'electron-renderer',
 	module: {
 		rules: [
-			{
-				test: /\.js$/,
-				exclude: /node_modules/,
-				use: ['babel-loader']
-			},
+			...common.module.rules,
 			{
 				test: /\.css$/,
 				use: [
@@ -110,13 +116,11 @@ const rendererConfig = {
 			filename: `${pg}.html`,
 			template: path.join(rendererPath, `${pg}.html`)
 		}))
-	],
-	node: {
-		__dirname: false
-	}
+	]
 }
 
 module.exports = [
 	mainConfig,
+	preloadConfig,
 	rendererConfig
 ]

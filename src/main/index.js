@@ -323,7 +323,7 @@ const mainMenuTemplate = [
 	}
 ]
 
-if (dev || process.env.devtools) {
+//if (dev || process.env.devtools) {
 	mainMenuTemplate.push({
 		label: 'Developer Tools',
 		submenu: [
@@ -338,7 +338,7 @@ if (dev || process.env.devtools) {
 			}
 		]
 	})
-}
+//}
 
 // ---- IPC ROUTES ----
 
