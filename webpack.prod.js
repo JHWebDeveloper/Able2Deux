@@ -77,7 +77,7 @@ const rendererConfig = {
 		filename: '[name].bundle.js',
 		publicPath: '/'
 	},
-	target: 'electron-renderer',
+	target: 'web',
 	module: {
 		rules: [
 			...common.module.rules,
