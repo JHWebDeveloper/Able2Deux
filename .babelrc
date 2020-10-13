@@ -9,12 +9,6 @@
 					"version": 3
 				}
 			}
-		],
-		[
-			"minify",
-			{
-				"builtIns": false
-			}
 		]
 	],
 	"plugins": [
