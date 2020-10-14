@@ -23,7 +23,7 @@ module.exports = {
 		filename: '[name].bundle.js',
 		publicPath: '/'
 	},
-	target: 'electron-renderer',
+	target: 'web',
 	module: {
 		rules: [
 			{
