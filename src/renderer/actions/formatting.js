@@ -177,11 +177,10 @@ const preventDuplicateFilenames = media => {
 
 	const tally = new Map()
 	const { length } = media
-	let i = 0
+	let i = -1
 
-	while (i < length) {
+	while (++i < length) {
 		const key = media[i].filename
-		i++
 
 		if (tally.has(key)) {
 			tally.get(key).count += 1
