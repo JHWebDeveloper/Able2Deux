@@ -67,22 +67,20 @@ export const format12hr = d => {
 	return `${h}${zeroize10(m)}${meridian}`
 }
 
-export const secondsToTC = secs => [
-	Math.floor(secs / 3600),
-	Math.floor(secs / 60) % 60,
-	Math.floor(secs % 60)
+export const secondsToTC = sec => [
+	sec / 3600 << 0,
+	sec / 60 % 60 << 0,
+	sec % 60 << 0
 ].map(zeroize10).join(':')
 
-const mult = [1, 60, 3600]
-
 export const tcToSeconds = hms => {
-	const secs = hms
+	const sec = hms
 		.split(':')
 		.reverse()
 		.map(val => parseInt(val) || 0)
-		.reduce((acc, val, i) => acc + val * mult[i], 0)
+		.reduce((acc, val, i) => acc + val * 60 ** i, 0)
 	
-	return Math.min(secs, 86399)
+	return Math.min(sec, 86399) // 86399 == 23:59:59
 }
 
 export const simplifyTimecode = tc => secondsToTC(tcToSeconds(tc))
