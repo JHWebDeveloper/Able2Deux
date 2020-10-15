@@ -10,6 +10,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ## [Unreleased][2.1.3] - TBD
 
 ### Added
+- Screen record now shows time ellapsed (time remaining if timer enabled)
 - Holding shift allows for fine tuning of Position, Scale and Crop sliders and number fields.
 - Pressing Up and Down arrows now control which media item is selected.
 - Keyboard Shortcuts in batch selector for Copy All Settings (Ctrl|Cmd+C), Paste Settings (Ctrl|Cmd+V), Duplicate Media(Ctrl|Cmd+D), Remove Media (Backspace|Delete), Move Up (Ctrl|Cmd+ArrowUp) and Move Down (Ctrl|Cmd+ArrowDown)
