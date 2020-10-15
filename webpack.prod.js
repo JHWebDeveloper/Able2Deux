@@ -69,7 +69,10 @@ const rendererConfig = merge(commonRenderer, {
 				preset: ['default', { calc: false }]
 			}
 		})
-	]
+	],
+	node: {
+		__dirname: false
+	}
 })
 
 module.exports = [
