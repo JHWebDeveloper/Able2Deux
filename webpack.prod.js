@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
@@ -5,7 +6,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
 const cssnano = require('cssnano')
-const webpack = require('webpack')
 
 const mainPath = path.join(__dirname, 'src', 'main')
 const rendererPath = path.join(__dirname, 'src', 'renderer')
