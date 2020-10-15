@@ -42,8 +42,8 @@ const openWindow = opts => new BrowserWindow({
 		enableEval: false,
 		enableRemoteModule: true,
 		preload: dev
-			? path.resolve('preload', 'babelRegister.js')
-			: path.resolve('preload.js')
+			? path.join(__dirname, 'preload', 'babelRegister.js')
+			: path.join(__dirname, 'preload.js')
 	},
 	...opts
 })
@@ -55,7 +55,7 @@ const createURL = view => url.format(dev ? {
 	slashes: true
 } : {
 	protocol: 'file:',
-	pathname: path.resolve('renderer', `${view}.html`),
+	pathname: path.join(__dirname, 'renderer', `${view}.html`),
 	slashes: true
 })
 
