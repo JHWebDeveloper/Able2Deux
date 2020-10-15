@@ -3,8 +3,8 @@ import path from 'path'
 import { v1 as uuid } from 'uuid'
 
 const tempDirectory = process.env.NODE_ENV === 'development'
-	? path.resolve(__dirname, '..', '..', 'temp')
-	: path.join(app.getPath('temp'))
+	? path.resolve('..', '..', 'temp')
+	: app.getPath('temp')
 
 const defaultPrefs = {
 	version: 3,

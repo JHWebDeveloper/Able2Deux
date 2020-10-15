@@ -8,7 +8,7 @@ import { fileExistsPromise } from '../utilities'
 const dev = process.env.NODE_ENV === 'development'
 
 const prefsDir = dev
-	? path.join(__dirname, '..', '..', 'data')
+	? path.resolve('..', '..', 'data')
 	: path.join(app.getPath('appData'), 'able2', 'prefs')
 
 export const prefsPath = path.join(prefsDir, 'preferences.json')
