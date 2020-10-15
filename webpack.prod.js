@@ -59,7 +59,7 @@ const preloadConfig = merge(commonMain, {
 		path: path.resolve('build'),
 		filename: 'preload.js'
 	},
-	target: 'electron-preload',
+	target: 'electron-preload'
 })
 
 const rendererConfig = merge(commonRenderer, {
