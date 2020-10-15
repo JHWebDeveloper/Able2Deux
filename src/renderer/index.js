@@ -1,7 +1,9 @@
 import React from 'react'
 import { render } from 'react-dom'
+
+import { initTabbedBrowsing } from 'utilities'
+
 import App from './components/main/App'
-import { initTabbedBrowsing } from './utilities'
 
 initTabbedBrowsing()
 

@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react'
 import { arrayOf, element, exact, oneOfType, object, bool } from 'prop-types'
 
-import { updateState } from '../actions'
+import { updateState } from 'actions'
 import reducer from '../reducer'
 
 const initState = {

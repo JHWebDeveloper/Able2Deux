@@ -1,7 +1,7 @@
 import React from 'react'
 import { arrayOf, bool, exact, func, string } from 'prop-types'
 
-import { toggleSaveLocation } from '../../actions'
+import { toggleSaveLocation } from 'actions'
 
 import Checkbox from '../form_elements/Checkbox'
 

@@ -2,7 +2,7 @@ import toastr from 'toastr'
 import { v1 as uuid } from 'uuid'
 
 import * as ACTION from './types'
-import { toastrOpts } from '../utilities'
+import { toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
 

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { exact, func, string } from 'prop-types'
 
-import { updateNestedState } from '../../actions'
+import { updateNestedState } from 'actions'
 
 import DirectorySelector from '../form_elements/DirectorySelector'
 

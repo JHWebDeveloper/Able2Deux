@@ -1,16 +1,16 @@
 import React, { memo, useCallback, useContext } from 'react'
 import { bool, func, exact, string } from 'prop-types'
 
-import { PrefsContext } from '../../../store/preferences'
+import { PrefsContext } from 'store/preferences'
 
 import {
 	updateMediaNestedStateFromEvent,
 	toggleMediaNestedCheckbox,
 	copySettings,
 	applySettingsToAll
-} from '../../../actions'
+} from 'actions'
 
-import { compareProps, createSettingsMenu, warn } from '../../../utilities'
+import { compareProps, createSettingsMenu, warn } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Checkbox from '../../form_elements/Checkbox'

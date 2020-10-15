@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { replaceTokens } from '../../utilities'
+import { replaceTokens } from 'utilities'
 
 const { interop } = window.ABLE2
 

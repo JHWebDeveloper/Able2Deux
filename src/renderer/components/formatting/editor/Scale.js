@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useContext, useMemo } from 'react'
 import { bool, exact, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
-import { PrefsContext } from '../../../store/preferences'
+import { PrefsContext } from 'store/preferences'
 
 import {
 	updateMediaNestedStateFromEvent,
@@ -11,9 +11,9 @@ import {
 	updateScale,
 	fitToFrameWidth,
 	fitToFrameHeight
-} from '../../../actions'
+} from 'actions'
 
-import { compareProps, createSettingsMenu } from '../../../utilities'
+import { compareProps, createSettingsMenu } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import SliderPair from '../../form_elements/SliderPair'

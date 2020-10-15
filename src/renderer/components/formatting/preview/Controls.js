@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react'
 import { bool, func, number, object, exact, string } from 'prop-types'
 
-import { updateMediaState, updateMediaStateFromEvent } from '../../../actions'
-import { secondsToTC, zeroize } from '../../../utilities'
+import { updateMediaState, updateMediaStateFromEvent } from 'actions'
+import { secondsToTC, zeroize } from 'utilities'
 
 const toggleTitle = state => state ? 'Hide' : 'Show'
 

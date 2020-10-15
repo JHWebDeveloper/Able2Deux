@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { exact, func, string, oneOf } from 'prop-types'
 
-import { updateNestedStateFromEvent } from '../../actions'
+import { updateNestedStateFromEvent } from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
 

@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { bool, exact, func, number, string } from 'prop-types'
 
-import * as STATUS from '../../status/types'
-import { removeMedia } from '../../actions'
-import { warn, capitalize, getStatusColor } from '../../utilities'
+import * as STATUS from 'status'
+import { removeMedia } from 'actions'
+import { warn, capitalize, getStatusColor } from 'utilities'
 
 const { interop } = window.ABLE2
 

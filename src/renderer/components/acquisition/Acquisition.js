@@ -1,8 +1,8 @@
 import React, { useContext, useMemo } from 'react'
 import '../../css/index/acquisition.css'
 
-import { MainContext } from '../../store'
-import { PrefsContext } from '../../store/preferences'
+import { MainContext } from 'store'
+import { PrefsContext } from 'store/preferences'
 
 import Downloader from './Downloader'
 import Uploader from './Uploader'

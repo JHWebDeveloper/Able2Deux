@@ -5,9 +5,9 @@ import {
 	updateMediaState,
 	copySettings,
 	applySettingsToAll
-} from '../../../actions'
+} from 'actions'
 
-import { compareProps, createSettingsMenu } from '../../../utilities'
+import { compareProps, createSettingsMenu } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'

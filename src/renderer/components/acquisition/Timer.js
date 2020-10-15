@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { bool, number } from 'prop-types'
 
-import { secondsToTC } from '../../utilities'
+import { secondsToTC } from 'utilities'
 
 import Checkbox from '../form_elements/Checkbox'
 

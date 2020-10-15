@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import '../../css/index/formatting.css'
 
-import { MainContext } from '../../store'
-import { selectMedia } from '../../actions'
+import { MainContext } from 'store'
+import { selectMedia } from 'actions'
 
 import MediaSelector from './selector/MediaSelector'
 import BatchName from './BatchName'

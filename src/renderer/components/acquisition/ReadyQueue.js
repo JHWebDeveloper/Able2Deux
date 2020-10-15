@@ -2,9 +2,9 @@ import React, { useCallback, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
 import { arrayOf, bool, func, object } from 'prop-types'
 
-import { moveMedia, removeAllMedia, prepareMediaForFormat } from '../../actions'
-import { warn, arrayCount } from '../../utilities'
-import * as STATUS from '../../status/types'
+import { moveMedia, removeAllMedia, prepareMediaForFormat } from 'actions'
+import { warn, arrayCount } from 'utilities'
+import * as STATUS from 'status'
 
 import DraggableList from '../form_elements/DraggableList'
 import MediaElement from './MediaElement'

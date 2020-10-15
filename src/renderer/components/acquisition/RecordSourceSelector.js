@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { array, func, object } from 'prop-types'
 
-import { detectTabExit } from '../../utilities'
+import { detectTabExit } from 'utilities'
 
 const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources, captureScreen }) => {
 	const [ visible, reveal ] = useState(false)

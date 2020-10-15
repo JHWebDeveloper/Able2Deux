@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import { HashRouter, Switch, Route } from 'react-router-dom'
 import '../../css/index/index.css'
 
-import { PrefsProvider, PrefsContext } from '../../store/preferences'
-import { MainProvider } from '../../store'
+import { PrefsProvider, PrefsContext } from 'store/preferences'
+import { MainProvider } from 'store'
 
 import Header from './Header'
 import Acquisition from '../acquisition/Acquisition'

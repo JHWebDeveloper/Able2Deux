@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { bool, func, string } from 'prop-types'
 
-import { tcToSeconds, simplifyTimecode } from '../../utilities'
+import { tcToSeconds, simplifyTimecode } from 'utilities'
 
 import Checkbox from './Checkbox'
 

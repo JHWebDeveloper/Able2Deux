@@ -1,7 +1,7 @@
 import React from 'react'
 import { bool, func, number, oneOfType, string } from 'prop-types'
 
-import { updateStateFromEvent, download } from '../../actions'
+import { updateStateFromEvent, download } from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
 

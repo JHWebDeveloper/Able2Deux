@@ -3,7 +3,7 @@ import { bool, exact, func, number, string } from 'prop-types'
 
 import { updateStateFromEvent, toggleCheckbox, toggleNestedCheckbox } from '../../actions'
 
-import { keepInRange } from '../../utilities'
+import { keepInRange } from 'utilities'
 
 import Checkbox from '../form_elements/Checkbox'
 

@@ -1,5 +1,5 @@
 import { v1 as uuid } from 'uuid'
-import { PENDING } from '../../status/types'
+import { PENDING } from 'status'
 
 const defaultMediaData = {
 	id: '',

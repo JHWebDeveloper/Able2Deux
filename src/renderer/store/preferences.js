@@ -3,8 +3,8 @@ import toastr from 'toastr'
 import { arrayOf, element, oneOfType } from 'prop-types'
 
 import reducer from '../reducer/preferences'
-import { updateState } from '../actions'
-import { toastrOpts } from '../utilities'
+import { updateState } from 'actions'
+import { toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
 

@@ -2,17 +2,17 @@ import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { withRouter } from 'react-router-dom'
 import toastr from 'toastr'
 
-import { PrefsContext } from '../../../store/preferences'
-import * as STATUS from '../../../status/types'
+import { PrefsContext } from 'store/preferences'
+import * as STATUS from 'status'
 
 import {
 	updateMediaState,
 	render,
 	cancelRender,
 	startOver
-} from '../../../actions'
+} from 'actions'
 
-import { toastrOpts, detectTabExit } from '../../../utilities'
+import { toastrOpts, detectTabExit } from 'utilities'
 
 import RenderElement from './RenderElement'
 

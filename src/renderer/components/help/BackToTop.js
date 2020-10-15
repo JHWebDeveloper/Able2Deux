@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { debounce, throttle } from '../../utilities'
+import { debounce, throttle } from 'utilities'
 
 const scrollToTop = () => {
 	window.scrollTo({

@@ -2,7 +2,7 @@ import { v1 as uuid } from 'uuid'
 import toastr from 'toastr'
 
 import * as ACTION from './types'
-import * as STATUS from '../status/types'
+import * as STATUS from 'status'
 import { updateMediaNestedState, updateMediaState } from '.'
 
 import {

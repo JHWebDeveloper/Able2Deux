@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import { func, exact, number, string } from 'prop-types'
 
-import { COMPLETE } from '../../../status/types'
-import { cancelRender } from '../../../actions'
-import { capitalize, getStatusColor } from '../../../utilities'
+import { COMPLETE } from 'status'
+import { cancelRender } from 'actions'
+import { capitalize, getStatusColor } from 'utilities'
 
 const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispatch }) => {
 	const color = useMemo(() => getStatusColor(render.status), [render.status])

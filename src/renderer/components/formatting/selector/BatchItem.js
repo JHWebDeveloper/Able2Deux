@@ -6,7 +6,7 @@ import {
 	pasteSettings,
 	moveMedia,
 	duplicateMedia
-} from '../../../actions'
+} from 'actions'
 
 import DropdownMenu from '../../form_elements/DropdownMenu'
 

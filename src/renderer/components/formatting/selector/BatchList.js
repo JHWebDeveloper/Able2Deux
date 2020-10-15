@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { arrayOf, func, object, string } from 'prop-types'
 
-import { PrefsContext } from '../../../store/preferences'
+import { PrefsContext } from 'store/preferences'
 
 import {
 	selectMedia,
@@ -9,13 +9,13 @@ import {
 	removeMedia,
 	copySettings,
 	applySettingsToAll
-} from '../../../actions'
+} from 'actions'
 
 import {
 	warn,
 	arrayCount,
 	createScrollbarPadder
-} from '../../../utilities'
+} from 'utilities'
 
 import DraggableList from '../../form_elements/DraggableList'
 import BatchItem from './BatchItem'

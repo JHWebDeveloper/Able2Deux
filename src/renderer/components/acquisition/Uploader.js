@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { func } from 'prop-types'
 
-import { upload } from '../../actions'
+import { upload } from 'actions'
 
 const dragOver = e => {
 	e.target.parentElement.classList.add('drag-enter')

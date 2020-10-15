@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { func, number, oneOf, bool } from 'prop-types'
 
-import { updateStateFromEvent, toggleCheckbox } from '../../actions'
-import { keepInRange } from '../../utilities'
+import { updateStateFromEvent, toggleCheckbox } from 'actions'
+import { keepInRange } from 'utilities'
 
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'

@@ -1,4 +1,4 @@
-import * as ACTION from '../actions/types'
+import * as ACTION from 'actions/types'
 import * as shared from './shared'
 
 // ---- REDUCER --------

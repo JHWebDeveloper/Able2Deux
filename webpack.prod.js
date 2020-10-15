@@ -111,6 +111,14 @@ const rendererConfig = {
 			}
 		]
 	},
+	resolve: {
+		alias: {
+			store: path.join(rendererPath, 'store'),
+			actions: path.join(rendererPath, 'actions'),
+			status: path.join(rendererPath, 'status'),
+			utilities: path.join(rendererPath, 'utilities')
+		}
+	},
 	plugins: [
 		new MiniCssExtractPlugin({
 			filename: path.join('assets', 'css', '[name].min.css')

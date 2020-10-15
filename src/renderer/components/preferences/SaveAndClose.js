@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { func, object } from 'prop-types'
 
-import { savePrefs, restoreDefaultPrefs } from '../../actions'
-import { warn } from '../../utilities'
+import { savePrefs, restoreDefaultPrefs } from 'actions'
+import { warn } from 'utilities'
 
 const { interop } = window.ABLE2
 

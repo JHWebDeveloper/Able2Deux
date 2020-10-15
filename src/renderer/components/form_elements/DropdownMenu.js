@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { v1 as uuid } from 'uuid'
 import { arrayOf, bool, func, shape, string } from 'prop-types'
 
-import { detectTabExit } from '../../utilities'
+import { detectTabExit } from 'utilities'
 
 const DropdownMenu = ({ buttons }) => {
 	const [ revealMenu, toggleRevealMenu ] = useState(false)

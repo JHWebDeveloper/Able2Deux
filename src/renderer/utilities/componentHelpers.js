@@ -1,4 +1,4 @@
-import * as STATUS from '../status/types'
+import * as STATUS from 'status'
 
 export const detectTabExit = callback => e => {
 	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)

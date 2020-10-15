@@ -1,7 +1,9 @@
 import React from 'react'
 import { render } from 'react-dom'
+
+import { initTabbedBrowsing } from 'utilities'
+
 import Preferences from './components/preferences/Preferences.js'
-import { initTabbedBrowsing } from './utilities'
 
 initTabbedBrowsing()
 

@@ -1,7 +1,7 @@
 import React, { createRef, useEffect } from 'react'
 import '../../css/splash.css'
 
-import { drawAble2Logo } from '../../utilities'
+import { drawAble2Logo } from 'utilities'
 
 const { interop } = window.ABLE2
 

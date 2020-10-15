@@ -5,9 +5,9 @@ import {
 	updateMediaStateFromEvent,
 	toggleMediaNestedCheckbox,
 	updateMediaNestedState
-} from '../../../actions'
+} from 'actions'
 
-import { compareProps, secondsToTC } from '../../../utilities'
+import { compareProps, secondsToTC } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Timecode from '../../form_elements/Timecode'

@@ -1,5 +1,5 @@
-import * as ACTION from '../actions/types'
-import * as STATUS from '../status/types'
+import * as ACTION from 'actions/types'
+import * as STATUS from 'status'
 import * as shared from './shared'
 
 // ---- REDUCER --------

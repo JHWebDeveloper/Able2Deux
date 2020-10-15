@@ -7,7 +7,7 @@ import {
 	zeroize,
 	capitalize,
 	createAnimator
-} from '../../../utilities'
+} from 'utilities'
 
 const textReveal = createAnimator()
 

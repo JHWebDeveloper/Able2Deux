@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react'
 import toastr from 'toastr'
 import { bool, func, number, shape, string } from 'prop-types'
 
-import * as STATUS from '../../status/types'
+import * as STATUS from 'status'
 
 import {
 	updateNestedState,

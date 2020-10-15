@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { arrayOf, bool, exact, func, string } from 'prop-types'
 
-import { addNewLocation, moveLocation } from '../../actions'
+import { addNewLocation, moveLocation } from 'actions'
 
 import DraggableList from '../form_elements/DraggableList'
 import Directory from './Directory'

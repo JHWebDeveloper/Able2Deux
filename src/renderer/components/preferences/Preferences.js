@@ -2,9 +2,9 @@ import React, { useContext, useEffect } from 'react'
 import toastr from 'toastr'
 import '../../css/preferences.css'
 
-import { PrefsProvider, PrefsContext } from '../../store/preferences'
-import { updateState } from '../../actions'
-import { toastrOpts, createKonamiListener } from '../../utilities'
+import { PrefsProvider, PrefsContext } from 'store/preferences'
+import { updateState } from 'actions'
+import { toastrOpts, createKonamiListener } from 'utilities'
 
 import RenderOutput from './RenderOutput'
 import ScratchDisk from './ScratchDisk'

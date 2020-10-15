@@ -1,15 +1,14 @@
 import React from 'react'
 import { bool, func, number, exact, string } from 'prop-types'
 
-import { toggleSaveLocation } from '../../actions'
-
 import {
+	toggleSaveLocation,
 	updateLocationFieldFromEvent,
 	updateLocationField,
 	addNewLocation,
 	removeLocation,
 	moveLocation
-} from '../../actions/preferences'
+} from 'actions'
 
 import DirectorySelector from '../form_elements/DirectorySelector'
 import DragIndicator from '../svg/DragIndicator'

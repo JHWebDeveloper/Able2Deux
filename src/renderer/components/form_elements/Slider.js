@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { v1 as uuid } from 'uuid'
 import { arrayOf, bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
-import { keepInRange } from '../../utilities'
+import { keepInRange } from 'utilities'
 
 const fineTuneOn = e => {
 	if (e.shiftKey) e.target.step = 0.1
