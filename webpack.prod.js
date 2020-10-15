@@ -4,6 +4,7 @@ const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const RemoveFilesPlugin = require('remove-files-webpack-plugin')
 
 const commonRenderer = require('./webpack.common')
 
@@ -67,6 +68,12 @@ const rendererConfig = merge(commonRenderer, {
 		new CssMinimizerPlugin({
 			minimizerOptions: {
 				preset: ['default', { calc: false }]
+			}
+		}),
+		new RemoveFilesPlugin({
+			after: {
+				root: path.resolve('build', 'renderer'),
+				include: ['global.bundle.js', 'toastr.bundle.js']
 			}
 		})
 	]
