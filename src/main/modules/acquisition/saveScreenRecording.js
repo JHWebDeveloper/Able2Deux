@@ -12,8 +12,11 @@ const fixDuration = async buffer => {
 	reader.drop_default_duration = false
 
 	const elms = decoder.decode(buffer)
+	const len = elms.length
 
-	elms.forEach(elm => reader.read(elm))
+	for (let i = 0; i < len; i++) {
+		reader.read(elms[i])
+	}
 
 	reader.stop()
 
