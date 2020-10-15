@@ -183,8 +183,8 @@ const preventDuplicateFilenames = media => {
 		const key = media[i].filename
 
 		if (tally.has(key)) {
-			tally.get(key).count += 1
-			tally.get(key).total += 1
+			tally.get(key).count++
+			tally.get(key).total++
 		} else {
 			tally.set(key, { count: 1, total: 1 })
 		}
@@ -208,7 +208,7 @@ const preventDuplicateFilenames = media => {
 
 		mediaCopy[i].filename += ` ${zeroize(count, total)} of ${total}`
 
-		tally.get(key).count -= 1
+		tally.get(key).count--
 	}
 
 	return mediaCopy
