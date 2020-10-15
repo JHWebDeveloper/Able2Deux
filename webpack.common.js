@@ -10,9 +10,9 @@ const pages = [ 'index', 'splash', 'update', 'preferences', 'help' ]
 module.exports = {
 	entry: {
 		'react-vendors': ['react', 'react-dom', 'prop-types'],
-		...pages.reduce((obj, pg) => {
-			obj[pg] = {
-				import: path.join(rendererPath, `${pg}.js`),
+		...pages.reduce((obj, page) => {
+			obj[page] = {
+				import: path.join(rendererPath, `${page}.js`),
 				dependOn: 'react-vendors'
 			}
 			return obj
@@ -68,11 +68,11 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: path.join('assets', 'css', '[name].min.css')
 		}),
-		...pages.map(pg => new HTMLWebpackPlugin({
-			chunks: [pg, 'react-vendors'],
+		...pages.map(page => new HTMLWebpackPlugin({
+			chunks: [page, 'react-vendors'],
 			publicPath: '.',
-			filename: `${pg}.html`,
-			template: path.join(rendererPath, `${pg}.html`)
+			filename: `${page}.html`,
+			template: path.join(rendererPath, `${page}.html`)
 		}))
 	]
 }
