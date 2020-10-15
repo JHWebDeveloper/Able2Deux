@@ -33,7 +33,9 @@ export const setContextMenu = () => {
 		inspectMenu.append(...inspect)
 	}
 
-	textEditorItems.forEach(item => textEditor.append(item))
+	for (const item of textEditorItems) {
+		textEditor.append(item)
+	}
 
 	window.addEventListener('contextmenu', e => {
 		e.preventDefault()
