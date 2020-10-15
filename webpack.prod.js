@@ -7,8 +7,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
 const cssnano = require('cssnano')
 
-const mainPath = path.join(__dirname, 'src', 'main')
-const rendererPath = path.join(__dirname, 'src', 'renderer')
+const mainPath = path.resolve('src', 'main')
+const rendererPath = path.resolve('src', 'renderer')
 const pages = [ 'index', 'splash', 'update', 'preferences', 'help' ]
 
 const common = {
@@ -31,7 +31,7 @@ const mainConfig = {
 	...common,
 	entry: mainPath,
 	output: {
-		path: path.join(__dirname, 'build'),
+		path: path.resolve('build'),
 		filename: 'main.js'
 	},
 	target: 'electron-main',
@@ -59,7 +59,7 @@ const preloadConfig = {
 	...common,
 	entry: path.join(mainPath, 'preload', 'preload.js'),
 	output: {
-		path: path.join(__dirname, 'build'),
+		path: path.resolve('build'),
 		filename: 'preload.js'
 	},
 	target: 'electron-preload',
@@ -77,7 +77,7 @@ const rendererConfig = {
 		toastr: path.join(rendererPath, 'css', 'toastr.css')
 	},
 	output: {
-		path: path.join(__dirname, 'build', 'renderer'),
+		path: path.resolve('build', 'renderer'),
 		filename: '[name].bundle.js',
 		publicPath: '/'
 	},

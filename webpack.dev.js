@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
 
-const rendererPath = path.join(__dirname, 'src', 'renderer')
+const rendererPath = path.resolve('src', 'renderer')
 
 const pages = [ 'index', 'splash', 'update', 'preferences', 'help' ]
 
@@ -19,7 +19,7 @@ module.exports = {
 		toastr: path.join(rendererPath, 'css', 'toastr.css')
 	},
 	output: {
-		path: path.join(__dirname, 'build'),
+		path: path.resolve('build'),
 		filename: '[name].bundle.js',
 		publicPath: '/'
 	},
@@ -69,7 +69,7 @@ module.exports = {
 		hot: true,
 		before() {
 			spawn('electron', ['babelRegister.js'], {
-				cwd: path.join('src', 'main'),
+				cwd: path.resolve('src', 'main'),
 				shell: true,
 				env: process.env,
 				stdio: 'inherit'
