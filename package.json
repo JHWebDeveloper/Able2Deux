@@ -63,6 +63,7 @@
 		"postcss-loader": "^4.0.4",
 		"postcss-preset-env": "^6.7.0",
 		"regenerator-runtime": "^0.13.7",
+		"remove-files-webpack-plugin": "^1.4.4",
 		"rimraf": "^3.0.2",
 		"url-loader": "^4.1.1",
 		"webpack": "^5.1.0",
