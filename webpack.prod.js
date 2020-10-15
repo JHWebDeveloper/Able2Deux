@@ -69,8 +69,12 @@ const preloadConfig = {
 const rendererConfig = {
 	...common,
 	entry: {
+		'react-vendors': ['react', 'react-dom', 'prop-types'],
 		...pages.reduce((obj, pg) => {
-			obj[pg] = path.join(rendererPath, `${pg}.js`)
+			obj[pg] = {
+				import: path.join(rendererPath, `${pg}.js`),
+				dependOn: 'react-vendors'
+			}
 			return obj
 		}, {}),
 		global: path.join(rendererPath, 'css', 'global.css'),
@@ -124,7 +128,8 @@ const rendererConfig = {
 			filename: path.join('assets', 'css', '[name].min.css')
 		}),
 		...pages.map(pg => new HTMLWebpackPlugin({
-			inject: false,
+			chunks: [pg, 'react-vendors'],
+			publicPath: '.',
 			filename: `${pg}.html`,
 			template: path.join(rendererPath, `${pg}.html`)
 		}))
