@@ -300,11 +300,11 @@ export const render = params => async dispatch => {
 	media = sanitizeFilenames(media, params.asperaSafe)
 	media = preventDuplicateFilenames(media)
 
-	media.forEach(async item => {
+	for (const item of media) {
 		dispatch(updateMediaState(item.id, {
 			exportFilename: item.filename
 		}))
-	})
+	}
 
 	// add to promise queue and begin render
 
