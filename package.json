@@ -7,7 +7,7 @@
 		"lint": "eslint . --ext .js",
 		"dev": "webpack serve --config webpack.dev.js",
 		"build": "rimraf build && webpack --config webpack.prod.js",
-		"build:devtools": "rimraf build && webpack --config webpack.prod.js --define process.env.devtools",
+		"build:devtools": "rimraf build && DEVTOOLS=true webpack --config webpack.prod.js",
 		"dist:mac": "rimraf dist && npm run build && electron-builder -m",
 		"dist:win": "rimraf dist && npm run build && electron-builder -w",
 		"dist:mac:devtools": "rimraf dist && npm run build:devtools && electron-builder -m",
