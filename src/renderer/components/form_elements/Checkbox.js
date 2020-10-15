@@ -23,7 +23,7 @@ Checkbox.propTypes = {
 	checked: bool.isRequired,
 	switchIcon: bool,
 	disabled: bool,
-	onChange: func.isRequired
+	onChange: func
 }
 
 export default Checkbox
