@@ -136,7 +136,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 					captureScreen={captureScreen} />
 			)}
 			{recording ? (
-				<Timer start={timer.enabled && timer.tc} />
+				<Timer start={timer.tc} decrement={timer.enabled} />
 			) : (
 				<Timecode
 					name="timer"

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { bool, number } from 'prop-types'
 
 import { secondsToTC } from '../../utilities'
 
@@ -7,13 +8,13 @@ import Checkbox from '../form_elements/Checkbox'
 let seconds = 0
 let interval = false
 
-const Timer = ({ start }) => {
+const Timer = ({ start, decrement }) => {
 	const ref = useRef()
 
 	useEffect(() => {
 		let dir = 1
 
-		if (start) {
+		if (decrement) {
 			seconds = start
 			dir = -1
 		}
@@ -41,12 +42,17 @@ const Timer = ({ start }) => {
 				type="text"
 				className="monospace"
 				ref={ref}
-				value={secondsToTC(start || 0)}
-				title={`Time ${start ? 'remaining' : 'ellapsed'}`}
+				value={secondsToTC(decrement ? start : 0)}
+				title={`Time ${decrement ? 'remaining' : 'ellapsed'}`}
 				style={{ cursor: 'default' }}
 				readOnly/>
 		</div>
 	)
+}
+
+Timer.propTypes = {
+	start: number.isRequired,
+	decrement: bool.isRequired
 }
 
 export default Timer
