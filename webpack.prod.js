@@ -1,17 +1,15 @@
 const webpack = require('webpack')
+const { merge } = require('webpack-merge')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const postcssPresetEnv = require('postcss-preset-env')
-const cssnano = require('cssnano')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+
+const commonRenderer = require('./webpack.common')
 
 const mainPath = path.resolve('src', 'main')
-const rendererPath = path.resolve('src', 'renderer')
-const pages = [ 'index', 'splash', 'update', 'preferences', 'help' ]
 
-const common = {
+const commonMain = {
 	mode: 'production',
 	module: {
 		rules: [
@@ -22,20 +20,19 @@ const common = {
 			}
 		]
 	},
+	externals: [nodeExternals()],
 	node: {
 		__dirname: false
 	}
 }
 
-const mainConfig = {
-	...common,
+const mainConfig = merge(commonMain, {
 	entry: mainPath,
 	output: {
 		path: path.resolve('build'),
 		filename: 'main.js'
 	},
 	target: 'electron-main',
-	externals: [nodeExternals()],
 	plugins: [
 		new webpack.EnvironmentPlugin({
 			DEVTOOLS: !!process.env.DEVTOOLS
@@ -53,88 +50,27 @@ const mainConfig = {
 			]
 		})
 	]
-}
+})
 
-const preloadConfig = {
-	...common,
+const preloadConfig = merge(commonMain, {
 	entry: path.join(mainPath, 'preload', 'preload.js'),
 	output: {
 		path: path.resolve('build'),
 		filename: 'preload.js'
 	},
 	target: 'electron-preload',
-	externals: [nodeExternals()]
-}
+})
 
-const rendererConfig = {
-	...common,
-	entry: {
-		'react-vendors': ['react', 'react-dom', 'prop-types'],
-		...pages.reduce((obj, pg) => {
-			obj[pg] = {
-				import: path.join(rendererPath, `${pg}.js`),
-				dependOn: 'react-vendors'
-			}
-			return obj
-		}, {}),
-		global: path.join(rendererPath, 'css', 'global.css'),
-		toastr: path.join(rendererPath, 'css', 'toastr.css')
-	},
-	output: {
-		path: path.resolve('build', 'renderer'),
-		filename: '[name].bundle.js',
-		publicPath: '/'
-	},
-	target: 'web',
-	module: {
-		rules: [
-			...common.module.rules,
-			{
-				test: /\.css$/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					'css-loader',
-					{
-						loader: 'postcss-loader',
-						options: {
-							postcssOptions: {
-								plugins: [
-									postcssPresetEnv({ stage: 0 }),
-									cssnano({
-										preset: ['default', { calc: false }]
-									})
-								]
-							}
-						}
-					}
-				]
-			},
-			{
-				test: /\.(svg|woff2)$/,
-				use: ['url-loader']
-			}
-		]
-	},
-	resolve: {
-		alias: {
-			store: path.join(rendererPath, 'store'),
-			actions: path.join(rendererPath, 'actions'),
-			status: path.join(rendererPath, 'status'),
-			utilities: path.join(rendererPath, 'utilities')
-		}
-	},
+const rendererConfig = merge(commonRenderer, {
+	mode: 'production',
 	plugins: [
-		new MiniCssExtractPlugin({
-			filename: path.join('assets', 'css', '[name].min.css')
-		}),
-		...pages.map(pg => new HTMLWebpackPlugin({
-			chunks: [pg, 'react-vendors'],
-			publicPath: '.',
-			filename: `${pg}.html`,
-			template: path.join(rendererPath, `${pg}.html`)
-		}))
+		new CssMinimizerPlugin({
+			minimizerOptions: {
+				preset: ['default', { calc: false }]
+			}
+		})
 	]
-}
+})
 
 module.exports = [
 	mainConfig,

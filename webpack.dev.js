@@ -1,40 +1,15 @@
+const { merge } = require('webpack-merge')
 const path = require('path')
-const { spawn } = require('child_process')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
+const { spawn } = require('child_process')
 
-const rendererPath = path.resolve('src', 'renderer')
+const common = require('./webpack.common')
 
-const pages = [ 'index', 'splash', 'update', 'preferences', 'help' ]
-
-module.exports = {
+module.exports = merge(common, {
 	mode: 'development',
-	entry: {
-		'react-vendors': ['react', 'react-dom', 'prop-types'],
-		...pages.reduce((obj, pg) => {
-			obj[pg] = {
-				import: path.join(rendererPath, `${pg}.js`),
-				dependOn: 'react-vendors'
-			}
-			return obj
-		}, {}),
-		global: path.join(rendererPath, 'css', 'global.css'),
-		toastr: path.join(rendererPath, 'css', 'toastr.css')
-	},
-	output: {
-		path: path.resolve('build'),
-		filename: '[name].bundle.js',
-		publicPath: '/'
-	},
-	target: 'web',
 	module: {
 		rules: [
-			{
-				test: /\.js$/,
-				exclude: /node_modules/,
-				use: ['babel-loader']
-			},
 			{
 				test: /\.css$/,
 				use: [
@@ -51,32 +26,9 @@ module.exports = {
 						}
 					}
 				]
-			},
-			{
-				test: /\.(svg|woff2)$/,
-				use: ['url-loader']
 			}
 		]
 	},
-	resolve: {
-		alias: {
-			store: path.join(rendererPath, 'store'),
-			actions: path.join(rendererPath, 'actions'),
-			status: path.join(rendererPath, 'status'),
-			utilities: path.join(rendererPath, 'utilities')
-		}
-	},
-	plugins: [
-		new MiniCssExtractPlugin({
-			filename: path.join('assets', 'css', '[name].min.css')
-		}),
-		...pages.map(pg => new HTMLWebpackPlugin({
-			chunks: [pg, 'react-vendors'],
-			publicPath: '.',
-			filename: `${pg}.html`,
-			template: path.join(rendererPath, `${pg}.html`)
-		}))
-	],
 	devServer: {
 		port: 3000,
 		hot: true,
@@ -86,8 +38,11 @@ module.exports = {
 				shell: true,
 				env: process.env,
 				stdio: 'inherit'
-			}).on('close', () => process.exit(0))
-				.on('error', spawnError => console.error(spawnError))
+			}).on('close', () => {
+				process.exit(0)
+			}).on('error', spawnError => {
+				console.error(spawnError)
+			})
 		}
 	}
-}
+})
