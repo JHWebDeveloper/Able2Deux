@@ -12,17 +12,18 @@ const Timer = ({ start, decrement }) => {
 	const ref = useRef()
 
 	useEffect(() => {
-		let dir = 1
-
 		if (decrement) {
 			seconds = start
-			dir = -1
+
+			interval = setInterval(() => {
+				ref.current.value = secondsToTC(Math.max(--seconds, 0))
+			}, 1000)
+		} else {
+			interval = setInterval(() => {
+				ref.current.value = secondsToTC(++seconds)
+			}, 1000)
 		}
 
-		interval = setInterval(() => {
-			seconds += dir
-			ref.current.value = secondsToTC(seconds)
-		}, 1000)
 
 		return () => {
 			clearInterval(interval)
