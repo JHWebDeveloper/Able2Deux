@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
 const cssnano = require('cssnano')
+const webpack = require('webpack')
 
 const mainPath = path.join(__dirname, 'src', 'main')
 const rendererPath = path.join(__dirname, 'src', 'renderer')
@@ -36,6 +37,9 @@ const mainConfig = {
 	target: 'electron-main',
 	externals: [nodeExternals()],
 	plugins: [
+		new webpack.EnvironmentPlugin({
+			DEVTOOLS: !!process.env.DEVTOOLS
+		}),
 		new CopyWebpackPlugin({
 			patterns: [
 				{
