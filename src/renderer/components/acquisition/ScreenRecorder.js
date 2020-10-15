@@ -17,6 +17,7 @@ import { toastrOpts } from '../../utilities'
 
 import RecordSourceSelector from './RecordSourceSelector'
 import SoundflowerMessage from './SoundflowerMessage'
+import Timer from './Timer'
 import Timecode from '../form_elements/Timecode'
 import DurationPointer from '../svg/DurationPointer'
 import CaptureModeSwitch from '../svg/CaptureModeSwitch'
@@ -134,14 +135,18 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 					recordSources={recordSources}
 					captureScreen={captureScreen} />
 			)}
-			<Timecode
-				name="timer"
-				enabled={timer.enabled}
-				display={timer.display}
-				disabled={recording || screenshot}
-				toggleTimecode={e => dispatch(toggleNestedCheckbox('timer', e))}
-				onChange={tc => dispatch(updateNestedState('timer', tc))}
-				title="Set record duration" />
+			{recording ? (
+				<Timer start={timer.enabled && timer.tc} />
+			) : (
+				<Timecode
+					name="timer"
+					enabled={timer.enabled}
+					display={timer.display}
+					disabled={recording || screenshot}
+					toggleTimecode={e => dispatch(toggleNestedCheckbox('timer', e))}
+					onChange={tc => dispatch(updateNestedState('timer', tc))}
+					title="Set record duration" />
+			)}
 			{interop.isMac && <SoundflowerMessage />}
 		</div>
 	)
