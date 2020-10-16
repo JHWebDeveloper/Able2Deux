@@ -14,11 +14,7 @@ const commonMain = {
 	mode: 'production',
 	module: {
 		rules: [
-			{
-				test: /\.js$/,
-				exclude: /node_modules/,
-				use: ['babel-loader']
-			}
+			commonRenderer.module.rules[0] //.js
 		]
 	},
 	externals: [nodeExternals()],
