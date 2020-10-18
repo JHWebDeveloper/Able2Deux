@@ -69,7 +69,7 @@ const rendererConfig = merge(commonRenderer, {
 		new RemoveFilesPlugin({
 			after: {
 				root: path.resolve('build', 'renderer'),
-				include: ['global.bundle.js', 'toastr.bundle.js']
+				include: ['global.bundle.js']
 			}
 		})
 	]
