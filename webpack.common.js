@@ -69,8 +69,7 @@ module.exports = {
 			filename: path.join('assets', 'css', '[name].min.css')
 		}),
 		...pages.map(page => new HTMLWebpackPlugin({
-			chunks: [page, 'react-vendors'],
-			publicPath: '.',
+			inject: false,
 			filename: `${page}.html`,
 			template: path.join(rendererPath, `${page}.html`)
 		}))
