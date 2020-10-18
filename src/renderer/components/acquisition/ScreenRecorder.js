@@ -135,7 +135,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 					recordSources={recordSources}
 					captureScreen={captureScreen} />
 			)}
-			{recording ? (
+			{recording ? ( // eslint-disable-line no-extra-parens
 				<Timer start={timer.tc} decrement={timer.enabled} />
 			) : (
 				<Timecode
