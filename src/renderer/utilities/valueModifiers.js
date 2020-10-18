@@ -31,6 +31,8 @@ export const keepInRange = e => {
 	return e
 }
 
+export const zeroizeAuto = (n, zeroes) => zeroize(n, getIntegerLength(zeroes))
+
 export const zeroize = (n, zeroes = 2) => n
 	.toString()
 	.padStart(zeroes, '0')
@@ -39,8 +41,8 @@ export const replaceTokens = (filename, i = 0, l = 0) => {
 	const d = new Date()
 
 	return filename
-		.replace(/\$n/g, zeroize(i + 1, getIntegerLength(l)))
-		.replace(/\$r/g, zeroize(l - i, getIntegerLength(l)))
+		.replace(/\$n/g, zeroizeAuto(i + 1, l))
+		.replace(/\$r/g, zeroizeAuto(l - i, l))
 		.replace(/\$b/g, l)
 		.replace(/\$d/g, d.toDateString())
 		.replace(/\$D/g, d.toLocaleDateString().replace(/\//g, '-'))
