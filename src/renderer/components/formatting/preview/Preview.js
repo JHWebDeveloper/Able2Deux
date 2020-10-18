@@ -103,7 +103,7 @@ const Preview = memo(({ selected, dispatch }) => {
 					<div>
 						<div id="preview-container">
 							{previewStill
-								? <span style={{ backgroundImage: `url("${previewStill}")`}}></span>
+								? <span style={{ backgroundImage: `url("${previewStill}")` }}></span>
 								: <Spinner />}
 							<Grid
 								grids={grids}

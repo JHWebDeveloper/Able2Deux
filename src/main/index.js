@@ -278,7 +278,7 @@ const mainMenuTemplate = [
 		label: 'Edit',
 		submenu: [
 			{ role: 'undo' },
-			{ role: 'redo'},
+			{ role: 'redo' },
 			{ type: 'separator' },
 			{ role: 'cut' },
 			{ role: 'copy' },

@@ -26,7 +26,8 @@ const Update = () => {
 			onError() {
 				setError(true)
 				onProgress(0)
-			}})
+			}
+		})
 
 		return () => {
 			interop.removeUpdateListeners()

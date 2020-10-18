@@ -3,7 +3,7 @@ export const createKonamiListener = () => {
 	const D = 'ArrowDown'
 	const L = 'ArrowLeft'
 	const R = 'ArrowRight'
-	const _keys = [ U, U, D, D, L, R, L, R, 'a', 'b', 'Enter' ]
+	const _keys = [U, U, D, D, L, R, L, R, 'a', 'b', 'Enter']
 	let _count = 0
 	let _callback = false
 
