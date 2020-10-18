@@ -57,6 +57,7 @@
 		"no-unneeded-ternary": "error",
 		"no-useless-return": "error",
 		"no-var": "error",
+		"object-curly-spacing": ["error", "always"],
 		"prefer-const": ["error", {
 			"destructuring": "all",
 			"ignoreReadBeforeAssign": true
