@@ -31,17 +31,13 @@ export const keepInRange = e => {
 	return e
 }
 
-export const zeroize = (n = 1, total = 1) => {
-	if (total < 9) return n
-	
-	let zeroCount = getIntegerLength(total) - getIntegerLength(n)
+export const zeroize = (n, total = 1) => n
+	.toString()
+	.padStart(getIntegerLength(total), '0')
 
-	while (zeroCount--) n = `0${n}`
-
-	return n
-}
-
-export const zeroize10 = n => n < 10 ? `0${n}` : n
+export const zeroize10 = n => n
+	.toString()
+	.padStart(2, '0')
 
 export const replaceTokens = (filename, i = 0, l = 0) => {
 	const d = new Date()
