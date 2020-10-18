@@ -16,7 +16,8 @@ const Timer = ({ start, decrement }) => {
 			seconds = start
 
 			interval = setInterval(() => {
-				ref.current.value = secondsToTC(Math.max(--seconds, 0))
+				ref.current.value = secondsToTC(--seconds)
+				if (seconds < 1) clearInterval(interval)
 			}, 1000)
 		} else {
 			interval = setInterval(() => {
