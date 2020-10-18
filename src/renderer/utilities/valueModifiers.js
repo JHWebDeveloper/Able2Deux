@@ -65,7 +65,7 @@ export const secondsToTC = sec => [
 	sec / 3600 << 0,
 	sec / 60 % 60 << 0,
 	sec % 60 << 0
-].map(zeroize).join(':')
+].map(n => zeroize(n, 2)).join(':')
 
 export const tcToSeconds = hms => {
 	const sec = hms
