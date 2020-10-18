@@ -31,20 +31,16 @@ export const keepInRange = e => {
 	return e
 }
 
-export const zeroize = (n, total = 1) => n
+export const zeroize = (n, zeroes = 2) => n
 	.toString()
-	.padStart(getIntegerLength(total), '0')
-
-export const zeroize10 = n => n
-	.toString()
-	.padStart(2, '0')
+	.padStart(zeroes, '0')
 
 export const replaceTokens = (filename, i = 0, l = 0) => {
 	const d = new Date()
 
 	return filename
-		.replace(/\$n/g, zeroize(i + 1, l))
-		.replace(/\$r/g, zeroize(l - i, l))
+		.replace(/\$n/g, zeroize(i + 1, getIntegerLength(l)))
+		.replace(/\$r/g, zeroize(l - i, getIntegerLength(l)))
 		.replace(/\$b/g, l)
 		.replace(/\$d/g, d.toDateString())
 		.replace(/\$D/g, d.toLocaleDateString().replace(/\//g, '-'))
@@ -60,14 +56,14 @@ export const format12hr = d => {
 	if (h === 0) h = 12
 	if (h > 12) h -= 12
 
-	return `${h}${zeroize10(m)}${meridian}`
+	return `${h}${zeroize(m)}${meridian}`
 }
 
 export const secondsToTC = sec => [
 	sec / 3600 << 0,
 	sec / 60 % 60 << 0,
 	sec % 60 << 0
-].map(zeroize10).join(':')
+].map(zeroize).join(':')
 
 export const tcToSeconds = hms => {
 	const sec = hms
