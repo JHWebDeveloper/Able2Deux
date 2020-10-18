@@ -1,13 +1,9 @@
-const U = 'ArrowUp'
-const D = 'ArrowDown'
-const L = 'ArrowLeft'
-const R = 'ArrowRight'
-const A = 'a'
-const B = 'b'
-const START = 'Enter'
-
 export const createKonamiListener = () => {
-	const _keys = [ U, U, D, D, L, R, L, R, A, B, START ]
+	const U = 'ArrowUp'
+	const D = 'ArrowDown'
+	const L = 'ArrowLeft'
+	const R = 'ArrowRight'
+	const _keys = [ U, U, D, D, L, R, L, R, 'a', 'b', 'Enter' ]
 	let _count = 0
 	let _callback = false
 
