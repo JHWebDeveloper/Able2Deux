@@ -11,10 +11,7 @@ module.exports = {
 	entry: {
 		'react-vendors': ['react', 'react-dom', 'prop-types'],
 		...pages.reduce((obj, page) => {
-			obj[page] = {
-				import: path.join(rendererPath, `${page}.js`),
-				dependOn: 'react-vendors'
-			}
+			obj[page] = path.join(rendererPath, `${page}.js`)
 			return obj
 		}, {}),
 		global: path.join(rendererPath, 'css', 'global.css'),
