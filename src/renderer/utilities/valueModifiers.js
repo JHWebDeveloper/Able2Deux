@@ -31,7 +31,7 @@ export const keepInRange = e => {
 	return e
 }
 
-export const zeroizeAuto = (n, zeroes) => zeroize(n, getIntegerLength(zeroes))
+export const zeroizeAuto = (n, total) => zeroize(n, getIntegerLength(total))
 
 export const zeroize = (n, zeroes = 2) => n
 	.toString()
