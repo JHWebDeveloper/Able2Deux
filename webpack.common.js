@@ -9,14 +9,14 @@ const pages = ['index', 'splash', 'update', 'preferences', 'help']
 
 module.exports = {
 	entry: {
+		common: ['react', 'react-dom', 'prop-types', 'toastr'],
 		...pages.reduce((obj, page) => {
 			obj[page] = {
 				import: path.join(rendererPath, `${page}.js`),
-				dependOn: 'react-vendors'
+				dependOn: 'common'
 			}
 			return obj
 		}, {}),
-		'react-vendors': ['react', 'react-dom', 'prop-types'],
 		toastr: path.join(rendererPath, 'css', 'toastr.css'),
 		global: path.join(rendererPath, 'css', 'global.css')
 	},
