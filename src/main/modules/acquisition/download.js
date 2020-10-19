@@ -98,7 +98,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		reject(err)
 	})
 
-	const index = download.findIndex(dl => dl.id === id)
+	const index = downloads.findIndex(dl => dl.id === id)
 
 	if (index < 0) return cancelDownload(id)
 

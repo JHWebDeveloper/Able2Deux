@@ -17,7 +17,9 @@ const MediaElement = ({ id, refId, status, references, title, isLive, download, 
 			message: `Remove "${title}"?`,
 			detail: `${downloading ? 'The current download will be canceled. ' : ''}This cannot be undone. Proceed?`,
 			enabled: warnRemove,
-			callback() { dispatch(removeMedia({ id, refId, status, references })) }
+			callback() {
+				dispatch(removeMedia({ id, refId, status, references }))
+			}
 		})
 	}, [status, references, warnRemove])
 
@@ -36,7 +38,7 @@ const MediaElement = ({ id, refId, status, references, title, isLive, download, 
 	return (
 		<div className="media-element">
 			<span
-				title={capitalize(status)}
+				title={capitalize(status).replace('_', ' ')}
 				style={{ color }}>lens</span>
 			<span>
 				<span>{title}</span>
