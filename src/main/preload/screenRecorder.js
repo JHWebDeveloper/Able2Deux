@@ -15,7 +15,7 @@ const mac = process.platform === 'darwin'
 
 export const getRecordSources = async () => {
 	const sources = await desktopCapturer.getSources({
-		types: ['window', 'screen'],
+		types: ['screen', 'window'],
 		thumbnailSize: {
 			width: 560,
 			height: 288
