@@ -14,7 +14,10 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Holding shift allows for fine tuning of Position, Scale and Crop sliders and number fields.
 - Pressing Up and Down arrows now control which media item is selected.
 - Keyboard Shortcuts in batch selector for Copy All Settings (Ctrl|Cmd+C), Paste Settings (Ctrl|Cmd+V), Duplicate Media(Ctrl|Cmd+D), Remove Media (Backspace|Delete), Move Up (Ctrl|Cmd+ArrowUp) and Move Down (Ctrl|Cmd+ArrowDown)
-- Screen record timer, start and end timecode fields now turn red when set to a values that will result in empty media.
+
+## Changed
+- Downloads can be cancelled during the pending phase (grey dot).
+- Screen record timer, start and end timecode fields now turn red when set to a value that will result in empty media.
 
 ### Fixed
 - Bug preventing negative sign and leading decimal point from being typed into the number fields next to the sliders.
