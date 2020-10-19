@@ -84,8 +84,6 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 
 		if (!recordSourceList.length) return false
 
-		recordSourceList = recordSourceList.filter(({ name }) => name !== 'Able2Deux')
-
 		if (recordSourceList.length === 1) {
 			return captureScreen(recordSourceList[0].id)
 		}
