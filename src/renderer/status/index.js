@@ -1,4 +1,5 @@
 export const PENDING = 'PENDING'
+export const DOWNLOAD_PENDING = 'DOWNLOAD_PENDING'
 export const DOWNLOADING = 'DOWNLOADING'
 export const LOADING = 'LOADING'
 export const READY = 'READY'
