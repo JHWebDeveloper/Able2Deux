@@ -51,8 +51,7 @@ const MediaElement = ({ id, refId, status, references, title, isLive, download, 
 				type="button"
 				className="symbol"
 				title={downloading ? isLive ? 'Stop Stream' : 'Cancel Download' : 'Remove'}
-				onClick={isLive ? stopLiveDownload : removeMediaWithWarning}
-				disabled={status === STATUS.PENDING}>
+				onClick={isLive ? stopLiveDownload : removeMediaWithWarning}>
 				{downloading && isLive ? 'stop' : 'close'}
 			</button>
 		</div>
