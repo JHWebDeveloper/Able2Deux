@@ -26,10 +26,17 @@ export const getRecordSources = async () => {
 		return []
 	}
 
-	return sources.map(src => ({
-		...src,
-		thumbnail: src.thumbnail.toDataURL()
-	}))
+	return sources
+		.filter(({ name }) => name !== 'Able2')
+		.map(src => ({
+			...src,
+			thumbnail: src.thumbnail.toDataURL()
+		}))
+		.reduce((arr, src) => {
+			arr[/^screen/.test(src.id) ? 0 : 1].push(src)
+			return arr
+		}, [[],[]])
+		.flat()
 }
 
 export const findSoundflower = async () => {
