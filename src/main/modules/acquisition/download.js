@@ -54,7 +54,6 @@ const getTempFilePath = async id => {
 
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
 	const { id, url, optimize, output, disableRateLimit } = formData
-	let pending = true
 
 	const downloadCmd = spawn(ytdlPath, [
 		...ytdlOpts(disableRateLimit),
@@ -75,11 +74,6 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		const info = data.toString()
 
 		if (!/\[download\]/.test(info)) return false
-
-		if (pending && /\[download\]\sDestination:/.test(info)) {
-			win.webContents.send(`downloadStarted_${id}`)
-			pending = false
-		}
 
 		progress.percent = parseYTDLOutput(info, /[.0-9]+%/) ?? progress.percent
 		progress.eta = parseYTDLOutput(info, /[:0-9]+$/) ?? progress.eta
@@ -104,13 +98,19 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		reject(err)
 	})
 
-	downloads.push({ id, cmd: downloadCmd })
+	const index = download.findIndex(dl => dl.id === id)
+
+	if (index < 0) return cancelDownload(id)
+
+	downloads[index].cmd = downloadCmd
+
+	win.webContents.send(`downloadStarted_${id}`)
 })
 
 
 /* --- GET TITLE --- */
 
-export const getURLInfo = ({ url, disableRateLimit }) => new Promise((resolve, reject) => {
+export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolve, reject) => {
 	const infoCmd = spawn(ytdlPath, [
 		...ytdlOpts(disableRateLimit), 
 		'--dump-json',
@@ -124,12 +124,12 @@ export const getURLInfo = ({ url, disableRateLimit }) => new Promise((resolve, r
 	})
 
 	infoCmd.stderr.on('data', err => {
-		infoCmd.kill()
+		removeDownload(id)
 		reject(err.toString())
 	})
 
 	infoCmd.on('close', code => {
-		if (code === null) return false
+		if (code === null) return removeDownload(id)
 
 		let info = ''
 
@@ -146,6 +146,9 @@ export const getURLInfo = ({ url, disableRateLimit }) => new Promise((resolve, r
 	})
 
 	infoCmd.on('error', err => {
+		removeDownload(id)
 		reject(err)
 	})
+
+	downloads.push({ id, cmd: infoCmd })
 })
