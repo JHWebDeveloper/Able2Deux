@@ -39,10 +39,6 @@ const mainConfig = merge(commonMain, {
 				{
 					from: path.join(mainPath, 'backgrounds'),
 					to: path.join('assets', 'backgrounds')
-				},
-				{
-					from: path.join(mainPath, 'icons'),
-					to: path.join('assets', 'icons')
 				}
 			]
 		})
@@ -69,7 +65,7 @@ const rendererConfig = merge(commonRenderer, {
 		new RemoveFilesPlugin({
 			after: {
 				root: path.resolve('build', 'renderer'),
-				include: ['global.bundle.js']
+				include: ['global.bundle.js', 'toastr.bundle.js']
 			}
 		})
 	]
