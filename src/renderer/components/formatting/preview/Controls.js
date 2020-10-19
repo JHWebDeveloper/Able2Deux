@@ -42,7 +42,7 @@ const Controls = props => {
 		<>
 			{props.mediaType === 'video' && <>
 				<span className="monospace">
-					{secondsToTC(timecode / fps)};{zeroize(Math.round(timecode % fps), fps)}
+					{secondsToTC(timecode / fps)};{zeroizeAuto(Math.round(timecode % fps), fps)}
 				</span>
 				<input
 					type="range"
