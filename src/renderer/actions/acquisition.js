@@ -34,7 +34,7 @@ export const addMedia = newMedia => ({
 export const removeMedia = ({ status, id, refId, references = 0 }) => async dispatch => {
 	dispatch(updateMediaStatus(id, STATUS.CANCELLING))
 
-	if (status === STATUS.PENDING || status === STATUS.DOWNLOADING) {
+	if (status === STATUS.DOWNLOAD_PENDING || status === STATUS.DOWNLOADING) {
 		await interop.cancelDownload(id)
 	} else if (references < 2) {
 		await interop.removeMediaFile(refId)
@@ -74,6 +74,7 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 	const mediaData = createMediaData({
 		url,
 		title: url,
+		status: STATUS.DOWNLOAD_PENDING,
 		filename: 'download',
 		acquisitionType: 'download'
 	})
