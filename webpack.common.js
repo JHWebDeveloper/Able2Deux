@@ -10,12 +10,15 @@ const pages = ['index', 'splash', 'update', 'preferences', 'help']
 module.exports = {
 	entry: {
 		...pages.reduce((obj, page) => {
-			obj[page] = path.join(rendererPath, `${page}.js`)
+			obj[page] = {
+				import: path.join(rendererPath, `${page}.js`),
+				dependOn: 'react-vendors'
+			}
 			return obj
 		}, {}),
 		'react-vendors': ['react', 'react-dom', 'prop-types'],
-		global: path.join(rendererPath, 'css', 'global.css'),
-		toastr: ['toastr', path.join(rendererPath, 'css', 'toastr.css')]
+		toastr: path.join(rendererPath, 'css', 'toastr.css'),
+		global: path.join(rendererPath, 'css', 'global.css')
 	},
 	output: {
 		path: path.resolve('build', 'renderer'),
