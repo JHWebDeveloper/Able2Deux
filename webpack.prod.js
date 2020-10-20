@@ -1,7 +1,7 @@
-const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
+const { EnvironmentPlugin } = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const RemoveFilesPlugin = require('remove-files-webpack-plugin')
@@ -18,6 +18,11 @@ const commonMain = {
 		]
 	},
 	externals: [nodeExternals()],
+	plugins: [
+		new EnvironmentPlugin({
+			DEVTOOLS: !!process.env.DEVTOOLS
+		}),
+	],
 	node: {
 		__dirname: false
 	}
@@ -31,9 +36,6 @@ const mainConfig = merge(commonMain, {
 	},
 	target: 'electron-main',
 	plugins: [
-		new webpack.EnvironmentPlugin({
-			DEVTOOLS: !!process.env.DEVTOOLS
-		}),
 		new CopyWebpackPlugin({
 			patterns: [
 				{
