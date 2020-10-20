@@ -29,9 +29,11 @@ const RenderQueue = withRouter(params => {
 		render.status === STATUS.FAILED
 	))
 
-	const cancelAll = useCallback(() => Promise.all(media.map(({ id, render }) => {
-		dispatch(cancelRender(id, render.status))
-	})), [media])
+	const cancelAll = useCallback(() => {
+		media.forEach(async ({ id, render }) => {
+			dispatch(cancelRender(id, render.status))
+		})
+	}, [media])
 
 	const goBack = useCallback(() => {
 		media.forEach(item => {
