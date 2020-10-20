@@ -1,6 +1,7 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
 
 const rendererPath = path.resolve('src', 'renderer')
@@ -37,7 +38,12 @@ module.exports = {
 				test: /\.css$/,
 				use: [
 					MiniCssExtractPlugin.loader,
-					'css-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							url: false
+						}
+					},
 					{
 						loader: 'postcss-loader',
 						options: {
@@ -49,10 +55,6 @@ module.exports = {
 						}
 					}
 				]
-			},
-			{
-				test: /\.(svg|woff2)$/,
-				use: ['url-loader']
 			}
 		]
 	},
@@ -72,6 +74,14 @@ module.exports = {
 			inject: false,
 			filename: `${page}.html`,
 			template: path.join(rendererPath, `${page}.html`)
-		}))
+		})),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: path.join(rendererPath, 'font'),
+					to: path.join('assets', 'font')
+				}
+			]
+		})
 	]
 }
