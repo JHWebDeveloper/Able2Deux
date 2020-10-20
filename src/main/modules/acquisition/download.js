@@ -10,7 +10,7 @@ import { scratchDisk } from '../scratchDisk'
 const ytdlPath = fixPathForAsarUnpack(ytdlStatic.path)
 const ffmpegPath = fixPathForAsarUnpack(ffmpegStatic.path)
 
-let downloads = new Map()
+const downloads = new Map()
 
 /* --- CANCEL DOWNLOAD --- */
 

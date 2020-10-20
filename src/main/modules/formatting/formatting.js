@@ -6,7 +6,7 @@ import { scratchDisk } from '../scratchDisk'
 import { assetsPath, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
 
-let renderJobs = new Map()
+const renderJobs = new Map()
 
 export const cancelRender = id => renderJobs.get(id)?.kill()
 

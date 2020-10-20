@@ -35,7 +35,7 @@ export const getRecordSources = async () => {
 		.reduce((arr, src) => {
 			arr[/^screen/.test(src.id) ? 0 : 1].push(src)
 			return arr
-		}, [[],[]])
+		}, [[], []])
 		.flat()
 }
 

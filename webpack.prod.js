@@ -20,7 +20,7 @@ const commonMain = {
 	plugins: [
 		new EnvironmentPlugin({
 			DEVTOOLS: !!process.env.DEVTOOLS
-		}),
+		})
 	],
 	node: {
 		__dirname: false
