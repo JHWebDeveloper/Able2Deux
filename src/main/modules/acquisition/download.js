@@ -10,22 +10,26 @@ import { scratchDisk } from '../scratchDisk'
 const ytdlPath = fixPathForAsarUnpack(ytdlStatic.path)
 const ffmpegPath = fixPathForAsarUnpack(ffmpegStatic.path)
 
-let downloads = []
+let downloads = new Map()
 
 /* --- CANCEL DOWNLOAD --- */
 
 export const cancelDownload = async id => {
-	if (downloads.length) {
-		await downloads.find(dl => dl.id === id).cmd.kill('SIGTERM')
+	if (downloads.size) {
+		await downloads.get(id).kill('SIGTERM')
 	}
 
 	return scratchDisk.imports.clear(id)
 }
 
-export const stopLiveDownload = async id => downloads.find(dl => dl.id === id).cmd.kill('SIGINT')
+export const stopLiveDownload = async id => downloads.get(id).kill('SIGINT')
 
 const removeDownload = async id => {
-	downloads = downloads.filter(dl => dl.id !== id)
+	if (id) {
+		downloads.delete(id)
+	} else {
+		downloads.clear()
+	}
 }
 
 
@@ -97,11 +101,9 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		reject(err)
 	})
 
-	const index = downloads.findIndex(dl => dl.id === id)
+	if (!downloads.has(id)) return cancelDownload(id)
 
-	if (index < 0) return cancelDownload(id)
-
-	downloads[index].cmd = downloadCmd
+	downloads.set(id, downloadCmd)
 
 	win.webContents.send(`downloadStarted_${id}`)
 })
@@ -147,5 +149,5 @@ export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolv
 		reject(err)
 	})
 
-	downloads.push({ id, cmd: infoCmd })
+	downloads.set(id, infoCmd)
 })
