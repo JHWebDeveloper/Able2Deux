@@ -14,9 +14,9 @@ let downloads = new Map()
 
 /* --- CANCEL DOWNLOAD --- */
 
-export const cancelDownload = id => downloads.get(id).kill('SIGTERM')
+export const cancelDownload = id => downloads.get(id)?.kill('SIGTERM')
 
-export const stopLiveDownload = id => downloads.get(id).kill('SIGINT')
+export const stopLiveDownload = id => downloads.get(id)?.kill('SIGINT')
 
 const removeDownload = id => {
 	if (id) {
