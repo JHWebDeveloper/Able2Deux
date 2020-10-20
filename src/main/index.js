@@ -342,7 +342,7 @@ if (dev || process.env.DEVTOOLS) {
 
 // ---- IPC ROUTES ----
 
-async function getURLInfoIPC (evt, data) {
+const getURLInfoIPC = async (evt, data) => {
 	const { id } = data
 
 	try {
@@ -353,7 +353,7 @@ async function getURLInfoIPC (evt, data) {
 	}
 }
 
-async function requestDownloadIPC (evt, data) {
+const requestDownloadIPC = async (evt, data) => {
 	const { id } = data
 
 	try {
@@ -367,23 +367,11 @@ async function requestDownloadIPC (evt, data) {
 	}
 }
 
-async function cancelDownloadIPC (evt, id) {
-	try {
-		await cancelDownload(id)
-	} catch (err) {
-		console.error(err)
-	}
-}
+const cancelDownloadIPC = (evt, id) => cancelDownload(id)
 
-async function stopLiveDownloadIPC (evt, id) {
-	try {
-		await stopLiveDownload(id)
-	} catch (err) {
-		console.error(err)
-	}
-}
+const stopLiveDownloadIPC = (evt, id) => stopLiveDownload(id)
 
-async function checkFileTypeIPC (evt, data) {
+const checkFileTypeIPC = async (evt, data) => {
 	try {
 		evt.reply(`fileTypeFound_${data.id}`, await checkFileType(data.file))
 	} catch (err) {
@@ -392,7 +380,7 @@ async function checkFileTypeIPC (evt, data) {
 	}
 }
 
-async function requestUploadIPC (evt, data) {
+const requestUploadIPC = async (evt, data) => {
 	const { id, mediaType } = data
 
 	try {
@@ -406,7 +394,7 @@ async function requestUploadIPC (evt, data) {
 	}
 }
 
-async function saveScreenRecordingIPC (evt, data) {
+const saveScreenRecordingIPC = async (evt, data) => {
 	const { id, screenshot } = data
 
 	try {
@@ -420,7 +408,7 @@ async function saveScreenRecordingIPC (evt, data) {
 	}
 }
 
-async function removeMediaFileIPC (evt, id) {
+const removeMediaFileIPC = async (evt, id) => {
 	try {
 		await scratchDisk.imports.clear(id)
 	} catch (err) {
@@ -428,7 +416,7 @@ async function removeMediaFileIPC (evt, id) {
 	}
 }
 
-async function initPreviewIPC (evt, data) {
+const initPreviewIPC = async (evt, data) => {
 	try {
 		return updatePreviewSourceImage(data)
 	} catch (err) {
@@ -436,7 +424,7 @@ async function initPreviewIPC (evt, data) {
 	}
 }
 
-async function requestPreviewStillIPC (evt, data) {
+const requestPreviewStillIPC = async (evt, data) => {
 	try {
 		const dataURL = await previewStill(data)
 
@@ -448,7 +436,7 @@ async function requestPreviewStillIPC (evt, data) {
 	}
 }
 
-async function checkDirectoryExistsIPC (evt, dir) {
+const checkDirectoryExistsIPC = async (evt, dir) => {
 	try {
 		return fileExistsPromise(dir)
 	} catch (err) {
@@ -457,7 +445,7 @@ async function checkDirectoryExistsIPC (evt, dir) {
 	}
 }
 
-async function requestRenderIPC (evt, data) {
+const requestRenderIPC = async (evt, data) => {
 	try {
 		await render(data, mainWin)
 
@@ -471,23 +459,9 @@ async function requestRenderIPC (evt, data) {
 	}
 }
 
-async function cancelRenderIPC (evt, id) {
-	try {
-		return cancelRender(id)
-	} catch (err) {
-		console.error(err)
-	}
-}
+const cancelRenderIPC = (evt, id) => cancelRender(id)
 
-async function cancelAllRendersIPC () {
-	try {
-		return cancelAllRenders()
-	} catch (err) {
-		console.error(err)
-	}
-}
-
-async function clearTempFilesIPC () {
+const clearTempFilesIPC = async () => {
 	try {
 		return scratchDisk.clearAll()
 	} catch (err) {
@@ -495,7 +469,7 @@ async function clearTempFilesIPC () {
 	}
 }
 
-async function requestPrefsIPC (evt) {
+const requestPrefsIPC = async evt => {
 	try {
 		evt.reply('prefsRecieved', await loadPrefs())
 	} catch (err) {
@@ -504,7 +478,7 @@ async function requestPrefsIPC (evt) {
 	}
 }
 
-async function savePrefsIPC (evt, prefs) {
+const savePrefsIPC = async (evt, prefs) => {
 	try {
 		await savePrefs(prefs)
 		await updateScratchDisk()
@@ -517,16 +491,16 @@ async function savePrefsIPC (evt, prefs) {
 	}
 }
 
-async function retryUpdate () {
+const retryUpdate = async () => {
 	autoUpdater.autoDownload = true
 	autoUpdater.checkForUpdatesAndNotify()
 }
 
-async function checkForUpdateBackup () {
+const checkForUpdateBackup = async () => {
 	const version = await checkForUpdate()
 
 	if (version) {
-		await createUpdateWindow()
+		createUpdateWindow()
 		mainWin.close()
 	}
 }
@@ -544,7 +518,7 @@ ipcMain.on('requestPreviewStill', requestPreviewStillIPC)
 ipcMain.handle('checkDirectoryExists', checkDirectoryExistsIPC)
 ipcMain.on('requestRender', requestRenderIPC)
 ipcMain.on('cancelRender', cancelRenderIPC)
-ipcMain.on('cancelAllRenders', cancelAllRendersIPC)
+ipcMain.on('cancelAllRenders', cancelAllRenders)
 ipcMain.on('clearTempFiles', clearTempFilesIPC)
 ipcMain.on('requestPrefs', requestPrefsIPC)
 ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
