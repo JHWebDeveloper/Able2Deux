@@ -14,22 +14,18 @@ let downloads = new Map()
 
 /* --- CANCEL DOWNLOAD --- */
 
-export const cancelDownload = async id => {
-	if (downloads.size) {
-		await downloads.get(id).kill('SIGTERM')
-	}
+export const cancelDownload = id => downloads.get(id).kill('SIGTERM')
 
-	return scratchDisk.imports.clear(id)
-}
+export const stopLiveDownload = id => downloads.get(id).kill('SIGINT')
 
-export const stopLiveDownload = async id => downloads.get(id).kill('SIGINT')
-
-const removeDownload = async id => {
+const removeDownload = id => {
 	if (id) {
 		downloads.delete(id)
 	} else {
 		downloads.clear()
 	}
+
+	return scratchDisk.imports.clear(id)
 }
 
 
