@@ -111,7 +111,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 
 export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolve, reject) => {
 	const infoCmd = spawn(ytdlPath, [
-		...ytdlOpts(disableRateLimit), 
+		...ytdlOpts(disableRateLimit),
 		'--dump-json',
 		url
 	])
