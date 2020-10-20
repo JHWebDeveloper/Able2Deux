@@ -11,7 +11,7 @@ let renderJobs = new Map()
 export const cancelRender = id => renderJobs.get(id)?.kill()
 
 export const cancelAllRenders = () => {
-	for (job of renderJobs) kills.push(job.kill())
+	for (job of renderJobs) job.kill()
 }
 
 const removeJob = id => {
