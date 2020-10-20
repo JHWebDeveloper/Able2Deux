@@ -36,4 +36,4 @@ export const requestRenderChannel = params => {
 	})
 }
 
-export const cancelRender = async id => ipcRenderer.send('cancelRender', id)
+export const cancelRender = id => ipcRenderer.send('cancelRender', id)
