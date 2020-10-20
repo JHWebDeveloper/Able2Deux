@@ -83,18 +83,17 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 
 	downloadCmd.stderr.on('data', err => {
 		if (/^ERROR: Unable to download webpage/.test(err)) {
-			removeDownload(id)
 			reject(err.toString())
 		}
 	})
 
 	downloadCmd.on('close', code => {
-		removeDownload(id)
-		if (code !== null) getTempFilePath(id).then(resolve)
+		if (code !== 0) return removeDownload(id)
+
+		getTempFilePath(id).then(resolve)
 	})
 
 	downloadCmd.on('error', err => {
-		removeDownload(id)
 		reject(err)
 	})
 
@@ -124,12 +123,11 @@ export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolv
 	})
 
 	infoCmd.stderr.on('data', err => {
-		removeDownload(id)
 		reject(err.toString())
 	})
 
 	infoCmd.on('close', code => {
-		if (code === null) return removeDownload(id)
+		if (code !== 0) return removeDownload(id)
 
 		let info = ''
 
@@ -146,7 +144,6 @@ export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolv
 	})
 
 	infoCmd.on('error', err => {
-		removeDownload(id)
 		reject(err)
 	})
 
