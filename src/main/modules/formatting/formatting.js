@@ -10,10 +10,6 @@ let renderJobs = new Map()
 
 export const cancelRender = id => renderJobs.get(id)?.kill()
 
-export const cancelAllRenders = () => {
-	for (job of renderJobs) job.kill()
-}
-
 const removeJob = id => {
 	if (id) {
 		renderJobs.delete(id)

@@ -12,7 +12,7 @@ import { saveScreenRecording } from './modules/acquisition/saveScreenRecording'
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
 import previewStill from './modules/formatting/preview'
 import updatePreviewSourceImage from './modules/formatting/updatePreviewSourceImage'
-import { render, cancelRender, cancelAllRenders } from './modules/formatting/formatting'
+import { render, cancelRender } from './modules/formatting/formatting'
 import { fileExistsPromise } from './modules/utilities'
 
 const dev = process.env.NODE_ENV === 'development'
@@ -518,7 +518,6 @@ ipcMain.on('requestPreviewStill', requestPreviewStillIPC)
 ipcMain.handle('checkDirectoryExists', checkDirectoryExistsIPC)
 ipcMain.on('requestRender', requestRenderIPC)
 ipcMain.on('cancelRender', cancelRenderIPC)
-ipcMain.on('cancelAllRenders', cancelAllRenders)
 ipcMain.on('clearTempFiles', clearTempFilesIPC)
 ipcMain.on('requestPrefs', requestPrefsIPC)
 ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
