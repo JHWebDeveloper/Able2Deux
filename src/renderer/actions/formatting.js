@@ -329,8 +329,6 @@ export const render = params => async dispatch => {
 export const cancelRender = (id, status) => async dispatch => {
 	if (status === STATUS.COMPLETE) return false
 
-	dispatch(updateRenderStatus(id, STATUS.CANCELLING))
-
 	if (status === STATUS.RENDERING) return interop.cancelRender(id)
 	if (status === STATUS.PENDING) renderQueue.remove(id)
 
