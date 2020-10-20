@@ -10,7 +10,6 @@ import Acquisition from '../acquisition/Acquisition'
 import Render from '../formatting/Formatting'
 import SourceSuggestionList from './SourceSuggestionList'
 
-
 const Main = () => {
 	const { saveLocations, editAll } = useContext(PrefsContext).preferences
 
