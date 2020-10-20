@@ -48,7 +48,7 @@ export const getStatusColor = status => {
 		case STATUS.COMPLETE:
 			return '#0cf700'
 		case STATUS.CANCELLING:
-			return '#ff8000'
+			return '#fc9803'
 		case STATUS.FAILED:
 		case STATUS.CANCELLED:
 			return '#ff4800'
