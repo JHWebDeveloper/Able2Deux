@@ -4,7 +4,7 @@ const textElement = 'input[type="text"], input[type="number"]'
 
 export const setContextMenu = () => {
 	const textEditor = new remote.Menu()
-	const dev = process.env.NODE_ENV === 'development' || process.env.devtools
+	const dev = process.env.NODE_ENV === 'development' || process.env.DEVTOOLS
 	let inspectMenu = []
 	let ctxEvent = false
 
