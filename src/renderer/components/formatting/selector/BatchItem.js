@@ -85,18 +85,18 @@ const BatchItem = props => {
 			dropdown[0].action() // Copy All Settings
 		} else if (ctrl && !isOnly && e.key === 'v') {
 			dropdown[1].action() // Paste Settings
-		} else if (ctrl && prevId && e.key === 'ArrowUp') {
+		} else if (ctrl && prevId && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
 			dropdown[4].action() // Move Up
-		} else if (ctrl && nextId && e.key === 'ArrowDown') {
+		} else if (ctrl && nextId && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
 			dropdown[5].action() // Move Down
+		} else if (prevId && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
+			dispatch(selectMedia(prevId))
+		} else if (nextId && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
+			dispatch(selectMedia(nextId))
 		} else if (ctrl && e.key === 'd') {
 			dropdown[7].action() // Duplicate Media
 		} else if (e.key === 'Backspace' || e.key === 'Delete') {
 			dropdown[8].action() // Remove Media
-		} else if (prevId && e.key === 'ArrowUp') {
-			dispatch(selectMedia(prevId))
-		} else if (nextId && e.key === 'ArrowDown') {
-			dispatch(selectMedia(nextId))
 		}
 	}, triggers)
 
