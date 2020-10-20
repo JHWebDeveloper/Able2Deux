@@ -4,7 +4,6 @@ import { arrayOf, func, object, string } from 'prop-types'
 import { PrefsContext } from 'store/preferences'
 
 import {
-	selectMedia,
 	moveMedia,
 	removeMedia,
 	copySettings,
@@ -68,10 +67,6 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		})
 	}, [media, warnings.remove])
 
-	const selectNeighbor = useCallback(index => {
-		dispatch(selectMedia(media[index].id))
-	}, [media])
-
 	const sortingAction = useCallback((oldPos, newPos) => {
 		dispatch(moveMedia(oldPos, newPos))
 	}, [])
@@ -98,13 +93,11 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 						tempFilePath={tempFilePath}
 						selected={selectedId === id}
 						index={i}
-						isFirst={i === 0}
-						isLast={i + 1 === media.length}
-						isOnly={media.length === 1}
+						prevId={media[i - 1]?.id || ''}
+						nextId={media[i + 1]?.id || ''}
 						copyAllSettings={copyAllSettings}
 						applyToAllWithWarning={applyToAllWithWarning}
 						removeMediaWithWarning={removeMediaWithWarning}
-						selectNeighbor={selectNeighbor}
 						dispatch={dispatch} />
 				))}
 			</DraggableList>
