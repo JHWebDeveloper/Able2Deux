@@ -11,12 +11,16 @@ export const updateState = payload => ({
 	payload
 })
 
-export const updateStateFromEvent = e => ({
-	type: ACTION.UPDATE_STATE,
-	payload: {
-		[e.target.name]: e.target.value
+export const updateStateFromEvent = e => {
+	const { name, dataset, value } = e.target
+
+	return {
+		type: ACTION.UPDATE_STATE,
+		payload: {
+			[name]: dataset.number ? parseFloat(value) : value
+		}
 	}
-})
+}
 
 export const toggleCheckbox = e => ({
 	type: ACTION.TOGGLE_CHECKBOX,
