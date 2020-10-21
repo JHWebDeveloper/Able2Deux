@@ -1,4 +1,4 @@
-import { getIntegerLength } from '.'
+import { getIntegerLength, clamp } from '.'
 
 export const capitalize = str => {
 	const len = str.length
@@ -26,7 +26,7 @@ export const keepInRange = e => {
 	min = parseFloat(min)
 	max = parseFloat(max)
 
-	e.target.value = Math.max(min, Math.min(max, value))
+	e.target.value = clamp(min, value, max)
 
 	return e
 }
@@ -74,7 +74,7 @@ export const tcToSeconds = hms => {
 		.map(val => parseInt(val) || 0)
 		.reduce((acc, val, i) => acc + val * 60 ** i, 0)
 	
-	return Math.min(sec, 86399) // 86399 == 23:59:59
+	return clamp(0, sec, 86399) // 86399 == 23:59:59
 }
 
 export const simplifyTimecode = tc => secondsToTC(tcToSeconds(tc))

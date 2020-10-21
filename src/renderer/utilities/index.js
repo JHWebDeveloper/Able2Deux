@@ -4,6 +4,19 @@ export * from './drawAble2Logo'
 export * from './factories'
 export * from './valueModifiers'
 
+export const arrayCount = (arr, exp) => {
+	let i = arr.length
+	let count = 0
+
+	while (i--) {
+		if (exp(arr[i])) count += 1
+	}
+
+	return count
+}
+
+export const clamp = (min, val, max) => Math.max(min, Math.min(max, val))
+
 export const debounce = (callback, wait) => {
 	let timeout = false
 
@@ -36,17 +49,6 @@ export const throttle = (callback, wait) => {
 			timeout = setTimeout(caller, wait)
 		}
 	}
-}
-
-export const arrayCount = (arr, exp) => {
-	let i = arr.length
-	let count = 0
-
-	while (i--) {
-		if (exp(arr[i])) count += 1
-	}
-
-	return count
 }
 
 export const getIntegerLength = n => {
