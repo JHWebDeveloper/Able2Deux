@@ -7,7 +7,7 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 	: app.getPath('temp')
 
 const defaultPrefs = {
-	version: 3,
+	version: 6,
 	renderOutput: '1280x720',
 	renderFrameRate: 'auto',
 	autoPNG: true,

@@ -38,11 +38,12 @@ export const initPreferences = async () => {
 			})) 
 		}
 		
-		if (prefs.version < 5) {
+		if (prefs.version < 6) {
 			await fsp.writeFile(prefsPath, JSON.stringify({
 				...defaultPrefs,
 				...prefs,
-				version: 5
+				scaleSliderMax: parseFloat(prefs.scaleSliderMax),
+				version: 6
 			}))
 		}
 	}
