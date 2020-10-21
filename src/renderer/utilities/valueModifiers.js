@@ -74,7 +74,7 @@ export const tcToSeconds = hms => {
 		.map(val => parseInt(val) || 0)
 		.reduce((acc, val, i) => acc + val * 60 ** i, 0)
 	
-	return clamp(0, sec, 86399) // 86399 == 23:59:59
+	return Math.min(sec, 86399) // 86399 == 23:59:59
 }
 
 export const simplifyTimecode = tc => secondsToTC(tcToSeconds(tc))
