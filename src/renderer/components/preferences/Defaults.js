@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { bool, exact, func, number, string } from 'prop-types'
 
-import { updateStateFromEvent, toggleCheckbox, toggleNestedCheckbox } from '../../actions'
+import { updateStateFromEvent, toggleCheckbox, toggleNestedCheckbox } from 'actions'
 
 import { keepInRange } from 'utilities'
 
