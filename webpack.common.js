@@ -65,6 +65,7 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
+			css: path.join(rendererPath, 'css'),
 			store: path.join(rendererPath, 'store'),
 			actions: path.join(rendererPath, 'actions'),
 			status: path.join(rendererPath, 'status'),
