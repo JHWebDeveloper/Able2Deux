@@ -1,4 +1,5 @@
 import * as STATUS from 'status'
+import { createAnimator } from '.'
 
 export const detectTabExit = callback => e => {
 	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)
@@ -53,6 +54,32 @@ export const getStatusColor = status => {
 		default:
 			return '#bbb'
 	}
+}
+
+export const scrollText = el => {
+	const original = el.innerText
+	const animator = createAnimator()
+
+	const panText = pause => {
+		if (el.scrollWidth === el.clientWidth) {
+			el.style.textOverflow = 'clip'
+			pause()
+		} else {
+			el.innerText = el.innerText.slice(1)
+		}
+	}
+
+	const resetPanText = () => {
+		el.innerText = original
+		el.style.removeProperty('text-overflow')
+	}
+
+	animator
+		.onFrame(panText, 10)
+		.onStop(resetPanText)
+
+	el.addEventListener('mouseenter', animator.start)
+	el.addEventListener('mouseleave', animator.stop)
 }
 
 const { interop } = window.ABLE2
