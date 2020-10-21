@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../css/help.css'
+import 'css/help.css'
 
 import TableOfContents from './TableOfContents'
 import Acquisition from './Acquisition'

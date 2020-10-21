@@ -1,5 +1,5 @@
 import React, { createRef, useEffect } from 'react'
-import '../../css/splash.css'
+import 'css/splash.css'
 
 import { drawAble2Logo } from 'utilities'
 

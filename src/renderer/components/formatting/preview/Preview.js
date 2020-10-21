@@ -1,6 +1,6 @@
 import React, { memo, useContext, useEffect, useMemo, useState } from 'react'
 import { func, object } from 'prop-types'
-import '../../../css/index/preview.css'
+import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
 import { buildSource, compareProps } from 'utilities'

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import toastr from 'toastr'
-import '../../css/preferences.css'
+import 'css/preferences.css'
 
 import { PrefsProvider, PrefsContext } from 'store/preferences'
 import { updateState } from 'actions'
