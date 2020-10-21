@@ -6,8 +6,6 @@ import ffmpeg from '../ffmpeg'
 import { scratchDisk } from '../scratchDisk'
 import { supportedImageCodecs, base64EncodeOrPlaceholder } from '../utilities'
 
-const round = (n, dec = 2) => Number(`${Math.round(`${n}e${dec}`)}e-${dec}`)
-
 const createScreenshot = (id, tempFilePath) => new Promise(resolve => {
 	const screenshot = `${id}.thumbnail.png`
 
@@ -192,7 +190,7 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 
 		Object.assign(mediaData, {
 			thumbnail: await base64EncodeOrPlaceholder(thumbnail),
-			fps: forcedFPS || round(fps)
+			fps: forcedFPS || fps.toFixed(2)
 		})
 	} else if (mediaType === 'image' || mediaType === 'gif') {
 		const thumbnail = await createPNGCopy(id, tempFilePath, mediaType)
