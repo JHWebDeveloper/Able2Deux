@@ -36,8 +36,6 @@ const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
 	}, [id, editAll])
 
 	const sourceOnTopWithWarning = useCallback(e => {
-		e.persist()
-
 		sourceOnTopWarning(warnings.sourceOnTop && !source.onTop, () => {
 			toggleSourceOption(e)
 		})
