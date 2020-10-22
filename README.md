@@ -15,7 +15,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Pressing Up and Down arrows now control which media item is selected.
 - Keyboard Shortcuts in batch selector for Copy All Settings (Ctrl|Cmd+C), Paste Settings (Ctrl|Cmd+V), Duplicate Media(Ctrl|Cmd+D), Remove Media (Backspace|Delete), Move Up (Ctrl|Cmd+ArrowUp) and Move Down (Ctrl|Cmd+ArrowDown)
 
-## Changed
+### Changed
 - Downloads can be cancelled during the pending phase (grey dot).
 - Screen record timer, start and end timecode fields now turn red when set to a value that will result in empty media.
 
