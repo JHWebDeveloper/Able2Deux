@@ -75,7 +75,7 @@ interop.checkIfDirectoryExists = async dir => ipcRenderer.invoke('checkDirectory
 interop.clearTempFiles = () => ipcRenderer.send('clearTempFiles')
 
 
-// ---- ATTACH ALL TO RENDERER--------
+// ---- ATTACH ALL TO RENDERER --------
 
 const nameSpace = 'ABLE2'
 
