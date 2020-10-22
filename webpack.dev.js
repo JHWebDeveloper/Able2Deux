@@ -4,10 +4,12 @@ const { spawn } = require('child_process')
 
 const common = require('./webpack.common')
 
+process.env.PORT = 3000
+
 module.exports = merge(common, {
 	mode: 'development',
 	devServer: {
-		port: 3000,
+		port: process.env.PORT,
 		hot: true,
 		before() {
 			spawn('electron', ['babelRegister.js'], {

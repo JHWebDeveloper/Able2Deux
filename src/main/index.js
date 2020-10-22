@@ -50,7 +50,7 @@ const openWindow = opts => new BrowserWindow({
 
 const createURL = view => url.format(dev ? {
 	protocol: 'http:',
-	host: 'localhost:3000',
+	host: `localhost:${process.env.PORT}`,
 	pathname: `${view}.html`,
 	slashes: true
 } : {
