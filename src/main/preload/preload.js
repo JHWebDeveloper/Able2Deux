@@ -60,12 +60,13 @@ interop.directoryNotFoundAlert = async dir => {
 	return alert.response === 1
 }
 
-interop.warning = async ({ message, detail }) => (await remote.dialog.showMessageBox({
+interop.warning = async ({ message, detail, hasCheckbox }) => await remote.dialog.showMessageBox({
 	type: 'warning',
 	buttons: ['OK', 'Cancel'],
 	message,
-	detail
-})).response
+	detail,
+	...hasCheckbox ? { checkboxLabel: 'Don\'t show this message again' } : {}
+})
 
 
 // ---- GLOBAL METHODS --------
