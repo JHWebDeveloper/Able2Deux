@@ -84,13 +84,19 @@ export const scrollText = el => {
 
 const { interop } = window.ABLE2
 
-export const warn = async ({ enabled, message, detail, callback }) => {
-	let proceed = true
-
+export const warn = async ({ enabled, message, detail, callback, checkboxCallback }) => {
 	if (enabled) {
-		proceed = await interop.warning({ message, detail }) === 0
+		const { response, checkboxChecked } = await interop.warning({
+			message,
+			detail,
+			hasCheckbox: !!checkboxCallback
+		})
+
+		if (checkboxChecked) checkboxCallback()
+
+		if (response > 0) return false
 	}
 
-	if (proceed) callback()
+	callback()
 }
 
