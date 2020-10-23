@@ -38,7 +38,7 @@ const BatchItem = props => {
 			label: 'Apply Settings to All',
 			hide: isOnly,
 			action() {
-				props.applyToAllWithWarning(id)
+				props.applyToAllWarning(id)
 			}
 		},
 		{ role: 'spacer' },
@@ -66,7 +66,7 @@ const BatchItem = props => {
 		{
 			label: 'Remove Media',
 			action() {
-				props.removeMediaWithWarning(id, refId, title)
+				props.removeMediaWarning({ id, refId, title })
 			}
 		},
 		{ role: 'spacer' },
@@ -121,7 +121,7 @@ const BatchItem = props => {
 				title="Remove Media"
 				className="symbol"
 				onClick={() => {
-					props.removeMediaWithWarning(id, refId, title)}
+					props.removeMediaWarning({ id, refId, title })}
 				}>close</button>
 		</div>
 	)
@@ -137,8 +137,8 @@ BatchItem.propTypes = {
 	prevId: string.isRequired,
 	nextId: string.isRequired,
 	copyAllSettings: func.isRequired,
-	applyToAllWithWarning: func.isRequired,
-	removeMediaWithWarning: func.isRequired,
+	applyToAllWarning: func.isRequired,
+	removeMediaWarning: func.isRequired,
 	dispatch: func.isRequired
 }
 
