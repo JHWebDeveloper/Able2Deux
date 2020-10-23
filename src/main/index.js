@@ -48,7 +48,7 @@ const openWindow = opts => new BrowserWindow({
 	...opts
 })
 
-const createURL = view => url.format(dev ? {
+const createURL = (view = 'index') => url.format(dev ? {
 	protocol: 'http:',
 	hostname: 'localhost',
 	port: process.env.PORT,
@@ -127,7 +127,7 @@ const createMainWindow = () => {
 		minHeight: 620
 	})
 
-	mainWin.loadURL(createURL('index'))
+	mainWin.loadURL(createURL())
 
 	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate))
 
