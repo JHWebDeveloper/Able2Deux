@@ -38,6 +38,8 @@ export const PrefsContext = createContext()
 export const PrefsProvider = ({ children }) => {
 	const [ state, dispatch ] = useReducer(reducer, initState)
 
+	const augDispatch = input => input instanceof Function ? input(dispatch, state) : dispatch(input)
+
 	useEffect(() => {
 		(async () => {
 			try {
@@ -59,9 +61,7 @@ export const PrefsProvider = ({ children }) => {
 	return (
 		<PrefsContext.Provider value={{
 			preferences: state,
-			dispatch: input => input instanceof Function
-				? input(dispatch, state)
-				: dispatch(input)
+			dispatch: augDispatch
 		}}>
 			{ children }
 		</PrefsContext.Provider>
