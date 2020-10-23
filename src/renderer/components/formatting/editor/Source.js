@@ -7,7 +7,8 @@ import {
 	updateMediaNestedStateFromEvent,
 	toggleMediaNestedCheckbox,
 	copySettings,
-	applySettingsToAll
+	applySettingsToAll,
+	disableWarningAndSavePrefs
 } from 'actions'
 
 import { compareProps, createSettingsMenu, warn } from 'utilities'
@@ -15,17 +16,13 @@ import { compareProps, createSettingsMenu, warn } from 'utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Checkbox from '../../form_elements/Checkbox'
 
-const sourceOnTopWarning = (enabled, callback) => {
-	warn({
-		message: 'A source on top is not for aesthetics!',
-		detail: 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.',
-		enabled,
-		callback
-	})
-}
+const message = 'A source on top is not for aesthetics!'
+const detail = 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.'
 
 const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
-	const { warnings } = useContext(PrefsContext).preferences
+	const prefsCtx = useContext(PrefsContext)
+	const prefsDispatch = prefsCtx.dispatch
+	const prefs = prefsCtx.preferences
 
 	const updateSourceName = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'source', e, editAll))
@@ -35,11 +32,17 @@ const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
 		dispatch(toggleMediaNestedCheckbox(id, 'source', e, editAll))
 	}, [id, editAll])
 
-	const sourceOnTopWithWarning = useCallback(e => {
-		sourceOnTopWarning(warnings.sourceOnTop && !source.onTop, () => {
+	const sourceOnTopWarning = useCallback(e => warn({
+		message,
+		detail,
+		enabled: prefs.warnings.sourceOnTop && !source.onTop,
+		callback() {
 			toggleSourceOption(e)
-		})
-	}, [id, editAll, warnings.sourceOnTop, source.onTop])
+		},
+		checkboxCallback() {
+			prefsDispatch(disableWarningAndSavePrefs(prefs, 'sourceOnTop'))
+		}
+	}), [id, editAll, prefs, source.onTop])
 
 	return (
 		<DetailsWrapper
@@ -71,7 +74,7 @@ const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
 				label="Place source at top of video"
 				name="onTop"
 				checked={source.onTop}
-				onChange={sourceOnTopWithWarning} />
+				onChange={sourceOnTopWarning} />
 		</DetailsWrapper>
 	)
 }, compareProps)

@@ -7,7 +7,8 @@ import {
 	moveMedia,
 	removeMedia,
 	copySettings,
-	applySettingsToAll
+	applySettingsToAll,
+	disableWarningAndSavePrefs
 } from 'actions'
 
 import {
@@ -19,23 +20,9 @@ import {
 import DraggableList from '../../form_elements/DraggableList'
 import BatchItem from './BatchItem'
 
-const applyToAllWarning = (enabled, callback) => {
-	warn({
-		message: 'Apply current settings to all media items?',
-		detail: 'This will overwrite the settings of all other media items in the batch except for filenames and start and end timecodes. This cannot be undone. Proceed?',
-		enabled,
-		callback
-	})
-}
-
-const removeMediaWarning = (title, enabled, callback) => {
-	warn({
-		message: `Remove "${title}"?`,
-		detail: 'This cannot be undone. Proceed?',
-		enabled,
-		callback
-	})
-}
+const applyToAllMessage = 'Apply current settings to all media items?'
+const applyToAllDetail = 'This will overwrite the settings of all other media items in the batch except for filenames and start and end timecodes. This cannot be undone. Proceed?'
+const removeMediaDetail = 'This cannot be undone. Proceed?'
 
 export const extractSettingsToCopy = settings => {
 	const { arc, background, overlay, source, centering, position, scale, crop, rotation } = settings
@@ -45,27 +32,41 @@ export const extractSettingsToCopy = settings => {
 const scrollbarPadder = createScrollbarPadder()
 
 const BatchList = ({ media, selectedId, dispatch }) => {
-	const { warnings } = useContext(PrefsContext).preferences
+	const prefsCtx = useContext(PrefsContext)
+	const prefsDispatch = prefsCtx.dispatch
+	const prefs = prefsCtx.preferences
 
 	const copyAllSettings = useCallback(id => {
 		dispatch(copySettings(extractSettingsToCopy(media.find(item => item.id === id))))
 	}, [media])
 
-	const applyToAllWithWarning = useCallback(id => {
-		applyToAllWarning(warnings.applyToAll, () => {
+	const applyToAllWarning = useCallback(id => warn({
+		message: applyToAllMessage,
+		detail: applyToAllDetail,
+		enabled: prefs.warnings.applyToAll,
+		callback() {
 			dispatch(applySettingsToAll(id, extractSettingsToCopy(media.find(item => item.id === id))))
-		})
-	}, [media, warnings.applyToAll])
+		},
+		checkboxCallback() {
+			prefsDispatch(disableWarningAndSavePrefs(prefs, 'applyToAll'))
+		}
+	}), [media, prefs])
 
-	const removeMediaWithWarning = useCallback((id, refId, title) => {
-		removeMediaWarning(title, warnings.remove, () => {
+	const removeMediaWarning = useCallback(({ id, refId, title }) => warn({
+		message: `Remove "${title}"?`,
+		detail: removeMediaDetail,
+		enabled: prefs.warnings.remove,
+		callback() {
 			dispatch(removeMedia({
 				id,
 				refId,
 				references: arrayCount(media, item => item.refId === refId)
 			}))
-		})
-	}, [media, warnings.remove])
+		},
+		checkboxCallback() {
+			prefsDispatch(disableWarningAndSavePrefs(prefs, 'remove'))
+		}
+	}), [media, prefs])
 
 	const sortingAction = useCallback((oldPos, newPos) => {
 		dispatch(moveMedia(oldPos, newPos))
@@ -96,8 +97,8 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 						prevId={media[i - 1]?.id || ''}
 						nextId={media[i + 1]?.id || ''}
 						copyAllSettings={copyAllSettings}
-						applyToAllWithWarning={applyToAllWithWarning}
-						removeMediaWithWarning={removeMediaWithWarning}
+						applyToAllWarning={applyToAllWarning}
+						removeMediaWarning={removeMediaWarning}
 						dispatch={dispatch} />
 				))}
 			</DraggableList>
