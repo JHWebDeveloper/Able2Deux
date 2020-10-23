@@ -2,30 +2,23 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { bool, exact, func, number, string } from 'prop-types'
 
 import * as STATUS from 'status'
-import { removeMedia } from 'actions'
-import { warn, capitalize, getStatusColor } from 'utilities'
+import { capitalize, getStatusColor } from 'utilities'
 
 const { interop } = window.ABLE2
 
-const MediaElement = ({ id, refId, status, references, title, isLive, download, warnRemove, dispatch }) => {
+const MediaElement = props => {
+	const { id, refId, status, title, isLive, download } = props
 	const downloading = status === STATUS.DOWNLOADING
 	const color = useMemo(() => getStatusColor(status), [status])
 	const ref = useRef()
 
-	const removeMediaWithWarning = useCallback(() => {
-		warn({
-			message: `Remove "${title}"?`,
-			detail: `${downloading ? 'The current download will be canceled. ' : ''}This cannot be undone. Proceed?`,
-			enabled: warnRemove,
-			callback() {
-				dispatch(removeMedia({ id, refId, status, references }))
-			}
-		})
-	}, [status, references, warnRemove])
+	const removeElement = useCallback(() => {
+		props.removeMediaWarning({ id, refId, status, title })
+	}, [status, title])
 
 	const stopLiveDownload = useCallback(() => {
 		interop.stopLiveDownload(id)
-	}, [id])
+	}, [])
 
 	useEffect(() => {
 		if (downloading) {
@@ -53,7 +46,7 @@ const MediaElement = ({ id, refId, status, references, title, isLive, download, 
 				type="button"
 				className="symbol"
 				title={downloading ? isLive ? 'Stop Stream' : 'Cancel Download' : 'Remove'}
-				onClick={isLive ? stopLiveDownload : removeMediaWithWarning}>
+				onClick={isLive ? stopLiveDownload : removeElement}>
 				{downloading && isLive ? 'stop' : 'close'}
 			</button>
 		</div>
@@ -64,15 +57,13 @@ MediaElement.propTypes = {
 	id: string.isRequired,
 	refId: string.isRequired,
 	status: string.isRequired,
-	references: number.isRequired,
 	title: string.isRequired,
 	isLive: bool.isRequired,
 	download: exact({
 		eta: string,
 		percent: string
 	}).isRequired,
-	warnRemove: bool.isRequired,
-	dispatch: func.isRequired
+	removeMediaWarning: func.isRequired
 }
 
 export default MediaElement
