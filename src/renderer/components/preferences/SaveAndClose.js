@@ -7,14 +7,14 @@ import { warn } from 'utilities'
 const { interop } = window.ABLE2
 
 const SaveAndClose = ({ prefs, dispatch }) => {
-	const restoreDefaultPrefsWarning = useCallback(() => {
-		warn({
-			enabled: true,
-			message: 'Restore Default Preferences?',
-			detail: 'Once saved, this cannot be undone. Proceed?',
-			callback: () => dispatch(restoreDefaultPrefs())
-		})
-	}, [])
+	const restoreDefaultPrefsWarning = useCallback(() => warn({
+		enabled: true,
+		message: 'Restore Default Preferences?',
+		detail: 'Once saved, this cannot be undone. Proceed?',
+		callback() {
+			dispatch(restoreDefaultPrefs())
+		}
+	}), [])
 
 	return (
 		<div id="save-prefs">
