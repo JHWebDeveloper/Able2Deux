@@ -17,30 +17,59 @@ export const loadPrefs = () => async dispatch => {
 	}
 }
 
-export const savePrefs = (prefs, saveAndClose) => async dispatch => {
-	prefs.saveLocations = prefs.saveLocations
-		.filter(loc => loc.directory)
-		.map(loc => loc.label ? loc : {
-			...loc,
-			label: loc.directory.split('/').pop()
-		})
-
+const savePrefs = async prefs => {
 	try {
 		await interop.savePrefs(prefs)
-
-		dispatch({
-			type: ACTION.UPDATE_STATE,
-			payload: prefs
-		})
-
-		if (saveAndClose) {
-			interop.closeCurrentWindow()
-		} else {
-			toastr.success('Preferences saved', false, { ...toastrOpts, timeOut: 2000 })
-		}
 	} catch (err) {
 		toastr.error('Preferences failed to save', false, toastrOpts)
+		return false
 	}
+
+	return true
+}
+
+export const fixLocationsAndSavePrefs = (prefs, saveAndClose) => async dispatch => {
+	const newPrefs = {
+		...prefs,
+		saveLocations: prefs.saveLocations
+			.filter(loc => loc.directory)
+			.map(loc => loc.label ? loc : {
+				...loc,
+				label: loc.directory.split('/').pop()
+			})
+	}
+
+	dispatch({
+		type: ACTION.UPDATE_STATE,
+		payload: newPrefs
+	})
+
+	const saved = await savePrefs(newPrefs)
+
+	if (!saved) return false
+
+	if (saveAndClose) {
+		interop.closeCurrentWindow()
+	} else {
+		toastr.success('Preferences saved', false, { ...toastrOpts, timeOut: 2000 })
+	}
+}
+
+export const disableWarningAndSavePrefs = (prefs, warning) => dispatch => {
+	const newPrefs = {
+		...prefs,
+		warnings: {
+			...prefs.warnings,
+			[warning]: false
+		}
+	}
+
+	dispatch({
+		type: ACTION.UPDATE_STATE,
+		payload: newPrefs
+	})
+
+	savePrefs(newPrefs)
 }
 
 export const updateLocationField = (id, name, value) => ({
