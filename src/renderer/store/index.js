@@ -29,7 +29,7 @@ export const MainContext = createContext()
 export const MainProvider = ({ children, prefs }) => {
 	const [ state, dispatch ] = useReducer(reducer, initState)
 
-	const augDispatch = input instanceof Function ? input(dispatch, state) : dispatch(input)
+	const augDispatch = input => input instanceof Function ? input(dispatch, state) : dispatch(input)
 
 	useEffect(() => {
 		dispatch(updateState({ ...prefs }))
