@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
 import { func, object } from 'prop-types'
 
-import { savePrefs, restoreDefaultPrefs } from 'actions'
+import { fixLocationsAndSavePrefs, restoreDefaultPrefs } from 'actions'
 import { warn } from 'utilities'
 
 const { interop } = window.ABLE2
 
 const SaveAndClose = ({ prefs, dispatch }) => {
-	const restoreDefaultPrefsWithWarning = useCallback(() => {
+	const restoreDefaultPrefsWarning = useCallback(() => {
 		warn({
 			enabled: true,
 			message: 'Restore Default Preferences?',
@@ -22,23 +22,27 @@ const SaveAndClose = ({ prefs, dispatch }) => {
 				type="button"
 				className="app-button"
 				title="Save and Close"
-				onClick={() => dispatch(savePrefs(prefs, true))}>Save &amp; Close</button>
+				onClick={() => {
+					dispatch(fixLocationsAndSavePrefs(prefs, true))
+				}}>Save &amp; Close</button>
 			<button
 				type="button"
 				className="app-button"
 				title="Save"
-				onClick={() => dispatch(savePrefs(prefs))}>Save</button>
+				onClick={() => {
+					dispatch(fixLocationsAndSavePrefs(prefs))
+				}}>Save</button>
 			<button
 				type="button"
 				className="app-button"
 				title="Close"
-				onClick={() => interop.closeCurrentWindow()}>Close</button>
+				onClick={interop.closeCurrentWindow}>Close</button>
 			<button
 				type="button"
 				className="app-button"
 				title="Restore Default"
 				style={{ float: 'right' }}
-				onClick={restoreDefaultPrefsWithWarning}>Restore Default</button>
+				onClick={restoreDefaultPrefsWarning}>Restore Default</button>
 		</div>
 	)
 }
