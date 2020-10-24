@@ -35,7 +35,7 @@ const Acquisition = () => {
 			<ReadyQueue
 				media={media}
 				recording={recording}
-				prefs={preferences}
+				warnings={preferences.warnings}
 				dispatch={dispatch}
 				prefsDispatch={prefsCtx.dispatch} />
 		</form>
