@@ -1,10 +1,15 @@
+import toastr from 'toastr'
+
 import * as ACTION from 'actions/types'
 import * as shared from './shared'
+import { toastrOpts } from 'utilities'
+
+const { interop } = window.ABLE2
 
 // ---- REDUCER --------
 
 export default (state, action) => { 
-	const { type, payload } = action
+	const { type, payload, callback } = action
 
 	switch (type) {
 		case ACTION.UPDATE_STATE:
@@ -25,6 +30,10 @@ export default (state, action) => {
 			return removeLocation(state, payload)
 		case ACTION.MOVE_LOCATION:
 			return moveLocation(state, payload)
+		case ACTION.FIX_LOCATIONS_AND_SAVE:
+			return fixSaveLocationsAndSave(state, callback)
+		case ACTION.DISABLE_WARNING_AND_SAVE:
+			return disableWarningAndSave(state, payload)
 		default:
 			return state
 	}
@@ -69,4 +78,43 @@ const moveLocation = (state, payload) => {
 		...state,
 		saveLocations
 	}
+}
+
+const savePrefs = async (prefs, callback) => {
+	try {
+		await interop.savePrefs(prefs)
+		callback?.()
+	} catch (err) {
+		toastr.error('Preferences failed to save', false, toastrOpts)
+	}
+}
+
+const fixSaveLocationsAndSave = (state, callback) => {
+	const newPrefs = {
+		...state,
+		saveLocations: state.saveLocations
+			.filter(loc => loc.directory)
+			.map(loc => loc.label ? loc : {
+				...loc,
+				label: loc.directory.split('/').pop()
+			})
+	}
+
+	savePrefs(newPrefs, callback)
+
+	return newPrefs
+}
+
+const disableWarningAndSave = (state, payload) => {
+	const newPrefs = {
+		...state,
+		warnings: {
+			...state.warnings,
+			[payload.warning]: false
+		}
+	}
+
+	savePrefs(newPrefs)
+
+	return newPrefs
 }
