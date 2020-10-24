@@ -13,7 +13,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Screen record now shows time ellapsed (time remaining if timer enabled)
 - Holding shift allows for fine tuning of Position, Scale and Crop sliders and number fields.
 - Pressing Up and Down arrows now control which media item is selected.
-- Keyboard Shortcuts in batch selector for Copy All Settings (Ctrl|Cmd+C), Paste Settings (Ctrl|Cmd+V), Duplicate Media(Ctrl|Cmd+D), Remove Media (Backspace|Delete), Move Up (Ctrl|Cmd+ArrowUp) and Move Down (Ctrl|Cmd+ArrowDown)
+- Keyboard Shortcuts in batch selector for Copy All Settings (Ctrl|Cmd+C), Paste Settings (Ctrl|Cmd+V), Duplicate Media (Ctrl|Cmd+D), Remove Media (Backspace|Delete), Move Up (Ctrl|Cmd+ArrowUp) and Move Down (Ctrl|Cmd+ArrowDown)
 - All optional warning dialogs now have a "Don't show this message again" option
 - "Directory Not Found" dialog now has a "Delete this directory" option
 
