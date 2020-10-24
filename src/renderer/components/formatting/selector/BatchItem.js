@@ -15,8 +15,30 @@ const { interop } = window.ABLE2
 const ctrlOrCmdKey = interop.isMac ? 'metaKey' : 'ctrlKey'
 
 const BatchItem = props => {
-	const { id, refId, title, selected, index, prevId, nextId, dispatch } = props
-	const triggers = [title, index, prevId, nextId]
+	const {
+		id,
+		refId,
+		title,
+		selected,
+		index,
+		prevId,
+		nextId,
+		copyAllSettings,
+		applyToAllWarning,
+		removeMediaWarning,
+		dispatch
+	} = props
+
+	const triggers = [
+		title,
+		index,
+		prevId,
+		nextId,
+		copyAllSettings,
+		applyToAllWarning,
+		removeMediaWarning
+	]
+	
 	const isOnly = !prevId && !nextId
 
 	const dropdown = useMemo(() => [
@@ -24,7 +46,7 @@ const BatchItem = props => {
 			label: 'Copy All Settings',
 			hide: isOnly,
 			action() {
-				props.copyAllSettings(id)
+				copyAllSettings(id)
 			}
 		},
 		{
@@ -38,7 +60,7 @@ const BatchItem = props => {
 			label: 'Apply Settings to All',
 			hide: isOnly,
 			action() {
-				props.applyToAllWarning(id)
+				applyToAllWarning(id)
 			}
 		},
 		{ role: 'spacer' },
@@ -66,7 +88,7 @@ const BatchItem = props => {
 		{
 			label: 'Remove Media',
 			action() {
-				props.removeMediaWarning({ id, refId, title })
+				removeMediaWarning({ id, refId, title })
 			}
 		},
 		{ role: 'spacer' },
@@ -121,7 +143,7 @@ const BatchItem = props => {
 				title="Remove Media"
 				className="symbol"
 				onClick={() => {
-					props.removeMediaWarning({ id, refId, title })}
+					removeMediaWarning({ id, refId, title })}
 				}>close</button>
 		</div>
 	)
