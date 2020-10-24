@@ -9,7 +9,8 @@ import {
 	updateMediaState,
 	render,
 	cancelRender,
-	startOver
+	startOver,
+	removeLocationAndSave
 } from 'actions'
 
 import { toastrOpts, detectTabExit } from 'utilities'
@@ -20,7 +21,16 @@ const { interop } = window.ABLE2
 
 const RenderQueue = withRouter(params => {
 	const { media, batch, saveLocations, closeRenderQueue, dispatch, history } = params
-	const { renderOutput, renderFrameRate, autoPNG, asperaSafe, concurrent } = useContext(PrefsContext).preferences
+	const prefsContext = useContext(PrefsContext)
+	const prefsDispatch = prefsContext.dispatch
+
+	const {
+		renderOutput,
+		renderFrameRate,
+		autoPNG,
+		asperaSafe,
+		concurrent
+	} = prefsContext.preferences
 	
 	// eslint-disable-next-line no-extra-parens
 	const complete = media.every(({ render }) => (
@@ -60,6 +70,10 @@ const RenderQueue = withRouter(params => {
 		ref.current.focus()
 	}), [ref])
 
+	const removeLocation = useCallback(id => {
+		prefsDispatch(removeLocationAndSave(id))
+	}, [])
+
 	useEffect(() => {
 		interop.disablePrefs()
 
@@ -72,7 +86,8 @@ const RenderQueue = withRouter(params => {
 			autoPNG,
 			asperaSafe,
 			concurrent,
-			goBack
+			goBack,
+			removeLocation
 		}))
 	}, [])
 
