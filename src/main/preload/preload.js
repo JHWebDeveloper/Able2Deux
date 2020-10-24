@@ -1,4 +1,4 @@
-import { remote, shell, ipcRenderer, contextBridge } from 'electron'
+import { shell, ipcRenderer, contextBridge } from 'electron'
 import path from 'path'
 
 import * as setContextMenu from './contextMenu'
