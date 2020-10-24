@@ -32,6 +32,8 @@ export default (state, action) => {
 			return moveLocation(state, payload)
 		case ACTION.FIX_LOCATIONS_AND_SAVE:
 			return fixSaveLocationsAndSave(state, callback)
+		case ACTION.REMOVE_LOCATION_AND_SAVE:
+			return removeLocationAndSave(state, payload)
 		case ACTION.DISABLE_WARNING_AND_SAVE:
 			return disableWarningAndSave(state, payload)
 		default:
@@ -101,6 +103,14 @@ const fixSaveLocationsAndSave = (state, callback) => {
 	}
 
 	savePrefs(newPrefs, callback)
+
+	return newPrefs
+}
+
+const removeLocationAndSave = (state, payload) => {
+	const newPrefs = removeLocation(state, payload)
+
+	savePrefs(newPrefs)
 
 	return newPrefs
 }
