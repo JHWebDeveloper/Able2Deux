@@ -54,7 +54,7 @@ interop.directoryNotFoundAlert = async dir => remote.dialog.showMessageBox({
 	buttons: ['Continue', 'Abort'],
 	message: 'Directory not found!',
 	detail: `Unable to locate the directory "${dir}". This folder may have been deleted, removed or taken offline. Continue without saving to this directory?`,
-	checkboxLabel: 'Delete this directory'
+	checkboxLabel: 'Remove from Save Locations'
 })
 
 interop.warning = async ({ message, detail, hasCheckbox }) => await remote.dialog.showMessageBox({
