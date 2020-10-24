@@ -7,10 +7,9 @@ const Acquisition = () => (
 		<h2>Acquisition</h2>
 		<p>Able2 has three ways of acquiring media.</p>
 		<h3 id="downloading-from-a-url">Downloading from a URL</h3>
-		<p>To download video or audio from an internet media service, copy and paste the URL where the media can be played into the text field labeled <q>Paste URL here</q> and click the Download button below it. The Download button will only be available when a valid URL is detected.</p>
-		<p>To download from the web, Able2 makes use of youtube-dl, an open-source command line interface program that supports downloading from several online media services including but not limited to YouTube, Twitter, Facebook, Instagram, Vimeo, Twitch, TikTok, Reddit, Tumblr, Flickr, Dailymotion and SoundCloud.</p>
+		<p>To download legal to use video or audio from an internet media service, copy and paste the URL where the media can be played into the text field labeled <q>Paste URL here</q> and click the Download button below it. The Download button will only be available when a valid URL is detected.</p>
 		<h4 id="optimization-options">Optimization Options</h4>
-		<p>Some services, YouTube in particular, will omit the audio from higher quality versions of the video and play it in tandem with audio from a lower quality source. Able2 provides two options for obtaining these split media sources.</p>
+		<p>Some services will omit the audio from higher quality versions of the video and play it in tandem with audio from a lower quality source. Able2 provides two options for obtaining these split media sources.</p>
 		<table>
 			<thead>
 				<tr>
@@ -34,7 +33,7 @@ const Acquisition = () => (
 		<h4 id="downloading-a-livestream">Downloading a Live Stream</h4>
 		<p>Able2 has limited support for downloading live streams as they are streaming.</p>
 		<p>To download from a supported live stream service, enter the URL as you would any normal download. When the media item appears in the Ready Queue, instead of the usual <i>close</i> button on the right, you will see a stop button <i>stop</i>. Clicking this button at any time will stop the live download.</p>
-		<p>As stated live stream support is limited. YouTube and Twitch Livestreams work like any regular download. Other live stream services will likely not work with a simple website url, but if you are savvy with Chrome Developer Tools (or an equivalent feature in your browser of choice) and can locate the url for the stream&apos;s .m3u8 file, Able2 will likely be able to download from it.</p>
+		<p>As stated live stream support is limited. Some will work like any regular download. Other live stream services will likely not work with a simple website url, but if you are savvy with Chrome Developer Tools (or an equivalent feature in your browser of choice) and can locate the url for the stream&apos;s .m3u8 file, Able2 will likely be able to download from it.</p>
 		<p>Currently Facebook Live is not compatible with Able2.</p>
 		<h3 id="loading-files-from-your-device">Loading File(s) from your Device</h3>
 		<p>In addition to downloading, Able2 offers several video processing options. To use these features on a media file already in your possession, drag and drop the file into area labeled <q>drag and drop file(s) here</q>. Alternatively, clicking on this area will display a file browser.</p>
