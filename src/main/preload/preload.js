@@ -6,7 +6,7 @@ import * as formatting from './formatting'
 import * as preferences from './preferences'
 import * as update from './update'
 
-const interop = Object.assign({}, setContextMenu, acquisition, formatting, preferences, update)
+const interop = Object.assign({}, acquisition, formatting, preferences, update)
 
 
 // ---- GET INFO --------
