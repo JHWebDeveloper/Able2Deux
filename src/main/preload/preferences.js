@@ -1,4 +1,4 @@
-import { remote, ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron'
 
 import { sendMessage } from './sendMessage'
 
