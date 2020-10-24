@@ -11,7 +11,7 @@ const interop = Object.assign({}, setContextMenu, acquisition, formatting, prefe
 
 
 // ---- GET INFO --------
-
+ 
 interop.getFileName = file => path.parse(file).name
 
 interop.isMac = process.platform === 'darwin'
@@ -49,16 +49,13 @@ interop.chooseDirectory = async () => {
 	return { filePaths, canceled }
 }
 
-interop.directoryNotFoundAlert = async dir => {
-	const alert = await remote.dialog.showMessageBox({
-		type: 'warning',
-		buttons: ['Continue', 'Abort'],
-		message: 'Directory not found!',
-		detail: `Unable to locate the directory "${dir}". This folder may have been deleted, removed or taken offline. Continue without saving to this directory?`
-	})
-	
-	return alert.response === 1
-}
+interop.directoryNotFoundAlert = async dir => remote.dialog.showMessageBox({
+	type: 'warning',
+	buttons: ['Continue', 'Abort'],
+	message: 'Directory not found!',
+	detail: `Unable to locate the directory "${dir}". This folder may have been deleted, removed or taken offline. Continue without saving to this directory?`,
+	checkboxLabel: 'Delete this directory'
+})
 
 interop.warning = async ({ message, detail, hasCheckbox }) => await remote.dialog.showMessageBox({
 	type: 'warning',
