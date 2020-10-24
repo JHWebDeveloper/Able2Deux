@@ -6,7 +6,7 @@ import {
 	secondsToTC,
 	scrollText,
 	zeroizeAuto,
-	capitalize,
+	capitalize
 } from 'utilities'
 
 const MediaInfo = memo(props => {

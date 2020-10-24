@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
-import { bool, exact, func, number, string } from 'prop-types'
+import { bool, exact, func, string } from 'prop-types'
 
 import * as STATUS from 'status'
 import { capitalize, getStatusColor } from 'utilities'
