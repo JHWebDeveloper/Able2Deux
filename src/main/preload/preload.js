@@ -1,7 +1,6 @@
 import { shell, ipcRenderer, contextBridge } from 'electron'
 import path from 'path'
 
-import * as setContextMenu from './contextMenu'
 import * as acquisition from './acquisition'
 import * as formatting from './formatting'
 import * as preferences from './preferences'
