@@ -57,9 +57,7 @@ const Main = () => {
 			<SaveLocations
 				saveLocations={preferences.saveLocations}
 				dispatch={dispatch} />
-			<SaveAndClose
-				prefs={preferences}
-				dispatch={dispatch} />
+			<SaveAndClose dispatch={dispatch} />
 		</form>
 	)
 }
