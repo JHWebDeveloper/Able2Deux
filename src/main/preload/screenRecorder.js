@@ -22,7 +22,7 @@ export const getRecordSources = async () => {
 		}
 	})
 
-	if (prod && mac && remote.systemPreferences.getMediaAccessStatus('screen') !== 'granted') {
+	if (prod && mac && await ipcRenderer.invoke('screenAccess') !== 'granted') {
 		return []
 	}
 
