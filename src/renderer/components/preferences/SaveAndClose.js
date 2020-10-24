@@ -36,7 +36,7 @@ const SaveAndClose = ({ dispatch }) => {
 				type="button"
 				className="app-button"
 				title="Close"
-				onClick={interop.closeCurrentWindow}>Close</button>
+				onClick={interop.closePreferences}>Close</button>
 			<button
 				type="button"
 				className="app-button"

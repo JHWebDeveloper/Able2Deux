@@ -21,7 +21,7 @@ export const fixLocationsAndSave = saveAndClose => ({
 	type: ACTION.FIX_LOCATIONS_AND_SAVE,
 	callback() {
 		if (saveAndClose) {
-			interop.closeCurrentWindow()
+			interop.closePreferences()
 		} else {
 			toastr.success('Preferences saved', false, { ...toastrOpts, timeOut: 2000 })
 		}
