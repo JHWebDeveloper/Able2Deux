@@ -32,15 +32,9 @@ export const removePrefsSyncListener = () => {
 }
 
 export const enablePrefs = () => {
-	remote.Menu
-		.getApplicationMenu()
-		.getMenuItemById('Preferences')
-		.enabled = true
+	ipcRenderer.send('enablePrefs')
 }
 
 export const disablePrefs = () => {
-	remote.Menu
-		.getApplicationMenu()
-		.getMenuItemById('Preferences')
-		.enabled = false
+	ipcRenderer.send('disablePrefs')
 }
