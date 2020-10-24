@@ -2,6 +2,10 @@ import { remote, ipcRenderer } from 'electron'
 
 import { sendMessage } from './sendMessage'
 
+export const closePreferences = () => {
+	ipcRenderer.send('closePrefs')
+}
+
 export const requestPrefs = () => sendMessage({
 	sendMsg: 'requestPrefs',
 	recieveMsg: 'prefsRecieved',
