@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, ipcMain } from 'electron'
+import { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, powerSaveBlocker, systemPreferences } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 import url from 'url'
@@ -525,3 +525,103 @@ ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
 ipcMain.on('savePrefs', savePrefsIPC)
 ipcMain.on('retryUpdate', retryUpdate)
 ipcMain.on('checkForUpdateBackup', checkForUpdateBackup)
+
+
+// ----  REMOTE MODULE REPLACEMENTS ----
+
+ipcMain.handle('getVersion', () => app.getVersion())
+
+ipcMain.on('bringToFront', () => {
+	mainWin.show()
+})
+
+ipcMain.on('closePrefs', () => {
+	preferences.close()
+})
+
+ipcMain.on('hide', () => {
+	mainWin.hide()
+})
+
+ipcMain.on('quit', () => {
+	app.exit(0)
+})
+
+ipcMain.handle('showOpenDialog', (evt, opts) => dialog.showOpenDialog(opts))
+
+ipcMain.handle('showMessageBox', (evt, opts) => dialog.showMessageBox(opts))
+
+ipcMain.handle('screenAccess', () => systemPreferences.getMediaAccessStatus('screen'))
+
+const sleep = (() => {
+	let _blockId = false
+
+	return {
+		disable() {
+			_blockId = powerSaveBlocker.start('prevent-display-sleep')
+		},
+		enable() {
+			powerSaveBlocker.stop(_blockId)
+		}
+	}
+})()
+
+ipcMain.on('disableSleep', sleep.disable)
+ipcMain.on('enableSleep', sleep.enable)
+
+ipcMain.on('enablePrefs', () => {
+	Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = true
+})
+
+ipcMain.on('disablePrefs', () => {
+	Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = false
+})
+
+const setContextMenu = () => {
+	const textEditor = new Menu()
+	const dev = process.env.NODE_ENV === 'development' || process.env.DEVTOOLS
+	const pos = { x: 0, y: 0 }
+	let inspectMenu = []
+
+	const inspect = !dev ? [] : [
+		new MenuItem({
+			id: 0,
+			label: 'Inspect Element',
+			click() {
+				BrowserWindow.getFocusedWindow().inspectElement(...pos)
+			}
+		}),
+		new MenuItem({ type: 'separator' })
+	]
+
+	const textEditorItems = [
+		...inspect,
+		new MenuItem({ role: 'cut' }),
+		new MenuItem({ role: 'copy' }),
+		new MenuItem({ role: 'paste' }),
+		new MenuItem({ type: 'separator' }),
+		new MenuItem({ role: 'selectAll' })
+	]
+
+	if (dev) {
+		inspectMenu = new Menu()
+		inspectMenu.append(...inspect)
+	}
+
+	for (const item of textEditorItems) {
+		textEditor.append(item)
+	}
+
+	return (evt, { isTextElement, x, y }) => {
+		pos.x = x
+		pos.y = y
+
+		if (isTextElement) {
+			textEditor.popup(BrowserWindow.getFocusedWindow())
+		} else if (dev) {
+			inspectMenu.popup(BrowserWindow.getFocusedWindow())
+		}
+	}
+}
+
+ipcMain.handle('getContextMenu', setContextMenu())
