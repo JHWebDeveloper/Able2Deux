@@ -37,7 +37,7 @@ interop.revealInTempFolder = filePath => {
 // --- DIALOGS --------
 
 interop.chooseDirectory = async () => {
-	const { filePaths, canceled } = await remote.dialog.showOpenDialog({
+	const { filePaths, canceled } = await ipcRenderer.invoke('showOpenDialog', {
 		buttonLabel: 'Choose',
 		properties: ['openDirectory', 'createDirectory']
 	})
@@ -45,7 +45,7 @@ interop.chooseDirectory = async () => {
 	return { filePaths, canceled }
 }
 
-interop.directoryNotFoundAlert = async dir => remote.dialog.showMessageBox({
+interop.directoryNotFoundAlert = dir => ipcRenderer.invoke('showMessageBox', {
 	type: 'warning',
 	buttons: ['Continue', 'Abort'],
 	message: 'Directory not found!',
@@ -53,7 +53,7 @@ interop.directoryNotFoundAlert = async dir => remote.dialog.showMessageBox({
 	checkboxLabel: 'Remove from Save Locations'
 })
 
-interop.warning = async ({ message, detail, hasCheckbox }) => await remote.dialog.showMessageBox({
+interop.warning = ({ message, detail, hasCheckbox }) => ipcRenderer.invoke('showMessageBox', {
 	type: 'warning',
 	buttons: ['OK', 'Cancel'],
 	message,
