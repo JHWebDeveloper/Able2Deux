@@ -22,15 +22,11 @@ interop.getVersion = () => ipcRenderer.invoke('getVersion')
 // ---- ELECTRON METHODS --------
 
 interop.bringToFront = () => {
-	remote.getCurrentWindow().show()
-}
-
-interop.closeCurrentWindow = () => {
-	remote.getCurrentWindow().close()
+	ipcRenderer.send('bringToFront')
 }
 
 interop.quit = () => {
-	remote.app.exit(0)
+	ipcRenderer.send('quit')
 }
 
 interop.revealInTempFolder = filePath => {
