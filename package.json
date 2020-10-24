@@ -22,7 +22,7 @@
 	"author": "Jonathan Hamilton",
 	"license": "CC-BY-NC-4.0",
 	"dependencies": {
-		"axios": "^0.20.0",
+		"axios": "^0.21.0",
 		"electron-log": "^4.2.4",
 		"electron-updater": "^4.3.5",
 		"electron-util": "^0.14.2",
