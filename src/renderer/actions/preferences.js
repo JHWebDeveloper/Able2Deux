@@ -33,6 +33,11 @@ export const disableWarningAndSave = warning => ({
 	payload: { warning }
 })
 
+export const removeLocationAndSave = id => ({
+	type: ACTION.REMOVE_LOCATION_AND_SAVE,
+	payload: { id }
+})
+
 export const updateLocationField = (id, name, value) => ({
 	type: ACTION.UPDATE_LOCATION_FIELD,
 	payload: { id, name, value }
