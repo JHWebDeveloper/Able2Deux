@@ -50,7 +50,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ## [2.1.1] - 9.3.2020
 
 ### Added
-- Stop button to allow partial downloading of youtube livestreams.
+- Stop button to allow partial downloading of livestreams.
 - Can now disable filtering out of characters that cause errors in Aspera (allows you to keep foreign characters in a filename if aspera is not needed).
 - Restore Default button in Preferences window.
 
@@ -67,7 +67,6 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ### Added
 - Audio file conversion to either .wav, .mp3 or .mp4 with color bars.
 - Ability to extract or remove audio from videos.
-- Support for downloading from SoundCloud and other audio services covered by youtube-dl.
 - Preview displays actual waveform data for audio files.
 - .psd support. Treats them just like an image.
 - Now encodes all video audio streams as AAC 192k 48kHz.
