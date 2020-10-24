@@ -16,7 +16,7 @@ interop.getFileName = file => path.parse(file).name
 
 interop.isMac = process.platform === 'darwin'
 
-interop.version = remote.app.getVersion()
+interop.getVersion = () => ipcRenderer.invoke('getVersion')
 
 
 // ---- ELECTRON METHODS --------
