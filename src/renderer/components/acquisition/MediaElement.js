@@ -7,14 +7,14 @@ import { capitalize, getStatusColor } from 'utilities'
 const { interop } = window.ABLE2
 
 const MediaElement = props => {
-	const { id, refId, status, title, isLive, download } = props
+	const { id, refId, status, title, isLive, download, removeMediaWarning } = props
 	const downloading = status === STATUS.DOWNLOADING
 	const color = useMemo(() => getStatusColor(status), [status])
 	const ref = useRef()
 
 	const removeElement = useCallback(() => {
 		props.removeMediaWarning({ id, refId, status, title })
-	}, [status, title])
+	}, [status, title, removeMediaWarning])
 
 	const stopLiveDownload = useCallback(() => {
 		interop.stopLiveDownload(id)
