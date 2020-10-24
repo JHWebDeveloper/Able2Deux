@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import 'css/help.css'
 
 import TableOfContents from './TableOfContents'
@@ -11,11 +11,20 @@ import BackToTop from './BackToTop'
 
 const { interop } = window.ABLE2
 
-const Help = () => (
-	<>
+const Help = () => {
+	const [ version, setVersion ] = useState(false)
+
+	useEffect(() => {
+		(async () => {
+			setVersion(await interop.getVersion())
+		})()
+	}, [])
+
+
+	return <>
 		<header>
 			<h1>Able2 Help</h1>
-			<p>Able2 Version {interop.version}</p>
+			{version && <p>Able2 Version {version}</p>}
 			<p>Able2 is an all-in-one News Editor&apos;s video acquisition tool developed by Jonathan Hamilton and customized for the Editors and Photographers of WFTV in Orlando, FL. Able2 is able to download media from various online services, record video and audio from a user&apos;s desktop and convert and format video, image and audio files for air.</p>
 		</header>
 		<TableOfContents />
@@ -28,6 +37,6 @@ const Help = () => (
 		</main>
 		<BackToTop />
 	</>
-)
+}
 
 export default Help
