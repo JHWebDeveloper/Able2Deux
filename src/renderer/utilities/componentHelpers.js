@@ -92,9 +92,9 @@ export const warn = async ({ enabled, message, detail, callback, checkboxCallbac
 			hasCheckbox: !!checkboxCallback
 		})
 
-		if (checkboxChecked) checkboxCallback()
-
 		if (response > 0) return false
+
+		if (checkboxChecked) checkboxCallback()
 	}
 
 	callback()
