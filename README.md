@@ -4,7 +4,7 @@ Able2Deux is a major upgrade to the original Able2 app showcased here separately
 
 Able2 is an all-in-one News Editor's video acquisition tool customized for the Editors and Photographers of WFTV in Orlando, FL. Able2 is able to download media from various online services, record video and audio from a user's desktop and convert and format video, image and audio files for air.
 
-This repo and is intended for portfolio viewing purposes only. For official releases please download from the following repo:
+This repo is intended for portfolio viewing purposes only. For official releases please download from the following repo:
 https://github.com/JHWebDeveloper/Able2-public-resources
 
 ## [Unreleased][2.1.3] - TBD
