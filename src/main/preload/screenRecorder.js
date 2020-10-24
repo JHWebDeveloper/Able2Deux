@@ -1,4 +1,4 @@
-import { desktopCapturer, remote, shell, ipcRenderer } from 'electron'
+import { desktopCapturer, ipcRenderer, shell } from 'electron'
 import { v1 as uuid } from 'uuid'
 
 import { sendMessage } from './sendMessage'
