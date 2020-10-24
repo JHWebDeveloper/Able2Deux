@@ -17,11 +17,6 @@ const commonMain = {
 		]
 	},
 	externals: [nodeExternals()],
-	plugins: [
-		new EnvironmentPlugin({
-			DEVTOOLS: !!process.env.DEVTOOLS
-		})
-	],
 	node: {
 		__dirname: false
 	}
@@ -35,6 +30,9 @@ const mainConfig = merge(commonMain, {
 	},
 	target: 'electron-main',
 	plugins: [
+		new EnvironmentPlugin({
+			DEVTOOLS: !!process.env.DEVTOOLS
+		}),
 		new CopyWebpackPlugin({
 			patterns: [
 				{
