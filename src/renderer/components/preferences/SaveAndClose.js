@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
-import { func, object } from 'prop-types'
+import { func } from 'prop-types'
 
-import { fixLocationsAndSavePrefs, restoreDefaultPrefs } from 'actions'
+import { fixLocationsAndSave, restoreDefaultPrefs } from 'actions'
 import { warn } from 'utilities'
 
 const { interop } = window.ABLE2
 
-const SaveAndClose = ({ prefs, dispatch }) => {
+const SaveAndClose = ({ dispatch }) => {
 	const restoreDefaultPrefsWarning = useCallback(() => warn({
 		enabled: true,
 		message: 'Restore Default Preferences?',
@@ -23,14 +23,14 @@ const SaveAndClose = ({ prefs, dispatch }) => {
 				className="app-button"
 				title="Save and Close"
 				onClick={() => {
-					dispatch(fixLocationsAndSavePrefs(prefs, true))
+					dispatch(fixLocationsAndSave(true))
 				}}>Save &amp; Close</button>
 			<button
 				type="button"
 				className="app-button"
 				title="Save"
 				onClick={() => {
-					dispatch(fixLocationsAndSavePrefs(prefs))
+					dispatch(fixLocationsAndSave())
 				}}>Save</button>
 			<button
 				type="button"
@@ -48,7 +48,6 @@ const SaveAndClose = ({ prefs, dispatch }) => {
 }
 
 SaveAndClose.propTypes = {
-	prefs: object.isRequired,
 	dispatch: func.isRequired
 }
 
