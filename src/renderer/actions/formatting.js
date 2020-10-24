@@ -263,7 +263,7 @@ const renderItem = (params, dispatch) => {
 }
 
 export const render = params => async dispatch => {
-	let { media, saveLocations, batch, goBack } = params
+	let { media, saveLocations, batch, goBack, removeLocation } = params
 
 	saveLocations = saveLocations.filter(({ checked }) => checked)
 
@@ -276,11 +276,13 @@ export const render = params => async dispatch => {
 
 		dispatch(toggleSaveLocation(location.id))
 
-		if (await interop.directoryNotFoundAlert(location.directory)) {
-			return !goBack()
-		} else {
-			saveLocations = saveLocations.filter(({ id }) => id !== location.id)
-		}
+		const { response, checkboxChecked } = await interop.directoryNotFoundAlert(location.directory)
+
+		if (response > 0) return !goBack()
+
+		if (checkboxChecked) removeLocation(location.id)
+
+		saveLocations = saveLocations.filter(({ id }) => id !== location.id)
 	}
 
 	// Prompt to choose a directory if no directories are selected or available
