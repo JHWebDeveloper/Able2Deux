@@ -8,7 +8,7 @@ import {
 	removeMedia,
 	copySettings,
 	applySettingsToAll,
-	disableWarningAndSavePrefs
+	disableWarningAndSave
 } from 'actions'
 
 import {
@@ -48,9 +48,9 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 			dispatch(applySettingsToAll(id, extractSettingsToCopy(media.find(item => item.id === id))))
 		},
 		checkboxCallback() {
-			prefsDispatch(disableWarningAndSavePrefs(prefs, 'applyToAll'))
+			prefsDispatch(disableWarningAndSave('applyToAll'))
 		}
-	}), [media, prefs])
+	}), [media, prefs.warnings.applyToAll])
 
 	const removeMediaWarning = useCallback(({ id, refId, title }) => warn({
 		message: `Remove "${title}"?`,
@@ -64,9 +64,9 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 			}))
 		},
 		checkboxCallback() {
-			prefsDispatch(disableWarningAndSavePrefs(prefs, 'remove'))
+			prefsDispatch(disableWarningAndSave('remove'))
 		}
-	}), [media, prefs])
+	}), [media, prefs.warnings.remove])
 
 	const sortingAction = useCallback((oldPos, newPos) => {
 		dispatch(moveMedia(oldPos, newPos))

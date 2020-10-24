@@ -8,7 +8,7 @@ import {
 	toggleMediaNestedCheckbox,
 	copySettings,
 	applySettingsToAll,
-	disableWarningAndSavePrefs
+	disableWarningAndSave
 } from 'actions'
 
 import { compareProps, createSettingsMenu, warn } from 'utilities'
@@ -22,7 +22,7 @@ const detail = 'This option shoud only be selected if the source would obscure i
 const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
 	const prefsCtx = useContext(PrefsContext)
 	const prefsDispatch = prefsCtx.dispatch
-	const prefs = prefsCtx.preferences
+	const { warnings } = prefsCtx.preferences
 
 	const updateSourceName = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'source', e, editAll))
@@ -35,14 +35,14 @@ const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
 	const sourceOnTopWarning = useCallback(e => warn({
 		message,
 		detail,
-		enabled: prefs.warnings.sourceOnTop && !source.onTop,
+		enabled: warnings.sourceOnTop && !source.onTop,
 		callback() {
 			toggleSourceOption(e)
 		},
 		checkboxCallback() {
-			prefsDispatch(disableWarningAndSavePrefs(prefs, 'sourceOnTop'))
+			prefsDispatch(disableWarningAndSave('sourceOnTop'))
 		}
-	}), [id, editAll, prefs, source.onTop])
+	}), [id, editAll, warnings.sourceOnTop, source.onTop])
 
 	return (
 		<DetailsWrapper

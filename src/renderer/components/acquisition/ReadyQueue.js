@@ -7,7 +7,7 @@ import {
 	removeMedia,
 	removeAllMedia,
 	prepareMediaForFormat,
-	disableWarningAndSavePrefs
+	disableWarningAndSave
 } from 'actions'
 
 import { warn, arrayCount } from 'utilities'
@@ -24,7 +24,7 @@ const removeMediaDetail = 'This cannot be undone. Proceed?'
 const checkMediaReady = ({ status }) => status === STATUS.READY || status === STATUS.FAILED
 const checkMediaFailed = ({ status }) => status === STATUS.FAILED
 
-const ReadyQueue = withRouter(({ media, recording, prefs, dispatch, prefsDispatch, history }) => {
+const ReadyQueue = withRouter(({ media, recording, warnings, dispatch, prefsDispatch, history }) => {
 	const backgroundColor = !media.length ? '#e0e0e0' : '#bbb'
 
 	// eslint-disable-next-line no-extra-parens
@@ -35,7 +35,7 @@ const ReadyQueue = withRouter(({ media, recording, prefs, dispatch, prefsDispatc
 	const removeMediaWarning = useCallback(({ id, refId, status, title }) => warn({
 		message: `Remove "${title}"?`,
 		detail: removeMediaDetail,
-		enabled: prefs.warnings.remove,
+		enabled: warnings.remove,
 		callback() {
 			dispatch(removeMedia({
 				id,
@@ -45,21 +45,21 @@ const ReadyQueue = withRouter(({ media, recording, prefs, dispatch, prefsDispatc
 			}))
 		},
 		checkboxCallback() {
-			prefsDispatch(disableWarningAndSavePrefs(prefs, 'remove'))
+			prefsDispatch(disableWarningAndSave('remove'))
 		}
-	}), [media, prefs])
+	}), [media, warnings.remove])
 
 	const removeAllMediaWarning = useCallback(() => warn({
 		message: removeAllMediaMessage,
 		detail: removeAllMediaDetail,
-		enabled: prefs.warnings.removeAll,
+		enabled: warnings.removeAll,
 		callback() {
 			dispatch(removeAllMedia(media))
 		},
 		checkboxCallback() {
-			prefsDispatch(disableWarningAndSavePrefs(prefs, 'removeAll'))
+			prefsDispatch(disableWarningAndSave('removeAll'))
 		}
-	}), [media, prefs])
+	}), [media, warnings.removeAll])
 
 	const prepareMediaAndRedirect = useCallback(() => {
 		dispatch(prepareMediaForFormat())
