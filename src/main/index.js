@@ -554,7 +554,7 @@ ipcMain.handle('showMessageBox', (evt, opts) => dialog.showMessageBox(opts))
 ipcMain.handle('screenAccess', () => systemPreferences.getMediaAccessStatus('screen'))
 
 const sleep = (() => {
-	let _blockId = false
+	let _blockId = 0
 
 	return {
 		disable() {
