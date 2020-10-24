@@ -1,4 +1,4 @@
-import { desktopCapturer, remote, shell } from 'electron'
+import { desktopCapturer, remote, shell, ipcRenderer } from 'electron'
 import { v1 as uuid } from 'uuid'
 
 import { sendMessage } from './sendMessage'
@@ -114,7 +114,7 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 		if (timer.enabled) {
 			timeout = setTimeout(() => {
 				recorder.stop()
-				remote.getCurrentWindow().show()
+				ipcRenderer.send('bringToFront')
 			}, timer.tc * 1000)
 		}
 	}
@@ -173,7 +173,6 @@ export const stopRecording = () => {
 }
 
 export const captureScreenshot = ({ streamId, onCapture, onError }) => {
-	const mainWin = remote.getCurrentWindow()
 	const video = document.createElement('video')
 
 	video.onloadeddata = async () => {
@@ -200,11 +199,11 @@ export const captureScreenshot = ({ streamId, onCapture, onError }) => {
 			onError(recordId)
 		} finally {
 			video.remove()
-			mainWin.show()
+			ipcRenderer.send('bringToFront')
 		}
 	}
 
-	mainWin.hide()
+	ipcRenderer.send('hide')
 
 	setTimeout(async () => {
 		video.srcObject = await getStream(streamId, true)
