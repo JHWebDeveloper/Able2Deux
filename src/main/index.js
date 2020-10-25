@@ -15,8 +15,9 @@ import updatePreviewSourceImage from './modules/formatting/updatePreviewSourceIm
 import { render, cancelRender } from './modules/formatting/formatting'
 import { fileExistsPromise } from './modules/utilities'
 
-const dev = process.env.NODE_ENV === 'development'
 const mac = process.platform === 'darwin'
+const dev = process.env.NODE_ENV === 'development'
+const devtools = dev || process.env.DEVTOOLS
 let splashWin = false
 let updateWin = false
 let mainWin = false
@@ -324,7 +325,7 @@ const mainMenuTemplate = [
 	}
 ]
 
-if (dev || process.env.DEVTOOLS) {
+if (devtools) {
 	mainMenuTemplate.push({
 		label: 'Developer Tools',
 		submenu: [
@@ -579,11 +580,10 @@ ipcMain.on('disablePrefs', () => {
 
 const setContextMenu = () => {
 	const textEditor = new Menu()
-	const dev = process.env.NODE_ENV === 'development' || process.env.DEVTOOLS
 	let pos = [0, 0]
 	let inspectMenu = []
 
-	const inspect = !dev ? [] : [
+	const inspect = !devtools ? [] : [
 		new MenuItem({
 			id: 0,
 			label: 'Inspect Element',
@@ -603,7 +603,7 @@ const setContextMenu = () => {
 		new MenuItem({ role: 'selectAll' })
 	]
 
-	if (dev) {
+	if (devtools) {
 		inspectMenu = new Menu()
 		inspectMenu.append(...inspect)
 	}
@@ -617,7 +617,7 @@ const setContextMenu = () => {
 
 		if (isTextElement) {
 			textEditor.popup(BrowserWindow.getFocusedWindow())
-		} else if (dev) {
+		} else if (devtools) {
 			inspectMenu.popup(BrowserWindow.getFocusedWindow())
 		}
 	}
