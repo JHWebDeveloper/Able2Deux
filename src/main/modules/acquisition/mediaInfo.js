@@ -129,6 +129,8 @@ export const checkFileType = async (file, preGeneratedMetadata) => {
 
 const checkMetadata = data => !!data && data !== 'unknown' && data !== 'N/A'
 
+const frameRateToNumber = fps => parseFloat(fps.split('/').reduce((a, b) => a / b).toFixed(2))
+
 export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 	const metadata = await getMetadata(tempFilePath)
 	const mediaData = {}
@@ -186,11 +188,11 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 	if (mediaType === 'video') {
 		const thumbnail = await createScreenshot(id, tempFilePath)
 		const { avg_frame_rate } = videoStream
-		const fps = checkMetadata(avg_frame_rate) ? avg_frame_rate.split('/').reduce((a, b) => a / b) : 0
+		const fps = checkMetadata(avg_frame_rate) ? frameRateToNumber(avg_frame_rate) : 0
 
 		Object.assign(mediaData, {
 			thumbnail: await base64EncodeOrPlaceholder(thumbnail),
-			fps: forcedFPS || fps.toFixed(2)
+			fps: forcedFPS || fps
 		})
 	} else if (mediaType === 'image' || mediaType === 'gif') {
 		const thumbnail = await createPNGCopy(id, tempFilePath, mediaType)
