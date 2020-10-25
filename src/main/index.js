@@ -580,7 +580,7 @@ ipcMain.on('disablePrefs', () => {
 const setContextMenu = () => {
 	const textEditor = new Menu()
 	const dev = process.env.NODE_ENV === 'development' || process.env.DEVTOOLS
-	const pos = { x: 0, y: 0 }
+	let pos = [0, 0]
 	let inspectMenu = []
 
 	const inspect = !dev ? [] : [
@@ -613,8 +613,7 @@ const setContextMenu = () => {
 	}
 
 	return (evt, { isTextElement, x, y }) => {
-		pos.x = x
-		pos.y = y
+		pos = [x, y]
 
 		if (isTextElement) {
 			textEditor.popup(BrowserWindow.getFocusedWindow())
