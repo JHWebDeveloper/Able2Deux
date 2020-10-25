@@ -25,6 +25,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Bug preventing negative sign and leading decimal point from being typed into the number fields next to the sliders.
 - Bug causing Radio buttons to lose focus on select.
 - Bug allowing tabbed browsing under record source selector and render queue.
+- Bug preventing some start and end times from changing with multiple media items.
 - No longer renders a dud file when end timecode is set to zero. Error message now displays during render.
 
 ## [2.1.2] - 9.21.20
