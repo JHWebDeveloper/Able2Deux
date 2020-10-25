@@ -13,14 +13,14 @@ const limitChars = e => {
 }
 
 const Timecode = props => {
-	const { enabled, initDisplay, disabled } = props
+	const { enabled, initDisplay, onChange, disabled } = props
 
 	const onTimecodeChange = useCallback(display => {
-		props.onChange({
+		onChange({
 			display,
 			tc: tcToSeconds(display)
 		})
-	}, [])
+	}, [onChange])
 
 	const pasteTimecode = useCallback(async e => {
 		e.preventDefault()
@@ -28,11 +28,11 @@ const Timecode = props => {
 		const txt = await navigator.clipboard.readText()
 		
 		onTimecodeChange(txt.replace(/[^:;0-9]/g, ''))
-	}, [])
+	}, [onChange])
 
 	useEffect(() => {
 		if (initDisplay) onTimecodeChange(initDisplay)
-	}, [])
+	}, [onChange])
 
 	return (
 		<div className="timecode">
