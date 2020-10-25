@@ -32,7 +32,7 @@ const Timecode = props => {
 
 	useEffect(() => {
 		if (initDisplay) onTimecodeChange(initDisplay)
-	}, [onChange])
+	}, [])
 
 	return (
 		<div className="timecode">
