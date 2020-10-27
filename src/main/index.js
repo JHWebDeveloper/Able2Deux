@@ -342,7 +342,7 @@ if (devtools) {
 	})
 }
 
-// ---- IPC ROUTES ----
+// ---- MODULE IPC ROUTES ----
 
 const getURLInfoIPC = async (evt, data) => {
 	const { id } = data
@@ -528,7 +528,7 @@ ipcMain.on('retryUpdate', retryUpdate)
 ipcMain.on('checkForUpdateBackup', checkForUpdateBackup)
 
 
-// ----  REMOTE MODULE REPLACEMENTS ----
+// ---- ELECTRON IPC ROUTES ----
 
 ipcMain.handle('getVersion', () => app.getVersion())
 
@@ -536,12 +536,12 @@ ipcMain.on('bringToFront', () => {
 	mainWin.show()
 })
 
-ipcMain.on('closePrefs', () => {
-	preferences.close()
-})
-
 ipcMain.on('hide', () => {
 	mainWin.hide()
+})
+
+ipcMain.on('closePrefs', () => {
+	preferences.close()
 })
 
 ipcMain.on('quit', () => {
@@ -570,13 +570,12 @@ const sleep = (() => {
 ipcMain.on('disableSleep', sleep.disable)
 ipcMain.on('enableSleep', sleep.enable)
 
-ipcMain.on('enablePrefs', () => {
-	Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = true
-})
+const togglePrefsIPC = state => () => {
+	Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = state
+}
 
-ipcMain.on('disablePrefs', () => {
-	Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = false
-})
+ipcMain.on('enablePrefs', togglePrefsIPC(true))
+ipcMain.on('disablePrefs', togglePrefsIPC(false))
 
 const setContextMenu = () => {
 	const textEditor = new Menu()
