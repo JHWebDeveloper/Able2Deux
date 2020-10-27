@@ -15,7 +15,9 @@
 		"deploy:mac": "rimraf dist && npm run build && electron-builder build -m --publish always",
 		"deploy:win": "rimraf dist && npm run build && electron-builder build -w --publish always",
 		"postinstall": "electron-builder install-app-deps",
-		"start": "electron ."
+		"start": "electron .",
+		"update-ytdl:mac": "node_modules/youtube-dl-ffmpeg-ffprobe-static/bin/darwin/x64/youtube-dl -U",
+		"update-ytdl:win": "cd node_modules/youtube-dl-ffmpeg-ffprobe-static/bin/win32/x64 && youtube-dl.exe -U"
 	},
 	"author": "Jonathan Hamilton",
 	"license": "CC-BY-NC-4.0",
@@ -35,7 +37,8 @@
 		"react-router-dom": "^5.2.0",
 		"toastr": "^2.1.4",
 		"ts-ebml": "^2.0.2",
-		"uuid": "^8.3.1"
+		"uuid": "^8.3.1",
+		"youtube-dl-ffmpeg-ffprobe-static": "^1.2.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.12.3",
@@ -51,16 +54,16 @@
 		"css-minimizer-webpack-plugin": "^1.1.5",
 		"electron": "^10.1.5",
 		"electron-builder": "^22.9.1",
-		"eslint": "^7.12.0",
+		"eslint": "^7.12.1",
 		"eslint-plugin-react": "^7.21.5",
 		"html-webpack-plugin": "^4.5.0",
-		"mini-css-extract-plugin": "^1.2.0",
+		"mini-css-extract-plugin": "^1.2.1",
 		"postcss": "^8.1.4",
 		"postcss-loader": "^4.0.4",
 		"postcss-preset-env": "^6.7.0",
 		"regenerator-runtime": "^0.13.7",
 		"rimraf": "^3.0.2",
-		"webpack": "^5.2.0",
+		"webpack": "^5.3.0",
 		"webpack-cli": "^4.1.0",
 		"webpack-dev-server": "^3.11.0",
 		"webpack-merge": "^5.2.0",
