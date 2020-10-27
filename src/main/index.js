@@ -335,9 +335,7 @@ if (devtools) {
 					focusedWindow.toggleDevTools()
 				}
 			},
-			{
-				role: 'reload'
-			}
+			{ role: 'reload' }
 		]
 	})
 }
