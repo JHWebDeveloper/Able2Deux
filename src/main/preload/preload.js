@@ -61,7 +61,7 @@ interop.warning = ({ message, detail, hasCheckbox }) => ipcRenderer.invoke('show
 })
 
 
-// ---- CONTEXT MENU --------
+// ---- GLOBAL METHODS --------
 
 interop.setContextMenu = () => {
 	const textElement = 'input[type="text"], input[type="number"]'
@@ -74,9 +74,6 @@ interop.setContextMenu = () => {
 		})
 	})
 }
-
-
-// ---- GLOBAL METHODS --------
 
 interop.checkIfDirectoryExists = async dir => ipcRenderer.invoke('checkDirectoryExists', dir)
 
