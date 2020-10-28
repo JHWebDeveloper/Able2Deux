@@ -1,14 +1,9 @@
 import { getIntegerLength, clamp } from '.'
 
 export const capitalize = str => {
-	const len = str.length
-	let newStr = str[0].toUpperCase()
+	str = str.toLowerCase()
 
-	for (let i = 1; i < len; i++) {
-		newStr += str[i].toLowerCase()
-	}
-
-	return newStr
+	return str[0].toUpperCase() + str.slice(1)
 }
 
 const getRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
