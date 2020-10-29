@@ -1,15 +1,16 @@
 import React, { useCallback, useMemo } from 'react'
-import { bool, func, number, object, exact, string } from 'prop-types'
+import { bool, func, number, object, exact, shape, string } from 'prop-types'
 
-import { updateMediaState, updateMediaStateFromEvent } from 'actions'
+import { updateMediaState, updateMediaStateFromEvent, extractStill } from 'actions'
 import { secondsToTC, zeroizeAuto } from 'utilities'
 
 const toggleTitle = state => state ? 'Hide' : 'Show'
 
 const Controls = props => {
-	const { id, timecode, start, end, fps, grids, gridColor, dispatch } = props
+	const { selected, grids, gridColor, dispatch } = props
+	const { id, timecode, start, end, fps } = selected
 	const min = useMemo(() => start.enabled ? start.tc * fps : 0, [start])
-	const max = useMemo(() => end.enabled ? end.tc * fps : props.duration * fps, [end])
+	const max = useMemo(() => end.enabled ? end.tc * fps : selected.duration * fps, [end])
 
 	const toggleColor = useCallback(gridName => ({
 		color: gridName ? gridColor : '#eee'
@@ -40,7 +41,7 @@ const Controls = props => {
 
 	return (
 		<>
-			{props.mediaType === 'video' && <>
+			{selected.mediaType === 'video' && <>
 				<span className="monospace">
 					{secondsToTC(timecode / fps)};{zeroizeAuto(Math.round(timecode % fps), fps)}
 				</span>
@@ -63,6 +64,11 @@ const Controls = props => {
 					className="symbol"
 					title="Increment 1 Frame Forward (Shift+Click for 10 Frames)"
 					onClick={incrementFrameForward}>chevron_right</button>
+				<button
+					type="button"
+					className="symbol"
+					title="Create Screengrab"
+					onClick={() => dispatch(extractStill(selected))}>camera_alt</button>
 			</>}
 			<button
 				type="button"
@@ -113,13 +119,15 @@ const Controls = props => {
 }
 
 Controls.propTypes = {
-	id: string.isRequired,
-	mediaType: string.isRequired,
-	timecode: number.isRequired,
-	start: object.isRequired,
-	end: object.isRequired,
-	fps: number.isRequired,
-	duration: number.isRequired,
+	selected: shape({
+		id: string,
+		mediaType: string,
+		timecode: number,
+		start: object,
+		end: object,
+		fps: number,
+		duration: number,
+	}).isRequired,
 	grids: exact({
 		grid: bool,
 		_239: bool,
