@@ -237,7 +237,7 @@ const preventDuplicateFilenames = media => {
 			mediaCopy[i].filename = key.slice(0, maxFilenameLength)
 		}
 
-		mediaCopy[i].filename += ` ${zeroize(count, totalLength)} of ${total}`
+		mediaCopy[i].filename = `${key} ${zeroize(count, totalLength)} of ${total}`
 
 		tally.get(key).count--
 	}

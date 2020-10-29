@@ -117,7 +117,7 @@ export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolv
 	let infoString = ''
 
 	infoCmd.stdout.on('data', data => {
-		infoString += data.toString()
+		infoString = `${infoString}${data.toString()}`
 	})
 
 	infoCmd.stderr.on('data', err => {
