@@ -35,8 +35,8 @@ const Controls = props => {
 		}))
 	}, [id, timecode, end])
 
-	const dispatchExtractStill = useCallback(() => {
-		dispatch(extractStill(selected))
+	const dispatchExtractStill = useCallback(e => {
+		dispatch(extractStill(selected, e))
 	}, [selected])
 
 	const updateTimecode = useCallback(e => {
