@@ -1,9 +1,12 @@
+import { promises as fsp } from 'fs'
 import path from 'path'
+import { v1 as uuid } from 'uuid'
 
 import ffmpeg from '../ffmpeg'
 import { scratchDisk } from '../scratchDisk'
+import { base64EncodeOrPlaceholder } from '../utilities'
 
-const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
+export const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
 	const command = ffmpeg()
 		.on('end', resolve)
 		.on('error', reject)
@@ -46,5 +49,20 @@ const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, format, te
 	}
 
 })
+
+export const copyPreviewToImports = async ({ oldId, hasAlpha }) => {
+	const newId = uuid()
+	const extension = hasAlpha ? 'tiff' : 'jpg'
+	const oldPath = path.join(scratchDisk.previews.path, `${oldId}.preview-source.${extension}`)
+	const newPath = path.join(scratchDisk.imports.path, `${newId}.${extension}`)
+
+	await fsp.copyFile(oldPath, newPath)
+
+	return {
+		id: newId,
+		thumbnail: await base64EncodeOrPlaceholder(newPath),
+		tempFilePath: newPath
+	}
+}
 
 export default updatePreviewSourceImage
