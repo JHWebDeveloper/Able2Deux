@@ -11,7 +11,7 @@ import { upload } from './modules/acquisition/upload'
 import { saveScreenRecording } from './modules/acquisition/saveScreenRecording'
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
 import previewStill from './modules/formatting/preview'
-import updatePreviewSourceImage from './modules/formatting/updatePreviewSourceImage'
+import { updatePreviewSourceImage, copyPreviewToImports } from './modules/formatting/previewSource'
 import { render, cancelRender } from './modules/formatting/formatting'
 import { fileExistsPromise } from './modules/utilities'
 
@@ -436,6 +436,15 @@ const requestPreviewStillIPC = async (evt, data) => {
 	}
 }
 
+const copyPreviewToImportsIPC = async (evt, data) => {
+	try {
+		evt.reply('previewCopied', await copyPreviewToImports(data))
+	} catch (err) {
+		console.error(err)
+		evt.reply('previewCopiedFailed', err)
+	}
+}
+
 const checkDirectoryExistsIPC = async (evt, dir) => {
 	try {
 		return fileExistsPromise(dir)
@@ -515,6 +524,7 @@ ipcMain.on('saveScreenRecording', saveScreenRecordingIPC)
 ipcMain.on('removeMediaFile', removeMediaFileIPC)
 ipcMain.handle('initPreview', initPreviewIPC)
 ipcMain.on('requestPreviewStill', requestPreviewStillIPC)
+ipcMain.on('copyPreviewToImports', copyPreviewToImportsIPC)
 ipcMain.handle('checkDirectoryExists', checkDirectoryExistsIPC)
 ipcMain.on('requestRender', requestRenderIPC)
 ipcMain.on('cancelRender', cancelRenderIPC)
