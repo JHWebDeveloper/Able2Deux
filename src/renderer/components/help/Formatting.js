@@ -80,7 +80,8 @@ const Formatting = () => (
 		<p>The Frame Slider allows you to select a frame inside the video to preview. The timecode is displayed on the left side of the slider. It is only available for videos.</p>
 		<p>To the right of the slider are two increment buttons (<i>chevron_left</i> and <i>chevron_right</i>). Clicking these will increment the frame slider by 1 frame. Holding the shift will the increment amount to 10 frames.</p>
 		<h4 id="screengrabs">Creating Screengrabs</h4>
-		<p>Clickin the screengrab button (<i>camera_alt</i>) will take a screengrad of the video at current timecode and add it to the batch list. All settings that have been applied to the video will be retained by the screengrab.</p>
+		<p>Clickin the screengrab button (<i>camera_alt</i>) will take a screengrad of the video at current timecode and add it to the batch list.</p>
+		<p>All settings that have been applied to the video will be retained by the screengrab. To avoid this, hold the shift key when clicking the screengrab button. With the execption of the filename, all settings for the new screengrab will be reset to their default states.</p>
 		<h4 id="grids">Grids</h4>
 		<p>The Preview Window has four grid overlays that can be toggled on or off the first of which is a standard 16:9 title safe grid with thirds and center markers (<i>grid_on</i>). The other grid buttons will reveal markers for aspect ratios 4:3, 1:1, and 9:16.</p>
 		<p>The grid color can be changed and additional grid buttons for 1.85:1 and 2.39:1 can be enabled under {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences.</p>
