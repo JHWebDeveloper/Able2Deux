@@ -37,6 +37,7 @@ const TableOfContents = () => (
 				<li><a href="#preview-window" title="Go to Preview Window">Preview Window</a></li>
 				<ul>
 					<li><a href="#frame-slider" title="Go to Frame Slider">Frame Slider</a></li>
+					<li><a href="#screengrabs" title="Go to Screengrabs">Creating Screengrabs</a></li>
 					<li><a href="#grids" title="Go to Grids">Grids</a></li>
 				</ul>
 				<li><a href="#media-formatting-sections" title="Go to Media Formatting Sections">Media Formatting Sections</a></li>
