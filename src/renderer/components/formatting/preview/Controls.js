@@ -76,7 +76,7 @@ const Controls = props => {
 				name="grid"
 				title={`${toggleTitle(grids.grid)} Grid`}
 				style={toggleColor(grids.grid)}
-				onClick={toggleGrid}>{'grid_on'}</button>
+				onClick={toggleGrid}>grid_on</button>
 			{props.enableWidescreenGrids && <>
 				<button
 					type="button"
