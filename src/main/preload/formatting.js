@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron'
 
-import { requestChannel } from './sendMessage'
+import { requestChannel, sendMessage } from './sendMessage'
 
 // ---- PREVIEW --------
 
@@ -17,6 +17,13 @@ export const setPreviewListeners = callback => {
 export const removePreviewListeners = () => {
 	ipcRenderer.removeAllListeners('previewStillCreated')
 }
+
+export const copyPreviewToImports = data => sendMessage({
+	sendMsg: 'copyPreviewToImports',
+	recieveMsg: 'previewCopied',
+	errMsg: 'previewCopiedFailed',
+	data
+})
 
 
 // ---- RENDER --------
