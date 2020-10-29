@@ -65,20 +65,29 @@ export const toggleSaveLocation = id => ({
 
 // ---- EXTRACT STILL --------
 
-export const extractStill = sourceMediaData => async dispatch => {
+export const extractStill = (sourceMediaData, e) => async dispatch => {
+	const { hasAlpha, filename, width, height, aspectRatio } = sourceMediaData
 	let stillData = {}
 
 	try {
 		stillData = await interop.copyPreviewToImports({
 			oldId: sourceMediaData.id,
-			hasAlpha: sourceMediaData.hasAlpha
+			hasAlpha
 		})
 	} catch (err) {
 		return toastr.error('Unable to extract still', false, toastrOpts)
 	}
 
+	const inheritance = e.shiftKey ? {
+		filename,
+		width,
+		height,
+		aspectRatio,
+		hasAlpha
+	} : sourceMediaData
+
 	const mediaData = createMediaData({
-		...sourceMediaData,
+		...inheritance,
 		...stillData,
 		title: `Screengrab ${sourceMediaData.title}`,
 		mediaType: 'image',
