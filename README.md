@@ -10,6 +10,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ## [Unreleased][2.1.3] - TBD
 
 ### Added
+- Screengrab button in preview window. Takes screengrabs of video and retains settings.
 - Screen record now shows time ellapsed (time remaining if timer enabled)
 - Holding shift allows for fine tuning of Position, Scale and Crop sliders and number fields.
 - Pressing Up and Down arrows now control which media item is selected.
