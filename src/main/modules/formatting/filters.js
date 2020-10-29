@@ -12,9 +12,9 @@ const overlayDimCmdLargeChunks = [
 ]
 
 const addLayers = (filter, sourceData, overlayDim, isPreview) => {
-	if (sourceData) filter += sourceDataCmd
-	if (overlayDim) filter += `${overlayDimCmdLargeChunks[0]}${overlayDim.width}:h=${overlayDim.height}${overlayDimCmdLargeChunks[1]}${sourceData ? 2 : 1}${overlayDimCmdLargeChunks[2]}${overlayDim.y}${overlayDimCmdLargeChunks[3]}${sourceData ? 3 : 2}:v]overlay`
-	if (isPreview) filter += previewMixdown
+	if (sourceData) filter = `${filter}${sourceDataCmd}`
+	if (overlayDim) filter = `${filter}${overlayDimCmdLargeChunks[0]}${overlayDim.width}:h=${overlayDim.height}${overlayDimCmdLargeChunks[1]}${sourceData ? 2 : 1}${overlayDimCmdLargeChunks[2]}${overlayDim.y}${overlayDimCmdLargeChunks[3]}${sourceData ? 3 : 2}:v]overlay`
+	if (isPreview) filter = `${filter}${previewMixdown}`
 
 	return filter
 }
@@ -27,12 +27,12 @@ export const none = (filterData, isPreview) => {
 	let filter = `${angle}${reflect}`
 
 	if (sourceData || isPreview) filter = `[0:v]${filter}`
-	if (sourceData) filter += `scale=w=${renderWidth}:h=${renderHeight}${noneCmdLargeChunk}`
+	if (sourceData) filter = `${filter}scale=w=${renderWidth}:h=${renderHeight}${noneCmdLargeChunk}`
 
 	if (sourceData && isPreview) {
-		filter += previewMixdown
+		filter = `${filter}${previewMixdown}`
 	} else if (isPreview) {
-		filter += previewResize
+		filter = `${filter}${previewResize}`
 	}
 
 	return filter ? filter.replace(/,$/, '') : 'nullsink'
@@ -52,7 +52,7 @@ export const fill = (filterData, isPreview) => {
 	let filter = `[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}${fillCmdLargeChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdLargeChunks[1]}${centering}*(ih-oh)/2`
 
 	if (hasAlpha) {
-		filter += `[fg];[${getBGLayerNumber(sourceData, overlayDim)}${fillCmdLargeChunks[2]}`
+		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${fillCmdLargeChunks[2]}`
 	}
 
 	return addLayers(filter, sourceData, overlayDim, isPreview)
