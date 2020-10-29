@@ -37,7 +37,7 @@ const Controls = props => {
 
 	const updateTimecode = useCallback(e => {
 		dispatch(updateMediaStateFromEvent(id, e))
-	}, [])
+	}, [id])
 
 	return (
 		<>
