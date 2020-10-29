@@ -35,6 +35,10 @@ const Controls = props => {
 		}))
 	}, [id, timecode, end])
 
+	const dispatchExtractStill = useCallback(() => {
+		dispatch(extractStill(selected))
+	}, [selected])
+
 	const updateTimecode = useCallback(e => {
 		dispatch(updateMediaStateFromEvent(id, e))
 	}, [id])
@@ -68,7 +72,7 @@ const Controls = props => {
 					type="button"
 					className="symbol"
 					title="Create Screengrab"
-					onClick={() => dispatch(extractStill(selected))}>camera_alt</button>
+					onClick={dispatchExtractStill}>camera_alt</button>
 			</>}
 			<button
 				type="button"
