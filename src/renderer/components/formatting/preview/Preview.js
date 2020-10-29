@@ -114,13 +114,7 @@ const Preview = memo(({ selected, dispatch }) => {
 					<div id="preview-controls">
 						{!isAudio && (
 							<Controls
-								id={id}
-								mediaType={mediaType}
-								timecode={timecode}
-								start={start}
-								end={end}
-								fps={fps}
-								duration={duration}
+								selected={selected}
 								grids={grids}
 								enableWidescreenGrids={enableWidescreenGrids}
 								gridColor={gridColor}
