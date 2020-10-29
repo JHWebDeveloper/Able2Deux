@@ -3,7 +3,8 @@ import toastr from 'toastr'
 
 import * as ACTION from './types'
 import * as STATUS from 'status'
-import { updateMediaNestedState, updateMediaState } from '.'
+import { updateMediaNestedState, updateMediaState, addMedia } from '.'
+import { createMediaData } from 'utilities'
 
 import {
 	createPromiseQueue,
@@ -60,6 +61,34 @@ export const toggleSaveLocation = id => ({
 	type: ACTION.TOGGLE_SAVE_LOCATION,
 	payload: { id }
 })
+
+
+// ---- EXTRACT STILL --------
+
+export const extractStill = sourceMediaData => async dispatch => {
+	let stillData = {}
+
+	try {
+		stillData = await interop.copyPreviewToImports({
+			oldId: sourceMediaData.id,
+			hasAlpha: sourceMediaData.hasAlpha
+		})
+	} catch (err) {
+		return toastr.error('Unable to extract still', false, toastrOpts)
+	}
+
+	const mediaData = createMediaData({
+		...sourceMediaData,
+		...stillData,
+		title: `Screengrab ${sourceMediaData.title}`,
+		mediaType: 'image',
+		acquisitionType: 'screengrab',
+		duration: 0,
+		fps: 0
+	})
+
+	dispatch(addMedia(mediaData))
+}
 
 
 // ---- SCALE --------
