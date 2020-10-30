@@ -130,7 +130,7 @@ Controls.propTypes = {
 		start: object,
 		end: object,
 		fps: number,
-		duration: number,
+		duration: number
 	}).isRequired,
 	grids: exact({
 		grid: bool,
