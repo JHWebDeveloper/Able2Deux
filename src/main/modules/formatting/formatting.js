@@ -114,7 +114,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const isAudio = checkIsAudio(exportData)
 	const isStill = checkIsStill(exportData)
 	const needsAlpha = checkNeedsAlpha(exportData)
-console.log(isStill)
+
 	let outputOptions = []
 	let extension = ''
 	let overlayDim = false
