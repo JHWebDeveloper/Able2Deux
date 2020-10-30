@@ -28,17 +28,15 @@ const checkIsAudio = ({ mediaType, audio }) => (
 const checkIsStill = exportData => {
 	if (exportData.mediaType !== 'image' || !exportData.autoPNG) return false
 
-	const { arc, background } = exportData
+	const { arc, background, overlay, hasAlpha, aspectRatio } = exportData
 
-	return (
-		arc === 'none' ||
-		(background === 'black' || background === 'alpha') ||
-		exportData.overlay === 'none' &&
-		(!exportData.hasAlpha && (
-			arc === 'fill' || 
-			arc === 'fit' && exportData.aspectRatio === '16:9'
-		))
-	)
+	let isStill = false
+
+	isStill ||= arc === 'none'
+	isStill ||= background === 'black' || background === 'alpha'
+	isStill ||= overlay === 'none' && !hasAlpha && (arc === 'fill' || arc === 'fit' && aspectRatio === '16:9')
+
+	return isStill
 }
 
 const getIntegerLength = n => {
@@ -116,7 +114,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	const isAudio = checkIsAudio(exportData)
 	const isStill = checkIsStill(exportData)
 	const needsAlpha = checkNeedsAlpha(exportData)
-
+console.log(isStill)
 	let outputOptions = []
 	let extension = ''
 	let overlayDim = false
