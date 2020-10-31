@@ -63,7 +63,7 @@ const ReadyQueue = withRouter(({ media, recording, warnings, dispatch, prefsDisp
 
 	const prepareMediaAndRedirect = useCallback(() => {
 		dispatch(prepareMediaForFormat())
-		history.push('/render')
+		history.push('/formatting')
 	}, [])
 
 	const sortingAction = useCallback((newPos, oldPos) => {

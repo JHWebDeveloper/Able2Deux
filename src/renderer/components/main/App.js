@@ -7,7 +7,7 @@ import { MainProvider } from 'store'
 
 import Header from './Header'
 import Acquisition from '../acquisition/Acquisition'
-import Render from '../formatting/Formatting'
+import Formatting from '../formatting/Formatting'
 import SourceSuggestionList from './SourceSuggestionList'
 
 const Main = () => {
@@ -19,7 +19,7 @@ const Main = () => {
 				<HashRouter>
 					<Switch>
 						<Route path="/" exact component={Acquisition}/>
-						<Route path="/render" component={Render}/>
+						<Route path="/formatting" component={Formatting}/>
 					</Switch>
 				</HashRouter>
 			</MainProvider>

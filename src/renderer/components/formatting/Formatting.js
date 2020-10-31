@@ -15,7 +15,7 @@ import RenderQueue from './render-queue/RenderQueue'
 
 let prevIndex = 0
 
-const Render = () => {
+const Formatting = () => {
 	const {
 		media,
 		selectedId,
@@ -87,4 +87,4 @@ const Render = () => {
 	)
 }
 
-export default Render
+export default Formatting
