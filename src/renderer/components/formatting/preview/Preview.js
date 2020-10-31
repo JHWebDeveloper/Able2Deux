@@ -35,6 +35,8 @@ const Preview = memo(({ selected, dispatch }) => {
 		timecode
 	} = selected
 
+	const mediaSelected = !!id
+
 	const [ previewReady, setPreviewReady ] = useState(false)
 	const [ open, toggleOpen ] = useState(false)
 	const [ previewStill, loadPreviewStill ] = useState('')
@@ -49,14 +51,14 @@ const Preview = memo(({ selected, dispatch }) => {
 	})
 
 	const sourceData = useMemo(() => {
-		if (source.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
+		if (source?.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
 			return buildSource(source, renderOutput)
 		}
 
 		return false
 	}, [source, arc, rotation, renderOutput])
 
-	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
+	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
 
 	useEffect(() => {
 		interop.setPreviewListeners(loadPreviewStill)
@@ -68,6 +70,8 @@ const Preview = memo(({ selected, dispatch }) => {
 
 	useEffect(() => {
 		(async () => {
+			if (!mediaSelected) return false
+
 			setPreviewReady(false)
 
 			await interop.initPreview({
@@ -82,10 +86,10 @@ const Preview = memo(({ selected, dispatch }) => {
 
 			setPreviewReady(true)
 		})()
-	}, [id, mediaType, isAudio, audio.format, timecode, start, end])
+	}, [id, mediaType, isAudio, audio?.format, timecode, start, end])
 
 	useEffect(() => {
-		if (previewReady && open) {
+		if (mediaSelected && previewReady && open) {
 			interop.requestPreviewStill({
 				...selected,
 				isAudio,
@@ -112,7 +116,7 @@ const Preview = memo(({ selected, dispatch }) => {
 						</div>
 					</div>
 					<div id="preview-controls">
-						{!isAudio && (
+						{mediaSelected && !isAudio && (
 							<Controls
 								selected={selected}
 								grids={grids}
