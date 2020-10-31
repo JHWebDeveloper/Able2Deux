@@ -31,17 +31,15 @@ const Formatting = () => {
 
 	const [ rendering, setRendering ] = useState(false)
 	
-	const selected = media.find(item => item.id === selectedId)
+	const selected = media.find(item => item.id === selectedId) || {}
 
 	useEffect(() => {
-		if (selected) {
+		if (selected.id) {
 			prevIndex = media.findIndex(item => item.id === selectedId)
 		} else {
 			dispatch(selectMedia(media[Math.min(prevIndex, length - 1)].id))
 		}
 	}, [selected])
-
-	if (!selected) return false
 
 	const isBatch = length > 1
 
