@@ -29,6 +29,8 @@ const Formatting = () => {
 
 	if (!length) return <Redirect to="/" />
 
+	const [ rendering, setRendering ] = useState(false)
+	
 	const selected = media.find(item => item.id === selectedId)
 
 	useEffect(() => {
@@ -41,7 +43,6 @@ const Formatting = () => {
 
 	if (!selected) return false
 
-	const [ rendering, setRendering ] = useState(false)
 	const isBatch = length > 1
 
 	return (
