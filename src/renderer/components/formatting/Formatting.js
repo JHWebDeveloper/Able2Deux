@@ -13,6 +13,8 @@ import Preview from './preview/Preview'
 import EditorOptions from './editor/EditorOptions'
 import RenderQueue from './render-queue/RenderQueue'
 
+let prevIndex = 0
+
 const Render = () => {
 	const {
 		media,
@@ -23,18 +25,24 @@ const Render = () => {
 		dispatch
 	} = useContext(MainContext)
 
-	if (!media.length) return <Redirect to="/" />
+	const { length } = media
 
-	const [ rendering, setRendering ] = useState(false)
+	if (!length) return <Redirect to="/" />
+
 	const selected = media.find(item => item.id === selectedId)
 
 	useEffect(() => {
-		if (!selected) dispatch(selectMedia(media[0].id))
+		if (selected) {
+			prevIndex = media.findIndex(item => item.id === selectedId)
+		} else {
+			dispatch(selectMedia(media[Math.min(prevIndex, length - 1)].id))
+		}
 	}, [selected])
 
 	if (!selected) return false
 
-	const isBatch = media.length > 1
+	const [ rendering, setRendering ] = useState(false)
+	const isBatch = length > 1
 
 	return (
 		<form>
