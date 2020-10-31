@@ -47,8 +47,8 @@ const MediaInfo = memo(props => {
 }, compareProps)
 
 MediaInfo.propTypes = {
-	thumbnail: string.isRequired,
-	title: string.isRequired,
+	thumbnail: string,
+	title: string,
 	width: number,
 	height: number,
 	aspectRatio: string,
