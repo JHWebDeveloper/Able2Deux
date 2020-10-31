@@ -3,7 +3,7 @@ import { func, object } from 'prop-types'
 import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
-import { buildSource, compareProps } from 'utilities'
+import { buildSource } from 'utilities'
 
 import Spinner from '../../svg/Spinner'
 import Grid from './Grid'
