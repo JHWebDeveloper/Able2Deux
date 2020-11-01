@@ -39,6 +39,14 @@ const checkIsStill = exportData => {
 	return isStill
 }
 
+const checkNeedsAlpha = ({ mediaType, arc, background, overlay }) => {
+	if (mediaType === 'audio') return false
+
+	return (
+		background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none')
+	)
+}
+
 const getIntegerLength = n => {
 	let count = 1
 
@@ -72,14 +80,6 @@ const copyFileNoOverwrite = async (src, dest, n = 0) => {
 			throw err
 		}
 	}
-}
-
-const checkNeedsAlpha = ({ mediaType, arc, background, overlay }) => {
-	if (mediaType === 'audio') return false
-
-	return (
-		background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none')
-	)
 }
 
 const sharedVideoOptions = [
@@ -147,7 +147,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	} else {
 		outputOptions = [
 			'-c:v libx264',
-			'-crf 17',
+			'-crf 18',
 			'-f mp4',
 			...sharedVideoOptions
 		]
