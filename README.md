@@ -22,6 +22,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Downloads can be cancelled during the pending phase (grey dot).
 - Screen record timer, start and end timecode fields now turn red when set to a value that will result in empty media.
 
+### Updated
+- Video service compatibility
+
 ### Fixed
 - Bug preventing negative sign and leading decimal point from being typed into the number fields next to the sliders.
 - Bug causing Radio buttons to lose focus on select.
