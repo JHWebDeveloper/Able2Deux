@@ -40,7 +40,8 @@ const Directory = ({ dir, index, total, dispatch }) => {
 				name="label"
 				value={label}
 				onChange={e => dispatch(updateLocationFieldFromEvent(id, e))}
-				aria-labelledby="label" />
+				aria-labelledby="label"
+				data-no-drag />
 			<DirectorySelector
 				directory={directory}
 				onChange={dir => dispatch(updateLocationField(id, 'directory', dir))} />
