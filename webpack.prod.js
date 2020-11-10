@@ -23,12 +23,12 @@ const commonMain = {
 }
 
 const mainConfig = merge(commonMain, {
+	target: 'electron-main',
 	entry: mainPath,
 	output: {
 		path: path.resolve('build'),
 		filename: 'main.js'
 	},
-	target: 'electron-main',
 	plugins: [
 		new EnvironmentPlugin({
 			DEVTOOLS: !!process.env.DEVTOOLS
@@ -45,12 +45,12 @@ const mainConfig = merge(commonMain, {
 })
 
 const preloadConfig = merge(commonMain, {
+	target: 'electron-preload',
 	entry: path.join(mainPath, 'preload', 'preload.js'),
 	output: {
 		path: path.resolve('build'),
 		filename: 'preload.js'
-	},
-	target: 'electron-preload'
+	}
 })
 
 const rendererConfig = merge(commonRenderer, {

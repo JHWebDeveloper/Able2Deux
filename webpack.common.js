@@ -9,6 +9,7 @@ const rendererPath = path.resolve('src', 'renderer')
 const pages = ['index', 'splash', 'update', 'preferences', 'help']
 
 module.exports = {
+	target: 'web',
 	entry: {
 		common: [
 			'react',
@@ -31,7 +32,6 @@ module.exports = {
 		filename: '[name].bundle.js',
 		publicPath: '/'
 	},
-	target: 'web',
 	module: {
 		rules: [
 			{
