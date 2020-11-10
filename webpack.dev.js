@@ -10,6 +10,8 @@ module.exports = merge(common, {
 	mode: 'development',
 	devServer: {
 		port: process.env.PORT,
+		contentBase: path.resolve('src', 'renderer'),
+		watchContentBase: true,
 		hot: true,
 		before() {
 			spawn('electron', ['babelRegister.js'], {
