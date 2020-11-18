@@ -17,7 +17,7 @@ export const keepInRange = e => {
 	min = parseFloat(min)
 	max = parseFloat(max)
 
-	e.target.value = clamp(min, value, max)
+	e.target.value = clamp(value, min, max)
 
 	return e
 }
