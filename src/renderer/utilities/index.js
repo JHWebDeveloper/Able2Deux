@@ -15,7 +15,7 @@ export const arrayCount = (arr, exp) => {
 	return count
 }
 
-export const clamp = (value, min, max) => Math.max(min, Math.min(max, val))
+export const clamp = (val, min, max) => Math.max(min, Math.min(max, val))
 
 export const debounce = (callback, wait) => {
 	let timeout = false
