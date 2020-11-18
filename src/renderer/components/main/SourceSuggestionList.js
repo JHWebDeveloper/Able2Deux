@@ -7,7 +7,7 @@ const SourceSuggestionList = () => {
 	useEffect(() => {
 		(async () => {
 			try {
-				const sources = await axios.get('https://jhwebdeveloper.github.io/Able2-public-resources/data.json')
+				const sources = await axios.get('https://jhwebdeveloper.github.io/Able2-public-resources/source-suggestions.min.json')
 
 				loadSuggestions(sources.data.sort())
 			} catch (err) {
