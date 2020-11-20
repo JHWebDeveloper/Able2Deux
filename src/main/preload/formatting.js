@@ -24,7 +24,7 @@ export const initPreview = async data => ipcRenderer.invoke('initPreview', data)
 
 export const requestPreviewStill = throttle(data => {
 	ipcRenderer.send('requestPreviewStill', data)
-}, 1000 / 60)
+}, 60)
 
 export const setPreviewListeners = callback => {
 	ipcRenderer.on('previewStillCreated', (evt, still) => {
