@@ -2,29 +2,13 @@ import { ipcRenderer } from 'electron'
 
 import { requestChannel, sendMessage } from './sendMessage'
 
-const throttle = (callback, duration) => {
-	let shouldWait = false
-	
-  return (...args) => {
-    if (!shouldWait) {
-			callback(...args)
-			
-			shouldWait = true
-			
-      setTimeout(() => {
-        shouldWait = false
-      }, duration)
-    }
-  }
-}
-
 // ---- PREVIEW --------
 
 export const initPreview = async data => ipcRenderer.invoke('initPreview', data)
 
-export const requestPreviewStill = throttle(data => {
+export const requestPreviewStill = data => {
 	ipcRenderer.send('requestPreviewStill', data)
-}, 60)
+}
 
 export const setPreviewListeners = callback => {
 	ipcRenderer.on('previewStillCreated', (evt, still) => {
