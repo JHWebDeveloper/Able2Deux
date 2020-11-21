@@ -60,8 +60,8 @@ const defaultMediaData = {
 	},
 	crop: {
 		t: 0,
-		r: 0,
-		b: 0,
+		r: 100,
+		b: 100,
 		l: 0,
 		linkTB: true,
 		linkLR: true
