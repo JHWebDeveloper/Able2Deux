@@ -83,17 +83,15 @@ const transformCmdLargeChunks = [
 export const transform = (filterData, isPreview) => {
 	const { crop, scale, position, angle, reflect, sourceData, overlayDim } = filterData
 
+	const cropH = (crop.b - crop.t) / 100
+	const cropW = (crop.r - crop.l) / 100
+
 	crop.t /= 100
-	crop.b /= 100
 	crop.l /= 100
-	crop.r /= 100
 	scale.x /= 100
 	scale.y /= 100
 	position.x /= 100
 	position.y /= 100
-
-	const cropH = Math.max(1 - (crop.t + crop.b), 0.01)
-	const cropW = Math.max(1 - (crop.l + crop.r), 0.01)
 
 	const filter = [
 		`[0:v]${angle}${reflect}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih[fg];`,
