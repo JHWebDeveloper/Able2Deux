@@ -100,60 +100,6 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 }
 
 
-// ---- SCALE --------
-
-export const updateScale = (id, editAll, scale, e) => dispatch => {
-	let { value } = e.target
-
-	if (value === '') {
-		dispatch(updateMediaNestedState(id, 'scale', {
-			x: value,
-			y: value
-		}))
-
-		return false
-	}
-
-	value = parseFloat(e.target.value)
-	
-	const xIsActive = e.target.name === 'x'
-	const offset = (xIsActive ? scale.y / scale.x : scale.x / scale.y) || 1
-
-	dispatch(updateMediaNestedState(id, 'scale', {
-		x: xIsActive ? value : value * offset,
-		y: xIsActive ? value * offset : value
-	}, editAll))
-}
-
-export const fitToFrameWidth = (id, editAll, scale, frameWidthPrc) => dispatch => {
-	dispatch(updateMediaNestedState(id, 'scale', {
-		x: frameWidthPrc,
-		y: scale.link ? frameWidthPrc : scale.y
-	}, editAll))
-}
-
-export const fitToFrameHeight = (id, editAll, scale, frameHeightPrc) => dispatch => {
-	dispatch(updateMediaNestedState(id, 'scale', {
-		x: scale.link ? frameHeightPrc : scale.x,
-		y: frameHeightPrc
-	}, editAll))
-}
-
-
-// ---- CROP --------
-
-export const updateCropBiDirectional = (id, editAll, d1, d2, e) => dispatch => {
-	let { value } = e.target
-
-	value = value === '' ? value : parseFloat(e.target.value)
-
-	dispatch(updateMediaNestedState(id, 'crop', {
-		[d1]: value,
-		[d2]: value
-	}, editAll))
-}
-
-
 // ---- RENDER --------
 
 const updateRenderStatus = (id, status) => ({
