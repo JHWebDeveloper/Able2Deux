@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { bool, func, number, object, oneOf, string } from 'prop-types'
+import { bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
 import { createScrollbarPadder } from 'utilities'
 
@@ -103,7 +103,7 @@ EditorOptions.propTypes = {
 	background: string,
 	overlay: string,
 	source: object,
-	centering: number,
+	centering: oneOfType([oneOf(['']), number]).isRequired,
 	position: object,
 	scale: object,
 	crop: object,
