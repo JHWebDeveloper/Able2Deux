@@ -30,12 +30,9 @@ const rotateCropValues = (prev, next, crop) => {
 		rotated.push(cropVals[(rotations + i) % 4])
 	}
 
-	return {
-		t: rotated[0],
-		l: rotated[1],
-		b: 100 - rotated[2],
-		r: 100 - rotated[3]
-	}
+	const [ t, l, b, r ] = rotated
+
+	return { t, l, b: 100 - b, r: 100 - r }
 }
 
 const Rotation = memo(props => {
