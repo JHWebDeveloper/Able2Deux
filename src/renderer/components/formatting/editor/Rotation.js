@@ -22,12 +22,12 @@ const detectReflection = (prev, next, match) => !(!prev.includes(match) ^ next.i
 const rotateCropValues = (prev, next, crop) => {
 	if (prev === next) return crop
 	
-	const dist = transpose.indexOf(next) - transpose.indexOf(prev) + 4
+	const rotations = transpose.indexOf(next) - transpose.indexOf(prev) + 4
 	const cropVals = [crop.t, crop.l, 100 - crop.b, 100 - crop.r]
 	const rotated = []
 
 	for (let i = 0; i < 4; i++) {
-		rotated.push(cropVals[(dist + i) % 4])
+		rotated.push(cropVals[(rotations + i) % 4])
 	}
 
 	return {
