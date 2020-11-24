@@ -17,7 +17,7 @@ export const updateStateFromEvent = e => {
 	return {
 		type: ACTION.UPDATE_STATE,
 		payload: {
-			[name]: dataset.number ? parseFloat(value) : value
+			[name]: dataset?.number ? parseFloat(value) : value
 		}
 	}
 }
@@ -78,7 +78,7 @@ export const updateMediaStateFromEvent = (id, e, editAll) => {
 			id,
 			editAll,
 			properties: {
-				[name]: value && dataset.number ? parseFloat(value) : value
+				[name]: value && dataset?.number ? parseFloat(value) : value
 			}
 		}
 	}
@@ -107,7 +107,7 @@ export const updateMediaNestedStateFromEvent = (id, nest, e, editAll) => {
 			nest,
 			editAll,
 			properties: {
-				[name]: value && dataset.number ? parseFloat(value) : value
+				[name]: value && dataset?.number ? parseFloat(value) : value
 			}
 		}
 	}
