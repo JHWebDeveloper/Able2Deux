@@ -24,7 +24,7 @@ const noneCmdLargeChunk = '[vid];[vid][1:v]overlay'
 export const none = (filterData, isPreview) => {
 	const { angle, sourceData, reflect, renderWidth, renderHeight } = filterData
 
-	let filter = `${angle}${reflect}`
+	let filter = `${reflect}${angle}`
 
 	if (sourceData || isPreview) filter = `[0:v]${filter}`
 	if (sourceData) filter = `${filter}scale=w=${renderWidth}:h=${renderHeight}${noneCmdLargeChunk}`
@@ -49,7 +49,7 @@ export const fill = (filterData, isPreview) => {
 
 	centering /= -100
 
-	let filter = `[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}${fillCmdLargeChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdLargeChunks[1]}${centering}*(ih-oh)/2`
+	let filter = `[0:v]${reflect}${angle}scale=w=${renderWidth}:h=${renderHeight}${fillCmdLargeChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdLargeChunks[1]}${centering}*(ih-oh)/2`
 
 	if (hasAlpha) {
 		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${fillCmdLargeChunks[2]}`
@@ -67,7 +67,7 @@ export const fit = (filterData, isPreview) => {
 	const { sourceData, overlayDim, angle, reflect, renderWidth, renderHeight } = filterData
 
 	const filter = [
-		`[0:v]${angle}${reflect}scale=w=${renderWidth}:h=${renderHeight}${fitCmdLargeChunks[0]}`,
+		`[0:v]${reflect}${angle}scale=w=${renderWidth}:h=${renderHeight}${fitCmdLargeChunks[0]}`,
 		`[${getBGLayerNumber(sourceData, overlayDim)}${fitCmdLargeChunks[1]}`
 	].join('')
 
@@ -94,7 +94,7 @@ export const transform = (filterData, isPreview) => {
 	position.y /= 100
 
 	const filter = [
-		`[0:v]${angle}${reflect}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih[fg];`,
+		`[0:v]${reflect}${angle}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih[fg];`,
 		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdLargeChunks[0]}${position.x}${transformCmdLargeChunks[1]}${position.y}${transformCmdLargeChunks[2]}`
 	].join('')
 
