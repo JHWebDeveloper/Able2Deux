@@ -9,6 +9,17 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ## [Unreleased][2.2.0] - TBD
 
+### Changed
+- HTML Sliders in Position and Scale have been replaced with custom made sliders.
+- Markers on slider snap points.
+- Holding the shift key while moving a slider slows down the rate of change allowing for precision tuning.
+- The four Crop sliders have been condensed into two double headed sliders, allowing for better control in a more compact space. You can pan the croppped region by clicking and dragging the space between the two slider heads.
+- The link buttons for crop sliders now adjust relative to the current position rather than the center of the media.
+- Bottom and Right values are now counted down from 100 rather than up from 0.
+
+### Removed
+- Percent markers on all sliders. It's obvious what the numbers are and removing the markers allows for more slider track room.
+
 ### Updated
 - Video service compatibility
 - Electron 11
