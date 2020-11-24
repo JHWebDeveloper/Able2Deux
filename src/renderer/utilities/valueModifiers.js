@@ -17,9 +17,7 @@ export const keepInRange = e => {
 	min = parseFloat(min)
 	max = parseFloat(max)
 
-	e.target.value = clamp(value, min, max)
-
-	return e
+	return clamp(value, min, max)
 }
 
 export const zeroizeAuto = (n, total) => zeroize(n, getIntegerLength(total))
