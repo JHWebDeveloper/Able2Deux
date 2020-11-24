@@ -2,10 +2,6 @@ import React, { useCallback, useMemo, useRef } from 'react'
 import { arrayOf, func, number, oneOf, oneOfType, string } from 'prop-types'
 import { v1 as uuid } from 'uuid'
 
-/*TEMP*/
-import 'css/index/slider.css'
-/*TEMP*/
-
 import SliderThumb from './SliderThumb'
 import SliderSnapMarkers from './SliderSnapMarkers'
 
