@@ -3,7 +3,7 @@ import toastr from 'toastr'
 
 import * as ACTION from './types'
 import * as STATUS from 'status'
-import { updateMediaNestedState, updateMediaState, addMedia } from '.'
+import { updateMediaState, addMedia } from '.'
 import { createMediaData } from 'utilities'
 
 import {

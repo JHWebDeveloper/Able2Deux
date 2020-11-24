@@ -33,17 +33,17 @@ export const debounce = (callback, wait) => {
 export const throttle = (callback, duration) => {
 	let shouldWait = false
 	
-  return (...args) => {
-    if (!shouldWait) {
+	return (...args) => {
+		if (!shouldWait) {
 			callback(...args)
 			
 			shouldWait = true
 			
-      setTimeout(() => {
-        shouldWait = false
-      }, duration)
-    }
-  }
+			setTimeout(() => {
+				shouldWait = false
+			}, duration)
+		}
+	}
 }
 
 export const getIntegerLength = n => {

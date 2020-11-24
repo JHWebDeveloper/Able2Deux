@@ -1,10 +1,10 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle } from 'react'
-import { arrayOf, bool, func, number, oneOf, oneOfType, string } from 'prop-types'
+import { arrayOf, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import { clamp, throttle } from 'utilities'
 
-// expose percentages outside of component since state value
-	// will not update inside drag when drag is attached to window
+/* expose percentages outside of component since state value
+   will not update inside drag when drag is attached to window */
 const thumbPos = new Map()
 const mousePos = new Map()
 
@@ -129,6 +129,7 @@ const SliderThumb = forwardRef(({
 
 SliderThumb.propTypes = {
 	sliderId: string.isRequired,
+	title: string,
 	value: oneOfType([oneOf(['']), number]),
 	width: oneOfType([oneOf([false]), number]),
 	diff: number,

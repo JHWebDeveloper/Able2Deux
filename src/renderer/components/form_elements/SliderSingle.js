@@ -75,6 +75,7 @@ const SingleSlider = ({
 
 SingleSlider.propTypes = {
 	name: string,
+	title: string,
 	value: oneOfType([oneOf(['']), number]),
 	onChange: func,
 	min: number,

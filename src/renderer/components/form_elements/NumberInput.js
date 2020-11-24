@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
+import { func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import { keepInRange } from 'utilities'
-import { parse } from 'uuid'
 
 const fineTuneOn = e => {
 	if (e.shiftKey) e.target.step = 0.05
@@ -21,7 +21,7 @@ const NumberInput = ({
 	onChange
 }) => {
 	const onChangeParse = useCallback(e => {
-		let { name, value } = e.target
+		const { name, value } = e.target
 
 		onChange({
 			name,
@@ -51,6 +51,16 @@ const NumberInput = ({
 			data-default-value={defaultValue}
 			data-number />
 	)
+}
+
+NumberInput.propTypes = {
+	name: string,
+	title: string,
+	value: oneOfType([oneOf(['']), number]).isRequired,
+	defaultValue: number,
+	min: number,
+	max: number,
+	onChange: func
 }
 
 export default NumberInput

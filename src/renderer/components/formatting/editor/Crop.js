@@ -30,7 +30,7 @@ const sliderProps = {
 const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 	const updateCrop = useCallback(({ name, value }) => {
 		dispatch(updateMediaNestedState(id, 'crop', {
-			[name]: value,
+			[name]: value
 		}, editAll))
 	}, [id, editAll])
 

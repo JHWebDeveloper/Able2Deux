@@ -1,6 +1,5 @@
 import React from 'react'
 import { bool } from 'prop-types'
-import { Link } from 'react-router-dom'
 
 const Linked = ({ single }) => (
 	<svg fill="#4c4c4c" width="24px" height="22px" viewBox="0 0 24 22">

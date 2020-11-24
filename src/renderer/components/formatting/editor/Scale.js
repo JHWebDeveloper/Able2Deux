@@ -7,7 +7,7 @@ import {
 	updateMediaNestedState,
 	toggleMediaNestedCheckbox,
 	copySettings,
-	applySettingsToAll,
+	applySettingsToAll
 } from 'actions'
 
 import { compareProps, createSettingsMenu } from 'utilities'
