@@ -225,10 +225,6 @@ details[open] > div { padding-top: 9px; }
 	margin: 0 18px 0 27px;
 }
 
-#editor-options > details > div:not(.auto-columns) {
-	grid-gap: 3px 0;
-}
-
 legend {
 	white-space: nowrap;
 	font-size: 14px;
@@ -263,77 +259,151 @@ input:matches([name="filename"], [name="sourceName"]) { margin-bottom: 9px; }
 	grid-gap: 9px;
 }
 
-.slider-pair {
-	display: inherit;
-	grid-template-columns: auto min-content;
-	grid-gap: 3px;
-}
-
-button[name="link"] {
-	display: flex;
-	align-items: center;
-	grid-column: 2;
-	grid-row: 1 / span 2;
-}
-
-.slider {
-	display: grid;
-	grid-auto-columns: min-content auto min-content min-content min-content;
-	grid-auto-flow: column;
-	grid-gap: 0 6px;
-	grid-column: 1;
-	font-size: 12px;
-}
-
-.slider > :matches(span, input) { align-self: center; }
-
-.slider > input[type="range"] {
-	height: 9px;
-	background-color: var(--primary);
-}
-
-.slider > input[type="range"]:first-child { grid-column: span 2; }
-
-.slider > input[type="range"]::-webkit-slider-thumb {
-	width: 18px;
+details input[type="number"] {
 	height: 18px;
-	background-color: var(--secondary);
-}
-
-.slider > input[type="range"].inverted {
-	background-color: var(--disabled);
-}
-
-.slider > span:first-child {
-	position: relative;
-	width: 12px;
-}
-
-.slider > span:first-child::after {
-	content: ':';
-	position: absolute;
-	right: 0;
-}
-
-.slider > span:last-child { width: 15px; }
-
-.slider > input[type="number"] {
 	width: 44px;
-	font-size: 12px;
 	padding: 2px;
 	border-radius: 3px;
 	background-color: var(--background);
+	font-size: 12px;
 }
 
-.slider > button {
+
+/* ---- SLIDER STYLES ---- */
+
+.single-slider-grid,
+.double-slider-grid {
+	grid-auto-rows: auto;
+	align-items: center;
+	font-size: 12px;
+}
+
+.single-slider-grid {
+	grid-template-columns: min-content auto repeat(3, min-content);
+}
+
+.single-slider-grid > input:first-of-type ~ :matches(label, span, input, button:not([name^="link"])),
+.double-slider-grid > button:first-of-type ~ :matches(label, span, input, button) {
+	grid-row: 2;
+}
+
+button[name^="link"] {
+	display: inherit;
+	align-items: center;
+	margin-left: 3px;
+}
+
+button[name^="link"] > svg { pointer-events: none; }
+
+.single-slider-grid > button[name^="link"] {
+	grid-row: 1 / span 2;
+	height: 100%;
+}
+
+.single-slider-grid > .slider { grid-column: 2; }
+
+.slider + button {
 	width: 18px;
 	height: 18px;
 	padding: 0;
 	border-radius: 3px;
+	margin-right: 5px;
 }
 
-button:matches([title="Fit to Width"], [title="Stretch to Width"]) {
-	transform: rotate(90deg);
+button[title$=" to Width"] { transform: rotate(90deg); }
+
+.double-slider-grid {
+	grid-template-columns: repeat(2, min-content) auto repeat(3, min-content);
+}
+
+.double-slider-grid > label:nth-of-type(odd) { margin-right: 5px; }
+.double-slider-grid > label:nth-of-type(even) { margin-left: 5px; }
+
+.slider, .slider span { display: block; }
+
+.slider {
+	position: relative;
+	width: 100%;
+	padding: 8px 12px;
+}
+
+.slider-track {
+	position: inherit;
+	z-index: 2;
+	width: 100%;
+	height: 9px;
+	margin: auto;
+	border-radius: 3px;
+	background-color: #4c4c4c;
+}
+
+.slider-track > span {
+	position: absolute;
+	height: 18px; 
+	background-color: #7c7c7c;
+}
+
+.slider-track.single > span {
+	width: 18px;
+	border-radius: 50%;
+	background-color: #7c7c7c;
+	transform: translate(-50%, -4.5px);
+}
+
+.slider-track.double > span:nth-child(odd) {
+	z-index: 2;
+	width: 12px;
+	border: 6px solid #7c7c7c;
+	border-radius: 2px;
+	background-color: transparent;
+}
+
+.slider-track.double > span:first-child {
+	border-left-color: transparent;
+	transform: translate(-100%, -4.5px);
+}
+
+.slider-track.double > span:last-child {
+	left: 100%;
+	border-right-color: transparent;
+	transform: translateY(-4.5px);
+}
+
+.slider-track.double > span:nth-child(2) {
+	height: inherit;
+/* create 2px underlap with slider heads to avoid gaps */
+	box-sizing: content-box;
+	margin: 0 -2px;
+	border: solid #7c7c7c;
+	border-width: 0 2px;
+}
+
+.snap-markers {
+	pointer-events: none;
+	position: absolute;
+	top: 0;
+	left: 12px;
+	height: 100%;
+	width: calc(100% - 24px);
+}
+
+.snap-markers::after {
+	content: '';
+	position: inherit;
+	top: 50%;
+	width: 100%;
+	height: 70%;
+	background-color: var(--background-alt-1);
+	transform: translateY(-50%);
+}
+
+.snap-markers > span {
+	position: absolute;
+	top: inherit;
+	width: 1px;
+	height: inherit;
+	background-color: #4c4c4c;
+	transform: translateX(-50%);
 }
 
 
