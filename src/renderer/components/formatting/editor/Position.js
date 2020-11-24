@@ -2,7 +2,7 @@ import React, { memo, useCallback } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
-	updateMediaNestedStateFromEvent,
+	updateMediaNestedState,
 	copySettings,
 	applySettingsToAll
 } from 'actions'
@@ -10,36 +10,45 @@ import {
 import { compareProps, createSettingsMenu } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
-import Slider from '../../form_elements/Slider'
+import SliderSingle from '../../form_elements/SliderSingle'
+import NumberInput from '../../form_elements/NumberInput'
+
+const propsXStatic = { name: 'x', title: 'Position X', 	min: -100 }
+const propsYStatic = { name: 'y', title: 'Position Y', 	min: -100 }
 
 const Position = memo(({ id, isBatch, position, editAll, dispatch }) => {
-	const updatePosition = useCallback(e => {
-		dispatch(updateMediaNestedStateFromEvent(id, 'position', e, editAll))
+	const updatePosition = useCallback(({ name, value }) => {
+		dispatch(updateMediaNestedState(id, 'position', {
+			[name]: value
+		}, editAll))
 	}, [id, editAll])
+
+	const propsX = {
+		...propsXStatic,
+		onChange: updatePosition,
+		value: position.x
+	}
+
+	const propsY = {
+		...propsYStatic,
+		onChange: updatePosition,
+		value: position.y
+	}
 
 	return (
 		<DetailsWrapper
 			summary="Position"
+			className="single-slider-grid"
 			buttons={isBatch && createSettingsMenu([
 				() => dispatch(copySettings({ position })),
 				() => dispatch(applySettingsToAll(id, { position }))
 			])}>
-			<Slider
-				label="X"
-				name="x"
-				value={position.x}
-				min={-100}
-				max={100}
-				points={[0]}
-				onChange={updatePosition} />
-			<Slider
-				label="Y"
-				name="y"
-				value={position.y}
-				min={-100}
-				max={100}
-				points={[0]}
-				onChange={updatePosition} />
+			<label>X</label>
+			<SliderSingle snapPoints={[0]} {...propsX} />
+			<NumberInput {...propsX} />
+			<label>Y</label>
+			<SliderSingle snapPoints={[0]} {...propsY} />
+			<NumberInput {...propsY} />
 		</DetailsWrapper>
 	)
 }, compareProps)

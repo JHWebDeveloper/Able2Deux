@@ -22,16 +22,20 @@ const detectReflection = (prev, next, match) => !(!prev.includes(match) ^ next.i
 const rotateCropValues = (prev, next, crop) => {
 	if (prev === next) return crop
 	
-	const { t, l, b, r } = crop
-	const cropVals = [t, l, b, r]
 	const dist = transpose.indexOf(next) - transpose.indexOf(prev) + 4
+	const cropVals = [crop.t, crop.l, 100 - crop.b, 100 - crop.r]
+	const rotated = []
+
+	for (let i = 0; i < 4; i++) {
+		rotated.push(cropVals[(dist + i) % 4])
+	}
 
 	return {
-		t: cropVals[dist % 4],
-		l: cropVals[(dist + 1) % 4],
-		b: cropVals[(dist + 2) % 4],
-		r: cropVals[(dist + 3) % 4]
-	} 
+		t: rotated[0],
+		l: rotated[1],
+		b: 100 - rotated[2],
+		r: 100 - rotated[3]
+	}
 }
 
 const Rotation = memo(props => {
@@ -48,9 +52,9 @@ const Rotation = memo(props => {
 				height: width,
 				aspectRatio: aspectRatio.split(':').reverse().join(':'),
 				scale: {
+					...scale,
 					x: scale.y,
-					y: scale.x,
-					link: scale.link
+					y: scale.x
 				}
 			}
 		}
@@ -72,13 +76,13 @@ const Rotation = memo(props => {
 		const invertedCrop = {}
 
 		if (detectReflection(rotation.reflect, e.target.value, flip[1])) {
-			invertedCrop.l = crop.r
-			invertedCrop.r = crop.l
+			invertedCrop.l = 100 - crop.r
+			invertedCrop.r = 100 - crop.l
 		}
 
 		if (detectReflection(rotation.reflect, e.target.value, flip[2])) {
-			invertedCrop.t = crop.b
-			invertedCrop.b = crop.t
+			invertedCrop.t = 100 - crop.b
+			invertedCrop.b = 100 - crop.t
 		}
 
 		dispatch(updateMediaState(id, {
