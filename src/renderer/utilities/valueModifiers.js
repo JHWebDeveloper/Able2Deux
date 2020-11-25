@@ -10,16 +10,6 @@ export const cleanFilename = (fileName, asperaSafe) => fileName
 	.slice(0, 252)
 	.trimEnd()
 
-export const keepInRange = e => {
-	let { value, dataset, min, max } = e.target
-
-	value = value === '' ? parseFloat(dataset.defaultValue) : parseFloat(value)
-	min = parseFloat(min)
-	max = parseFloat(max)
-
-	return clamp(value, min, max)
-}
-
 export const zeroizeAuto = (n, total) => zeroize(n, getIntegerLength(total))
 
 export const zeroize = (n, zeroes = 2) => n

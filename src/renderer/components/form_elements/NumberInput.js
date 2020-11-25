@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { func, number, oneOf, oneOfType, string } from 'prop-types'
 
-import { keepInRange } from 'utilities'
+import { clamp } from 'utilities'
 
 const fineTuneOn = e => {
 	if (e.shiftKey) e.target.step = 0.05
@@ -9,6 +9,16 @@ const fineTuneOn = e => {
 
 const fineTuneOff = e => {
 	e.target.step = 1
+}
+
+const keepInRange = e => {
+	let { value, dataset, min, max } = e.target
+
+	value = value === '' ? parseFloat(dataset.defaultValue) : parseFloat(value)
+	min = parseFloat(min)
+	max = parseFloat(max)
+
+	return clamp(value, min, max)
 }
 
 const NumberInput = ({
