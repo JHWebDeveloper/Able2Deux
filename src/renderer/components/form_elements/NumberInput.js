@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
-import { func, number, oneOf, oneOfType, string } from 'prop-types'
+import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import { clamp } from 'utilities'
 
-const fineTuneOn = e => {
+const onKeyDown = e => {
 	if (e.shiftKey) e.target.step = 0.05
 }
 
-const fineTuneOff = e => {
+const onKeyUp = e => {
 	e.target.step = 1
 }
 
@@ -29,7 +29,8 @@ const NumberInput = ({
 	defaultValue = 0,
 	min = 0,
 	max = 100,
-	onChange
+	onChange,
+	disableFineTuning = false
 }) => {
 	const onChangeParse = useCallback(e => {
 		const { name, value } = e.target
@@ -58,8 +59,7 @@ const NumberInput = ({
 			onChange={onChangeParse}
 			onClick={e => e.currentTarget.select()}
 			onBlur={onBlurParse}
-			onKeyDown={fineTuneOn}
-			onKeyUp={fineTuneOff}
+			{...disableFineTuning ? {} : { onKeyDown, onKeyUp }}
 			data-default-value={defaultValue}
 			data-number />
 	)
@@ -73,7 +73,8 @@ NumberInput.propTypes = {
 	defaultValue: number,
 	min: number,
 	max: number,
-	onChange: func
+	onChange: func,
+	disableFineTuning: bool
 }
 
 export default NumberInput
