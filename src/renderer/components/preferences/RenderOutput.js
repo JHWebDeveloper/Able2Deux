@@ -1,18 +1,18 @@
 import React, { useCallback } from 'react'
 import { func, number, oneOf, bool } from 'prop-types'
 
-import { updateStateFromEvent, toggleCheckbox } from 'actions'
-import { keepInRange } from 'utilities'
+import { updateState, toggleCheckbox } from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
+import NumberInput from '../form_elements/NumberInput'
 
 const _720 = [1280, 720].join('x')
 const _1080 = [1920, 1080].join('x')
 
 const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, concurrent, dispatch }) => {
-	const keepConcurrentInRange = useCallback(e => {
-		dispatch(updateStateFromEvent(keepInRange(e)))
+	const updateConcurrent = useCallback(({ name, value }) => {
+		dispatch(updateState({ [name]: value }))
 	}, [])
 
 	return (
@@ -69,16 +69,13 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 				switchIcon/>
 			<span className="input-option">
 				<label htmlFor="concurrent">Concurrent Renders</label>
-				<input
-					type="number"
+				<NumberInput
 					name="concurrent"
 					id="concurrent"
 					value={concurrent}
-					onChange={e => dispatch(updateStateFromEvent(e))}
 					min={1}
-					max={99}
-					onBlur={keepConcurrentInRange}
-					data-number />
+					max={10}
+					onChange={updateConcurrent} />
 			</span>
 		</div>
 	)
