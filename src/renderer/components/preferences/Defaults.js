@@ -73,6 +73,7 @@ const Defaults = ({ warnings, editAll, enableWidescreenGrids, gridColor, scaleSl
 							value={scaleSliderMax}
 							min={100}
 							max={4500}
+							defaultValue={400}
 							onChange={updateScaleMax} />
 					</span>
 				</div>

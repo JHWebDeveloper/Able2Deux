@@ -75,6 +75,7 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 					value={concurrent}
 					min={1}
 					max={10}
+					defaultValue={2}
 					onChange={updateConcurrent} />
 			</span>
 		</div>
