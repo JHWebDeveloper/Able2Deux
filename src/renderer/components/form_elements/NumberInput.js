@@ -14,6 +14,7 @@ const fineTuneOff = e => {
 const NumberInput = ({
 	name,
 	title,
+	id,
 	value = 0,
 	defaultValue = 0,
 	min = 0,
@@ -39,6 +40,7 @@ const NumberInput = ({
 			type="number"
 			name={name}
 			title={title}
+			id={id}
 			value={value}
 			min={min}
 			max={max}
@@ -56,6 +58,7 @@ const NumberInput = ({
 NumberInput.propTypes = {
 	name: string,
 	title: string,
+	id: string,
 	value: oneOfType([oneOf(['']), number]).isRequired,
 	defaultValue: number,
 	min: number,
