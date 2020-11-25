@@ -76,7 +76,8 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 					min={1}
 					max={10}
 					defaultValue={2}
-					onChange={updateConcurrent} />
+					onChange={updateConcurrent}
+					disableFineTuning />
 			</span>
 		</div>
 	)

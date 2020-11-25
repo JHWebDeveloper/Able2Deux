@@ -74,7 +74,8 @@ const Defaults = ({ warnings, editAll, enableWidescreenGrids, gridColor, scaleSl
 							min={100}
 							max={4500}
 							defaultValue={400}
-							onChange={updateScaleMax} />
+							onChange={updateScaleMax}
+							disableFineTuning />
 					</span>
 				</div>
 			</fieldset>
