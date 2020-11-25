@@ -3,7 +3,7 @@ import { arrayOf, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import { clamp, throttle } from 'utilities'
 
-/* expose percentages outside of component since state value
+/* expose drag values outside of component since state value
    will not update inside drag when drag is attached to window */
 const thumbPos = new Map()
 const mousePos = new Map()
