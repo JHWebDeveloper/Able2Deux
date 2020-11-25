@@ -76,16 +76,16 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 	const fitToFrameWidth = useCallback(() => {
 		dispatch(updateMediaNestedState(id, 'scale', {
 			x: frameWidthPrc,
-			y: scale.link ? frameWidthPrc : scale.y
+			y: scale.link ? frameWidthPrc * offset : scale.y
 		}, editAll))
-	}, [id, frameWidthPrc, scale.link, scale.y, editAll, t, b, r, l])
+	}, [id, frameWidthPrc, scale.link, offset, scale.y, editAll, t, b, r, l])
 	
 	const fitToFrameHeight = useCallback(() => {
 		dispatch(updateMediaNestedState(id, 'scale', {
-			x: scale.link ? frameHeightPrc : scale.x,
+			x: scale.link ? frameHeightPrc / offset : scale.x,
 			y: frameHeightPrc
 		}, editAll))
-	}, [id, scale.link, frameWidthPrc, scale.x, editAll, t, b, r, l])
+	}, [id, scale.link, frameHeightPrc, offset, scale.x, editAll, t, b, r, l])
 
 	const toggleScaleLink = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'scale', e, editAll))

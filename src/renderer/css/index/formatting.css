@@ -279,7 +279,7 @@ details input[type="number"] {
 }
 
 .single-slider-grid {
-	grid-template-columns: min-content auto repeat(3, min-content);
+	grid-template-columns: min-content auto repeat(4, min-content);
 }
 
 .single-slider-grid > input:first-of-type ~ :matches(label, span, input, button:not([name^="link"])),
@@ -302,7 +302,7 @@ button[name^="link"] > svg { pointer-events: none; }
 
 .single-slider-grid > .slider { grid-column: 2; }
 
-.slider + button {
+.single-slider-grid > button:not(:last-child) {
 	width: 18px;
 	height: 18px;
 	padding: 0;
