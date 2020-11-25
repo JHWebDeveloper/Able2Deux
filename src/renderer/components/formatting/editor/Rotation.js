@@ -12,9 +12,9 @@ import { compareProps, createSettingsMenu } from 'utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
 
-const directions = ['t', 'l', 'b', 'r']
-const transpose = ['', 'transpose=1,', 'transpose=2,transpose=2,', 'transpose=2,']
-const flip = ['', 'hflip,', 'vflip,', 'hflip,vflip,']
+const directions = Object.freeze(['t', 'l', 'b', 'r'])
+const transpose = Object.freeze(['', 'transpose=1,', 'transpose=2,transpose=2,', 'transpose=2,'])
+const flip = Object.freeze(['', 'hflip,', 'vflip,', 'hflip,vflip,'])
 const by90 = /^transpose=(1|2),$/
 
 const detectOrientationChange = (prev, next) => !!(by90.test(prev) ^ by90.test(next))
