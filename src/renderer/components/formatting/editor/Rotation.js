@@ -12,6 +12,7 @@ import { compareProps, createSettingsMenu } from 'utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
 
+const directions = ['t', 'l', 'b', 'r']
 const transpose = ['', 'transpose=1,', 'transpose=2,transpose=2,', 'transpose=2,']
 const flip = ['', 'hflip,', 'vflip,', 'hflip,vflip,']
 const by90 = /^transpose=(1|2),$/
@@ -24,15 +25,16 @@ const rotateCropValues = (prev, next, crop) => {
 	
 	const rotations = transpose.indexOf(next) - transpose.indexOf(prev) + 4
 	const cropVals = [crop.t, crop.l, 100 - crop.b, 100 - crop.r]
-	const rotated = []
 
-	for (let i = 0; i < 4; i++) {
-		rotated.push(cropVals[(rotations + i) % 4])
-	}
+	const rotated = directions.reduce((obj, dir, i) => {
+		obj[dir] = cropVals[(rotations + i) % 4]
+		return obj
+	}, {})
 
-	const [ t, l, b, r ] = rotated
+	rotated.b = 100 - rotated.b
+	rotated.r = 100 - rotated.r
 
-	return { t, l, b: 100 - b, r: 100 - r }
+	return rotated
 }
 
 const Rotation = memo(props => {
