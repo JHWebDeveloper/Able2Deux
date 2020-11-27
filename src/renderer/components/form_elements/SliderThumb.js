@@ -15,9 +15,14 @@ const getClickPosDefault = e => {
 }
 
 const snapToPoint = (thresholds, val) => {
-	const point = thresholds.find(pt => val > pt[1] && val < pt[2])
+	let i = thresholds.length
 
-	return point?.[0] ?? false
+	while (i--) {
+		const th = thresholds[i]
+		if (val > th[1] && val < th[2]) return th[0]
+	}
+
+	return false
 }
 
 const SliderThumb = forwardRef(({
