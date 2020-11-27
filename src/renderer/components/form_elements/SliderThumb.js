@@ -19,7 +19,7 @@ const snapToPoint = (thresholds, val) => {
 
 	while (i--) {
 		const th = thresholds[i]
-		if (val > th[1] && val < th[2]) return th[0]
+		if (val >= th[1] && val <= th[2]) return th[0]
 	}
 
 	return false
