@@ -11,10 +11,10 @@ const onKeyUp = e => {
 	e.target.step = 1
 }
 
-const keepInRange = e => {
-	let { value, dataset, min, max } = e.target
+const keepInRange = (defaultValue, e) => {
+	let { value, min, max } = e.target
 
-	value = value === '' ? parseFloat(dataset.defaultValue) : parseFloat(value)
+	value = value === '' ? parseFloat(defaultValue) : parseFloat(value)
 	min = parseFloat(min)
 	max = parseFloat(max)
 
@@ -43,7 +43,7 @@ const NumberInput = ({
 
 	const onBlurParse = useCallback(e => onChange({
 		name: e.target.name,
-		value: keepInRange(e)
+		value: keepInRange(defaultValue, e)
 	}), [onChange])
 
 	return (
@@ -59,9 +59,7 @@ const NumberInput = ({
 			onChange={onChangeParse}
 			onClick={e => e.currentTarget.select()}
 			onBlur={onBlurParse}
-			{...disableFineTuning ? {} : { onKeyDown, onKeyUp }}
-			data-default-value={defaultValue}
-			data-number />
+			{...disableFineTuning ? {} : { onKeyDown, onKeyUp }} />
 	)
 }
 
