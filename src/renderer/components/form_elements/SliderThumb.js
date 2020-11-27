@@ -96,17 +96,18 @@ const SliderThumb = forwardRef(({
 	}), [min, max, width, setValue])
 
 	const keyIncrement = useCallback(e => {
-		if (!/^Arrow/.test(e.key)) return true
+		const rightOrUp = e.key === 'ArrowRight' || e.key === 'ArrowUp'
+
+		if (!rightOrUp && e.key !== 'ArrowLeft' && e.key !== 'ArrowDown') return true
 
 		e.preventDefault()
 
 		const incr = e.shiftKey ? fineTuneStep : step
+		const next = rightOrUp
+			? Math.min(value + incr, max)
+			: Math.max(value - incr, min)
 
-		if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
-			setValue(Math.max(value - incr, min))
-		} else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
-			setValue(Math.min(value + incr, max))
-		}
+		setValue(next)
 	}, [value, min, max, width, setValue])
 
 	useEffect(() => {
