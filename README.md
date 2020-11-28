@@ -20,6 +20,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - The link buttons for crop sliders now adjust relative to the current offset rather than the exact center of the media.
 - Crop Bottom and Right values are now counted down from 100 rather than up from 0.
 - Scale distortion is now preserved when clicking "Fit to Frame" buttons while x and y are linked.
+- Added throttling to preview requests. Limiting rate to once every 60ms. Huge performance improvement.
 
 ### Removed
 - Percent markers on all sliders. It's obvious what the numbers are and removing the markers allows for more slider track room.
