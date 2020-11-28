@@ -15,9 +15,9 @@ import RadioSet from '../../form_elements/RadioSet'
 const directions = Object.freeze(['t', 'l', 'b', 'r'])
 const transpose = Object.freeze(['', 'transpose=1,', 'transpose=2,transpose=2,', 'transpose=2,'])
 const flip = Object.freeze(['', 'hflip,', 'vflip,', 'hflip,vflip,'])
-const by90 = /^transpose=(1|2),$/
 
-const detectOrientationChange = (prev, next) => !!(by90.test(prev) ^ by90.test(next))
+const isSideways = angle => angle === transpose[1] || angle === transpose[3]
+const detectOrientationChange = (prev, next) => !!(isSideways(prev) ^ isSideways(next))
 const detectReflection = (prev, next, match) => !(!prev.includes(match) ^ next.includes(match))
 
 const rotateCropValues = (prev, next, crop) => {
@@ -142,11 +142,11 @@ const Rotation = memo(props => {
 						},
 						{
 							label: 'Horizontally',
-							value: flip[1]
+							value: flip[isSideways(rotation.angle) ? 2 : 1]
 						},
 						{
 							label: 'Vertically',
-							value: flip[2]
+							value: flip[isSideways(rotation.angle) ? 1 : 2]
 						},
 						{
 							label: 'Both',
