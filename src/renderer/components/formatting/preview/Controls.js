@@ -1,16 +1,18 @@
 import React, { useCallback, useMemo } from 'react'
 import { bool, func, number, object, exact, shape, string } from 'prop-types'
 
-import { updateMediaState, updateMediaStateFromEvent, extractStill } from 'actions'
+import { updateMediaState, extractStill } from 'actions'
 import { secondsToTC, zeroizeAuto } from 'utilities'
+
+import SliderSingle from '../../form_elements/SliderSingle'
 
 const toggleTitle = state => state ? 'Hide' : 'Show'
 
 const Controls = props => {
 	const { selected, grids, gridColor, dispatch } = props
-	const { id, timecode, start, end, fps } = selected
-	const min = useMemo(() => start.enabled ? start.tc * fps : 0, [start])
-	const max = useMemo(() => end.enabled ? end.tc * fps : selected.duration * fps, [end])
+	const { id, timecode, start, end, fps, totalFrames } = selected
+	// const min = useMemo(() => start.enabled ? start.tc * fps : 0, [start])
+	// const max = useMemo(() => end.enabled ? end.tc * fps : selected.duration * fps, [end])
 
 	const toggleColor = useCallback(gridName => ({
 		color: gridName ? gridColor : '#eee'
@@ -39,8 +41,8 @@ const Controls = props => {
 		dispatch(extractStill(selected, e))
 	}, [selected])
 
-	const updateTimecode = useCallback(e => {
-		dispatch(updateMediaStateFromEvent(id, e))
+	const updateTimecode = useCallback(({ name, value }) => {
+		dispatch(updateMediaState(id, { [name]: value }))
 	}, [id])
 
 	return (
@@ -49,15 +51,14 @@ const Controls = props => {
 				<span className="monospace">
 					{secondsToTC(timecode / fps)};{zeroizeAuto(Math.round(timecode % fps), fps)}
 				</span>
-				<input
-					type="range"
-					title="Select Frame"
+				<SliderSingle
 					name="timecode"
+					title="Select Frame"
 					value={timecode}
-					min={min}
-					max={max}
-					onChange={updateTimecode}
-					data-number />
+					min={0}
+					max={totalFrames}
+					fineTuneStep={1}
+					onChange={updateTimecode} />
 				<button
 					type="button"
 					className="symbol"
@@ -130,7 +131,8 @@ Controls.propTypes = {
 		start: object,
 		end: object,
 		fps: number,
-		duration: number
+		duration: number,
+		totalFrames: number
 	}).isRequired,
 	grids: exact({
 		grid: bool,
