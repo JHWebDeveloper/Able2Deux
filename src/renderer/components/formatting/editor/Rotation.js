@@ -18,7 +18,7 @@ const flip = Object.freeze(['', 'hflip,', 'vflip,', 'hflip,vflip,'])
 
 const detectSideways = angle => angle === transpose[1] || angle === transpose[3]
 const detectOrientationChange = (prev, next) => !!(detectSideways(prev) ^ detectSideways(next))
-const detectReflection = (prev, next, match) => !(!prev.includes(match) ^ next.includes(match))
+const detectReflection = (prev, next, query) => !(!prev.includes(query) ^ next.includes(query))
 
 const rotateCropValues = (prev, next, crop) => {
 	if (prev === next) return crop
