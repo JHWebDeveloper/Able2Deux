@@ -76,7 +76,7 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 		.run()
 })
 
-export const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, audio, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
+const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, audio, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
 	const command = ffmpeg()
 		.on('end', resolve)
 		.on('error', reject)
