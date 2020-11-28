@@ -31,6 +31,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ## Fixed
 - Bug where reflecting was causing 90cw and 90ccw to invert directions.
+- Bug causing preview to occasionally not update to the selected frame.
 
 ## [2.1.3] - 11.2.2020
 
