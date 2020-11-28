@@ -76,7 +76,7 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 		.run()
 })
 
-const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, audio, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
+const createPreviewSource = ({ id, mediaType, hasAlpha, isAudio, audio, tempFilePath, tc = 0 }) => new Promise((resolve, reject) => {
 	const command = ffmpeg()
 		.on('end', resolve)
 		.on('error', reject)
@@ -120,7 +120,7 @@ const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, audio, tem
 })
 
 export const changePreviewSource = async (exportData, win) => {
-	await updatePreviewSourceImage(exportData)
+	await createPreviewSource(exportData)
 
 	win.webContents.send('previewStillCreated', await createPreviewStill(exportData))
 }
