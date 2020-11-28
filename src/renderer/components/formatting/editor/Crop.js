@@ -21,7 +21,7 @@ const propsLStatic = { name: 'l', title: 'Crop Left' }
 const propsRStatic = { name: 'r', title: 'Crop Right' }
 
 const sliderProps = {
-	snapPoints: [25, 33.33, 50, 66.67, 75],
+	snapPoints: [50],
 	sensitivity: 2,
 	enableAutoCenter: true
 }
