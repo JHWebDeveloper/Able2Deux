@@ -16,8 +16,8 @@ const directions = Object.freeze(['t', 'l', 'b', 'r'])
 const transpose = Object.freeze(['', 'transpose=1,', 'transpose=2,transpose=2,', 'transpose=2,'])
 const flip = Object.freeze(['', 'hflip,', 'vflip,', 'hflip,vflip,'])
 
-const isSideways = angle => angle === transpose[1] || angle === transpose[3]
-const detectOrientationChange = (prev, next) => !!(isSideways(prev) ^ isSideways(next))
+const detectSideways = angle => angle === transpose[1] || angle === transpose[3]
+const detectOrientationChange = (prev, next) => !!(detectSideways(prev) ^ detectSideways(next))
 const detectReflection = (prev, next, match) => !(!prev.includes(match) ^ next.includes(match))
 
 const rotateCropValues = (prev, next, crop) => {
@@ -96,6 +96,8 @@ const Rotation = memo(props => {
 		}, editAll))
 	}, [id, rotation, crop, editAll])
 
+	const isSideways = detectSideways(rotation.angle)
+
 	return (
 		<DetailsWrapper
 			summary="Rotation"
@@ -142,11 +144,11 @@ const Rotation = memo(props => {
 						},
 						{
 							label: 'Horizontally',
-							value: flip[isSideways(rotation.angle) ? 2 : 1]
+							value: flip[isSideways ? 2 : 1]
 						},
 						{
 							label: 'Vertically',
-							value: flip[isSideways(rotation.angle) ? 1 : 2]
+							value: flip[isSideways ? 1 : 2]
 						},
 						{
 							label: 'Both',
