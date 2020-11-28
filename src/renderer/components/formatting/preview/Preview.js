@@ -25,7 +25,6 @@ const Preview = ({ selected, dispatch }) => {
 		duration,
 		aspectRatio,
 		fps,
-		hasAlpha,
 		start,
 		end,
 		audio,
@@ -35,10 +34,6 @@ const Preview = ({ selected, dispatch }) => {
 		timecode
 	} = selected
 
-	const mediaSelected = !!id
-
-	const [ previewReady, setPreviewReady ] = useState(false)
-	const [ open, toggleOpen ] = useState(false)
 	const [ previewStill, loadPreviewStill ] = useState('')
 	
 	const [ grids, toggleGrids ] = useState({
@@ -69,66 +64,49 @@ const Preview = ({ selected, dispatch }) => {
 	}, [])
 
 	useEffect(() => {
-		(async () => {
-			if (!mediaSelected) return false
-
-			setPreviewReady(false)
-
-			await interop.initPreview({
-				id,
-				mediaType,
-				hasAlpha,
-				isAudio,
-				format: audio.format,
-				tempFilePath: selected.tempFilePath,
-				tc: timecode / fps / duration * 100
-			})
-
-			setPreviewReady(true)
-		})()
+		interop.initPreview({
+			...selected,
+			isAudio,
+			renderOutput,
+			sourceData,
+			tc: timecode / fps / duration * 100
+		})
 	}, [id, mediaType, isAudio, audio?.format, timecode, start, end])
 
 	useEffect(() => {
-		if (mediaSelected && previewReady && open) {
-			interop.requestPreviewStill({
-				...selected,
-				isAudio,
-				renderOutput,
-				sourceData
-			})
-		}
-	}, [previewReady, open, renderOutput, ...extractPreviewTriggers(selected)])
+		interop.requestPreviewStill({
+			...selected,
+			isAudio,
+			renderOutput,
+			sourceData
+		})
+	}, [renderOutput, ...extractPreviewTriggers(selected)])
 
 	return (
-		<details onToggle={() => { toggleOpen(!open) }} open>
-			<summary>Preview</summary>
-			{open && (
-				<div id="preview">
-					<div>
-						<div id="preview-container">
-							{previewStill
-								? <span style={{ backgroundImage: `url("${previewStill}")` }}></span>
-								: <Spinner />}
-							<Grid
-								grids={grids}
-								enableWidescreenGrids={enableWidescreenGrids}
-								gridColor={gridColor} />
-						</div>
-					</div>
-					<div id="preview-controls">
-						{mediaSelected && !isAudio && (
-							<Controls
-								selected={selected}
-								grids={grids}
-								enableWidescreenGrids={enableWidescreenGrids}
-								gridColor={gridColor}
-								toggleGrids={toggleGrids}
-								dispatch={dispatch} />
-						)}
-					</div>
+		<div id="preview">
+			<div>
+				<div id="preview-container">
+					{previewStill
+						? <span style={{ backgroundImage: `url("${previewStill}")` }}></span>
+						: <Spinner />}
+					<Grid
+						grids={grids}
+						enableWidescreenGrids={enableWidescreenGrids}
+						gridColor={gridColor} />
 				</div>
-			)}
-		</details>
+			</div>
+			<div id="preview-controls">
+				{!isAudio && (
+					<Controls
+						selected={selected}
+						grids={grids}
+						enableWidescreenGrids={enableWidescreenGrids}
+						gridColor={gridColor}
+						toggleGrids={toggleGrids}
+						dispatch={dispatch} />
+				)}
+			</div>
+		</div>
 	)
 }
 
