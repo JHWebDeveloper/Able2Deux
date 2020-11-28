@@ -14,7 +14,7 @@ import {
 } from '../utilities'
 
 
-export const previewStill = exportData => new Promise((resolve, reject) => {
+export const createPreviewStill = exportData => new Promise((resolve, reject) => {
 	const { id, renderOutput, hasAlpha, isAudio, arc, background, overlay, sourceData, rotation } = exportData
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
@@ -122,7 +122,7 @@ export const updatePreviewSourceImage = ({ id, mediaType, hasAlpha, isAudio, aud
 export const changePreviewSource = async (exportData, win) => {
 	await updatePreviewSourceImage(exportData)
 
-	win.webContents.send('previewStillCreated', await previewStill(exportData))
+	win.webContents.send('previewStillCreated', await createPreviewStill(exportData))
 }
 
 export const copyPreviewToImports = async ({ oldId, hasAlpha }) => {

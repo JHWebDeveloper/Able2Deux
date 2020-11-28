@@ -10,7 +10,7 @@ import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './m
 import { upload } from './modules/acquisition/upload'
 import { saveScreenRecording } from './modules/acquisition/saveScreenRecording'
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
-import { previewStill, changePreviewSource, copyPreviewToImports } from './modules/formatting/preview'
+import { createPreviewStill, changePreviewSource, copyPreviewToImports } from './modules/formatting/preview'
 import { render, cancelRender } from './modules/formatting/formatting'
 import { fileExistsPromise } from './modules/utilities'
 
@@ -425,7 +425,7 @@ const initPreviewIPC = async (evt, data) => {
 
 const requestPreviewStillIPC = async (evt, data) => {
 	try {
-		evt.reply('previewStillCreated', await previewStill(data))
+		evt.reply('previewStillCreated', await createPreviewStill(data))
 	} catch (err) {
 		if (!/^Error: ffmpeg (was killed with signal SIGKILL)|(exited with code 1)/.test(err.toString())) {
 			console.error(err)
