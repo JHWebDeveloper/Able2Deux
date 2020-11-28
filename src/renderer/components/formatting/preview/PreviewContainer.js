@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { object, func } from 'prop-types'
 
 import Preview from './Preview'
 
@@ -11,6 +12,11 @@ const PreviewContainer = props => {
 			{open && !!props.selected.id && <Preview {...props} />}
 		</details>
 	)
+}
+
+PreviewContainer.propTypes = {
+	selected: object,
+	dispatch: func
 }
 
 export default PreviewContainer
