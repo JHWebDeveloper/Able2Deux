@@ -73,8 +73,6 @@ progress,
 input:matches(
 	[type="checkbox"],
 	[type="radio"],
-	[type="range"],
-	[type="range"]::-webkit-slider-thumb,
 	[type="number"]::-webkit-inner-spin-button,
 	[type="number"]::-webkit-outer-spin-button
 ) {
@@ -164,12 +162,6 @@ input[type="radio"]:checked::after { content: 'radio_button_checked'; }
 input[type="checkbox"].switch {	margin-right: -18px; }
 
 input[type="checkbox"].switch::after { opacity: 0; }
-
-input[type="range"] { border-radius: 3px; }
-
-input[type="range"]::-webkit-slider-thumb {
-	border-radius: 50%;
-}
 
 label {
 	white-space: nowrap;
