@@ -8,13 +8,12 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, createSettingsMenu } from 'utilities'
+import { clamp, compareProps, createSettingsMenu } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import SliderDouble from '../../form_elements/SliderDouble'
 import NumberInput from '../../form_elements/NumberInput'
 import LinkIcon from '../../svg/LinkIcon'
-import { clamp } from '../../../utilities'
 
 const propsTStatic = { name: 't', title: 'Crop Top' }
 const propsBStatic = { name: 'b', title: 'Crop Bottom' }
