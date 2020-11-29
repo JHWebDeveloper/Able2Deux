@@ -44,11 +44,13 @@
 	font-size: 11px;
 }
 
-#preview-controls > :matches(span, button) { padding: 0 6px; }
+#preview-controls > div { display: contents; }
 
-#preview-controls > span { align-self: center; }
+#preview-controls :matches(span, button) { padding: 0 6px; }
 
-#preview-controls > .slider { flex: 1; }
+#preview-controls span { align-self: center; }
+
+#preview-controls .slider { flex: 1; }
 
 #preview-controls .slider-track {
 	height: 6px;
@@ -61,7 +63,7 @@
 	background-color: var(--background);
 }
 
-#preview-controls > button {
+#preview-controls button {
 	height: inherit;
 	min-width: 24px;
 }

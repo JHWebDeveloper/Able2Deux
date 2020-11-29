@@ -7,7 +7,7 @@ import { framesToTC } from 'utilities'
 import SliderSingle from '../../form_elements/SliderSingle'
 
 const FrameSelector = ({ selected, dispatch }) => {
-	const { id, timecode, start, end, fps } = selected
+	const { id, timecode, start, end, fps, totalFrames } = selected
 
 	const updateTimecode = useCallback(({ name, value }) => {
 		dispatch(updateMediaState(id, { [name]: value }))
@@ -29,6 +29,33 @@ const FrameSelector = ({ selected, dispatch }) => {
 		dispatch(extractStill(selected, e))
 	}, [selected])
 
+	const onKeyPress = useCallback(e => {
+		const props = {}
+		
+		switch (e.key) {
+			case 'i':
+			case 'e':
+				props.start = timecode
+				break
+			case 'o':
+			case 'r':
+				props.end = timecode
+				break
+			case 'd':
+				props.start = 0
+				break
+			case 'g':
+				props.start = 0
+			case 'f':
+				props.end = totalFrames
+				break
+			default:
+				return true
+		}
+
+		dispatch(updateMediaState(id, props))
+	}, [id, timecode, totalFrames])
+
 	useEffect(() => {
 		if (timecode < start) {
 			dispatch(updateMediaState(id, { timecode: start }))
@@ -37,32 +64,34 @@ const FrameSelector = ({ selected, dispatch }) => {
 		}
 	}, [id, start, end])
 
-	return <>
-		<span className="monospace">{framesToTC(timecode, fps)}</span>
-		<SliderSingle
-			name="timecode"
-			title="Select Frame"
-			value={timecode}
-			min={start}
-			max={end}
-			fineTuneStep={1}
-			onChange={updateTimecode} />
-		<button
-			type="button"
-			className="symbol"
-			title="Increment 1 Frame Backward (Shift+Click for 10 Frames)"
-			onClick={incrementFrameBackward}>chevron_left</button>
-		<button
-			type="button"
-			className="symbol"
-			title="Increment 1 Frame Forward (Shift+Click for 10 Frames)"
-			onClick={incrementFrameForward}>chevron_right</button>
-		<button
-			type="button"
-			className="symbol"
-			title="Create Screengrab"
-			onClick={dispatchExtractStill}>camera_alt</button>
-	</>
+	return (
+		<div onKeyPress={onKeyPress}>
+			<span className="monospace">{framesToTC(timecode, fps)}</span>
+			<SliderSingle
+				name="timecode"
+				title="Select Frame"
+				value={timecode}
+				min={start}
+				max={end}
+				fineTuneStep={1}
+				onChange={updateTimecode} />
+			<button
+				type="button"
+				className="symbol"
+				title="Increment 1 Frame Backward (Shift+Click for 10 Frames)"
+				onClick={incrementFrameBackward}>chevron_left</button>
+			<button
+				type="button"
+				className="symbol"
+				title="Increment 1 Frame Forward (Shift+Click for 10 Frames)"
+				onClick={incrementFrameForward}>chevron_right</button>
+			<button
+				type="button"
+				className="symbol"
+				title="Create Screengrab"
+				onClick={dispatchExtractStill}>camera_alt</button>
+		</div>
+	)
 }
 
 FrameSelector.propTypes = {
@@ -71,7 +100,8 @@ FrameSelector.propTypes = {
 		timecode: number.isRequired,
 		start: number.isRequired,
 		end: number.isRequired,
-		fps: number.isRequired
+		fps: number.isRequired,
+		totalFrames: number.isRequired
 	}).isRequired,
 	dispatch: func.isRequired
 }
