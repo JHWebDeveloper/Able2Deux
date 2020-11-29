@@ -33,7 +33,7 @@ const MediaInfo = memo(props => {
 			<img src={thumbnail} alt={title} />
 			<h2 ref={ref}>{title}</h2>
 			<ul>
-				{!!totalFrames && <li>{framesToTC(totalFrames, fps)}</li>}
+				{!!totalFrames && fps && <li>{framesToTC(totalFrames, fps)}</li>}
 				{!!width && !!height && <li>{width}x{height}</li>}
 				{!!aspectRatio && <li>{aspectRatio}</li>}
 				{!!fps && <li>{fps}fps</li>}
