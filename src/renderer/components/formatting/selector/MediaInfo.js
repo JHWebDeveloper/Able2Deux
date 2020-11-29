@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useRef } from 'react'
-import { number, string } from 'prop-types'
+import { number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	compareProps,
@@ -52,7 +52,7 @@ MediaInfo.propTypes = {
 	height: number,
 	aspectRatio: string,
 	totalFrames: number,
-	fps: number,
+	fps: oneOfType([oneOf([false]), number]),
 	channelLayout: string,
 	sampleRate: string,
 	bitRate: string
