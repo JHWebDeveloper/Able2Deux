@@ -1,10 +1,7 @@
 import React, { memo, useCallback } from 'react'
 import { bool, exact, func, number, string } from 'prop-types'
 
-import {
-	updateMediaState,
-	updateMediaStateFromEvent,
-} from 'actions'
+import { updateMediaState, updateMediaStateFromEvent } from 'actions'
 
 import { compareProps } from 'utilities'
 

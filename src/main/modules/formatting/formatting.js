@@ -99,6 +99,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		hasAlpha,
 		start,
 		end,
+		fps,
 		totalFrames,
 		audio,
 		arc,

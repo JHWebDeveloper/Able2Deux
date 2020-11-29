@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
+import { func, number, shape, string } from 'prop-types'
 
 import { updateMediaState, extractStill } from 'actions'
 import { framesToTC } from 'utilities'
@@ -62,6 +63,17 @@ const FrameSelector = ({ selected, dispatch }) => {
 			title="Create Screengrab"
 			onClick={dispatchExtractStill}>camera_alt</button>
 	</>
+}
+
+FrameSelector.propTypes = {
+	selected: shape({
+		id: string.isRequired,
+		timecode: number.isRequired,
+		start: number.isRequired,
+		end: number.isRequired,
+		fps: number.isRequired
+	}).isRequired,
+	dispatch: func.isRequired
 }
 
 export default FrameSelector
