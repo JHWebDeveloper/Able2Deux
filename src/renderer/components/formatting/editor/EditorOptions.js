@@ -38,7 +38,8 @@ const EditorOptions = props => {
 				filename={props.filename}
 				start={props.start}
 				end={props.end}
-				duration={props.duration}
+				fps={props.fps}
+				totalFrames={props.totalFrames}
 				{...common} />
 			{(mediaType === 'video' || mediaType === 'audio') && (
 				<Audio
