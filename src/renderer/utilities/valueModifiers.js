@@ -77,10 +77,3 @@ export const tcToFrames = (hmsf, fps) => {
 
 	return frms
 }
-
-export const limitTCChars = colonMax => e => {
-	const colons = e.target.value.match(/:|;/g) || []
-	const regex = colons.length === colonMax ? /[0-9]/ : /[:;0-9]/
-
-	if (!regex.test(e.key)) e.preventDefault()
-}
