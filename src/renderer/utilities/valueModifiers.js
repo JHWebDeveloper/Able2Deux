@@ -46,14 +46,43 @@ export const secondsToTC = sec => [
 	sec % 60 << 0
 ].map(n => zeroize(n, 2)).join(':')
 
-export const tcToSeconds = hms => {
-	const sec = hms
-		.split(':')
-		.reverse()
+export const framesToTC = (frms, fps) => {
+	const frmsPrec = frms * 10000
+	const fpsPrec = fps * 10000
+	const sec = Math.floor(frmsPrec / fpsPrec)
+	const rmd = Math.floor(frmsPrec % fpsPrec / 10000)
+
+	return `${secondsToTC(sec)}:${zeroizeAuto(rmd, fps)}`
+}
+
+export const tcToSeconds = hms => hms
+	.split(':')
+	.reverse()
+	.map(val => parseInt(val) || 0)
+	.reduce((acc, val, i) => acc + val * 60 ** i, 0)
+
+export const tcToFrames = (hmsf, fps) => {
+	const parts = hmsf
+		.split(/:|;/)
 		.map(val => parseInt(val) || 0)
+
+	let frms = parts
+		.slice(0, 3)
+		.reverse()
 		.reduce((acc, val, i) => acc + val * 60 ** i, 0)
-	
-	return Math.min(sec, 86399) // 86399 == 23:59:59
+
+	frms *= fps
+
+	if (parts[3]) frms += parts[3]
+
+	return frms
+}
+
+export const limitTCChars = colonMax => e => {
+	const colons = e.target.value.match(/:|;/g) || []
+	const regex = colons.length === colonMax ? /[0-9]/ : /[:;0-9]/
+
+	if (!regex.test(e.key)) e.preventDefault()
 }
 
 export const simplifyTimecode = tc => secondsToTC(tcToSeconds(tc))
