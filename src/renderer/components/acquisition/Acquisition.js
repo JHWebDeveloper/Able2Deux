@@ -10,7 +10,7 @@ import ScreenRecorder from './ScreenRecorder'
 import ReadyQueue from './ReadyQueue'
 
 const Acquisition = () => {
-	const { url, optimize, recording, screenshot, timer, media, dispatch } = useContext(MainContext)
+	const { url, optimize, recording, media, dispatch } = useContext(MainContext)
 	const prefsCtx = useContext(PrefsContext)
 	const { preferences } = prefsCtx
 	const { renderOutput, disableRateLimit } = preferences
@@ -29,8 +29,6 @@ const Acquisition = () => {
 				dispatch={dispatch} />
 			<ScreenRecorder
 				recording={recording}
-				screenshot={screenshot}
-				timer={timer}
 				dispatch={dispatch} />
 			<ReadyQueue
 				media={media}
