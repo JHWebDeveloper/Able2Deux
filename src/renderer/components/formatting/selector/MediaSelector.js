@@ -13,7 +13,7 @@ const MediaSelector = ({ media, selected, isBatch, editAll, dispatch }) => (
 			width={selected.width}
 			height={selected.height}
 			aspectRatio={selected.aspectRatio}
-			duration={selected.duration}
+			totalFrames={selected.totalFrames}
 			fps={selected.fps}
 			channelLayout={selected.channelLayout}
 			sampleRate={selected.sampleRate}
