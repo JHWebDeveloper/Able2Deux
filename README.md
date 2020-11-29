@@ -18,7 +18,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ### Changed
 - All HTML range inputs have been replaced with custom made sliders.
 - Start and End inputs now accept frames.
-- Start and End input can now be incremented by pressing the Up and Down arrows.
+- Start and End inputs and Screen Recorder Timer can now be incremented by pressing the Up and Down arrows.
 - The four Crop sliders have been condensed into two double headed sliders. Allows for shifting both crop values simultaneously.
 - Linked crop sliders now adjust relative to the current offset rather than the exact center of the media.
 - Crop Bottom and Right values are now counted down from 100 rather than up from 0.
