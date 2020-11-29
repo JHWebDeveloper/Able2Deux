@@ -68,11 +68,11 @@ const DoubleSlider = ({
 		if (mousePos < leftThumb.value) {
 			setLeft(mousePos)
 			e.target = document.getElementById(leftId)
-			leftRef.current.startDrag(e, 0)
+			leftRef.current?.startDrag(e, 0)
 		} else if (mousePos > rightThumb.value) {
 			setRight(mousePos)
 			e.target = document.getElementById(rightId)
-			rightRef.current.startDrag(e, 0)
+			rightRef.current?.startDrag(e, 0)
 		}
 	}, [leftThumb.value, rightThumb.value, leftThumb.onChange, rightThumb.onChange, diff, min])
 
@@ -93,6 +93,7 @@ const DoubleSlider = ({
 					ref={leftRef}
 					title={leftThumb.title}
 					value={leftThumb.value}
+					min={min}
 					max={rightThumb.value - fineTuneStep}
 					thresholds={thresholds}
 					setValue={setLeft}
@@ -103,6 +104,7 @@ const DoubleSlider = ({
 					title={middleThumbTitle}
 					value={leftThumb.value}
 					width={leftThumb.value <= rightThumb.value && width}
+					min={min}
 					max={max - diffLR}
 					setValue={setBoth}
 					getClickPos={getClickPosRight}
@@ -114,6 +116,7 @@ const DoubleSlider = ({
 					title={rightThumb.title}
 					value={rightThumb.value}
 					min={leftThumb.value + fineTuneStep}
+					max={max}
 					absoluteMin={min}
 					thresholds={thresholds}
 					setValue={setRight}
