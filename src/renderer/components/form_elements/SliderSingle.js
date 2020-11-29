@@ -39,7 +39,7 @@ const SingleSlider = ({
 		
 		e.target = document.getElementById(sliderId)
 
-		thumbRef.current.startDrag(e, 0)
+		thumbRef.current?.startDrag(e, 0)
 	}, [min, diff, onChange])
 
 	return (
