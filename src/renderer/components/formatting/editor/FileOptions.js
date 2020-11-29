@@ -2,43 +2,44 @@ import React, { memo, useCallback } from 'react'
 import { bool, exact, func, number, string } from 'prop-types'
 
 import {
+	updateMediaState,
 	updateMediaStateFromEvent,
-	toggleMediaNestedCheckbox,
-	updateMediaNestedState
 } from 'actions'
 
-import { compareProps, secondsToTC } from 'utilities'
+import { compareProps } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
-import Timecode from '../../form_elements/Timecode'
+import TimecodeInputFrames from '../../form_elements/TimecodeInputFrames'
+import SliderDouble from '../../form_elements/SliderDouble'
 
-const startOverEndMsg = 'Start timecode exceeds end timecode. Media will error on export'
-const endOverStartMsg = 'End timecode preceeds start timecode. Media will error on export'
-const startOverDurationMsg = 'Start timecode exceeds media duration. Media will error on export'
-const endZeroMsg = 'End timecode preceeds start timecode. Media will error on export'
+const startStaticProps = { name: 'start', title: 'Start' }
+const endStaticProps = { name: 'end', title: 'End' }
 
 const FileOptions = memo(props => {
-	const { id, start, end, mediaType, duration, dispatch } = props
+	const { id, mediaType, start, end, totalFrames, fps, dispatch } = props
 
-	const toggleStart = useCallback(e => {
-		dispatch(toggleMediaNestedCheckbox(id, 'start', e))
+	const updateTimecode = useCallback(({ name, value }) => {
+		dispatch(updateMediaState(id, { [name]: value }))
 	}, [id])
 
-	const toggleEnd = useCallback(e => {
-		dispatch(toggleMediaNestedCheckbox(id, 'end', e))
+	const shiftTimecodes = useCallback(({ valueL, valueR }) => {
+		dispatch(updateMediaState(id, {
+			start: valueL,
+			end: valueR
+		}))
 	}, [id])
 
-	const updateStart = useCallback(tc => {
-		dispatch(updateMediaNestedState(id, 'start', tc))
-	}, [id])
+	const startProps = {
+		...startStaticProps,
+		value: start,
+		onChange: updateTimecode
+	}
 
-	const updateEnd = useCallback(tc => {
-		dispatch(updateMediaNestedState(id, 'end', tc))
-	}, [id])
-
-	const startOverEnd = start.enabled && end.enabled && start.tc >= end.tc
-	const startOverDuration = start.enabled && start.tc >= duration
-	const endZero = end.enabled && end.tc === 0
+	const endProps = {
+		...endStaticProps,
+		value: end,
+		onChange: updateTimecode
+	}
 
 	return (
 		<DetailsWrapper summary="File" id="file" open>
@@ -51,54 +52,49 @@ const FileOptions = memo(props => {
 					className="underline"
 					value={props.filename}
 					maxLength={251}
-					onChange={e => dispatch(updateMediaStateFromEvent(id, e))}
-					required />
+					onChange={e => dispatch(updateMediaStateFromEvent(id, e))} />
 			</fieldset>
-			{mediaType === 'video' || mediaType === 'audio' ? <>
-				<Timecode
-					label="Start:"
-					name="start"
-					enabled={start.enabled}
-					display={start.display}
-					toggleTimecode={toggleStart}
-					onChange={updateStart}
-					invalid={startOverEnd || startOverDuration}
-					title={startOverEnd ? startOverEndMsg : startOverDuration ? startOverDurationMsg : ''} />
-				<Timecode
-					label="End:"
-					name="end"
-					enabled={end.enabled}
-					display={end.display}
-					initDisplay={secondsToTC(duration)}
-					toggleTimecode={toggleEnd}
-					onChange={updateEnd}
-					invalid={startOverEnd || endZero}
-					title={startOverEnd ? endOverStartMsg : endZero ? endZeroMsg : ''} />
-			</> : <></>}
+			{(mediaType === 'video' || mediaType === 'audio') && (
+				<div className="timecode-slider-grid">
+					<label htmlFor="start">Start</label>
+					<TimecodeInputFrames
+						id={startProps.name}
+						max={end - 1}
+						fps={fps}
+						{...startProps} />
+					<TimecodeInputFrames
+						id={endProps.name}
+						min={start + 1}
+						max={totalFrames}
+						fps={fps}
+						{...endProps} />
+					<label htmlFor="end">End</label>
+					<SliderDouble
+						leftThumb={startProps}
+						rightThumb={endProps}
+						max={totalFrames}
+						fineTuneStep={1}
+						onPan={shiftTimecodes}
+						middleThumbTitle="Move Subclip" />
+				</div>
+			)}
 		</DetailsWrapper>
 	)
 }, compareProps)
 
 FileOptions.propTypes = {
 	id: string.isRequired,
+	mediaType: string.isRequired,
 	isBatch: bool.isRequired,
 	batch: exact({
 		name: string,
 		position: string
 	}).isRequired,
 	filename: string.isRequired,
-	start: exact({
-		enabled: bool,
-		tc: number,
-		display: string
-	}),
-	end: exact({
-		enabled: bool,
-		tc: number,
-		display: string
-	}),
-	mediaType: string.isRequired,
-	duration: number,
+	start: number.isRequired,
+	end: number.isRequired,
+	totalFrames: number.isRequired,
+	fps: number.isRequired,
 	editAll: bool,
 	dispatch: func.isRequired
 }
