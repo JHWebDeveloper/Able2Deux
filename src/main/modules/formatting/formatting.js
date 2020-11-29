@@ -99,6 +99,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		hasAlpha,
 		start,
 		end,
+		totalFrames,
 		audio,
 		arc,
 		background,
@@ -193,20 +194,12 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			}
 		})
 
-	if (start.enabled && end.enabled && end.tc <= start.tc) {
-		reject(new RangeError('End timecode preceeds start timecode.'))
-	}
+	if (end <= start) reject(new RangeError('End timecode preceeds start timecode.'))
+	if (start >= totalFrames) reject(new RangeError('Start timecode exceeds duration.'))
+	if (end === 0) reject(new RangeError('End timecode is set to zero. Media has no duration.'))
 
-	if (start.enabled && start.tc >= exportData.duration) {
-		reject(new RangeError('Start timecode exceeds duration.'))
-	}
-
-	if (end.enabled && end.tc === 0) {
-		reject(new RangeError('End timecode is set to zero. Media has no duration.'))
-	}
-
-	if (start.enabled) renderCmd.seekInput(start.tc)
-	if (end.enabled) renderCmd.duration(start.enabled ? end.tc - start.tc : end.tc)
+	if (start > 0) renderCmd.seekInput(start / fps)
+	if (end < totalFrames) renderCmd.duration((end - start) / fps)
 
 	if (!isAudio) {
 		if (!isStill) {
