@@ -84,5 +84,3 @@ export const limitTCChars = colonMax => e => {
 
 	if (!regex.test(e.key)) e.preventDefault()
 }
-
-export const simplifyTimecode = tc => secondsToTC(tcToSeconds(tc))
