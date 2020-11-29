@@ -30,16 +30,8 @@ const defaultMediaData = {
 	sampleRate: '',
 	bitRate: '',
 	timecode: 0,
-	start: {
-		enabled: false,
-		display: '00:00:00',
-		tc: 0
-	},
-	end: {
-		enabled: false,
-		display: '00:00:00',
-		tc: 0
-	},
+	start: 0,
+	end: 0,
 	arc: 'none',
 	background: 'blue',
 	overlay: 'none',
