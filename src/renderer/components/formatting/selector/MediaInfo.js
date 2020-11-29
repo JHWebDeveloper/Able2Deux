@@ -5,7 +5,6 @@ import {
 	compareProps,
 	framesToTC,
 	scrollText,
-	zeroizeAuto,
 	capitalize
 } from 'utilities'
 
