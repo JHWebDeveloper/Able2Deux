@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { bool, func, string } from 'prop-types'
+import { bool, func, number } from 'prop-types'
 
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInput from '../form_elements/TimecodeInput'
@@ -35,7 +35,7 @@ const ScreenRecorderTimer = ({ timer, setTimer, screenshot, recording }) => {
 }
 
 ScreenRecorderTimer.propTypes = {
-	timer: string.isRequired,
+	timer: number.isRequired,
 	setTimer: func.isRequired,
 	screenshot: bool.isRequired,
 	recording: bool.isRequired
