@@ -1,18 +1,12 @@
-import React, { useCallback, useMemo } from 'react'
-import { bool, func, number, object, exact, shape, string } from 'prop-types'
+import React, { useCallback } from 'react'
+import { bool, func, number, exact, shape, string } from 'prop-types'
 
-import { updateMediaState, extractStill } from 'actions'
-import { secondsToTC, zeroizeAuto } from 'utilities'
-
-import SliderSingle from '../../form_elements/SliderSingle'
+import FrameSelector from './FrameSelector'
 
 const toggleTitle = state => state ? 'Hide' : 'Show'
 
 const Controls = props => {
 	const { selected, grids, gridColor, dispatch } = props
-	const { id, timecode, start, end, fps, totalFrames } = selected
-	// const min = useMemo(() => start.enabled ? start.tc * fps : 0, [start])
-	// const max = useMemo(() => end.enabled ? end.tc * fps : selected.duration * fps, [end])
 
 	const toggleColor = useCallback(gridName => ({
 		color: gridName ? gridColor : '#eee'
@@ -25,56 +19,13 @@ const Controls = props => {
 		})
 	}, [grids])
 
-	const incrementFrameBackward = useCallback(e => {
-		dispatch(updateMediaState(id, {
-			timecode: Math.max(timecode - (e.shiftKey ? 10 : 1), min)
-		}))
-	}, [id, timecode, start])
-
-	const incrementFrameForward = useCallback(e => {
-		dispatch(updateMediaState(id, {
-			timecode: Math.min(timecode + (e.shiftKey ? 10 : 1), max)
-		}))
-	}, [id, timecode, end])
-
-	const dispatchExtractStill = useCallback(e => {
-		dispatch(extractStill(selected, e))
-	}, [selected])
-
-	const updateTimecode = useCallback(({ name, value }) => {
-		dispatch(updateMediaState(id, { [name]: value }))
-	}, [id])
-
 	return (
 		<>
-			{selected.mediaType === 'video' && <>
-				<span className="monospace">
-					{secondsToTC(timecode / fps)};{zeroizeAuto(Math.round(timecode % fps), fps)}
-				</span>
-				<SliderSingle
-					name="timecode"
-					title="Select Frame"
-					value={timecode}
-					min={0}
-					max={totalFrames}
-					fineTuneStep={1}
-					onChange={updateTimecode} />
-				<button
-					type="button"
-					className="symbol"
-					title="Increment 1 Frame Backward (Shift+Click for 10 Frames)"
-					onClick={incrementFrameBackward}>chevron_left</button>
-				<button
-					type="button"
-					className="symbol"
-					title="Increment 1 Frame Forward (Shift+Click for 10 Frames)"
-					onClick={incrementFrameForward}>chevron_right</button>
-				<button
-					type="button"
-					className="symbol"
-					title="Create Screengrab"
-					onClick={dispatchExtractStill}>camera_alt</button>
-			</>}
+			{selected.mediaType === 'video' && (
+				<FrameSelector
+					selected={selected}
+					dispatch={dispatch} />
+			)}
 			<button
 				type="button"
 				className="symbol"
@@ -128,8 +79,8 @@ Controls.propTypes = {
 		id: string,
 		mediaType: string,
 		timecode: number,
-		start: object,
-		end: object,
+		start: number,
+		end: number,
 		fps: number,
 		duration: number,
 		totalFrames: number
