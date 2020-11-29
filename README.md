@@ -10,20 +10,26 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ## [Unreleased][2.2.0] - TBD
 
 ### Added
-- Holding the shift key while moving a slider slows down the rate of change allowing for precision adjustments.
+- Double headed slider for Start and End times. Allows for shifting start and end simultaneously.
+- Holding the shift key while moving any slider slows down the rate of change allowing for precision adjustments.
 - Double clicking on the crop slider snaps back to center.
 - Slider snap points have markers.
 
 ### Changed
 - All HTML range inputs have been replaced with custom made sliders.
-- The four Crop sliders have been condensed into two double headed sliders, allowing for better control in a more compact space. You can pan the cropped region by clicking and dragging the space between the two slider heads.
-- The link buttons for crop sliders now adjust relative to the current offset rather than the exact center of the media.
+- Start and End inputs now accept frames.
+- Start and End input can now be incremented by pressing the Up and Down arrows.
+- The four Crop sliders have been condensed into two double headed sliders. Allows for shifting both crop values simultaneously.
+- Linked crop sliders now adjust relative to the current offset rather than the exact center of the media.
 - Crop Bottom and Right values are now counted down from 100 rather than up from 0.
 - Scale distortion is now preserved when clicking "Fit to Frame" buttons while x and y are linked.
+- Reflect Horizontally and Vertically now swap values when media is rotated by 90deg.
 - Added throttling to preview requests. Limiting rate to once every 60ms. Huge performance improvement.
 
 ### Removed
 - Percent markers on all sliders. It's obvious what the numbers are and removing the markers allows for more slider track room.
+- Enable switches for Start and End inputs.
+- Red invalid text for timecode inputs. New min and max properties now prevent bad entries.
 
 ### Updated
 - Video service compatibility
