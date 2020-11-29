@@ -157,8 +157,13 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 	if (mediaType === 'audio') {
 		const audioStream = metadata.streams.find(stream => stream.codec_type === 'audio')
 		const { channel_layout, bit_rate, sample_rate } = audioStream
+		const fps = 59.94
+		const totalFrames = mediaData.duration * fps
 
 		Object.assign(mediaData, {
+			fps,
+			totalFrames,
+			end: totalFrames,
 			channelLayout: checkMetadata(channel_layout)
 				? channel_layout.toString()
 				: '',
@@ -189,10 +194,12 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 		const thumbnail = await createScreenshot(id, tempFilePath)
 		const { avg_frame_rate } = videoStream
 		const fps = forcedFPS || checkMetadata(avg_frame_rate) ? frameRateToNumber(avg_frame_rate) : 0
+		const totalFrames = mediaData.duration * fps
 
 		Object.assign(mediaData, {
 			thumbnail: await base64EncodeOrPlaceholder(thumbnail),
-			totalFrames: mediaData.duration * fps,
+			end: totalFrames,
+			totalFrames,
 			fps
 		})
 	} else if (mediaType === 'image' || mediaType === 'gif') {
