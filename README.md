@@ -11,28 +11,28 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Added/Changed
 
-Sliders:
+#### Sliders:
 - All HTML range inputs have been replaced with custom made sliders.
 - Holding the shift key while moving any slider slows down the rate of change allowing for precision adjustments.
 - Slider snap points have markers.
 
-Preview:
+#### Preview:
 - Timecode display in preview window is now editable.
 - Keyboard shortcuts in preview window based on Avid. I or E = mark start, O or R = mark end, D = clear start, F = clear end, G = clear both.
 - Added throttling to preview requests. Limiting rate to once every 60ms. Huge performance improvement.
 
-Start/End:
+#### Start/End:
 - Start and End inputs now accept frames.
 - Double headed slider for Start and End times. Allows for shifting start and end simultaneously.
 - Start and End inputs can now be incremented by pressing the Up and Down arrows.
 - Double clicking on the crop slider snaps back to center.
 
-Crop:
+#### Crop:
 - The four Crop sliders have been condensed into two double headed sliders. Allows for shifting both crop values simultaneously.
 - Linked crop sliders now adjust relative to the current offset rather than the exact center of the media.
 - Crop Bottom and Right values are now counted down from 100 rather than up from 0.
 
-Other:
+#### Other:
 - Scale distortion is now preserved when clicking "Fit to Frame" buttons while x and y are linked.
 - Reflect Horizontally and Vertically now swap values when media is rotated by 90deg.
 - Screen Record Timer can now be incremented by pressing the Up and Down arrows.
