@@ -25,7 +25,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Start and End inputs now accept frames.
 - Double headed slider for Start and End times. Allows for shifting start and end simultaneously.
 - Pressing up and down arrows will increment Start and End inputs by 1 frame.
-- Start and End times can no longer cross each other. Should entries conflict, they will auto adjust to a positive duration of 1 frame.
+- Start and End times can no longer cross or meet each other. Should entries conflict, they will auto adjust to a positive duration of 1 frame.
 
 #### Crop:
 - The four Crop sliders have been condensed into two double headed sliders. Allows for shifting both crop values simultaneously.
