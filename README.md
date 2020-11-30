@@ -18,7 +18,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 #### Preview:
 - Timecode display in preview window is now editable.
-- Keyboard shortcuts in preview window based on Avid. I or E = mark start, O or R = mark end, D = clear start, F = clear end, G = clear both.
+- Keyboard shortcuts in preview window based on Avid's mark in/out shortcuts. I or E = mark start, O or R = mark end, D = clear start, F = clear end, G = clear both.
 - Added throttling to preview requests. Limiting rate to once every 60ms. Huge performance improvement.
 
 #### Start/End:
