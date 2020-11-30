@@ -46,7 +46,7 @@ Other:
 - Video service compatibility
 - Electron 11
 
-## Fixed
+### Fixed
 - Bug where reflecting was causing 90cw and 90ccw to invert directions.
 - Bug causing preview to occasionally not update to the selected frame.
 
