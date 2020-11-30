@@ -26,7 +26,6 @@ const Controls = props => {
 					selected={selected}
 					dispatch={dispatch} />
 			)}
-			<span className="preview-spacer" aria-hidden></span>
 			<button
 				type="button"
 				className="symbol"
