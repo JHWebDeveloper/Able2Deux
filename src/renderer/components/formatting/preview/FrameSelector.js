@@ -47,11 +47,11 @@ const FrameSelector = ({ selected, dispatch }) => {
 		switch (e.key) {
 			case 'i':
 			case 'e':
-				props.start = timecode
+				if (timecode < end) props.start = timecode
 				break
 			case 'o':
 			case 'r':
-				props.end = timecode + 1
+				if (timecode > start) props.end = timecode + 1
 				break
 			case 'd':
 				props.start = 0
@@ -84,14 +84,14 @@ const FrameSelector = ({ selected, dispatch }) => {
 
 	return (
 		<div onKeyPress={onKeyPress}>
-			<TimecodeInputFrames
-				fps={fps}
-				{...timecodeProps} />
 			<SliderSingle
 				title="Select Frame"
 				fineTuneStep={1}
 				snapPoints={snapPoints}
 				sensitivity={0}
+				{...timecodeProps} />
+			<TimecodeInputFrames
+				fps={fps}
 				{...timecodeProps} />
 			<button
 				type="button"
