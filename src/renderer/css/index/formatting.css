@@ -342,37 +342,40 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 .slider {
 	position: relative;
 	width: 100%;
-	padding: 8px 12px;
+	height: 24px;
+	padding: 0 12px;
 }
 
 .slider-track {
 	position: inherit;
+	top: 50%;
 	z-index: 2;
 	width: 100%;
 	height: 8px;
 	margin: auto;
 	border-radius: 3px;
-	background-color: #4c4c4c;
+	background-color: var(--primary);
+	transform: translateY(-50%);
 }
 
 .slider-track > span {
 	position: absolute;
 	top: 50%;
 	height: 18px; 
-	background-color: #7c7c7c;
+	background-color: var(--secondary);
 }
 
 .slider-track.single > span {
 	width: 18px;
 	border-radius: 50%;
-	background-color: #7c7c7c;
+	background-color: var(--secondary);
 	transform: translate(-50%, -50%);
 }
 
 .slider-track.double > span:nth-child(odd) {
 	z-index: 2;
 	width: 12px;
-	border: 6px solid #7c7c7c;
+	border: 6px solid var(--secondary);
 	border-radius: 2px;
 	background-color: transparent;
 }
@@ -394,7 +397,7 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 /* create 2px underlap with slider heads to avoid gaps */
 	box-sizing: content-box;
 	margin: 0 -2px;
-	border: solid #7c7c7c;
+	border: solid var(--secondary);
 	border-width: 0 2px;
 }
 
@@ -402,14 +405,22 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 	pointer-events: none;
 	position: absolute;
 	top: 0;
-	left: 12px;
+	left: 0;
+	width: 100%;
 	height: 100%;
-	width: calc(100% - 24px);
+	padding-left: inherit;
+	padding-right: inherit;
 }
 
-.snap-markers::after {
+.snap-markers > span {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.snap-markers > span::after {
 	content: '';
-	position: inherit;
+	position: absolute;
 	top: 50%;
 	width: 100%;
 	height: 70%;
@@ -417,12 +428,12 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 	transform: translateY(-50%);
 }
 
-.snap-markers > span {
+.snap-markers > span > span {
 	position: absolute;
 	top: inherit;
 	width: 1px;
 	height: inherit;
-	background-color: #4c4c4c;
+	background-color: var(--primary);
 	transform: translateX(-50%);
 }
 
