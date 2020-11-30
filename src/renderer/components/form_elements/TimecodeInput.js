@@ -21,6 +21,7 @@ const TimecodeInput = ({
 
 	const syncTimecode = useCallback(value => {
 		value = tcToSeconds(value)
+		value = clamp(value, min, max)
 
 		updateDisplay(secondsToTC(value))
 		updateTimecode(value)

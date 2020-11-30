@@ -21,6 +21,7 @@ const TimecodeInputFrames = ({
 
 	const syncTimecode = useCallback(value => {
 		value = tcToFrames(value, fps)
+		value = clamp(value, min, max)
 
 		updateDisplay(framesToTC(value, fps))
 		updateTimecode(value)
