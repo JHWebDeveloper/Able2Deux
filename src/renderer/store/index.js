@@ -9,6 +9,8 @@ const initState = {
 	optimize: 'quality',
 	recording: false,
 	screenshot: false,
+	timer: 60,
+	timerEnabled: false,
 	media: [],
 	selectedId: '',
 	batch: {

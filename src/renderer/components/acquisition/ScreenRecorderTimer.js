@@ -1,34 +1,40 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { bool, func, number } from 'prop-types'
+
+import { updateState, toggleCheckbox } from 'actions'
 
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInput from '../form_elements/TimecodeInput'
 import Clock from '../form_elements/Clock'
 
-const ScreenRecorderTimer = ({ timer, setTimer, screenshot, recording }) => {
-	const [ enabled, toggleTimer ] = useState(false)
+const ScreenRecorderTimer = ({ timer, timerEnabled, screenshot, recording, dispatch }) => {
+	const updateTimecode = useCallback(({ name, value }) => {
+		dispatch(updateState({ [name]: value }))
+	}, [])
 
-	const updateTimecode = useCallback(({ value }) => setTimer(value), [])
+	const toggleTimer = useCallback(e => {
+		dispatch(toggleCheckbox(e))
+	}, [])
 
 	return (
 		<div className="timecode">
 			<Checkbox
-				name="enabled"
-				checked={enabled}
-				onChange={() => toggleTimer(!enabled)}
+				name="timerEnabled"
+				checked={timerEnabled}
+				onChange={toggleTimer}
 				disabled={screenshot || recording}
 				switchIcon />
 			{recording ? ( // eslint-disable-line no-extra-parens
 				<Clock
 					start={timer}
-					decrement={enabled} />
+					decrement={timerEnabled} />
 			) : (
 				<TimecodeInput
 					title="Record Timer"
 					value={timer}
 					min={1}
 					onChange={updateTimecode}
-					disabled={!enabled || screenshot || recording} />
+					disabled={!timerEnabled || screenshot || recording} />
 			)}
 		</div>
 	)
@@ -36,9 +42,10 @@ const ScreenRecorderTimer = ({ timer, setTimer, screenshot, recording }) => {
 
 ScreenRecorderTimer.propTypes = {
 	timer: number.isRequired,
-	setTimer: func.isRequired,
+	timerEnabled: bool.isRequired,
 	screenshot: bool.isRequired,
-	recording: bool.isRequired
+	recording: bool.isRequired,
+	dispatch: func.isRequired
 }
 
 export default ScreenRecorderTimer

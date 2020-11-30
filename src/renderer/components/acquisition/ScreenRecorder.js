@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
-import { bool, func } from 'prop-types'
+import { bool, func, number } from 'prop-types'
 import toastr from 'toastr'
 
 import * as STATUS from 'status'
@@ -7,10 +7,11 @@ import * as STATUS from 'status'
 import {
 	setRecording,
 	loadRecording,
-	updateMediaStatus
-} from '../../actions'
+	updateMediaStatus,
+	toggleCheckbox
+} from 'actions'
 
-import { toastrOpts } from '../../utilities'
+import { toastrOpts } from 'utilities'
 
 import RecordSourceSelector from './RecordSourceSelector'
 import ScreenRecorderTimer from './ScreenRecorderTimer'
@@ -20,10 +21,8 @@ import CaptureModeSwitch from '../svg/CaptureModeSwitch'
 
 const { interop } = window.ABLE2
 
-const ScreenRecorder = ({ recording, dispatch }) => {
+const ScreenRecorder = ({ recording, screenshot, timer, timerEnabled, dispatch }) => {
 	const [ recordSources, setRecordSources ] = useState([])
-	const [ screenshot, toggleScreenshot ] = useState(false)
-	const [ timer, setTimer ] = useState(60)
 
 	const startRecording = useCallback(async streamId => {
 		try {
@@ -97,6 +96,10 @@ const ScreenRecorder = ({ recording, dispatch }) => {
 		}
 	}, [recording])
 
+	const toggleScreenshot = useCallback(e => {
+		dispatch(toggleCheckbox(e))
+	}, [])
+
 	const ref = useRef()
 
 	const modeMessage = `...or ${screenshot ? 'take a screenshot' : 'start a screen record'}`
@@ -117,7 +120,7 @@ const ScreenRecorder = ({ recording, dispatch }) => {
 					type="button"
 					name="screenshot"
 					title={`Switch to Screen${screenshot ? ' Record' : 'shot'} Mode`}
-					onClick={() => toggleScreenshot(!screenshot)}
+					onClick={toggleScreenshot}
 					disabled={recording}>
 					<CaptureModeSwitch
 						screenshot={screenshot}
@@ -133,9 +136,10 @@ const ScreenRecorder = ({ recording, dispatch }) => {
 			)}
 			<ScreenRecorderTimer
 				timer={timer}
-				setTimer={setTimer}
+				timerEnabled={timerEnabled}
+				recording={recording}
 				screenshot={screenshot}
-				recording={recording} />
+				dispatch={dispatch} />
 			{interop.isMac && <SoundflowerMessage />}
 		</div>
 	)
@@ -143,6 +147,9 @@ const ScreenRecorder = ({ recording, dispatch }) => {
 
 ScreenRecorder.propTypes = {
 	recording: bool.isRequired,
+	screenshot: bool.isRequired,
+	timer: number.isRequired,
+	timerEnabled: bool.isRequired,
 	dispatch: func.isRequired
 }
 
