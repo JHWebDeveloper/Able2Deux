@@ -28,7 +28,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, timerEnabled, dispatch }
 		try {
 			interop.startRecording({
 				streamId,
-				timer,
+				timer: timerEnabled && timer,
 				setRecordIndicator: isRecording => {
 					dispatch(setRecording(isRecording))
 				},
@@ -46,7 +46,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, timerEnabled, dispatch }
 		} catch (err) {
 			toastr.error('An error occurred during the screen record!', false, toastrOpts)
 		}
-	}, [timer])
+	}, [timer, timerEnabled])
 
 	const captureScreenshot = useCallback(async streamId => {
 		try {
@@ -68,7 +68,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, timerEnabled, dispatch }
 
 	const captureScreen = useMemo(() => (
 		screenshot ? captureScreenshot : startRecording
-	), [screenshot, timer])
+	), [screenshot, timer, timerEnabled])
 
 	const getRecordSources = useCallback(async () => {
 		let recordSourceList = []
