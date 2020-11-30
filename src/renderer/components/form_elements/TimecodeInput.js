@@ -1,29 +1,99 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { bool, func, number, string } from 'prop-types'
 
-import { tcToSeconds, secondsToTC, limitTCChars } from 'utilities'
+import { clamp } from 'utilities'
 
-import TimecodeInputTemplate from './TimecodeInputTemplate'
+const TimecodeInputTemplate = ({
+	id,
+	name,
+	title,
+	value,
+	min = 0,
+	max,
+	fps,
+	onChange,
+	tcStringToNumber,
+	numberToTCString,
+	limitChars,
+	disabled
+}) => {
+	const [ display, updateDisplay ] = useState(numberToTCString(value, fps))
 
-const limitChars = limitTCChars(2)
+	const updateTimecode = useCallback(value => onChange({
+		name,
+		value: clamp(value, min, max)
+	}), [min, max])
 
-const TimecodeInput = props => (
-	<TimecodeInputTemplate
-		tcStringToNumber={tcToSeconds}
-		numberToTCString={secondsToTC}
-		limitChars={limitChars}
-		{...props} />
-)
+	const syncTimecode = useCallback(value => {
+		value = tcStringToNumber(value, fps)
+		value = clamp(value, min, max)
 
-TimecodeInput.propTypes = {
+		updateDisplay(numberToTCString(value, fps))
+		updateTimecode(value)
+	}, [min, max])
+
+	const pasteTimecode = useCallback(async e => {
+		e.preventDefault()
+	
+		let txt = await navigator.clipboard.readText()
+		
+		txt = txt.replace(/[^:;0-9]/g, '')
+		
+		updateTimecode(tcStringToNumber(txt, fps))
+	}, [min, max])
+
+	const onKeyDown = useCallback(e => {
+		switch (e.key) {
+			case 'Enter':
+				e.preventDefault()
+				syncTimecode(e.target.value)
+				break
+			case 'ArrowUp':
+				e.preventDefault()
+				updateTimecode(value + 1)
+				break
+			case 'ArrowDown':
+				e.preventDefault()
+				updateTimecode(value - 1)
+				break
+			default:
+				return true
+		}
+	}, [value, min, max])
+
+	useEffect(() => {
+		updateDisplay(numberToTCString(value, fps))
+	}, [value])
+
+	return (
+		<input
+			type="text"
+			className="monospace"
+			id={id}
+			name={name}
+			title={title}
+			value={display}
+			onKeyPress={limitChars}
+			onKeyDown={onKeyDown}
+			onChange={e => updateDisplay(e.target.value)}
+			onBlur={e => syncTimecode(e.target.value)}
+			onPaste={pasteTimecode}
+			disabled={disabled} />
+	)
+}
+
+TimecodeInputTemplate.propTypes = {
+	id: string,
 	name: string,
-	title: string,
-	timecode: string,
 	value: number,
 	min: number,
 	max: number.isRequired,
-	disabled: bool,
-	onChange: func.isRequired
+	fps: number,
+	onChange: func.isRequired,
+	tcStringToNumber: func.isRequired,
+	numberToTCString: func.isRequired,
+	limitChars: func.isRequired,
+	disabled: bool
 }
 
-export default TimecodeInput
+export default TimecodeInputTemplate
