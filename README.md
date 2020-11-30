@@ -24,18 +24,19 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 #### Start/End:
 - Start and End inputs now accept frames.
 - Double headed slider for Start and End times. Allows for shifting start and end simultaneously.
-- Start and End inputs can now be incremented by pressing the Up and Down arrows.
-- Double clicking on the crop slider snaps back to center.
+- Pressing up and down arrows will increment Start and End inputs by 1 frame.
+- Start and End times can no longer cross each other. Should entries conflict, they will auto adjust to a positive duration of 1 frame.
 
 #### Crop:
 - The four Crop sliders have been condensed into two double headed sliders. Allows for shifting both crop values simultaneously.
 - Linked crop sliders now adjust relative to the current offset rather than the exact center of the media.
 - Crop Bottom and Right values are now counted down from 100 rather than up from 0.
+- Double clicking on the crop slider snaps back to center.
 
 #### Other:
 - Scale distortion is now preserved when clicking "Fit to Frame" buttons while x and y are linked.
 - Reflect Horizontally and Vertically now swap values when media is rotated by 90deg.
-- Screen Record Timer can now be incremented by pressing the Up and Down arrows.
+- Pressing up and down arrows will increment Screen Record Timer by 1 second.
 
 ### Removed
 - Percent markers on all sliders. It's obvious what the numbers are and removing the markers allows for more slider track room.
