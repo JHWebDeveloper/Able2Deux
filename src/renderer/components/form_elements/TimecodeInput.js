@@ -37,7 +37,7 @@ const TimecodeInput = ({
 	
 		let txt = await navigator.clipboard.readText()
 		
-		txt = txt.replace(/[^:;0-9]/g, '')
+		txt = txt.replace(/[^:;.0-9]/g, '')
 		
 		updateTimecode(tcStringToNumber(txt, fps))
 	}, [min, max])
