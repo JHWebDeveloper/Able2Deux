@@ -110,11 +110,11 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 	recorder.onstart = () => {
 		setRecordIndicator(true)
 
-		if (timer.enabled) {
+		if (timer) {
 			timeout = setTimeout(() => {
 				recorder.stop()
 				ipcRenderer.send('bringToFront')
-			}, timer.tc * 1000)
+			}, timer * 1000)
 		}
 	}
 
