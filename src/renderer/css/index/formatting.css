@@ -356,7 +356,6 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 	position: inherit;
 	z-index: 2;
 	height: 8px;
-	margin: auto;
 	border-radius: 3px;
 	background-color: var(--primary);
 	transform: translateY(-50%);
