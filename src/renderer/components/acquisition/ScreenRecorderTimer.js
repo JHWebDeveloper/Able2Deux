@@ -15,7 +15,7 @@ const ScreenRecorderTimer = ({ timer, timerEnabled, screenshot, recording, dispa
 	const toggleTimer = useCallback(e => {
 		dispatch(toggleCheckbox(e))
 	}, [])
-console.log(timer)
+
 	return (
 		<div className="timecode">
 			<Checkbox
@@ -34,6 +34,7 @@ console.log(timer)
 					title="Record Timer"
 					value={timer}
 					min={1}
+					max={86399}
 					onChange={updateTimecode}
 					disabled={!timerEnabled || screenshot || recording} />
 			)}
