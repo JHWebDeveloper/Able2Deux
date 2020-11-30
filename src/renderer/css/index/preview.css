@@ -46,9 +46,15 @@
 
 #preview-controls > div { display: contents; }
 
-#preview-controls :matches(span, button) { padding: 0 6px; }
+#preview-controls :matches(span, input, button) { padding: 0 6px; }
 
-#preview-controls span { align-self: center; }
+#preview-controls :matches(span, input) { align-self: center; }
+
+#preview-controls input {
+	width: 80px;
+	padding-top: 2px;
+	color: currentColor;
+}
 
 #preview-controls .slider { flex: 1; }
 
@@ -60,7 +66,7 @@
 #preview-controls .slider-track > span {
 	width: 12px;
 	height: 12px;
-	background-color: var(--background);
+	background-color: currentColor;
 }
 
 #preview-controls button {
