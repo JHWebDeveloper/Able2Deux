@@ -38,9 +38,12 @@
 }
 
 #preview-controls {
-	display: flex;
-	justify-content: flex-end;
-	height: 24px;
+	display: grid;
+	grid-template-rows: min-content 24px;
+	grid-template-columns: min-content repeat(3, 24px) auto repeat(6, minmax(24px, min-content));
+	grid-gap: 0 6px;
+	width: 100%;
+	padding: 0 6px;
 	font-size: 11px;
 }
 
@@ -48,17 +51,18 @@
 
 #preview-controls :matches(input, .slider) { align-self: center; }
 
-#preview-controls :matches(input, button) { padding: 0 6px; }
+#preview-controls :matches(input, button, .preview-spacer) { grid-row: 2; }
 
 #preview-controls input {
-	width: 80px;
+	width: 70px;
 	padding-top: 2px;
 	color: currentColor;
 }
 
 #preview-controls .slider {
-	flex: 1;
-	padding: 0 6px;
+	grid-column: 1 / -1;
+	height: 18px;
+	padding: 0 3px;
 }
 
 #preview-controls .slider-track {
@@ -77,10 +81,17 @@
 }
 
 #preview-controls .snap-markers > span > span {
-	background-color: var(--background-alt-2);
+	background-color: greenyellow;
 }
 
 #preview-controls button {
 	height: inherit;
+	height: 24px;
 	min-width: 24px;
 }
+
+button[name="_239"] { grid-column: 7; }
+button[name="_185"] { grid-column: 8; }
+button[name="_43"] { grid-column: 9; }
+button[name="_11"] { grid-column: 10; }
+button[name="_916"] { grid-column: 11; }
