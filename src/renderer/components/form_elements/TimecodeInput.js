@@ -3,7 +3,7 @@ import { bool, func, number, string } from 'prop-types'
 
 import { clamp } from 'utilities'
 
-const TimecodeInputTemplate = ({
+const TimecodeInput = ({
 	id,
 	name,
 	title,
@@ -82,7 +82,7 @@ const TimecodeInputTemplate = ({
 	)
 }
 
-TimecodeInputTemplate.propTypes = {
+TimecodeInput.propTypes = {
 	id: string,
 	name: string,
 	value: number,
@@ -96,4 +96,4 @@ TimecodeInputTemplate.propTypes = {
 	disabled: bool
 }
 
-export default TimecodeInputTemplate
+export default TimecodeInput

@@ -3,12 +3,12 @@ import { func, number, string } from 'prop-types'
 
 import { framesToTC, tcToFrames, limitTCChars } from 'utilities'
 
-import TimecodeInputTemplate from './TimecodeInputTemplate'
+import TimecodeInput from './TimecodeInput'
 
 const limitChars = limitTCChars(3)
 
 const TimecodeInputFrames = props => (
-	<TimecodeInputTemplate
+	<TimecodeInput
 		tcStringToNumber={tcToFrames}
 		numberToTCString={framesToTC}
 		limitChars={limitChars}

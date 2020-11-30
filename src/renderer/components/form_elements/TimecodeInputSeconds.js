@@ -3,19 +3,19 @@ import { bool, func, number, string } from 'prop-types'
 
 import { tcToSeconds, secondsToTC, limitTCChars } from 'utilities'
 
-import TimecodeInputTemplate from './TimecodeInputTemplate'
+import TimecodeInput from './TimecodeInput'
 
 const limitChars = limitTCChars(2)
 
-const TimecodeInput = props => (
-	<TimecodeInputTemplate
+const TimecodeInputSeconds = props => (
+	<TimecodeInput
 		tcStringToNumber={tcToSeconds}
 		numberToTCString={secondsToTC}
 		limitChars={limitChars}
 		{...props} />
 )
 
-TimecodeInput.propTypes = {
+TimecodeInputSeconds.propTypes = {
 	name: string,
 	title: string,
 	timecode: string,
@@ -26,4 +26,4 @@ TimecodeInput.propTypes = {
 	onChange: func.isRequired
 }
 
-export default TimecodeInput
+export default TimecodeInputSeconds

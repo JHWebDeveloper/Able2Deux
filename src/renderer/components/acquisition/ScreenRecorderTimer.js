@@ -4,7 +4,7 @@ import { bool, func, number } from 'prop-types'
 import { updateState, toggleCheckbox } from 'actions'
 
 import Checkbox from '../form_elements/Checkbox'
-import TimecodeInput from '../form_elements/TimecodeInput'
+import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 import Clock from '../form_elements/Clock'
 
 const ScreenRecorderTimer = ({ timer, timerEnabled, screenshot, recording, dispatch }) => {
@@ -29,7 +29,7 @@ const ScreenRecorderTimer = ({ timer, timerEnabled, screenshot, recording, dispa
 					start={timer}
 					decrement={timerEnabled} />
 			) : (
-				<TimecodeInput
+				<TimecodeInputSeconds
 					name="timer"
 					title="Record Timer"
 					value={timer}
