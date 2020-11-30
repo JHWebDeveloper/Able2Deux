@@ -26,12 +26,16 @@ const Controls = props => {
 					selected={selected}
 					dispatch={dispatch} />
 			)}
+			<span className="preview-spacer" aria-hidden></span>
 			<button
 				type="button"
 				className="symbol"
 				name="grid"
 				title={`${toggleTitle(grids.grid)} Grid`}
-				style={toggleColor(grids.grid)}
+				style={{
+					...toggleColor(grids.grid),
+					gridColumn: props.enableWidescreenGrids ? 6 : 8
+				}}
 				onClick={toggleGrid}>grid_on</button>
 			{props.enableWidescreenGrids && <>
 				<button
