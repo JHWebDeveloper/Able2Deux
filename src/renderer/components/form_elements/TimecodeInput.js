@@ -3,6 +3,8 @@ import { bool, func, number, string } from 'prop-types'
 
 import { clamp, secondsToTC, tcToSeconds, limitTCChars } from 'utilities'
 
+const limitChars = limitTCChars(2)
+
 const TimecodeInput = ({
 	name,
 	title,
@@ -49,8 +51,6 @@ const TimecodeInput = ({
 			updateTimecode(value - 1)
 		}
 	}, [value, min, max])
-
-	const limitChars = useCallback(limitTCChars(2), [])
 
 	useEffect(() => {
 		updateDisplay(secondsToTC(value))

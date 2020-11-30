@@ -3,6 +3,8 @@ import { func, number, string } from 'prop-types'
 
 import { clamp, framesToTC, tcToFrames, limitTCChars } from 'utilities'
 
+const limitChars = limitTCChars(3)
+
 const TimecodeInputFrames = ({
 	id,
 	name,
@@ -49,8 +51,6 @@ const TimecodeInputFrames = ({
 			updateTimecode(value - 1)
 		}
 	}, [value, min, max])
-
-	const limitChars = useCallback(limitTCChars(3), [])
 
 	useEffect(() => {
 		updateDisplay(framesToTC(value, fps))
