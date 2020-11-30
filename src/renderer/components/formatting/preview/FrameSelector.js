@@ -5,6 +5,7 @@ import { updateMediaState, extractStill } from 'actions'
 import { framesToTC } from 'utilities'
 
 import SliderSingle from '../../form_elements/SliderSingle'
+import TimecodeInputFrames from '../../form_elements/TimecodeInputFrames'
 
 const FrameSelector = ({ selected, dispatch }) => {
 	const { id, timecode, start, end, fps, totalFrames } = selected
@@ -64,17 +65,23 @@ const FrameSelector = ({ selected, dispatch }) => {
 		}
 	}, [id, start, end])
 
+	const timecodeProps = {
+		name: 'timecode',
+		value: timecode,
+		min: start,
+		max: end,
+		onChange: updateTimecode
+	}
+
 	return (
 		<div onKeyPress={onKeyPress}>
-			<span className="monospace">{framesToTC(timecode, fps)}</span>
+			<TimecodeInputFrames
+				fps={fps}
+				{...timecodeProps} />
 			<SliderSingle
-				name="timecode"
 				title="Select Frame"
-				value={timecode}
-				min={start}
-				max={end}
 				fineTuneStep={1}
-				onChange={updateTimecode} />
+				{...timecodeProps} />
 			<button
 				type="button"
 				className="symbol"
