@@ -40,15 +40,21 @@ const TimecodeInputFrames = ({
 	}, [min, max])
 
 	const onKeyDown = useCallback(e => {
-		if (e.key === 'Enter') {
-			e.preventDefault()
-			syncTimecode(e.target.value)
-		} else if (e.key === 'ArrowUp') {
-			e.preventDefault()
-			updateTimecode(value + 1)
-		} else if (e.key === 'ArrowDown') {
-			e.preventDefault()
-			updateTimecode(value - 1)
+		switch (e.key) {
+			case 'Enter':
+				e.preventDefault()
+				syncTimecode(e.target.value)
+				break
+			case 'ArrowUp':
+				e.preventDefault()
+				updateTimecode(value + 1)
+				break
+			case 'ArrowDown':
+				e.preventDefault()
+				updateTimecode(value - 1)
+				break
+			default:
+				return true
 		}
 	}, [value, min, max])
 
