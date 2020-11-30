@@ -46,9 +46,9 @@
 
 #preview-controls > div { display: contents; }
 
-#preview-controls :matches(span, input, button) { padding: 0 6px; }
+#preview-controls :matches(input, .slider) { align-self: center; }
 
-#preview-controls :matches(span, input) { align-self: center; }
+#preview-controls :matches(input, button) { padding: 0 6px; }
 
 #preview-controls input {
 	width: 80px;
@@ -56,7 +56,10 @@
 	color: currentColor;
 }
 
-#preview-controls .slider { flex: 1; }
+#preview-controls .slider {
+	flex: 1;
+	padding: 0 6px;
+}
 
 #preview-controls .slider-track {
 	height: 6px;
@@ -67,6 +70,14 @@
 	width: 12px;
 	height: 12px;
 	background-color: currentColor;
+}
+
+#preview-controls .snap-markers > span::after {
+	background-color: var(--primary);
+}
+
+#preview-controls .snap-markers > span > span {
+	background-color: var(--background-alt-2);
 }
 
 #preview-controls button {
