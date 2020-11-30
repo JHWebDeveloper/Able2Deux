@@ -1,14 +1,25 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { func, number, shape, string } from 'prop-types'
 
 import { updateMediaState, extractStill } from 'actions'
-import { framesToTC } from 'utilities'
 
 import SliderSingle from '../../form_elements/SliderSingle'
 import TimecodeInputFrames from '../../form_elements/TimecodeInputFrames'
 
+const timecodeStaticProps = { name: 'timecode', min: 0 }
+
 const FrameSelector = ({ selected, dispatch }) => {
 	const { id, timecode, start, end, fps, totalFrames } = selected
+
+	const snapPoints = useMemo(() => {
+		const sp = []
+
+		if (start > 0) sp.push(start)
+		if (end < totalFrames) sp.push(end)
+
+		return sp
+	}, [start, end, totalFrames])
+
 
 	const updateTimecode = useCallback(({ name, value }) => {
 		dispatch(updateMediaState(id, { [name]: value }))
@@ -50,26 +61,23 @@ const FrameSelector = ({ selected, dispatch }) => {
 			case 'f':
 				props.end = totalFrames
 				break
+			case 'q':
+				props.timecode = start
+				break
+			case 'w':
+				props.timecode = end
+				break
 			default:
 				return true
 		}
 
 		dispatch(updateMediaState(id, props))
-	}, [id, timecode, totalFrames])
-
-	useEffect(() => {
-		if (timecode < start) {
-			dispatch(updateMediaState(id, { timecode: start }))
-		} else if (timecode > end) {
-			dispatch(updateMediaState(id, { timecode: end }))
-		}
-	}, [id, start, end])
+	}, [id, timecode, start, end, totalFrames])
 
 	const timecodeProps = {
-		name: 'timecode',
+		...timecodeStaticProps,
 		value: timecode,
-		min: start,
-		max: end,
+		max: totalFrames,
 		onChange: updateTimecode
 	}
 
@@ -81,6 +89,8 @@ const FrameSelector = ({ selected, dispatch }) => {
 			<SliderSingle
 				title="Select Frame"
 				fineTuneStep={1}
+				snapPoints={snapPoints}
+				sensitivity={0}
 				{...timecodeProps} />
 			<button
 				type="button"
