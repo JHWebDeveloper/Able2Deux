@@ -85,6 +85,7 @@ const TimecodeInput = ({
 TimecodeInput.propTypes = {
 	id: string,
 	name: string,
+	title: string,
 	value: number,
 	min: number,
 	max: number.isRequired,

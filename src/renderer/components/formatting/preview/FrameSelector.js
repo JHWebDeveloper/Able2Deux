@@ -58,6 +58,7 @@ const FrameSelector = ({ selected, dispatch }) => {
 				break
 			case 'g':
 				props.start = 0
+				// falls through
 			case 'f':
 				props.end = totalFrames
 				break
