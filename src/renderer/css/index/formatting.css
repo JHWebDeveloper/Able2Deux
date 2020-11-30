@@ -455,7 +455,7 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 	background-color: rgba(238,238,238,0.9);
 }
 
-#render-queue > div ,
+#render-queue > div,
 .render-element {
 	border: var(--main-border-style);
 	border-radius: 5px;
