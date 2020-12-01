@@ -42,7 +42,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Pressing up and down arrows will increment Screen Record Timer by 1 second.
 
 ### Removed
-- Percent markers on all sliders. It's obvious what the numbers are and removing the markers allows for more slider track room.
+- Percent signs on all sliders. It's obvious what the numbers are and removing the signs allows for more slider track room.
 - Enable switches for Start and End inputs.
 - Red invalid text for timecode inputs. New min and max properties now prevent bad entries.
 
