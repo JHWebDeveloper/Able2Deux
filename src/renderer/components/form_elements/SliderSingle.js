@@ -22,7 +22,7 @@ const SingleSlider = ({
 	
 	const sliderId = useMemo(uuid, [])
 	const diff = useMemo(() => max - min, [max, min])
-	const thresholds = useMemo(() => snapPoints.map(pt => [pt, pt - sensitivity, pt + sensitivity]), [])
+	const thresholds = useMemo(() => snapPoints.map(pt => [pt, pt - sensitivity, pt + sensitivity]), [snapPoints])
 
 	const getTrack = useCallback(() => trackRef.current.getBoundingClientRect(), [])
 
