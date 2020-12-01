@@ -105,7 +105,7 @@ EditorOptions.propTypes = {
 	background: string,
 	overlay: string,
 	source: object,
-	centering: oneOfType([oneOf(['']), number]).isRequired,
+	centering: oneOfType([oneOf(['']), number]),
 	position: object,
 	scale: object,
 	crop: object,
