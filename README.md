@@ -35,7 +35,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Crop Bottom and Right values are now counted down from 100 rather than up from 0.
 - Double clicking on the crop slider snaps back to center.
 
-### Scale:
+#### Scale:
 - Scale distortion is now preserved when clicking "Fit to Frame" buttons while x and y are linked.
 - Scale X and Y positions now appear as snap points on the opposite slider while x and y are unlinked.
 
