@@ -102,7 +102,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 		if (!scale.link && scale.x !== 100) pts[1].push(scale.x)
 
 		return pts
-	}, [scale.link, scale.x, scale.y])
+	}, [scale])
 
 	const propsX = {
 		...common,
