@@ -95,6 +95,15 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 		onChange: scale.link ? updateScale : updateAxis
 	}), [scale.link, offset, id, editAll])
 
+	const [ snapPointsX, snapPointsY ] = useMemo(() => {
+		const pts = [[100], [100]]
+
+		if (!scale.link && scale.y !== 100) pts[0].push(scale.y)
+		if (!scale.link && scale.x !== 100) pts[1].push(scale.x)
+
+		return pts
+	}, [scale.link, scale.x, scale.y])
+
 	const propsX = {
 		...common,
 		...propsXStatic,
@@ -109,7 +118,6 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 
 	const sliderProps = {
 		max: scaleSliderMax,
-		snapPoints: [100],
 		sensitivity
 	}
 
@@ -123,6 +131,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 			])}>
 			<label>X</label>
 			<SliderSingle
+				snapPoints={snapPointsX}
 				{...propsX}
 				{...sliderProps} />
 			<FitButton
@@ -133,6 +142,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 				{...numberProps} />
 			<label>Y</label>
 			<SliderSingle
+				snapPoints={snapPointsY}
 				{...propsY}
 				{...sliderProps} />
 			<FitButton
