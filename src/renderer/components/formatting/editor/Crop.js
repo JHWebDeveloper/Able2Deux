@@ -62,13 +62,13 @@ const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 		onChange: crop.linkTB
 			? vals => updateCropBiDirectional('t', 'b', vals)
 			: updateCrop
-	}), [crop.linkTB, id, editAll])
+	}), [crop, id, editAll])
 
 	const propsLR = useMemo(() => ({
 		onChange: crop.linkLR
 			? vals => updateCropBiDirectional('l', 'r', vals)
 			: updateCrop
-	}), [crop.linkLR, id, editAll])
+	}), [crop, id, editAll])
 
 	const propsT = {
 		...propsTStatic,
