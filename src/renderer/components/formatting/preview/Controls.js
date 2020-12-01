@@ -43,14 +43,18 @@ const Controls = props => {
 					className="monospace"
 					name="_239"
 					style={toggleColor(grids._239)}
-					onClick={toggleGrid}>2.39</button>
+					onClick={toggleGrid}>
+					<span>2.39</span>
+				</button>
 				<button
 					type="button"
 					title={`${toggleTitle(grids._185)}  1.85:1 Markers`}
 					className="monospace"
 					name="_185"
 					style={toggleColor(grids._185)}
-					onClick={toggleGrid}>1.85</button>
+					onClick={toggleGrid}>
+					<span>1.85</span>
+				</button>
 			</>}
 			<button
 				type="button"
@@ -58,21 +62,27 @@ const Controls = props => {
 				className="monospace"
 				name="_43"
 				style={toggleColor(grids._43)}
-				onClick={toggleGrid}>4:3</button>
+				onClick={toggleGrid}>
+				<span>4:3</span>
+			</button>
 			<button
 				type="button"
 				title={`${toggleTitle(grids._11)}  1:1 Markers`}
 				className="monospace"
 				name="_11"
 				style={toggleColor(grids._11)}
-				onClick={toggleGrid}>1:1</button>
+				onClick={toggleGrid}>
+				<span>1:1</span>
+			</button>
 			<button
 				type="button"
 				title={`${toggleTitle(grids._916)}  9:16 Markers`}
 				className="monospace"
 				name="_916"
 				style={toggleColor(grids._916)}
-				onClick={toggleGrid}>9:16</button>
+				onClick={toggleGrid}>
+				<span>9:16</span>
+			</button>
 		</>
 	)
 }
