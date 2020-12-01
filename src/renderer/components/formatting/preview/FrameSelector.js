@@ -20,22 +20,21 @@ const FrameSelector = ({ selected, dispatch }) => {
 		return sp
 	}, [start, end, totalFrames])
 
-
 	const updateTimecode = useCallback(({ name, value }) => {
 		dispatch(updateMediaState(id, { [name]: value }))
 	}, [id])
 
 	const incrementFrameBackward = useCallback(e => {
 		dispatch(updateMediaState(id, {
-			timecode: Math.max(timecode - (e.shiftKey ? 10 : 1), start)
+			timecode: Math.max(timecode - (e.shiftKey ? 10 : 1), 0)
 		}))
-	}, [id, timecode, start])
+	}, [id, timecode])
 
 	const incrementFrameForward = useCallback(e => {
 		dispatch(updateMediaState(id, {
-			timecode: Math.min(timecode + (e.shiftKey ? 10 : 1), end)
+			timecode: Math.min(timecode + (e.shiftKey ? 10 : 1), totalFrames)
 		}))
-	}, [id, timecode, end])
+	}, [id, timecode, totalFrames])
 
 	const dispatchExtractStill = useCallback(e => {
 		dispatch(extractStill(selected, e))
@@ -66,7 +65,7 @@ const FrameSelector = ({ selected, dispatch }) => {
 				props.timecode = start
 				break
 			case 'w':
-				props.timecode = end
+				props.timecode = end - 1
 				break
 			default:
 				return true
@@ -78,7 +77,7 @@ const FrameSelector = ({ selected, dispatch }) => {
 	const timecodeProps = {
 		...timecodeStaticProps,
 		value: timecode,
-		max: totalFrames,
+		max: totalFrames - 1,
 		onChange: updateTimecode
 	}
 
