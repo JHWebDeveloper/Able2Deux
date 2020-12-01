@@ -92,6 +92,7 @@
 button[name^="_"] { padding: 0 3px; }
 
 button[name^="_"] > span {
+	pointer-events: none;
 	font-size: 10px;
 	vertical-align: -2px;
 }
