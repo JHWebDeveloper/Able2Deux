@@ -63,7 +63,7 @@ const BatchItem = props => {
 				applyToAllWarning(id)
 			}
 		},
-		{ role: 'spacer' },
+		{ type: 'spacer' },
 		{
 			label: 'Move Up',
 			hide: !prevId,
@@ -78,7 +78,7 @@ const BatchItem = props => {
 				dispatch(moveMedia(index, index + 2))
 			}
 		},
-		{ role: 'spacer' },
+		{ type: 'spacer' },
 		{
 			label: 'Duplicate Media',
 			action() {
@@ -91,7 +91,7 @@ const BatchItem = props => {
 				removeMediaWarning({ id, refId, title })
 			}
 		},
-		{ role: 'spacer' },
+		{ type: 'spacer' },
 		{
 			label: 'Reveal in Cache',
 			action() {
