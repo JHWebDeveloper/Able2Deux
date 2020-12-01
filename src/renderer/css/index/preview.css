@@ -41,7 +41,6 @@
 	display: grid;
 	grid-template-rows: min-content 24px;
 	grid-template-columns: min-content repeat(3, 24px) auto repeat(6, minmax(24px, min-content));
-	grid-gap: 0 6px;
 	width: 100%;
 	padding: 0 6px;
 	font-size: 11px;
@@ -88,6 +87,13 @@
 	height: inherit;
 	height: 24px;
 	min-width: 24px;
+}
+
+button[name^="_"] { padding: 0 3px; }
+
+button[name^="_"] > span {
+	font-size: 10px;
+	vertical-align: -2px;
 }
 
 button[name="_239"] { grid-column: 7; }
