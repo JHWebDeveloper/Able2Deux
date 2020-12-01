@@ -120,6 +120,7 @@ const SliderThumb = forwardRef(({
 			title={title}
 			onMouseDown={startDrag}
 			onKeyDown={keyIncrement}
+			{...process.env.NODE_ENV === 'production' ? { onContextMenu(e) { e.stopPropagation() }} : {}}
 			{...onDoubleClick ? { onDoubleClick } : {}}
 			style={{
 				left: `${clamp((value - absoluteMin) / diff * 100, 0, 100)}%`,
