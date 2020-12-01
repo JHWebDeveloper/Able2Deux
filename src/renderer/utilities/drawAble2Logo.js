@@ -1,7 +1,7 @@
 export const TAU = Math.PI * 2
 
 export const drawAble2Logo = ctx => {
-	ctx.strokeStyle = '#444444'
+	ctx.strokeStyle = '#4c4c4c'
 	ctx.lineWidth = 24
 	ctx.beginPath()
 	ctx.arc(212, 212, 200, 0, TAU, false)
@@ -9,7 +9,7 @@ export const drawAble2Logo = ctx => {
 
 	// generated at http://demo.qunee.com/svg2canvas/
 	ctx.strokeStyle = 'transparent'
-	ctx.fillStyle = '#444444'
+	ctx.fillStyle = '#4c4c4c'
 	ctx.beginPath()
 	ctx.moveTo(212, 23.308)
 	ctx.bezierCurveTo(204.683, 23.308, 197.462, 23.725, 190.361, 24.536)
