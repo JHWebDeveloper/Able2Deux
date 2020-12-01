@@ -51,7 +51,7 @@ const FrameSelector = ({ selected, dispatch }) => {
 				break
 			case 'o':
 			case 'r':
-				if (timecode > start) props.end = timecode + 1
+				if (timecode >= start) props.end = timecode + 1
 				break
 			case 'd':
 				props.start = 0
