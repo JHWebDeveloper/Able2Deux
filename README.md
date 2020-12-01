@@ -37,6 +37,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 #### Other:
 - Scale distortion is now preserved when clicking "Fit to Frame" buttons while x and y are linked.
+- Scale X and Scale Y positions now appear as snap points on the opposite slider while x and y are linked.
 - Reflect Horizontally and Vertically now swap values when media is rotated by 90deg.
 - Pressing up and down arrows will increment Screen Record Timer by 1 second.
 
