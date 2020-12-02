@@ -1,46 +1,23 @@
 import React, { memo, useCallback } from 'react'
 import { bool, exact, func, number, string } from 'prop-types'
 
-import { updateMediaState, updateMediaStateFromEvent } from 'actions'
+import { updateMediaStateFromEvent } from 'actions'
 
 import { compareProps } from 'utilities'
 
+import StartEnd from './StartEnd'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
-import TimecodeInputFrames from '../../form_elements/TimecodeInputFrames'
-import SliderDouble from '../../form_elements/SliderDouble'
-
-const startStaticProps = { name: 'start', title: 'Start' }
-const endStaticProps = { name: 'end', title: 'End' }
 
 const FileOptions = memo(props => {
-	const { id, mediaType, start, end, totalFrames, fps, dispatch } = props
+	const { id, batch, mediaType, start, end, totalFrames, fps, dispatch } = props
 
-	const updateTimecode = useCallback(({ name, value }) => {
-		dispatch(updateMediaState(id, { [name]: value }))
+	const updateFilename = useCallback(e => {
+		dispatch(updateMediaStateFromEvent(id, e))
 	}, [id])
-
-	const shiftTimecodes = useCallback(({ valueL, valueR }) => {
-		dispatch(updateMediaState(id, {
-			start: valueL,
-			end: valueR
-		}))
-	}, [id])
-
-	const startProps = {
-		...startStaticProps,
-		value: start,
-		onChange: updateTimecode
-	}
-
-	const endProps = {
-		...endStaticProps,
-		value: end,
-		onChange: updateTimecode
-	}
 
 	return (
 		<DetailsWrapper summary="File" id="file" open>
-			<fieldset disabled={props.isBatch && props.batch.name && props.batch.position === 'replace'}>
+			<fieldset disabled={props.isBatch && batch.name && batch.position === 'replace'}>
 				<legend>Filename:</legend>
 				<input
 					type="text"
@@ -49,31 +26,16 @@ const FileOptions = memo(props => {
 					className="underline"
 					value={props.filename}
 					maxLength={251}
-					onChange={e => dispatch(updateMediaStateFromEvent(id, e))} />
+					onChange={updateFilename} />
 			</fieldset>
 			{(mediaType === 'video' || mediaType === 'audio') && (
-				<div className="timecode-slider-grid">
-					<label htmlFor="start">Start</label>
-					<TimecodeInputFrames
-						id={startProps.name}
-						max={end - 1}
-						fps={fps}
-						{...startProps} />
-					<TimecodeInputFrames
-						id={endProps.name}
-						min={start + 1}
-						max={totalFrames}
-						fps={fps}
-						{...endProps} />
-					<label htmlFor="end">End</label>
-					<SliderDouble
-						leftThumb={startProps}
-						rightThumb={endProps}
-						max={totalFrames}
-						fineTuneStep={1}
-						onPan={shiftTimecodes}
-						middleThumbTitle="Move Subclip" />
-				</div>
+				<StartEnd
+					id={id}
+					start={start}
+					end={end}
+					totalFrames={totalFrames}
+					fps={fps}
+					dispatch={dispatch} />
 			)}
 		</DetailsWrapper>
 	)
