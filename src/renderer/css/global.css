@@ -191,20 +191,6 @@ label > :matches(input, span, svg) { vertical-align: middle; }
 	font-family: 'Material Icons';
 }
 
-.timecode {
-	padding-right: 29px;
-	white-space: nowrap;
-}
-
-.timecode > input[type="text"] {
-	width: 72px;
-	vertical-align: -1px;
-}
-
-.timecode > input[type="text"].invalid {
-	color: var(--highlight);
-}
-
 .draggable,
 .insert-last {
 	position: relative;
