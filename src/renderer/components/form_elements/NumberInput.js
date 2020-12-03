@@ -49,6 +49,7 @@ const NumberInput = ({
 	return (
 		<input
 			type="number"
+			className="panel-input monospace"
 			name={name}
 			title={title}
 			id={id}
