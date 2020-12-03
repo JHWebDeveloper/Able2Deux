@@ -22,7 +22,7 @@ const getCroppedDim = (dim, crop1, crop2) => dim * (crop2 - crop1) / 100
 const FitButton = ({ title, onClick }) => (
 	<button
 		type="button"
-		className="app-button symbol"
+		className="app-button small symbol"
 		title={title}
 		onClick={onClick}>unfold_more</button>
 )
