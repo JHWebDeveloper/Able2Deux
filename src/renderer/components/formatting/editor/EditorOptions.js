@@ -40,6 +40,8 @@ const EditorOptions = props => {
 				end={props.end}
 				fps={props.fps}
 				totalFrames={props.totalFrames}
+				duration={props.duration}
+				split={props.split}
 				{...common} />
 			{(mediaType === 'video' || mediaType === 'audio') && (
 				<Audio
@@ -100,6 +102,7 @@ EditorOptions.propTypes = {
 	end: number,
 	fps: number,
 	totalFrames: number,
+	split: number,
 	audio: object,
 	arc: string,
 	background: string,
