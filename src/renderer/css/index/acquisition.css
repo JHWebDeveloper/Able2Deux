@@ -139,7 +139,8 @@ button[name="screenshot"] { height: 26px; }
 }
 
 .screen-recorder-timer > input[type="text"] {
-	width: 72px;
+	width: 78px;
+	border-radius: 0;
 	vertical-align: -1px;
 }
 
