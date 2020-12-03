@@ -178,6 +178,13 @@ label > :matches(input, span, svg) { vertical-align: middle; }
 	transition: background-color 250ms;
 }
 
+.app-button.small {
+	width: 18px;
+	height: 18px;
+	padding: 0;
+	border-radius: 3px;
+}
+
 .app-button:enabled:hover {
 	background-color: var(--secondary);
 }
