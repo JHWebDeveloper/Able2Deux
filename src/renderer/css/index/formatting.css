@@ -229,6 +229,11 @@ legend {
 
 details label { font-size: 12px; }
 
+#file label {
+	font-weight: 600;
+	font-size: 14px;
+}
+
 input:matches([name="filename"], [name="sourceName"]) { margin-bottom: 9px; }
 
 .auto-columns {
@@ -243,12 +248,15 @@ input:matches([name="filename"], [name="sourceName"]) { margin-bottom: 9px; }
 	margin: 3px;
 }
 
-details input[type="number"] {
-	height: 18px;
-	width: 44px;
-	padding: 2px;
+.panel-input {
+	padding:  2px 2px 0 2px;
 	border-radius: 3px;
 	background-color: var(--background);
+}
+
+.panel-input[type="number"] {
+	height: 18px;
+	width: 44px;
 	font-size: 12px;
 }
 
@@ -257,7 +265,8 @@ details input[type="number"] {
 
 .single-slider-grid,
 .double-slider-grid,
-.timecode-slider-grid {
+.timecode-slider-grid,
+.split-grid {
 	display: grid;
 	grid-auto-rows: auto;
 	align-items: center;
@@ -292,13 +301,7 @@ button[name^="link"] > svg { pointer-events: none; }
 
 .single-slider-grid > .slider { grid-column: 2; }
 
-.single-slider-grid > button:not(:last-child) {
-	width: 18px;
-	height: 18px;
-	padding: 0;
-	border-radius: 3px;
-	margin-right: 5px;
-}
+.single-slider-grid > button:not(:last-child) { margin-right: 5px; }
 
 button[title$=" to Width"] { transform: rotate(90deg); }
 
@@ -315,20 +318,9 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 	margin-top: 6px;
 }
 
-.timecode-slider-grid > label {
-	justify-self: center;
-	font-weight: 600;
-	font-size: 14px;
-}
+.timecode-slider-grid > label { justify-self: center; }
 
-.timecode-slider-grid > input {
-	width: 120px;
-	height: 18px;
-	padding: 2px 2px 0 2px;
-	border-radius: 3px;
-	background-color: var(--background);
-	text-align: center;
-}
+.timecode-slider-grid > input { width: 104px; }
 
 .timecode-slider-grid > input:last-of-type { grid-column: 4; }
 
@@ -440,6 +432,14 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 	background-color: var(--primary);
 	transform: translateX(-50%);
 }
+
+.split-grid {
+	grid-template-columns: 35px repeat(2, min-content);
+	grid-gap: 0 6px;
+	margin-top: 6px;
+}
+
+.split-grid > input { width: 78px; }
 
 
 /* ---- RENDER QUEUE -------- */
