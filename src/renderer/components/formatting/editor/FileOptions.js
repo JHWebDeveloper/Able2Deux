@@ -63,6 +63,7 @@ FileOptions.propTypes = {
 	end: number.isRequired,
 	totalFrames: number.isRequired,
 	fps: number.isRequired,
+	duration: number.isRequired,
 	split: number.isRequired,
 	editAll: bool,
 	dispatch: func.isRequired

@@ -102,6 +102,7 @@ EditorOptions.propTypes = {
 	end: number,
 	fps: number,
 	totalFrames: number,
+	duration: number,
 	split: number,
 	audio: object,
 	arc: string,
