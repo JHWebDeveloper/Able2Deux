@@ -17,7 +17,7 @@ const ScreenRecorderTimer = ({ timer, timerEnabled, screenshot, recording, dispa
 	}, [])
 
 	return (
-		<div className="timecode">
+		<div className="screen-recorder-timer">
 			<Checkbox
 				name="timerEnabled"
 				checked={timerEnabled}
