@@ -32,6 +32,7 @@ const defaultMediaData = {
 	timecode: 0,
 	start: 0,
 	end: 0,
+	split: 270,
 	arc: 'none',
 	background: 'blue',
 	overlay: 'none',
