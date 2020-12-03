@@ -133,3 +133,8 @@ progress:matches([data-status="RENDERING"], [data-status="DOWNLOADING"]):indeter
 .media-element > button { border-radius: 0; }
 
 .media-element > button:disabled { color: var(--disabled); }
+
+.timecode {
+	height: 18px;
+	text-align: center;
+}
