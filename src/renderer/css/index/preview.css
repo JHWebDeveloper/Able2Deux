@@ -53,8 +53,8 @@
 #preview-controls :matches(input, button, .preview-spacer) { grid-row: 2; }
 
 #preview-controls input {
-	width: 70px;
-	padding-top: 2px;
+	width: 72px;
+	background-color: transparent;
 	color: currentColor;
 }
 
