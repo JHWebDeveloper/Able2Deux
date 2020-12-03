@@ -115,6 +115,7 @@ const duplicateMedia = (state, payload) => {
 
 	media.splice(index, 0, {
 		...media[index],
+		...payload.overrides,
 		id: payload.newId
 	})
 
