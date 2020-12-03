@@ -47,10 +47,44 @@ export const moveMedia = (oldPos, newPos) => ({
 	payload: { oldPos, newPos }
 })
 
-export const duplicateMedia = id => ({
+export const duplicateMedia = (id, overrides) => ({
 	type: ACTION.DUPLICATE_MEDIA,
-	payload: { id, newId: uuid() }
+	payload: {
+		id,
+		overrides,
+		newId: uuid()
+	}
 })
+
+export const splitMedia = (id, split, start, end) => async dispatch => {
+	const ammount = Math.ceil((end - start) / split)
+
+	if (ammount > 50) {
+		const { response } = await interop.warning({
+			message: 'That\'s a lot of subclips!',
+			detail: `The current split duration will result in ${ammount} subclips. Large ammounts of media may cause Able2 to run slow. Make sure your split duration follows an HH:MM:SS format. Proceed?`
+		})
+
+		if (response) return false  
+	}
+
+	let clipStart = start
+	let clipEnd = start + split
+
+	while (clipEnd < end) {
+		dispatch(duplicateMedia(id, {
+			start: clipStart,
+			end: clipEnd
+		}))
+
+		clipStart = clipEnd
+		clipEnd += split
+	}
+
+	dispatch(updateMediaState(id, {
+		start: clipStart
+	}))
+}
 
 export const applySettingsToAll = (id, properties) => ({
 	type: ACTION.APPLY_TO_ALL,
