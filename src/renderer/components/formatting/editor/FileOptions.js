@@ -6,10 +6,11 @@ import { updateMediaStateFromEvent } from 'actions'
 import { compareProps } from 'utilities'
 
 import StartEnd from './StartEnd'
+import Split from './Split'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 
 const FileOptions = memo(props => {
-	const { id, batch, mediaType, start, end, totalFrames, fps, dispatch } = props
+	const { id, batch, mediaType, start, end, totalFrames, fps, split, dispatch } = props
 
 	const updateFilename = useCallback(e => {
 		dispatch(updateMediaStateFromEvent(id, e))
@@ -28,7 +29,7 @@ const FileOptions = memo(props => {
 					maxLength={251}
 					onChange={updateFilename} />
 			</fieldset>
-			{(mediaType === 'video' || mediaType === 'audio') && (
+			{(mediaType === 'video' || mediaType === 'audio') && <>
 				<StartEnd
 					id={id}
 					start={start}
@@ -36,7 +37,15 @@ const FileOptions = memo(props => {
 					totalFrames={totalFrames}
 					fps={fps}
 					dispatch={dispatch} />
-			)}
+				<Split
+					id={id}
+					split={split}
+					start={start}
+					end={end}
+					fps={fps}
+					duration={props.duration}
+					dispatch={dispatch} />
+			</>}
 		</DetailsWrapper>
 	)
 }, compareProps)
@@ -54,6 +63,7 @@ FileOptions.propTypes = {
 	end: number.isRequired,
 	totalFrames: number.isRequired,
 	fps: number.isRequired,
+	split: number.isRequired,
 	editAll: bool,
 	dispatch: func.isRequired
 }
