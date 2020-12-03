@@ -48,13 +48,15 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Enable switches for Start and End inputs.
 - Red invalid text for timecode inputs. New min and max properties now prevent bad entries.
 
-### Updated
-- Video service compatibility
-- Electron 11
-
 ### Fixed
 - Bug where reflecting was causing 90cw and 90ccw to invert directions.
 - Bug causing preview to occasionally not update to the selected frame.
+
+## [2.1.4] - 12.2.2020
+
+### Updated
+- Video service compatibility
+- Electron 11
 
 ## [2.1.3] - 11.2.2020
 
