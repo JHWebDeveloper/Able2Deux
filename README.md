@@ -46,6 +46,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Reflect Horizontally and Vertically now swap values when media is rotated by 90deg.
 - Pressing up and down arrows will increment Screen Record Timer by 1 second.
 
+### Updated
+- Video service compatibility
+
 ### Removed
 - Percent signs on all sliders. It's obvious what the numbers are and removing the signs allows for more slider track room.
 - Enable switches for Start and End inputs.
