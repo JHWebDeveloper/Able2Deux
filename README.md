@@ -29,6 +29,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Pressing up and down arrows will increment Start and End inputs by 1 frame.
 - Start and End times can no longer cross or meet each other. Should entries conflict, they will auto adjust to a positive duration of 1 frame.
 
+#### Split:
+- A new feature that auto splits the current media into smaller clips by automatically duplicating the media and adjusting the start and end times to the desired subclip duration.
+
 #### Crop:
 - The four Crop sliders have been condensed into two double headed sliders. Allows for shifting both crop values simultaneously.
 - Linked crop sliders now adjust relative to the current offset rather than the exact center of the media.
