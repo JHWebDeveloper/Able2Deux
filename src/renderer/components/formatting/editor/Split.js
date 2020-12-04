@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { func, number, string } from 'prop-types'
 
 import { updateMediaState, splitMedia } from 'actions'
 
 import TimecodeInputSeconds from '../../form_elements/TimecodeInputSeconds'
+import SplitIcon from '../../svg/SplitIcon'
 
 const Split = ({ id, split, start, end, fps, dispatch }) => {
 	const updateSplitDuration = useCallback(({ value }) => {
@@ -12,7 +13,7 @@ const Split = ({ id, split, start, end, fps, dispatch }) => {
 
 	const splitIntoSubclips = useCallback(() => {
 		dispatch(splitMedia(id, split * fps, start, end))
-	}, [id, split, start, end])
+	}, [id, split, fps, start, end])
 
 	return (
 		<div className="split-grid">
@@ -28,7 +29,9 @@ const Split = ({ id, split, start, end, fps, dispatch }) => {
 				type="button"
 				title="Split into subclips"
 				className="app-button small symbol"
-				onClick={splitIntoSubclips}>play_arrow</button>
+				onClick={splitIntoSubclips}>
+				<SplitIcon />
+			</button>
 		</div>
 	)
 }
