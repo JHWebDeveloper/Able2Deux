@@ -28,6 +28,8 @@ export default (state, action) => {
 			return moveMedia(state, payload)
 		case ACTION.DUPLICATE_MEDIA: 
 			return duplicateMedia(state, payload)
+		case ACTION.MULTIPLY_MEDIA: 
+			return multiplyMedia(state, payload)
 		case ACTION.REMOVE_MEDIA:
 			return removeMedia(state, payload)
 		case ACTION.PREPARE_MEDIA_FOR_FORMAT:
@@ -109,15 +111,34 @@ const moveMedia = (state, payload) => {
 	}
 }
 
-const duplicateMedia = (state, payload) => {
-	const index = state.media.findIndex(item => item.id === payload.id)
-	const media = [...state.media]
+const duplicate = (insert, media) => {
+	const index = media.findIndex(item => item.id === insert.id)
 
 	media.splice(index, 0, {
 		...media[index],
-		...payload.overrides,
-		id: payload.newId
+		...insert.changes,
+		id: insert.newId
 	})
+
+	return media
+}
+
+const duplicateMedia = (state, payload) => {
+	const media = duplicate(payload, [...state.media])
+
+	return { ...state, media }
+}
+
+const multiplyMedia = (state, payload) => {
+	const len = payload.newMedia.length
+	let media = [...state.media]
+
+	for (let i = 0; i < len; i++) {
+		media = duplicate({
+			...payload.newMedia[i],
+			id: payload.id
+		}, media)
+	}
 
 	return { ...state, media }
 }
