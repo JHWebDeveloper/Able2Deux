@@ -47,11 +47,10 @@ export const moveMedia = (oldPos, newPos) => ({
 	payload: { oldPos, newPos }
 })
 
-export const duplicateMedia = (id, overrides) => ({
+export const duplicateMedia = id => ({
 	type: ACTION.DUPLICATE_MEDIA,
 	payload: {
 		id,
-		overrides,
 		newId: uuid()
 	}
 })
@@ -68,19 +67,24 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 		if (response) return false  
 	}
 
+	const newMedia = []
 	const len = end - split
 	let i = start
 
-	while (i < len) {
-		dispatch(duplicateMedia(id, {
+	while (i < len) newMedia.push({
+		newId: uuid(),
+		changes: {
 			start: i,
 			end: i += split
-		}))
-	}
+		}
+	})
 
-	dispatch(updateMediaState(id, {
-		start: i
-	}))
+	dispatch({
+		type: ACTION.MULTIPLY_MEDIA,
+		payload: { id, newMedia }
+	})
+
+	dispatch(updateMediaState(id, { start: i }))
 }
 
 export const applySettingsToAll = (id, properties) => ({
