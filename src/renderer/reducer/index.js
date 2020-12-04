@@ -130,12 +130,12 @@ const duplicateMedia = (state, payload) => {
 }
 
 const splitMedia = (state, payload) => {
-	const len = payload.newMedia.length
+	const len = payload.duplicates.length
 	let media = [...state.media]
 
 	for (let i = 0; i < len; i++) {
 		media = duplicate({
-			...payload.newMedia[i],
+			...payload.duplicates[i],
 			id: payload.id
 		}, media)
 	}
