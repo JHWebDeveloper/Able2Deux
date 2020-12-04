@@ -68,21 +68,18 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 		if (response) return false  
 	}
 
-	let clipStart = start
-	let clipEnd = start + split
+	const len = end - split
+	let i = start
 
-	while (clipEnd < end) {
+	while (i < len) {
 		dispatch(duplicateMedia(id, {
-			start: clipStart,
-			end: clipEnd
+			start: i,
+			end: i += split
 		}))
-
-		clipStart = clipEnd
-		clipEnd += split
 	}
 
 	dispatch(updateMediaState(id, {
-		start: clipStart
+		start: i
 	}))
 }
 
