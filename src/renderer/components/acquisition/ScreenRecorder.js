@@ -115,7 +115,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, timerEnabled, dispatch }
 					ref={ref}
 					title={`${recording ? 'Stop' : 'Start'} Record`}
 					className={recording ? 'recording' : ''}
-					onClick={e => toggleRecording(e)}></button>
+					onClick={toggleRecording}></button>
 				<button
 					type="button"
 					name="screenshot"
