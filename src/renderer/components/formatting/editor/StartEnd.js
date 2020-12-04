@@ -45,7 +45,7 @@ const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 		}
 
 		dispatch(updateMediaState(id, props))
-	}, [start, end, totalFrames])
+	}, [id, start, end, totalFrames])
 
 	const startProps = {
 		...startStaticProps,
