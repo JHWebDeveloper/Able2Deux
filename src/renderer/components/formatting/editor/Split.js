@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { func, number, string } from 'prop-types'
 
 import { updateMediaState, splitMedia } from 'actions'
