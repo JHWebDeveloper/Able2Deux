@@ -75,12 +75,14 @@
 	background-color: currentColor;
 }
 
-#preview-controls .snap-markers > span::after {
-	background-color: var(--primary);
-}
+#preview-controls .snap-markers > span::after { display: none; }
 
 #preview-controls .snap-markers > span > span {
-	background-color: #fff;
+	width: 6px;
+	border: 3px solid currentColor;
+	border-right-color: transparent;
+	border-left-color: transparent;
+	background-color: transparent;
 }
 
 #preview-controls button {
