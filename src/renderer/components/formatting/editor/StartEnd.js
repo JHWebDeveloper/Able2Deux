@@ -21,6 +21,32 @@ const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 		}))
 	}, [id])
 
+	const onKeyPress = useCallback(e => {
+		const props = {}
+		
+		switch (e.key) {
+			case 'd':
+				props.start = 0
+				break
+			case 'g':
+				props.start = 0
+				// falls through
+			case 'f':
+				props.end = totalFrames
+				break
+			case 'q':
+				props.timecode = start
+				break
+			case 'w':
+				props.timecode = end - 1
+				break
+			default:
+				return true
+		}
+
+		dispatch(updateMediaState(id, props))
+	}, [start, end, totalFrames])
+
 	const startProps = {
 		...startStaticProps,
 		value: start,
@@ -34,7 +60,7 @@ const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 	}
 
 	return (
-		<div className="timecode-slider-grid">
+		<div className="timecode-slider-grid" onKeyPress={onKeyPress}>
 			<label htmlFor="start">Start</label>
 			<TimecodeInputFrames
 				id={startProps.name}
