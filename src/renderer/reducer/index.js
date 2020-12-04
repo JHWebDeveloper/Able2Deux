@@ -28,8 +28,8 @@ export default (state, action) => {
 			return moveMedia(state, payload)
 		case ACTION.DUPLICATE_MEDIA: 
 			return duplicateMedia(state, payload)
-		case ACTION.MULTIPLY_MEDIA: 
-			return multiplyMedia(state, payload)
+		case ACTION.SPLIT_MEDIA: 
+			return splitMedia(state, payload)
 		case ACTION.REMOVE_MEDIA:
 			return removeMedia(state, payload)
 		case ACTION.PREPARE_MEDIA_FOR_FORMAT:
@@ -129,7 +129,7 @@ const duplicateMedia = (state, payload) => {
 	return { ...state, media }
 }
 
-const multiplyMedia = (state, payload) => {
+const splitMedia = (state, payload) => {
 	const len = payload.newMedia.length
 	let media = [...state.media]
 

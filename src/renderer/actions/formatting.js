@@ -80,7 +80,7 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 	})
 
 	dispatch({
-		type: ACTION.MULTIPLY_MEDIA,
+		type: ACTION.SPLIT_MEDIA,
 		payload: { id, newMedia }
 	})
 
