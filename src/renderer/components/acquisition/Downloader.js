@@ -25,7 +25,7 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				name="url"
 				className="underline"
 				value={url}
-				onChange={dispatchWithEvent }
+				onChange={dispatchWithEvent}
 				placeholder="Paste URL here..." />
 			<button
 				type="button"
