@@ -67,11 +67,11 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 		if (response) return false  
 	}
 
-	const newMedia = []
+	const duplicates = []
 	const len = end - split
 	let i = start
 
-	while (i < len) newMedia.push({
+	while (i < len) duplicates.push({
 		newId: uuid(),
 		changes: {
 			start: i,
@@ -81,7 +81,7 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 
 	dispatch({
 		type: ACTION.SPLIT_MEDIA,
-		payload: { id, newMedia }
+		payload: { id, duplicates }
 	})
 
 	dispatch(updateMediaState(id, { start: i }))
