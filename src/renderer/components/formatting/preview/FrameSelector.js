@@ -11,13 +11,21 @@ const timecodeStaticProps = { name: 'timecode', min: 0 }
 const FrameSelector = ({ selected, dispatch }) => {
 	const { id, timecode, start, end, fps, totalFrames } = selected
 
-	const snapPoints = useMemo(() => {
-		const sp = []
+	const [ snapPoints, className ] = useMemo(() => {
+		const points = []
+		const classes = []
 
-		if (start > 0) sp.push(start)
-		if (end < totalFrames) sp.push(end)
+		if (start > 0) {
+			points.push(start)
+			classes.push('start-visible')
+		}
 
-		return sp
+		if (end < totalFrames) {
+			points.push(end)
+			classes.push('end-visible')
+		}
+
+		return [points, classes.join(' ')]
 	}, [start, end, totalFrames])
 
 	const updateTimecode = useCallback(({ name, value }) => {
@@ -82,7 +90,7 @@ const FrameSelector = ({ selected, dispatch }) => {
 	}
 
 	return (
-		<div onKeyPress={onKeyPress}>
+		<div onKeyPress={onKeyPress} className={className}>
 			<SliderSingle
 				title="Select Frame"
 				fineTuneStep={1}
