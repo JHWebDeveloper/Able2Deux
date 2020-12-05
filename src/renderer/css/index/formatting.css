@@ -434,8 +434,9 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 }
 
 .split-grid {
-	grid-template-columns: 35px repeat(2, min-content);
+	grid-template-columns: 35px min-content 35px;
 	grid-gap: 0 6px;
+	justify-content: center;
 	margin-top: 6px;
 }
 
