@@ -77,12 +77,24 @@
 
 #preview-controls .snap-markers > span::after { display: none; }
 
-#preview-controls .snap-markers > span > span {
+:matches(.start-visible, .end-visible) .snap-marker {
+	overflow: hidden;
 	width: 6px;
-	border: 3px solid currentColor;
-	border-right-color: transparent;
-	border-left-color: transparent;
-	background-color: transparent;
+	background-color: var(--background-alt-1);
+	transform: none;
+}
+
+.start-visible .snap-marker:first-child {
+	transform: translateX(-100%) rotateY(180deg);
+}
+
+:matches(.start-visible, .end-visible) .snap-marker::after {
+	content: '';
+	position: inherit;
+	width: 18px;
+	height: 18px;
+	background-color: var(--primary);
+	transform: rotate(45deg);
 }
 
 #preview-controls button {
