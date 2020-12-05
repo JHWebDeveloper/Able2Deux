@@ -112,6 +112,8 @@ const moveMedia = (state, payload) => {
 }
 
 const duplicate = (insert, media) => {
+	media = [...media]
+	
 	const index = media.findIndex(item => item.id === insert.id)
 
 	media.splice(index, 0, {
@@ -124,14 +126,14 @@ const duplicate = (insert, media) => {
 }
 
 const duplicateMedia = (state, payload) => {
-	const media = duplicate(payload, [...state.media])
+	const media = duplicate(payload, state.media)
 
 	return { ...state, media }
 }
 
 const splitMedia = (state, payload) => {
 	const len = payload.duplicates.length
-	let media = [...state.media]
+	let { media } = state
 
 	for (let i = 0; i < len; i++) {
 		media = duplicate({
