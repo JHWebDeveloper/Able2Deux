@@ -401,7 +401,8 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 }
 
 .snap-markers,
-.snap-markers > :matches(span::after, span > span) {
+.snap-markers > span::after,
+.snap-marker {
 	position: absolute;
 }
 
@@ -425,7 +426,7 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 	transform: translateY(-50%);
 }
 
-.snap-markers > span > span {
+.snap-marker {
 	top: inherit;
 	width: 1px;
 	height: inherit;
