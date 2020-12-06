@@ -195,12 +195,14 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			}
 		})
 
-	if (end <= start) reject(new RangeError('End timecode preceeds start timecode.'))
-	if (start >= totalFrames) reject(new RangeError('Start timecode exceeds duration.'))
-	if (end === 0) reject(new RangeError('End timecode is set to zero. Media has no duration.'))
-
-	if (start > 0) renderCmd.seekInput(start / fps)
-	if (end < totalFrames) renderCmd.duration((end - start) / fps)
+	if (mediaType === 'video' || mediaType === 'audio') {
+		if (end <= start) reject(new RangeError('End timecode preceeds start timecode.'))
+		if (start >= totalFrames) reject(new RangeError('Start timecode exceeds duration.'))
+		if (end === 0) reject(new RangeError('End timecode is set to zero. Media has no duration.'))
+	
+		if (start > 0) renderCmd.seekInput(start / fps)
+		if (end < totalFrames) renderCmd.duration((end - start) / fps)
+	}
 
 	if (!isAudio) {
 		if (!isStill) {
