@@ -4,7 +4,7 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 import { clamp } from 'utilities'
 
 const onKeyDown = e => {
-	if (e.shiftKey) e.target.step = 0.1
+	if (e.shiftKey) e.target.step = e.target.dataset.fineTuneStep
 }
 
 const onKeyUp = e => {
@@ -29,6 +29,8 @@ const NumberInput = ({
 	defaultValue = 0,
 	min = 0,
 	max = 100,
+	step = 1,
+	fineTuneStep = 0.1,
 	onChange,
 	disableFineTuning = false
 }) => {
@@ -56,7 +58,8 @@ const NumberInput = ({
 			value={value}
 			min={min}
 			max={max}
-			step={1}
+			step={step}
+			data-fine-tune-step={fineTuneStep}
 			onChange={onChangeParse}
 			onClick={e => e.currentTarget.select()}
 			onBlur={onBlurParse}
@@ -72,6 +75,8 @@ NumberInput.propTypes = {
 	defaultValue: number,
 	min: number,
 	max: number,
+	step: number,
+	fineTuneStep: number,
 	onChange: func,
 	disableFineTuning: bool
 }
