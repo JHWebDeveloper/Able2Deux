@@ -12,7 +12,7 @@ const SingleSlider = ({
 	min = 0,
 	max = 100,
 	step = 1,
-	fineTuneStep = 0.05,
+	fineTuneStep = 0.1,
 	snapPoints = [],
 	sensitivity = 4,
 	onChange = () => {}

@@ -4,7 +4,7 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 import { clamp } from 'utilities'
 
 const onKeyDown = e => {
-	if (e.shiftKey) e.target.step = 0.05
+	if (e.shiftKey) e.target.step = 0.1
 }
 
 const onKeyUp = e => {

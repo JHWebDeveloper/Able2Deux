@@ -34,7 +34,7 @@ const SliderThumb = forwardRef(({
 	min = 0,
 	max = 100,
 	step = 1,
-	fineTuneStep = 0.05,
+	fineTuneStep = 0.1,
 	thresholds = [],
 	setValue,
 	getTrack,
