@@ -201,7 +201,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		if (end === 0) reject(new RangeError('End timecode is set to zero. Media has no duration.'))
 	
 		if (start > 0) renderCmd.seekInput(start / fps)
-		if (totalFrames - end >= 1) renderCmd.duration((end - start) / fps)
+		if (end < Math.floor(totalFrames)) renderCmd.duration((end - start) / fps)
 	}
 
 	if (!isAudio) {
