@@ -7,7 +7,6 @@ import reducer from '../reducer'
 const initState = {
 	url: '',
 	optimize: 'quality',
-	recording: false,
 	screenshot: false,
 	timer: 60,
 	timerEnabled: false,
