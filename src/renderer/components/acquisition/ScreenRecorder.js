@@ -5,7 +5,6 @@ import toastr from 'toastr'
 import * as STATUS from 'status'
 
 import {
-	setRecording,
 	loadRecording,
 	updateMediaStatus,
 	toggleCheckbox
@@ -21,7 +20,7 @@ import CaptureModeSwitch from '../svg/CaptureModeSwitch'
 
 const { interop } = window.ABLE2
 
-const ScreenRecorder = ({ recording, screenshot, timer, timerEnabled, dispatch }) => {
+const ScreenRecorder = ({ recording, setRecording, screenshot, timer, timerEnabled, dispatch }) => {
 	const [ recordSources, setRecordSources ] = useState([])
 
 	const startRecording = useCallback(async streamId => {
@@ -29,9 +28,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, timerEnabled, dispatch }
 			interop.startRecording({
 				streamId,
 				timer: timerEnabled && timer,
-				setRecordIndicator: isRecording => {
-					dispatch(setRecording(isRecording))
-				},
+				setRecordIndicator: setRecording,
 				onStart: recordId => {
 					dispatch(loadRecording(recordId))
 				},
@@ -147,6 +144,7 @@ const ScreenRecorder = ({ recording, screenshot, timer, timerEnabled, dispatch }
 
 ScreenRecorder.propTypes = {
 	recording: bool.isRequired,
+	setRecording: func.isRequired,
 	screenshot: bool.isRequired,
 	timer: number.isRequired,
 	timerEnabled: bool.isRequired,
