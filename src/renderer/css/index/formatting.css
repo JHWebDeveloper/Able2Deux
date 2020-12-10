@@ -248,6 +248,11 @@ input:matches([name="filename"], [name="sourceName"]) { margin-bottom: 9px; }
 	margin: 3px;
 }
 
+.panel-input[type="number"] {
+	height: 18px;
+	width: 44px;
+}
+
 
 /* ---- SLIDER STYLES ---- */
 
