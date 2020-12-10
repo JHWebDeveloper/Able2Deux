@@ -165,6 +165,13 @@ input[type="checkbox"].switch {	margin-right: -18px; }
 
 input[type="checkbox"].switch::after { opacity: 0; }
 
+input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+
+input[type="color"]::-webkit-color-swatch {
+	border: var(--main-border-style);
+	border-radius: 3px;
+}
+
 label {
 	white-space: nowrap;
 	width: min-content;
@@ -204,12 +211,6 @@ label > :matches(input, span, svg) { vertical-align: middle; }
 	padding:  2px 2px 0 2px;
 	border-radius: 3px;
 	background-color: var(--background);
-}
-
-.panel-input[type="number"] {
-	height: 18px;
-	width: 44px;
-	font-size: 12px;
 }
 
 .draggable,
