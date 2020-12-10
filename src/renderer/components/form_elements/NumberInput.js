@@ -3,14 +3,6 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import { clamp } from 'utilities'
 
-const onKeyDown = e => {
-	if (e.shiftKey) e.target.step = e.target.dataset.fineTuneStep
-}
-
-const onKeyUp = e => {
-	e.target.step = 1
-}
-
 const keepInRange = (defaultValue, e) => {
 	let { value, min, max } = e.target
 
@@ -19,6 +11,10 @@ const keepInRange = (defaultValue, e) => {
 	max = parseFloat(max)
 
 	return clamp(value, min, max)
+}
+
+const onKeyUp = e => {
+	e.target.step = 1
 }
 
 const NumberInput = ({
@@ -31,8 +27,7 @@ const NumberInput = ({
 	max = 100,
 	step = 1,
 	fineTuneStep = 0.1,
-	onChange,
-	disableFineTuning = false
+	onChange
 }) => {
 	const onChangeParse = useCallback(e => {
 		const { name, value } = e.target
@@ -48,6 +43,10 @@ const NumberInput = ({
 		value: keepInRange(defaultValue, e)
 	}), [onChange])
 
+	const onKeyDown = useCallback(e => {
+		if (e.shiftKey) e.target.step = fineTuneStep
+	}, [fineTuneStep])
+
 	return (
 		<input
 			type="number"
@@ -59,11 +58,11 @@ const NumberInput = ({
 			min={min}
 			max={max}
 			step={step}
-			data-fine-tune-step={fineTuneStep}
 			onChange={onChangeParse}
 			onClick={e => e.currentTarget.select()}
 			onBlur={onBlurParse}
-			{...disableFineTuning ? {} : { onKeyDown, onKeyUp }} />
+			onKeyUp={onKeyUp} 
+			onKeyDown={onKeyDown} />
 	)
 }
 
@@ -77,8 +76,7 @@ NumberInput.propTypes = {
 	max: number,
 	step: number,
 	fineTuneStep: number,
-	onChange: func,
-	disableFineTuning: bool
+	onChange: func
 }
 
 export default NumberInput

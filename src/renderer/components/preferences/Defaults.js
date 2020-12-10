@@ -73,9 +73,9 @@ const Defaults = ({ warnings, editAll, enableWidescreenGrids, gridColor, scaleSl
 							value={scaleSliderMax}
 							min={100}
 							max={4500}
+							fineTuneStep={1}
 							defaultValue={400}
-							onChange={updateScaleMax}
-							disableFineTuning />
+							onChange={updateScaleMax} />
 					</span>
 				</div>
 			</fieldset>
