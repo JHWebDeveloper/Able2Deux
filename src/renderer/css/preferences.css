@@ -1,90 +1,88 @@
 #root {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(6, 1fr);
 	grid-auto-rows: min-content;
 	grid-gap: 9px;
 	padding: 9px;
 }
 
-form,
-form > div > fieldset {
-	display: contents;
-}
-
-form > div {
+.prefs-panel {
+	display: grid;
+	grid-auto-rows: minmax(24px, min-content);
+	align-items: center;
+	grid-gap: 6px 12px;
 	border-radius: 5px;
-	background: var(--background-alt-1);
+	background-color: var(--background-alt-1);
 	padding: 9px 12px;
 }
 
-form > div:nth-last-of-type(2) { margin-bottom: 55px; }
+.span-whole { grid-column: span 6; }
+.span-half { grid-column: span 3; }
+.span-third { grid-column: span 2; }
 
-form > div > fieldset > div {	padding: 6px; }
-
-legend { white-space: nowrap; }
-
-fieldset fieldset > legend,
-label {
-	font-size: 14px;
+h1 {
+	white-space: nowrap;
+	margin-bottom: 6px;
 }
 
-label {
+legend, label { font-size: 14px; }
+
+legend { margin-bottom: 3px; }
+
+label { font-weight: 600; }
+
+legend + div > label {
 	display: block;
-	margin-top: 4px;
-	font-weight: 600;
+	font-size: 12px;
 }
 
-:not(#save-prefs) > button,
-input:matches([type=text], [type="number"], [type="color"]) {
+.prefs-panel :matches(button, input:matches([type="text"], [type="number"], [type="color"])) {
 	height: 24px;
 	vertical-align: middle;
 }
 
-:not(#save-prefs) > button {
+.prefs-panel button {
 	width: 24px;
 	padding: 0;
 }
 
-input:matches([type="text"], [type="number"]) {
-	padding: 6px;
-	border-radius: 3px;
+.prefs-panel input:matches([type="number"], [type="color"], .timecode),
+.directory-selector > input {
+	margin-left: 6px;
 }
 
-input:matches([type="text"]:read-write, [type="number"]) {
-	background-color: var(--background);
-}
+.timecode { width: 78px; }
 
-input[type="text"]:read-only {
+.directory-selector { display: flex; }
+
+.directory-selector > input {
+	flex: 1;
 	background-color: var(--background-alt-2);
 }
 
-#scratch-disk div {
-	display: grid;
-	grid-gap: 4px;
-}
+.output-grid { grid-template-columns: min-content auto; }
 
-#scratch-disk label { grid-column: 1 / span 2; }
+.output-grid > :matches(h1, label, span) { grid-column: 1 / span 2; }
 
-#save-locations { grid-column: 1 / span 3; }
-
-#save-locations div {
-	display: grid;
-	grid-template-columns: repeat(3, 24px) 239px 24px 239px 24px 24px 24px;
+.save-locations-grid {
+	grid-template-columns: repeat(3, 24px) 239px 263px 24px 24px 24px;
 	grid-gap: 0 6px;
 }
 
-#save-locations div > :matches(div, span) { grid-column: 1 / span 9; }
+.save-locations-grid > h1 { margin-bottom: 12px; }
 
-#save-locations div > div {
+.save-locations-grid > :matches(h1, div, span) { grid-column: 1 / span 9; }
+
+.save-locations-grid > div {
 	display: inherit;
 	grid-template-columns: inherit;
 	grid-gap: inherit;
 	background-color: var(--background-color);
 }
 
-#save-locations label { margin-bottom: 6px; }
+.save-locations-grid label { margin-bottom: 6px; }
 
-#save-locations input[type="checkbox"] {
+.save-locations-grid input[type="checkbox"] {
   display: flex;
   justify-content: center;
 	align-items: center;
@@ -97,45 +95,19 @@ input[type="text"]:read-only {
 
 #folder { grid-column: 5 / span 4; }
 
-#save-locations div:only-of-type > input[name="directory"] {
+.save-locations-grid div:only-of-type > .directory-selector {
 	grid-column: span 4;
 }
 
-button[name="up"] { grid-column: 7; }
-button[name="down"] { grid-column: 8; }
+button[name="up"] { grid-column: 6; }
+button[name="down"] { grid-column: 7; }
 
-#save-locations svg {
-	grid-column: 9;
+.save-locations-grid svg {
+	grid-column: 8;
 	fill: var(--secondary);
 }
 
-.input-option:first-of-type { margin-top: 10px; }
-
-.input-option {
-	display: block;
-	margin-top: 5px;
-}
-
-.input-option > label {
-	display: inline-block;
-	min-width: 75px;
-	margin-right: 6px;
-}
-
-.input-option > input:matches([type="number"], [type="color"]) {
-	width: 58px;
-}
-
-.input-option > input[name="concurrent"] { width: 40px; }
-
-input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
-
-input[type="color"]::-webkit-color-swatch {
-	border: var(--main-border-style);
-	border-radius: 3px;
-}
-
-#save-prefs {
+form > div:last-child {
 	position: fixed;
 	bottom: 0;
 	left: 0;
@@ -145,4 +117,4 @@ input[type="color"]::-webkit-color-swatch {
 	background-color: var(--background);
 }
 
-#save-prefs > button { margin-right: 12px; }
+form > div:last-child > button { margin-right: 12px; }
