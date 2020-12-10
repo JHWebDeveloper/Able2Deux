@@ -10,19 +10,22 @@ const DirectorySelector = ({ directory, onChange }) => {
 		onChange(canceled ? directory : filePaths[0])
 	}, [directory])
 	
-	return <>
-		<button
-			type="button"
-			className="app-button symbol"
-			title="Choose directory"
-			onClick={selectDirectory}>folder</button>
-		<input
-			type="text"
-			name="directory"
-			title="Directory"
-			value={directory}
-			readOnly />
-	</>
+	return (
+		<span className="directory-selector">
+			<button
+				type="button"
+				className="app-button symbol"
+				title="Choose directory"
+				onClick={selectDirectory}>folder</button>
+			<input
+				type="text"
+				name="directory"
+				title="Directory"
+				className="panel-input"
+				value={directory}
+				readOnly />
+		</span>
+	)
 }
 
 DirectorySelector.propTypes = {
