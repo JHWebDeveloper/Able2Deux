@@ -1,7 +1,8 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
+import { func, object } from 'prop-types'
 
-const SaveButtons = withRouter(({ setRendering, history }) => (
+const SaveButtons = ({ setRendering, history }) => (
 	<div id="save">
 		<button
 			type="button"
@@ -14,6 +15,11 @@ const SaveButtons = withRouter(({ setRendering, history }) => (
 			title="Save"
 			onClick={() => setRendering(true)}>Save</button>
 	</div>
-))
+)
 
-export default SaveButtons
+SaveButtons.propTypes = {
+	setRendering: func.isRequired,
+	history: object.isRequired
+}
+
+export default withRouter(SaveButtons)
