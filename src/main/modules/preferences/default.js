@@ -7,12 +7,33 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 	: app.getPath('temp')
 
 const defaultPrefs = {
-	version: 6,
+	version: 7,
 	renderOutput: '1280x720',
 	renderFrameRate: 'auto',
 	autoPNG: true,
 	asperaSafe: true,
 	concurrent: 2,
+	scratchDisk: {
+		imports: tempDirectory,
+		exports: tempDirectory,
+		previews: tempDirectory
+	},
+	optimize: 'quality',
+	screenshot: false,
+	timerEnabled: false,
+	timer: 60,
+	editAll: false,
+	sliderSnapPoints: true,
+	enableWidescreenGrids: false,
+	gridColor: '#ff00ff',
+	splitDuration: 270,
+	scaleSliderMax: 400,
+	warnings: {
+		remove: true,
+		removeAll: true,
+		applyToAll: true,
+		sourceOnTop: true
+	},
 	saveLocations: [
 		{
 			checked: true,
@@ -21,21 +42,6 @@ const defaultPrefs = {
 			label: 'Save to Desktop'
 		}
 	],
-	scratchDisk: {
-		imports: tempDirectory,
-		exports: tempDirectory,
-		previews: tempDirectory
-	},
-	warnings: {
-		remove: true,
-		removeAll: true,
-		applyToAll: true,
-		sourceOnTop: true
-	},
-	editAll: false,
-	enableWidescreenGrids: false,
-	gridColor: '#ff00ff',
-	scaleSliderMax: 400,
 	disableRateLimit: false
 }
 
