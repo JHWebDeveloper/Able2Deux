@@ -6,6 +6,12 @@
 	padding: 9px;
 }
 
+#root::after {
+	content: '';
+	grid-row: span 6;
+	height: 55px;
+}
+
 .prefs-panel {
 	display: grid;
 	grid-auto-rows: minmax(24px, min-content);
@@ -66,6 +72,7 @@ legend + div > label {
 
 .save-locations-grid {
 	grid-template-columns: repeat(3, 24px) 239px 263px 24px 24px 24px;
+	grid-auto-rows: auto;
 	grid-gap: 0 6px;
 }
 
