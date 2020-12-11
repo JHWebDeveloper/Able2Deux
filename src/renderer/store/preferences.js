@@ -14,23 +14,27 @@ const initState = {
 	autoPNG: true,
 	asperaSafe: true,
 	concurrent: 2,
-	saveLocations: [],
 	scratchDisk: {
 		imports: '',
 		exports: '',
 		previews: ''
 	},
+	optimize: 'quality',
+	screenshot: false,
+	timerEnabled: false,
+	timer: 60,
+	editAll: false,
+	enableWidescreenGrids: false,
+	gridColor: '#ff00ff',
+	scaleSliderMax: 400,
+	disableRateLimit: false,
 	warnings: {
 		remove: true,
 		removeAll: true,
 		applyToAll: true,
 		sourceOnTop: true
 	},
-	editAll: false,
-	enableWidescreenGrids: false,
-	gridColor: '#ff00ff',
-	scaleSliderMax: 400,
-	disableRateLimit: false
+	saveLocations: []
 }
 
 export const PrefsContext = createContext()
