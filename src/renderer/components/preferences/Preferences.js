@@ -8,7 +8,9 @@ import { toastrOpts, createKonamiListener } from 'utilities'
 
 import RenderOutput from './RenderOutput'
 import ScratchDisk from './ScratchDisk'
-import Defaults from './Defaults'
+import AcquisitionSettings from './AcquisitionSettings'
+import FormattingSettings from './Defaults'
+import Warnings from './Warnings'
 import SaveLocations from './SaveLocations'
 import SaveAndClose from './SaveAndClose'
 
@@ -47,12 +49,22 @@ const Main = () => {
 			<ScratchDisk 
 				scratchDisk={preferences.scratchDisk}
 				dispatch={dispatch} />
-			<Defaults
-				warnings={preferences.warnings}
+			<AcquisitionSettings
+				optimize={preferences.optimize}
+				screenshot={preferences.screenshot}
+				timerEnabled={preferences.timerEnabled}
+				timer={preferences.timer}
+				dispatch={dispatch} />
+			<FormattingSettings
 				editAll={preferences.editAll}
+				snapToPoint={preferences.snapToPoint}
 				enableWidescreenGrids={preferences.enableWidescreenGrids}
 				gridColor={preferences.gridColor}
+				split={preferences.split}
 				scaleSliderMax={preferences.scaleSliderMax}
+				dispatch={dispatch} />
+			<Warnings
+				warnings={preferences.warnings}
 				dispatch={dispatch} />
 			<SaveLocations
 				saveLocations={preferences.saveLocations}
