@@ -47,6 +47,10 @@ export const initPreferences = async () => {
 			await fsp.writeFile(prefsPath, JSON.stringify({
 				...defaultPrefs,
 				...prefs,
+				warnings: {
+					...defaultPrefs.warnings,
+					...prefs.warnings
+				},
 				version: 7
 			}))
 		}
