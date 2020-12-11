@@ -11,19 +11,24 @@ import {
 	render,
 	cancelRender,
 	startOver,
-	removeLocationAndSave
+	removeLocationAndSave,
+	disableWarningAndSave
 } from 'actions'
 
-import { toastrOpts, detectTabExit } from 'utilities'
+import { toastrOpts, detectTabExit, warn } from 'utilities'
 
 import RenderElement from './RenderElement'
 
 const { interop } = window.ABLE2
 
+const startOverMessage = 'Start Over?'
+const startOverDetail = 'All entries will be cleared and media deleted. This cannot be undone. Proceed?'
+
 const RenderQueue = params => {
 	const { media, batch, saveLocations, closeRenderQueue, dispatch, history } = params
 	const prefsContext = useContext(PrefsContext)
 	const prefsDispatch = prefsContext.dispatch
+	const { warnings } = prefsContext.preferences
 
 	const {
 		renderOutput,
@@ -60,10 +65,18 @@ const RenderQueue = params => {
 		closeRenderQueue()
 	}, [media])
 
-	const backToMain = useCallback(() => {
-		dispatch(startOver())
-		history.push('/')
-	}, [])
+	const backToMain = useCallback(() => warn({
+		message: startOverMessage,
+		detail: startOverDetail,
+		enabled: warnings.startOver,
+		callback() {
+			dispatch(startOver())
+			history.push('/')
+		},
+		checkboxCallback() {
+			prefsDispatch(disableWarningAndSave('startOver'))
+		}
+	}), [warnings.startOver])
 
 	const ref = useRef()
 
