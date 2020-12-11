@@ -3,6 +3,7 @@ import { arrayOf, bool, exact, func, string } from 'prop-types'
 
 import { addNewLocation, moveLocation } from 'actions'
 
+import PrefsPanel from './PrefsPanel'
 import DraggableList from '../form_elements/DraggableList'
 import Directory from './Directory'
 
@@ -18,26 +19,21 @@ const SaveLocations = ({ saveLocations, dispatch }) => {
 	}, [saveLocations])
 
 	return (
-		<div id="save-locations">
-			<fieldset>
-				<legend>Save Locations</legend>
-				<div>
-					<label id="default">Default</label>
-					<label id="label">Label</label>
-					<label id="folder">Folder</label>
-					<DraggableList sortingAction={sortingAction}>
-						{saveLocations.map((dir, i) => (
-							<Directory
-								key={dir.id}
-								index={i}
-								total={saveLocations.length}
-								dispatch={dispatch}
-								dir={dir} />
-						))}
-					</DraggableList>
-				</div>
-			</fieldset>
-		</div>
+		<PrefsPanel title="Save Locations" className="save-locations-grid span-whole">
+			<label id="default">Default</label>
+			<label id="label">Label</label>
+			<label id="folder">Folder</label>
+			<DraggableList sortingAction={sortingAction}>
+				{saveLocations.map((dir, i) => (
+					<Directory
+						key={dir.id}
+						index={i}
+						total={saveLocations.length}
+						dispatch={dispatch}
+						dir={dir} />
+				))}
+			</DraggableList>
+		</PrefsPanel>
 	)
 }
 
