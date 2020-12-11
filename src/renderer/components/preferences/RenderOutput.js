@@ -3,6 +3,7 @@ import { func, number, oneOf, bool } from 'prop-types'
 
 import { updateState, updateStateFromEvent, toggleCheckbox } from 'actions'
 
+import PrefsPanel from './PrefsPanel'
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
@@ -16,9 +17,9 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 	}, [])
 
 	return (
-		<div>
+		<PrefsPanel title="Output" className="output-grid span-half">
 			<fieldset>
-				<legend>Output Resolution</legend>
+				<legend>Resolution</legend>
 				<div>
 					<RadioSet 
 						name="renderOutput"
@@ -37,7 +38,7 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 				</div>
 			</fieldset>
 			<fieldset>
-				<legend>Output Frame Rate</legend>
+				<legend>Frame Rate</legend>
 				<div>
 					<RadioSet 
 						name="renderFrameRate"
@@ -79,7 +80,7 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 					fineTuneStep={1}
 					onChange={updateConcurrent} />
 			</span>
-		</div>
+		</PrefsPanel>
 	)
 }
 
