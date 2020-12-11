@@ -32,7 +32,8 @@ const defaultPrefs = {
 		remove: true,
 		removeAll: true,
 		applyToAll: true,
-		sourceOnTop: true
+		sourceOnTop: true,
+		startOver: true
 	},
 	saveLocations: [
 		{
