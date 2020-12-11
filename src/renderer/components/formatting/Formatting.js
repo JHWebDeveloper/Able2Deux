@@ -21,6 +21,7 @@ const Formatting = () => {
 		selectedId,
 		batch,
 		editAll,
+		split,
 		saveLocations,
 		dispatch
 	} = useContext(MainContext)
@@ -70,6 +71,7 @@ const Formatting = () => {
 				<EditorOptions
 					batch={batch}
 					editAll={editAll}
+					split={split}
 					isBatch={isBatch}
 					dispatch={dispatch}
 					{...selected} />
