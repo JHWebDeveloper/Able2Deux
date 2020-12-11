@@ -46,6 +46,7 @@ MainProvider.propTypes = {
 	prefs: exact({
 		saveLocations: arrayOf(object),
 		editAll: bool,
+		split: number,
 		optimize: oneOf(['quality', 'download']),
 		screenshot: bool,
 		timerEnabled: bool,
