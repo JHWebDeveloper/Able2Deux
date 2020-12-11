@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react'
-import { arrayOf, element, exact, oneOfType, object, bool } from 'prop-types'
+import { arrayOf, bool, element, exact, number, oneOf, oneOfType, object } from 'prop-types'
 
 import { updateState } from 'actions'
 import reducer from '../reducer'
@@ -45,6 +45,10 @@ MainProvider.propTypes = {
 	children: oneOfType([element, arrayOf(element)]).isRequired,
 	prefs: exact({
 		saveLocations: arrayOf(object),
-		editAll: bool.isRequired
-	})
+		editAll: bool,
+		optimize: oneOf(['quality', 'download']),
+		screenshot: bool,
+		timerEnabled: bool,
+		timer: number
+	}).isRequired
 }
