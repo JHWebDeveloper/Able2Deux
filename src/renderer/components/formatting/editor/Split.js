@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react'
 import { func, number, string } from 'prop-types'
 
-import { updateMediaState, splitMedia } from 'actions'
+import { updateState, splitMedia } from 'actions'
 
 import TimecodeInputSeconds from '../../form_elements/TimecodeInputSeconds'
 import SplitIcon from '../../svg/SplitIcon'
 
 const Split = ({ id, split, start, end, fps, dispatch }) => {
 	const updateSplitDuration = useCallback(({ value }) => {
-		dispatch(updateMediaState(id, { split: value }))
+		dispatch(updateState({ split: value }))
 	}, [id])
 
 	const splitIntoSubclips = useCallback(() => {
