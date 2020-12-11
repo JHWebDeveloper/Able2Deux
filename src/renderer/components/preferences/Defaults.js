@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
-import { bool, exact, func, number, string } from 'prop-types'
+import { bool, func, number, string } from 'prop-types'
 
-import { updateState, updateStateFromEvent, toggleCheckbox, toggleNestedCheckbox } from 'actions'
+import { updateState, updateStateFromEvent, toggleCheckbox } from 'actions'
 
 import PrefsPanel from './PrefsPanel'
 import NumberInput from '../form_elements/NumberInput'

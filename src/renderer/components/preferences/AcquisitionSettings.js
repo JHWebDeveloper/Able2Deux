@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { bool, func, number, oneOf } from 'prop-types'
 
 import { updateState, updateStateFromEvent, toggleCheckbox } from 'actions'
 
@@ -75,6 +76,14 @@ const AcquisitionSettings = ({ optimize, screenshot, timerEnabled, timer, dispat
 			</span>
 		</PrefsPanel>
 	)
+}
+
+AcquisitionSettings.propTypes = {
+	optimize: oneOf(['quality', 'download']),
+	screenshot: bool.isRequired,
+	timerEnabled: bool.isRequired,
+	timer: number.isRequired,
+	dispatch: func.isRequired
 }
 
 export default AcquisitionSettings
