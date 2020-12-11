@@ -11,8 +11,8 @@ import Formatting from '../formatting/Formatting'
 import SourceSuggestionList from './SourceSuggestionList'
 
 const extractDefaults = prefs => {
-	const { saveLocations, editAll, optimize, timerEnabled, timer, screenshot } = prefs
-	return { saveLocations, editAll, optimize, timerEnabled, timer, screenshot }
+	const { saveLocations, editAll, split, optimize, timerEnabled, timer, screenshot } = prefs
+	return { saveLocations, editAll, split, optimize, timerEnabled, timer, screenshot }
 }
 
 const Main = () => {
