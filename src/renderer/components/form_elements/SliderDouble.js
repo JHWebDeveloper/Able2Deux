@@ -1,6 +1,8 @@
-import React, { createRef, useCallback, useMemo, useRef } from 'react'
+import React, { createRef, useCallback, useContext, useMemo, useRef } from 'react'
 import { arrayOf, bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 import { v1 as uuid } from 'uuid'
+
+import { PrefsContext } from 'store/preferences.js'
 
 import SliderThumb from './SliderThumb'
 import SliderSnapMarkers from './SliderSnapMarkers'
@@ -37,6 +39,8 @@ const DoubleSlider = ({
 	onPan,
 	enableAutoCenter = false
 }) => {
+	const { snapToPoint } = useContext(PrefsContext).preferences
+
 	const leftRef = createRef()
 	const rightRef = createRef()
 	const trackRef = useRef()
@@ -47,7 +51,14 @@ const DoubleSlider = ({
 	const diff = useMemo(() => max - min, [min, max])
 	const diffLR = useMemo(() => rightThumb.value - leftThumb.value, [leftThumb.value, rightThumb.value])
 	const width = useMemo(() => diffLR / diff * 100, [diff, diffLR])
-	const thresholds = useMemo(() => snapPoints.map(pt => [pt, pt - sensitivity, pt + sensitivity]), [])
+
+	const thresholds = useMemo(() => {
+		if (snapToPoint) {
+			return snapPoints.map(pt => [pt, pt - sensitivity, pt + sensitivity])
+		} else {
+			return []
+		}
+	}, [snapToPoint, snapPoints])
 
 	const getTrack = useCallback(() => trackRef.current.getBoundingClientRect(), [trackRef])
 
@@ -95,7 +106,7 @@ const DoubleSlider = ({
 					value={leftThumb.value}
 					min={min}
 					max={rightThumb.value - fineTuneStep}
-					thresholds={thresholds}
+					thresholds={snapToPoint && thresholds}
 					setValue={setLeft}
 					getClickPos={getClickPosLeft}
 					{...common} />
@@ -118,7 +129,7 @@ const DoubleSlider = ({
 					min={leftThumb.value + fineTuneStep}
 					max={max}
 					absoluteMin={min}
-					thresholds={thresholds}
+					thresholds={snapToPoint && thresholds}
 					setValue={setRight}
 					getClickPos={getClickPosRight}
 					{...common} />

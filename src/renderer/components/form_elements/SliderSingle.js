@@ -1,6 +1,8 @@
-import React, { useCallback, useMemo, useRef } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import { arrayOf, func, number, oneOf, oneOfType, string } from 'prop-types'
 import { v1 as uuid } from 'uuid'
+
+import { PrefsContext } from 'store/preferences.js'
 
 import SliderThumb from './SliderThumb'
 import SliderSnapMarkers from './SliderSnapMarkers'
@@ -17,12 +19,21 @@ const SingleSlider = ({
 	sensitivity = 4,
 	onChange = () => {}
 }) => {
+	const { snapToPoint } = useContext(PrefsContext).preferences
+
 	const thumbRef = useRef()
 	const trackRef = useRef()
 	
 	const sliderId = useMemo(uuid, [])
 	const diff = useMemo(() => max - min, [max, min])
-	const thresholds = useMemo(() => snapPoints.map(pt => [pt, pt - sensitivity, pt + sensitivity]), [snapPoints])
+	
+	const thresholds = useMemo(() => {
+		if (snapToPoint) {
+			return snapPoints.map(pt => [pt, pt - sensitivity, pt + sensitivity])
+		} else {
+			return []
+		}
+	}, [snapToPoint, snapPoints])
 
 	const getTrack = useCallback(() => trackRef.current.getBoundingClientRect(), [])
 
