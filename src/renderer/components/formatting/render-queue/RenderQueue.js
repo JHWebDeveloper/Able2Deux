@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { withRouter } from 'react-router-dom'
+import { arrayOf, func, object } from 'prop-types'
 import toastr from 'toastr'
 
 import { PrefsContext } from 'store/preferences'
@@ -19,7 +20,7 @@ import RenderElement from './RenderElement'
 
 const { interop } = window.ABLE2
 
-const RenderQueue = withRouter(params => {
+const RenderQueue = params => {
 	const { media, batch, saveLocations, closeRenderQueue, dispatch, history } = params
 	const prefsContext = useContext(PrefsContext)
 	const prefsDispatch = prefsContext.dispatch
@@ -144,6 +145,15 @@ const RenderQueue = withRouter(params => {
 			</div>
 		</div>
 	)
-})
+}
 
-export default RenderQueue
+RenderQueue.propTypes = {
+	media: arrayOf(object).isRequired,
+	batch: object.isRequired,
+	saveLocations: arrayOf(object).isRequired,
+	closeRenderQueue: func.isRequired,
+	dispatch: func.isRequired,
+	history: object.isRequired
+}
+
+export default withRouter(RenderQueue)
