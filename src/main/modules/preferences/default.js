@@ -26,7 +26,7 @@ const defaultPrefs = {
 	sliderSnapPoints: true,
 	enableWidescreenGrids: false,
 	gridColor: '#ff00ff',
-	splitDuration: 270,
+	split: 270,
 	scaleSliderMax: 400,
 	warnings: {
 		remove: true,
