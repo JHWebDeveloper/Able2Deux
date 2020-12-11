@@ -24,6 +24,7 @@ const initState = {
 	timerEnabled: false,
 	timer: 60,
 	editAll: false,
+	split: 270,
 	enableWidescreenGrids: false,
 	gridColor: '#ff00ff',
 	scaleSliderMax: 400,
