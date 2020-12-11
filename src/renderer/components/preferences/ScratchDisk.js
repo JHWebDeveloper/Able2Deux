@@ -7,15 +7,15 @@ import PrefsPanel from './PrefsPanel'
 import DirectorySelector from '../form_elements/DirectorySelector'
 
 const ScratchDisk = ({ scratchDisk, dispatch }) => {
-	const updateScratchDisk = useCallback((property, value) => {
+	const updateScratchDisk = useCallback(property => value => {
 		dispatch(updateNestedState('scratchDisk', {
 			[property]: value
 		}))
 	}, [])
 
-	const updateImports = useCallback(dir => updateScratchDisk('imports', dir), [])
-	const updateExports = useCallback(dir => updateScratchDisk('exports', dir), [])
-	const updatePreview = useCallback(dir => updateScratchDisk('previews', dir), [])
+	const updateImports = useCallback(updateScratchDisk('imports'), [])
+	const updateExports = useCallback(updateScratchDisk('exports'), [])
+	const updatePreview = useCallback(updateScratchDisk('previews'), [])
 
 	return (
 		<PrefsPanel title="Scratch Disk" className="span-half">
