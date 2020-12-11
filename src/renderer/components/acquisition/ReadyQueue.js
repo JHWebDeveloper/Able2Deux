@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
-import { arrayOf, bool, func, object } from 'prop-types'
+import { arrayOf, bool, func, object, shape } from 'prop-types'
 
 import {
 	moveMedia,
@@ -103,8 +103,10 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch, histo
 ReadyQueue.propTypes = {
 	media: arrayOf(object),
 	recording: bool.isRequired,
-	warnRemoveAll: bool,
-	warnRemove: bool,
+	warnings: shape({
+		remove: bool.isRequired,
+		removeAll: bool.isRequired
+	}).isRequired,
 	dispatch: func.isRequired,
 	prefsDispatch: func.isRequired,
 	history: object.isRequired

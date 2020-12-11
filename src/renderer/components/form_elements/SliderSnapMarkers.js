@@ -9,7 +9,7 @@ const SliderSnapMarkers = memo(({ markers, min, diff, id }) => (
 					key={`${id}_pt${i}`}
 					className="snap-marker"
 					style={{
-					left: `${(mark - min) / diff * 100}%`
+						left: `${(mark - min) / diff * 100}%`
 					}}></span>
 			))}
 		</span>

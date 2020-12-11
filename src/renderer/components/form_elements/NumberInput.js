@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
+import { func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import { clamp } from 'utilities'
 
