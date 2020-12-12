@@ -45,6 +45,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 #### Other:
 - Reflect Horizontally and Vertically now swap values when media is rotated by 90deg.
 - Pressing up and down arrows will increment Screen Record Timer by 1 second.
+- Reorganized Preferences window and added new prefs, mostly options for default settings.
 
 ### Updated
 - Video service compatibility
