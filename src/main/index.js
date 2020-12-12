@@ -33,7 +33,7 @@ log.catchErrors({ showDialog: false })
 
 if (!dev) console.error = log.error
 
-const openWindow = opts => new BrowserWindow({
+const openWindow = (opts = {}) => new BrowserWindow({
 	show: false,
 	backgroundColor: '#eee',
 	webPreferences: {
