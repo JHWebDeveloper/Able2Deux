@@ -7,6 +7,7 @@ import PrefsPanel from './PrefsPanel'
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
+import NumberInput from '../form_elements/NumberInput'
 
 const optimizeButtons = [
 	{
@@ -30,14 +31,14 @@ const screenshotButtons = [
 	}
 ]
 
-const AcquisitionSettings = ({ optimize, screenshot, timerEnabled, timer, dispatch }) => {
+const AcquisitionSettings = ({ optimize, screenRecorderFrameRate, screenshot, timerEnabled, timer, dispatch }) => {
 	const screenshotToBoolean = useCallback(e => {
 		dispatch(updateState({
 			screenshot: e.target.value === 'screenshot'
 		}))
 	}, [])
 
-	const updateRecordTimer = useCallback(({ name, value }) => {
+	const updateStateDispatch = useCallback(({ name, value }) => {
 		dispatch(updateState({ [name]: value }))
 	}, [])
 
@@ -63,12 +64,17 @@ const AcquisitionSettings = ({ optimize, screenshot, timerEnabled, timer, dispat
 						buttons={screenshotButtons}/>
 				</div>
 			</fieldset>
-			<Checkbox
-				label="Timer Enabled"
-				name="timerEnabled"
-				checked={timerEnabled}
-				onChange={e => dispatch(toggleCheckbox(e))}
-				switchIcon />
+			<span>
+				<label htmlFor="screenRecorderFrameRate">Recorder Frame Rate</label>
+				<NumberInput
+					name="screenRecorderFrameRate"
+					id="screenRecorderFrameRate"
+					value={screenRecorderFrameRate}
+					min={1}
+					max={120}
+					fineTuneStep={1}
+					onChange={updateStateDispatch} />
+			</span>
 			<span>
 				<label htmlFor="timer">Timer Duration</label>
 				<TimecodeInputSeconds
@@ -77,14 +83,21 @@ const AcquisitionSettings = ({ optimize, screenshot, timerEnabled, timer, dispat
 					value={timer}
 					min={1}
 					max={86399}
-					onChange={updateRecordTimer} />
+					onChange={updateStateDispatch} />
 			</span>
+			<Checkbox
+				label="Timer Enabled"
+				name="timerEnabled"
+				checked={timerEnabled}
+				onChange={e => dispatch(toggleCheckbox(e))}
+				switchIcon />
 		</PrefsPanel>
 	)
 }
 
 AcquisitionSettings.propTypes = {
 	optimize: oneOf(['quality', 'download']),
+	screenRecorderFrameRate: number.isRequired,
 	screenshot: bool.isRequired,
 	timerEnabled: bool.isRequired,
 	timer: number.isRequired,
