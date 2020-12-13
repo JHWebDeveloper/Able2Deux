@@ -31,6 +31,7 @@ const Acquisition = () => {
 			<ScreenRecorder
 				recording={recording}
 				setRecording={setRecording}
+				frameRate={preferences.screenRecorderFrameRate}
 				screenshot={screenshot}
 				timer={timer}
 				timerEnabled={timerEnabled}
