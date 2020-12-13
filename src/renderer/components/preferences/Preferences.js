@@ -52,6 +52,7 @@ const Main = () => {
 			<AcquisitionSettings
 				optimize={preferences.optimize}
 				screenshot={preferences.screenshot}
+				screenRecorderFrameRate={preferences.screenRecorderFrameRate}
 				timerEnabled={preferences.timerEnabled}
 				timer={preferences.timer}
 				dispatch={dispatch} />
