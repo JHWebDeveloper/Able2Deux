@@ -19,7 +19,7 @@ const SaveLocations = ({ saveLocations, dispatch }) => {
 	}, [saveLocations])
 
 	return (
-		<PrefsPanel title="Save Locations" className="save-locations-grid span-whole">
+		<PrefsPanel title="Save Locations" className="save-locations-grid span-all">
 			<label id="default">Default</label>
 			<label id="label">Label</label>
 			<label id="folder">Folder</label>

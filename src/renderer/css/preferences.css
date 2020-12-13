@@ -22,7 +22,7 @@
 	padding: 9px 12px;
 }
 
-.span-whole { grid-column: span 3; }
+.span-all { grid-column: span 3; }
 .span-2_3 { grid-column: span 2; }
 .span-1_3 { grid-column: span 1; }
 
