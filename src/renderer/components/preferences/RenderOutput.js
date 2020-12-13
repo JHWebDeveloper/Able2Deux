@@ -8,7 +8,7 @@ import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
 
-const outputButtons =  [
+const outputButtons = [
 	{
 		label: '1280x720',
 		value: '1280x720'
