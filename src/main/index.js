@@ -394,11 +394,11 @@ const requestUploadIPC = async (evt, data) => {
 }
 
 const saveScreenRecordingIPC = async (evt, data) => {
-	const { id, screenshot } = data
+	const { id, screenshot, fps } = data
 
 	try {
 		const tempFilePath = await saveScreenRecording(data)
-		const mediaData = await getMediaInfo(id, tempFilePath, screenshot ? 'image' : 'video', 60)
+		const mediaData = await getMediaInfo(id, tempFilePath, screenshot ? 'image' : 'video', fps)
 		
 		evt.reply(`screenRecordingSaved_${id}`, mediaData)
 	} catch (err) {
