@@ -45,7 +45,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 #### Other:
 - Reflect Horizontally and Vertically now swap values when media is rotated by 90deg.
 - Pressing up and down arrows will increment Screen Record Timer by 1 second.
-- Reorganized Preferences window and added new prefs, mostly options for default settings.
+- Reorganized Preferences window and added new prefs: default download mode, default screen capture mode, screen recorder frame rate, default timer duration, timer default on/off, slider snap points on/off, split duration default and start over warning.
 
 ### Updated
 - Video service compatibility
