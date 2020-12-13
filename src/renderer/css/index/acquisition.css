@@ -26,7 +26,7 @@
 
 #downloader > span {
 	align-content: center;
-	font-weight: 600;
+	font-weight: 500;
 	font-size: 12px;
 }
 
@@ -216,7 +216,7 @@ button[name="screenshot"] { height: 26px; }
 	border-radius: 25px;
 	background-color: var(--background);
 	color: var(--primary);
-	font-weight: 600;
+	font-weight: 500;
 	animation: reveal-source-select 500ms both;
 }
 

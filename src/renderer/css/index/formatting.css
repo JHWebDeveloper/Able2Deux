@@ -74,12 +74,12 @@ details {
 
 .batch-item > button:first-of-type {
 	text-align: left;
-	font-weight: 600;
+	font-weight: 500;
 }
 
 #media-selector > div:nth-child(3) {
 	padding: 0 9px;
-	font-weight: 600;
+	font-weight: 500;
 	text-align: right;
 }
 
@@ -111,7 +111,7 @@ details .dropdown {
 	box-shadow: 0 0 3px var(--primary);
 	background-color: var(--background);
 	color: var(--primary);
-	font-weight: 600;
+	font-weight: 500;
 }
 
 details .dropdown > button {
@@ -230,7 +230,7 @@ legend {
 details label { font-size: 12px; }
 
 #file label {
-	font-weight: 600;
+	font-weight: 500;
 	font-size: 14px;
 }
 
