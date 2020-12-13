@@ -20,7 +20,7 @@ const FormattingSettings = props => {
 	}, [])
 
 	return (
-		<PrefsPanel title="Formatting Settings" className="span-third">
+		<PrefsPanel title="Formatting Settings" className="span-1_3">
 			<Checkbox
 				label="Edit All by Default"
 				name="editAll"

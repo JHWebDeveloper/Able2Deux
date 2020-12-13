@@ -43,7 +43,7 @@ const AcquisitionSettings = ({ optimize, screenRecorderFrameRate, screenshot, ti
 	}, [])
 
 	return (
-		<PrefsPanel title="Acquisition Settings" className="span-third">
+		<PrefsPanel title="Acquisition Settings" className="span-1_3">
 			<fieldset>
 				<legend>Download Mode</legend>
 				<div>

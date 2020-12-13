@@ -12,7 +12,7 @@ const Warnings = ({ warnings, dispatch }) => {
 	}, [])
 
 	return (
-		<PrefsPanel title="Warnings" className="span-third">
+		<PrefsPanel title="Warnings" className="span-1_3">
 			<Checkbox
 				label="Remove"
 				name="remove"
