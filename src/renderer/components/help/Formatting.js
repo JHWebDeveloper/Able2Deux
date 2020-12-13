@@ -77,10 +77,55 @@ const Formatting = () => (
 		<p>When a media item is selected, the Preview Window will display a thumbnail preview of the media with current settings applied.</p>
 		<p>For audio exports, the preview window displays split channel waveform data.</p>
 		<h4 id="frame-slider">Frame Slider</h4>
-		<p>The Frame Slider allows you to select a frame inside the video to preview. The timecode is displayed on the left side of the slider. It is only available for videos.</p>
-		<p>To the right of the slider are two increment buttons (<i>chevron_left</i> and <i>chevron_right</i>). Clicking these will increment the frame slider by 1 frame. Holding the shift will the increment amount to 10 frames.</p>
+		<p>The Frame Slider allows you to select a frame inside the video to preview. The timecode is displayed below the the slider and can be manually entered. It is only available for videos.</p>
+		<p>To the right of the slider are two increment buttons (<i>chevron_left</i> and <i>chevron_right</i>). Clicking these will increment the frame slider by 1 frame. Holding the shift will change the increment amount to 10 frames.</p>
+		<p>The frame slider has a number of keyboard shortcuts for setting and viewing <a href="#start-and-end">start and end point options</a>.</p>
+		<table>
+			<thead>
+				<tr>
+					<th>Key</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>I</td>
+					<td rowSpan="2">Mark start point</td>
+				</tr>
+				<tr>
+					<td>E</td>
+				</tr>
+				<tr>
+					<td>O</td>
+					<td rowspan="2">Mark end point</td>
+				</tr>
+				<tr>
+					<td>R</td>
+				</tr>
+				<tr>
+					<td>D</td>
+					<td>Clear start point</td>
+				</tr>
+				<tr>
+					<td>F</td>
+					<td>Clear end point</td>
+				</tr>
+				<tr>
+					<td>G</td>
+					<td>Clear start and end points</td>
+				</tr>
+				<tr>
+					<td>Q</td>
+					<td>Go to start point</td>
+				</tr>
+				<tr>
+					<td>W</td>
+					<td>Go to end point</td>
+				</tr>
+			</tbody>
+		</table>
 		<h4 id="screengrabs">Creating Screengrabs</h4>
-		<p>Clickin the screengrab button (<i>camera_alt</i>) will take a screengrad of the video at current timecode and add it to the batch list.</p>
+		<p>Clicking the screengrab button (<i>camera_alt</i>) will take a screengrad of the video at current timecode and add it to the batch list.</p>
 		<p>All settings that have been applied to the video will be retained by the screengrab. To avoid this, hold the shift key when clicking the screengrab button. With the execption of the filename, all settings for the new screengrab will be reset to their default states.</p>
 		<h4 id="grids">Grids</h4>
 		<p>The Preview Window has four grid overlays that can be toggled on or off the first of which is a standard 16:9 title safe grid with thirds and center markers (<i>grid_on</i>). The other grid buttons will reveal markers for aspect ratios 4:3, 1:1, and 9:16.</p>
@@ -94,9 +139,13 @@ const Formatting = () => (
 		<p>The filename field accepts tokens. Please see the <a href="#tokens" title="Go to Tokens">Batch Naming section</a> for details.</p>
 		<p>Able2 will automatically append numbering to duplicate filenames in <q>&lt;#&gt; of &lt;total&gt;</q> format.</p>
 		<h5 id="start-and-end">Start &amp; End</h5>
-		<p>Allows you to export a section of video or audio. Both fields must be switched on to take effect and accept an HH:MM:SS timecode format.</p>
-		<p>If the start time exceeds the duration or set end time, the export will error.</p>
+		<p>The Start and End input fields and slider allow you to export a section of video or audio. The input fields accept a HH:MM:SS:FF timecode format.</p>
 		<p>The Start and End fields will not display for image files.</p>
+		<h5 id="split">Split</h5>
+		<p>Split allows you to split a clip into smaller sections for export. Entering a duration in HH:MM:SS timecode format and clicking the adjacent button will automatically duplicate the clip and adjust start and end times to the desired duration. (e.g. setting split to 10 minutes for an hour long video will create 6 duplicates with their start and end times set so that each is 10 minutes long.)</p>
+		<p>Split will only effect the selected region set by the start and end inputs of the current clip.</p>
+		<p>Splitting the video into smaller clips can allow for faster exports of a long video or audio file. Rather than waiting for an hour long video to finish rendering, you can get parts of the video in smaller subclips as they finish rendering. You may rearrange the sublcips to prioritze certain sections of the video and since Able2 can render concurrently you can also render multiple sections of the same video simultaneously.</p>
+		<p>Theoretically splitting could be achieved by duplicating the video and manually setting the start and end times, but the split feature automates the process.</p>
 		<h4 id="audio">Audio</h4>
 		<p>The section provides you with a few additional exported file options for video and audio files only.</p>
 		<h5 id="export-as">Export As</h5>
@@ -170,9 +219,11 @@ const Formatting = () => (
 		<h4 id="crop">Crop</h4>
 		<p>Accessible when AR Correction is set to Transform</p>
 		<p>Allows you to crop the media from the Top, Bottom, Left and Right edges. The resulting crop will auto center at the set X/Y Position.</p>
-		<p>There are two buttons enabled by default that link the Top and Bottom sliders and Left and Right sliders. While enabled, adjusting one edge will auto crop the opposite edge with the same percentage.</p>
+		<p>There are two buttons enabled by default that link the Top and Bottom sliders and Left and Right sliders. While enabled, adjusting one edge will auto crop the opposite edge with the complimentary percentage.</p>
 		<p>Crop percentages for all four edges can be manually entered into the each slider&apos;s adjacent number field. These fields accept decimal values and can be incremented by pressing the up and down arrow keys.</p>
 		<p>The sliders and number fields increment by 1%. Holding shift will reduce increments to 0.1% allowing for finer adjustments.</p>
+		<p>Clicking and dragging the area bewteen each slider will shift the crop values simultaneously in the same direction.</p>
+		<p>Double-clicking within the area between each slider will auto center the crop values.</p>
 		<h4 id="rotation">Rotation</h4>
 		<p>Allows you to adjust the orientation of the video.</p>
 		<h5 id="rotate">Rotate</h5>

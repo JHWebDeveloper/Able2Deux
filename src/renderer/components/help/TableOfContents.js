@@ -46,6 +46,7 @@ const TableOfContents = () => (
 					<ul>
 						<li><a href="#filename" title="Go to Filename">Filename</a></li>
 						<li><a href="#start-and-end" title="Go to Start &amp; End">Start &amp; End</a></li>
+						<li><a href="#split" title="Go to Split">Split</a></li>
 					</ul>
 					<li><a href="#audio" title="Go to Audio">Audio</a></li>
 					<ul>
