@@ -32,7 +32,9 @@ const frameRateButtons = [
 
 const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, concurrent, dispatch }) => {
 	const updateConcurrent = useCallback(({ name, value }) => {
-		dispatch(updateState({ [name]: value }))
+		dispatch(updateState({
+			[name]: value === '' ? value : Math.floor(value)
+		}))
 	}, [])
 
 	return (
