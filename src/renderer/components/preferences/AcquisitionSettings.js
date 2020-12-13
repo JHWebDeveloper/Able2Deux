@@ -70,9 +70,10 @@ const AcquisitionSettings = ({ optimize, screenshot, timerEnabled, timer, dispat
 				onChange={e => dispatch(toggleCheckbox(e))}
 				switchIcon />
 			<span>
-				<label>Timer Duration</label>
+				<label htmlFor="timer">Timer Duration</label>
 				<TimecodeInputSeconds
 					name="timer"
+					id="timer"
 					value={timer}
 					min={1}
 					max={86399}
