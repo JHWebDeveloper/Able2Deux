@@ -39,16 +39,6 @@ const Main = () => {
 
 	return (
 		<form>
-			<RenderOutput
-				renderOutput={preferences.renderOutput}
-				renderFrameRate={preferences.renderFrameRate}
-				autoPNG={preferences.autoPNG}
-				asperaSafe={preferences.asperaSafe}
-				concurrent={preferences.concurrent}
-				dispatch={dispatch} />
-			<ScratchDisk 
-				scratchDisk={preferences.scratchDisk}
-				dispatch={dispatch} />
 			<AcquisitionSettings
 				optimize={preferences.optimize}
 				screenshot={preferences.screenshot}
@@ -66,6 +56,16 @@ const Main = () => {
 				dispatch={dispatch} />
 			<Warnings
 				warnings={preferences.warnings}
+				dispatch={dispatch} />
+			<ScratchDisk 
+				scratchDisk={preferences.scratchDisk}
+				dispatch={dispatch} />
+			<RenderOutput
+				renderOutput={preferences.renderOutput}
+				renderFrameRate={preferences.renderFrameRate}
+				autoPNG={preferences.autoPNG}
+				asperaSafe={preferences.asperaSafe}
+				concurrent={preferences.concurrent}
 				dispatch={dispatch} />
 			<SaveLocations
 				saveLocations={preferences.saveLocations}
