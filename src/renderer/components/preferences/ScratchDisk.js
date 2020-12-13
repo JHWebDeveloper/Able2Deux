@@ -18,7 +18,7 @@ const ScratchDisk = ({ scratchDisk, dispatch }) => {
 	const updatePreview = useCallback(updateScratchDisk('previews'), [])
 
 	return (
-		<PrefsPanel title="Scratch Disk" className="span-half">
+		<PrefsPanel title="Scratch Disk" className="span-2_3">
 			<label>Import Cache</label>
 			<DirectorySelector
 				directory={scratchDisk.imports}

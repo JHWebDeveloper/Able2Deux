@@ -36,7 +36,7 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 	}, [])
 
 	return (
-		<PrefsPanel title="Output" className="output-grid span-half">
+		<PrefsPanel title="Output" className="output-grid span-1_3">
 			<fieldset>
 				<legend>Resolution</legend>
 				<div>
