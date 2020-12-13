@@ -213,6 +213,12 @@ label > :matches(input, span, svg) { vertical-align: middle; }
 	background-color: var(--background);
 }
 
+.timecode {
+	width: 82px;
+	height: 18px;
+	text-align: center;
+}
+
 .draggable,
 .insert-last {
 	position: relative;

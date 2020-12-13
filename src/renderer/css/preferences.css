@@ -57,8 +57,6 @@ legend + div > label {
 	margin-left: 6px;
 }
 
-.timecode { width: 78px; }
-
 .directory-selector { display: flex; }
 
 .directory-selector > input {
