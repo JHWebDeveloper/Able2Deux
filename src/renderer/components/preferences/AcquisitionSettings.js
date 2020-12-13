@@ -8,6 +8,28 @@ import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 
+const optimizeButtons = [
+	{
+		label: 'Optimize Video Quality',
+		value: 'quality'
+	},
+	{
+		label: 'Optimize Download Time',
+		value: 'download'
+	}
+]
+
+const screenshotButtons = [
+	{
+		label: 'Screen Record',
+		value: 'screen_record'
+	},
+	{
+		label: 'Screenshot',
+		value: 'screenshot'
+	}
+]
+
 const AcquisitionSettings = ({ optimize, screenshot, timerEnabled, timer, dispatch }) => {
 	const screenshotToBoolean = useCallback(e => {
 		dispatch(updateState({
@@ -28,16 +50,7 @@ const AcquisitionSettings = ({ optimize, screenshot, timerEnabled, timer, dispat
 						name="optimize"
 						state={optimize}
 						onChange={e => dispatch(updateStateFromEvent(e))}
-						buttons={[
-							{
-								label: 'Optimize Video Quality',
-								value: 'quality'
-							},
-							{
-								label: 'Optimize Download Time',
-								value: 'download'
-							}
-						]}/>
+						buttons={optimizeButtons}/>
 				</div>
 			</fieldset>
 			<fieldset>
@@ -47,16 +60,7 @@ const AcquisitionSettings = ({ optimize, screenshot, timerEnabled, timer, dispat
 						name="screenshot"
 						state={screenshot ? 'screenshot' : 'screen_record'}
 						onChange={screenshotToBoolean}
-						buttons={[
-							{
-								label: 'Screen Record',
-								value: 'screen_record'
-							},
-							{
-								label: 'Screenshot',
-								value: 'screenshot'
-							}
-						]}/>
+						buttons={screenshotButtons}/>
 				</div>
 			</fieldset>
 			<Checkbox

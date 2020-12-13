@@ -8,8 +8,27 @@ import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
 
-const _720 = [1280, 720].join('x')
-const _1080 = [1920, 1080].join('x')
+const outputButtons =  [
+	{
+		label: '1280x720',
+		value: '1280x720'
+	},
+	{
+		label: '1920x1080',
+		value: '1920x1080'
+	}
+]
+
+const frameRateButtons = [
+	{
+		label: 'Auto',
+		value: 'auto'
+	},
+	{
+		label: '59.94fps',
+		value: '59.94fps'
+	}
+]
 
 const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, concurrent, dispatch }) => {
 	const updateConcurrent = useCallback(({ name, value }) => {
@@ -25,16 +44,7 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 						name="renderOutput"
 						state={renderOutput}
 						onChange={e => dispatch(updateStateFromEvent(e))}
-						buttons={[
-							{
-								label: _720,
-								value: _720
-							},
-							{
-								label: _1080,
-								value: _1080
-							}
-						]}/>
+						buttons={outputButtons}/>
 				</div>
 			</fieldset>
 			<fieldset>
@@ -44,16 +54,7 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 						name="renderFrameRate"
 						state={renderFrameRate}
 						onChange={e => dispatch(updateStateFromEvent(e))}
-						buttons={[
-							{
-								label: 'Auto',
-								value: 'auto'
-							},
-							{
-								label: '59.94fps',
-								value: '59.94fps'
-							}
-						]}/>
+						buttons={frameRateButtons}/>
 				</div>
 			</fieldset>
 			<Checkbox

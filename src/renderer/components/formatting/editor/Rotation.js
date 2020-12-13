@@ -37,6 +37,44 @@ const rotateCropValues = (prev, next, crop) => {
 	return rotated
 }
 
+const angleButtons = [
+	{
+		label: '0°',
+		value: transpose[0]
+	},
+	{
+		label: '90°cw',
+		value: transpose[1]
+	},
+	{
+		label: '90°ccw',
+		value: transpose[3]
+	},
+	{
+		label: '180°',
+		value: transpose[2]
+	}
+]
+
+const flipButtons = isSideways => [
+	{
+		label: 'None',
+		value: flip[0]
+	},
+	{
+		label: 'Horizontally',
+		value: flip[isSideways ? 2 : 1]
+	},
+	{
+		label: 'Vertically',
+		value: flip[isSideways ? 1 : 2]
+	},
+	{
+		label: 'Both',
+		value: flip[3]
+	}
+]
+
 const Rotation = memo(props => {
 	const { id, isBatch, rotation, scale, crop, editAll, dispatch } = props
 
@@ -112,24 +150,7 @@ const Rotation = memo(props => {
 					name="angle"
 					state={rotation.angle}
 					onChange={updateAngle}
-					buttons={[
-						{
-							label: '0°',
-							value: transpose[0]
-						},
-						{
-							label: '90°cw',
-							value: transpose[1]
-						},
-						{
-							label: '90°ccw',
-							value: transpose[3]
-						},
-						{
-							label: '180°',
-							value: transpose[2]
-						}
-					]}/>
+					buttons={angleButtons}/>
 			</fieldset>
 			<fieldset>
 				<legend>Reflect:</legend>
@@ -137,24 +158,7 @@ const Rotation = memo(props => {
 					name="reflect"
 					state={rotation.reflect}
 					onChange={updateReflect}
-					buttons={[
-						{
-							label: 'None',
-							value: flip[0]
-						},
-						{
-							label: 'Horizontally',
-							value: flip[isSideways ? 2 : 1]
-						},
-						{
-							label: 'Vertically',
-							value: flip[isSideways ? 1 : 2]
-						},
-						{
-							label: 'Both',
-							value: flip[3]
-						}
-					]} />
+					buttons={flipButtons(isSideways)} />
 			</fieldset>
 		</DetailsWrapper>
 	)

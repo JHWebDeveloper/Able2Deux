@@ -7,6 +7,17 @@ import RadioSet from '../form_elements/RadioSet'
 
 const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
 
+const optimizeButtons = [
+	{
+		label: 'Optimize Video Quality',
+		value: 'quality'
+	},
+	{
+		label: 'Optimize Download Time',
+		value: 'download'
+	}
+]
+
 const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 	const badURL = useMemo(() => !urlRegex.test(url), [url])
 
@@ -32,7 +43,7 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				className="app-button"
 				name="download"
 				title="Download Video"
-				disabled={badURL }
+				disabled={badURL}
 				onClick={downloadWithSettings}>
 				Download
 			</button>
@@ -41,16 +52,7 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 					name="optimize"
 					state={optimize}
 					onChange={dispatchWithEvent}
-					buttons={[
-						{
-							label: 'Optimize Video Quality',
-							value: 'quality'
-						},
-						{
-							label: 'Optimize Download Time',
-							value: 'download'
-						}
-					]} />
+					buttons={optimizeButtons} />
 			</span>
 		</div>
 	)

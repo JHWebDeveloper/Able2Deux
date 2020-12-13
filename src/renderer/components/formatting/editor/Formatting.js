@@ -12,6 +12,59 @@ import { compareProps, createSettingsMenu } from 'utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
 
+const formattingButtons = [
+	{
+		label: 'None',
+		value: 'none'
+	},
+	{
+		label: 'Fill Frame',
+		value: 'fill'
+	},
+	{
+		label: 'Fit Inside Frame',
+		value: 'fit'
+	},
+	{
+		label: 'Transform',
+		value: 'transform'
+	}
+]
+
+const backgroundButtons = [
+	{
+		label: 'Blue',
+		value: 'blue'
+	},
+	{
+		label: 'Grey',
+		value: 'grey'
+	},
+	{
+		label: 'Transparent',
+		value: 'alpha'
+	},
+	{
+		label: 'Black',
+		value: 'black'
+	}
+]
+
+const overlayButtons = [
+	{
+		label: 'None',
+		value: 'none'
+	},
+	{
+		label: 'TV',
+		value: 'tv'
+	},
+	{
+		label: 'Laptop',
+		value: 'laptop'
+	}
+]
+
 const Formatting = memo(props => {
 	const { id, arc, background, overlay, editAll, dispatch } = props
 
@@ -30,24 +83,7 @@ const Formatting = memo(props => {
 					name="arc"
 					state={arc}
 					onChange={e => dispatch(updateMediaStateFromEvent(id, e, editAll))}
-					buttons={[
-						{
-							label: 'None',
-							value: 'none'
-						},
-						{
-							label: 'Fill Frame',
-							value: 'fill'
-						},
-						{
-							label: 'Fit Inside Frame',
-							value: 'fit'
-						},
-						{
-							label: 'Transform',
-							value: 'transform'
-						}
-					]}/>
+					buttons={formattingButtons}/>
 			</fieldset>
 			<fieldset disabled={arc === 'none' || arc === 'fill' && !props.hasAlpha && overlay === 'none'}>
 				<legend>Background:</legend>
@@ -55,24 +91,7 @@ const Formatting = memo(props => {
 					name="background"
 					state={background}
 					onChange={e => dispatch(updateMediaStateFromEvent(id, e, editAll))}
-					buttons={[
-						{
-							label: 'Blue',
-							value: 'blue'
-						},
-						{
-							label: 'Grey',
-							value: 'grey'
-						},
-						{
-							label: 'Transparent',
-							value: 'alpha'
-						},
-						{
-							label: 'Black',
-							value: 'black'
-						}
-					]}/>
+					buttons={backgroundButtons}/>
 			</fieldset>
 			<fieldset disabled={arc === 'none'}>
 				<legend>Box Overlay:</legend>
@@ -80,20 +99,7 @@ const Formatting = memo(props => {
 					name="overlay"
 					state={overlay}
 					onChange={e => dispatch(updateMediaStateFromEvent(id, e, editAll))}
-					buttons={[
-						{
-							label: 'None',
-							value: 'none'
-						},
-						{
-							label: 'TV',
-							value: 'tv'
-						},
-						{
-							label: 'Laptop',
-							value: 'laptop'
-						}
-					]}/>
+					buttons={overlayButtons}/>
 			</fieldset>
 		</DetailsWrapper>
 	)

@@ -5,6 +5,21 @@ import { updateNestedStateFromEvent } from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
 
+const positionButtons = [
+	{
+		label: 'Replace',
+		value: 'replace'
+	},
+	{
+		label: 'Prepend',
+		value: 'prepend'
+	},
+	{
+		label: 'Append',
+		value: 'append'
+	}
+]
+
 const BatchName = ({ batch, dispatch }) => {
 	const updateBatchName = useCallback(e => {
 		dispatch(updateNestedStateFromEvent('batch', e))
@@ -30,20 +45,7 @@ const BatchName = ({ batch, dispatch }) => {
 					name="position"
 					state={batch.position}
 					onChange={updateBatchNamePosition}
-					buttons={[
-						{
-							label: 'Replace',
-							value: 'replace'
-						},
-						{
-							label: 'Prepend',
-							value: 'prepend'
-						},
-						{
-							label: 'Append',
-							value: 'append'
-						}
-					]}/>
+					buttons={positionButtons}/>
 			</div>
 		</div>
 	)
