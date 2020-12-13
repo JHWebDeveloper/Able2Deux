@@ -250,7 +250,7 @@ input:matches([name="filename"], [name="sourceName"]) { margin-bottom: 9px; }
 
 .panel-input[type="number"] {
 	height: 18px;
-	width: 44px;
+	width: 42px;
 }
 
 
@@ -313,7 +313,7 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 
 .timecode-slider-grid > label { justify-self: center; }
 
-.timecode-slider-grid > input { width: 104px; }
+.timecode-slider-grid > input { width: 112px; }
 
 .timecode-slider-grid > input:last-of-type { grid-column: 4; }
 
@@ -433,8 +433,6 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 	justify-content: center;
 	margin-top: 6px;
 }
-
-.split-grid > input { width: 78px; }
 
 
 /* ---- RENDER QUEUE -------- */

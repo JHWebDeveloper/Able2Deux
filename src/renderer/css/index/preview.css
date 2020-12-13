@@ -53,9 +53,9 @@
 #preview-controls :matches(input, button, .preview-spacer) { grid-row: 2; }
 
 #preview-controls input {
-	width: 72px;
 	background-color: transparent;
 	color: currentColor;
+	font-weight: 600;
 }
 
 #preview-controls .slider {
@@ -107,6 +107,7 @@ button[name^="_"] { padding: 0 3px; }
 
 button[name^="_"] > span {
 	pointer-events: none;
+	font-weight: 600;
 	font-size: 10px;
 	vertical-align: -2px;
 }
