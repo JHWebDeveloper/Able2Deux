@@ -33,7 +33,7 @@ const Clock = ({ start, decrement }) => {
 	return (
 		<input
 			type="text"
-			className="monospace"
+			className="timecode monospace"
 			ref={ref}
 			value={secondsToTC(decrement ? start : 0)}
 			title={`Time ${decrement ? 'remaining' : 'ellapsed'}`}
