@@ -20,13 +20,14 @@ import CaptureModeSwitch from '../svg/CaptureModeSwitch'
 
 const { interop } = window.ABLE2
 
-const ScreenRecorder = ({ recording, setRecording, screenshot, timer, timerEnabled, dispatch }) => {
+const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer, timerEnabled, dispatch }) => {
 	const [ recordSources, setRecordSources ] = useState([])
 
 	const startRecording = useCallback(async streamId => {
 		try {
 			interop.startRecording({
 				streamId,
+				frameRate,
 				timer: timerEnabled && timer,
 				setRecordIndicator: setRecording,
 				onStart: recordId => {
@@ -43,12 +44,13 @@ const ScreenRecorder = ({ recording, setRecording, screenshot, timer, timerEnabl
 		} catch (err) {
 			toastr.error('An error occurred during the screen record!', false, toastrOpts)
 		}
-	}, [timer, timerEnabled])
+	}, [frameRate, timer, timerEnabled])
 
 	const captureScreenshot = useCallback(async streamId => {
 		try {
 			interop.captureScreenshot({
 				streamId,
+				frameRate,
 				onCapture: (recordId, mediaData) => {
 					dispatch(loadRecording(recordId, true))
 					dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
@@ -61,11 +63,11 @@ const ScreenRecorder = ({ recording, setRecording, screenshot, timer, timerEnabl
 		} catch (err) {
 			toastr.error('An error occurred while capturing the screenshot!', false, toastrOpts)
 		}
-	}, [])
+	}, [frameRate])
 
 	const captureScreen = useMemo(() => (
 		screenshot ? captureScreenshot : startRecording
-	), [screenshot, timer, timerEnabled])
+	), [frameRate, screenshot, timer, timerEnabled])
 
 	const getRecordSources = useCallback(async () => {
 		let recordSourceList = []
@@ -145,6 +147,7 @@ const ScreenRecorder = ({ recording, setRecording, screenshot, timer, timerEnabl
 ScreenRecorder.propTypes = {
 	recording: bool.isRequired,
 	setRecording: func.isRequired,
+	frameRate: number.isRequired,
 	screenshot: bool.isRequired,
 	timer: number.isRequired,
 	timerEnabled: bool.isRequired,
