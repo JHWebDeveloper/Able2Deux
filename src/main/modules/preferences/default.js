@@ -22,6 +22,7 @@ const defaultPrefs = {
 	screenshot: false,
 	timerEnabled: false,
 	timer: 60,
+	screenRecorderFrameRate: 60,
 	editAll: false,
 	sliderSnapPoints: true,
 	enableWidescreenGrids: false,
