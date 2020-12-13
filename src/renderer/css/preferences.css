@@ -1,6 +1,6 @@
 #root {
 	display: grid;
-	grid-template-columns: repeat(6, 1fr);
+	grid-template-columns: repeat(3, 1fr);
 	grid-auto-rows: min-content;
 	grid-gap: 9px;
 	padding: 9px;
@@ -22,9 +22,9 @@
 	padding: 9px 12px;
 }
 
-.span-whole { grid-column: span 6; }
-.span-2_3 { grid-column: span 4; }
-.span-1_3 { grid-column: span 2; }
+.span-whole { grid-column: span 3; }
+.span-2_3 { grid-column: span 2; }
+.span-1_3 { grid-column: span 1; }
 
 h1 {
 	white-space: nowrap;
