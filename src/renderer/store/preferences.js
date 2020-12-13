@@ -20,6 +20,7 @@ const initState = {
 		previews: ''
 	},
 	optimize: 'quality',
+	screenRecorderFrameRate: 60,
 	screenshot: false,
 	timerEnabled: false,
 	timer: 60,
