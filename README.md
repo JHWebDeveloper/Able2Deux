@@ -49,6 +49,8 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Updated
 - Video service compatibility
+- Electron 11
+- FFmpeg+FFprobe 4.3.1
 
 ### Removed
 - Percent signs on all sliders. It's obvious what the numbers are and removing the signs allows for more slider track room.
