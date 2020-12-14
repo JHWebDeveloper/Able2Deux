@@ -25,6 +25,11 @@ const checkIsAudio = ({ mediaType, audio }) => (
 	mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
 )
 
+// eslint-disable-next-line no-extra-parens
+const checkNeedsAlpha = ({ mediaType, arc, background, overlay, hasAlpha }) => (
+	mediaType !== 'audio' && background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none' && !hasAlpha)
+)
+
 const checkIsStill = exportData => {
 	if (exportData.mediaType !== 'image' || !exportData.autoPNG) return false
 
@@ -37,14 +42,6 @@ const checkIsStill = exportData => {
 	isStill ||= overlay === 'none' && (!hasAlpha && (arc === 'fill' || arc === 'fit' && aspectRatio === '16:9'))
 
 	return isStill
-}
-
-const checkNeedsAlpha = ({ mediaType, arc, background, overlay }) => {
-	if (mediaType === 'audio') return false
-
-	return (
-		background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none')
-	)
 }
 
 const getIntegerLength = n => {
