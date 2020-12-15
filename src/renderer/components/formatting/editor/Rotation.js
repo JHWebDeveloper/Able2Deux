@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { bool, exact, func, oneOf, object, number, string } from 'prop-types'
 
 import {
@@ -78,6 +78,11 @@ const flipButtons = isSideways => [
 const Rotation = memo(props => {
 	const { id, isBatch, rotation, scale, crop, editAll, dispatch } = props
 
+	const settingsMenu = useMemo(() => isBatch && createSettingsMenu([
+		() => dispatch(copySettings({ rotation })),
+		() => dispatch(applySettingsToAll(id, { rotation }))
+	]), [isBatch, id, rotation])
+
 	const updateAngle = useCallback(e => {
 		let invertedProps = {}
 
@@ -140,10 +145,7 @@ const Rotation = memo(props => {
 		<DetailsWrapper
 			summary="Rotation"
 			className="auto-columns"
-			buttons={isBatch && createSettingsMenu([
-				() => dispatch(copySettings({ rotation })),
-				() => dispatch(applySettingsToAll(id, { rotation }))
-			])}>
+			buttons={settingsMenu}>
 			<fieldset>
 				<legend>Rotate:</legend>
 				<RadioSet 
