@@ -188,6 +188,12 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 			aspectRatio: hasW && hasH ? calculateAspectRatio(width, height) : '',
 			hasAlpha
 		})
+
+		Object.assign(mediaData, {
+			originalWidth: mediaData.width,
+			originalHeight: mediaData.height,
+			originalAspectRatio: mediaData.aspectRatio
+		})
 	}
 
 	if (mediaType === 'video') {

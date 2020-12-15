@@ -10,9 +10,9 @@ const MediaSelector = ({ media, selected, isBatch, editAll, dispatch }) => (
 		<MediaInfo
 			thumbnail={selected.thumbnail}
 			title={selected.title}
-			width={selected.width}
-			height={selected.height}
-			aspectRatio={selected.aspectRatio}
+			width={selected.originalWidth}
+			height={selected.originalHeight}
+			aspectRatio={selected.originalAspectRatio}
 			totalFrames={selected.totalFrames}
 			fps={selected.mediaType === 'video' && selected.fps}
 			channelLayout={selected.channelLayout}
