@@ -97,7 +97,7 @@ const Formatting = () => (
 				</tr>
 				<tr>
 					<td>O</td>
-					<td rowspan="2">Mark end point</td>
+					<td rowSpan="2">Mark end point</td>
 				</tr>
 				<tr>
 					<td>R</td>
