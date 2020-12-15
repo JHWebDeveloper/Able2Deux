@@ -5,20 +5,23 @@ const defaultMediaData = {
 	id: '',
 	refId: '',
 	status: PENDING,
-	acquisitionType: '',
-	mediaType: 'video',
-	url: '',
-	sourceFilePath: '',
-	tempFilePath: '',
 	download: {
 		eta: '00:00:00',
 		percent: '0%'
 	},
-	title: '',
-	filename: '',
+	render: {
+		status: PENDING,
+		percent: 0
+	},
+	acquisitionType: '',
+	mediaType: 'video',
+	hasAlpha: false,
+	url: '',
 	isLive: false,
-	exportFilename: '',
+	sourceFilePath: '',
+	tempFilePath: '',
 	thumbnail: '',
+	title: '',
 	duration: 0,
 	totalFrames: 0,
 	width: 0,
@@ -27,14 +30,19 @@ const defaultMediaData = {
 	originalWidth: 0,
 	originalHeight: 0,
 	originalAspectRatio: '',
-	hasAlpha: false,
 	fps: 0,
 	channelLayout: '',
 	sampleRate: '',
 	bitRate: '',
 	timecode: 0,
+	filename: '',
+	exportFilename: '',
 	start: 0,
 	end: 0,
+	audio: {
+		exportAs: 'video_audio',
+		format: 'wav'
+	},
 	arc: 'none',
 	background: 'blue',
 	overlay: 'none',
@@ -65,14 +73,6 @@ const defaultMediaData = {
 	rotation: {
 		angle: '',
 		reflect: ''
-	},
-	audio: {
-		exportAs: 'video_audio',
-		format: 'wav'
-	},
-	render: {
-		status: PENDING,
-		percent: 0
 	}
 }
 
