@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { func, exact, number, string } from 'prop-types'
 
 import { COMPLETE } from 'status'
@@ -8,6 +8,10 @@ import { capitalize, getStatusColor } from 'utilities'
 const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispatch }) => {
 	const color = useMemo(() => getStatusColor(render.status), [render.status])
 	const ref = useRef()
+
+	const cancelCurrentRender = useCallback(() => {
+		dispatch(cancelRender(id, render.status))
+	}, [id, render.status])
 
 	useEffect(() => {
 		if (mediaType !== 'image' && render.percent > 0 && render.percent < 101) {
@@ -33,7 +37,7 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispat
 				type="button"
 				className="symbol"
 				title="Cancel Render"
-				onClick={() => dispatch(cancelRender(id, render.status))}
+				onClick={cancelCurrentRender}
 				disabled={render.status === COMPLETE}>close</button>
 		</div>
 	)
