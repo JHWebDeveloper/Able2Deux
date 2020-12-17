@@ -23,7 +23,7 @@ const { interop } = window.ABLE2
 const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer, timerEnabled, dispatch }) => {
 	const [ recordSources, setRecordSources ] = useState([])
 
-	const startRecording = useCallback(async streamId => {
+	const startRecording = useCallback(streamId => {
 		try {
 			interop.startRecording({
 				streamId,
