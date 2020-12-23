@@ -18,7 +18,7 @@ const SourceSuggestionList = () => {
 
 	return (
 		<datalist id="source-suggestions">
-			{suggestions.map(src => <option key={src}>{src}</option>)}
+			{suggestions.map(src => <option key={src} value={src} />)}
 		</datalist>
 	)
 }
