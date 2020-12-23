@@ -13,8 +13,6 @@ const overlayDimCmdLargeChunks = [
 ]
 
 const finalize = ({ filter, sourceData, overlayDim, isPreview }) => {
-	filter = `${filter}${shortestAndFormat}`
-
 	if (sourceData) filter = `${filter}${sourceDataCmd}`
 	if (overlayDim) filter = `${filter}${overlayDimCmdLargeChunks[0]}${overlayDim.width}:h=${overlayDim.height}${overlayDimCmdLargeChunks[1]}${sourceData ? 2 : 1}${overlayDimCmdLargeChunks[2]}${overlayDim.y}${overlayDimCmdLargeChunks[3]}${sourceData ? 3 : 2}:v]overlay`
 	if (isPreview) filter = `${filter}${previewMixdown}`
@@ -55,7 +53,7 @@ export const fill = (filterData, isPreview) => {
 	let filter = `[0:v]${reflect}${angle}scale=w=${renderWidth}:h=${renderHeight}${fillCmdLargeChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdLargeChunks[1]}${centering}*(ih-oh)/2`
 
 	if (hasAlpha) {
-		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${fillCmdLargeChunks[2]}`
+		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${fillCmdLargeChunks[2]}${shortestAndFormat}`
 	}
 
 	return finalize({ filter, sourceData, overlayDim, isPreview })
@@ -71,7 +69,7 @@ export const fit = (filterData, isPreview) => {
 
 	const filter = [
 		`[0:v]${reflect}${angle}scale=w=${renderWidth}:h=${renderHeight}${fitCmdLargeChunks[0]}`,
-		`[${getBGLayerNumber(sourceData, overlayDim)}${fitCmdLargeChunks[1]}`
+		`[${getBGLayerNumber(sourceData, overlayDim)}${fitCmdLargeChunks[1]}${shortestAndFormat}`,
 	].join('')
 
 	return finalize({ filter, sourceData, overlayDim, isPreview })
@@ -98,7 +96,7 @@ export const transform = (filterData, isPreview) => {
 
 	const filter = [
 		`[0:v]${reflect}${angle}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih[fg];`,
-		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdLargeChunks[0]}${position.x}${transformCmdLargeChunks[1]}${position.y}${transformCmdLargeChunks[2]}`
+		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdLargeChunks[0]}${position.x}${transformCmdLargeChunks[1]}${position.y}${transformCmdLargeChunks[2]}${shortestAndFormat}`,
 	].join('')
 
 	return finalize({ filter, sourceData, overlayDim, isPreview })
