@@ -1,7 +1,7 @@
 import path from 'path'
 import fs, { promises as fsp } from 'fs'
 
-import ffmpeg from '../ffmpeg'
+import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 import { assetsPath, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'

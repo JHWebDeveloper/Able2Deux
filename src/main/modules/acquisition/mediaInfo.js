@@ -2,7 +2,7 @@ import path from 'path'
 import getRGBAPalette from 'get-rgba-palette'
 import getPixels from 'get-pixels'
 
-import ffmpeg from '../ffmpeg'
+import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 import { supportedImageCodecs, base64EncodeOrPlaceholder } from '../utilities'
 

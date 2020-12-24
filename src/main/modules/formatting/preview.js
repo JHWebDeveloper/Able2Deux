@@ -3,7 +3,7 @@ import path from 'path'
 import { v1 as uuid } from 'uuid'
 
 import * as filter from './filters'
-import ffmpeg from '../ffmpeg'
+import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 
 import {
