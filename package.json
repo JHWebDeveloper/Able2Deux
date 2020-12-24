@@ -31,6 +31,8 @@
 		"fluent-ffmpeg": "^2.1.2",
 		"get-pixels": "^3.3.2",
 		"get-rgba-palette": "^2.0.1",
+		"gm": "^1.23.1",
+		"graphics-magick-binaries": "^1.0.1",
 		"prop-types": "^15.7.2",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",

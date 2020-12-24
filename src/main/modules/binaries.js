@@ -1,14 +1,14 @@
 import { spawn } from 'child_process'
 import { fixPathForAsarUnpack } from 'electron-util'
-import ytdlStatic from 'youtube-dl-ffmpeg-ffprobe-static'
+import { path as ytdlStatic } from 'youtube-dl-ffmpeg-ffprobe-static'
+import { path as ffmpegStatic } from 'ffmpeg-static-electron'
+import { path as ffprobeStatic } from 'ffprobe-static-electron'
 import ffmpeg from 'fluent-ffmpeg'
-import ffmpegStatic from 'ffmpeg-static-electron'
-import ffprobeStatic from 'ffprobe-static-electron'
 
 const asar = {
-	ytdl: fixPathForAsarUnpack(ytdlStatic.path),
-	ffmpeg: fixPathForAsarUnpack(ffmpegStatic.path),
-	ffprobe: fixPathForAsarUnpack(ffprobeStatic.path)
+	ytdl: fixPathForAsarUnpack(ytdlStatic),
+	ffmpeg: fixPathForAsarUnpack(ffmpegStatic),
+	ffprobe: fixPathForAsarUnpack(ffprobeStatic)
 }
 
 const ytdlOpts = [
