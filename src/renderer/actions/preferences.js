@@ -52,23 +52,21 @@ export const updateLocationFieldFromEvent = (id, e) => dispatch => {
 	})
 }
 
-const addLocation = payload => ({
-	type: ACTION.ADD_LOCATION,
-	payload
-})
-
 export const addNewLocation = (index, e) => dispatch => {
 	const pos = e.shiftKey ? 1 : 0
 
-	dispatch(addLocation({
-		pos: index + pos,
-		location: {
-			id: uuid(),
-			checked: false,
-			label: '',
-			directory: ''
+	dispatch({
+		type: ACTION.ADD_LOCATION,
+		payload: {
+			pos: index + pos,
+			location: {
+				id: uuid(),
+				checked: false,
+				label: '',
+				directory: ''
+			}
 		}
-	}))
+	})
 }
 
 export const removeLocation = id => ({
