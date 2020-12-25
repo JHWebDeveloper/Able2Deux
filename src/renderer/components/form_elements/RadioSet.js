@@ -5,7 +5,7 @@ import { v1 as uuid } from 'uuid'
 const RadioSet = ({ name, state, onChange, buttons }) => {
 	const setKey = useMemo(uuid, [])
 
-	return buttons.map(({ label, value, omit }, i) => omit || (
+	return buttons.map(({ label, value }, i) => (
 		<label key={`${setKey}_${i}`}>
 			<input
 				type="radio"
