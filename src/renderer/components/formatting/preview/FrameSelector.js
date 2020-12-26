@@ -48,40 +48,6 @@ const FrameSelector = ({ selected, dispatch }) => {
 		dispatch(extractStill(selected, e))
 	}, [selected])
 
-	const onKeyPress = useCallback(e => {
-		const props = {}
-		
-		switch (e.key) {
-			case 'i':
-			case 'e':
-				if (timecode < end) props.start = timecode
-				break
-			case 'o':
-			case 'r':
-				if (timecode >= start) props.end = timecode + 1
-				break
-			case 'd':
-				props.start = 0
-				break
-			case 'g':
-				props.start = 0
-				// falls through
-			case 'f':
-				props.end = totalFrames
-				break
-			case 'q':
-				props.timecode = start
-				break
-			case 'w':
-				props.timecode = end - 1
-				break
-			default:
-				return true
-		}
-
-		dispatch(updateMediaState(id, props))
-	}, [id, timecode, start, end, totalFrames])
-
 	const timecodeProps = {
 		...timecodeStaticProps,
 		value: timecode,
@@ -90,32 +56,36 @@ const FrameSelector = ({ selected, dispatch }) => {
 	}
 
 	return (
-		<div onKeyPress={onKeyPress} className={className}>
-			<SliderSingle
-				title="Select Frame"
-				fineTuneStep={1}
-				snapPoints={snapPoints}
-				sensitivity={0}
-				{...timecodeProps} />
-			<TimecodeInputFrames
-				fps={fps}
-				{...timecodeProps} />
-			<button
-				type="button"
-				className="symbol"
-				title="Increment 1 Frame Backward (Shift+Click for 10 Frames)"
-				onClick={incrementFrameBackward}>chevron_left</button>
-			<button
-				type="button"
-				className="symbol"
-				title="Increment 1 Frame Forward (Shift+Click for 10 Frames)"
-				onClick={incrementFrameForward}>chevron_right</button>
-			<button
-				type="button"
-				className="symbol"
-				title="Create Screengrab"
-				onClick={dispatchExtractStill}>camera_alt</button>
-		</div>
+		<>
+			<div className={className}>
+				<SliderSingle
+					title="Select Frame"
+					fineTuneStep={1}
+					snapPoints={snapPoints}
+					sensitivity={0}
+					{...timecodeProps} />
+			</div>
+			<div>
+				<TimecodeInputFrames
+					fps={fps}
+					{...timecodeProps} />
+				<button
+					type="button"
+					className="symbol"
+					title="Increment 1 Frame Backward (Shift+Click for 10 Frames)"
+					onClick={incrementFrameBackward}>chevron_left</button>
+				<button
+					type="button"
+					className="symbol"
+					title="Increment 1 Frame Forward (Shift+Click for 10 Frames)"
+					onClick={incrementFrameForward}>chevron_right</button>
+				<button
+					type="button"
+					className="symbol"
+					title="Create Screengrab"
+					onClick={dispatchExtractStill}>camera_alt</button>
+			</div>
+		</>
 	)
 }
 
