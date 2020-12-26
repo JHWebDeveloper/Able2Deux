@@ -40,17 +40,11 @@
 #preview-controls {
 	display: grid;
 	grid-template-rows: min-content 24px;
-	grid-template-columns: min-content repeat(3, 24px) auto repeat(6, minmax(24px, min-content));
+	grid-template-columns: min-content auto;
 	width: 100%;
 	padding: 0 6px;
 	font-size: 11px;
 }
-
-#preview-controls > div { display: contents; }
-
-#preview-controls :matches(input, .slider) { align-self: center; }
-
-#preview-controls :matches(input, button, .preview-spacer) { grid-row: 2; }
 
 #preview-controls input {
 	background-color: transparent;
@@ -58,8 +52,14 @@
 	font-weight: 600;
 }
 
+#preview-controls > div {
+	display: flex;
+	align-items: center;
+}
+
+#preview-controls > div:first-child { grid-column: span 2; }
+
 #preview-controls .slider {
-	grid-column: 1 / -1;
 	height: 18px;
 	padding: 0 3px;
 }
@@ -103,17 +103,12 @@
 	min-width: 24px;
 }
 
+#preview-controls > div:last-child { justify-content: flex-end; }
+
 button[name^="_"] { padding: 0 3px; }
 
 button[name^="_"] > span {
 	pointer-events: none;
 	font-weight: 600;
 	font-size: 10px;
-	vertical-align: -2px;
 }
-
-button[name="_239"] { grid-column: 7; }
-button[name="_185"] { grid-column: 8; }
-button[name="_43"] { grid-column: 9; }
-button[name="_11"] { grid-column: 10; }
-button[name="_916"] { grid-column: 11; }
