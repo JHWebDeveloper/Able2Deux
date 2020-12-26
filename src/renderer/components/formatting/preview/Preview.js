@@ -95,17 +95,15 @@ const Preview = ({ selected, dispatch }) => {
 						gridColor={gridColor} />
 				</div>
 			</div>
-			<div id="preview-controls">
-				{!isAudio && (
-					<Controls
-						selected={selected}
-						grids={grids}
-						enableWidescreenGrids={enableWidescreenGrids}
-						gridColor={gridColor}
-						toggleGrids={toggleGrids}
-						dispatch={dispatch} />
-				)}
-			</div>
+			{!isAudio && (
+				<Controls
+					selected={selected}
+					grids={grids}
+					enableWidescreenGrids={enableWidescreenGrids}
+					gridColor={gridColor}
+					toggleGrids={toggleGrids}
+					dispatch={dispatch} />
+			)}
 		</div>
 	)
 }
