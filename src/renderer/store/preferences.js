@@ -11,6 +11,7 @@ const { interop } = window.ABLE2
 const initState = {
 	renderOutput: '1280x720',
 	renderFrameRate: 'auto',
+	customFrameRate: 23.98,
 	autoPNG: true,
 	asperaSafe: true,
 	concurrent: 2,
@@ -35,7 +36,8 @@ const initState = {
 		remove: true,
 		removeAll: true,
 		applyToAll: true,
-		sourceOnTop: true
+		sourceOnTop: true,
+		startOver: true
 	},
 	saveLocations: []
 }
