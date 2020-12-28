@@ -1,5 +1,5 @@
 import React from 'react'
-import { arrayOf, element, oneOf, string } from 'prop-types'
+import { arrayOf, element, oneOfType, string } from 'prop-types'
 
 const PrefsPanel = ({ className, title, children }) => (
 	<div className={`prefs-panel ${className}`}>
@@ -11,7 +11,7 @@ const PrefsPanel = ({ className, title, children }) => (
 PrefsPanel.propTypes = {
 	className: string,
 	title: string.isRequired,
-	children: oneOf([element, arrayOf(element)])
+	children: oneOfType([element, arrayOf(element)])
 }
 
 export default PrefsPanel
