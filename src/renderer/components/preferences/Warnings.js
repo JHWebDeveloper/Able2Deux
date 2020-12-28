@@ -52,7 +52,8 @@ Warnings.propTypes = {
 		remove: bool,
 		removeAll: bool,
 		applyToAll: bool,
-		sourceOnTop: bool
+		sourceOnTop: bool,
+		startOver: bool
 	}).isRequired,
 	dispatch: func.isRequired
 }
