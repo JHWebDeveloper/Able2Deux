@@ -51,6 +51,7 @@ export const initPreferences = async () => {
 					...defaultPrefs.warnings,
 					...prefs.warnings
 				},
+				renderFrameRate: prefs.renderFrameRate.replace(/fps$/, ''),
 				version: 7
 			}))
 		}
