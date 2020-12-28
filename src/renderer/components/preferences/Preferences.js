@@ -63,6 +63,7 @@ const Main = () => {
 			<RenderOutput
 				renderOutput={preferences.renderOutput}
 				renderFrameRate={preferences.renderFrameRate}
+				customFrameRate={preferences.customFrameRate}
 				autoPNG={preferences.autoPNG}
 				asperaSafe={preferences.asperaSafe}
 				concurrent={preferences.concurrent}
