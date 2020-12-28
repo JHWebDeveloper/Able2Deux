@@ -33,11 +33,12 @@ const RenderQueue = params => {
 	const {
 		renderOutput,
 		renderFrameRate,
+		customFrameRate,
 		autoPNG,
 		asperaSafe,
 		concurrent
 	} = prefsContext.preferences
-	
+
 	// eslint-disable-next-line no-extra-parens
 	const complete = media.every(({ render }) => (
 		render.status === STATUS.COMPLETE ||
@@ -97,6 +98,7 @@ const RenderQueue = params => {
 			saveLocations,
 			renderOutput,
 			renderFrameRate,
+			customFrameRate,
 			autoPNG,
 			asperaSafe,
 			concurrent,
