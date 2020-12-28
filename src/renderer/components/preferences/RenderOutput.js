@@ -1,7 +1,11 @@
 import React, { useCallback } from 'react'
 import { func, number, oneOf, bool } from 'prop-types'
 
-import { updateState, updateStateFromEvent, toggleCheckbox } from 'actions'
+import {
+	updateState,
+	updateStateFromEvent,
+	toggleCheckbox
+} from 'actions'
 
 import PrefsPanel from './PrefsPanel'
 import RadioSet from '../form_elements/RadioSet'
@@ -25,12 +29,20 @@ const frameRateButtons = [
 		value: 'auto'
 	},
 	{
-		label: '59.94fps',
-		value: '59.94fps'
+		label: '29.97',
+		value: '29.97'
+	},
+	{
+		label: '59.94',
+		value: '59.94'
 	}
 ]
 
-const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, concurrent, dispatch }) => {
+const RenderOutput = ({ renderOutput, renderFrameRate, customFrameRate, autoPNG, asperaSafe, concurrent, dispatch }) => {
+	const updateCustomFrameRate = useCallback(({ name, value }) => {
+		dispatch(updateState({ [name]: value }))
+	}, [])
+
 	const updateConcurrent = useCallback(({ name, value }) => {
 		dispatch(updateState({
 			[name]: value === '' ? value : Math.trunc(value)
@@ -56,7 +68,19 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 						name="renderFrameRate"
 						state={renderFrameRate}
 						onChange={e => dispatch(updateStateFromEvent(e))}
-						buttons={frameRateButtons}/>
+						buttons={[
+							...frameRateButtons,
+							{
+								label: 'custom',
+								value: 'custom',
+								component: <NumberInput
+									name="customFrameRate"
+									value={customFrameRate}
+									min={1}
+									max={240}
+									onChange={updateCustomFrameRate} />
+							}
+						]}/>
 				</div>
 			</fieldset>
 			<Checkbox
@@ -88,14 +112,9 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 }
 
 RenderOutput.propTypes = {
-	renderOutput: oneOf([
-		'1280x720',
-		'1920x1080'
-	]).isRequired,
-	renderFrameRate: oneOf([
-		'auto',
-		'59.94fps'
-	]).isRequired,
+	renderOutput: oneOf(['1280x720', '1920x1080']).isRequired,
+	renderFrameRate: oneOf(['auto', '29.97', '59.94', 'custom']).isRequired,
+	customFrameRate: number.isRequired,
 	autoPNG: bool.isRequired,
 	asperaSafe: bool.isRequired,
 	concurrent: number.isRequired,
