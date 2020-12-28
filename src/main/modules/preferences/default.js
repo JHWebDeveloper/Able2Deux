@@ -10,6 +10,7 @@ const defaultPrefs = {
 	version: 7,
 	renderOutput: '1280x720',
 	renderFrameRate: 'auto',
+	customFrameRate: 23.98,
 	autoPNG: true,
 	asperaSafe: true,
 	concurrent: 2,
