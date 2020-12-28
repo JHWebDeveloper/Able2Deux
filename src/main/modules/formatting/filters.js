@@ -69,7 +69,7 @@ export const fit = (filterData, isPreview) => {
 
 	const filter = [
 		`[0:v]${reflect}${angle}scale=w=${renderWidth}:h=${renderHeight}${fitCmdLargeChunks[0]}`,
-		`[${getBGLayerNumber(sourceData, overlayDim)}${fitCmdLargeChunks[1]}${shortestAndFormat}`,
+		`[${getBGLayerNumber(sourceData, overlayDim)}${fitCmdLargeChunks[1]}${shortestAndFormat}`
 	].join('')
 
 	return finalize({ filter, sourceData, overlayDim, isPreview })
@@ -96,7 +96,7 @@ export const transform = (filterData, isPreview) => {
 
 	const filter = [
 		`[0:v]${reflect}${angle}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih[fg];`,
-		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdLargeChunks[0]}${position.x}${transformCmdLargeChunks[1]}${position.y}${transformCmdLargeChunks[2]}${shortestAndFormat}`,
+		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdLargeChunks[0]}${position.x}${transformCmdLargeChunks[1]}${position.y}${transformCmdLargeChunks[2]}${shortestAndFormat}`
 	].join('')
 
 	return finalize({ filter, sourceData, overlayDim, isPreview })
