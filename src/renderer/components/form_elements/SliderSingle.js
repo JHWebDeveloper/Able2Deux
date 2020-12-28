@@ -19,7 +19,7 @@ const SingleSlider = ({
 	sensitivity = 4,
 	onChange = () => {}
 }) => {
-	const { snapToPoint } = useContext(PrefsContext).preferences
+	const { sliderSnapPoints } = useContext(PrefsContext).preferences
 
 	const thumbRef = useRef()
 	const trackRef = useRef()
@@ -28,12 +28,12 @@ const SingleSlider = ({
 	const diff = useMemo(() => max - min, [max, min])
 	
 	const thresholds = useMemo(() => {
-		if (snapToPoint) {
+		if (sliderSnapPoints) {
 			return snapPoints.map(pt => [pt, pt - sensitivity, pt + sensitivity])
 		} else {
 			return []
 		}
-	}, [snapToPoint, snapPoints])
+	}, [sliderSnapPoints, snapPoints])
 
 	const getTrack = useCallback(() => trackRef.current.getBoundingClientRect(), [])
 

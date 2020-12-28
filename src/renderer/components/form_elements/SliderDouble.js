@@ -39,7 +39,7 @@ const DoubleSlider = ({
 	onPan,
 	enableAutoCenter = false
 }) => {
-	const { snapToPoint } = useContext(PrefsContext).preferences
+	const { sliderSnapPoints } = useContext(PrefsContext).preferences
 
 	const leftRef = createRef()
 	const rightRef = createRef()
@@ -53,12 +53,12 @@ const DoubleSlider = ({
 	const width = useMemo(() => diffLR / diff * 100, [diff, diffLR])
 
 	const thresholds = useMemo(() => {
-		if (snapToPoint) {
+		if (sliderSnapPoints) {
 			return snapPoints.map(pt => [pt, pt - sensitivity, pt + sensitivity])
 		} else {
 			return []
 		}
-	}, [snapToPoint, snapPoints])
+	}, [sliderSnapPoints, snapPoints])
 
 	const getTrack = useCallback(() => trackRef.current.getBoundingClientRect(), [trackRef])
 
@@ -106,7 +106,7 @@ const DoubleSlider = ({
 					value={leftThumb.value}
 					min={min}
 					max={rightThumb.value - fineTuneStep}
-					thresholds={snapToPoint && thresholds}
+					thresholds={sliderSnapPoints && thresholds}
 					setValue={setLeft}
 					getClickPos={getClickPosLeft}
 					{...common} />
@@ -129,7 +129,7 @@ const DoubleSlider = ({
 					min={leftThumb.value + fineTuneStep}
 					max={max}
 					absoluteMin={min}
-					thresholds={snapToPoint && thresholds}
+					thresholds={sliderSnapPoints && thresholds}
 					setValue={setRight}
 					getClickPos={getClickPosRight}
 					{...common} />
