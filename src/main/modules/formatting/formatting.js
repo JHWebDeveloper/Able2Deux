@@ -105,6 +105,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		sourceData,
 		rotation,
 		renderOutput,
+		renderFrameRate,
 		saveLocations
 	} = exportData
 
@@ -206,8 +207,10 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			if (mediaType === 'video' && audio.exportAs === 'video') renderCmd.noAudio()
 			if (mediaType === 'image') renderCmd.loop(7)
 	
-			if (exportData.renderFrameRate === '59.94fps') {
-				renderCmd.outputOption('-r 59.94')
+			if (renderFrameRate === 'custom') {
+				renderCmd.outputOption(`-r ${exportData.customFrameRate}`)
+			} else if (renderFrameRate !== 'auto') {
+				renderCmd.outputOption(`-r ${renderFrameRate}`)
 			} else if (exportData.acquisitionType === 'screen_record') {
 				renderCmd.outputOption(`-r ${fps}`)
 			}
