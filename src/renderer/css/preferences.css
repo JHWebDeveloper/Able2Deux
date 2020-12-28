@@ -42,7 +42,7 @@ legend + div > label {
 	font-size: 12px;
 }
 
-.prefs-panel :matches(button, input:matches([type="text"], [type="number"], [type="color"])) {
+.prefs-panel :not(label) > :matches(button, input:matches([type="text"], [type="number"], [type="color"])) {
 	height: 24px;
 	vertical-align: middle;
 }
@@ -52,7 +52,7 @@ legend + div > label {
 	padding: 0;
 }
 
-.prefs-panel input:matches([type="number"], [type="color"], .timecode),
+.prefs-panel :not(label) > input:matches([type="number"], [type="color"], .timecode),
 .directory-selector > input {
 	margin-left: 6px;
 }
@@ -67,6 +67,13 @@ legend + div > label {
 .output-grid { grid-template-columns: min-content auto; }
 
 .output-grid > :matches(h1, label, span) { grid-column: 1 / span 2; }
+
+.output-grid > fieldset { align-self: start; }
+
+input[name="customFrameRate"] {
+	width: 42px;
+	margin-right: 6px;
+}
 
 .save-locations-grid {
 	grid-template-columns: repeat(3, 24px) 239px 263px 24px 24px 24px;
