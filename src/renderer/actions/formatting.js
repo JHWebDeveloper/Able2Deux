@@ -236,7 +236,7 @@ const preventDuplicateFilenames = media => {
 }
 
 const renderItem = (params, dispatch) => {
-	const { saveLocations, renderOutput, renderFrameRate, autoPNG } = params
+	const { saveLocations, renderOutput, renderFrameRate, customFrameRate, autoPNG } = params
 
 	return async item => {
 		const { id, arc, aspectRatio, source, filename } = item
@@ -251,6 +251,7 @@ const renderItem = (params, dispatch) => {
 					...item,
 					renderOutput,
 					renderFrameRate,
+					customFrameRate,
 					autoPNG,
 					saveLocations
 				},
@@ -335,6 +336,7 @@ export const render = params => async dispatch => {
 		saveLocations,
 		renderOutput: params.renderOutput,
 		renderFrameRate: params.renderFrameRate,
+		customFrameRate: params.customFrameRate,
 		autoPNG: params.autoPNG
 	}, dispatch)
 
