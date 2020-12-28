@@ -40,8 +40,8 @@ const mainConfig = merge(commonMain, {
 					to: path.join('assets', 'backgrounds')
 				},
 				{
-					from: path.resolve('src', 'build_assets', 'icons'),
-					to: path.join('assets', 'icons')
+					from: path.resolve('src', 'build_assets'),
+					to: path.join('assets')
 				}
 			]
 		})
