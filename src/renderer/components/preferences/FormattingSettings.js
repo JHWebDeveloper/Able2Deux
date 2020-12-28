@@ -29,8 +29,8 @@ const FormattingSettings = props => {
 				switchIcon />
 			<Checkbox
 				label="Slider Snap Points"
-				name="snapToPoint"
-				checked={props.snapToPoint}
+				name="sliderSnapPoints"
+				checked={props.sliderSnapPoints}
 				onChange={toggleCheckboxDispatch}
 				switchIcon />
 			<Checkbox
@@ -76,7 +76,7 @@ const FormattingSettings = props => {
 
 FormattingSettings.propTypes = {
 	editAll: bool.isRequired,
-	snapToPoint: bool.isRequired,
+	sliderSnapPoints: bool.isRequired,
 	enableWidescreenGrids: bool.isRequired,
 	gridColor: string.isRequired,
 	split: number.isRequired,

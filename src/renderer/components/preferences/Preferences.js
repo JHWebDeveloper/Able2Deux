@@ -48,7 +48,7 @@ const Main = () => {
 				dispatch={dispatch} />
 			<FormattingSettings
 				editAll={preferences.editAll}
-				snapToPoint={preferences.snapToPoint}
+				sliderSnapPoints={preferences.sliderSnapPoints}
 				enableWidescreenGrids={preferences.enableWidescreenGrids}
 				gridColor={preferences.gridColor}
 				split={preferences.split}
