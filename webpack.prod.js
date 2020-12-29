@@ -41,7 +41,7 @@ const mainConfig = merge(commonMain, {
 				},
 				{
 					from: path.resolve('src', 'build_assets'),
-					to: path.join('assets')
+					to: '.'
 				}
 			]
 		})
