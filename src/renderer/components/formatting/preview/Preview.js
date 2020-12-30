@@ -12,8 +12,8 @@ import Controls from './Controls'
 const { interop } = window.ABLE2
 
 const extractPreviewTriggers = settings => {
-	const { start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation } = settings
-	return [ start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation ]
+	const { start, audio, arc, background, bgColor, overlay, source, centering, position, scale, crop, rotation } = settings
+	return [ start, audio, arc, background, bgColor, overlay, source, centering, position, scale, crop, rotation ]
 }
 
 const Preview = ({ selected, dispatch }) => {
