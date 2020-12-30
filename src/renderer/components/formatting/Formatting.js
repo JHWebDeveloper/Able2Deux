@@ -67,6 +67,7 @@ const Formatting = () => {
 			<div id="editor">
 				<PreviewContainer
 					selected={selected}
+					editAll={editAll}
 					dispatch={dispatch} />
 				<EditorOptions
 					batch={batch}
