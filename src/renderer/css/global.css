@@ -165,12 +165,19 @@ input[type="checkbox"].switch {	margin-right: -18px; }
 
 input[type="checkbox"].switch::after { opacity: 0; }
 
-input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
-
-input[type="color"]::-webkit-color-swatch {
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
 	border: var(--main-border-style);
 	border-radius: 3px;
 }
+
+input[type="color"]::-webkit-color-swatch { border: 0; }
+
+input[type="color"]:disabled::-webkit-color-swatch-wrapper {
+	border-color: var(--disabled);
+}
+
+input[type="color"]:disabled::-webkit-color-swatch { opacity: 0.25; }
 
 label {
 	white-space: nowrap;
