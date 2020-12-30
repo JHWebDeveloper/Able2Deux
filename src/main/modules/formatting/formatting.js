@@ -38,7 +38,7 @@ const checkIsStill = exportData => {
 	let isStill = false
 
 	isStill ||= arc === 'none'
-	isStill ||= background === 'black' || background === 'alpha'
+	isStill ||= background === 'color' || background === 'alpha'
 	isStill ||= overlay === 'none' && (!hasAlpha && (arc === 'fill' || arc === 'fit' && aspectRatio === '16:9'))
 
 	return isStill

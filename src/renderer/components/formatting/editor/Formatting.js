@@ -95,7 +95,7 @@ const Formatting = memo(props => {
 
 	const setRadioToColor = useCallback(() => {
 		dispatch(updateMediaState(id, {
-			background: 'black'
+			background: 'color'
 		}, editAll))
 	}, [id, editAll])
 
@@ -125,8 +125,8 @@ const Formatting = memo(props => {
 					buttons={[
 						...backgroundButtons,
 						{
-							label: 'Black',
-							value: 'black',
+							label: 'Color',
+							value: 'color',
 							component: <BgColorPicker
 								initValue={bgColor}
 								onChange={updateBgColor}
@@ -151,7 +151,7 @@ Formatting.propTypes = {
 	isBatch: bool.isRequired,
 	hasAlpha: bool.isRequired,
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
-	background: oneOf(['blue', 'grey', 'alpha', 'black']).isRequired,
+	background: oneOf(['blue', 'grey', 'alpha', 'color']).isRequired,
 	bgColor: string.isRequired,
 	overlay: oneOf(['none', 'tv', 'laptop']),
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
