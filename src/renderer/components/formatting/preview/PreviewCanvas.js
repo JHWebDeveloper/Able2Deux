@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { bool, func, string } from 'prop-types'
 
 import { rgbToHex, throttle } from 'utilities'
@@ -8,7 +8,7 @@ let cnv = false
 let ctx = false
 
 const PreviewCanvas = ({ previewStill, eyedropper, setEyedropToBgColor }) => {
-	const ref = createRef()
+	const ref = useRef()
 
 	const getColorAtClickPos = useCallback(e => {
 		const { left, top } = cnv.getBoundingClientRect()
