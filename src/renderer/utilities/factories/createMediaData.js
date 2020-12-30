@@ -45,6 +45,7 @@ const defaultMediaData = {
 	},
 	arc: 'none',
 	background: 'blue',
+	bgColor: '#000000',
 	overlay: 'none',
 	source: {
 		sourceName: '',
