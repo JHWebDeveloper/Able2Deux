@@ -248,7 +248,8 @@ input:matches([name="filename"], [name="sourceName"]) { margin-bottom: 9px; }
 	margin: 3px;
 }
 
-.panel-input[type="number"] {
+.panel-input[type="number"],
+label > input[type="color"] {
 	height: 18px;
 	width: 42px;
 }
