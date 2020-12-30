@@ -25,10 +25,17 @@ const PreviewCanvas = ({ previewStill, eyedropper, setEyedropToBgColor }) => {
 		className: 'eyedropper',
 		onMouseDown(e) {
 			getColorAtClickPos(e)
-			cnv.onmousemove = throttle(getColorAtClickPos, 60)
-		},
-		onMouseUp() {
-			cnv.onmousemove = ''
+
+			const onMouseMove = throttle(getColorAtClickPos, 60)
+
+			const clearOnMouseMove = () => {
+				cnv.removeEventListener('mousemove', onMouseMove)
+				window.removeEventListener('mouseup', clearOnMouseMove)
+			}
+
+			cnv.addEventListener('mousemove', onMouseMove)
+
+			window.addEventListener('mouseup', clearOnMouseMove)
 		}
 	} : {}, [eyedropper, setEyedropToBgColor])
 
