@@ -229,7 +229,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 					.inputOption('-stream_loop -1')
 			} else {
 				renderCmd
-					.input(`color=c=black@${needsAlpha ? 0 : 1}.0:s=${renderWidth}x${renderHeight}:rate=59.94${needsAlpha ? ',format=rgba' : ''}`)
+					.input(`color=c=${exportData.bgColor}@${needsAlpha ? 0 : 1}.0:s=${renderWidth}x${renderHeight}:rate=59.94${needsAlpha ? ',format=rgba' : ''}`)
 					.inputOption('-f lavfi')
 			}
 		}
