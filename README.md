@@ -15,13 +15,13 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - All HTML range inputs have been replaced with custom made sliders.
 - Holding the shift key while moving any slider slows down the rate of change allowing for precision adjustments.
 - Slider snap points have markers.
+- Slider actions are now throttled, causing preview to refresh once per 60ms. Huge performance improvement.
 
 #### Preview:
 - Timecode slider is now on it's own width-spanning line.
 - Timecode display is now editable.
 - Preview no longer crops to Start and End. Instead original duration persists and Start and End display as slider markers.
 - Keyboard shortcuts in preview window based on Avid's mark in/out shortcuts. I or E = mark start, O or R = mark end, D = clear start, F = clear end, G = clear both, Q = go to start point, W = go to end point.
-- Added throttling to preview requests. Limiting rate to once every 60ms. Huge performance improvement.
 
 #### Start/End:
 - Start and End inputs now accept frames.
