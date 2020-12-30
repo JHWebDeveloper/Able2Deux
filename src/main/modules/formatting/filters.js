@@ -1,11 +1,23 @@
-// eslint-disable-next-line no-extra-parens
-const getBGLayerNumber = (sourceData, overlayDim) => sourceData ? (overlayDim ? 4 : 2) : (overlayDim ? 3 : 1)
+const getBGLayerNumber = (sourceData, overlayDim) => {
+	if (sourceData) {
+		return overlayDim ? 4 : 2
+	} else {
+		return overlayDim ? 3 : 1
+	}
+}
+
+/**
+	Storing larger chunks of command strings in variables outside of their
+	respective functions. Dev acknowledges the readability hit, but preview
+	speed is so crucial to app, performance is favored here.
+	*/
+
 const shortestAndFormat = ':shortest=1:format=auto'
 const sourceDataCmd = '[tosrc];[tosrc][1:v]overlay'
 const previewResize = 'scale=w=384:h=216:force_original_aspect_ratio=decrease'
 const previewMixdown = `[final];[final]${previewResize}`
 
-const overlayDimCmdLargeChunks = [
+const overlayDimCmdChunks = [
 	'[tooverlay];[tooverlay]scale=w=',
 	':force_original_aspect_ratio=increase[scaled];[',
 	':v][scaled]overlay=(main_w-overlay_w)/2:',
@@ -14,7 +26,7 @@ const overlayDimCmdLargeChunks = [
 
 const finalize = ({ filter, sourceData, overlayDim, isPreview }) => {
 	if (sourceData) filter = `${filter}${sourceDataCmd}`
-	if (overlayDim) filter = `${filter}${overlayDimCmdLargeChunks[0]}${overlayDim.width}:h=${overlayDim.height}${overlayDimCmdLargeChunks[1]}${sourceData ? 2 : 1}${overlayDimCmdLargeChunks[2]}${overlayDim.y}${overlayDimCmdLargeChunks[3]}${sourceData ? 3 : 2}:v]overlay`
+	if (overlayDim) filter = `${filter}${overlayDimCmdChunks[0]}${overlayDim.width}:h=${overlayDim.height}${overlayDimCmdChunks[1]}${sourceData ? 2 : 1}${overlayDimCmdChunks[2]}${overlayDim.y}${overlayDimCmdChunks[3]}${sourceData ? 3 : 2}:v]overlay`
 	if (isPreview) filter = `${filter}${previewMixdown}`
 
 	return filter
@@ -39,7 +51,7 @@ export const none = (filterData, isPreview) => {
 	return filter ? filter.replace(/,$/, '') : 'nullsink'
 }
 
-const fillCmdLargeChunks = [
+const fillCmdChunks = [
 	':force_original_aspect_ratio=increase,crop=',
 	'*(iw-ow)/2:(ih-oh)/2+',
 	':v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2'
@@ -50,16 +62,16 @@ export const fill = (filterData, isPreview) => {
 
 	centering /= -100
 
-	let filter = `[0:v]${reflect}${angle}scale=w=${renderWidth}:h=${renderHeight}${fillCmdLargeChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdLargeChunks[1]}${centering}*(ih-oh)/2`
+	let filter = `[0:v]${reflect}${angle}scale=w=${renderWidth}:h=${renderHeight}${fillCmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdChunks[1]}${centering}*(ih-oh)/2`
 
 	if (hasAlpha) {
-		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${fillCmdLargeChunks[2]}${shortestAndFormat}`
+		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${fillCmdChunks[2]}${shortestAndFormat}`
 	}
 
 	return finalize({ filter, sourceData, overlayDim, isPreview })
 }
 
-const fitCmdLargeChunks = [
+const fitCmdChunks = [
 	':force_original_aspect_ratio=decrease[fg];',
 	':v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2'
 ]
@@ -68,14 +80,14 @@ export const fit = (filterData, isPreview) => {
 	const { sourceData, overlayDim, angle, reflect, renderWidth, renderHeight } = filterData
 
 	const filter = [
-		`[0:v]${reflect}${angle}scale=w=${renderWidth}:h=${renderHeight}${fitCmdLargeChunks[0]}`,
-		`[${getBGLayerNumber(sourceData, overlayDim)}${fitCmdLargeChunks[1]}${shortestAndFormat}`
+		`[0:v]${reflect}${angle}scale=w=${renderWidth}:h=${renderHeight}${fitCmdChunks[0]}`,
+		`[${getBGLayerNumber(sourceData, overlayDim)}${fitCmdChunks[1]}${shortestAndFormat}`
 	].join('')
 
 	return finalize({ filter, sourceData, overlayDim, isPreview })
 }
 
-const transformCmdLargeChunks = [
+const transformCmdChunks = [
 	':v][fg]overlay=(main_w-overlay_w)/2+',
 	'*(main_w/2+overlay_w/2):(main_h-overlay_h)/2+',
 	'*(main_h/2+overlay_h/2)'
@@ -96,13 +108,13 @@ export const transform = (filterData, isPreview) => {
 
 	const filter = [
 		`[0:v]${reflect}${angle}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih[fg];`,
-		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdLargeChunks[0]}${position.x}${transformCmdLargeChunks[1]}${position.y}${transformCmdLargeChunks[2]}${shortestAndFormat}`
+		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdChunks[0]}${position.x}${transformCmdChunks[1]}${position.y}${transformCmdChunks[2]}${shortestAndFormat}`
 	].join('')
 
 	return finalize({ filter, sourceData, overlayDim, isPreview })
 }
 
-const videoToBarsCmdLargeChunks = [
+const videoToBarsCmdChunks = [
 	':force_original_aspect_ratio=decrease,pad=',
 	'[vid];[vid][1:v]overlay'
 ]
@@ -110,5 +122,5 @@ const videoToBarsCmdLargeChunks = [
 export const videoToBars = filterData => {
 	const { renderWidth, renderHeight } = filterData
 
-	return `[0:v]scale=${renderWidth}:${renderHeight}${videoToBarsCmdLargeChunks[0]}${renderWidth}:${renderHeight}${videoToBarsCmdLargeChunks[1]}`
+	return `[0:v]scale=${renderWidth}:${renderHeight}${videoToBarsCmdChunks[0]}${renderWidth}:${renderHeight}${videoToBarsCmdChunks[1]}`
 }
