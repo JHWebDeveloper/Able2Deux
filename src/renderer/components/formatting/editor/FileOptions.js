@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react'
-import { bool, exact, func, number, string } from 'prop-types'
+import { bool, exact, func, number, oneOf, string } from 'prop-types'
 
 import { updateMediaStateFromEvent } from 'actions'
 
@@ -52,7 +52,7 @@ const FileOptions = memo(props => {
 
 FileOptions.propTypes = {
 	id: string.isRequired,
-	mediaType: string.isRequired,
+	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	isBatch: bool.isRequired,
 	batch: exact({
 		name: string,
