@@ -24,7 +24,8 @@ const PreviewCanvas = ({ previewStill, eyedropper, setEyedropToBgColor }) => {
 
 	const eyedropperProps = useMemo(() => eyedropper ? {
 		className: 'eyedropper',
-		onMouseDown() {
+		onMouseDown(e) {
+			getColorAtClickPos(e)
 			cnv.onmousemove = throttle(getColorAtClickPos, 60)
 		},
 		onMouseUp() {
