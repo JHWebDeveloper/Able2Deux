@@ -32,7 +32,6 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 #### Split:
 - A new feature that auto splits the current media into smaller clips by automatically duplicating the media and adjusting the start and end times to the desired subclip duration.
 
-
 ### Formatting
 - Background "Black" option has been replaced by a color picker that defaults to black, allowing for custom background colors.
 - While color picker is selected, you can click on any pixel in the preview image to set the bg color. Cursor will become an eyedropper icon when hovering over preview
