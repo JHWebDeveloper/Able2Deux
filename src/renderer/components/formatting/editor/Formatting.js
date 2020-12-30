@@ -62,8 +62,8 @@ const overlayButtons = [
 	}
 ]
 
-const BgColorPicker = ({ initValue, onChange, onFocus }) => {
-	const [ color, setColor ] = useState(initValue)
+const BgColorPicker = ({ value, onChange, onFocus }) => {
+	const [ color, setColor ] = useState(value)
 
 	const onChangeDebounce = useMemo(() => debounce(onChange, 60), [onChange])
 
@@ -74,7 +74,7 @@ const BgColorPicker = ({ initValue, onChange, onFocus }) => {
 	return (
 		<input
 			type="color"
-			value={color}
+			value={value}
 			onChange={e => setColor(e.target.value)}
 			onFocus={onFocus} />
 	)
@@ -128,7 +128,7 @@ const Formatting = memo(props => {
 							label: 'Color',
 							value: 'color',
 							component: <BgColorPicker
-								initValue={bgColor}
+								value={bgColor}
 								onChange={updateBgColor}
 								onFocus={setRadioToColor} />
 						}
