@@ -1,8 +1,8 @@
-import React, { createRef, useCallback, useEffect } from 'react'
+import React, { createRef, useCallback, useEffect, useMemo } from 'react'
 import { bool, func, string } from 'prop-types'
 
 import {} from 'actions'
-import { rgbToHex } from 'utilities'
+import { rgbToHex, throttle } from 'utilities'
 
 const img = new Image()
 let cnv = false
@@ -22,6 +22,16 @@ const PreviewCanvas = ({ previewStill, eyedropper, setEyedropToBgColor }) => {
 		setEyedropToBgColor(hex)
 	}, [setEyedropToBgColor])
 
+	const eyedropperProps = useMemo(() => eyedropper ? {
+		className: 'eyedropper',
+		onMouseDown() {
+			cnv.onmousemove = throttle(getColorAtClickPos, 60)
+		},
+		onMouseUp() {
+			cnv.onmousemove = ''
+		}
+	} : {}, [eyedropper, setEyedropToBgColor])
+
 	useEffect(() => {
 		cnv = ref.current
 		ctx = cnv.getContext('2d')
@@ -37,11 +47,6 @@ const PreviewCanvas = ({ previewStill, eyedropper, setEyedropToBgColor }) => {
 	useEffect(() => {
 		img.src = previewStill
 	}, [previewStill])
-
-	const eyedropperProps = eyedropper ? {
-		className: 'eyedropper',
-		onClick: getColorAtClickPos
-	} : {}
 
 	return (
 		<canvas ref={ref} {...eyedropperProps} ></canvas>
