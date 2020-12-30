@@ -1,7 +1,6 @@
 import React, { createRef, useCallback, useEffect, useMemo } from 'react'
 import { bool, func, string } from 'prop-types'
 
-import {} from 'actions'
 import { rgbToHex, throttle } from 'utilities'
 
 const img = new Image()
