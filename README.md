@@ -23,14 +23,12 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Preview no longer crops to Start and End. Instead original duration persists and Start and End display as slider markers.
 - Keyboard shortcuts in preview window based on Avid's mark in/out shortcuts. I or E = mark start, O or R = mark end, D = clear start, F = clear end, G = clear both, Q = go to start point, W = go to end point.
 
-#### Start/End:
-- Start and End inputs now accept frames.
+#### Start/End/Split:
+- Introducing Split, a new feature that auto splits the current media into smaller clips by automatically duplicating the media and adjusting the start and end times to the desired subclip duration.
 - Double headed slider for Start and End times. Allows for shifting start and end simultaneously.
+- Start and End inputs now accept frames.
 - Pressing up and down arrows will increment Start and End inputs by 1 frame.
 - Start and End times can no longer cross or meet each other. Should entries conflict, they will auto adjust to a positive duration of 1 frame.
-
-#### Split:
-- A new feature that auto splits the current media into smaller clips by automatically duplicating the media and adjusting the start and end times to the desired subclip duration.
 
 #### Formatting:
 - Background "Black" option has been replaced by a color picker that defaults to black, allowing for custom background colors.
