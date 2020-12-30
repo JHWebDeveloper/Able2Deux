@@ -146,6 +146,12 @@ const Formatting = memo(props => {
 	)
 }, compareProps)
 
+BgColorPicker.propTypes = {
+	value: string.isRequired,
+	onChange: func.isRequired,
+	onFocus: func
+}
+
 Formatting.propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,

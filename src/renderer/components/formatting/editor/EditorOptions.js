@@ -108,6 +108,7 @@ EditorOptions.propTypes = {
 	audio: object,
 	arc: string,
 	background: string,
+	bgColor: string,
 	overlay: string,
 	source: object,
 	centering: oneOfType([oneOf(['']), number]),

@@ -55,7 +55,7 @@ export const framesToTC = (frms, fps) => {
 	return `${secondsToTC(sec)}:${zeroizeAuto(rmd, fps)}`
 }
 
-export const rgbToHex = (r, g, b) => `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`
+export const rgbToHex = (r, g, b) => `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`
 
 export const tcToSeconds = hms => hms
 	.split(':')
