@@ -1,4 +1,5 @@
 import React, { createRef, useCallback, useEffect } from 'react'
+import { bool, func, string } from 'prop-types'
 
 import {} from 'actions'
 import { rgbToHex } from 'utilities'
@@ -45,6 +46,12 @@ const PreviewCanvas = ({ previewStill, eyedropper, setEyedropToBgColor }) => {
 	return (
 		<canvas ref={ref} {...eyedropperProps} ></canvas>
 	)
+}
+
+PreviewCanvas.propTypes = {
+	previewStill: string.isRequired,
+	eyedropper: bool.isRequired,
+	setEyedropToBgColor: func.isRequired
 }
 
 export default PreviewCanvas

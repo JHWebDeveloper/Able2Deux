@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { func, object } from 'prop-types'
+import { bool, func, object } from 'prop-types'
 import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
@@ -119,6 +119,7 @@ const Preview = ({ selected, editAll, dispatch }) => {
 
 Preview.propTypes = {
 	selected: object.isRequired,
+	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
 
