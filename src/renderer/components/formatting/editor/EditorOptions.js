@@ -53,6 +53,7 @@ const EditorOptions = props => {
 					hasAlpha={props.hasAlpha}
 					arc={arc}
 					background={props.background}
+					bgColor={props.bgColor}
 					overlay={props.overlay}
 					{...common} />
 				{!(arc === 'none' && aspectRatio !== '16:9') && (
