@@ -46,7 +46,7 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 			command.input(path.join(assetsPath, renderHeight, 'alpha.jpg'))
 		} else {
 			command
-				.input(`color=c=black:s=${renderWidth}x${renderHeight}`)
+				.input(`color=c=${exportData.bgColor}:s=${renderWidth}x${renderHeight}`)
 				.inputOption('-f lavfi')
 		}
 	}
