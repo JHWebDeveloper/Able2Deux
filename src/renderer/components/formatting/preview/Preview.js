@@ -1,10 +1,12 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { func, object } from 'prop-types'
 import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
+import { updateMediaState } from 'actions'
 import { buildSource } from 'utilities'
 
+import PreviewCanvas from './PreviewCanvas'
 import Spinner from '../../svg/Spinner'
 import Grid from './Grid'
 import Controls from './Controls'
@@ -16,7 +18,7 @@ const extractPreviewTriggers = settings => {
 	return [ start, audio, arc, background, bgColor, overlay, source, centering, position, scale, crop, rotation ]
 }
 
-const Preview = ({ selected, dispatch }) => {
+const Preview = ({ selected, editAll, dispatch }) => {
 	const { renderOutput, enableWidescreenGrids, gridColor } = useContext(PrefsContext).preferences
 
 	const {
@@ -55,6 +57,10 @@ const Preview = ({ selected, dispatch }) => {
 
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
 
+	const setEyedropToBgColor = useCallback(bgColor => {
+		dispatch(updateMediaState(id, { bgColor }, editAll))
+	}, [id, editAll])
+
 	useEffect(() => {
 		interop.setPreviewListeners(loadPreviewStill)
 
@@ -86,9 +92,12 @@ const Preview = ({ selected, dispatch }) => {
 		<div id="preview">
 			<div>
 				<div id="preview-container">
-					{previewStill
-						? <span style={{ backgroundImage: `url("${previewStill}")` }}></span>
-						: <Spinner />}
+					{previewStill ? (
+						<PreviewCanvas
+							previewStill={previewStill}
+							eyedropper={selected.background === 'color'}
+							setEyedropToBgColor={setEyedropToBgColor}/>
+					) : <Spinner />}
 					<Grid
 						grids={grids}
 						enableWidescreenGrids={enableWidescreenGrids}
