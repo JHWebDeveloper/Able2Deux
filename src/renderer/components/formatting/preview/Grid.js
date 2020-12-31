@@ -6,7 +6,7 @@ let ctx = false
 
 const Grid = props => {
 	const { grids, gridColor, enableWidescreenGrids } = props
-	const ref = createRef()
+	const ref = useRef()
 	
 	useEffect(() => {
 		cnv = ref.current
