@@ -44,7 +44,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 	]), [isBatch, id, scale])
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
-	const offset = useMemo(() => scale.y / scale.x || 1, [scale.x, scale.y])
+	const distortion = useMemo(() => scale.y / scale.x || 1, [scale.x, scale.y])
 
 	const { t, b, r, l } = crop
 
@@ -71,26 +71,26 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 			axis.y = value
 		} else {
 			const isX = name === 'x'
-			axis.x = isX ? value : value / offset
-			axis.y = isX ? value * offset : value
+			axis.x = isX ? value : value / distortion
+			axis.y = isX ? value * distortion : value
 		}
 
 		dispatch(updateMediaNestedState(id, 'scale', axis, editAll))
-	}, [offset, id, editAll])
+	}, [distortion, id, editAll])
 
 	const fitToFrameWidth = useCallback(() => {
 		dispatch(updateMediaNestedState(id, 'scale', {
 			x: frameWidthPrc,
-			y: scale.link ? frameWidthPrc * offset : scale.y
+			y: scale.link ? frameWidthPrc * distortion : scale.y
 		}, editAll))
-	}, [id, frameWidthPrc, scale.link, offset, scale.y, editAll, t, b, r, l])
+	}, [id, frameWidthPrc, scale.link, distortion, scale.y, editAll, t, b, r, l])
 	
 	const fitToFrameHeight = useCallback(() => {
 		dispatch(updateMediaNestedState(id, 'scale', {
-			x: scale.link ? frameHeightPrc / offset : scale.x,
+			x: scale.link ? frameHeightPrc / distortion : scale.x,
 			y: frameHeightPrc
 		}, editAll))
-	}, [id, scale.link, frameHeightPrc, offset, scale.x, editAll, t, b, r, l])
+	}, [id, scale.link, frameHeightPrc, distortion, scale.x, editAll, t, b, r, l])
 
 	const toggleScaleLink = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'scale', e, editAll))
@@ -98,7 +98,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 
 	const common = useMemo(() => ({
 		onChange: scale.link ? updateScale : updateAxis
-	}), [scale.link, offset, id, editAll])
+	}), [scale.link, distortion, id, editAll])
 
 	const [ snapPointsX, snapPointsY ] = useMemo(() => {
 		const pts = [[100], [100]]
