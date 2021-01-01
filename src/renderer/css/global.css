@@ -72,12 +72,10 @@ button {
 svg:not([fill]) { fill: currentColor; }
 
 progress,
-input:matches(
-	[type="checkbox"],
-	[type="radio"],
-	[type="number"]::-webkit-inner-spin-button,
-	[type="number"]::-webkit-outer-spin-button
-) {
+input[type="checkbox"],
+input[type="radio"],
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
 	appearance: none;
 }
 
