@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { bool, func, number, string } from 'prop-types'
 
 import { updateMediaNestedState } from 'actions'
 
@@ -28,6 +29,13 @@ const RotationOffset = ({ id, editAll, offset, dispatch }) => {
 			</div>
 		</fieldset>
 	)
+}
+
+RotationOffset.propTypes = {
+	id: string.isRequired,
+	editAll: bool.isRequired,
+	offset: number.isRequired,
+	dispatch: func.isRequired
 }
 
 export default RotationOffset
