@@ -47,6 +47,7 @@ const PreviewCanvas = ({ previewStill, eyedropper, setEyedropToBgColor }) => {
 		cnv.height = 216
 
 		img.onload = () => {
+			ctx.clearRect(0, 0, cnv.width, cnv.height)
 			ctx.drawImage(img, 0, 0, cnv.width, cnv.height)
 		}
 	}, [])
