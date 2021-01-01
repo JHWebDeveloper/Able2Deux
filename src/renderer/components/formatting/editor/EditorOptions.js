@@ -82,6 +82,7 @@ const EditorOptions = props => {
 					rotation={props.rotation}
 					scale={props.scale}
 					crop={props.crop}
+					arc={arc}
 					{...common} />
 			</>}
 		</div>
