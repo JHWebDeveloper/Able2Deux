@@ -1,0 +1,70 @@
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import { bool, func, string } from 'prop-types'
+
+import { rgbToHex, throttle } from 'utilities'
+
+const img = new Image()
+let cnv = false
+let ctx = false
+
+const PreviewCanvas = ({ previewStill, eyedropper, setEyedropToBgColor }) => {
+	const ref = useRef()
+
+	const getColorAtClickPos = useCallback(e => {
+		const { left, top } = cnv.getBoundingClientRect()
+		const x = e.clientX - left
+		const y = e.clientY - top
+	
+		const rgb = ctx.getImageData(x, y, 1, 1).data
+		const hex = rgbToHex(...rgb)
+
+		setEyedropToBgColor(hex)
+	}, [setEyedropToBgColor])
+
+	const eyedropperProps = useMemo(() => eyedropper ? {
+		className: 'eyedropper',
+		onMouseDown(e) {
+			getColorAtClickPos(e)
+
+			const onMouseMove = throttle(getColorAtClickPos, 60)
+
+			const clearOnMouseMove = () => {
+				cnv.removeEventListener('mousemove', onMouseMove)
+				window.removeEventListener('mouseup', clearOnMouseMove)
+			}
+
+			cnv.addEventListener('mousemove', onMouseMove)
+
+			window.addEventListener('mouseup', clearOnMouseMove)
+		}
+	} : {}, [eyedropper, setEyedropToBgColor])
+
+	useEffect(() => {
+		cnv = ref.current
+		ctx = cnv.getContext('2d')
+
+		cnv.width = 384
+		cnv.height = 216
+
+		img.onload = () => {
+			ctx.clearRect(0, 0, cnv.width, cnv.height)
+			ctx.drawImage(img, 0, 0, cnv.width, cnv.height)
+		}
+	}, [])
+
+	useEffect(() => {
+		img.src = previewStill
+	}, [previewStill])
+
+	return (
+		<canvas ref={ref} {...eyedropperProps} ></canvas>
+	)
+}
+
+PreviewCanvas.propTypes = {
+	previewStill: string.isRequired,
+	eyedropper: bool.isRequired,
+	setEyedropToBgColor: func.isRequired
+}
+
+export default PreviewCanvas

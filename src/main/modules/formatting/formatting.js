@@ -1,7 +1,7 @@
 import path from 'path'
 import fs, { promises as fsp } from 'fs'
 
-import ffmpeg from '../ffmpeg'
+import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 import { assetsPath, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
@@ -25,6 +25,11 @@ const checkIsAudio = ({ mediaType, audio }) => (
 	mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
 )
 
+// eslint-disable-next-line no-extra-parens
+const checkNeedsAlpha = ({ mediaType, arc, background, overlay, hasAlpha }) => (
+	mediaType !== 'audio' && background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none' && !hasAlpha)
+)
+
 const checkIsStill = exportData => {
 	if (exportData.mediaType !== 'image' || !exportData.autoPNG) return false
 
@@ -33,18 +38,10 @@ const checkIsStill = exportData => {
 	let isStill = false
 
 	isStill ||= arc === 'none'
-	isStill ||= background === 'black' || background === 'alpha'
+	isStill ||= background === 'color' || background === 'alpha'
 	isStill ||= overlay === 'none' && (!hasAlpha && (arc === 'fill' || arc === 'fit' && aspectRatio === '16:9'))
 
 	return isStill
-}
-
-const checkNeedsAlpha = ({ mediaType, arc, background, overlay }) => {
-	if (mediaType === 'audio') return false
-
-	return (
-		background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none')
-	)
 }
 
 const getIntegerLength = n => {
@@ -99,6 +96,8 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		hasAlpha,
 		start,
 		end,
+		fps,
+		totalFrames,
 		audio,
 		arc,
 		background,
@@ -106,6 +105,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		sourceData,
 		rotation,
 		renderOutput,
+		renderFrameRate,
 		saveLocations
 	} = exportData
 
@@ -193,28 +193,26 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			}
 		})
 
-	if (start.enabled && end.enabled && end.tc <= start.tc) {
-		reject(new RangeError('End timecode preceeds start timecode.'))
+	if (mediaType === 'video' || mediaType === 'audio') {
+		if (end <= start) reject(new RangeError('End timecode preceeds start timecode.'))
+		if (start >= totalFrames) reject(new RangeError('Start timecode exceeds duration.'))
+		if (end === 0) reject(new RangeError('End timecode is set to zero. Media has no duration.'))
+	
+		if (start > 0) renderCmd.seekInput(start / fps)
+		if (end < Math.floor(totalFrames)) renderCmd.duration((end - start) / fps)
 	}
-
-	if (start.enabled && start.tc >= exportData.duration) {
-		reject(new RangeError('Start timecode exceeds duration.'))
-	}
-
-	if (end.enabled && end.tc === 0) {
-		reject(new RangeError('End timecode is set to zero. Media has no duration.'))
-	}
-
-	if (start.enabled) renderCmd.seekInput(start.tc)
-	if (end.enabled) renderCmd.duration(start.enabled ? end.tc - start.tc : end.tc)
 
 	if (!isAudio) {
 		if (!isStill) {
 			if (mediaType === 'video' && audio.exportAs === 'video') renderCmd.noAudio()
 			if (mediaType === 'image') renderCmd.loop(7)
 	
-			if (exportData.renderFrameRate === '59.94fps' || exportData.acquisitionType === 'screen_record') {
-				renderCmd.outputOption('-r 59.94')
+			if (renderFrameRate === 'custom') {
+				renderCmd.outputOption(`-r ${exportData.customFrameRate}`)
+			} else if (renderFrameRate !== 'auto') {
+				renderCmd.outputOption(`-r ${renderFrameRate}`)
+			} else if (exportData.acquisitionType === 'screen_record') {
+				renderCmd.outputOption(`-r ${fps}`)
 			}
 		}
 	
@@ -231,7 +229,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 					.inputOption('-stream_loop -1')
 			} else {
 				renderCmd
-					.input(`color=c=black@${needsAlpha ? 0 : 1}.0:s=${renderWidth}x${renderHeight}:rate=59.94${needsAlpha ? ',format=rgba' : ''}`)
+					.input(`color=c=${exportData.bgColor}@${needsAlpha ? 0 : 1}.0:s=${renderWidth}x${renderHeight}:rate=59.94${needsAlpha ? ',format=rgba' : ''}`)
 					.inputOption('-f lavfi')
 			}
 		}
@@ -259,7 +257,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		}))
 	} else if (audio.format === 'bars') {
 		renderCmd
-			.input(`smptebars=size=${renderWidth}x${renderHeight}:rate=59.94`)
+			.input(`smptehdbars=size=${renderWidth}x${renderHeight}:rate=59.94`)
 			.inputOption('-f lavfi')
 
 		if (mediaType === 'video') {

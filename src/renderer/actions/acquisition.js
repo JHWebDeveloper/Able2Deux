@@ -161,11 +161,6 @@ export const upload = ({ name, path }) => async dispatch => {
 
 // ---- SCREEN RECORD ------------
 
-export const setRecording = recording => ({
-	type: ACTION.UPDATE_STATE,
-	payload: { recording }
-})
-
 export const loadRecording = (id, screenshot) => async dispatch => {
 	const title = replaceTokens(`Able2 Screen${screenshot ? 'shot' : ' Record'} $t $d`)
 

@@ -1,14 +1,8 @@
-import { spawn } from 'child_process'
 import { promises as fsp } from 'fs'
 import path from 'path'
-import ytdlStatic from 'youtube-dl-ffmpeg-ffprobe-static'
-import ffmpegStatic from 'ffmpeg-static-electron'
-import { fixPathForAsarUnpack } from 'electron-util'
 
+import { ytdl } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
-
-const ytdlPath = fixPathForAsarUnpack(ytdlStatic.path)
-const ffmpegPath = fixPathForAsarUnpack(ffmpegStatic.path)
 
 const downloads = new Map()
 
@@ -31,14 +25,6 @@ const removeDownload = id => {
 
 /* --- DOWNLOAD --- */
 
-const ytdlOpts = disableRateLimit => [
-	...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
-	'--retries', '3',
-	'--socket-timeout', '30',
-	'--no-warnings',
-	'--no-playlist'
-]
-
 const parseYTDLOutput = (str, regex) => {
 	const result = str.match(regex)
 	return result?.[0]
@@ -55,9 +41,8 @@ const getTempFilePath = async id => {
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
 	const { id, url, optimize, output, disableRateLimit } = formData
 
-	const downloadCmd = spawn(ytdlPath, [
-		...ytdlOpts(disableRateLimit),
-		'--ffmpeg-location',	ffmpegPath,
+	const downloadCmd = ytdl([
+		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
 		'--output', `${scratchDisk.imports.path}/${id}.%(ext)s`,
 		'--format', `${optimize === 'quality' ? `bestvideo[height<=${output}][fps<=60]+bestaudio/` : ''}best[height<=${output}][fps<=60]/best`,
 		'--merge-output-format', 'mkv',
@@ -108,8 +93,8 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 /* --- GET TITLE --- */
 
 export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolve, reject) => {
-	const infoCmd = spawn(ytdlPath, [
-		...ytdlOpts(disableRateLimit),
+	const infoCmd = ytdl([
+		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
 		'--dump-json',
 		url
 	])

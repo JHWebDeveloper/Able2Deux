@@ -15,7 +15,7 @@ export const arrayCount = (arr, exp) => {
 	return count
 }
 
-export const clamp = (min, val, max) => Math.max(min, Math.min(max, val))
+export const clamp = (val, min, max) => Math.max(min, Math.min(max, val))
 
 export const debounce = (callback, wait) => {
 	let timeout = false
@@ -30,23 +30,18 @@ export const debounce = (callback, wait) => {
 	}
 }
 
-export const throttle = (callback, wait) => {
-	let timeout = false
-	let initialCall = true
-
+export const throttle = (callback, duration) => {
+	let shouldWait = false
+	
 	return (...args) => {
-		const caller = () => {
+		if (!shouldWait) {
 			callback(...args)
-			timeout = false
-		}
-
-		if (initialCall) {
-			initialCall = false
-			caller()
-		}
-
-		if (!timeout) {
-			timeout = setTimeout(caller, wait)
+			
+			shouldWait = true
+			
+			setTimeout(() => {
+				shouldWait = false
+			}, duration)
 		}
 	}
 }

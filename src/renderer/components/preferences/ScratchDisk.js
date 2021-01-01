@@ -3,35 +3,35 @@ import { exact, func, string } from 'prop-types'
 
 import { updateNestedState } from 'actions'
 
+import PrefsPanel from './PrefsPanel'
 import DirectorySelector from '../form_elements/DirectorySelector'
 
 const ScratchDisk = ({ scratchDisk, dispatch }) => {
-	const updateScratchDisk = useCallback((property, value) => {
+	const updateScratchDisk = useCallback(property => value => {
 		dispatch(updateNestedState('scratchDisk', {
 			[property]: value
 		}))
-	})
+	}, [])
+
+	const updateImports = useCallback(updateScratchDisk('imports'), [])
+	const updateExports = useCallback(updateScratchDisk('exports'), [])
+	const updatePreview = useCallback(updateScratchDisk('previews'), [])
 
 	return (
-		<div id="scratch-disk">
-			<fieldset>
-				<legend>Scratch Disk</legend>
-				<div>
-					<label>Import Cache</label>
-					<DirectorySelector
-						directory={scratchDisk.imports}
-						onChange={dir => updateScratchDisk('imports', dir)} />
-					<label>Export Cache</label>
-					<DirectorySelector
-						directory={scratchDisk.exports}
-						onChange={dir => updateScratchDisk('exports', dir)} />
-					<label>Preview Cache</label>
-					<DirectorySelector
-						directory={scratchDisk.previews}
-						onChange={dir => updateScratchDisk('previews', dir)} />
-				</div>
-			</fieldset>
-		</div>
+		<PrefsPanel title="Scratch Disk" className="span-2_3">
+			<label>Import Cache</label>
+			<DirectorySelector
+				directory={scratchDisk.imports}
+				onChange={updateImports} />
+			<label>Export Cache</label>
+			<DirectorySelector
+				directory={scratchDisk.exports}
+				onChange={updateExports} />
+			<label>Preview Cache</label>
+			<DirectorySelector
+				directory={scratchDisk.previews}
+				onChange={updatePreview} />
+		</PrefsPanel>
 	)
 }
 

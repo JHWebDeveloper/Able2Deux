@@ -26,7 +26,7 @@
 
 #downloader > span {
 	align-content: center;
-	font-weight: 600;
+	font-weight: 500;
 	font-size: 12px;
 }
 
@@ -133,6 +133,17 @@ button[name="record"].recording::after {
 
 button[name="screenshot"] { height: 26px; }
 
+.screen-recorder-timer {
+	padding-right: 29px;
+	white-space: nowrap;
+}
+
+.screen-recorder-timer > input[type="text"] {
+	width: 82px;
+	border-radius: 0;
+	vertical-align: -1px;
+}
+
 #screen-recorder a {
 	font-size: 10px;
 	margin-top: 10px;
@@ -205,7 +216,7 @@ button[name="screenshot"] { height: 26px; }
 	border-radius: 25px;
 	background-color: var(--background);
 	color: var(--primary);
-	font-weight: 600;
+	font-weight: 500;
 	animation: reveal-source-select 500ms both;
 }
 

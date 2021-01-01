@@ -11,16 +11,12 @@ export const updateState = payload => ({
 	payload
 })
 
-export const updateStateFromEvent = e => {
-	const { name, dataset, value } = e.target
-
-	return {
-		type: ACTION.UPDATE_STATE,
-		payload: {
-			[name]: dataset.number ? parseFloat(value) : value
-		}
+export const updateStateFromEvent = e => ({
+	type: ACTION.UPDATE_STATE,
+	payload: {
+		[e.target.name]: e.target.value
 	}
-}
+})
 
 export const toggleCheckbox = e => ({
 	type: ACTION.TOGGLE_CHECKBOX,
@@ -69,20 +65,16 @@ export const updateMediaState = (id, properties, editAll) => ({
 	}
 })
 
-export const updateMediaStateFromEvent = (id, e, editAll) => {
-	const { name, dataset, value } = e.target
-
-	return {
-		type: ACTION.UPDATE_MEDIA_STATE,
-		payload: {
-			id,
-			editAll,
-			properties: {
-				[name]: value && dataset.number ? parseFloat(value) : value
-			}
+export const updateMediaStateFromEvent = (id, e, editAll) => ({
+	type: ACTION.UPDATE_MEDIA_STATE,
+	payload: {
+		id,
+		editAll,
+		properties: {
+			[e.target.name]: e.target.value
 		}
 	}
-}
+})
 
 
 // ---- 4TH LEVEL STATE --------
@@ -97,21 +89,17 @@ export const updateMediaNestedState = (id, nest, properties, editAll) => ({
 	}
 })
 
-export const updateMediaNestedStateFromEvent = (id, nest, e, editAll) => {
-	const { name, dataset, value } = e.target
-
-	return {
-		type: ACTION.UPDATE_MEDIA_NESTED_STATE,
-		payload: {
-			id,
-			nest,
-			editAll,
-			properties: {
-				[name]: value && dataset.number ? parseFloat(value) : value
-			}
+export const updateMediaNestedStateFromEvent = (id, nest, e, editAll) => ({
+	type: ACTION.UPDATE_MEDIA_NESTED_STATE,
+	payload: {
+		id,
+		nest,
+		editAll,
+		properties: {
+			[e.target.name]: e.target.value
 		}
 	}
-}
+})
 
 export const toggleMediaNestedCheckbox = (id, nest, e, editAll) => dispatch => {
 	dispatch({

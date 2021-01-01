@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import 'css/index/acquisition.css'
 
 import { MainContext } from 'store'
@@ -10,7 +10,8 @@ import ScreenRecorder from './ScreenRecorder'
 import ReadyQueue from './ReadyQueue'
 
 const Acquisition = () => {
-	const { url, optimize, recording, screenshot, timer, media, dispatch } = useContext(MainContext)
+	const [ recording, setRecording ] = useState(false)
+	const { url, optimize, screenshot, timer, timerEnabled, media, dispatch } = useContext(MainContext)
 	const prefsCtx = useContext(PrefsContext)
 	const { preferences } = prefsCtx
 	const { renderOutput, disableRateLimit } = preferences
@@ -29,8 +30,11 @@ const Acquisition = () => {
 				dispatch={dispatch} />
 			<ScreenRecorder
 				recording={recording}
+				setRecording={setRecording}
+				frameRate={preferences.screenRecorderFrameRate}
 				screenshot={screenshot}
 				timer={timer}
+				timerEnabled={timerEnabled}
 				dispatch={dispatch} />
 			<ReadyQueue
 				media={media}

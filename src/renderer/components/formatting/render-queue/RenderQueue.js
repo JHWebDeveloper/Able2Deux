@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { withRouter } from 'react-router-dom'
+import { arrayOf, func, object } from 'prop-types'
 import toastr from 'toastr'
 
 import { PrefsContext } from 'store/preferences'
@@ -10,28 +11,34 @@ import {
 	render,
 	cancelRender,
 	startOver,
-	removeLocationAndSave
+	removeLocationAndSave,
+	disableWarningAndSave
 } from 'actions'
 
-import { toastrOpts, detectTabExit } from 'utilities'
+import { toastrOpts, detectTabExit, warn } from 'utilities'
 
 import RenderElement from './RenderElement'
 
 const { interop } = window.ABLE2
 
-const RenderQueue = withRouter(params => {
+const startOverMessage = 'Start Over?'
+const startOverDetail = 'All entries will be cleared and media deleted. This cannot be undone. Proceed?'
+
+const RenderQueue = params => {
 	const { media, batch, saveLocations, closeRenderQueue, dispatch, history } = params
 	const prefsContext = useContext(PrefsContext)
 	const prefsDispatch = prefsContext.dispatch
+	const { warnings } = prefsContext.preferences
 
 	const {
 		renderOutput,
 		renderFrameRate,
+		customFrameRate,
 		autoPNG,
 		asperaSafe,
 		concurrent
 	} = prefsContext.preferences
-	
+
 	// eslint-disable-next-line no-extra-parens
 	const complete = media.every(({ render }) => (
 		render.status === STATUS.COMPLETE ||
@@ -59,10 +66,18 @@ const RenderQueue = withRouter(params => {
 		closeRenderQueue()
 	}, [media])
 
-	const backToMain = useCallback(() => {
-		dispatch(startOver())
-		history.push('/')
-	}, [])
+	const backToMain = useCallback(() => warn({
+		message: startOverMessage,
+		detail: startOverDetail,
+		enabled: warnings.startOver,
+		callback() {
+			dispatch(startOver())
+			history.push('/')
+		},
+		checkboxCallback() {
+			prefsDispatch(disableWarningAndSave('startOver'))
+		}
+	}), [warnings.startOver])
 
 	const ref = useRef()
 
@@ -83,6 +98,7 @@ const RenderQueue = withRouter(params => {
 			saveLocations,
 			renderOutput,
 			renderFrameRate,
+			customFrameRate,
 			autoPNG,
 			asperaSafe,
 			concurrent,
@@ -144,6 +160,15 @@ const RenderQueue = withRouter(params => {
 			</div>
 		</div>
 	)
-})
+}
 
-export default RenderQueue
+RenderQueue.propTypes = {
+	media: arrayOf(object).isRequired,
+	batch: object.isRequired,
+	saveLocations: arrayOf(object).isRequired,
+	closeRenderQueue: func.isRequired,
+	dispatch: func.isRequired,
+	history: object.isRequired
+}
+
+export default withRouter(RenderQueue)

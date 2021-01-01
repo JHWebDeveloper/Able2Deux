@@ -1,6 +1,6 @@
-import { getIntegerLength, clamp } from '.'
+import { getIntegerLength } from '.'
 
-export const capitalize = str => `${str[0].toUpperCase()} ${str.slice(1).toLowerCase()}`
+export const capitalize = str => `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`
 
 const getRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
 
@@ -9,18 +9,6 @@ export const cleanFilename = (fileName, asperaSafe) => fileName
 	.trim()
 	.slice(0, 252)
 	.trimEnd()
-
-export const keepInRange = e => {
-	let { value, dataset, min, max } = e.target
-
-	value = value === '' ? parseFloat(dataset.defaultValue) : parseFloat(value)
-	min = parseFloat(min)
-	max = parseFloat(max)
-
-	e.target.value = clamp(min, value, max)
-
-	return e
-}
 
 export const zeroizeAuto = (n, total) => zeroize(n, getIntegerLength(total))
 
@@ -58,14 +46,36 @@ export const secondsToTC = sec => [
 	sec % 60 << 0
 ].map(n => zeroize(n, 2)).join(':')
 
-export const tcToSeconds = hms => {
-	const sec = hms
-		.split(':')
-		.reverse()
-		.map(val => parseInt(val) || 0)
-		.reduce((acc, val, i) => acc + val * 60 ** i, 0)
-	
-	return Math.min(sec, 86399) // 86399 == 23:59:59
+export const framesToTC = (frms, fps) => {
+	const frmsPrec = frms * 10000
+	const fpsPrec = fps * 10000
+	const sec = Math.floor(frmsPrec / fpsPrec)
+	const rmd = Math.floor(frmsPrec % fpsPrec / 10000)
+
+	return `${secondsToTC(sec)}:${zeroizeAuto(rmd, fps)}`
 }
 
-export const simplifyTimecode = tc => secondsToTC(tcToSeconds(tc))
+export const rgbToHex = (r, g, b) => `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`
+
+export const tcToSeconds = hms => hms
+	.split(':')
+	.reverse()
+	.map(val => parseInt(val) || 0)
+	.reduce((acc, val, i) => acc + val * 60 ** i, 0)
+
+export const tcToFrames = (hmsf, fps) => {
+	const parts = hmsf
+		.split(/:|;/)
+		.map(val => parseInt(val) || 0)
+
+	let frms = parts
+		.slice(0, 3)
+		.reverse()
+		.reduce((acc, val, i) => acc + val * 60 ** i, 0)
+
+	frms *= fps
+
+	if (parts[3]) frms += parts[3]
+
+	return frms
+}

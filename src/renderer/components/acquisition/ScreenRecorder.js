@@ -1,40 +1,35 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
+import { bool, func, number } from 'prop-types'
 import toastr from 'toastr'
-import { bool, func, number, shape, string } from 'prop-types'
 
 import * as STATUS from 'status'
 
 import {
-	updateNestedState,
-	toggleCheckbox,
-	toggleNestedCheckbox,
-	setRecording,
 	loadRecording,
-	updateMediaStatus
-} from '../../actions'
+	updateMediaStatus,
+	toggleCheckbox
+} from 'actions'
 
-import { toastrOpts } from '../../utilities'
+import { toastrOpts } from 'utilities'
 
 import RecordSourceSelector from './RecordSourceSelector'
+import ScreenRecorderTimer from './ScreenRecorderTimer'
 import SoundflowerMessage from './SoundflowerMessage'
-import Timer from './Timer'
-import Timecode from '../form_elements/Timecode'
 import DurationPointer from '../svg/DurationPointer'
 import CaptureModeSwitch from '../svg/CaptureModeSwitch'
 
 const { interop } = window.ABLE2
 
-const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
+const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer, timerEnabled, dispatch }) => {
 	const [ recordSources, setRecordSources ] = useState([])
 
-	const startRecording = useCallback(async streamId => {
+	const startRecording = useCallback(streamId => {
 		try {
 			interop.startRecording({
 				streamId,
-				timer,
-				setRecordIndicator: isRecording => {
-					dispatch(setRecording(isRecording))
-				},
+				frameRate,
+				timer: timerEnabled && timer,
+				setRecordIndicator: setRecording,
 				onStart: recordId => {
 					dispatch(loadRecording(recordId))
 				},
@@ -49,12 +44,13 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 		} catch (err) {
 			toastr.error('An error occurred during the screen record!', false, toastrOpts)
 		}
-	}, [timer])
+	}, [frameRate, timer, timerEnabled])
 
 	const captureScreenshot = useCallback(async streamId => {
 		try {
 			interop.captureScreenshot({
 				streamId,
+				frameRate,
 				onCapture: (recordId, mediaData) => {
 					dispatch(loadRecording(recordId, true))
 					dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
@@ -67,11 +63,11 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 		} catch (err) {
 			toastr.error('An error occurred while capturing the screenshot!', false, toastrOpts)
 		}
-	}, [])
+	}, [frameRate])
 
 	const captureScreen = useMemo(() => (
 		screenshot ? captureScreenshot : startRecording
-	), [screenshot, timer])
+	), [frameRate, screenshot, timer, timerEnabled])
 
 	const getRecordSources = useCallback(async () => {
 		let recordSourceList = []
@@ -99,6 +95,10 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 		}
 	}, [recording])
 
+	const toggleScreenshot = useCallback(e => {
+		dispatch(toggleCheckbox(e))
+	}, [])
+
 	const ref = useRef()
 
 	const modeMessage = `...or ${screenshot ? 'take a screenshot' : 'start a screen record'}`
@@ -114,13 +114,13 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 					ref={ref}
 					title={`${recording ? 'Stop' : 'Start'} Record`}
 					className={recording ? 'recording' : ''}
-					onClick={e => toggleRecording(e)}></button>
+					onClick={toggleRecording}></button>
 				<button
 					type="button"
 					name="screenshot"
-					disabled={recording}
 					title={`Switch to Screen${screenshot ? ' Record' : 'shot'} Mode`}
-					onClick={e => { dispatch(toggleCheckbox(e))}}>
+					onClick={toggleScreenshot}
+					disabled={recording}>
 					<CaptureModeSwitch
 						screenshot={screenshot}
 						fill={recording ? '#ccc' : '#4c4c4c'} />
@@ -133,19 +133,12 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 					recordSources={recordSources}
 					captureScreen={captureScreen} />
 			)}
-			{recording ? ( // eslint-disable-line no-extra-parens
-				<Timer start={timer.tc} decrement={timer.enabled} />
-			) : (
-				<Timecode
-					name="timer"
-					enabled={timer.enabled}
-					display={timer.display}
-					disabled={recording || screenshot}
-					toggleTimecode={e => dispatch(toggleNestedCheckbox('timer', e))}
-					onChange={tc => dispatch(updateNestedState('timer', tc))}
-					invalid={timer.tc === 0}
-					title="Set record duration" />
-			)}
+			<ScreenRecorderTimer
+				timer={timer}
+				timerEnabled={timerEnabled}
+				recording={recording}
+				screenshot={screenshot}
+				dispatch={dispatch} />
 			{interop.isMac && <SoundflowerMessage />}
 		</div>
 	)
@@ -153,12 +146,11 @@ const ScreenRecorder = ({ recording, screenshot, timer, dispatch }) => {
 
 ScreenRecorder.propTypes = {
 	recording: bool.isRequired,
+	setRecording: func.isRequired,
+	frameRate: number.isRequired,
 	screenshot: bool.isRequired,
-	timer: shape({
-		enabled: bool.isRequired,
-		tc: number.isRequired,
-		display: string.isRequired
-	}).isRequired,
+	timer: number.isRequired,
+	timerEnabled: bool.isRequired,
 	dispatch: func.isRequired
 }
 

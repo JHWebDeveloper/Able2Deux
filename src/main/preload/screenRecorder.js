@@ -3,11 +3,11 @@ import { v1 as uuid } from 'uuid'
 
 import { sendMessage } from './sendMessage'
 
-const saveScreenRecording = (id, buffer, screenshot) => sendMessage({
+const saveScreenRecording = (id, buffer, fps, screenshot) => sendMessage({
 	sendMsg: 'saveScreenRecording',
 	recieveMsg: `screenRecordingSaved_${id}`,
 	errMsg: `saveScreenRecordingErr_${id}`,
-	data: { id, buffer, screenshot }
+	data: { id, buffer, fps, screenshot }
 })
 
 const prod = process.env.NODE_ENV === 'production'
@@ -54,7 +54,7 @@ export const getSoundflower = () => {
 	shell.openExternal('https://github.com/mattingalls/Soundflower/releases/tag/2.0b2')
 }
 
-const getStream = async (chromeMediaSourceId, noAudio) => {
+const getStream = async (chromeMediaSourceId, frameRate, noAudio) => {
 	const videoStream = await navigator.mediaDevices.getUserMedia({
 		audio: !noAudio && !mac && {
 			mandatory: {
@@ -65,8 +65,8 @@ const getStream = async (chromeMediaSourceId, noAudio) => {
 			mandatory: {
 				chromeMediaSource: 'desktop',
 				chromeMediaSourceId,
-				minFrameRate: 60,
-				maxFrameRate: 60
+				minFrameRate: frameRate,
+				maxFrameRate: frameRate
 			}
 		}
 	})
@@ -110,11 +110,11 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 	recorder.onstart = () => {
 		setRecordIndicator(true)
 
-		if (timer.enabled) {
+		if (timer) {
 			timeout = setTimeout(() => {
 				recorder.stop()
 				ipcRenderer.send('bringToFront')
-			}, timer.tc * 1000)
+			}, timer * 1000)
 		}
 	}
 
@@ -150,8 +150,8 @@ const getArrayBuffer = chunks => new Promise((resolve, reject) => {
 	fileReader.readAsArrayBuffer(blob)
 })
 
-export const startRecording = async ({ streamId, timer, setRecordIndicator, onStart, onComplete, onSaveError }) => {
-	const stream = await getStream(streamId)
+export const startRecording = async ({ streamId, frameRate, timer, setRecordIndicator, onStart, onComplete, onSaveError }) => {
+	const stream = await getStream(streamId, frameRate)
 	const chunks = await recordStream(stream, timer, setRecordIndicator)
 	const arrBuf = await getArrayBuffer(chunks)
 	const buffer = Buffer.from(arrBuf)
@@ -160,7 +160,7 @@ export const startRecording = async ({ streamId, timer, setRecordIndicator, onSt
 	onStart(recordId)
 
 	try {
-		const mediaData = await saveScreenRecording(recordId, buffer)
+		const mediaData = await saveScreenRecording(recordId, buffer, frameRate)
 		onComplete(recordId, mediaData)
 	} catch (err) {
 		onSaveError(recordId)
@@ -171,7 +171,7 @@ export const stopRecording = () => {
 	recorder.stop()
 }
 
-export const captureScreenshot = ({ streamId, onCapture, onError }) => {
+export const captureScreenshot = ({ streamId, frameRate, onCapture, onError }) => {
 	const video = document.createElement('video')
 
 	video.onloadeddata = async () => {
@@ -192,7 +192,7 @@ export const captureScreenshot = ({ streamId, onCapture, onError }) => {
 		const recordId = uuid()
 
 		try {
-			const mediaData = await saveScreenRecording(recordId, buffer, true)
+			const mediaData = await saveScreenRecording(recordId, buffer, frameRate, true)
 			onCapture(recordId, mediaData)
 		} catch (err) {
 			onError(recordId)
@@ -205,7 +205,7 @@ export const captureScreenshot = ({ streamId, onCapture, onError }) => {
 	ipcRenderer.send('hide')
 
 	setTimeout(async () => {
-		video.srcObject = await getStream(streamId, true)
+		video.srcObject = await getStream(streamId, frameRate, true)
 	
 		document.body.appendChild(video)
 	}, 360)

@@ -8,7 +8,9 @@ import { toastrOpts, createKonamiListener } from 'utilities'
 
 import RenderOutput from './RenderOutput'
 import ScratchDisk from './ScratchDisk'
-import Defaults from './Defaults'
+import AcquisitionSettings from './AcquisitionSettings'
+import FormattingSettings from './FormattingSettings'
+import Warnings from './Warnings'
 import SaveLocations from './SaveLocations'
 import SaveAndClose from './SaveAndClose'
 
@@ -37,22 +39,34 @@ const Main = () => {
 
 	return (
 		<form>
-			<RenderOutput
-				renderOutput={preferences.renderOutput}
-				renderFrameRate={preferences.renderFrameRate}
-				autoPNG={preferences.autoPNG}
-				asperaSafe={preferences.asperaSafe}
-				concurrent={preferences.concurrent}
+			<AcquisitionSettings
+				optimize={preferences.optimize}
+				screenshot={preferences.screenshot}
+				screenRecorderFrameRate={preferences.screenRecorderFrameRate}
+				timerEnabled={preferences.timerEnabled}
+				timer={preferences.timer}
+				dispatch={dispatch} />
+			<FormattingSettings
+				editAll={preferences.editAll}
+				sliderSnapPoints={preferences.sliderSnapPoints}
+				enableWidescreenGrids={preferences.enableWidescreenGrids}
+				gridColor={preferences.gridColor}
+				split={preferences.split}
+				scaleSliderMax={preferences.scaleSliderMax}
+				dispatch={dispatch} />
+			<Warnings
+				warnings={preferences.warnings}
 				dispatch={dispatch} />
 			<ScratchDisk 
 				scratchDisk={preferences.scratchDisk}
 				dispatch={dispatch} />
-			<Defaults
-				warnings={preferences.warnings}
-				editAll={preferences.editAll}
-				enableWidescreenGrids={preferences.enableWidescreenGrids}
-				gridColor={preferences.gridColor}
-				scaleSliderMax={preferences.scaleSliderMax}
+			<RenderOutput
+				renderOutput={preferences.renderOutput}
+				renderFrameRate={preferences.renderFrameRate}
+				customFrameRate={preferences.customFrameRate}
+				autoPNG={preferences.autoPNG}
+				asperaSafe={preferences.asperaSafe}
+				concurrent={preferences.concurrent}
 				dispatch={dispatch} />
 			<SaveLocations
 				saveLocations={preferences.saveLocations}

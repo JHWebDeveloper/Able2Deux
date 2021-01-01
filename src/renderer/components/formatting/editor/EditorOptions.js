@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { bool, func, number, object, oneOf, string } from 'prop-types'
+import { bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
 import { createScrollbarPadder } from 'utilities'
 
@@ -38,7 +38,10 @@ const EditorOptions = props => {
 				filename={props.filename}
 				start={props.start}
 				end={props.end}
+				fps={props.fps}
+				totalFrames={props.totalFrames}
 				duration={props.duration}
+				split={props.split}
 				{...common} />
 			{(mediaType === 'video' || mediaType === 'audio') && (
 				<Audio
@@ -50,6 +53,7 @@ const EditorOptions = props => {
 					hasAlpha={props.hasAlpha}
 					arc={arc}
 					background={props.background}
+					bgColor={props.bgColor}
 					overlay={props.overlay}
 					{...common} />
 				{!(arc === 'none' && aspectRatio !== '16:9') && (
@@ -78,6 +82,7 @@ const EditorOptions = props => {
 					rotation={props.rotation}
 					scale={props.scale}
 					crop={props.crop}
+					arc={arc}
 					{...common} />
 			</>}
 		</div>
@@ -91,19 +96,23 @@ EditorOptions.propTypes = {
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	width: number,
 	height: number,
-	duration: number,
 	aspectRatio: string,
 	hasAlpha: bool,
 	batch: object,
 	filename: string,
-	start: object,
-	end: object,
+	start: number,
+	end: number,
+	fps: number,
+	totalFrames: number,
+	duration: number,
+	split: number,
 	audio: object,
 	arc: string,
 	background: string,
+	bgColor: string,
 	overlay: string,
 	source: object,
-	centering: number,
+	centering: oneOfType([oneOf(['']), number]),
 	position: object,
 	scale: object,
 	crop: object,

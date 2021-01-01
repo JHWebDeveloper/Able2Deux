@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
-import { string, func, arrayOf, shape, bool } from 'prop-types'
+import { arrayOf, element, func, shape, string } from 'prop-types'
 import { v1 as uuid } from 'uuid'
 
 const RadioSet = ({ name, state, onChange, buttons }) => {
 	const setKey = useMemo(uuid, [])
 
-	return buttons.map(({ label, value, omit }, i) => omit || (
+	return buttons.map(({ label, value, component }, i) => (
 		<label key={`${setKey}_${i}`}>
 			<input
 				type="radio"
@@ -13,7 +13,7 @@ const RadioSet = ({ name, state, onChange, buttons }) => {
 				value={value}
 				checked={state === value}
 				onChange={onChange} />
-			<span>{label}</span>
+			{component || <span>{label}</span>}
 		</label>
 	))
 }
@@ -24,8 +24,8 @@ RadioSet.propTypes = {
 	onChange: func.isRequired,
 	buttons: arrayOf(shape({
 		label: string.isRequired,
-		value: string,
-		omit: bool
+		value: string.isRequired,
+		component: element
 	})).isRequired
 }
 

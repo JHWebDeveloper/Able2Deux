@@ -10,8 +10,7 @@ import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './m
 import { upload } from './modules/acquisition/upload'
 import { saveScreenRecording } from './modules/acquisition/saveScreenRecording'
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
-import previewStill from './modules/formatting/preview'
-import { updatePreviewSourceImage, copyPreviewToImports } from './modules/formatting/previewSource'
+import { createPreviewStill, changePreviewSource, copyPreviewToImports } from './modules/formatting/preview'
 import { render, cancelRender } from './modules/formatting/formatting'
 import { fileExistsPromise } from './modules/utilities'
 
@@ -34,7 +33,7 @@ log.catchErrors({ showDialog: false })
 
 if (!dev) console.error = log.error
 
-const openWindow = opts => new BrowserWindow({
+const openWindow = (opts = {}) => new BrowserWindow({
 	show: false,
 	backgroundColor: '#eee',
 	webPreferences: {
@@ -395,11 +394,11 @@ const requestUploadIPC = async (evt, data) => {
 }
 
 const saveScreenRecordingIPC = async (evt, data) => {
-	const { id, screenshot } = data
+	const { id, screenshot, fps } = data
 
 	try {
 		const tempFilePath = await saveScreenRecording(data)
-		const mediaData = await getMediaInfo(id, tempFilePath, screenshot ? 'image' : 'video', 60)
+		const mediaData = await getMediaInfo(id, tempFilePath, screenshot ? 'image' : 'video', fps)
 		
 		evt.reply(`screenRecordingSaved_${id}`, mediaData)
 	} catch (err) {
@@ -418,7 +417,7 @@ const removeMediaFileIPC = async (evt, id) => {
 
 const initPreviewIPC = async (evt, data) => {
 	try {
-		return updatePreviewSourceImage(data)
+		changePreviewSource(data, mainWin)
 	} catch (err) {
 		console.error(err)
 	}
@@ -426,9 +425,7 @@ const initPreviewIPC = async (evt, data) => {
 
 const requestPreviewStillIPC = async (evt, data) => {
 	try {
-		const dataURL = await previewStill(data)
-
-		evt.reply('previewStillCreated', dataURL)
+		evt.reply('previewStillCreated', await createPreviewStill(data))
 	} catch (err) {
 		if (!/^Error: ffmpeg (was killed with signal SIGKILL)|(exited with code 1)/.test(err.toString())) {
 			console.error(err)
@@ -522,7 +519,7 @@ ipcMain.on('checkFileType', checkFileTypeIPC)
 ipcMain.on('requestUpload', requestUploadIPC)
 ipcMain.on('saveScreenRecording', saveScreenRecordingIPC)
 ipcMain.on('removeMediaFile', removeMediaFileIPC)
-ipcMain.handle('initPreview', initPreviewIPC)
+ipcMain.on('initPreview', initPreviewIPC)
 ipcMain.on('requestPreviewStill', requestPreviewStillIPC)
 ipcMain.on('copyPreviewToImports', copyPreviewToImportsIPC)
 ipcMain.handle('checkDirectoryExists', checkDirectoryExistsIPC)

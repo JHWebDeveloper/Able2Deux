@@ -2,7 +2,7 @@ import path from 'path'
 import getRGBAPalette from 'get-rgba-palette'
 import getPixels from 'get-pixels'
 
-import ffmpeg from '../ffmpeg'
+import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 import { supportedImageCodecs, base64EncodeOrPlaceholder } from '../utilities'
 
@@ -157,8 +157,13 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 	if (mediaType === 'audio') {
 		const audioStream = metadata.streams.find(stream => stream.codec_type === 'audio')
 		const { channel_layout, bit_rate, sample_rate } = audioStream
+		const fps = 59.94
+		const totalFrames = mediaData.duration * fps
 
 		Object.assign(mediaData, {
+			fps,
+			totalFrames,
+			end: totalFrames,
 			channelLayout: checkMetadata(channel_layout)
 				? channel_layout.toString()
 				: '',
@@ -183,16 +188,25 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 			aspectRatio: hasW && hasH ? calculateAspectRatio(width, height) : '',
 			hasAlpha
 		})
+
+		Object.assign(mediaData, {
+			originalWidth: mediaData.width,
+			originalHeight: mediaData.height,
+			originalAspectRatio: mediaData.aspectRatio
+		})
 	}
 
 	if (mediaType === 'video') {
 		const thumbnail = await createScreenshot(id, tempFilePath)
 		const { avg_frame_rate } = videoStream
-		const fps = checkMetadata(avg_frame_rate) ? frameRateToNumber(avg_frame_rate) : 0
+		const fps = forcedFPS || (checkMetadata(avg_frame_rate) ? frameRateToNumber(avg_frame_rate) : 0)
+		const totalFrames = mediaData.duration * fps
 
 		Object.assign(mediaData, {
 			thumbnail: await base64EncodeOrPlaceholder(thumbnail),
-			fps: forcedFPS || fps
+			end: totalFrames,
+			totalFrames,
+			fps
 		})
 	} else if (mediaType === 'image' || mediaType === 'gif') {
 		const thumbnail = await createPNGCopy(id, tempFilePath, mediaType)

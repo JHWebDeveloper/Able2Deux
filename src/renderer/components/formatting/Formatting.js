@@ -9,7 +9,7 @@ import MediaSelector from './selector/MediaSelector'
 import BatchName from './BatchName'
 import SaveOptions from './SaveOptions'
 import SaveButtons from './SaveButtons'
-import Preview from './preview/Preview'
+import PreviewContainer from './preview/PreviewContainer'
 import EditorOptions from './editor/EditorOptions'
 import RenderQueue from './render-queue/RenderQueue'
 
@@ -21,6 +21,7 @@ const Formatting = () => {
 		selectedId,
 		batch,
 		editAll,
+		split,
 		saveLocations,
 		dispatch
 	} = useContext(MainContext)
@@ -64,12 +65,14 @@ const Formatting = () => {
 				<SaveButtons setRendering={setRendering} />
 			</div>
 			<div id="editor">
-				<Preview
+				<PreviewContainer
 					selected={selected}
+					editAll={editAll}
 					dispatch={dispatch} />
 				<EditorOptions
 					batch={batch}
 					editAll={editAll}
+					split={split}
 					isBatch={isBatch}
 					dispatch={dispatch}
 					{...selected} />

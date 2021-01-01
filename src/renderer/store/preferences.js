@@ -11,26 +11,35 @@ const { interop } = window.ABLE2
 const initState = {
 	renderOutput: '1280x720',
 	renderFrameRate: 'auto',
+	customFrameRate: 23.98,
 	autoPNG: true,
 	asperaSafe: true,
 	concurrent: 2,
-	saveLocations: [],
 	scratchDisk: {
 		imports: '',
 		exports: '',
 		previews: ''
 	},
+	optimize: 'quality',
+	screenRecorderFrameRate: 60,
+	screenshot: false,
+	timerEnabled: false,
+	timer: 60,
+	editAll: false,
+	sliderSnapPoints: true,
+	split: 270,
+	enableWidescreenGrids: false,
+	gridColor: '#ff00ff',
+	scaleSliderMax: 400,
+	disableRateLimit: false,
 	warnings: {
 		remove: true,
 		removeAll: true,
 		applyToAll: true,
-		sourceOnTop: true
+		sourceOnTop: true,
+		startOver: true
 	},
-	editAll: false,
-	enableWidescreenGrids: false,
-	gridColor: '#ff00ff',
-	scaleSliderMax: 400,
-	disableRateLimit: false
+	saveLocations: []
 }
 
 export const PrefsContext = createContext()

@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react'
-import { arrayOf, element, exact, oneOfType, object, bool } from 'prop-types'
+import { arrayOf, bool, element, exact, number, oneOf, oneOfType, object } from 'prop-types'
 
 import { updateState } from 'actions'
 import reducer from '../reducer'
@@ -7,13 +7,9 @@ import reducer from '../reducer'
 const initState = {
 	url: '',
 	optimize: 'quality',
-	recording: false,
 	screenshot: false,
-	timer: {
-		enabled: false,
-		tc: 60,
-		display: '00:01:00'
-	},
+	timer: 60,
+	timerEnabled: false,
 	media: [],
 	selectedId: '',
 	batch: {
@@ -49,6 +45,11 @@ MainProvider.propTypes = {
 	children: oneOfType([element, arrayOf(element)]).isRequired,
 	prefs: exact({
 		saveLocations: arrayOf(object),
-		editAll: bool.isRequired
-	})
+		editAll: bool,
+		split: number,
+		optimize: oneOf(['quality', 'download']),
+		screenshot: bool,
+		timerEnabled: bool,
+		timer: number
+	}).isRequired
 }

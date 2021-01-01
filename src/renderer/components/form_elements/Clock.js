@@ -3,12 +3,10 @@ import { bool, number } from 'prop-types'
 
 import { secondsToTC } from 'utilities'
 
-import Checkbox from '../form_elements/Checkbox'
-
 let seconds = 0
 let interval = false
 
-const Timer = ({ start, decrement }) => {
+const Clock = ({ start, decrement }) => {
 	const ref = useRef()
 
 	useEffect(() => {
@@ -33,27 +31,20 @@ const Timer = ({ start, decrement }) => {
 	}, [])
 
 	return (
-		<div className="timecode">
-			<Checkbox
-				name="enabled"
-				checked={true}
-				disabled={true}
-				switchIcon />
-			<input
-				type="text"
-				className="monospace"
-				ref={ref}
-				value={secondsToTC(decrement ? start : 0)}
-				title={`Time ${decrement ? 'remaining' : 'ellapsed'}`}
-				style={{ cursor: 'default' }}
-				readOnly/>
-		</div>
+		<input
+			type="text"
+			className="timecode monospace"
+			ref={ref}
+			value={secondsToTC(decrement ? start : 0)}
+			title={`Time ${decrement ? 'remaining' : 'ellapsed'}`}
+			style={{ cursor: 'default' }}
+			readOnly/>
 	)
 }
 
-Timer.propTypes = {
+Clock.propTypes = {
 	start: number.isRequired,
 	decrement: bool.isRequired
 }
 
-export default Timer
+export default Clock

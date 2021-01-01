@@ -10,7 +10,7 @@
 @font-face {
 	font-family: Gotham;
 	src: url('../font/Gotham-Medium.woff2') format('woff2');
-	font-weight: 600;
+	font-weight: 500;
 	font-style: normal;
 }
 
@@ -22,8 +22,8 @@
 }
 
 @font-face {
-	font-family: 'Sax Mono';
-	src: url('../font/saxmono.woff2') format('woff2');
+	font-family: 'Cutive Mono';
+	src: url('../font/CutiveMono-Regular.woff2') format('woff2');
 	font-weight: 400;
 	font-style: normal;
 }
@@ -52,7 +52,9 @@ body {
 	text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, h5, legend, summary, th { font-weight: 600; }
+form { display: contents; }
+
+h1, h2, h3, h4, h5, legend, summary, th { font-weight: 500; }
 
 ul { list-style-type: none; }
 
@@ -70,14 +72,10 @@ button {
 svg:not([fill]) { fill: currentColor; }
 
 progress,
-input:matches(
-	[type="checkbox"],
-	[type="radio"],
-	[type="range"],
-	[type="range"]::-webkit-slider-thumb,
-	[type="number"]::-webkit-inner-spin-button,
-	[type="number"]::-webkit-outer-spin-button
-) {
+input[type="checkbox"],
+input[type="radio"],
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
 	appearance: none;
 }
 
@@ -165,11 +163,19 @@ input[type="checkbox"].switch {	margin-right: -18px; }
 
 input[type="checkbox"].switch::after { opacity: 0; }
 
-input[type="range"] { border-radius: 3px; }
-
-input[type="range"]::-webkit-slider-thumb {
-	border-radius: 50%;
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+	border: var(--main-border-style);
+	border-radius: 3px;
 }
+
+input[type="color"]::-webkit-color-swatch { border: 0; }
+
+input[type="color"]:disabled::-webkit-color-swatch-wrapper {
+	border-color: var(--disabled);
+}
+
+input[type="color"]:disabled::-webkit-color-swatch { opacity: 0.25; }
 
 label {
 	white-space: nowrap;
@@ -186,6 +192,13 @@ label > :matches(input, span, svg) { vertical-align: middle; }
 	transition: background-color 250ms;
 }
 
+.app-button.small {
+	width: 18px;
+	height: 18px;
+	padding: 0;
+	border-radius: 3px;
+}
+
 .app-button:enabled:hover {
 	background-color: var(--secondary);
 }
@@ -199,18 +212,16 @@ label > :matches(input, span, svg) { vertical-align: middle; }
 	font-family: 'Material Icons';
 }
 
+.panel-input {
+	padding:  2px;
+	border-radius: 3px;
+	background-color: var(--background);
+}
+
 .timecode {
-	padding-right: 29px;
-	white-space: nowrap;
-}
-
-.timecode > input[type="text"] {
-	width: 72px;
-	vertical-align: -1px;
-}
-
-.timecode > input[type="text"].invalid {
-	color: var(--highlight);
+	width: 82px;
+	height: 18px;
+	text-align: center;
 }
 
 .draggable,
@@ -243,7 +254,7 @@ label > :matches(input, span, svg) { vertical-align: middle; }
 .insert-last.insert::before { top: -3px; }
 
 .monospace {
-	font: 400 1em 'Sax Mono', 'Courier New', Courier, monospace;
+	font: 400 1em 'Cutive Mono', 'Courier New', Courier, monospace;
 }
 
 body:not(.accessible) :focus { outline: none; }

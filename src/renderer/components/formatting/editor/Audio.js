@@ -12,6 +12,36 @@ import { compareProps, createSettingsMenu } from 'utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
 
+const exportAsButtons = [
+	{
+		label: 'Video + Audio',
+		value: 'video_audio'
+	},
+	{
+		label: 'Video Only',
+		value: 'video'
+	},
+	{
+		label: 'Audio Only',
+		value: 'audio'
+	}
+]
+
+const formatButtons = [
+	{
+		label: '.wav',
+		value: 'wav'
+	},
+	{
+		label: '.mp3',
+		value: 'mp3'
+	},
+	{
+		label: '.mp4 + SMPTE color bars',
+		value: 'bars'
+	}
+]
+
 const Audio = memo(({ id, isBatch, mediaType, audio, editAll, dispatch }) => {
 	const updateAudio = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'audio', e, editAll))
@@ -33,20 +63,7 @@ const Audio = memo(({ id, isBatch, mediaType, audio, editAll, dispatch }) => {
 						name="exportAs"
 						state={audio.exportAs}
 						onChange={updateAudio}
-						buttons={[
-							{
-								label: 'Video + Audio',
-								value: 'video_audio'
-							},
-							{
-								label: 'Video Only',
-								value: 'video'
-							},
-							{
-								label: 'Audio Only',
-								value: 'audio'
-							}
-						]} />
+						buttons={exportAsButtons} />
 				</fieldset>
 			)}
 			<fieldset disabled={audio.exportAs !== 'audio' && mediaType !== 'audio'}>
@@ -55,20 +72,7 @@ const Audio = memo(({ id, isBatch, mediaType, audio, editAll, dispatch }) => {
 					name="format"
 					state={audio.format}
 					onChange={updateAudio}
-					buttons={[
-						{
-							label: '.wav',
-							value: 'wav'
-						},
-						{
-							label: '.mp3',
-							value: 'mp3'
-						},
-						{
-							label: '.mp4 + SMPTE color bars',
-							value: 'bars'
-						}
-					]} />
+					buttons={formatButtons} />
 			</fieldset>
 		</DetailsWrapper>
 	)

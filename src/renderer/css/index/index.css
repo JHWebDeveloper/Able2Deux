@@ -44,8 +44,6 @@ header > p { font-size: 0.9rem; }
 
 main { display: contents; }
 
-form { display: inherit; }
-
 button:matches([title="Format Media"], [title="Back"]) {
 	margin-right: 12px;
 }
@@ -81,7 +79,7 @@ button:matches([title="Format Media"], [title="Back"]) {
 	align-content: center;
 	padding-right: 6px;
 	color: var(--primary);
-	font-weight: 600;
+	font-weight: 500;
 	font-size: 12px;
 }
 

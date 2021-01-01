@@ -1,10 +1,12 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { func, object } from 'prop-types'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { bool, func, object } from 'prop-types'
 import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
+import { updateMediaState } from 'actions'
 import { buildSource } from 'utilities'
 
+import PreviewCanvas from './PreviewCanvas'
 import Spinner from '../../svg/Spinner'
 import Grid from './Grid'
 import Controls from './Controls'
@@ -12,11 +14,11 @@ import Controls from './Controls'
 const { interop } = window.ABLE2
 
 const extractPreviewTriggers = settings => {
-	const { start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation } = settings
-	return [ start, audio, arc, background, overlay, source, centering, position, scale, crop, rotation ]
+	const { start, audio, arc, background, bgColor, overlay, source, centering, position, scale, crop, rotation } = settings
+	return [ start, audio, arc, background, bgColor, overlay, source, centering, position, scale, crop, rotation ]
 }
 
-const Preview = ({ selected, dispatch }) => {
+const Preview = ({ selected, editAll, dispatch }) => {
 	const { renderOutput, enableWidescreenGrids, gridColor } = useContext(PrefsContext).preferences
 
 	const {
@@ -25,7 +27,6 @@ const Preview = ({ selected, dispatch }) => {
 		duration,
 		aspectRatio,
 		fps,
-		hasAlpha,
 		start,
 		end,
 		audio,
@@ -35,10 +36,6 @@ const Preview = ({ selected, dispatch }) => {
 		timecode
 	} = selected
 
-	const mediaSelected = !!id
-
-	const [ previewReady, setPreviewReady ] = useState(false)
-	const [ open, toggleOpen ] = useState(false)
 	const [ previewStill, loadPreviewStill ] = useState('')
 	
 	const [ grids, toggleGrids ] = useState({
@@ -60,6 +57,10 @@ const Preview = ({ selected, dispatch }) => {
 
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
 
+	const setEyedropToBgColor = useCallback(bgColor => {
+		dispatch(updateMediaState(id, { bgColor }, editAll))
+	}, [id, editAll])
+
 	useEffect(() => {
 		interop.setPreviewListeners(loadPreviewStill)
 
@@ -69,71 +70,56 @@ const Preview = ({ selected, dispatch }) => {
 	}, [])
 
 	useEffect(() => {
-		(async () => {
-			if (!mediaSelected) return false
-
-			setPreviewReady(false)
-
-			await interop.initPreview({
-				id,
-				mediaType,
-				hasAlpha,
-				isAudio,
-				format: audio.format,
-				tempFilePath: selected.tempFilePath,
-				tc: timecode / fps / duration * 100
-			})
-
-			setPreviewReady(true)
-		})()
+		interop.initPreview({
+			...selected,
+			isAudio,
+			renderOutput,
+			sourceData,
+			tc: timecode / fps / duration * 100
+		})
 	}, [id, mediaType, isAudio, audio?.format, timecode, start, end])
 
 	useEffect(() => {
-		if (mediaSelected && previewReady && open) {
-			interop.requestPreviewStill({
-				...selected,
-				isAudio,
-				renderOutput,
-				sourceData
-			})
-		}
-	}, [previewReady, open, renderOutput, ...extractPreviewTriggers(selected)])
+		interop.requestPreviewStill({
+			...selected,
+			isAudio,
+			renderOutput,
+			sourceData
+		})
+	}, [renderOutput, ...extractPreviewTriggers(selected)])
 
 	return (
-		<details onToggle={() => { toggleOpen(!open) }} open>
-			<summary>Preview</summary>
-			{open && (
-				<div id="preview">
-					<div>
-						<div id="preview-container">
-							{previewStill
-								? <span style={{ backgroundImage: `url("${previewStill}")` }}></span>
-								: <Spinner />}
-							<Grid
-								grids={grids}
-								enableWidescreenGrids={enableWidescreenGrids}
-								gridColor={gridColor} />
-						</div>
-					</div>
-					<div id="preview-controls">
-						{mediaSelected && !isAudio && (
-							<Controls
-								selected={selected}
-								grids={grids}
-								enableWidescreenGrids={enableWidescreenGrids}
-								gridColor={gridColor}
-								toggleGrids={toggleGrids}
-								dispatch={dispatch} />
-						)}
-					</div>
+		<div id="preview">
+			<div>
+				<div id="preview-container">
+					{previewStill ? (
+						<PreviewCanvas
+							previewStill={previewStill}
+							eyedropper={selected.background === 'color'}
+							setEyedropToBgColor={setEyedropToBgColor}/>
+					) : <Spinner />}
+					<Grid
+						grids={grids}
+						enableWidescreenGrids={enableWidescreenGrids}
+						gridColor={gridColor} />
 				</div>
+			</div>
+			{!isAudio && (
+				<Controls
+					selected={selected}
+					grids={grids}
+					enableWidescreenGrids={enableWidescreenGrids}
+					gridColor={gridColor}
+					toggleGrids={toggleGrids}
+					dispatch={dispatch} />
 			)}
-		</details>
+		</div>
 	)
 }
 
 Preview.propTypes = {
 	selected: object.isRequired,
+	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
 

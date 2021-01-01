@@ -35,7 +35,7 @@ const DropdownMenu = ({ buttons }) => {
 				aria-expanded={revealMenu}>more_vert</button>
 			{revealMenu && (
 				<span style={position}>
-					{buttons.map(({ hide, role, label, action }, i) => !hide && (role === 'spacer' ? (
+					{buttons.map(({ hide, type, label, action }, i) => !hide && (type === 'spacer' ? (
 						<span
 							key={`${menuId}_${i}`}
 							className="spacer"

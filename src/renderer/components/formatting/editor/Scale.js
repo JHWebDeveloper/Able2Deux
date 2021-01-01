@@ -4,96 +4,167 @@ import { bool, exact, func, number, object, oneOf, oneOfType, string } from 'pro
 import { PrefsContext } from 'store/preferences'
 
 import {
-	updateMediaNestedStateFromEvent,
 	updateMediaNestedState,
+	toggleMediaNestedCheckbox,
 	copySettings,
-	applySettingsToAll,
-	updateScale,
-	fitToFrameWidth,
-	fitToFrameHeight
+	applySettingsToAll
 } from 'actions'
 
 import { compareProps, createSettingsMenu } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
-import SliderPair from '../../form_elements/SliderPair'
-
-const getCroppedDim = (d, c1, c2) => d * Math.max(0.01, (100 - c1 - c2) / 100)
+import SliderSingle from '../../form_elements/SliderSingle'
+import NumberInput from '../../form_elements/NumberInput'
+import LinkIcon from '../../svg/LinkIcon'
 
 const FitButton = ({ title, onClick }) => (
 	<button
 		type="button"
-		className="app-button symbol"
+		className="app-button small symbol"
 		title={title}
 		onClick={onClick}>unfold_more</button>
 )
 
+const propsXStatic = { name: 'x', title: 'Scale X', min: 0 }
+const propsYStatic = { name: 'y', title: 'Scale Y', min: 0 }
+
+const numberProps = {
+	max: 4500,
+	defaultValue: 100
+}
+
+const calculateFitPercent = (renderOutput, width, height, t, b, l, r) => {
+	const [ frameW, frameH ] = renderOutput.split('x')
+	const cropW = width * (r - l) / 100
+	const cropH = height * (b - t) / 100
+
+	return [
+		frameW / cropW * 100,
+		frameH / cropH * 100
+	]
+}
+
 const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
-	const [ frameWidthPrc, frameHeightPrc ] = useMemo(() => {
-		const [ w, h ] = renderOutput.split('x')
+	const settingsMenu = useMemo(() => isBatch && createSettingsMenu([
+		() => dispatch(copySettings({ scale })),
+		() => dispatch(applySettingsToAll(id, { scale }))
+	]), [isBatch, id, scale])
 
-		return [
-			w / getCroppedDim(width, crop.l, crop.r) * 100,
-			h / getCroppedDim(height, crop.t, crop.b) * 100
-		]
-	}, [id, renderOutput, width, height, crop])
+	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
+	const distortion = useMemo(() => scale.y / scale.x || 1, [scale.x, scale.y])
 
-	const updateAxis = useCallback(e => {
-		dispatch(updateMediaNestedStateFromEvent(id, 'scale', e, editAll))
+	const updateAxis = useCallback(({ name, value }) => {
+		dispatch(updateMediaNestedState(id, 'scale', {
+			[name]: value
+		}, editAll))
 	}, [id, editAll])
 
-	const toggleScaleLink = useCallback(() => {
+	const updateScale = useCallback(({ name, value }) => {
+		const axis = {}
+			
+		if (value === '') {
+			axis.x = value
+			axis.y = value
+		} else {
+			const isX = name === 'x'
+			axis.x = isX ? value : value / distortion
+			axis.y = isX ? value * distortion : value
+		}
+
+		dispatch(updateMediaNestedState(id, 'scale', axis, editAll))
+	}, [distortion, id, editAll])
+
+	const { t, b, r, l } = crop
+	const triggers = [renderOutput, width, height, t, b, r, l, id, scale.link, distortion, editAll]
+
+	const fitToFrameWidth = useCallback(() => {
+		const frameWidthPrc = calculateFitPercent(renderOutput, width, height, t, b, l, r)[0]
+
 		dispatch(updateMediaNestedState(id, 'scale', {
-			link: !scale.link
+			x: frameWidthPrc,
+			y: scale.link ? frameWidthPrc * distortion : scale.y
 		}, editAll))
-	}, [id, scale.link, editAll])
+	}, [...triggers, scale.y])
+	
+	const fitToFrameHeight = useCallback(() => {
+		const frameHeightPrc = calculateFitPercent(renderOutput, width, height, t, b, l, r)[1]
+		
+		dispatch(updateMediaNestedState(id, 'scale', {
+			x: scale.link ? frameHeightPrc / distortion : scale.x,
+			y: frameHeightPrc
+		}, editAll))
+	}, [...triggers, scale.x])
+
+	const toggleScaleLink = useCallback(e => {
+		dispatch(toggleMediaNestedCheckbox(id, 'scale', e, editAll))
+	}, [id, editAll])
+
+	const common = useMemo(() => ({
+		onChange: scale.link ? updateScale : updateAxis
+	}), [scale.link, distortion, id, editAll])
+
+	const [ snapPointsX, snapPointsY ] = useMemo(() => {
+		const pts = [[100], [100]]
+
+		if (!scale.link && scale.y !== 100) pts[0].push(scale.y)
+		if (!scale.link && scale.x !== 100) pts[1].push(scale.x)
+
+		return pts
+	}, [scale])
+
+	const propsX = {
+		...common,
+		...propsXStatic,
+		value: scale.x
+	}
+
+	const propsY = {
+		...common,
+		...propsYStatic,
+		value: scale.y
+	}
 
 	const sliderProps = {
-		min: 1,
 		max: scaleSliderMax,
-		defaultValue: 100,
-		inputMax: 4500,
-		points: [100],
-		onChange: updateAxis
+		sensitivity
 	}
 
 	return (
 		<DetailsWrapper
 			summary="Scale"
-			buttons={isBatch && createSettingsMenu([
-				() => dispatch(copySettings({ scale })),
-				() => dispatch(applySettingsToAll(id, { scale }))
-			])}>
-			<SliderPair
-				link={scale.link}
-				linkAction={toggleScaleLink}
-				pairAction={e => dispatch(updateScale(id, editAll, scale, e))}
-				sliders={[
-					{
-						...sliderProps,
-						label: 'X',
-						name: 'x',
-						value: scale.x,
-						Button: () => <FitButton
-							title={`${scale.link ? 'Fit' : 'Stretch'} to Width`}
-							onClick={() => {
-								dispatch(fitToFrameWidth(id, editAll, scale, frameWidthPrc))
-							}}/>
-					},
-					{
-						...sliderProps,
-						label: 'Y',
-						name: 'y',
-						value: scale.y,
-						Button: () => <FitButton
-							title={`${scale.link ? 'Fit' : 'Stretch'} to Height`}
-							onClick={() => {
-								dispatch(fitToFrameHeight(id, editAll, scale, frameHeightPrc))
-							}}/>
-					}
-				]}/>
+			className="single-slider-grid"
+			buttons={settingsMenu}>
+			<label>X</label>
+			<SliderSingle
+				snapPoints={snapPointsX}
+				{...propsX}
+				{...sliderProps} />
+			<FitButton
+				title={`${scale.link ? 'Fit' : 'Stretch'} to Width`}
+				onClick={fitToFrameWidth} />
+			<NumberInput
+				{...propsX}
+				{...numberProps} />
+			<label>Y</label>
+			<SliderSingle
+				snapPoints={snapPointsY}
+				{...propsY}
+				{...sliderProps} />
+			<FitButton
+				title={`${scale.link ? 'Fit' : 'Stretch'} to Height`}
+				onClick={fitToFrameHeight} />
+			<NumberInput
+				{...propsY}
+				{...numberProps} />
+			<button
+				type="button"
+				name="link"
+				onClick={toggleScaleLink}
+				title={`${scale.link ? 'Unl' : 'L'}ink X and Y`}>
+				<LinkIcon linked={scale.link} />
+			</button>
 		</DetailsWrapper>
 	)
 }, compareProps)

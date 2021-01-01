@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { bool, func, number, exact, string } from 'prop-types'
 
 import {
@@ -16,35 +16,64 @@ import DragIndicator from '../svg/DragIndicator'
 const Directory = ({ dir, index, total, dispatch }) => {
 	const { checked, label, directory, id } = dir
 
+	const toggleDefault = useCallback(() => {
+		dispatch(toggleSaveLocation(id))
+	}, [id])
+
+	const add = useCallback(e => {
+		dispatch(addNewLocation(index, e))
+	}, [index])
+
+	const remove = useCallback(() => {
+		dispatch(removeLocation(id))
+	}, [id])
+
+	const updateLocation = useCallback(e => {
+		dispatch(updateLocationFieldFromEvent(id, e))
+	}, [id])
+
+	const updateDirectory = useCallback(dir => {
+		dispatch(updateLocationField(id, 'directory', dir))
+	}, [id])
+
+	const moveUp = useCallback(() => {
+		dispatch(moveLocation(index, index - 1))
+	}, [index])
+
+	const moveDown = useCallback(() => {
+		dispatch(moveLocation(index, index + 2))
+	}, [index])
+
 	return (
 		<>
 			<input
 				type="checkbox"
-				checked={checked}
 				title="Selected by default"
-				onChange={() => dispatch(toggleSaveLocation(id))} />
+				checked={checked}
+				onChange={toggleDefault} />
 			<button
 				type="button"
 				name="add"
 				className="app-button symbol"
 				title="Add directory"
-				onClick={e => dispatch(addNewLocation(index, e))}>add</button>
+				onClick={add}>add</button>
 			<button
 				type="button"
 				name="delete"
 				className="app-button symbol"
 				title="Delete directory"
-				onClick={() => dispatch(removeLocation(id))}>remove</button>
+				onClick={remove}>remove</button>
 			<input
 				type="text"
 				name="label"
+				className="panel-input"
 				value={label}
-				onChange={e => dispatch(updateLocationFieldFromEvent(id, e))}
+				onChange={updateLocation}
 				aria-labelledby="label"
 				data-no-drag />
 			<DirectorySelector
 				directory={directory}
-				onChange={dir => dispatch(updateLocationField(id, 'directory', dir))} />
+				onChange={updateDirectory} />
 			{total > 1 && <>
 				{index > 0 && (
 					<button
@@ -52,7 +81,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 						name="up"
 						className="app-button symbol"
 						title="Move directory up"
-						onClick={() => dispatch(moveLocation(index, index - 1))}>keyboard_arrow_up</button>
+						onClick={moveUp}>keyboard_arrow_up</button>
 				)}
 				{index < total - 1 && (
 					<button
@@ -60,7 +89,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 						name="down"
 						className="app-button symbol"
 						title="Move directory down"
-						onClick={() => dispatch(moveLocation(index, index + 2))}>keyboard_arrow_down</button>
+						onClick={moveDown}>keyboard_arrow_down</button>
 				)}
 				<DragIndicator />
 			</>}

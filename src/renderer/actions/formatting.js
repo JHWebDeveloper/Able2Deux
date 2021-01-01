@@ -3,7 +3,7 @@ import toastr from 'toastr'
 
 import * as ACTION from './types'
 import * as STATUS from 'status'
-import { updateMediaNestedState, updateMediaState, addMedia } from '.'
+import { updateMediaState, addMedia } from '.'
 import { createMediaData } from 'utilities'
 
 import {
@@ -49,8 +49,43 @@ export const moveMedia = (oldPos, newPos) => ({
 
 export const duplicateMedia = id => ({
 	type: ACTION.DUPLICATE_MEDIA,
-	payload: { id, newId: uuid() }
+	payload: {
+		id,
+		newId: uuid()
+	}
 })
+
+export const splitMedia = (id, split, start, end) => async dispatch => {
+	const ammount = Math.ceil((end - start) / split)
+
+	if (ammount > 50) {
+		const { response } = await interop.warning({
+			message: 'That\'s a lot of subclips!',
+			detail: `The current split duration will result in ${ammount} subclips. Large ammounts of media may cause Able2 to run slow. Make sure your split duration follows an HH:MM:SS format. Proceed?`
+		})
+
+		if (response) return false  
+	}
+
+	const duplicates = []
+	const len = end - split
+	let i = start
+
+	while (i < len) duplicates.push({
+		newId: uuid(),
+		changes: {
+			start: i,
+			end: i += split
+		}
+	})
+
+	dispatch({
+		type: ACTION.SPLIT_MEDIA,
+		payload: { id, duplicates }
+	})
+
+	dispatch(updateMediaState(id, { start: i }))
+}
 
 export const applySettingsToAll = (id, properties) => ({
 	type: ACTION.APPLY_TO_ALL,
@@ -97,60 +132,6 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 	})
 
 	dispatch(addMedia(mediaData))
-}
-
-
-// ---- SCALE --------
-
-export const updateScale = (id, editAll, scale, e) => dispatch => {
-	let { value } = e.target
-
-	if (value === '') {
-		dispatch(updateMediaNestedState(id, 'scale', {
-			x: value,
-			y: value
-		}))
-
-		return false
-	}
-
-	value = parseFloat(e.target.value)
-	
-	const xIsActive = e.target.name === 'x'
-	const offset = (xIsActive ? scale.y / scale.x : scale.x / scale.y) || 1
-
-	dispatch(updateMediaNestedState(id, 'scale', {
-		x: xIsActive ? value : value * offset,
-		y: xIsActive ? value * offset : value
-	}, editAll))
-}
-
-export const fitToFrameWidth = (id, editAll, scale, frameWidthPrc) => dispatch => {
-	dispatch(updateMediaNestedState(id, 'scale', {
-		x: frameWidthPrc,
-		y: scale.link ? frameWidthPrc : scale.y
-	}, editAll))
-}
-
-export const fitToFrameHeight = (id, editAll, scale, frameHeightPrc) => dispatch => {
-	dispatch(updateMediaNestedState(id, 'scale', {
-		x: scale.link ? frameHeightPrc : scale.x,
-		y: frameHeightPrc
-	}, editAll))
-}
-
-
-// ---- CROP --------
-
-export const updateCropBiDirectional = (id, editAll, d1, d2, e) => dispatch => {
-	let { value } = e.target
-
-	value = value === '' ? value : parseFloat(e.target.value)
-
-	dispatch(updateMediaNestedState(id, 'crop', {
-		[d1]: value,
-		[d2]: value
-	}, editAll))
 }
 
 
@@ -255,7 +236,7 @@ const preventDuplicateFilenames = media => {
 }
 
 const renderItem = (params, dispatch) => {
-	const { saveLocations, renderOutput, renderFrameRate, autoPNG } = params
+	const { saveLocations, renderOutput, renderFrameRate, customFrameRate, autoPNG } = params
 
 	return async item => {
 		const { id, arc, aspectRatio, source, filename } = item
@@ -270,6 +251,7 @@ const renderItem = (params, dispatch) => {
 					...item,
 					renderOutput,
 					renderFrameRate,
+					customFrameRate,
 					autoPNG,
 					saveLocations
 				},
@@ -354,6 +336,7 @@ export const render = params => async dispatch => {
 		saveLocations,
 		renderOutput: params.renderOutput,
 		renderFrameRate: params.renderFrameRate,
+		customFrameRate: params.customFrameRate,
 		autoPNG: params.autoPNG
 	}, dispatch)
 

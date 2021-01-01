@@ -1,11 +1,10 @@
 import React, { memo, useEffect, useRef } from 'react'
-import { number, string } from 'prop-types'
+import { number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	compareProps,
-	secondsToTC,
+	framesToTC,
 	scrollText,
-	zeroizeAuto,
 	capitalize
 } from 'utilities'
 
@@ -16,7 +15,7 @@ const MediaInfo = memo(props => {
 		width,
 		height,
 		aspectRatio,
-		duration,
+		totalFrames,
 		fps,
 		channelLayout,
 		sampleRate,
@@ -34,7 +33,7 @@ const MediaInfo = memo(props => {
 			<img src={thumbnail} alt={title} />
 			<h2 ref={ref}>{title}</h2>
 			<ul>
-				{!!duration && <li>{secondsToTC(duration)};{zeroizeAuto(Math.round(duration % 1 * fps), fps)}</li>}
+				{!!totalFrames && fps && <li>{framesToTC(totalFrames, fps)}</li>}
 				{!!width && !!height && <li>{width}x{height}</li>}
 				{!!aspectRatio && <li>{aspectRatio}</li>}
 				{!!fps && <li>{fps}fps</li>}
@@ -52,8 +51,8 @@ MediaInfo.propTypes = {
 	width: number,
 	height: number,
 	aspectRatio: string,
-	duration: number,
-	fps: number,
+	totalFrames: number,
+	fps: oneOfType([oneOf([false]), number]),
 	channelLayout: string,
 	sampleRate: string,
 	bitRate: string

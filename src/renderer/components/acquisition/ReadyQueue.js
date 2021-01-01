@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
-import { arrayOf, bool, func, object } from 'prop-types'
+import { arrayOf, bool, func, object, shape } from 'prop-types'
 
 import {
 	moveMedia,
@@ -24,7 +24,7 @@ const removeMediaDetail = 'This cannot be undone. Proceed?'
 const checkMediaReady = ({ status }) => status === STATUS.READY || status === STATUS.FAILED
 const checkMediaFailed = ({ status }) => status === STATUS.FAILED
 
-const ReadyQueue = withRouter(({ media, recording, warnings, dispatch, prefsDispatch, history }) => {
+const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch, history }) => {
 	const backgroundColor = !media.length ? '#e0e0e0' : '#bbb'
 
 	// eslint-disable-next-line no-extra-parens
@@ -98,14 +98,18 @@ const ReadyQueue = withRouter(({ media, recording, warnings, dispatch, prefsDisp
 			</div>
 		</div>
 	)
-})
+}
 
 ReadyQueue.propTypes = {
 	media: arrayOf(object),
 	recording: bool.isRequired,
-	warnRemoveAll: bool,
-	warnRemove: bool,
-	dispatch: func.isRequired
+	warnings: shape({
+		remove: bool.isRequired,
+		removeAll: bool.isRequired
+	}).isRequired,
+	dispatch: func.isRequired,
+	prefsDispatch: func.isRequired,
+	history: object.isRequired
 }
 
-export default ReadyQueue
+export default withRouter(ReadyQueue)

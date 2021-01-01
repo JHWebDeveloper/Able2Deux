@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { bool, exact, func, oneOf, object, number, string } from 'prop-types'
 
 import {
@@ -11,31 +11,79 @@ import { compareProps, createSettingsMenu } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
+import RotationOffset from './RotationOffset'
 
-const transpose = ['', 'transpose=1,', 'transpose=2,transpose=2,', 'transpose=2,']
-const flip = ['', 'hflip,', 'vflip,', 'hflip,vflip,']
-const by90 = /^transpose=(1|2),$/
+const directions = Object.freeze(['t', 'l', 'b', 'r'])
+const transpose = Object.freeze(['', 'transpose=1,', 'transpose=2,transpose=2,', 'transpose=2,'])
+const flip = Object.freeze(['', 'hflip,', 'vflip,', 'hflip,vflip,'])
 
-const detectOrientationChange = (prev, next) => !!(by90.test(prev) ^ by90.test(next))
-const detectReflection = (prev, next, match) => !(!prev.includes(match) ^ next.includes(match))
+const detectSideways = angle => angle === transpose[1] || angle === transpose[3]
+const detectOrientationChange = (prev, next) => !!(detectSideways(prev) ^ detectSideways(next))
+const detectReflection = (prev, next, query) => !(!prev.includes(query) ^ next.includes(query))
 
 const rotateCropValues = (prev, next, crop) => {
 	if (prev === next) return crop
 	
-	const { t, l, b, r } = crop
-	const cropVals = [t, l, b, r]
-	const dist = transpose.indexOf(next) - transpose.indexOf(prev) + 4
+	const rotations = transpose.indexOf(next) - transpose.indexOf(prev) + 4
+	const cropVals = [crop.t, crop.l, 100 - crop.b, 100 - crop.r]
 
-	return {
-		t: cropVals[dist % 4],
-		l: cropVals[(dist + 1) % 4],
-		b: cropVals[(dist + 2) % 4],
-		r: cropVals[(dist + 3) % 4]
-	} 
+	const rotated = directions.reduce((obj, dir, i) => {
+		obj[dir] = cropVals[(rotations + i) % 4]
+		return obj
+	}, {})
+
+	rotated.b = 100 - rotated.b
+	rotated.r = 100 - rotated.r
+
+	return rotated
 }
+
+const angleButtons = [
+	{
+		label: '0°',
+		value: transpose[0]
+	},
+	{
+		label: '90°cw',
+		value: transpose[1]
+	},
+	{
+		label: '90°ccw',
+		value: transpose[3]
+	},
+	{
+		label: '180°',
+		value: transpose[2]
+	}
+]
+
+const flipButtons = isSideways => [
+	{
+		label: 'None',
+		value: flip[0]
+	},
+	{
+		label: 'Horizontally',
+		value: flip[isSideways ? 2 : 1]
+	},
+	{
+		label: 'Vertically',
+		value: flip[isSideways ? 1 : 2]
+	},
+	{
+		label: 'Both',
+		value: flip[3]
+	}
+]
 
 const Rotation = memo(props => {
 	const { id, isBatch, rotation, scale, crop, editAll, dispatch } = props
+	const isSideways = detectSideways(rotation.angle)
+
+	const settingsMenu = useMemo(() => isBatch && createSettingsMenu([
+		() => dispatch(copySettings({ rotation })),
+		() => dispatch(applySettingsToAll(id, { rotation }))
+	]), [isBatch, id, rotation])
 
 	const updateAngle = useCallback(e => {
 		let invertedProps = {}
@@ -48,9 +96,9 @@ const Rotation = memo(props => {
 				height: width,
 				aspectRatio: aspectRatio.split(':').reverse().join(':'),
 				scale: {
+					...scale,
 					x: scale.y,
-					y: scale.x,
-					link: scale.link
+					y: scale.x
 				}
 			}
 		}
@@ -72,13 +120,13 @@ const Rotation = memo(props => {
 		const invertedCrop = {}
 
 		if (detectReflection(rotation.reflect, e.target.value, flip[1])) {
-			invertedCrop.l = crop.r
-			invertedCrop.r = crop.l
+			invertedCrop.l = 100 - crop.r
+			invertedCrop.r = 100 - crop.l
 		}
 
 		if (detectReflection(rotation.reflect, e.target.value, flip[2])) {
-			invertedCrop.t = crop.b
-			invertedCrop.b = crop.t
+			invertedCrop.t = 100 - crop.b
+			invertedCrop.b = 100 - crop.t
 		}
 
 		dispatch(updateMediaState(id, {
@@ -97,60 +145,30 @@ const Rotation = memo(props => {
 		<DetailsWrapper
 			summary="Rotation"
 			className="auto-columns"
-			buttons={isBatch && createSettingsMenu([
-				() => dispatch(copySettings({ rotation })),
-				() => dispatch(applySettingsToAll(id, { rotation }))
-			])}>
-			<fieldset>
-				<legend>Rotate:</legend>
-				<RadioSet 
-					name="angle"
-					state={rotation.angle}
-					onChange={updateAngle}
-					buttons={[
-						{
-							label: '0°',
-							value: transpose[0]
-						},
-						{
-							label: '90°cw',
-							value: transpose[1]
-						},
-						{
-							label: '90°ccw',
-							value: transpose[3]
-						},
-						{
-							label: '180°',
-							value: transpose[2]
-						}
-					]}/>
-			</fieldset>
+			buttons={settingsMenu}>
 			<fieldset>
 				<legend>Reflect:</legend>
 				<RadioSet
 					name="reflect"
 					state={rotation.reflect}
 					onChange={updateReflect}
-					buttons={[
-						{
-							label: 'None',
-							value: flip[0]
-						},
-						{
-							label: 'Horizontally',
-							value: flip[1]
-						},
-						{
-							label: 'Vertically',
-							value: flip[2]
-						},
-						{
-							label: 'Both',
-							value: flip[3]
-						}
-					]} />
+					buttons={flipButtons(isSideways)} />
 			</fieldset>
+			<fieldset>
+				<legend>Rotate:</legend>
+				<RadioSet 
+					name="angle"
+					state={rotation.angle}
+					onChange={updateAngle}
+					buttons={angleButtons}/>
+			</fieldset>
+			{props.arc === 'transform' && (
+				<RotationOffset
+					id={id}
+					editAll={editAll}
+					offset={rotation.offset}
+					dispatch={dispatch} />
+			)}
 		</DetailsWrapper>
 	)
 }, compareProps)
@@ -160,7 +178,8 @@ Rotation.propTypes = {
 	isBatch: bool.isRequired,
 	rotation: exact({
 		angle: oneOf(transpose),
-		reflect: oneOf(flip)
+		reflect: oneOf(flip),
+		offset: number
 	}).isRequired,
 	scale: object.isRequired,
 	crop: object.isRequired,
@@ -168,6 +187,7 @@ Rotation.propTypes = {
 	width: number.isRequired,
 	height: number.isRequired,
 	editAll: bool.isRequired,
+	arc: oneOf(['none', 'fill', 'fit', 'transform']),
 	dispatch: func.isRequired
 }
 

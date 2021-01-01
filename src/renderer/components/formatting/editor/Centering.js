@@ -1,8 +1,8 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
-	updateMediaStateFromEvent,
+	updateMediaState,
 	copySettings,
 	applySettingsToAll
 } from 'actions'
@@ -10,28 +10,42 @@ import {
 import { compareProps, createSettingsMenu } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
-import Slider from '../../form_elements/Slider'
+import SliderSingle from '../../form_elements/SliderSingle'
+import NumberInput from '../../form_elements/NumberInput'
 
-const Centering = memo(({ id, isBatch, centering, editAll, dispatch }) => (
-	<DetailsWrapper
-		summary="Position"
-		buttons={isBatch && createSettingsMenu([
-			() => dispatch(copySettings({ centering })),
-			() => dispatch(applySettingsToAll(id, { centering }))
-		])}
-		open>
-		<Slider
-			label="Centering"
-			hideLabel
-			name="centering"
-			min={-100}
-			max={100}
-			value={centering}
-			points={[0]}
-			onChange={e => dispatch(updateMediaStateFromEvent(id, e, editAll))}
-			data-number />
-	</DetailsWrapper>
-), compareProps)
+const commonStatic = {
+	name: 'centering',
+	title: 'Position',
+	min: -100
+}
+
+const Centering = memo(({ id, isBatch, centering, editAll, dispatch }) => {
+	const updateCentering = useCallback(({ name, value }) => {
+		dispatch(updateMediaState(id, {
+			[name]: value
+		}, editAll))
+	}, [id, editAll])
+
+	const common = {
+		...commonStatic,
+		value: centering,
+		onChange: updateCentering
+	}
+
+	return (
+		<DetailsWrapper
+			summary="Position"
+			className="single-slider-grid"
+			buttons={isBatch && createSettingsMenu([
+				() => dispatch(copySettings({ centering })),
+				() => dispatch(applySettingsToAll(id, { centering }))
+			])}
+			open>
+			<SliderSingle snapPoints={[0]} {...common} />
+			<NumberInput {...common} />
+		</DetailsWrapper>
+	)
+}, compareProps)
 
 Centering.propTypes = {
 	id: string.isRequired,

@@ -37,13 +37,22 @@ export const initPreferences = async () => {
 				}
 			})) 
 		}
-		
+
+		// fix type error from prefs 5 and earlier
 		if (prefs.version < 6) {
+			prefs.scaleSliderMax = parseFloat(prefs.scaleSliderMax)
+		}
+
+		if (prefs.version < 7) {
 			await fsp.writeFile(prefsPath, JSON.stringify({
 				...defaultPrefs,
 				...prefs,
-				scaleSliderMax: parseFloat(prefs.scaleSliderMax),
-				version: 6
+				warnings: {
+					...defaultPrefs.warnings,
+					...prefs.warnings
+				},
+				renderFrameRate: prefs.renderFrameRate.replace(/fps$/, ''),
+				version: 7
 			}))
 		}
 	}

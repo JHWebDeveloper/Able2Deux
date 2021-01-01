@@ -1,56 +1,84 @@
 import React, { useCallback } from 'react'
 import { func, number, oneOf, bool } from 'prop-types'
 
-import { updateStateFromEvent, toggleCheckbox } from 'actions'
-import { keepInRange } from 'utilities'
+import {
+	updateState,
+	updateStateFromEvent,
+	toggleCheckbox
+} from 'actions'
 
+import PrefsPanel from './PrefsPanel'
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
+import NumberInput from '../form_elements/NumberInput'
 
-const _720 = [1280, 720].join('x')
-const _1080 = [1920, 1080].join('x')
+const outputButtons = [
+	{
+		label: '1280x720',
+		value: '1280x720'
+	},
+	{
+		label: '1920x1080',
+		value: '1920x1080'
+	}
+]
 
-const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, concurrent, dispatch }) => {
-	const keepConcurrentInRange = useCallback(e => {
-		dispatch(updateStateFromEvent(keepInRange(e)))
+const frameRateButtons = [
+	{
+		label: 'Auto',
+		value: 'auto'
+	},
+	{
+		label: '29.97',
+		value: '29.97'
+	},
+	{
+		label: '59.94',
+		value: '59.94'
+	}
+]
+
+const RenderOutput = ({ renderOutput, renderFrameRate, customFrameRate, autoPNG, asperaSafe, concurrent, dispatch }) => {
+	const updateCustomFrameRate = useCallback(({ name, value }) => {
+		dispatch(updateState({ [name]: value }))
+	}, [])
+
+	const updateConcurrent = useCallback(({ name, value }) => {
+		dispatch(updateState({
+			[name]: value === '' ? value : Math.trunc(value)
+		}))
 	}, [])
 
 	return (
-		<div>
+		<PrefsPanel title="Output" className="output-grid span-1_3">
 			<fieldset>
-				<legend>Output Resolution</legend>
+				<legend>Resolution</legend>
 				<div>
 					<RadioSet 
 						name="renderOutput"
 						state={renderOutput}
 						onChange={e => dispatch(updateStateFromEvent(e))}
-						buttons={[
-							{
-								label: _720,
-								value: _720
-							},
-							{
-								label: _1080,
-								value: _1080
-							}
-						]}/>
+						buttons={outputButtons}/>
 				</div>
 			</fieldset>
 			<fieldset>
-				<legend>Output Frame Rate</legend>
+				<legend>Frame Rate</legend>
 				<div>
 					<RadioSet 
 						name="renderFrameRate"
 						state={renderFrameRate}
 						onChange={e => dispatch(updateStateFromEvent(e))}
 						buttons={[
+							...frameRateButtons,
 							{
-								label: 'Auto',
-								value: 'auto'
-							},
-							{
-								label: '59.94fps',
-								value: '59.94fps'
+								label: 'custom',
+								value: 'custom',
+								component: <NumberInput
+									name="customFrameRate"
+									value={customFrameRate}
+									min={1}
+									max={240}
+									onChange={updateCustomFrameRate} />
 							}
 						]}/>
 				</div>
@@ -69,30 +97,24 @@ const RenderOutput = ({ renderOutput, renderFrameRate, autoPNG, asperaSafe, conc
 				switchIcon/>
 			<span className="input-option">
 				<label htmlFor="concurrent">Concurrent Renders</label>
-				<input
-					type="number"
+				<NumberInput
 					name="concurrent"
 					id="concurrent"
 					value={concurrent}
-					onChange={e => dispatch(updateStateFromEvent(e))}
 					min={1}
-					max={99}
-					onBlur={keepConcurrentInRange}
-					data-number />
+					max={10}
+					defaultValue={2}
+					fineTuneStep={1}
+					onChange={updateConcurrent} />
 			</span>
-		</div>
+		</PrefsPanel>
 	)
 }
 
 RenderOutput.propTypes = {
-	renderOutput: oneOf([
-		'1280x720',
-		'1920x1080'
-	]).isRequired,
-	renderFrameRate: oneOf([
-		'auto',
-		'59.94fps'
-	]).isRequired,
+	renderOutput: oneOf(['1280x720', '1920x1080']).isRequired,
+	renderFrameRate: oneOf(['auto', '29.97', '59.94', 'custom']).isRequired,
+	customFrameRate: number.isRequired,
 	autoPNG: bool.isRequired,
 	asperaSafe: bool.isRequired,
 	concurrent: number.isRequired,
