@@ -257,7 +257,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		}))
 	} else if (audio.format === 'bars') {
 		renderCmd
-			.input(`smptebars=size=${renderWidth}x${renderHeight}:rate=59.94`)
+			.input(`smptehdbars=size=${renderWidth}x${renderHeight}:rate=59.94`)
 			.inputOption('-f lavfi')
 
 		if (mediaType === 'video') {
