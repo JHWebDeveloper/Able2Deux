@@ -44,8 +44,11 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Scale distortion is now preserved when clicking "Fit to Frame" buttons while x and y are linked.
 - Scale X and Y positions now appear as snap points on the opposite slider while x and y are unlinked.
 
-#### Other:
+#### Rotation
+- Added Offset angle option. For transform mode only. You can now adjust the angle of a video or image by up to 45° in either direction. Intended to be used in combination with the 90/180° options for angles beyond 45° (better for CPU)
 - Reflect Horizontally and Vertically now swap values when media is rotated by 90deg.
+
+#### Other:
 - Pressing up and down arrows will increment Screen Record Timer by 1 second.
 - Reorganized Preferences window and added new prefs: default download mode, default screen capture mode, screen recorder frame rate, default timer duration, timer default on/off, slider snap points on/off, default split duration, start over warning, and outpur frame rates 29.97 and custom field.
 
