@@ -237,11 +237,11 @@ details label { font-size: 12px; }
 input:matches([name="filename"], [name="sourceName"]) { margin-bottom: 9px; }
 
 .auto-columns {
-	display: grid;
-	grid-auto-columns: min-content;
-	grid-auto-flow: column;
+	display: flex;
 	grid-gap: 9px;
 }
+
+.auto-columns > fieldset:last-of-type { flex: 1; }
 
 .auto-columns label {
 	display: block;
