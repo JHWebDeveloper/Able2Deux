@@ -23,7 +23,7 @@ const formattingButtons = [
 		value: 'fill'
 	},
 	{
-		label: 'Fit Inside Frame',
+		label: 'Fit in Frame',
 		value: 'fit'
 	},
 	{
