@@ -17,8 +17,6 @@ import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 import LinkIcon from '../../svg/LinkIcon'
 
-const getCroppedDim = (dim, crop1, crop2) => dim * (crop2 - crop1) / 100
-
 const FitButton = ({ title, onClick }) => (
 	<button
 		type="button"
@@ -35,6 +33,17 @@ const numberProps = {
 	defaultValue: 100
 }
 
+const calculateFitPercent = (renderOutput, width, height, t, b, l, r) => {
+	const [ frameW, frameH ] = renderOutput.split('x')
+	const cropW = width * (r - l) / 100
+	const cropH = height * (b - t) / 100
+
+	return [
+		frameW / cropW * 100,
+		frameH / cropH * 100
+	]
+}
+
 const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
@@ -45,17 +54,6 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
 	const distortion = useMemo(() => scale.y / scale.x || 1, [scale.x, scale.y])
-
-	const { t, b, r, l } = crop
-
-	const [ frameWidthPrc, frameHeightPrc ] = useMemo(() => {
-		const [ w, h ] = renderOutput.split('x')
-
-		return [
-			w / getCroppedDim(width, l, r) * 100,
-			h / getCroppedDim(height, t, b) * 100
-		]
-	}, [renderOutput, width, height, t, b, r, l])
 
 	const updateAxis = useCallback(({ name, value }) => {
 		dispatch(updateMediaNestedState(id, 'scale', {
@@ -78,19 +76,26 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 		dispatch(updateMediaNestedState(id, 'scale', axis, editAll))
 	}, [distortion, id, editAll])
 
+	const { t, b, r, l } = crop
+	const triggers = [renderOutput, width, height, t, b, r, l, id, scale.link, distortion, editAll]
+
 	const fitToFrameWidth = useCallback(() => {
+		const frameWidthPrc = calculateFitPercent(renderOutput, width, height, t, b, l, r)[0]
+
 		dispatch(updateMediaNestedState(id, 'scale', {
 			x: frameWidthPrc,
 			y: scale.link ? frameWidthPrc * distortion : scale.y
 		}, editAll))
-	}, [id, frameWidthPrc, scale.link, distortion, scale.y, editAll, t, b, r, l])
+	}, [...triggers, scale.y])
 	
 	const fitToFrameHeight = useCallback(() => {
+		const frameHeightPrc = calculateFitPercent(renderOutput, width, height, t, b, l, r)[1]
+		
 		dispatch(updateMediaNestedState(id, 'scale', {
 			x: scale.link ? frameHeightPrc / distortion : scale.x,
 			y: frameHeightPrc
 		}, editAll))
-	}, [id, scale.link, frameHeightPrc, distortion, scale.x, editAll, t, b, r, l])
+	}, [...triggers, scale.x])
 
 	const toggleScaleLink = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'scale', e, editAll))
