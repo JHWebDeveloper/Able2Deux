@@ -11,6 +11,7 @@ import { compareProps, createSettingsMenu } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
+import RotationOffset from './RotationOffset'
 
 const directions = Object.freeze(['t', 'l', 'b', 'r'])
 const transpose = Object.freeze(['', 'transpose=1,', 'transpose=2,transpose=2,', 'transpose=2,'])
@@ -77,6 +78,7 @@ const flipButtons = isSideways => [
 
 const Rotation = memo(props => {
 	const { id, isBatch, rotation, scale, crop, editAll, dispatch } = props
+	const isSideways = detectSideways(rotation.angle)
 
 	const settingsMenu = useMemo(() => isBatch && createSettingsMenu([
 		() => dispatch(copySettings({ rotation })),
@@ -139,21 +141,11 @@ const Rotation = memo(props => {
 		}, editAll))
 	}, [id, rotation, crop, editAll])
 
-	const isSideways = detectSideways(rotation.angle)
-
 	return (
 		<DetailsWrapper
 			summary="Rotation"
 			className="auto-columns"
 			buttons={settingsMenu}>
-			<fieldset>
-				<legend>Rotate:</legend>
-				<RadioSet 
-					name="angle"
-					state={rotation.angle}
-					onChange={updateAngle}
-					buttons={angleButtons}/>
-			</fieldset>
 			<fieldset>
 				<legend>Reflect:</legend>
 				<RadioSet
@@ -162,6 +154,23 @@ const Rotation = memo(props => {
 					onChange={updateReflect}
 					buttons={flipButtons(isSideways)} />
 			</fieldset>
+			<fieldset>
+				<legend>Rotate:</legend>
+				<RadioSet 
+					name="angle"
+					state={rotation.angle}
+					onChange={updateAngle}
+					buttons={angleButtons}/>
+			</fieldset>
+			{props.arc === 'transform' && (
+				<RotationOffset
+					id={id}
+					editAll={editAll}
+					rotation={rotation}
+					width={props.width}
+					height={props.height}
+					dispatch={dispatch} />
+			)}
 		</DetailsWrapper>
 	)
 }, compareProps)
@@ -171,7 +180,8 @@ Rotation.propTypes = {
 	isBatch: bool.isRequired,
 	rotation: exact({
 		angle: oneOf(transpose),
-		reflect: oneOf(flip)
+		reflect: oneOf(flip),
+		offset: number
 	}).isRequired,
 	scale: object.isRequired,
 	crop: object.isRequired,
@@ -179,6 +189,7 @@ Rotation.propTypes = {
 	width: number.isRequired,
 	height: number.isRequired,
 	editAll: bool.isRequired,
+	arc: oneOf(['none', 'fill', 'fit', 'transform']),
 	dispatch: func.isRequired
 }
 
