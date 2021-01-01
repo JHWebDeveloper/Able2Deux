@@ -86,7 +86,7 @@ const createPreviewSource = ({ id, mediaType, hasAlpha, isAudio, audio, tempFile
 
 	if (isAudio && audio.format === 'bars') {
 		command
-			.input('smptebars=size=384x216:duration=1')
+			.input('smptehdbars=size=384x216:duration=1')
 			.inputOption('-f lavfi')
 			.output(outputPath)
 			.outputOption('-frames 1')
