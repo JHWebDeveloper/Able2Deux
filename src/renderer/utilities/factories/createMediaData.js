@@ -73,7 +73,8 @@ const defaultMediaData = {
 	},
 	rotation: {
 		angle: '',
-		reflect: ''
+		reflect: '',
+		offset: 0
 	}
 }
 
