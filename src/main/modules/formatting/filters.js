@@ -93,8 +93,13 @@ const transformCmdChunks = [
 	'*(main_h/2+overlay_h/2)'
 ]
 
+const offsetCmdChunks = [
+	',rotate=\'',
+	'*PI/180:ow=hypot(iw,ih):oh=ow:oh=ow:c=none\''
+]
+
 export const transform = (filterData, isPreview) => {
-	const { crop, scale, position, angle, reflect, sourceData, overlayDim } = filterData
+	const { crop, scale, position, angle, offset, reflect, sourceData, overlayDim } = filterData
 
 	const cropH = (crop.b - crop.t) / 100
 	const cropW = (crop.r - crop.l) / 100
@@ -107,7 +112,7 @@ export const transform = (filterData, isPreview) => {
 	position.y /= 100
 
 	const filter = [
-		`[0:v]${reflect}${angle}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih[fg];`,
+		`[0:v]${reflect}${angle}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih${offset === 0 ? '' : offsetCmdChunks.join(offset)}[fg];`,
 		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdChunks[0]}${position.x}${transformCmdChunks[1]}${position.y}${transformCmdChunks[2]}${shortestAndFormat}`
 	].join('')
 
