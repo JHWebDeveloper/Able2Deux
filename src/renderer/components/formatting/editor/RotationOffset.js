@@ -5,7 +5,7 @@ import { updateMediaNestedState } from 'actions'
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
-const RotationOffset = ({ id, editAll, rotation, dispatch }) => {
+const RotationOffset = ({ id, editAll, offset, dispatch }) => {
 	const updateOffset = useCallback(({ value }) => {
 		dispatch(updateMediaNestedState(id, 'rotation', {
 			offset: value
@@ -13,7 +13,7 @@ const RotationOffset = ({ id, editAll, rotation, dispatch }) => {
 	}, [id, editAll])
 
 	const offsetProps = {
-		value: rotation.offset,
+		value: offset,
 		min: -45,
 		max: 45,
 		onChange: updateOffset

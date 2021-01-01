@@ -166,7 +166,7 @@ const Rotation = memo(props => {
 				<RotationOffset
 					id={id}
 					editAll={editAll}
-					rotation={rotation}
+					offset={offset}
 					width={props.width}
 					height={props.height}
 					dispatch={dispatch} />
