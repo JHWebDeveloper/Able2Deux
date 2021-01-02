@@ -53,7 +53,7 @@ const Controls = props => {
 			)}
 			<GridSelector
 				grids={props.grids}
-				enableWidescreenGrids={props.enableWidescreenGrids}
+				gridButtons={props.gridButtons}
 				gridColor={props.gridColor}
 				toggleGrids={props.toggleGrids} />
 		</div>
@@ -63,8 +63,8 @@ const Controls = props => {
 Controls.propTypes = {
 	selected: object.isRequired,
 	grids: object.isRequired,
+	gridButtons: object.isRequired,
 	gridColor: string.isRequired,
-	enableWidescreenGrids: bool.isRequired,
 	toggleGrids: func,
 	dispatch: func.isRequired
 }
