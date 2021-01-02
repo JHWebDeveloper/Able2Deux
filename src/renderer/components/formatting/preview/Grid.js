@@ -99,6 +99,15 @@ const Grid = props => {
 			ctx.lineTo(384, 211.783783784)
 			ctx.stroke()
 		}
+
+		if (gridButtons._166 && grids._166) {
+			ctx.beginPath()
+			ctx.moveTo(12, 0)
+			ctx.lineTo(12, 216)
+			ctx.moveTo(372, 0)
+			ctx.lineTo(372, 216)
+			ctx.stroke()
+		}
 	}, [props])
 
 	return <canvas ref={ref}></canvas>
