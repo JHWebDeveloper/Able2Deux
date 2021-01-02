@@ -5,7 +5,7 @@ let cnv = false
 let ctx = false
 
 const Grid = props => {
-	const { grids, gridColor, enableWidescreenGrids } = props
+	const { grids, gridColor, gridButtons } = props
 	const ref = useRef()
 	
 	useEffect(() => {
@@ -55,7 +55,7 @@ const Grid = props => {
 			ctx.stroke()
 		}
 
-		if (grids._43) {
+		if (gridButtons._43 && grids._43) {
 			ctx.beginPath()
 			ctx.moveTo(48, 0)
 			ctx.lineTo(48, 216)
@@ -64,7 +64,7 @@ const Grid = props => {
 			ctx.stroke()
 		}
 
-		if (grids._11) {
+		if (gridButtons._11 && grids._11) {
 			ctx.beginPath()
 			ctx.moveTo(84, 0)
 			ctx.lineTo(84, 216)
@@ -73,7 +73,7 @@ const Grid = props => {
 			ctx.stroke()
 		}
 
-		if (grids._916) {
+		if (gridButtons._916 && grids._916) {
 			ctx.beginPath()
 			ctx.moveTo(131.25, 0)
 			ctx.lineTo(131.25, 216)
@@ -82,24 +82,22 @@ const Grid = props => {
 			ctx.stroke()
 		}
 
-		if (enableWidescreenGrids) {
-			if (grids._185) {
-				ctx.beginPath()
-				ctx.moveTo(0, 4.21621621622)
-				ctx.lineTo(384, 4.21621621622)
-				ctx.moveTo(0, 211.783783784)
-				ctx.lineTo(384, 211.783783784)
-				ctx.stroke()
-			}
-	
-			if (grids._239) {
-				ctx.beginPath()
-				ctx.moveTo(0, 27.6652719665)
-				ctx.lineTo(384, 27.6652719665)
-				ctx.moveTo(0, 188.334728033)
-				ctx.lineTo(384, 188.334728033)
-				ctx.stroke()
-			}
+		if (gridButtons._239 && grids._239) {
+			ctx.beginPath()
+			ctx.moveTo(0, 27.6652719665)
+			ctx.lineTo(384, 27.6652719665)
+			ctx.moveTo(0, 188.334728033)
+			ctx.lineTo(384, 188.334728033)
+			ctx.stroke()
+		}
+
+		if (gridButtons._185 && grids._185) {
+			ctx.beginPath()
+			ctx.moveTo(0, 4.21621621622)
+			ctx.lineTo(384, 4.21621621622)
+			ctx.moveTo(0, 211.783783784)
+			ctx.lineTo(384, 211.783783784)
+			ctx.stroke()
 		}
 	}, [props])
 
@@ -115,6 +113,13 @@ Grid.propTypes = {
 		_11: bool,
 		_916: bool
 	}).isRequired,
+	gridButtons: exact({
+		_239: bool,
+		_185: bool,
+		_43: bool,
+		_11: bool,
+		_916: bool
+	}),
 	gridColor: string.isRequired,
 	enableWidescreenGrids: bool.isRequired
 }
