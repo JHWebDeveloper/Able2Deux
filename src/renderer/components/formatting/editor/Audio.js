@@ -37,7 +37,7 @@ const formatButtons = [
 		value: 'mp3'
 	},
 	{
-		label: '.mp4 + SMPTE color bars',
+		label: '.mp4 + color bars',
 		value: 'bars'
 	}
 ]
