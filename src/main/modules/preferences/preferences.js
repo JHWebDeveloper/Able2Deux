@@ -44,16 +44,25 @@ export const initPreferences = async () => {
 		}
 
 		if (prefs.version < 7) {
-			await fsp.writeFile(prefsPath, JSON.stringify({
+			const v7Prefs = {
 				...defaultPrefs,
 				...prefs,
 				warnings: {
 					...defaultPrefs.warnings,
 					...prefs.warnings
 				},
+				gridButtons: {
+					...defaultPrefs.gridButtons,
+					_239: prefs.enableWidescreenGrids,
+					_185: prefs.enableWidescreenGrids
+				},
 				renderFrameRate: prefs.renderFrameRate.replace(/fps$/, ''),
 				version: 7
-			}))
+			}
+
+			delete v7Prefs.enableWidescreenGrids
+
+			await fsp.writeFile(prefsPath, JSON.stringify(v7Prefs))
 		}
 	}
 }
