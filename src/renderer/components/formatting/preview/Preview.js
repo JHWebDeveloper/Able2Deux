@@ -19,7 +19,7 @@ const extractPreviewTriggers = settings => {
 }
 
 const Preview = ({ selected, editAll, dispatch }) => {
-	const { renderOutput, enableWidescreenGrids, gridColor } = useContext(PrefsContext).preferences
+	const { renderOutput, gridButtons, gridColor } = useContext(PrefsContext).preferences
 
 	const {
 		id,
@@ -39,9 +39,10 @@ const Preview = ({ selected, editAll, dispatch }) => {
 	const [ previewStill, loadPreviewStill ] = useState('')
 	
 	const [ grids, toggleGrids ] = useState({
+		grid: false,
 		_239: false,
 		_185: false,
-		grid: false,
+		_166: false,
 		_43: false,
 		_11: false,
 		_916: false
@@ -100,7 +101,7 @@ const Preview = ({ selected, editAll, dispatch }) => {
 					) : <Spinner />}
 					<Grid
 						grids={grids}
-						enableWidescreenGrids={enableWidescreenGrids}
+						gridButtons={gridButtons}
 						gridColor={gridColor} />
 				</div>
 			</div>
@@ -108,7 +109,7 @@ const Preview = ({ selected, editAll, dispatch }) => {
 				<Controls
 					selected={selected}
 					grids={grids}
-					enableWidescreenGrids={enableWidescreenGrids}
+					gridButtons={gridButtons}
 					gridColor={gridColor}
 					toggleGrids={toggleGrids}
 					dispatch={dispatch} />
