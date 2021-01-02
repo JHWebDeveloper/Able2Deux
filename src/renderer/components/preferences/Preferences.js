@@ -49,7 +49,7 @@ const Main = () => {
 			<FormattingSettings
 				editAll={preferences.editAll}
 				sliderSnapPoints={preferences.sliderSnapPoints}
-				enableWidescreenGrids={preferences.enableWidescreenGrids}
+				gridButtons={preferences.gridButtons}
 				gridColor={preferences.gridColor}
 				split={preferences.split}
 				scaleSliderMax={preferences.scaleSliderMax}
