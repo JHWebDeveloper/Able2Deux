@@ -27,6 +27,14 @@ const defaultPrefs = {
 	editAll: false,
 	sliderSnapPoints: true,
 	enableWidescreenGrids: false,
+	gridButtons: {
+		_43: true,
+		_11: true,
+		_916: true,
+		_239: false,
+		_185: false,
+		_166: false
+	},
 	gridColor: '#ff00ff',
 	split: 270,
 	scaleSliderMax: 400,
