@@ -31,7 +31,7 @@ h1 {
 	margin-bottom: 6px;
 }
 
-legend, label { font-size: 14px; }
+h2, legend, label { font-size: 14px; }
 
 legend { margin-bottom: 3px; }
 
@@ -63,6 +63,14 @@ legend + div > label {
 	flex: 1;
 	background-color: var(--background-alt-2);
 }
+
+.grid-buttons-grid {
+	display: inherit;
+	grid-template-columns: repeat(3, min-content);
+	grid-gap: 2px 6px;
+}
+
+.grid-buttons-grid > h2 { grid-column: span 3; }
 
 .output-grid { grid-template-columns: min-content auto; }
 
