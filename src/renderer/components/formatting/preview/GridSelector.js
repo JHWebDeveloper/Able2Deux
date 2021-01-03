@@ -89,6 +89,7 @@ GridSelector.propTypes = {
 		grid: bool,
 		_239: bool,
 		_185: bool,
+		_166: bool,
 		_43: bool,
 		_11: bool,
 		_916: bool
@@ -96,6 +97,7 @@ GridSelector.propTypes = {
 	gridButtons: exact({
 		_239: bool,
 		_185: bool,
+		_166: bool,
 		_43: bool,
 		_11: bool,
 		_916: bool
