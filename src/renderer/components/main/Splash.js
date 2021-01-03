@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import 'css/splash.css'
 
 import { drawAble2Logo } from 'utilities'
@@ -7,24 +7,22 @@ const { interop } = window.ABLE2
 
 const Splash = () => {
 	const [ version, setVersion ] = useState(false)
-	const ref = createRef()
+	const cnv = useRef()
 
 	useEffect(() => {
 		(async () => {
 			setVersion(await interop.getVersion())
 		})()
 
-		const cnv = ref.current
-		const ctx = cnv.getContext('2d')
+		cnv.current.width = 424
+		cnv.current.height = 424
 
-		cnv.width = cnv.height = 424
-
-		drawAble2Logo(ctx)
+		drawAble2Logo(cnv.current.getContext('2d'))
 	}, [])
 
 	return (
 		<>
-			<canvas ref={ref}></canvas>
+			<canvas ref={cnv}></canvas>
 			<h1>Able2{version ? ` v${version}` : ''}</h1>
 			<p>Developed by Jonathan Hamilton</p>
 		</>
