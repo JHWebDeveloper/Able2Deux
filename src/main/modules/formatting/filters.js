@@ -88,6 +88,7 @@ export const fit = (filterData, isPreview) => {
 }
 
 const transformCmdChunks = [
+	'*ih:exact=1,scale=w=',
 	':v][fg]overlay=(main_w-overlay_w)/2+',
 	'*(main_w/2+overlay_w/2):(main_h-overlay_h)/2+',
 	'*(main_h/2+overlay_h/2)'
@@ -112,8 +113,8 @@ export const transform = (filterData, isPreview) => {
 	position.y /= 100
 
 	const filter = [
-		`[0:v]${reflect}${angle}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih:exact=1,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih${offset === 0 ? '' : offsetCmdChunks.join(offset)}[fg];`,
-		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdChunks[0]}${position.x}${transformCmdChunks[1]}${position.y}${transformCmdChunks[2]}${shortestAndFormat}`
+		`[0:v]${reflect}${angle}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}${transformCmdChunks[0]}${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih${offset === 0 ? '' : offsetCmdChunks.join(offset)}[fg];`,
+		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdChunks[1]}${position.x}${transformCmdChunks[2]}${position.y}${transformCmdChunks[3]}${shortestAndFormat}`
 	].join('')
 
 	return finalize({ filter, sourceData, overlayDim, isPreview })
