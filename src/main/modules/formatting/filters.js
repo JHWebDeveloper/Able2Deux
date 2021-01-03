@@ -112,7 +112,7 @@ export const transform = (filterData, isPreview) => {
 	position.y /= 100
 
 	const filter = [
-		`[0:v]${reflect}${angle}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih${offset === 0 ? '' : offsetCmdChunks.join(offset)}[fg];`,
+		`[0:v]${reflect}${angle}crop=exact=1:${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}*ih,scale=w=${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih${offset === 0 ? '' : offsetCmdChunks.join(offset)}[fg];`,
 		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdChunks[0]}${position.x}${transformCmdChunks[1]}${position.y}${transformCmdChunks[2]}${shortestAndFormat}`
 	].join('')
 
