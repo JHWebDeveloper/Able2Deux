@@ -1,116 +1,99 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { bool, exact, string } from 'prop-types'
-
-let cnv = false
-let ctx = false
 
 const Grid = props => {
 	const { grids, gridColor, gridButtons } = props
-	const ref = useRef()
+	const cnv = useRef()
+	const ctx = useRef()
+
+	const drawGridMarkers = useCallback(lines => {
+		let i = lines.length
+	
+		ctx.current.beginPath()
+	
+		while (i--) {
+			const [ x1, y1, x2, y2 ] = lines[i]
+	
+			ctx.current.moveTo(x1, y1)
+			ctx.current.lineTo(x2, y2)
+		}
+	
+		ctx.current.stroke()
+	}, [ctx])
 	
 	useEffect(() => {
-		cnv = ref.current
-		ctx = cnv.getContext('2d')
-
-		cnv.width = 384
-		cnv.height = 216
-		ctx.lineWidth = 1.25
+		cnv.current.width = 384
+		cnv.current.height = 216
+		ctx.current = cnv.current.getContext('2d')
+		ctx.current.lineWidth = 1.25
 	}, [])
 
 	useEffect(() => {
-		ctx.clearRect(0, 0, cnv.width, cnv.height)
-		ctx.strokeStyle = gridColor
+		ctx.current.clearRect(0, 0, cnv.current.width, cnv.current.height)
+		ctx.current.strokeStyle = gridColor
 		
 		if (grids.grid) {
-			ctx.strokeRect(9.6, 5.4, 364.8, 205.2)
-			ctx.strokeRect(19.2, 10.8, 345.6, 194.4)
-	
-			ctx.beginPath()
-	
-			ctx.moveTo(192, 0)
-			ctx.lineTo(192, 216)
-			ctx.moveTo(0, 108)
-			ctx.lineTo(384, 108)
-	
-			ctx.moveTo(120, 72)
-			ctx.lineTo(136, 72)
-			ctx.moveTo(128, 64)
-			ctx.lineTo(128, 80)
-	
-			ctx.moveTo(248, 72)
-			ctx.lineTo(264, 72)
-			ctx.moveTo(256, 64)
-			ctx.lineTo(256, 80)
-	
-			ctx.moveTo(248, 144)
-			ctx.lineTo(264, 144)
-			ctx.moveTo(256, 136)
-			ctx.lineTo(256, 152)
-	
-			ctx.moveTo(120, 144)
-			ctx.lineTo(136, 144)
-			ctx.moveTo(128, 136)
-			ctx.lineTo(128, 152)
-			
-			ctx.stroke()
+			ctx.current.strokeRect(9.6, 5.4, 364.8, 205.2)
+			ctx.current.strokeRect(19.2, 10.8, 345.6, 194.4)
+
+			drawGridMarkers([
+				[192, 0, 192, 216],
+				[0, 108, 384, 108],
+				[120, 72, 136, 72],
+				[128, 64, 128, 80],
+				[248, 72, 264, 72],
+				[256, 64, 256, 80],
+				[248, 144, 264, 144],
+				[256, 136, 256, 152],
+				[120, 144, 136, 144],
+				[128, 136, 128, 152]
+			])
 		}
 
 		if (gridButtons._43 && grids._43) {
-			ctx.beginPath()
-			ctx.moveTo(48, 0)
-			ctx.lineTo(48, 216)
-			ctx.moveTo(336, 0)
-			ctx.lineTo(336, 216)
-			ctx.stroke()
+			drawGridMarkers([
+				[48, 0, 48, 216],
+				[336, 0, 336, 216]
+			])
 		}
 
 		if (gridButtons._11 && grids._11) {
-			ctx.beginPath()
-			ctx.moveTo(84, 0)
-			ctx.lineTo(84, 216)
-			ctx.moveTo(300, 0)
-			ctx.lineTo(300, 216)
-			ctx.stroke()
+			drawGridMarkers([
+				[84, 0, 84, 216],
+				[300, 0, 300, 216]
+			])
 		}
 
 		if (gridButtons._916 && grids._916) {
-			ctx.beginPath()
-			ctx.moveTo(131.25, 0)
-			ctx.lineTo(131.25, 216)
-			ctx.moveTo(252.75, 0)
-			ctx.lineTo(252.75, 216)
-			ctx.stroke()
+			drawGridMarkers([
+				[131.25, 0, 131.25, 216],
+				[252.75, 0, 252.75, 216]
+			])
 		}
 
 		if (gridButtons._239 && grids._239) {
-			ctx.beginPath()
-			ctx.moveTo(0, 27.6652719665)
-			ctx.lineTo(384, 27.6652719665)
-			ctx.moveTo(0, 188.334728033)
-			ctx.lineTo(384, 188.334728033)
-			ctx.stroke()
+			drawGridMarkers([
+				[0, 27.6652719665, 384, 27.6652719665],
+				[0, 188.334728033, 384, 188.33472803]
+			])
 		}
 
 		if (gridButtons._185 && grids._185) {
-			ctx.beginPath()
-			ctx.moveTo(0, 4.21621621622)
-			ctx.lineTo(384, 4.21621621622)
-			ctx.moveTo(0, 211.783783784)
-			ctx.lineTo(384, 211.783783784)
-			ctx.stroke()
+			drawGridMarkers([
+				[0, 4.21621621622, 384, 4.21621621622],
+				[0, 211.783783784, 384, 211.783783784]
+			])
 		}
 
 		if (gridButtons._166 && grids._166) {
-			ctx.beginPath()
-			ctx.moveTo(12, 0)
-			ctx.lineTo(12, 216)
-			ctx.moveTo(372, 0)
-			ctx.lineTo(372, 216)
-			ctx.stroke()
+			drawGridMarkers([
+				[12, 0, 12, 216],
+				[372, 0, 372, 216]
+			])
 		}
 	}, [props])
 
-	return <canvas ref={ref}></canvas>
+	return <canvas ref={cnv}></canvas>
 }
 
 Grid.propTypes = {
@@ -118,6 +101,7 @@ Grid.propTypes = {
 		grid: bool,
 		_239: bool,
 		_185: bool,
+		_166: bool,
 		_43: bool,
 		_11: bool,
 		_916: bool
@@ -125,12 +109,12 @@ Grid.propTypes = {
 	gridButtons: exact({
 		_239: bool,
 		_185: bool,
+		_166: bool,
 		_43: bool,
 		_11: bool,
 		_916: bool
 	}),
-	gridColor: string.isRequired,
-	enableWidescreenGrids: bool.isRequired
+	gridColor: string.isRequired
 }
 
 export default Grid
