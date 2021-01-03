@@ -3,52 +3,50 @@ import { bool, func, string } from 'prop-types'
 
 import { rgbToHex, throttle } from 'utilities'
 
-const img = new Image()
-let cnv = false
-let ctx = false
-
 const PreviewCanvas = ({ previewStill, eyedropper, setEyedropToBgColor }) => {
-	const ref = useRef()
+	const cnv = useRef()
+	const ctx = useRef()
+	const img = useMemo(() => new Image(), [])
 
 	const getColorAtClickPos = useCallback(e => {
-		const { left, top } = cnv.getBoundingClientRect()
+		const { left, top } = cnv.current.getBoundingClientRect()
 		const x = e.clientX - left
 		const y = e.clientY - top
 	
-		const rgb = ctx.getImageData(x, y, 1, 1).data
+		const rgb = ctx.current.getImageData(x, y, 1, 1).data
 		const hex = rgbToHex(...rgb)
 
 		setEyedropToBgColor(hex)
-	}, [setEyedropToBgColor])
+	}, [cnv, ctx, setEyedropToBgColor])
 
-	const eyedropperProps = useMemo(() => eyedropper ? {
-		className: 'eyedropper',
-		onMouseDown(e) {
-			getColorAtClickPos(e)
+	const onMouseDown = useCallback(e => {
+		getColorAtClickPos(e)
 
-			const onMouseMove = throttle(getColorAtClickPos, 60)
+		const onMouseMove = throttle(getColorAtClickPos, 60)
 
-			const clearOnMouseMove = () => {
-				cnv.removeEventListener('mousemove', onMouseMove)
-				window.removeEventListener('mouseup', clearOnMouseMove)
-			}
-
-			cnv.addEventListener('mousemove', onMouseMove)
-
-			window.addEventListener('mouseup', clearOnMouseMove)
+		const clearOnMouseMove = () => {
+			cnv.current.removeEventListener('mousemove', onMouseMove)
+			window.removeEventListener('mouseup', clearOnMouseMove)
 		}
-	} : {}, [eyedropper, setEyedropToBgColor])
+
+		cnv.current.addEventListener('mousemove', onMouseMove)
+
+		window.addEventListener('mouseup', clearOnMouseMove)
+	}, [cnv, ctx, setEyedropToBgColor])
+
+	const eyeDropperProps = useMemo(() => eyedropper ? {
+		className: 'eyedropper',
+		onMouseDown
+	} : {}, [eyedropper, onMouseDown])
 
 	useEffect(() => {
-		cnv = ref.current
-		ctx = cnv.getContext('2d')
-
-		cnv.width = 384
-		cnv.height = 216
+		cnv.current.width = 384
+		cnv.current.height = 216
+		ctx.current = cnv.current.getContext('2d')
 
 		img.onload = () => {
-			ctx.clearRect(0, 0, cnv.width, cnv.height)
-			ctx.drawImage(img, 0, 0, cnv.width, cnv.height)
+			ctx.current.clearRect(0, 0, 384, 216)
+			ctx.current.drawImage(img, 0, 0, 384, 216)
 		}
 	}, [])
 
@@ -57,7 +55,7 @@ const PreviewCanvas = ({ previewStill, eyedropper, setEyedropToBgColor }) => {
 	}, [previewStill])
 
 	return (
-		<canvas ref={ref} {...eyedropperProps} ></canvas>
+		<canvas ref={cnv} {...eyeDropperProps} ></canvas>
 	)
 }
 
