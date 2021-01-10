@@ -60,12 +60,14 @@ export const getIntegerLength = n => {
 }
 
 export const initTabbedBrowsing = () => {
-	document.body.onkeydown = function (e) {
+	function onKeyDown(e) {
 		if (e.key !== 'Tab') return true
 		
 		this.className = 'accessible'
-		this.onkeydown = false
+		this.removeEventListener('keydown', onKeyDown)
 	}
+
+	document.body.addEventListener('keydown', onKeyDown)
 }
 
 export const objectExtract = (obj, props) => props.reduce((extract, prop) => ({
