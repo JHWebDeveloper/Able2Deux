@@ -68,6 +68,11 @@ export const initTabbedBrowsing = () => {
 	}
 }
 
+export const objectExtract = (obj, props) => props.reduce((extract, prop) => ({
+	...extract,
+	[prop]: obj[prop]
+}), {})
+
 export const toastrOpts = {
 	closeButton: true,
 	positionClass: 'toast-bottom-right',
