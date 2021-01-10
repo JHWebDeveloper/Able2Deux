@@ -4,7 +4,7 @@ import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
 import { updateMediaState } from 'actions'
-import { buildSource } from 'utilities'
+import { buildSource, objectExtractToArray } from 'utilities'
 
 import PreviewCanvas from './PreviewCanvas'
 import Spinner from '../../svg/Spinner'
@@ -12,11 +12,6 @@ import Grid from './Grid'
 import Controls from './Controls'
 
 const { interop } = window.ABLE2
-
-const extractPreviewTriggers = settings => {
-	const { start, audio, arc, background, bgColor, overlay, source, centering, position, scale, crop, rotation } = settings
-	return [ start, audio, arc, background, bgColor, overlay, source, centering, position, scale, crop, rotation ]
-}
 
 const Preview = ({ selected, editAll, dispatch }) => {
 	const { renderOutput, gridButtons, gridColor } = useContext(PrefsContext).preferences
@@ -87,7 +82,7 @@ const Preview = ({ selected, editAll, dispatch }) => {
 			renderOutput,
 			sourceData
 		})
-	}, [renderOutput, ...extractPreviewTriggers(selected)])
+	}, [renderOutput, audio, arc, background, bgColor, overlay, source, centering, position, scale, crop, rotation])
 
 	return (
 		<div id="preview">
