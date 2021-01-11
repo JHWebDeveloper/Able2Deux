@@ -4,7 +4,7 @@ import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
 import { updateMediaState } from 'actions'
-import { buildSource, objectExtractToArray } from 'utilities'
+import { buildSource } from 'utilities'
 
 import PreviewCanvas from './PreviewCanvas'
 import Spinner from '../../svg/Spinner'
@@ -82,7 +82,20 @@ const Preview = ({ selected, editAll, dispatch }) => {
 			renderOutput,
 			sourceData
 		})
-	}, [renderOutput, audio, arc, background, bgColor, overlay, source, centering, position, scale, crop, rotation])
+	}, [
+		renderOutput,
+		audio,
+		arc,
+		source,
+		rotation,
+		selected.background,
+		selected.bgColor,
+		selected.overlay,
+		selected.centering,
+		selected.position,
+		selected.scale,
+		selected.crop
+	])
 
 	return (
 		<div id="preview">
