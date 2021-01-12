@@ -24,6 +24,7 @@ const Preview = ({ selected, editAll, dispatch }) => {
 		fps,
 		audio,
 		arc,
+		background,
 		source,
 		rotation,
 		timecode
@@ -84,9 +85,9 @@ const Preview = ({ selected, editAll, dispatch }) => {
 		renderOutput,
 		audio,
 		arc,
+		background,
 		source,
 		rotation,
-		selected.background,
 		selected.bgColor,
 		selected.overlay,
 		selected.centering,
@@ -102,7 +103,7 @@ const Preview = ({ selected, editAll, dispatch }) => {
 					{previewStill ? (
 						<PreviewCanvas
 							previewStill={previewStill}
-							eyedropper={selected.background === 'color'}
+							eyedropper={background === 'color'}
 							setEyedropToBgColor={setEyedropToBgColor}/>
 					) : <Spinner />}
 					<Grid
