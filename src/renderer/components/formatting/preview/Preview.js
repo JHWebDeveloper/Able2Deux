@@ -22,8 +22,6 @@ const Preview = ({ selected, editAll, dispatch }) => {
 		duration,
 		aspectRatio,
 		fps,
-		start,
-		end,
 		audio,
 		arc,
 		source,
@@ -73,7 +71,7 @@ const Preview = ({ selected, editAll, dispatch }) => {
 			sourceData,
 			tc: timecode / fps / duration * 100
 		})
-	}, [id, mediaType, isAudio, audio?.format, timecode, start, end])
+	}, [id, mediaType, isAudio, audio?.format, timecode])
 
 	useEffect(() => {
 		interop.requestPreviewStill({
