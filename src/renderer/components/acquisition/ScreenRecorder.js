@@ -77,7 +77,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 
 	const captureScreen = useMemo(() => (
 		screenshot ? captureScreenshot : startRecording
-	), [frameRate, screenshot, timer, timerEnabled])
+	), [screenshot, frameRate, timer, timerEnabled])
 
 	const getRecordSources = useCallback(async () => {
 		let recordSourceList = []
@@ -95,7 +95,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 		}
 
 		setRecordSources(recordSourceList)
-	}, [])
+	}, [screenshot, frameRate, timer, timerEnabled])
 
 	const toggleRecording = useCallback(() => {
 		if (recording) {
@@ -103,7 +103,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 		} else {
 			getRecordSources()
 		}
-	}, [recording])
+	}, [recording, screenshot, frameRate, timer, timerEnabled])
 
 	const toggleScreenshot = useCallback(e => {
 		dispatch(toggleCheckbox(e))
