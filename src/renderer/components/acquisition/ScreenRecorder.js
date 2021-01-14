@@ -23,6 +23,16 @@ const { interop } = window.ABLE2
 const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer, timerEnabled, dispatch }) => {
 	const [ recordSources, setRecordSources ] = useState([])
 
+	const modeMessage = useMemo(() => {
+		if (recording) {
+			return 'Recording'
+		} else if (screenshot) {
+			return '...or take a screenshot'
+		} else {
+			return '...or start a screen record'
+		}
+	}, [recording, screenshot])
+
 	const startRecording = useCallback(streamId => {
 		try {
 			interop.startRecording({
@@ -100,12 +110,10 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 	}, [])
 
 	const ref = useRef()
-
-	const modeMessage = `...or ${screenshot ? 'take a screenshot' : 'start a screen record'}`
 	
 	return (
 		<div id="screen-recorder">
-			<p>{recording ? 'Recording' : modeMessage}</p>
+			<p>{modeMessage}</p>
 			<div>
 				<DurationPointer />
 				<button
