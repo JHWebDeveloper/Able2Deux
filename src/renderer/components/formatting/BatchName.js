@@ -21,11 +21,7 @@ const positionButtons = [
 ]
 
 const BatchName = ({ batch, dispatch }) => {
-	const updateBatchName = useCallback(e => {
-		dispatch(updateNestedStateFromEvent('batch', e))
-	}, [])
-
-	const updateBatchNamePosition = useCallback(e => {
+	const updateBatch = useCallback(e => {
 		dispatch(updateNestedStateFromEvent('batch', e))
 	}, [])
 
@@ -39,12 +35,12 @@ const BatchName = ({ batch, dispatch }) => {
 					className="underline"
 					value={batch.name}
 					maxLength={251}
-					onChange={updateBatchName}
+					onChange={updateBatch}
 					placeholder="If none, leave blank" />
 				<RadioSet
 					name="position"
 					state={batch.position}
-					onChange={updateBatchNamePosition}
+					onChange={updateBatch}
 					buttons={positionButtons}/>
 			</div>
 		</div>
