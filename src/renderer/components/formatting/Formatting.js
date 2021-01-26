@@ -12,8 +12,6 @@ import SaveButtons from './SaveButtons'
 import PreviewEditorContainer from './PreviewEditorContainer'
 import RenderQueue from './render-queue/RenderQueue'
 
-// let prevIndex = 0
-
 const Formatting = () => {
 	const {
 		media,
@@ -25,20 +23,17 @@ const Formatting = () => {
 		dispatch
 	} = useContext(MainContext)
 
-	const { length } = media
-
-	if (!length) return <Redirect to="/" />
+	if (!media.length) return <Redirect to="/" />
 
 	const [ rendering, setRendering ] = useState(false)
 	const prevIndex = useRef(0)
-	
 	const selected = media.find(item => item.id === selectedId) || {}
 
 	useEffect(() => {
 		if (selected.id) {
 			prevIndex.current = media.findIndex(item => item.id === selectedId)
 		} else {
-			dispatch(selectMedia(media[Math.min(prevIndex.current, length - 1)].id))
+			dispatch(selectMedia(media[Math.min(prevIndex.current, media.length - 1)].id))
 		}
 	}, [selected])
 
