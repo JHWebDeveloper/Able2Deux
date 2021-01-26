@@ -28,6 +28,7 @@ const Formatting = () => {
 	const [ rendering, setRendering ] = useState(false)
 	const prevIndex = useRef(0)
 	const selected = media.find(item => item.id === selectedId) || {}
+	const isBatch = media.length > 1
 
 	useEffect(() => {
 		if (selected.id) {
@@ -36,8 +37,6 @@ const Formatting = () => {
 			dispatch(selectMedia(media[Math.min(prevIndex.current, media.length - 1)].id))
 		}
 	}, [selected])
-
-	const isBatch = length > 1
 
 	return (
 		<form>
