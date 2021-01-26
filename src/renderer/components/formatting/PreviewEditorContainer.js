@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { bool, func, number, object } from 'prop-types'
 
 import PreviewContainer from './preview/PreviewContainer'
 import EditorOptions from './editor/EditorOptions'
@@ -6,7 +7,7 @@ import EditorOptions from './editor/EditorOptions'
 const PreviewEditorContainer = ({ selected, editAll, batch, split, isBatch, dispatch }) => {
 	const { arc, overlay, hasAlpha } = selected
 
-	const backgroundDisabled = useMemo(() => (
+	const backgroundDisabled = useMemo(() => ( // eslint-disable-line no-extra-parens
 		arc === 'none' || arc === 'fill' && !hasAlpha && overlay === 'none'
 	), [arc, overlay, hasAlpha])
 
@@ -27,6 +28,15 @@ const PreviewEditorContainer = ({ selected, editAll, batch, split, isBatch, disp
 				{...selected} />
 		</div>
 	)
+}
+
+PreviewEditorContainer.propTypes = {
+	selected: object.isRequired,
+	editAll: bool.isRequired,
+	batch: object.isRequired,
+	split: number,
+	isBatch: bool.isRequired,
+	dispatch: func.isRequired
 }
 
 export default PreviewEditorContainer

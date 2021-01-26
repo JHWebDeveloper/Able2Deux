@@ -128,6 +128,7 @@ const Preview = ({ selected, editAll, backgroundDisabled, dispatch }) => {
 Preview.propTypes = {
 	selected: object.isRequired,
 	editAll: bool.isRequired,
+	backgroundDisabled: bool.isRequired,
 	dispatch: func.isRequired
 }
 

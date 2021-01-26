@@ -111,6 +111,7 @@ EditorOptions.propTypes = {
 	background: string,
 	bgColor: string,
 	overlay: string,
+	backgroundDisabled: bool.isRequired,
 	source: object,
 	centering: oneOfType([oneOf(['']), number]),
 	position: object,

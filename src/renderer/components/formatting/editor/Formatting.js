@@ -159,6 +159,7 @@ Formatting.propTypes = {
 	background: oneOf(['blue', 'grey', 'alpha', 'color']).isRequired,
 	bgColor: string.isRequired,
 	overlay: oneOf(['none', 'tv', 'laptop']),
+	backgroundDisabled: bool.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
