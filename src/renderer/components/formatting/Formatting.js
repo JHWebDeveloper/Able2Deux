@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import 'css/index/formatting.css'
 
@@ -12,7 +12,7 @@ import SaveButtons from './SaveButtons'
 import PreviewEditorContainer from './PreviewEditorContainer'
 import RenderQueue from './render-queue/RenderQueue'
 
-let prevIndex = 0
+// let prevIndex = 0
 
 const Formatting = () => {
 	const {
@@ -30,14 +30,15 @@ const Formatting = () => {
 	if (!length) return <Redirect to="/" />
 
 	const [ rendering, setRendering ] = useState(false)
+	const prevIndex = useRef(0)
 	
 	const selected = media.find(item => item.id === selectedId) || {}
 
 	useEffect(() => {
 		if (selected.id) {
-			prevIndex = media.findIndex(item => item.id === selectedId)
+			prevIndex.current = media.findIndex(item => item.id === selectedId)
 		} else {
-			dispatch(selectMedia(media[Math.min(prevIndex, length - 1)].id))
+			dispatch(selectMedia(media[Math.min(prevIndex.current, length - 1)].id))
 		}
 	}, [selected])
 
