@@ -13,7 +13,7 @@ import Controls from './Controls'
 
 const { interop } = window.ABLE2
 
-const Preview = ({ selected, editAll, dispatch }) => {
+const Preview = ({ selected, editAll, backgroundDisabled, dispatch }) => {
 	const { renderOutput, gridButtons, gridColor } = useContext(PrefsContext).preferences
 
 	const {
@@ -103,7 +103,7 @@ const Preview = ({ selected, editAll, dispatch }) => {
 					{previewStill ? (
 						<PreviewCanvas
 							previewStill={previewStill}
-							eyedropper={background === 'color'}
+							eyedropper={!backgroundDisabled && background === 'color'}
 							setEyedropToBgColor={setEyedropToBgColor}/>
 					) : <Spinner />}
 					<Grid
