@@ -116,7 +116,7 @@ const Formatting = memo(props => {
 					onChange={updateMediaStateDispatch}
 					buttons={formattingButtons}/>
 			</fieldset>
-			<fieldset disabled={arc === 'none' || arc === 'fill' && !props.hasAlpha && overlay === 'none'}>
+			<fieldset disabled={props.backgroundDisabled}>
 				<legend>Background:</legend>
 				<RadioSet
 					name="background"
@@ -155,7 +155,6 @@ BgColorPicker.propTypes = {
 Formatting.propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
-	hasAlpha: bool.isRequired,
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
 	background: oneOf(['blue', 'grey', 'alpha', 'color']).isRequired,
 	bgColor: string.isRequired,
