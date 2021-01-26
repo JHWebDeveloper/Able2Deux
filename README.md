@@ -10,7 +10,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ## [Unreleased][2.2.1] - TBD
 
 ### Changed
-- Render screen media titles can now be selected for copy and pasting
+- Render queue media titles can now be selected for copy and pasting
 
 ### Updated
 - Video service compatibility
