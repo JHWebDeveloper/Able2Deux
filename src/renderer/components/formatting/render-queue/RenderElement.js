@@ -27,7 +27,7 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispat
 				title={capitalize(render.status)}
 				style={{ color }}>lens</span>
 			<span>
-				<span>{exportFilename || filename}</span>
+				<input type="text" value={exportFilename || filename} readOnly />
 				<span></span>
 				<progress
 					ref={ref}
