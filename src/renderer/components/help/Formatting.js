@@ -184,8 +184,9 @@ const Formatting = () => (
 			</tbody>
 		</table>
 		<h5 id="background">Background</h5>
-		<p>Sets a background to appear behind the video should. Options are WFTV Blue and Grey Backgrounds, Transparent or Black.</p>
+		<p>Sets a background to appear behind the video should. Options are WFTV Blue and Grey Backgrounds, Transparent or Color.</p>
 		<p>Choosing Transparent for a video will add an alpha channel to the export and change the format to Apple ProRres .mov as the standard H.264 does not support an alpha channel.</p>
+		<p>You can select any color for the back ground by clicking on the color button. Color is set to black by default. While this option is selected, you may also click on any pixel in the preview image to set the background to its color. The cursor will be replaced with an eyedropper icon.</p>
 		<h5 id="box-overlay">Box Overlay</h5>
 		<p>Contains the video in a graphic box. Options are None or standard WFTV TV and Laptop graphics.</p>
 		<h4 id="source">Source</h4>
