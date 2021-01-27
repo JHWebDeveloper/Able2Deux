@@ -70,6 +70,7 @@ const TableOfContents = () => (
 					<li><a href="#scale" title="Go to Scale">Scale</a></li>
 					<li><a href="#crop" title="Go to Crop">Crop</a></li>
 					<li><a href="#rotation" title="Go to Rotation">Rotation</a></li>
+					<li><a href="#offset" title="Go to Offset">Offset</a></li>
 					<ul>
 						<li><a href="#rotate" title="Go to Rotate">Rotate</a></li>
 						<li><a href="#reflect" title="Go to Reflect">Reflect</a></li>
@@ -86,6 +87,9 @@ const TableOfContents = () => (
 			<li><a href="#rendering" title="Go to Rendering">Rendering</a></li>
 			<li><a href="#preferences" title="Go to Preferences">Preferences</a></li>
 			<ul>
+				<li><a href="#acquisition-settings" title="Go to Acquisition Settings">Acquisition Settings</a></li>
+				<li><a href="#formatting-settings" title="Go to Formatting Settings">Formatting Settings</a></li>
+				<li><a href="#warnings" title="Go to Warnings">Warnings</a></li>
 				<li><a href="#output-options" title="Go to Output Options">Output Options</a></li>
 				<ul>
 					<li><a href="#output-resolution" title="Go to Output Resolution">Output Resolution</a></li>
@@ -95,7 +99,6 @@ const TableOfContents = () => (
 					<li><a href="#concurrent-renders" title="Go to Concurrent Renders">Concurrent Renders</a></li>
 				</ul>
 				<li><a href="#scratch-disks" title="Go to Scratch Disks">Scratch Disks</a></li>
-				<li><a href="#warnings-and-defaults" title="Go to Warnings &amp; Defaults">Warnings &amp; Defaults</a></li>
 				<li><a href="#save-locations-prefs" title="Go to Save Locations">Save Locations</a></li>
 			</ul>
 			<li><a href="#updating" title="Go to Updating">Updating</a></li>
