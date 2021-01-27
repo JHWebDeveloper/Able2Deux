@@ -226,11 +226,13 @@ const Formatting = () => (
 		<p>Double-clicking within the area between each slider will auto center the crop values.</p>
 		<h4 id="rotation">Rotation</h4>
 		<p>Allows you to adjust the orientation of the video.</p>
-		<h5 id="rotate">Rotate</h5>
-		<p>Flips the video by increments of 90°. Default is 0° or none.</p>
 		<h5 id="reflect">Reflect</h5>
 		<p>Mirror the video along a horizontal or vertical axis or both.</p>
 		<p>Please note that setting Reflect to Horizontal + Vertical is the same as setting Rotate to 180°, thus if both of these settings are applied they will cancel each other out.</p>
+		<h5 id="rotate">Rotate</h5>
+		<p>Rotates the video by increments of 90°. Default is 0° or none.</p>
+		<h5 id="offset">Offset</h5>
+		<p>Offset the rotation angle by up to 45° in either direction. To be used in combination with Rotation options for angles greater than 45°.</p>
 		<h4 id="setting-options">Setting Options</h4>
 		<p>If more than one media item is present, you will see a small <i>more_vert</i> icon in the top right corner of each section (with the exception of the File section). Clicking this will reveal a menu with two options outlined below.</p>
 		<table>
