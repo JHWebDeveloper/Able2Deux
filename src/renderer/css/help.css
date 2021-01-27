@@ -8,6 +8,12 @@ h1, section > h2 { text-transform: uppercase; }
 
 h1 { font-size: 4.45rem; }
 
+address {
+	user-select: text;
+	display: inline;
+	font-weight: 500;
+}
+
 nav, section { margin-top: 16px; }
 
 nav > h2 { margin-bottom: 8px; }
