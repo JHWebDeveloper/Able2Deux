@@ -1,12 +1,7 @@
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle } from 'react'
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
 import { arrayOf, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import { clamp, throttle } from 'utilities'
-
-/* expose drag values outside of component since state value
-   will not update inside drag when drag is attached to window */
-const thumbPos = new Map()
-const mousePos = new Map()
 
 const getClickPosDefault = e => {
 	const { width, right } = e.target.getBoundingClientRect()
@@ -43,16 +38,18 @@ const SliderThumb = forwardRef(({
 	absoluteMin
 }, thumbRef) => {
 	absoluteMin = absoluteMin ?? min
-
+	
+	const thumbPos = useRef(0)
+	const mousePos = useRef(0)
 	const triggers = [min, max, width, setValue, thresholds]
 
 	const drag = useCallback((clickPos, track) => e => {
 		e.preventDefault()
 
 		const nextMousePos = (e.clientX - track.left - clickPos) / track.width * diff + absoluteMin
-		const prevMousePos = mousePos.get(sliderId) ?? nextMousePos
+		const prevMousePos = mousePos.current ?? nextMousePos
 
-		mousePos.set(sliderId, nextMousePos)
+		mousePos.current = nextMousePos
 
 		if (nextMousePos === prevMousePos) return false
 
@@ -60,16 +57,16 @@ const SliderThumb = forwardRef(({
 		let point = false
 
 		if (e.shiftKey && nextMousePos < prevMousePos) {
-			nextThumbPos = thumbPos.get(sliderId) - fineTuneStep
+			nextThumbPos = thumbPos.current - fineTuneStep
 		} else if (e.shiftKey && nextMousePos > prevMousePos) {
-			nextThumbPos = thumbPos.get(sliderId) + fineTuneStep
+			nextThumbPos = thumbPos.cuurent + fineTuneStep
 		} else if (thresholds.length && ((point = snapToPoint(thresholds, nextMousePos)) || point === 0)) {
 			nextThumbPos = point
 		} else {
 			nextThumbPos = (nextMousePos / step << 0) * step
 		}
 
-		if (nextThumbPos === thumbPos.get(sliderId)) return false
+		if (nextThumbPos === thumbPos.current) return false
 		
 		setValue(clamp(nextThumbPos, min, max))
 	}, triggers)
@@ -111,7 +108,7 @@ const SliderThumb = forwardRef(({
 	}, [value, min, max, width, setValue])
 
 	useEffect(() => {
-		thumbPos.set(sliderId, value)
+		thumbPos.current = value
 	}, [value])
 
 	return (
