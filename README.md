@@ -14,6 +14,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Updated
 - Video service compatibility
+- Help page
 
 ### Fixed
 - Bug enabling eyedropper tool while background option is disabled
