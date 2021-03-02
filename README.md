@@ -13,6 +13,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Video service compatibility
 - Ffmpeg+Ffprobe
 
+### Fixed
+- Bug while holding shift and moving slider
+
 ## [2.2.1] - 1.28.2021
 
 ### Changed
