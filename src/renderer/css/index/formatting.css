@@ -195,7 +195,10 @@ details .dropdown > span {
 
 details:focus-within { z-index: 999; }
 
-summary { padding: 9px; }
+summary {
+	list-style: none;
+	padding: 9px;
+}
 
 details[open] > summary { padding-bottom: 0; }
 
