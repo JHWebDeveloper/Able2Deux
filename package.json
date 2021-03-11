@@ -71,5 +71,5 @@
 		"webpack-merge": "^5.7.3",
 		"webpack-node-externals": "^2.5.2"
 	},
-	"browserslist": "last 2 electron versions"
+	"browserslist": "last 3 electron versions"
 }
