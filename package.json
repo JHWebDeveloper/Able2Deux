@@ -63,6 +63,7 @@
 		"postcss": "^8.2.4",
 		"postcss-loader": "^5.0.0",
 		"postcss-preset-env": "^6.7.0",
+		"postcss-selector-matches": "^4.0.0",
 		"regenerator-runtime": "^0.13.7",
 		"rimraf": "^3.0.2",
 		"webpack": "^5.19.0",
@@ -71,5 +72,5 @@
 		"webpack-merge": "^5.7.3",
 		"webpack-node-externals": "^2.5.2"
 	},
-	"browserslist": "last 3 electron versions"
+	"browserslist": "last 2 electron versions"
 }

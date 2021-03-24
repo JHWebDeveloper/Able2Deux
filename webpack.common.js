@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
+const postcssSelectorMatches = require('postcss-selector-matches')
 
 const rendererPath = path.resolve('src', 'renderer')
 
@@ -54,6 +55,7 @@ module.exports = {
 						options: {
 							postcssOptions: {
 								plugins: [
+									postcssSelectorMatches(),
 									postcssPresetEnv({ stage: 0 })
 								]
 							}
