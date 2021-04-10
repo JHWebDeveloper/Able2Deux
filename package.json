@@ -53,7 +53,7 @@
 		"copy-webpack-plugin": "^8.1.1",
 		"core-js": "^3.10.1",
 		"css-loader": "^5.0.1",
-		"css-minimizer-webpack-plugin": "^1.2.0",
+		"css-minimizer-webpack-plugin": "^2.0.0",
 		"electron": "^11.4.2",
 		"electron-builder": "^22.9.1",
 		"eslint": "^7.23.0",
