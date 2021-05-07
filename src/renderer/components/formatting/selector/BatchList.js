@@ -25,8 +25,8 @@ const applyToAllDetail = 'This will overwrite the settings of all other media it
 const removeMediaDetail = 'This cannot be undone. Proceed?'
 
 export const extractSettingsToCopy = settings => {
-	const { arc, background, overlay, source, centering, position, scale, crop, rotation } = settings
-	return { arc, background, overlay, source, centering, position, scale, crop, rotation }
+	const { audio, arc, background, overlay, source, centering, position, scale, crop, rotation } = settings
+	return { audio, arc, background, overlay, source, centering, position, scale, crop, rotation }
 }
 
 const scrollbarPadder = createScrollbarPadder()
