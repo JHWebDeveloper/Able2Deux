@@ -26,7 +26,7 @@
 		"axios": "^0.21.1",
 		"electron-log": "^4.3.3",
 		"electron-updater": "^4.3.5",
-		"electron-util": "^0.15.0",
+		"electron-util": "^0.16.0",
 		"ffmpeg-static-electron": "^2.0.1",
 		"ffprobe-static-electron": "^2.0.0",
 		"fluent-ffmpeg": "^2.1.2",
