@@ -15,7 +15,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Ffmpeg+Ffprobe
 
 ### Fixed
-- Bug where "Copy All Settings" and "Apply Settings to All" options wer not copying audio settings.
+- Bug where "Copy All Settings" and "Apply Settings to All" options were not copying audio settings.
 
 ## [2.2.2] - 3.2.2021
 
