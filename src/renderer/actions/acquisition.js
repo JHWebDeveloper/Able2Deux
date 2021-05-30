@@ -91,7 +91,9 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
-		return toastr.error(`Error finding video at ${url}. The url may not be a supported service.`, false, toastrOpts)
+		const errMsg = `Error finding video at ${url.length > 100 ? `${url.slice(0,97)}..` : url}. The url may not be a supported service.`
+
+		return toastr.error(errMsg, false, toastrOpts)
 	}
 
 	const downloadParams = {
