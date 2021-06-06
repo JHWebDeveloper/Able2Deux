@@ -8,7 +8,12 @@ This repo is intended for portfolio viewing purposes only. For official releases
 https://github.com/JHWebDeveloper/Able2-public-resources
 
 
-## [Unreleased][2.2.3] - TBD
+## [Unreleased][2.2.4] - TBD
+
+### Updated
+- Video service compatibility
+
+## [2.2.3] - 6.4.2021
 
 ### Updated
 - Video service compatibility
