@@ -18,29 +18,27 @@ const clearFiles = async (dir, id) => {
 	return Promise.all(files.map(file => fsp.unlink(path.join(dir, file))))
 }
 
-const clearFileByAge = async (dir, file, age, until) => {
-	const filePath = path.join(dir, file)
-	const { ctime } = await fsp.lstat(filePath)
-
-	if (until - ctime > age) {
-		return fsp.unlink(filePath)
-	} else {
-		return Promise.resolve()
-	}
-}
-
 const clearFilesByAge = async (dir, age) => {
 	const files = await fsp.readdir(dir)
 	const now = Date.now()
 
-	return Promise.all(files.map(file => clearFileByAge(dir, file, age, now)))
+	return Promise.all(files.map(file => (async () => {
+		const filePath = path.join(dir, file)
+		const { ctime } = await fsp.lstat(filePath)
+	
+		if (now - ctime > age) {
+			return fsp.unlink(filePath)
+		} else {
+			return Promise.resolve()
+		}
+	})()))
 }
 
 export const scratchDisk = {
 	imports: {
 		path: '',
 		clear: id => clearFiles(scratchDisk.imports.path, id),
-		clearByAge: () => clearFilesByAge(scratchDisk.imports.path, 1.44e6)
+		clearByAge: () => clearFilesByAge(scratchDisk.imports.path, 60000)//1.44e6
 	},
 	exports: {
 		path: '',
