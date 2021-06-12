@@ -38,7 +38,7 @@ export const scratchDisk = {
 	imports: {
 		path: '',
 		clear: id => clearFiles(scratchDisk.imports.path, id),
-		clearByAge: () => clearFilesByAge(scratchDisk.imports.path, 60000)//1.44e6
+		clearByAge: () => clearFilesByAge(scratchDisk.imports.path, 1.44e6)
 	},
 	exports: {
 		path: '',
