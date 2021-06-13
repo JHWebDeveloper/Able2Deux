@@ -47,10 +47,10 @@ export const secondsToTC = sec => [
 ].map(n => zeroize(n, 2)).join(':')
 
 export const framesToTC = (frms, fps) => {
-	const frmsPrec = frms * 10000
-	const fpsPrec = fps * 10000
+	const frmsPrec = frms * 1e4
+	const fpsPrec = fps * 1e4
 	const sec = Math.floor(frmsPrec / fpsPrec)
-	const rmd = Math.floor(frmsPrec % fpsPrec / 10000)
+	const rmd = Math.floor(frmsPrec % fpsPrec / 1e4)
 
 	return `${secondsToTC(sec)}:${zeroizeAuto(rmd, fps)}`
 }
