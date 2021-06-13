@@ -38,7 +38,7 @@ export const scratchDisk = {
 	imports: {
 		path: '',
 		clear: id => clearFiles(scratchDisk.imports.path, id),
-		clearByAge: () => clearFilesByAge(scratchDisk.imports.path, 1.44e6)
+		clearByAge: () => clearFilesByAge(scratchDisk.imports.path, 144e4)
 	},
 	exports: {
 		path: '',
@@ -57,7 +57,7 @@ export const scratchDisk = {
 
 export const initScratchDisk = async () => {
 	await updateScratchDisk()
-	await scratchDisk.clearAll()	
+	await scratchDisk.clearAll() 
 }
 
 export const updateScratchDisk = async () => {
