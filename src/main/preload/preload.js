@@ -28,7 +28,14 @@ interop.quit = () => {
 	ipcRenderer.send('quit')
 }
 
-interop.revealInTempFolder = filePath => {
+interop.revealInTempFolder = async filePath => {
+	await ipcRenderer.invoke('showMessageBox', {
+		type: 'warning',
+		buttons: ['OK'],
+		message: 'Careful!',
+		detail: 'You are about to view Able\'s temporary files. Do not remove, rename or manipulate in anyway the files within this directory. Doing so may cause critical errors in Able2. If you are attempting to recover a raw download or screen recording, copy the media file from this directory to an external location.'
+	})
+
 	shell.showItemInFolder(filePath)
 }
 
