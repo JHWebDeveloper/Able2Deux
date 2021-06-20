@@ -10,9 +10,12 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ## [Unreleased][2.2.4] - TBD
 
+### Added
+- New menu command File > Open Import Cache.
+
 ### Changed
 - When Able2 opens it now clears it's cache of files older than 24hrs. Previously it would clear everything. This gives the user a window to recover raw downloads/recordings should Able2 crash.
-- Warning dialog now displays when clicking "Reveal in Cache"
+- Warning dialog now displays when clicking "Reveal in Cache" from media selector or File > Open Import Cache from application menu.
 
 ### Updated
 - Video service compatibility
