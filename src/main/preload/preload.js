@@ -28,16 +28,33 @@ interop.quit = () => {
 	ipcRenderer.send('quit')
 }
 
-interop.revealInTempFolder = async filePath => {
-	await ipcRenderer.invoke('showMessageBox', {
-		type: 'warning',
-		buttons: ['OK'],
-		message: 'Careful!',
-		detail: 'You are about to view Able\'s temporary files. Do not remove, rename or manipulate in anyway the files within this directory. Doing so may cause critical errors in Able2. If you are attempting to recover a raw download or screen recording, copy the media file from this directory to an external location.'
-	})
+const scratchDiskAccessWarn = () => ipcRenderer.invoke('showMessageBox', {
+	type: 'warning',
+	buttons: ['OK'],
+	message: 'Careful!',
+	detail: 'You are about to view Able\'s temporary files. Do not remove, rename or manipulate in anyway the files within this directory. Doing so may cause critical errors in Able2. If you are attempting to recover a raw download or screen recording, copy the media file from this directory to an external location.'
+})
 
+interop.openScratchDisk = async (scratchDisk, subfolder) => {
+	await scratchDiskAccessWarn()
+	shell.openPath(path.join(scratchDisk, subfolder))
+}
+
+interop.revealInTempFolder = async filePath => {
+	await scratchDiskAccessWarn()
 	shell.showItemInFolder(filePath)
 }
+
+interop.addOpenImportCacheListener = scratchDisk => {
+	ipcRenderer.on('openImportCache', () => {
+		interop.openScratchDisk(scratchDisk, 'able2_imports')
+	})
+}
+
+interop.removeOpenImportCacheListener = () => {
+	ipcRenderer.removeAllListeners('openImportCache')
+}
+
 
 
 // --- DIALOGS --------
