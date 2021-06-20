@@ -272,6 +272,13 @@ const mainMenuTemplate = [
 	{
 		label: 'File',
 		submenu: [
+			{
+				label: 'Open Import Cache',
+				click() {
+					mainWin.webContents.send('openImportCache')
+				}
+			},
+			{ type: 'separator' },
 			mac ? { role: 'close' } : { role: 'quit' }
 		]
 	},
