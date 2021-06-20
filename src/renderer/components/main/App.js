@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { HashRouter, Switch, Route } from 'react-router-dom'
 import 'css/index/index.css'
 
@@ -11,6 +11,8 @@ import Acquisition from '../acquisition/Acquisition'
 import Formatting from '../formatting/Formatting'
 import SourceSuggestionList from './SourceSuggestionList'
 
+const { interop } = window.ABLE2
+
 const extractDefaults = (() => {
 	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot']
 
@@ -19,6 +21,12 @@ const extractDefaults = (() => {
 
 const Main = () => {
 	const { preferences } = useContext(PrefsContext)
+
+	useEffect(() => {
+		interop.addOpenImportCacheListener(preferences.scratchDisk.imports)
+
+		return interop.removeOpenImportCacheListener
+	})
 
 	return (
 		<main>
