@@ -442,7 +442,7 @@ const copyPreviewToImportsIPC = async (evt, data) => {
 		evt.reply('previewCopied', await copyPreviewToImports(data))
 	} catch (err) {
 		console.error(err)
-		evt.reply('previewCopiedFailed', err)
+		evt.reply('previewCopiedFailed', new Error('An error occurred while attempting to load screengrab.'))
 	}
 }
 
@@ -461,10 +461,6 @@ const requestRenderIPC = async (evt, data) => {
 
 		evt.reply(`renderComplete_${data.id}`)
 	} catch (err) {
-		if (err.toString() !== 'Error: ffmpeg was killed with signal SIGKILL') {
-			console.error(err)
-		}
-
 		evt.reply(`renderFailed_${data.id}`, err)
 	}
 }

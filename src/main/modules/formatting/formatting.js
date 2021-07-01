@@ -1,10 +1,15 @@
 import path from 'path'
 import fs, { promises as fsp } from 'fs'
+import log from 'electron-log'
 
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 import { assetsPath, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
+
+log.catchErrors({ showDialog: false })
+
+if (process.env.NODE_ENV !== 'development') console.error = log.error
 
 const renderJobs = new Map()
 
@@ -179,8 +184,10 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 					return arr
 				}, [])
 
-				if (failed.length) {
-					throw new Error(`Unable to save ${saveName} to the following directories: ${failed.join(', ')}`)
+				if (failed.length === saveLocations.length) {
+					throw new Error(`An error occurred when attempting to save ${saveName} to each selected directory.`)
+				} else if (failed.length) {
+					throw new Error(`PARTIALERR An error occurred when attempting to save ${saveName} to the following directories: ${failed.join(', ')}`)
 				}
 
 				win.webContents.send(`renderComplete_${id}`)
@@ -194,11 +201,17 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		.on('error', async err => {
 			try {
 				await cancelRender(id)
-			} catch (err) {
-				console.error(err)
+			} catch (cancelErr) {
+				console.error(cancelErr)
 			} finally {
 				removeJob(id)
-				reject(err)
+
+				if (err.toString() === 'Error: ffmpeg was killed with signal SIGKILL') {
+					reject(new Error('CANCELLED'))
+				} else {
+					console.error(err)
+					reject(new Error(`An occurred while rendering ${saveName}`))
+				}
 			}
 		})
 
@@ -227,7 +240,14 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	
 		if (sourceData) {
 			const sourcePng = path.join(scratchDisk.imports.path, `${id}.src-overlay.png`)
-			fs.writeFileSync(sourcePng, sourceData, { encoding: 'base64' })		
+
+			try {
+				fs.writeFileSync(sourcePng, sourceData, { encoding: 'base64' })		
+			} catch (err) {
+				console.error(err)
+				reject(new Error('An error occurred when attempting to create source overlay.'))
+			}
+
 			renderCmd.input(sourcePng)
 		}
 

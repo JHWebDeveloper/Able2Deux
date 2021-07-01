@@ -4,17 +4,18 @@ import toastr from 'toastr'
 import * as ACTION from './types'
 import * as STATUS from 'status'
 import { updateMediaState, addMedia } from '.'
-import { createMediaData } from 'utilities'
 
 import {
+	createMediaData,
 	createPromiseQueue,
 	buildSource,
 	getIntegerLength,
 	zeroize,
 	cleanFilename,
 	replaceTokens,
-	toastrOpts
-} from '../utilities'
+	toastrOpts,
+	errorToString
+} from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -110,7 +111,7 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 			hasAlpha
 		})
 	} catch (err) {
-		return toastr.error('Unable to extract still', false, toastrOpts)
+		return toastr.error(errorToString(err), false, toastrOpts)
 	}
 
 	const inheritance = e.shiftKey ? {
@@ -265,24 +266,16 @@ const renderItem = (params, dispatch) => {
 	
 			dispatch(updateRenderStatus(id, STATUS.COMPLETE))
 		} catch (err) {
-			const errStr = err.toString()
+			const errStr = errorToString(err)
 
-			if (errStr === 'Error: ffmpeg was killed with signal SIGKILL') {
+			if (errStr === 'CANCELLED') {
 				dispatch(updateRenderStatus(id, STATUS.CANCELLED))
+			} else if (/^PARTIALERR /.test(errStr)) {
+				dispatch(updateRenderStatus(id, STATUS.COMPLETE))
+				toastr.error(errStr.replace(/^PARTIALERR /, ''), false, toastrOpts)
 			} else {
 				dispatch(updateRenderStatus(id, STATUS.FAILED))
-
-				let errMsg = ''
-
-				if (/^Error: Unable to save /.test(errStr)) {
-					errMsg = errStr
-				} else if (/^RangeError: /.test(errStr)) {
-					errMsg = `Failed to render ${filename}. ${errStr.replace(/^RangeError: /, '')}`
-				} else {
-					errMsg = `Failed to render ${filename}`
-				}
-	
-				toastr.error(errMsg, false, toastrOpts)
+				toastr.error(errStr, false, toastrOpts)
 			}
 		}
 	}
