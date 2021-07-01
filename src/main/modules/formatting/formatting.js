@@ -170,9 +170,18 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		.on('end', async () => {
 			try {
 				// eslint-disable-next-line no-extra-parens
-				await Promise.all(saveLocations.map(({ directory }) => (
+				const res = await Promise.allSettled(saveLocations.map(({ directory }) => (
 					copyFileNoOverwrite(exportPath, path.join(directory, saveName))
 				)))
+
+				const failed = res.reduce((arr, val, i) => {
+					if (val.status === 'rejected') arr.push(saveLocations[i].directory)
+					return arr
+				}, [])
+
+				if (failed.length) {
+					throw new Error(`Unable to save ${saveName} to the following directories: ${failed.join(', ')}`)
+				}
 
 				win.webContents.send(`renderComplete_${id}`)
 				resolve()
