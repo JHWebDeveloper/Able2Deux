@@ -63,10 +63,13 @@ const createURL = (view = 'index') => url.format(dev ? {
 const checkForUpdate = () => {
 	if (!app.isPackaged || mac) return Promise.resolve(false)
 
-	return new Promise((resolve, reject) => {
+	return new Promise(resolve => {
 		autoUpdater.on('update-available', ({ version }) => resolve(version))
 		autoUpdater.on('update-not-available', () => resolve(false))
-		autoUpdater.on('error', err => reject(err))
+		autoUpdater.on('error', err => {
+			console.error(err)
+			resolve(false)
+	})
 		autoUpdater.checkForUpdatesAndNotify()
 	})
 }
@@ -112,7 +115,8 @@ const createUpdateWindow = version => {
 		autoUpdater.quitAndInstall()
 	})
 
-	autoUpdater.on('error', () => {
+	autoUpdater.on('error', err => {
+		console.error(err)
 		updateWin.webContents.send('updateError')
 	})
 
@@ -141,18 +145,16 @@ const createMainWindow = () => {
 }
 
 const startApp = async () => {
-	let version = ''
-
 	createSplashWindow()
 
 	try {
 		await initPreferences()
 		await initScratchDisk()
-
-		version = await checkForUpdate()
 	} catch (err) {
 		console.error(err)
 	}
+
+	let version = await checkForUpdate()
 
 	if (version) {
 		createUpdateWindow(version)
@@ -480,20 +482,25 @@ const requestPrefsIPC = async evt => {
 		evt.reply('prefsRecieved', await loadPrefs())
 	} catch (err) {
 		console.error(err)
-		evt.reply('prefsErr', err)
+		evt.reply('prefsErr', new Error('An error occurred while attempting to load preferences.'))
 	}
 }
 
 const savePrefsIPC = async (evt, prefs) => {
 	try {
 		await savePrefs(prefs)
-		await updateScratchDisk()
+
+		try {
+			await updateScratchDisk()
+		} catch (err) {
+			console.error(err)
+		}
 
 		evt.reply('prefsSaved')
 		mainWin.webContents.send('syncPrefs', prefs)
 	} catch (err) {
 		console.error(err)
-		evt.reply('savePrefsErr', err)
+		evt.reply('savePrefsErr', new Error('An error occurred while attempting to save preferences.'))
 	}
 }
 
@@ -503,11 +510,15 @@ const retryUpdate = async () => {
 }
 
 const checkForUpdateBackup = async () => {
-	const version = await checkForUpdate()
-
-	if (version) {
-		createUpdateWindow()
-		mainWin.close()
+	try {
+		const version = await checkForUpdate()
+	
+		if (version) {
+			createUpdateWindow()
+			mainWin.close()
+		}
+	} catch (err) {
+		console.error(err)
 	}
 }
 

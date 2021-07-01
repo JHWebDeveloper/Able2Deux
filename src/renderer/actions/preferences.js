@@ -2,7 +2,7 @@ import toastr from 'toastr'
 import { v1 as uuid } from 'uuid'
 
 import * as ACTION from './types'
-import { toastrOpts } from 'utilities'
+import { errorToString, toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -13,7 +13,7 @@ export const loadPrefs = () => async dispatch => {
 			payload: await interop.requestPrefs()
 		})
 	} catch (err) {
-		toastr.error('Unable to load preferences', false, toastrOpts)
+		toastr.error(errorToString(err), false, toastrOpts)
 	}
 }
 

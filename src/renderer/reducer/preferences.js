@@ -2,7 +2,7 @@ import toastr from 'toastr'
 
 import * as ACTION from 'actions/types'
 import * as shared from './shared'
-import { toastrOpts } from 'utilities'
+import { errorToString, toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -87,7 +87,7 @@ const savePrefs = async (prefs, callback) => {
 		await interop.savePrefs(prefs)
 		callback?.()
 	} catch (err) {
-		toastr.error('Preferences failed to save', false, toastrOpts)
+		toastr.error(errorToString(err), false, toastrOpts)
 	}
 }
 
