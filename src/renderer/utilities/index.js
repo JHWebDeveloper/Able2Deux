@@ -30,6 +30,8 @@ export const debounce = (callback, wait) => {
 	}
 }
 
+export const errorToString = err => err.toString().replace(/^(Range)?Error: /, '')
+
 export const throttle = (callback, duration) => {
 	let shouldWait = false
 	
