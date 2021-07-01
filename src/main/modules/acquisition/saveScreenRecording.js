@@ -4,7 +4,7 @@ import { Decoder, Reader, tools } from 'ts-ebml'
 
 import { scratchDisk } from '../scratchDisk'
 
-const fixDuration = async buffer => {
+const fixDuration = buffer => {
 	const decoder = new Decoder()
 	const reader = new Reader()
 
@@ -30,7 +30,7 @@ const fixDuration = async buffer => {
 }
 
 export const saveScreenRecording = async ({ id, buffer, screenshot }) => {
-	const fixedBuffer = screenshot ? buffer : await fixDuration(buffer)
+	const fixedBuffer = screenshot ? buffer : fixDuration(buffer)
 	const filePath = path.join(scratchDisk.imports.path, `${id}.${screenshot ? 'png' : 'webm'}`)
 	const encoding = screenshot ? 'base64' : 'utf8'
 
