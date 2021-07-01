@@ -1,8 +1,13 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
+import log from 'electron-log'
 
 import { ytdl } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
+
+log.catchErrors({ showDialog: false })
+
+if (process.env.NODE_ENV !== 'development') console.error = log.error
 
 const downloads = new Map()
 
@@ -92,6 +97,8 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 
 /* --- GET TITLE --- */
 
+const createError = url => new Error(`Error finding video at ${url.length > 100 ? `${url.slice(0,97)}..` : url}. The url may not be a supported service.`)
+
 export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolve, reject) => {
 	const infoCmd = ytdl([
 		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
@@ -106,7 +113,8 @@ export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolv
 	})
 
 	infoCmd.stderr.on('data', err => {
-		reject(err.toString())
+		console.error(err)
+		reject(createError(url))
 	})
 
 	infoCmd.on('close', code => {
@@ -117,7 +125,8 @@ export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolv
 		try {
 			info = JSON.parse(infoString)
 		} catch (err) {
-			reject(err)
+			console.error(err)
+			reject(createError(url))
 		}
 
 		resolve({
@@ -127,7 +136,8 @@ export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolv
 	})
 
 	infoCmd.on('error', err => {
-		reject(err)
+		console.error(err)
+		reject(createError(url))
 	})
 
 	downloads.set(id, infoCmd)

@@ -3,7 +3,7 @@ import toastr from 'toastr'
 import * as ACTION from './types'
 import * as STATUS from 'status'
 import { updateMediaState } from '.'
-import { createMediaData, replaceTokens, toastrOpts } from 'utilities'
+import { createMediaData, errorToString, replaceTokens, toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -91,9 +91,7 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
-		const errMsg = `Error finding video at ${url.length > 100 ? `${url.slice(0,97)}..` : url}. The url may not be a supported service.`
-
-		return toastr.error(errMsg, false, toastrOpts)
+		return toastr.error(errorToString(err), false, toastrOpts)
 	}
 
 	const downloadParams = {

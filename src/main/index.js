@@ -354,7 +354,6 @@ const getURLInfoIPC = async (evt, data) => {
 	try {
 		evt.reply(`URLInfoRecieved_${id}`, await getURLInfo(data))
 	} catch (err) {
-		console.error(err)
 		evt.reply(`URLInfoErr_${id}`, err)
 	}
 }
