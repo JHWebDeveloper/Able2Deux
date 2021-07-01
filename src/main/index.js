@@ -367,7 +367,6 @@ const requestDownloadIPC = async (evt, data) => {
 
 		evt.reply(`downloadComplete_${id}`, mediaData)
 	} catch (err) {
-		console.error(err)
 		evt.reply(`downloadErr_${id}`, err)
 	}
 }

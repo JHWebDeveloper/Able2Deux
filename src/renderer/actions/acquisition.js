@@ -119,7 +119,7 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
-		toastr.error(`Error downloading from ${url}`, false, toastrOpts)
+		toastr.error(err, false, toastrOpts)
 	}
 }
 
