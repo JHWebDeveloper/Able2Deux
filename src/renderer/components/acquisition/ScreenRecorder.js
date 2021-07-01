@@ -53,7 +53,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 		})
 	}, [frameRate, timer, timerEnabled])
 
-	const captureScreenshot = useCallback(async streamId => {
+	const captureScreenshot = useCallback(streamId => {
 		interop.captureScreenshot({
 			streamId,
 			frameRate,
