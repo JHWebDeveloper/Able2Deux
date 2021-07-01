@@ -14,29 +14,33 @@ const prod = process.env.NODE_ENV === 'production'
 const mac = process.platform === 'darwin'
 
 export const getRecordSources = async () => {
-	const sources = await desktopCapturer.getSources({
-		types: ['screen', 'window'],
-		thumbnailSize: {
-			width: 560,
-			height: 288
+	try {
+		const sources = await desktopCapturer.getSources({
+			types: ['screen', 'window'],
+			thumbnailSize: {
+				width: 560,
+				height: 288
+			}
+		})
+	
+		if (prod && mac && await ipcRenderer.invoke('screenAccess') !== 'granted') {
+			return []
 		}
-	})
-
-	if (prod && mac && await ipcRenderer.invoke('screenAccess') !== 'granted') {
-		return []
+	
+		return sources
+			.filter(({ name }) => name !== 'Able2')
+			.map(src => ({
+				...src,
+				thumbnail: src.thumbnail.toDataURL()
+			}))
+			.reduce((arr, src) => {
+				arr[/^screen/.test(src.id) ? 0 : 1].push(src)
+				return arr
+			}, [[], []])
+			.flat()
+	} catch {
+		throw new Error('An error occurred while attempting to load recordable sources!')
 	}
-
-	return sources
-		.filter(({ name }) => name !== 'Able2')
-		.map(src => ({
-			...src,
-			thumbnail: src.thumbnail.toDataURL()
-		}))
-		.reduce((arr, src) => {
-			arr[/^screen/.test(src.id) ? 0 : 1].push(src)
-			return arr
-		}, [[], []])
-		.flat()
 }
 
 export const findSoundflower = async () => {
@@ -154,20 +158,24 @@ const getArrayBuffer = chunks => new Promise((resolve, reject) => {
 	fileReader.readAsArrayBuffer(blob)
 })
 
-export const startRecording = async ({ streamId, frameRate, timer, setRecordIndicator, onStart, onComplete, onSaveError }) => {
-	const stream = await getStream(streamId, frameRate)
-	const chunks = await recordStream(stream, timer, setRecordIndicator)
-	const arrBuf = await getArrayBuffer(chunks)
-	const buffer = Buffer.from(arrBuf)
-	const recordId = uuid()
-
-	onStart(recordId)
-
+export const startRecording = async ({ streamId, frameRate, timer, setRecordIndicator, onStart, onComplete, onError }) => {
 	try {
-		const mediaData = await saveScreenRecording(recordId, buffer, frameRate)
-		onComplete(recordId, mediaData)
-	} catch (err) {
-		onSaveError(recordId)
+		const stream = await getStream(streamId, frameRate)
+		const chunks = await recordStream(stream, timer, setRecordIndicator)
+		const arrBuf = await getArrayBuffer(chunks)
+		const buffer = Buffer.from(arrBuf)
+		const recordId = uuid()
+	
+		onStart(recordId)
+	
+		try {
+			const mediaData = await saveScreenRecording(recordId, buffer, frameRate)
+			onComplete(recordId, mediaData)
+		} catch (err) {
+			onError(err, recordId)
+		}
+	} catch {
+		onError(new Error('An error occurred during the screen record!'))
 	}
 }
 
@@ -199,7 +207,7 @@ export const captureScreenshot = ({ streamId, frameRate, onCapture, onError }) =
 			const mediaData = await saveScreenRecording(recordId, buffer, frameRate, true)
 			onCapture(recordId, mediaData)
 		} catch (err) {
-			onError(recordId)
+			onError(err, recordId)
 		} finally {
 			video.remove()
 			ipcRenderer.send('bringToFront')
@@ -209,7 +217,11 @@ export const captureScreenshot = ({ streamId, frameRate, onCapture, onError }) =
 	ipcRenderer.send('hide')
 
 	setTimeout(async () => {
-		video.srcObject = await getStream(streamId, frameRate, true)
+		try {
+			video.srcObject = await getStream(streamId, frameRate, true)
+		} catch {
+			onError(new Error('An error occurred while capturing the screenshot!'))
+		}
 	
 		document.body.appendChild(video)
 	}, 360)

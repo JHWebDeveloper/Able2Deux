@@ -405,8 +405,9 @@ const saveScreenRecordingIPC = async (evt, data) => {
 		
 		evt.reply(`screenRecordingSaved_${id}`, mediaData)
 	} catch (err) {
+		const errMsg = new Error(`An error occurred while attempting to save screen${screenshot ? 'shot' : ' recording'}.`)
 		console.error(err)
-		evt.reply(`saveScreenRecordingErr_${id}`, err)
+		evt.reply(`saveScreenRecordingErr_${id}`, errMsg)
 	}
 }
 

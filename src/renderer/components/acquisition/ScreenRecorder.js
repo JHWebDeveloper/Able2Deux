@@ -10,7 +10,7 @@ import {
 	toggleCheckbox
 } from 'actions'
 
-import { toastrOpts } from 'utilities'
+import { errorToString, toastrOpts } from 'utilities'
 
 import RecordSourceSelector from './RecordSourceSelector'
 import ScreenRecorderTimer from './ScreenRecorderTimer'
@@ -34,45 +34,39 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 	}, [recording, screenshot])
 
 	const startRecording = useCallback(streamId => {
-		try {
-			interop.startRecording({
-				streamId,
-				frameRate,
-				timer: timerEnabled && timer,
-				setRecordIndicator: setRecording,
-				onStart: recordId => {
-					dispatch(loadRecording(recordId))
-				},
-				onComplete: (recordId, mediaData) => {
-					dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
-				},
-				onSaveError: recordId => {
-					dispatch(updateMediaStatus(recordId, STATUS.FAILED))
-					toastr.error('Error saving screen record', false, toastrOpts)
-				}
-			})
-		} catch (err) {
-			toastr.error('An error occurred during the screen record!', false, toastrOpts)
-		}
+		interop.startRecording({
+			streamId,
+			frameRate,
+			timer: timerEnabled && timer,
+			setRecordIndicator: setRecording,
+			onStart(recordId) {
+				dispatch(loadRecording(recordId))
+			},
+			onComplete(recordId, mediaData) {
+				dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
+			},
+			onError(err, recordId) {
+				if (recordId) dispatch(updateMediaStatus(recordId, STATUS.FAILED))
+
+				toastr.error(errorToString(err), false, toastrOpts)
+			}
+		})
 	}, [frameRate, timer, timerEnabled])
 
 	const captureScreenshot = useCallback(async streamId => {
-		try {
-			interop.captureScreenshot({
-				streamId,
-				frameRate,
-				onCapture: (recordId, mediaData) => {
-					dispatch(loadRecording(recordId, true))
-					dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
-				},
-				onError: recordId => {
-					dispatch(updateMediaStatus(recordId, STATUS.FAILED))
-					toastr.error('Error saving screenshot', false, toastrOpts)
-				}
-			})
-		} catch (err) {
-			toastr.error('An error occurred while capturing the screenshot!', false, toastrOpts)
-		}
+		interop.captureScreenshot({
+			streamId,
+			frameRate,
+			onCapture(recordId, mediaData) {
+				dispatch(loadRecording(recordId, true))
+				dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
+			},
+			onError(err, recordId) {
+				if (recordId) dispatch(updateMediaStatus(recordId, STATUS.FAILED))
+
+				toastr.error(errorToString(err), false, toastrOpts)
+			}
+		})
 	}, [frameRate])
 
 	const captureScreen = useMemo(() => (
@@ -85,7 +79,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 		try {
 			recordSourceList = await interop.getRecordSources()
 		} catch (err) {
-			return toastr.error('The screen recorder will not work.', 'Unable to load record sources!', toastrOpts)
+			return toastr.error(errorToString(err), toastrOpts)
 		}
 
 		if (!recordSourceList.length) return false
