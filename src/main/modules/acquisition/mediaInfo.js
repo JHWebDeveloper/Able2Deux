@@ -1,17 +1,23 @@
 import path from 'path'
 import getRGBAPalette from 'get-rgba-palette'
 import getPixels from 'get-pixels'
+import log from 'electron-log'
 
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 import { supportedImageCodecs, base64EncodeOrPlaceholder } from '../utilities'
+
+log.catchErrors({ showDialog: false })
+
+if (process.env.NODE_ENV !== 'development') console.error = log.error
 
 const createScreenshot = (id, tempFilePath) => new Promise(resolve => {
 	const screenshot = `${id}.thumbnail.png`
 
 	ffmpeg(tempFilePath).on('end', () => {
 		resolve(path.join(scratchDisk.imports.path, screenshot))
-	}).on('error', () => {
+	}).on('error', err => {
+		console.error(err)
 		resolve(false) // ignore error for thumbnails
 	}).screenshots({
 		timemarks: ['50%'],
@@ -31,7 +37,10 @@ const createPNGCopy = (id, tempFilePath, mediaType) => new Promise(resolve => {
 		.outputOption(opt)
 		.output(png)
 		.size('384x?')
-		.on('error', () => resolve(false))
+		.on('error', err => {
+			console.error(err)
+			resolve(false)
+		})
 		.on('end', () => resolve(png))
 		.run()
 })
@@ -54,10 +63,13 @@ const getMediaKind = (codec, ext) => {
 	}
 }
 
+const createFileError = filepath => new Error(`${path.basename(filepath)} is not a supported file type`)
+
 const getMetadata = file => new Promise((resolve, reject) => {
 	ffmpeg.ffprobe(file, (err, metadata) => {
 		if (err) {
-			reject(err)
+			console.error(err)
+			reject(createFileError(file))
 		} else {
 			resolve(metadata)
 		}
@@ -86,7 +98,10 @@ const detectAlphaChannel = (file, mediaType, id) => new Promise(resolve => {
 				resolve(true)
 			}
 		})
-		.on('error', () => resolve(false))
+		.on('error', err => {
+			console.error(err)
+			resolve(false)
+		})
 		.videoFilter('alphaextract,format=yuv420p')
 		.output(isImage ? path.join(scratchDisk.imports.path, `${id}.alpha.jpg`) : 'out.null')
 		.outputOption(isImage ? [] : ['-f null'])
@@ -96,7 +111,8 @@ const detectAlphaChannel = (file, mediaType, id) => new Promise(resolve => {
 const getSupportedCodecList = () => new Promise((resolve, reject) => {
 	ffmpeg.getAvailableCodecs((err, codecs) => {
 		if (err) {
-			reject(err)
+			console.error(err)
+			reject(new Error('Unable to retrieve available codecs.'))
 		} else {
 			resolve(codecs)
 		}
@@ -104,13 +120,20 @@ const getSupportedCodecList = () => new Promise((resolve, reject) => {
 })
 
 export const checkFileType = async (file, preGeneratedMetadata) => {
-	const [ metadata, codecs ] = await Promise.all([
-		preGeneratedMetadata || getMetadata(file),
-		getSupportedCodecList()
-	])
+	let metadata = {}
+	let codecs = {}
+
+	try {
+		[ metadata, codecs ] = await Promise.all([
+			preGeneratedMetadata || getMetadata(file),
+			getSupportedCodecList()
+		])
+	} catch (err) {
+		throw err
+	}
 
 	if (!metadata.streams || metadata.streams.length === 0) {
-		throw new Error('Unsupported file type')
+		throw createFileError(file)
 	}
 
 	const videoStream = metadata.streams.find(stream => stream.codec_type === 'video')
@@ -123,7 +146,7 @@ export const checkFileType = async (file, preGeneratedMetadata) => {
 	} else if (videoSupport && (audioSupport || !audioStream)) { // video+audio or video only
 		return getMediaKind(videoStream.codec_name, path.extname(file))
 	} else {
-		throw new Error('Unsupported file type')
+		throw createFileError(file)
 	}
 }
 

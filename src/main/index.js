@@ -379,7 +379,6 @@ const checkFileTypeIPC = async (evt, data) => {
 	try {
 		evt.reply(`fileTypeFound_${data.id}`, await checkFileType(data.file))
 	} catch (err) {
-		console.error(err)
 		evt.reply(`fileTypeErr_${data.id}`, err)
 	}
 }
@@ -393,7 +392,6 @@ const requestUploadIPC = async (evt, data) => {
 
 		evt.reply(`uploadComplete_${id}`, mediaData)
 	} catch (err) {
-		console.error(err)
 		evt.reply(`uploadErr_${id}`, err)
 	}
 }

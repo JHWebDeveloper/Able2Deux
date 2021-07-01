@@ -119,7 +119,7 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
-		toastr.error(err, false, toastrOpts)
+		toastr.error(errorToString(err), false, toastrOpts)
 	}
 }
 
@@ -131,7 +131,7 @@ export const upload = ({ name, path }) => async dispatch => {
 	try {
 		mediaType = await interop.checkFileType(path)
 	} catch (err) {
-		return toastr.error(`${name} is not a supported file type`, false, toastrOpts)
+		return toastr.error(errorToString(err), false, toastrOpts)
 	}
 
 	const mediaData = createMediaData({
@@ -155,7 +155,7 @@ export const upload = ({ name, path }) => async dispatch => {
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
-		return toastr.error(`Error loading ${name}`, false, toastrOpts)
+		return toastr.error(errorToString(err), false, toastrOpts)
 	}
 }
 
