@@ -266,15 +266,21 @@ const renderItem = (params, dispatch) => {
 			dispatch(updateRenderStatus(id, STATUS.COMPLETE))
 		} catch (err) {
 			const errStr = err.toString()
-	
+
 			if (errStr === 'Error: ffmpeg was killed with signal SIGKILL') {
 				dispatch(updateRenderStatus(id, STATUS.CANCELLED))
 			} else {
 				dispatch(updateRenderStatus(id, STATUS.FAILED))
-	
-				let errMsg = `Failed to render ${filename}`
 
-				if (/^RangeError: /.test(err)) errMsg = `${errMsg}. ${err.toString().replace(/^RangeError: /, '')}`
+				let errMsg = ''
+
+				if (/^Error: Unable to save /.test(errStr)) {
+					errMsg = errStr
+				} else if (/^RangeError: /.test(errStr)) {
+					errMsg = `Failed to render ${filename}. ${errStr.replace(/^RangeError: /, '')}`
+				} else {
+					errMsg = `Failed to render ${filename}`
+				}
 	
 				toastr.error(errMsg, false, toastrOpts)
 			}
