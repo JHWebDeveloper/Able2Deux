@@ -187,7 +187,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				if (failed.length === saveLocations.length) {
 					throw new Error(`An error occurred when attempting to save ${saveName} to each selected directory.`)
 				} else if (failed.length) {
-					throw new Error(`An error occurred when attempting to save ${saveName} to the following selected directories: ${failed.join(', ')}`)
+					throw new Error(`An error occurred when attempting to save ${saveName} to the following selected directories: ${failed.join(', ')}.`)
 				}
 
 				win.webContents.send(`renderComplete_${id}`)
