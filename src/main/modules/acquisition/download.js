@@ -43,7 +43,7 @@ const getTempFilePath = async id => {
 	return path.join(scratchDisk.imports.path, file)
 }
 
-const createDownloadError = url => new Error(`An error occured while downloading from ${url.length > 100 ? `${url.slice(0,97)}..` : url}.`)
+const createDownloadError = url => new Error(`An error occured while downloading from ${url.length > 100 ? `${url.slice(0, 97)}..` : url}.`)
 
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
 	const { id, url, optimize, output, disableRateLimit } = formData
@@ -88,7 +88,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 	})
 
 	downloadCmd.on('error', err => {
-		console.log(err)
+		console.error(err)
 		reject(createDownloadError(url))
 	})
 
@@ -102,7 +102,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 
 /* --- GET TITLE --- */
 
-const createURLError = url => new Error(`Error finding video at ${url.length > 100 ? `${url.slice(0,97)}..` : url}. The url may not be a supported service.`)
+const createURLError = url => new Error(`Error finding video at ${url.length > 100 ? `${url.slice(0, 97)}..` : url}. The url may not be a supported service.`)
 
 export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolve, reject) => {
 	const infoCmd = ytdl([

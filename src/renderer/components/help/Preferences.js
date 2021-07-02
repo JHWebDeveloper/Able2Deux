@@ -66,7 +66,7 @@ const Preferences = () => (
 				</tr>
 				<tr>
 					<td>Slider Snap Points</td>
-					<td>Set whether Able2's sliders should auto snap to marked points when in close proximity.</td>
+					<td>Set whether Able2&apos;s sliders should auto snap to marked points when in close proximity.</td>
 				</tr>
 				<tr>
 					<td>Grid Buttons</td>

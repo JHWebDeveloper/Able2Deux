@@ -69,7 +69,7 @@ const checkForUpdate = () => {
 		autoUpdater.on('error', err => {
 			console.error(err)
 			resolve(false)
-	})
+		})
 		autoUpdater.checkForUpdatesAndNotify()
 	})
 }
@@ -154,7 +154,7 @@ const startApp = async () => {
 		console.error(err)
 	}
 
-	let version = await checkForUpdate()
+	const version = await checkForUpdate()
 
 	if (version) {
 		createUpdateWindow(version)

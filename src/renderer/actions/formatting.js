@@ -240,7 +240,7 @@ const renderItem = (params, dispatch) => {
 	const { saveLocations, renderOutput, renderFrameRate, customFrameRate, autoPNG } = params
 
 	return async item => {
-		const { id, arc, aspectRatio, source, filename } = item
+		const { id, arc, aspectRatio, source } = item
 
 		if (item.source.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
 			item.sourceData = buildSource(source, renderOutput)

@@ -123,17 +123,10 @@ const getSupportedCodecList = () => new Promise((resolve, reject) => {
 })
 
 export const checkFileType = async (file, preGeneratedMetadata) => {
-	let metadata = {}
-	let codecs = {}
-
-	try {
-		[ metadata, codecs ] = await Promise.all([
-			preGeneratedMetadata || getMetadata(file),
-			getSupportedCodecList()
-		])
-	} catch (err) {
-		throw err
-	}
+	const [ metadata, codecs ] = await Promise.all([
+		preGeneratedMetadata || getMetadata(file),
+		getSupportedCodecList()
+	])
 
 	if (!metadata.streams || metadata.streams.length === 0) {
 		throw createFileError(file)
