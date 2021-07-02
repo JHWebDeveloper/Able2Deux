@@ -102,7 +102,7 @@ const detectAlphaChannel = (file, mediaType, id) => new Promise(resolve => {
 			if (!/^Error: ffmpeg exited with code 1: Error reinitializing filters!/.test(err.toString())) {
 				console.error(err)
 			}
-			
+
 			resolve(false)
 		})
 		.videoFilter('alphaextract,format=yuv420p')
@@ -174,7 +174,7 @@ export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
 		const { duration } = metadata.format
 
 		if (!checkMetadata(duration)) {
-			throw new Error('Cannot detect media duration')
+			throw new Error('Cannot detect media duration.')
 		}
 
 		mediaData.duration = duration
