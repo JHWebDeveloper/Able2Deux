@@ -175,7 +175,7 @@ export const startRecording = async ({ streamId, frameRate, timer, setRecordIndi
 			onError(err, recordId)
 		}
 	} catch {
-		onError(new Error('An error occurred during the screen record!'))
+		onError(new Error('An error occurred during the screen record.'))
 	}
 }
 
