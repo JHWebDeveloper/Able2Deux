@@ -210,7 +210,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 					reject(new Error('CANCELLED'))
 				} else {
 					console.error(err)
-					reject(new Error(`An occurred while rendering ${saveName}`))
+					reject(new Error(`An occurred while rendering ${saveName}.`))
 				}
 			}
 		})
