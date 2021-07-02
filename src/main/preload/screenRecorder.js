@@ -220,7 +220,7 @@ export const captureScreenshot = ({ streamId, frameRate, onCapture, onError }) =
 		try {
 			video.srcObject = await getStream(streamId, frameRate, true)
 		} catch {
-			onError(new Error('An error occurred while capturing the screenshot!'))
+			onError(new Error('An error occurred while capturing the screenshot.'))
 		}
 	
 		document.body.appendChild(video)
