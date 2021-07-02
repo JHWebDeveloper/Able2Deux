@@ -39,7 +39,7 @@ export const getRecordSources = async () => {
 			}, [[], []])
 			.flat()
 	} catch {
-		throw new Error('An error occurred while attempting to load recordable sources!')
+		throw new Error('An error occurred while attempting to load recordable sources.')
 	}
 }
 
