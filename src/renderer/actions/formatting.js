@@ -270,9 +270,6 @@ const renderItem = (params, dispatch) => {
 
 			if (errStr === 'CANCELLED') {
 				dispatch(updateRenderStatus(id, STATUS.CANCELLED))
-			} else if (/^PARTIALERR /.test(errStr)) {
-				dispatch(updateRenderStatus(id, STATUS.COMPLETE))
-				toastr.error(errStr.replace(/^PARTIALERR /, ''), false, toastrOpts)
 			} else {
 				dispatch(updateRenderStatus(id, STATUS.FAILED))
 				toastr.error(errStr, false, toastrOpts)
