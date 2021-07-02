@@ -43,7 +43,7 @@ const getTempFilePath = async id => {
 	return path.join(scratchDisk.imports.path, file)
 }
 
-const createDownloadError = url => new Error(`An error occured while downloading from ${url.length > 100 ? `${url.slice(0,97)}..` : url}}.`)
+const createDownloadError = url => new Error(`An error occured while downloading from ${url.length > 100 ? `${url.slice(0,97)}..` : url}.`)
 
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
 	const { id, url, optimize, output, disableRateLimit } = formData
