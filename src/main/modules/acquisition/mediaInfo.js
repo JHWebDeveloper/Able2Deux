@@ -63,7 +63,7 @@ const getMediaKind = (codec, ext) => {
 	}
 }
 
-const createFileError = filepath => new Error(`${path.basename(filepath)} is not a supported file type`)
+const createFileError = filepath => new Error(`${path.basename(filepath)} is not a supported file type.`)
 
 const getMetadata = file => new Promise((resolve, reject) => {
 	ffmpeg.ffprobe(file, (err, metadata) => {
