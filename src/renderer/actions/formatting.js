@@ -301,16 +301,19 @@ export const render = params => async dispatch => {
 		saveLocations = saveLocations.filter(({ id }) => id !== location.id)
 	}
 
-	// Prompt to choose a directory if no directories are selected or available
+	/*
+		If save locations are selected or available, promote key directory to top level and remove duplicates.
+		If not, prompt to choose a directory
+	*/
 
-	if (!saveLocations.length) {
+	if (saveLocations.length) {
+		saveLocations = [...new Set(saveLocations.map(({ directory }) => directory))]
+	} else {
 		const { filePaths, canceled } = await interop.chooseDirectory()
 
 		if (canceled) return !goBack()
 
-		saveLocations.push({
-			directory: filePaths[0]
-		})
+		saveLocations.push(filePaths[0])
 	}
 
 	// prepare filenames
