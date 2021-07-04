@@ -170,8 +170,8 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		.on('end', async () => {
 			try {
 				// eslint-disable-next-line no-extra-parens
-				const res = await Promise.allSettled(saveLocations.map(directory => (
-					copyFileNoOverwrite(exportPath, path.join(directory, saveName))
+				const res = await Promise.allSettled(saveLocations.map(dir => (
+					copyFileNoOverwrite(exportPath, path.join(dir, saveName))
 				)))
 
 				const failed = res.reduce((arr, val, i) => {
@@ -180,7 +180,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				}, [])
 
 				if (failed.length === saveLocations.length) {
-					throw new Error(`An error occurred when attempting to save ${saveName} to each selected directory.`)
+					throw new Error(`An error occurred when attempting to save ${saveName} to each selected dir.`)
 				} else if (failed.length) {
 					throw new Error(`An error occurred when attempting to save ${saveName} to the following selected directories: ${failed.join(', ')}.`)
 				}
