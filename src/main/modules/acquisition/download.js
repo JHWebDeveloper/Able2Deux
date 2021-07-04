@@ -1,13 +1,13 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
-import log from 'electron-log'
+// import log from 'electron-log'
 
 import { ytdl } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 
-log.catchErrors({ showDialog: false })
+// log.catchErrors({ showDialog: false })
 
-if (process.env.NODE_ENV !== 'development') console.error = log.error
+// if (process.env.NODE_ENV !== 'development') console.error = log.error
 
 const downloads = new Map()
 

@@ -1,15 +1,10 @@
 import path from 'path'
 import getRGBAPalette from 'get-rgba-palette'
 import getPixels from 'get-pixels'
-import log from 'electron-log'
 
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 import { supportedImageCodecs, base64EncodeOrPlaceholder } from '../utilities'
-
-log.catchErrors({ showDialog: false })
-
-if (process.env.NODE_ENV !== 'development') console.error = log.error
 
 const createScreenshot = (id, tempFilePath) => new Promise(resolve => {
 	const screenshot = `${id}.thumbnail.png`

@@ -1,15 +1,10 @@
 import path from 'path'
 import fs, { promises as fsp } from 'fs'
-import log from 'electron-log'
 
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 import { assetsPath, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
-
-log.catchErrors({ showDialog: false })
-
-if (process.env.NODE_ENV !== 'development') console.error = log.error
 
 const renderJobs = new Map()
 
