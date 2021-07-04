@@ -13,7 +13,6 @@ import {
 	getOverlayInnerDimensions
 } from '../utilities'
 
-
 export const createPreviewStill = exportData => new Promise((resolve, reject) => {
 	const { id, renderOutput, hasAlpha, isAudio, arc, background, overlay, sourceData, rotation } = exportData
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
