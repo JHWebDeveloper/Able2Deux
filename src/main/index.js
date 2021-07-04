@@ -29,9 +29,10 @@ autoUpdater.autoDownload = false
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 
-log.catchErrors({ showDialog: false })
-
-if (!dev) console.error = log.error
+if (!dev) {
+	log.catchErrors({ showDialog: false })
+	console.error = log.error
+}
 
 const openWindow = (opts = {}) => new BrowserWindow({
 	show: false,
