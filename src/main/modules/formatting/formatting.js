@@ -202,6 +202,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				removeJob(id)
 
 				if (err.toString() === 'Error: ffmpeg was killed with signal SIGKILL') {
+					// Means error is from manual cancellation. Expected behavior. Do not log.
 					reject(new Error('CANCELLED'))
 				} else {
 					console.error(err)
