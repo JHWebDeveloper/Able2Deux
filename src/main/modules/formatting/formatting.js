@@ -194,20 +194,12 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			}
 		})
 		.on('error', async err => {
-			try {
-				await cancelRender(id)
-			} catch (cancelErr) {
-				console.error(cancelErr)
-			} finally {
-				removeJob(id)
-
-				if (err.toString() === 'Error: ffmpeg was killed with signal SIGKILL') {
-					// Means error is from manual cancellation. Expected behavior. Do not log.
-					reject(new Error('CANCELLED'))
-				} else {
-					console.error(err)
-					reject(new Error(`An occurred while rendering ${saveName}.`))
-				}
+			if (err.toString() === 'Error: ffmpeg was killed with signal SIGKILL') {
+				// Means error is from manual cancellation. Expected behavior. Do not log.
+				reject(new Error('CANCELLED'))
+			} else {
+				console.error(err)
+				reject(new Error(`An occurred while rendering ${saveName}.`))
 			}
 		})
 
