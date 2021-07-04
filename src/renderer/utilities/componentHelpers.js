@@ -106,4 +106,3 @@ export const warn = async ({ enabled, message, detail, callback, checkboxCallbac
 
 	callback()
 }
-
