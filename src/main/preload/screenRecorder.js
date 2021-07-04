@@ -1,7 +1,17 @@
 import { desktopCapturer, ipcRenderer, shell } from 'electron'
 import { v1 as uuid } from 'uuid'
+import log from 'electron-log'
 
 import { sendMessage } from './sendMessage'
+
+const logError = (() => {
+	if (process.env.NODE_ENV === 'production') {
+		log.catchErrors({ showDialog: false })
+		return log.error
+	} else {
+		return console.error
+	}
+})()
 
 const saveScreenRecording = (id, buffer, fps, screenshot) => sendMessage({
 	sendMsg: 'saveScreenRecording',
@@ -38,7 +48,8 @@ export const getRecordSources = async () => {
 				return arr
 			}, [[], []])
 			.flat()
-	} catch {
+	} catch (err) {
+		logError(err)
 		throw new Error('An error occurred while attempting to load recordable sources.')
 	}
 }
@@ -174,7 +185,8 @@ export const startRecording = async ({ streamId, frameRate, timer, setRecordIndi
 		} catch (err) {
 			onError(err, recordId)
 		}
-	} catch {
+	} catch (err) {
+		logError(err)
 		onError(new Error('An error occurred during the screen record.'))
 	}
 }
@@ -219,7 +231,8 @@ export const captureScreenshot = ({ streamId, frameRate, onCapture, onError }) =
 	setTimeout(async () => {
 		try {
 			video.srcObject = await getStream(streamId, frameRate, true)
-		} catch {
+		} catch (err) {
+			logError(err)
 			onError(new Error('An error occurred while capturing the screenshot.'))
 		}
 	
