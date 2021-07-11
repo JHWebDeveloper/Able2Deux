@@ -17,7 +17,7 @@ const Uploader = ({ dispatch }) => {
 
 		e.target.value = ''
 
-		Promise.all(files.map(file => dispatch(upload(file))))
+		for (const file of files) dispatch(upload(file))
 	}, [])
 
 	return (
