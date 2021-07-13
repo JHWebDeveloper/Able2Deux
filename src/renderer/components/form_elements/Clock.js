@@ -38,7 +38,7 @@ const Clock = ({ start, decrement }) => {
 			value={secondsToTC(decrement ? start : 0)}
 			title={`Time ${decrement ? 'remaining' : 'ellapsed'}`}
 			style={{ cursor: 'default' }}
-			readOnly/>
+			readOnly />
 	)
 }
 
