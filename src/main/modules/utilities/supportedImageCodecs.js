@@ -26,6 +26,7 @@ export const supportedImageCodecs = [
 	'targa',
 	'tiff',
 	'vc1image',
+	'webp',
 	'wmv3image',
 	'xbm',
 	'xface',
