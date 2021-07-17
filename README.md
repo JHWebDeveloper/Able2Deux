@@ -21,6 +21,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ### Updated
 - Video service compatibility
 
+### Fixed
+- Bug where uploaded .webp's were condsidered video and rejected with error "unable to find media duration"
+
 ## [2.2.3] - 6.4.2021
 
 ### Updated
@@ -30,7 +33,6 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Fixed
 - Bug where "Copy All Settings" and "Apply Settings to All" options were not copying audio settings.
-- Bug where uploaded .webp's were condsidered video and rejected with error "unable to find media duration"
 
 ## [2.2.2] - 3.2.2021
 
