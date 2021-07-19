@@ -6,7 +6,7 @@ import { scratchDisk } from '../scratchDisk'
 
 const downloads = new Map()
 
-const truncateUrl = url => url.length > 100 ? `${url.slice(0, 96)}...` : url
+const truncateUrl = (url, limit = 100) => url.length > limit ? `${url.slice(0, 96)}...` : url
 
 /* --- CANCEL DOWNLOAD --- */
 
