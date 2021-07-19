@@ -6,7 +6,7 @@ import { scratchDisk } from '../scratchDisk'
 
 const downloads = new Map()
 
-const truncateUrl = (url, limit = 100) => url.length > limit ? `${url.slice(0, 96)}...` : url
+const truncateURL = (url, limit = 100) => url.length > limit ? `${url.slice(0, 96)}...` : url
 
 /* --- CANCEL DOWNLOAD --- */
 
@@ -40,7 +40,7 @@ const getTempFilePath = async id => {
 	return path.join(scratchDisk.imports.path, file)
 }
 
-const createDownloadError = url => new Error(`An error occured while downloading from ${truncateUrl(url)}.`)
+const createDownloadError = url => new Error(`An error occured while downloading from ${truncateURL(url)}.`)
 
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
 	const { id, url, optimize, output, disableRateLimit } = formData
@@ -99,7 +99,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 
 /* --- GET TITLE --- */
 
-const createURLError = url => new Error(`Error finding video at ${truncateUrl(url)}. The url may not be a supported service.`)
+const createURLError = url => new Error(`Error finding video at ${truncateURL(url)}. The url may not be a supported service.`)
 
 export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolve, reject) => {
 	const infoCmd = ytdl([
