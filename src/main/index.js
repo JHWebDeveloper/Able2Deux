@@ -1,7 +1,6 @@
 import { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, powerSaveBlocker, systemPreferences } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
-import url from 'url'
 import path from 'path'
 
 import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs } from './modules/preferences/preferences'
@@ -49,17 +48,9 @@ const openWindow = (opts = {}) => new BrowserWindow({
 	...opts
 })
 
-const createURL = (view = 'index') => url.format(dev ? {
-	protocol: 'http:',
-	hostname: 'localhost',
-	port: process.env.PORT,
-	pathname: `${view}.html`,
-	slashes: true
-} : {
-	protocol: 'file:',
-	pathname: path.join(__dirname, 'renderer', `${view}.html`),
-	slashes: true
-})
+const createURL = (view = 'index') => new URL(dev
+	? `http://localhost:${process.env.PORT}/${view}.html`
+	: `file://${path.join(__dirname, 'renderer', `${view}.html`)}`).href
 
 const checkForUpdate = () => {
 	if (!app.isPackaged || mac) return Promise.resolve(false)
