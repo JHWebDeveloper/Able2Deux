@@ -82,7 +82,7 @@ const splashWindowOpts = {
 const createSplashWindow = () => {
 	splashWin = openWindow(splashWindowOpts)
 
-	if (mac) Menu.setApplicationMenu(Menu.buildFromTemplate(appleMenu))
+	if (mac) Menu.setApplicationMenu(Menu.buildFromTemplate(splashWindowMenuTemplate))
 
 	splashWin.on('ready-to-show', () => {
 		splashWin.show()
@@ -186,25 +186,27 @@ app.on('activate', () => {
 
 // ---- MENU CONFIG --------
 
-const appleMenu = [{
+const appleSubmenu = [
+	{
+		label: 'About',
+		role: 'about'
+	},
+	{ type: 'separator' },
+	{
+		label: 'Hide',
+		role: 'hide'
+	},
+	{ role: 'hideothers' },
+	{ type: 'separator' },
+	{ 
+		label: 'Quit',
+		role: 'quit'
+	}
+]
+
+const splashWindowMenuTemplate = [{
 	label: app.name,
-	submenu: [
-		{
-			label: 'About',
-			role: 'about'
-		},
-		{ type: 'separator' },
-		{
-			label: 'Hide',
-			role: 'hide'
-		},
-		{ role: 'hideothers' },
-		{ type: 'separator' },
-		{ 
-			label: 'Quit',
-			role: 'quit'
-		}
-	]
+	submenu: appleSubmenu
 }]
 
 const enablePrefsMenu = enabled => {
@@ -250,9 +252,9 @@ const mainMenuTemplate = [
 	...mac ? [{
 		label: app.name,
 		submenu: [
-			appleMenu[0].submenu[0],
+			appleSubmenu[0],
 			...prefsMenuItem,
-			...appleMenu[0].submenu.slice(1)
+			...appleSubmenu.slice(1)
 		]
 	}] : [],
 	{
