@@ -186,11 +186,12 @@ app.on('activate', () => {
 
 // ---- MENU CONFIG --------
 
-const appleSubmenu = [
+const appleSubmenu = (prefs = []) => [
 	{
 		label: 'About',
 		role: 'about'
 	},
+	...prefs,
 	{ type: 'separator' },
 	{
 		label: 'Hide',
@@ -206,7 +207,7 @@ const appleSubmenu = [
 
 const splashWindowMenuTemplate = [{
 	label: app.name,
-	submenu: appleSubmenu
+	submenu: appleSubmenu()
 }]
 
 const enablePrefsMenu = enabled => {
@@ -251,11 +252,7 @@ const prefsMenuItem = [
 const mainMenuTemplate = [
 	...mac ? [{
 		label: app.name,
-		submenu: [
-			appleSubmenu[0],
-			...prefsMenuItem,
-			...appleSubmenu.slice(1)
-		]
+		submenu: appleSubmenu(prefsMenuItem)
 	}] : [],
 	{
 		label: 'File',
