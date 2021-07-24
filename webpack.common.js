@@ -4,7 +4,6 @@ const HTMLWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
 const postcssPseudoIs = require('postcss-pseudo-is')
-const postcssSelectorMatches = require('postcss-selector-matches')
 
 const rendererPath = path.resolve('src', 'renderer')
 
@@ -57,7 +56,6 @@ module.exports = {
 							postcssOptions: {
 								plugins: [
 									postcssPseudoIs(),
-									postcssSelectorMatches(),
 									postcssPresetEnv({ stage: 0 })
 								]
 							}
