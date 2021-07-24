@@ -48,7 +48,7 @@ const calculateAspectRatio = (a, b) => {
 	return `${a / _gcd}:${b / _gcd}`
 }
 
-const getMediaKind = (codec, ext) => {
+const getVisualMediaType = (codec, ext) => {
 	if (/^gif|apng$/i.test(codec) || /^mjpegb?$/i.test(codec) && /^mjpe?g$/i.test(ext)) {
 		return 'gif'
 	} else if (supportedImageCodecs.includes(codec)) {
@@ -135,7 +135,7 @@ export const checkFileType = async (file, preGeneratedMetadata) => {
 	if (audioSupport && (!videoStream || supportedImageCodecs.includes(videoStream?.codec_name))) { // audio only or audio with album artwork
 		return 'audio'
 	} else if (videoSupport && (audioSupport || !audioStream)) { // video+audio or video only
-		return getMediaKind(videoStream.codec_name, path.extname(file))
+		return getVisualMediaType(videoStream.codec_name, path.extname(file))
 	} else {
 		throw createFileError(file)
 	}
