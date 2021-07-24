@@ -30,8 +30,6 @@ export const debounce = (callback, wait) => {
 	}
 }
 
-export const errorToString = err => err.toString().replace(/^.*Error: /, '')
-
 export const throttle = (callback, duration) => {
 	let shouldWait = false
 	
@@ -47,6 +45,8 @@ export const throttle = (callback, duration) => {
 		}
 	}
 }
+
+export const errorToString = err => err.toString().replace(/^.*Error: /, '')
 
 export const getIntegerLength = n => {
 	if (n < 0) n *= -1
