@@ -42,7 +42,7 @@
 	transition: background-color 150ms;
 }
 
-#uploader:matches(::before, ::after) {
+#uploader:is(::before, ::after) {
 	content: '';
 	pointer-events: none;
 	position: absolute;
@@ -59,7 +59,7 @@
 	height: calc(100% + 4px);
 }
 
-#uploader:matches(.drag-enter, :active),
+#uploader:is(.drag-enter, :active),
 body.accessible #uploader:focus-within {
 	background-color: var(--primary);
 	color: var(--background);
@@ -247,7 +247,7 @@ button[name="screenshot"] { height: 26px; }
 	background-color: var(--background-alt-1);
 }
 
-#record-source-selector :matches(img, span) {
+#record-source-selector :is(img, span) {
 	display: block;
 	max-width: 100%;
 }

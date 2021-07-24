@@ -108,11 +108,11 @@ body {
 }
 
 fieldset:disabled,
-fieldset:disabled > :matches(input, input::placeholder, div) {
+fieldset:disabled > :is(input, input::placeholder, div) {
 	color: var(--disabled);
 }
 
-fieldset:disabled > :matches(input, div) {
+fieldset:disabled > :is(input, div) {
 	border-color: var(--disabled);
 }
 
@@ -132,24 +132,24 @@ input[type="text"] { text-overflow: ellipsis; }
 
 input[type="text"]:disabled { color: var(--disabled); }
 
-input:matches([type="checkbox"], [type="radio"]),
+input:is([type="checkbox"], [type="radio"]),
 label > svg {
 	margin-right: 5px;
 }
 
-input:matches([type="checkbox"], [type="radio"]) {
+input:is([type="checkbox"], [type="radio"]) {
 	overflow: hidden;
 	width: 18px;
 	height: 18px;
 }
 
-input:matches([type="checkbox"], [type="radio"])::after {
+input:is([type="checkbox"], [type="radio"])::after {
 	display: inline-block;
 	font: 400 1.125rem 'Material Icons';
 	width: 18px;
 }
 
-input:matches([type="checkbox"], [type="radio"]):disabled::after {
+input:is([type="checkbox"], [type="radio"]):disabled::after {
 	color: var(--disabled);
 }
 
@@ -182,7 +182,7 @@ label {
 	width: min-content;
 }
 
-label > :matches(input, span, svg) { vertical-align: middle; }
+label > :is(input, span, svg) { vertical-align: middle; }
 
 .app-button {
 	background-color: var(--primary);

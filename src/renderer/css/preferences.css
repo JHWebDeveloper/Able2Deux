@@ -42,7 +42,7 @@ legend + div > label {
 	font-size: 12px;
 }
 
-.prefs-panel :not(label) > :matches(button, input:matches([type="text"], [type="number"], [type="color"])) {
+.prefs-panel :not(label) > :is(button, input[type="text"], input[type="number"], input[type="color"]) {
 	height: 24px;
 	vertical-align: middle;
 }
@@ -52,7 +52,7 @@ legend + div > label {
 	padding: 0;
 }
 
-.prefs-panel :not(label) > input:matches([type="number"], [type="color"], .timecode),
+.prefs-panel :not(label) > input:is([type="number"], [type="color"], .timecode),
 .directory-selector > input {
 	margin-left: 6px;
 }
@@ -74,7 +74,7 @@ legend + div > label {
 
 .output-grid { grid-template-columns: min-content auto; }
 
-.output-grid > :matches(h1, label, span) { grid-column: 1 / span 2; }
+.output-grid > :is(h1, label, span) { grid-column: 1 / span 2; }
 
 .output-grid > fieldset { align-self: start; }
 
@@ -91,7 +91,7 @@ input[name="customFrameRate"] {
 
 .save-locations-grid > h1 { margin-bottom: 12px; }
 
-.save-locations-grid > :matches(h1, div, span) { grid-column: 1 / span 9; }
+.save-locations-grid > :is(h1, div, span) { grid-column: 1 / span 9; }
 
 .save-locations-grid > div {
 	display: inherit;

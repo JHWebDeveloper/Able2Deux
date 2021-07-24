@@ -44,7 +44,7 @@ header > p { font-size: 0.9rem; }
 
 main { display: contents; }
 
-button:matches([title="Format Media"], [title="Back"]) {
+button:is([title="Format Media"], [title="Back"]) {
 	margin-right: 12px;
 }
 
@@ -60,9 +60,9 @@ button:matches([title="Format Media"], [title="Back"]) {
 
 .media-element:nth-last-child(n+2) { margin-bottom: 12px; }
 
-.media-element > :matches(span, button) { height: inherit; }
+.media-element > :is(span, button) { height: inherit; }
 
-.media-element > :matches(span:first-of-type, button) { width: 35px; }
+.media-element > :is(span:first-of-type, button) { width: 35px; }
 
 .media-element > span { display: inherit; }
 
@@ -118,7 +118,7 @@ progress::-webkit-progress-value {
 	100% { transform: translate(1000%) scaleX(1); }
 }
 
-progress:matches([data-status="RENDERING"], [data-status="DOWNLOADING"]):indeterminate::after {
+progress:is([data-status="RENDERING"], [data-status="DOWNLOADING"]):indeterminate::after {
 	content: '';
 	position: absolute;
 	top: 0;

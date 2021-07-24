@@ -26,7 +26,7 @@ section > h2, h3 { font-size: 2rem; }
 
 section > h2 { border-bottom: var(--main-border-style); }
 
-:matches(h3, h4, h5, p, table, ol, ol > li):nth-child(n+2) { margin-top: 8px; }
+:is(h3, h4, h5, p, table, ol, ol > li):nth-child(n+2) { margin-top: 8px; }
 
 h4 { font-size: 1.375rem; }
 

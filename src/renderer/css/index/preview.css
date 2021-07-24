@@ -11,12 +11,12 @@
 	margin: auto;
 }
 
-#preview-container > :matches(span, canvas) {
+#preview-container > :is(span, canvas) {
 	width: inherit;
 	height: inherit;
 }
 
-#preview-container > :matches(span, canvas) {
+#preview-container > :is(span, canvas) {
 	top: 0;
 	left: 0;
 }
@@ -27,7 +27,7 @@
 	background-size: 100% 100%;
 }
 
-#preview-container > :matches(canvas, svg) {
+#preview-container > :is(canvas, svg) {
 	position: absolute;
 }
 
@@ -80,7 +80,7 @@
 
 #preview-controls .snap-markers > span::after { display: none; }
 
-:matches(.start-visible, .end-visible) .snap-marker {
+:is(.start-visible, .end-visible) .snap-marker {
 	overflow: hidden;
 	width: 6px;
 	background-color: var(--background-alt-1);
@@ -91,7 +91,7 @@
 	transform: translateX(-100%) rotateY(180deg);
 }
 
-:matches(.start-visible, .end-visible) .snap-marker::after {
+:is(.start-visible, .end-visible) .snap-marker::after {
 	content: '';
 	position: inherit;
 	width: 18px;
