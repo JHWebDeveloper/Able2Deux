@@ -34,8 +34,11 @@ export const format12hr = d => {
 	const m = d.getMinutes()
 	const meridian = h < 12 ? 'am' : 'pm'
 
-	if (h === 0) h = 12
-	if (h > 12) h -= 12
+	if (h > 12) {
+		h -= 12
+	} else if (h === 0) {
+		h = 12
+	}
 
 	return `${h}${zeroize(m)}${meridian}`
 }
