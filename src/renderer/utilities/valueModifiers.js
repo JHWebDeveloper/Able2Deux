@@ -61,7 +61,7 @@ export const framesToTC = (frms, fps) => {
 export const rgbToHex = (r, g, b) => `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`
 
 export const tcToSeconds = hms => hms
-	.split(':')
+	.split(/:|;/)
 	.reverse()
 	.map(val => parseInt(val) || 0)
 	.reduce((acc, val, i) => acc + val * 60 ** i, 0)
