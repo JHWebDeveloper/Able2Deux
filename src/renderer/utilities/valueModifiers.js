@@ -74,10 +74,8 @@ export const tcToFrames = (hmsf, fps) => {
 	let frms = parts
 		.slice(0, 3)
 		.reverse()
-		.reduce((acc, val, i) => acc + val * 60 ** i, 0)
-
-	frms *= fps
-
+		.reduce((acc, val, i) => acc + val * 60 ** i * fps, 0)
+		
 	if (parts[3]) frms += parts[3]
 
 	return frms
