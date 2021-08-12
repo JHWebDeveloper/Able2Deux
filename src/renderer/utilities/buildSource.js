@@ -19,7 +19,7 @@ const layout = {
 	})
 }
 
-const cleanSourceName = src => src.replace(/^(source:|courtesy:)/ig, '').trim()
+const cleanSourceName = src => src.replace(/^(source|courtesy):/ig, '').trim()
 
 export const buildSource = (source, output) => {
 	const { sourceName, prefix, onTop } = source
