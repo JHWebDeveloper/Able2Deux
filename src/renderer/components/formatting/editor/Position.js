@@ -13,8 +13,8 @@ import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
-const propsXStatic = { name: 'x', title: 'Position X', 	min: -100 }
-const propsYStatic = { name: 'y', title: 'Position Y', 	min: -100 }
+const propsXStatic = { name: 'x', title: 'Position X', min: -100 }
+const propsYStatic = { name: 'y', title: 'Position Y', min: -100 }
 
 const Position = memo(({ id, isBatch, position, editAll, dispatch }) => {
 	const updatePosition = useCallback(({ name, value }) => {
