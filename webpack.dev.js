@@ -10,10 +10,14 @@ module.exports = merge(common, {
 	mode: 'development',
 	devServer: {
 		port: process.env.PORT,
-		contentBase: path.resolve('src', 'renderer'),
-		watchContentBase: true,
+		// contentBase: path.resolve('src', 'renderer'),
+		// watchContentBase: true,
+		static: {
+			directory: path.resolve('src', 'renderer'),
+			watch: true
+		},
 		hot: true,
-		before() {
+		onBeforeSetupMiddleware() {
 			spawn('electron', ['babelRegister.js'], {
 				cwd: path.resolve('src', 'main'),
 				shell: true,
