@@ -55,7 +55,7 @@
 		"core-js": "^3.10.2",
 		"css-loader": "^6.0.0",
 		"css-minimizer-webpack-plugin": "^3.0.0",
-		"electron": "^11.4.11",
+		"electron": "^11.5.0",
 		"electron-builder": "^22.9.1",
 		"eslint": "^7.23.0",
 		"eslint-plugin-react": "^7.22.0",
