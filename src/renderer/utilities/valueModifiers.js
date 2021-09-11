@@ -44,10 +44,10 @@ export const format12hr = d => {
 }
 
 export const secondsToTC = sec => [
-	sec / 3600 << 0,
-	sec / 60 % 60 << 0,
-	sec % 60 << 0
-].map(n => zeroize(n, 2)).join(':')
+	sec / 3600,
+	sec / 60 % 60,
+	sec % 60
+].map(n => zeroize(n | 0, 2)).join(':')
 
 export const framesToTC = (frms, fps) => {
 	const frmsPrec = frms * 1e4
