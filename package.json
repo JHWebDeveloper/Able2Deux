@@ -59,7 +59,7 @@
 		"electron-builder": "^22.9.1",
 		"eslint": "^8.0.1",
 		"eslint-plugin-react": "^7.26.1",
-		"html-webpack-plugin": "^5.0.0",
+		"html-webpack-plugin": "^5.4.0",
 		"mini-css-extract-plugin": "^2.0.0",
 		"postcss": "^8.2.9",
 		"postcss-loader": "^6.2.0",
