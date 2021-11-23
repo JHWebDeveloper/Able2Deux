@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
-import { withRouter } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { arrayOf, func, object } from 'prop-types'
 import toastr from 'toastr'
 
@@ -25,8 +25,9 @@ const startOverMessage = 'Start Over?'
 const startOverDetail = 'All entries will be cleared and media deleted. This cannot be undone. Proceed?'
 
 const RenderQueue = params => {
-	const { media, batch, saveLocations, closeRenderQueue, dispatch, history } = params
+	const { media, batch, saveLocations, closeRenderQueue, dispatch } = params
 	const prefsContext = useContext(PrefsContext)
+	const navigate = useNavigate()
 	const prefsDispatch = prefsContext.dispatch
 	const { warnings } = prefsContext.preferences
 
@@ -72,7 +73,7 @@ const RenderQueue = params => {
 		enabled: warnings.startOver,
 		callback() {
 			dispatch(startOver())
-			history.push('/')
+			navigate('/')
 		},
 		checkboxCallback() {
 			prefsDispatch(disableWarningAndSave('startOver'))
@@ -167,8 +168,7 @@ RenderQueue.propTypes = {
 	batch: object.isRequired,
 	saveLocations: arrayOf(object).isRequired,
 	closeRenderQueue: func.isRequired,
-	dispatch: func.isRequired,
-	history: object.isRequired
+	dispatch: func.isRequired
 }
 
-export default withRouter(RenderQueue)
+export default RenderQueue

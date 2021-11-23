@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { withRouter } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { arrayOf, bool, func, object, shape } from 'prop-types'
 
 import {
@@ -24,7 +24,8 @@ const removeMediaDetail = 'This cannot be undone. Proceed?'
 const checkMediaReady = ({ status }) => status === STATUS.READY || status === STATUS.FAILED
 const checkMediaFailed = ({ status }) => status === STATUS.FAILED
 
-const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch, history }) => {
+const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch }) => {
+	const navigate = useNavigate()
 	const backgroundColor = !media.length ? '#e0e0e0' : '#bbb'
 
 	// eslint-disable-next-line no-extra-parens
@@ -63,7 +64,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch, histo
 
 	const prepareMediaAndRedirect = useCallback(() => {
 		dispatch(prepareMediaForFormat())
-		history.push('/formatting')
+		navigate('/formatting')
 	}, [])
 
 	const sortingAction = useCallback((newPos, oldPos) => {
@@ -108,8 +109,7 @@ ReadyQueue.propTypes = {
 		removeAll: bool.isRequired
 	}).isRequired,
 	dispatch: func.isRequired,
-	prefsDispatch: func.isRequired,
-	history: object.isRequired
+	prefsDispatch: func.isRequired
 }
 
-export default withRouter(ReadyQueue)
+export default ReadyQueue

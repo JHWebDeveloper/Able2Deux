@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import 'css/index/formatting.css'
 
 import { MainContext } from 'store'
@@ -23,7 +23,7 @@ const Formatting = () => {
 		dispatch
 	} = useContext(MainContext)
 
-	if (!media.length) return <Redirect to="/" />
+	if (!media.length) return <Navigate replace to="/" />
 
 	const [ rendering, setRendering ] = useState(false)
 	const prevIndex = useRef(0)

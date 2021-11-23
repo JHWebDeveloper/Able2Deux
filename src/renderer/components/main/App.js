@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { HashRouter, Switch, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import 'css/index/index.css'
 
 import { PrefsProvider, PrefsContext } from 'store/preferences'
@@ -32,10 +32,10 @@ const Main = () => {
 		<main>
 			<MainProvider prefs={extractDefaults(preferences)}>
 				<HashRouter>
-					<Switch>
-						<Route path="/" exact component={Acquisition}/>
-						<Route path="/formatting" component={Formatting}/>
-					</Switch>
+					<Routes>
+						<Route path="/" element={<Acquisition />}/>
+						<Route path="/formatting" element={<Formatting />}/>
+					</Routes>
 				</HashRouter>
 			</MainProvider>
 		</main>
