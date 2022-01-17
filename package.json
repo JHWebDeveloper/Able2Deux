@@ -26,7 +26,7 @@
 	"dependencies": {
 		"axios": "^0.24.0",
 		"electron-log": "^4.3.3",
-		"electron-updater": "^3.2.3",
+		"electron-updater": "^4.6.1",
 		"electron-util": "^0.17.0",
 		"ffmpeg-static-electron": "^2.0.3",
 		"ffprobe-static-electron": "^2.0.2",
@@ -55,7 +55,7 @@
 		"core-js": "^3.19.0",
 		"css-loader": "^6.5.0",
 		"css-minimizer-webpack-plugin": "^3.0.0",
-		"electron": "^11.5.0",
+		"electron": "^16.0.7",
 		"electron-builder": "^22.14.5",
 		"eslint": "^8.3.0",
 		"eslint-plugin-react": "^7.26.1",
