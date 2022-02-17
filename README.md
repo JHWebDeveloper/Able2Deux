@@ -8,7 +8,7 @@ This repo is intended for portfolio viewing purposes only. For official releases
 https://github.com/JHWebDeveloper/Able2-public-resources
 
 
-## [Unreleased][2.2.4] - TBD
+## [2.2.4] - 2.17.2022
 
 ### Added
 - New menu command File > Open Import Cache.
