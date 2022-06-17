@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
 import { initTabbedBrowsing } from 'utilities'
 
@@ -7,6 +7,6 @@ import Preferences from './components/preferences/Preferences.js'
 
 initTabbedBrowsing()
 
-render(<Preferences />, document.querySelector('#root'))
+createRoot(document.querySelector('#root')).render(<Preferences />)
 
 window.ABLE2.interop.setContextMenu()

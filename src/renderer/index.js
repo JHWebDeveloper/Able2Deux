@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
 import { initTabbedBrowsing } from 'utilities'
 
@@ -7,7 +7,7 @@ import App from './components/main/App'
 
 initTabbedBrowsing()
 
-render(<App />, document.querySelector('#root'))
+createRoot(document.querySelector('#root')).render(<App />)
 
 const { interop } = window.ABLE2
 

@@ -1,7 +1,8 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
+
 import Update from './components/main/Update'
 
-render(<Update />, document.querySelector('#root'))
+createRoot(document.querySelector('#root')).render(<Update />)
 
 window.ABLE2.interop.setContextMenu()
