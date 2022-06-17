@@ -8,7 +8,7 @@ import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs } from './module
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
-import { saveScreenRecording } from './modules/acquisition/saveScreenRecording'
+import { getRecordSources, saveScreenRecording } from './modules/acquisition/screenRecorder'
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
 import { createPreviewStill, changePreviewSource, copyPreviewToImports } from './modules/formatting/preview'
 import { render, cancelRender } from './modules/formatting/formatting'
@@ -381,6 +381,15 @@ const requestUploadIPC = async (evt, data) => {
 	}
 }
 
+const requestRecordSourcesIPC = async evt => {
+	try {
+		evt.reply('recordSourcesFound', await getRecordSources())
+	} catch (err) {
+		console.error(err)
+		evt.reply('requestRecordSourcesErr', new Error('An error occurred while attempting to load recordable sources.'))
+	}
+}
+
 const saveScreenRecordingIPC = async (evt, data) => {
 	const { id, screenshot, fps } = data
 
@@ -390,9 +399,8 @@ const saveScreenRecordingIPC = async (evt, data) => {
 		
 		evt.reply(`screenRecordingSaved_${id}`, mediaData)
 	} catch (err) {
-		const errMsg = new Error(`An error occurred while attempting to save screen${screenshot ? 'shot' : ' recording'}.`)
 		console.error(err)
-		evt.reply(`saveScreenRecordingErr_${id}`, errMsg)
+		evt.reply(`saveScreenRecordingErr_${id}`, new Error(`An error occurred while attempting to save screen${screenshot ? 'shot' : ' recording'}.`))
 	}
 }
 
@@ -511,6 +519,7 @@ ipcMain.on('cancelDownload', cancelDownloadIPC)
 ipcMain.on('stopLiveDownload', stopLiveDownloadIPC)
 ipcMain.on('checkFileType', checkFileTypeIPC)
 ipcMain.on('requestUpload', requestUploadIPC)
+ipcMain.on('requestRecordSources', requestRecordSourcesIPC)
 ipcMain.on('saveScreenRecording', saveScreenRecordingIPC)
 ipcMain.on('removeMediaFile', removeMediaFileIPC)
 ipcMain.on('initPreview', initPreviewIPC)
@@ -550,8 +559,6 @@ ipcMain.on('quit', () => {
 ipcMain.handle('showOpenDialog', (evt, opts) => dialog.showOpenDialog(opts))
 
 ipcMain.handle('showMessageBox', (evt, opts) => dialog.showMessageBox(opts))
-
-ipcMain.handle('screenAccess', () => systemPreferences.getMediaAccessStatus('screen'))
 
 const sleep = (() => {
 	let _blockId = 0

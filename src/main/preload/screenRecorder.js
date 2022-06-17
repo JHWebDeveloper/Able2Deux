@@ -23,36 +23,11 @@ const saveScreenRecording = (id, buffer, fps, screenshot) => sendMessage({
 const prod = process.env.NODE_ENV === 'production'
 const mac = process.platform === 'darwin'
 
-export const getRecordSources = async () => {
-	try {
-		const sources = await desktopCapturer.getSources({
-			types: ['screen', 'window'],
-			thumbnailSize: {
-				width: 560,
-				height: 288
-			}
-		})
-	
-		if (prod && mac && await ipcRenderer.invoke('screenAccess') !== 'granted') {
-			return []
-		}
-	
-		return sources
-			.filter(({ name }) => name !== 'Able2')
-			.map(src => ({
-				...src,
-				thumbnail: src.thumbnail.toDataURL()
-			}))
-			.reduce((arr, src) => {
-				arr[/^screen/.test(src.id) ? 0 : 1].push(src)
-				return arr
-			}, [[], []])
-			.flat()
-	} catch (err) {
-		logError(err)
-		throw new Error('An error occurred while attempting to load recordable sources.')
-	}
-}
+export const getRecordSources = () => sendMessage({
+	sendMsg: 'requestRecordSources',
+	recieveMsg: 'recordSourcesFound',
+	errMsg: 'requestRecordSourcesErr'
+})
 
 export const findSoundflower = async () => {
 	const devices = await navigator.mediaDevices.enumerateDevices()
