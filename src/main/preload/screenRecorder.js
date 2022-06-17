@@ -1,4 +1,4 @@
-import { desktopCapturer, ipcRenderer, shell } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import { v1 as uuid } from 'uuid'
 import log from 'electron-log'
 
