@@ -35,11 +35,10 @@ export const getRecordSources = async () => {
 }
 
 export const saveScreenRecording = async ({ id, buffer, screenshot }) => {
-	const fixedBuffer = buffer
 	const filePath = path.join(scratchDisk.imports.path, `${id}.${screenshot ? 'png' : 'webm'}`)
 	const encoding = screenshot ? 'base64' : 'utf8'
 
-	await fsp.writeFile(filePath, fixedBuffer, { encoding })
+	await fsp.writeFile(filePath, buffer, { encoding })
 
 	return filePath
 }
