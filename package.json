@@ -39,7 +39,6 @@
 		"react-dom": "^18.2.0",
 		"react-router-dom": "^6.0.2",
 		"toastr": "^2.1.4",
-		"ts-ebml": "^2.0.2",
 		"uuid": "^8.3.2",
 		"youtube-dl-ffmpeg-ffprobe-static": "^1.2.1"
 	},
