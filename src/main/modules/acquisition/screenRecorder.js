@@ -1,4 +1,4 @@
-import { desktopCapturer } from 'electron'
+import { desktopCapturer, systemPreferences } from 'electron'
 import { promises as fsp } from 'fs'
 import path from 'path'
 
