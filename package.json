@@ -30,6 +30,7 @@
 		"electron-util": "^0.17.0",
 		"ffmpeg-static-electron": "^2.0.3",
 		"ffprobe-static-electron": "^2.0.2",
+		"fix-webm-duration": "^1.0.5",
 		"fluent-ffmpeg": "^2.1.2",
 		"get-pixels": "^3.3.2",
 		"get-rgba-palette": "^2.0.1",
