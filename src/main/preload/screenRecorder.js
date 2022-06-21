@@ -89,8 +89,8 @@ const getStream = async (chromeMediaSourceId, frameRate, noAudio) => {
 const type = 'video/webm; codecs="vp9, opus"'
 let recorder = false
 let startTime = false
-let duration = false
 let timeout = false
+let duration = 0
 
 const clearRecorder = () => {
 	recorder = false
@@ -105,7 +105,7 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 
 	recorder.onstart = () => {
 		startTime = Date.now()
-		
+
 		setRecordIndicator(true)
 
 		if (timer) {
