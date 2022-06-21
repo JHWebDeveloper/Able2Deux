@@ -1,6 +1,7 @@
 import { ipcRenderer, shell } from 'electron'
 import { v1 as uuid } from 'uuid'
 import log from 'electron-log'
+import ysFixWebmDuration from 'fix-webm-duration'
 
 import { sendMessage } from './sendMessage'
 
@@ -19,9 +20,6 @@ const saveScreenRecording = (id, buffer, fps, screenshot) => sendMessage({
 	errMsg: `saveScreenRecordingErr_${id}`,
 	data: { id, buffer, fps, screenshot }
 })
-
-const prod = process.env.NODE_ENV === 'production'
-const mac = process.platform === 'darwin'
 
 export const getRecordSources = () => sendMessage({
 	sendMsg: 'requestRecordSources',
@@ -47,6 +45,8 @@ export const findSoundflower = async () => {
 export const getSoundflower = () => {
 	shell.openExternal('https://github.com/mattingalls/Soundflower/releases/tag/2.0b2')
 }
+
+const mac = process.platform === 'darwin'
 
 const getStream = async (chromeMediaSourceId, frameRate, noAudio) => {
 	const videoStream = await navigator.mediaDevices.getUserMedia({
@@ -88,6 +88,8 @@ const getStream = async (chromeMediaSourceId, frameRate, noAudio) => {
 
 const type = 'video/webm; codecs="vp9, opus"'
 let recorder = false
+let startTime = false
+let duration = false
 let timeout = false
 
 const clearRecorder = () => {
@@ -102,6 +104,8 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 	recorder = new MediaRecorder(stream, { mediaType: type })
 
 	recorder.onstart = () => {
+		startTime = Date.now()
+		
 		setRecordIndicator(true)
 
 		if (timer) {
@@ -123,6 +127,8 @@ const recordStream = (stream, timer, setRecordIndicator) => new Promise((resolve
 	}
 
 	recorder.onstop = () => {
+		duration = Date.now() - startTime
+
 		clearRecorder()
 		setRecordIndicator(false)
 		resolve(chunks)
@@ -139,9 +145,11 @@ const getArrayBuffer = chunks => new Promise((resolve, reject) => {
 	const fileReader = new FileReader()
 
 	fileReader.onloadend = () => resolve(fileReader.result)
-
 	fileReader.onerror = reject
-	fileReader.readAsArrayBuffer(blob)
+
+	ysFixWebmDuration(blob, duration, fixedBlob => {
+		fileReader.readAsArrayBuffer(fixedBlob)
+	})
 })
 
 export const startRecording = async ({ streamId, frameRate, timer, setRecordIndicator, onStart, onComplete, onError }) => {
