@@ -43,7 +43,7 @@ const EditorOptions = props => {
 				duration={props.duration}
 				split={props.split}
 				{...common} />
-			{(mediaType === 'video' || mediaType === 'audio') && (
+			{props.hasAudio && (
 				<Audio
 					audio={props.audio}
 					{...common} />
@@ -94,6 +94,7 @@ EditorOptions.propTypes = {
 	isBatch: bool,
 	editAll: bool,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
+	hasAudio: bool,
 	width: number,
 	height: number,
 	aspectRatio: string,
