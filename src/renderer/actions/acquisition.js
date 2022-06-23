@@ -126,10 +126,10 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 // ---- UPLOAD ------------
 
 export const upload = ({ name, path }) => async dispatch => {
-	let mediaType = ''
+	let streamData = {}
 
 	try {
-		mediaType = await interop.checkFileType(path)
+		streamData = await interop.checkFileType(path)
 	} catch (err) {
 		return toastr.error(errorToString(err), false, toastrOpts)
 	}
@@ -138,8 +138,8 @@ export const upload = ({ name, path }) => async dispatch => {
 		title: name,
 		filename: interop.getFileName(name),
 		sourceFilePath: path,
-		mediaType,
-		acquisitionType: 'upload'
+		acquisitionType: 'upload',
+		...streamData
 	})
 
 	dispatch(addMedia(mediaData))
