@@ -369,11 +369,11 @@ const checkFileTypeIPC = async (evt, data) => {
 }
 
 const requestUploadIPC = async (evt, data) => {
-	const { id, mediaType } = data
+	const { id, mediaType, hasAudio } = data
 
 	try {
 		const tempFilePath = await upload(data)
-		const mediaData = await getMediaInfo(id, tempFilePath, mediaType)
+		const mediaData = await getMediaInfo(id, tempFilePath, { mediaType, hasAudio })
 
 		evt.reply(`uploadComplete_${id}`, mediaData)
 	} catch (err) {
@@ -395,7 +395,8 @@ const saveScreenRecordingIPC = async (evt, data) => {
 
 	try {
 		const tempFilePath = await saveScreenRecording(data)
-		const mediaData = await getMediaInfo(id, tempFilePath, screenshot ? 'image' : 'video', fps)
+		const streamData = screenshot && { mediaType: 'image', hasAudio: false }
+		const mediaData = await getMediaInfo(id, tempFilePath, streamData, fps)
 		
 		evt.reply(`screenRecordingSaved_${id}`, mediaData)
 	} catch (err) {
