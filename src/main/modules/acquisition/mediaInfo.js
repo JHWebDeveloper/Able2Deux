@@ -131,32 +131,37 @@ export const checkFileType = async (file, preGeneratedMetadata) => {
 	const audioStream = metadata.streams.find(stream => stream.codec_type === 'audio')
 	const videoSupport = codecs[videoStream?.codec_name]?.canDecode
 	const audioSupport = codecs[audioStream?.codec_name]?.canDecode
+	const streamData = { hasAudio: !!audioStream }
 
 	if (audioSupport && (!videoStream || supportedImageCodecs.includes(videoStream?.codec_name))) { // audio only or audio with album artwork
-		return 'audio'
+		streamData.mediaType = 'audio'
 	} else if (videoSupport && (audioSupport || !audioStream)) { // video+audio or video only
-		return getVisualMediaType(videoStream.codec_name, path.extname(file))
+		streamData.mediaType = getVisualMediaType(videoStream.codec_name, path.extname(file))
 	} else {
 		throw createFileError(file)
 	}
+
+	return streamData
 }
 
 const checkMetadata = data => !!data && data !== 'unknown' && data !== 'N/A'
 
 const frameRateToNumber = fps => parseFloat(fps.split('/').reduce((a, b) => a / b).toFixed(2))
 
-export const getMediaInfo = async (id, tempFilePath, mediaType, forcedFPS) => {
+export const getMediaInfo = async (id, tempFilePath, streamData, forcedFPS) => {
 	const metadata = await getMetadata(tempFilePath)
 	const mediaData = {}
 	let videoStream = {}
 
-	if (!mediaType) try {
-		mediaType = await checkFileType(tempFilePath, metadata)
+	if (!streamData) try {
+		streamData = await checkFileType(tempFilePath, metadata)
 	} catch (err) {
-		mediaType = 'video'
+		streamData = { mediaType: 'video', hasAudio: false }
 	}
 
-	Object.assign(mediaData, { tempFilePath, mediaType })
+	Object.assign(mediaData, { tempFilePath, ...streamData })
+
+	const { mediaType } = streamData
 
 	if (mediaType === 'video' || mediaType === 'audio') {
 		const { duration } = metadata.format
