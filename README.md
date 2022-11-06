@@ -8,6 +8,21 @@ This repo is intended for portfolio viewing purposes only. For official releases
 https://github.com/JHWebDeveloper/Able2-public-resources
 
 
+## [Unreleased][2.2.5] - TBD
+
+### Changed
+- Audio panel will no longer appear for videos lacking an audio track (Track has to be completely removed. Panel will still appear for silent tracks.)
+- Replaced youtube-dl with yt-dlp due to lack of support and slow download speed.
+
+### Updated
+- Ffmpeg+Ffprobe
+- Electron 21
+
+### Fixed
+- Slow download speeds (see Changed section, item 2)
+- Overall sluggishness (Started with Electon 12, finally fixed in Electron 18)
+- Bug where screen recordings were importing with the incorrect duration.
+
 ## [2.2.4] - 2.17.2022
 
 ### Added
