@@ -8,10 +8,10 @@ This repo is intended for portfolio viewing purposes only. For official releases
 https://github.com/JHWebDeveloper/Able2-public-resources
 
 
-## [Unreleased][2.2.5] - TBD
+## [2.2.5] - 11-6-2022
 
 ### Changed
-- Audio panel will no longer appear for videos lacking an audio track (Track has to be completely removed. Panel will still appear for silent tracks.)
+- Audio panel will no longer appear for videos lacking an audio track (Only when track is completely removed. Panel will still appear for silent tracks.)
 - Replaced youtube-dl with yt-dlp due to lack of support and slow download speed.
 
 ### Updated
