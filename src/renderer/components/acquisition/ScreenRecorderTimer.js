@@ -7,7 +7,7 @@ import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 import Clock from '../form_elements/Clock'
 
-const ScreenRecorderTimer = ({ timer, timerEnabled, screenshot, recording, dispatch }) => {
+const ScreenRecorderTimer = ({ timer, timerEnabled, screenshot, recording, recordButton, dispatch }) => {
 	const updateTimecode = useCallback(({ name, value }) => {
 		dispatch(updateState({ [name]: value }))
 	}, [])
@@ -27,7 +27,8 @@ const ScreenRecorderTimer = ({ timer, timerEnabled, screenshot, recording, dispa
 			{recording ? ( // eslint-disable-line no-extra-parens
 				<Clock
 					start={timer}
-					decrement={timerEnabled} />
+					decrement={timerEnabled}
+					recordIndicator={recordButton} />
 			) : (
 				<TimecodeInputSeconds
 					name="timer"
