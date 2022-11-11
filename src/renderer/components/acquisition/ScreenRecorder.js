@@ -115,7 +115,6 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 					name="record"
 					ref={ref}
 					title={`${recording ? 'Stop' : 'Start'} Record`}
-					className={recording ? 'recording' : ''}
 					onClick={toggleRecording}></button>
 				<button
 					type="button"
@@ -139,6 +138,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 				timer={timer}
 				timerEnabled={timerEnabled}
 				recording={recording}
+				recordButton={ref.current}
 				screenshot={screenshot}
 				dispatch={dispatch} />
 			{interop.isMac && <SoundflowerMessage />}
