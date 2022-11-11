@@ -3,30 +3,36 @@ import { bool, number } from 'prop-types'
 
 import { secondsToTC } from 'utilities'
 
+const blink = 'blink'
 let seconds = 0
+let ticks = 0
 let interval = false
 
-const Clock = ({ start, decrement }) => {
+const Clock = ({ start, decrement, recordIndicator }) => {
 	const ref = useRef()
 
 	useEffect(() => {
-		if (decrement) {
-			seconds = start
+		const dir = decrement ? -1 : 1
+		seconds = decrement ? start : 0
 
-			interval = setInterval(() => {
-				ref.current.value = secondsToTC(--seconds)
-				if (seconds < 1) clearInterval(interval)
-			}, 1000)
-		} else {
-			interval = setInterval(() => {
-				ref.current.value = secondsToTC(++seconds)
-			}, 1000)
-		}
+		interval = setInterval(() => {
+			if (ticks++ % 2 === 0) {
+				ref.current.value = secondsToTC(seconds)
+				recordIndicator.className = blink
+				seconds += dir
+			} else {
+				recordIndicator.className = ''
+			}
+
+			if (decrement && seconds < 1) clearInterval(interval)
+		}, 500)
 
 		return () => {
 			clearInterval(interval)
 			seconds = 0
+			ticks = 0
 			interval = false
+			recordIndicator.className = ''
 		}
 	}, [])
 
