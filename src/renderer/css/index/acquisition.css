@@ -85,11 +85,6 @@ input[type="file"] {
 	grid-row: 4;
 }
 
-@keyframes blink {
-	0%, 50% { background-color: var(--highlight); }
-	51%, 100% { background-color: var(--background); }
-}
-
 #screen-recorder > div:first-of-type {
 	display: flex;
 	justify-content: center;
@@ -127,8 +122,8 @@ button[name="record"]::after {
 	background-color: var(--background);
 }
 
-button[name="record"].recording::after {
-	animation: blink 1000ms infinite;
+button[name="record"].blink::after {
+	background-color: var(--highlight);
 }
 
 button[name="screenshot"] { height: 26px; }
