@@ -8,7 +8,7 @@ const blink = 'blink'
 const Clock = ({ start, decrement, recordIndicator }) => {
 	const ref = useRef()
 	let seconds = 0
-	let ticks = 0
+	let tick = 0
 	let interval = false
 
 	useEffect(() => {
@@ -16,12 +16,14 @@ const Clock = ({ start, decrement, recordIndicator }) => {
 		seconds = decrement ? start : 0
 
 		interval = setInterval(() => {
-			if (ticks++ & 1) {
+			if (tick++) {
 				recordIndicator.className = ''
 			} else {
 				ref.current.value = secondsToTC(seconds += dir)
 				recordIndicator.className = blink
 			}
+
+			tick &= 1
 
 			if (decrement && seconds < 1) clearInterval(interval)
 		}, 500)
