@@ -16,11 +16,11 @@ const Clock = ({ start, decrement, recordIndicator }) => {
 		seconds = decrement ? start : 0
 
 		interval = setInterval(() => {
-			if (ticks++ % 2) {
+			if (ticks++ & 1) {
+				recordIndicator.className = ''
+			} else {
 				ref.current.value = secondsToTC(seconds += dir)
 				recordIndicator.className = blink
-			} else {
-				recordIndicator.className = ''
 			}
 
 			if (decrement && seconds < 1) clearInterval(interval)
