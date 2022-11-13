@@ -119,7 +119,7 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 		width,
 		height,
 		aspectRatio,
-		hasAlpha
+		hasAlpha,
 	} : sourceMediaData
 
 	const mediaData = createMediaData({
@@ -129,7 +129,8 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 		mediaType: 'image',
 		acquisitionType: 'screengrab',
 		duration: 0,
-		fps: 0
+		fps: 0,
+		hasAudio: false
 	})
 
 	dispatch(addMedia(mediaData))
