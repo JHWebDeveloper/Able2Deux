@@ -12,7 +12,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Fixed
 - Record light blink animation is now in exact sync with the seconds counter.
-- The audio options window will no longer appear for screengrabs.
+- Audio panel will no longer appear for screengrabs.
 
 ## [2.2.5] - 11-6-2022
 
