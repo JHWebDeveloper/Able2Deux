@@ -8,6 +8,12 @@ This repo is intended for portfolio viewing purposes only. For official releases
 https://github.com/JHWebDeveloper/Able2-public-resources
 
 
+## [Unreleased][2.2.6] - TBD
+
+### Fixed
+- Record light blink animation is now in exact sync with the seconds counter.
+- The audio options window will no longer appear for screengrabs.
+
 ## [2.2.5] - 11-6-2022
 
 ### Changed
