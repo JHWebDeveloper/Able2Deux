@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { bool, func, number } from 'prop-types'
+import { bool, func, number, object } from 'prop-types'
 
 import { updateState, toggleCheckbox } from 'actions'
 
@@ -48,6 +48,7 @@ ScreenRecorderTimer.propTypes = {
 	timerEnabled: bool.isRequired,
 	screenshot: bool.isRequired,
 	recording: bool.isRequired,
+	recordButton: object,
 	dispatch: func.isRequired
 }
 

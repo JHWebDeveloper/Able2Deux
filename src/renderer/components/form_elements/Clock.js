@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { bool, number } from 'prop-types'
+import { bool, number, object } from 'prop-types'
 
 import { secondsToTC } from 'utilities'
 
@@ -49,7 +49,8 @@ const Clock = ({ start, decrement, recordIndicator }) => {
 
 Clock.propTypes = {
 	start: number.isRequired,
-	decrement: bool.isRequired
+	decrement: bool.isRequired,
+	recordIndicator: object.isRequired
 }
 
 export default Clock

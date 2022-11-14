@@ -119,7 +119,7 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 		width,
 		height,
 		aspectRatio,
-		hasAlpha,
+		hasAlpha
 	} : sourceMediaData
 
 	const mediaData = createMediaData({
