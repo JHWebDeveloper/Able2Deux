@@ -13,8 +13,9 @@ const Clock = ({ start, decrement, recordIndicator }) => {
 
 	useEffect(() => {
 		const dir = decrement ? -1 : 1
-		seconds = decrement ? start : 0
 
+		seconds = decrement ? start : 0
+		
 		interval = setInterval(() => {
 			if (tick++) {
 				recordIndicator.className = ''
