@@ -115,7 +115,7 @@ export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolv
 	})
 
 	infoCmd.stderr.on('data', err => {
-		console.error(err)
+		console.error(err.toString())
 		reject(createURLError(url))
 	})
 
