@@ -2,20 +2,6 @@ import React from 'react'
 
 const { interop } = window.ABLE2
 
-{/* <table>
-	<thead>
-		<tr>
-			<th>Option</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			
-		</tr>
-	</tbody>
-</table> */}
-
 const Preferences = () => (
 	<section id="preferences">
 		<h2>Preferences</h2>
