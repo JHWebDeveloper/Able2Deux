@@ -39,7 +39,8 @@
 		"react-dom": "^18.2.0",
 		"react-router-dom": "^6.0.2",
 		"toastr": "^2.1.4",
-		"uuid": "^9.0.0"
+		"uuid": "^9.0.0",
+		"youtube-dl-ffmpeg-ffprobe-static": "^1.2.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.16.0",
