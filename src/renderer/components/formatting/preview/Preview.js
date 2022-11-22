@@ -1,9 +1,8 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { bool, func, object } from 'prop-types'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { func, object } from 'prop-types'
 import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
-import { updateMediaState } from 'actions'
 import { buildSource } from 'utilities'
 
 import PreviewCanvas from './PreviewCanvas'
@@ -13,7 +12,7 @@ import Controls from './Controls'
 
 const { interop } = window.ABLE2
 
-const Preview = ({ selected, editAll, backgroundDisabled, dispatch }) => {
+const Preview = ({ selected, dispatch }) => {
 	const { renderOutput, gridButtons, gridColor } = useContext(PrefsContext).preferences
 
 	const {
@@ -51,10 +50,6 @@ const Preview = ({ selected, editAll, backgroundDisabled, dispatch }) => {
 	}, [source, arc, rotation, renderOutput])
 
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
-
-	const setEyedropToBgColor = useCallback(bgColor => {
-		dispatch(updateMediaState(id, { bgColor }, editAll))
-	}, [id, editAll])
 
 	useEffect(() => {
 		interop.setPreviewListeners(loadPreviewStill)
@@ -100,12 +95,9 @@ const Preview = ({ selected, editAll, backgroundDisabled, dispatch }) => {
 		<div id="preview">
 			<div>
 				<div id="preview-container">
-					{previewStill ? (
-						<PreviewCanvas
-							previewStill={previewStill}
-							eyedropper={!backgroundDisabled && background === 'color'}
-							setEyedropToBgColor={setEyedropToBgColor}/>
-					) : <Spinner />}
+					{previewStill
+						? <PreviewCanvas previewStill={previewStill} />
+						: <Spinner />}
 					<Grid
 						grids={grids}
 						gridButtons={gridButtons}
@@ -127,8 +119,6 @@ const Preview = ({ selected, editAll, backgroundDisabled, dispatch }) => {
 
 Preview.propTypes = {
 	selected: object.isRequired,
-	editAll: bool.isRequired,
-	backgroundDisabled: bool.isRequired,
 	dispatch: func.isRequired
 }
 

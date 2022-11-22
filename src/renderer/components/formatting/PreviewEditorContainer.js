@@ -15,8 +15,6 @@ const PreviewEditorContainer = ({ selected, editAll, batch, split, isBatch, disp
 		<div id="editor">
 			<PreviewContainer
 				selected={selected}
-				editAll={editAll}
-				backgroundDisabled={backgroundDisabled}
 				dispatch={dispatch} />
 			<EditorOptions
 				batch={batch}
