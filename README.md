@@ -17,6 +17,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Record light blink animation is now in exact sync with the seconds counter.
 - Audio panel will no longer appear for screengrabs.
 
+### Removed
+- Eyedropper feature when hovering over the preview window with a color bg selected. The HTML color pick popup now comes with its own eyedropper tool rendering Able2's eyedropper rendundant.
+
 ## [2.2.5] - 11.6.2022
 
 ### Changed
