@@ -18,7 +18,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Audio panel will no longer appear for screengrabs.
 
 ### Removed
-- Eyedropper feature when hovering over the preview window with a color bg selected. The HTML color pick popup now comes with its own eyedropper tool rendering Able2's eyedropper rendundant.
+- Eyedropper feature when hovering over the preview window with a color bg selected. The HTML color pick popup now comes with its own eyedropper tool rendering Able2's eyedropper redundant.
 
 ## [2.2.5] - 11.6.2022
 
