@@ -1,5 +1,5 @@
 import { promises as fsp } from 'fs'
-import path from 'path'
+import path, { parse } from 'path'
 
 import { ytdl } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
@@ -27,11 +27,6 @@ const removeDownload = id => {
 
 /* --- DOWNLOAD --- */
 
-const parseYTDLOutput = (str, regex) => {
-	const result = str.match(regex)
-	return result?.[0]
-}
-
 const getTempFilePath = async id => {
 	const regex = new RegExp(`^${id}`)
 	const files = await fsp.readdir(scratchDisk.imports.path)
@@ -42,32 +37,44 @@ const getTempFilePath = async id => {
 
 const createDownloadError = url => new Error(`An error occured while downloading from ${truncateURL(url)}.`)
 
+const convertNumericString = (str, def) => /^[0-9]+$/.test(str) ? parseFloat(str) : def
+
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
 	const { id, url, optimize, output, disableRateLimit } = formData
+	const cmdPrefixRegex = new RegExp(`^\r\\\[${id}\\\]`)
 
 	const downloadCmd = ytdl([
 		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
 		'--output', `${scratchDisk.imports.path}/${id}.%(ext)s`,
 		'--format', `${optimize === 'quality' ? `bestvideo[height<=${output}][fps<=60]+bestaudio/` : ''}best[height<=${output}][fps<=60]/best`,
 		'--merge-output-format', 'mkv',
+		'--progress-template', `[${id}]_%(progress.downloaded_bytes)s_%(progress.total_bytes)s_%(progress.eta)s`,
 		url
 	])
 
 	const progress = {
-		percent: '0%',
-		eta: '00:00',
+		downloaded: 0,
+		total: 1,
+		eta: 0,
 		id
 	}
 
 	downloadCmd.stdout.on('data', data => {
 		const info = data.toString()
 
-		if (!/\[download\]/.test(info)) return false
+		if (!cmdPrefixRegex.test(info)) return false
 
-		progress.percent = parseYTDLOutput(info, /[.0-9]+%/) ?? progress.percent
-		progress.eta = parseYTDLOutput(info, /[:0-9]+$/) ?? progress.eta
+		const [ downloaded, total, eta ] = info.split('_').slice(1)
+		
+		progress.downloaded = convertNumericString(downloaded, progress.downloaded)
+		progress.total = convertNumericString(total, progress.total)
+		progress.eta = convertNumericString(eta, progress.eta)
 
-		win.webContents.send(`downloadProgress_${id}`, progress)
+		win.webContents.send(`downloadProgress_${id}`, {
+			percent: progress.downloaded / progress.total,
+			eta,
+			id
+		})
 	})
 
 	downloadCmd.stderr.on('data', err => {
