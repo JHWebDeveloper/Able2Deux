@@ -39,10 +39,10 @@ const Position = memo(({ id, isBatch, position, editAll, dispatch }) => {
 		<DetailsWrapper
 			summary="Position"
 			className="single-slider-grid"
-			buttons={isBatch && createSettingsMenu([
+			buttons={isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ position })),
 				() => dispatch(applySettingsToAll(id, { position }))
-			])}>
+			]) : []}>
 			<label>X</label>
 			<SliderSingle snapPoints={[0]} {...propsX} />
 			<NumberInput {...propsX} />

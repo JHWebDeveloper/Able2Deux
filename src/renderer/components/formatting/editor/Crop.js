@@ -98,10 +98,10 @@ const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 		<DetailsWrapper
 			summary="Crop"
 			className="double-slider-grid"
-			buttons={isBatch && createSettingsMenu([
+			buttons={isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ crop })),
 				() => dispatch(applySettingsToAll(id, { crop }))
-			])}>
+			]) : []}>
 			<label>T</label>
 			<NumberInput
 				max={crop.b - 0.05}
