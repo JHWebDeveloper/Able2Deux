@@ -1,24 +1,49 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { bool, exact, string } from 'prop-types'
 
+const frameRatio = 16 / 9
+
 const Grid = props => {
 	const { grids, gridColor, gridButtons } = props
 	const cnv = useRef()
 	const ctx = useRef()
 
-	const drawGridMarkers = useCallback(lines => {
-		let i = lines.length
+	const drawGridMarkers = useCallback(coords => {
+		let i = coords.length
 	
 		ctx.current.beginPath()
 	
 		while (i--) {
-			const [ x1, y1, x2, y2 ] = lines[i]
+			const [ x1, y1, x2, y2 ] = coords[i]
 	
 			ctx.current.moveTo(x1, y1)
 			ctx.current.lineTo(x2, y2)
 		}
 	
 		ctx.current.stroke()
+	}, [ctx])
+
+	const drawAspectRatioMarkers = useCallback((antecedent, consequent) => {
+		const coords = [[0, 0, 0, 0], [0, 0, 0, 0]]
+		const ratio = antecedent / consequent
+	
+		if (ratio < frameRatio) {
+			const width = 9 * ratio / 16 * 384
+			const pad = (384 - width) / 2
+	
+			coords[0][0] = coords[0][2] = pad
+			coords[0][3] = coords[1][3] = 216
+			coords[1][0] = coords[1][2] = width + pad
+		} else {
+			const height = 16 * (consequent / antecedent) / 9 * 216
+			const pad = (216 - height) / 2
+	
+			coords[0][1] = coords[0][3] = pad
+			coords[0][2] = coords[1][2] = 384
+			coords[1][1] = coords[1][3] = height + pad
+		}
+	
+		drawGridMarkers(ctx, coords)
 	}, [ctx])
 	
 	useEffect(() => {
@@ -50,48 +75,13 @@ const Grid = props => {
 			])
 		}
 
-		if (gridButtons._43 && grids._43) {
-			drawGridMarkers([
-				[48, 0, 48, 216],
-				[336, 0, 336, 216]
-			])
-		}
-
-		if (gridButtons._11 && grids._11) {
-			drawGridMarkers([
-				[84, 0, 84, 216],
-				[300, 0, 300, 216]
-			])
-		}
-
-		if (gridButtons._916 && grids._916) {
-			drawGridMarkers([
-				[131.25, 0, 131.25, 216],
-				[252.75, 0, 252.75, 216]
-			])
-		}
-
-		if (gridButtons._239 && grids._239) {
-			drawGridMarkers([
-				[0, 27.6652719665, 384, 27.6652719665],
-				[0, 188.334728033, 384, 188.33472803]
-			])
-		}
-
-		if (gridButtons._185 && grids._185) {
-			drawGridMarkers([
-				[0, 4.21621621622, 384, 4.21621621622],
-				[0, 211.783783784, 384, 211.783783784]
-			])
-		}
-
-		if (gridButtons._166 && grids._166) {
-			drawGridMarkers([
-				[12, 0, 12, 216],
-				[372, 0, 372, 216]
-			])
-		}
-	}, [props])
+		if (gridButtons._43 && grids._43) drawAspectRatioMarkers(4, 3)
+		if (gridButtons._11 && grids._11) drawAspectRatioMarkers(1, 1)
+		if (gridButtons._916 && grids._916) drawAspectRatioMarkers(9, 16)
+		if (gridButtons._239 && grids._239) drawAspectRatioMarkers(2.39, 1)
+		if (gridButtons._185 && grids._185) drawAspectRatioMarkers(1.85, 1)
+		if (gridButtons._166 && grids._166) drawAspectRatioMarkers(5, 3)
+	}, [props, ctx])
 
 	return <canvas ref={cnv}></canvas>
 }
