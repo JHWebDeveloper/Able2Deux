@@ -43,7 +43,7 @@ const Grid = props => {
 			coords[1][1] = coords[1][3] = height + pad
 		}
 	
-		drawGridMarkers(ctx, coords)
+		drawGridMarkers(coords)
 	}, [ctx])
 	
 	useEffect(() => {
