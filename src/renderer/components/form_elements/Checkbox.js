@@ -12,8 +12,8 @@ const Checkbox = ({ label, name, checked, switchIcon, disabled, onChange }) => (
 			checked={checked}
 			onChange={onChange}
 			disabled={disabled} />
-		{switchIcon && <ToggleSwitch toggle={checked} disabled={disabled} />}
-		{!!label && <span>{label}</span>}
+		{switchIcon ? <ToggleSwitch toggle={checked} disabled={disabled} /> : <></>}
+		{!!label ? <span>{label}</span> : <></>}
 	</label>
 )
 

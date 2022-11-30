@@ -43,12 +43,12 @@ const EditorOptions = props => {
 				duration={props.duration}
 				split={props.split}
 				{...common} />
-			{props.hasAudio && (
+			{props.hasAudio ? (
 				<Audio
 					audio={props.audio}
 					{...common} />
-			)}
-			{mediaType !== 'audio' && !(mediaType === 'video' && props.audio.exportAs === 'audio') && <>
+			) : <></>}
+			{mediaType !== 'audio' && !(mediaType === 'video' && props.audio.exportAs === 'audio') ? <>
 				<Formatting
 					arc={arc}
 					background={props.background}
@@ -56,17 +56,17 @@ const EditorOptions = props => {
 					overlay={props.overlay}
 					backgroundDisabled={props.backgroundDisabled}
 					{...common} />
-				{!(arc === 'none' && aspectRatio !== '16:9') && (
+				{!(arc === 'none' && aspectRatio !== '16:9') ? (
 					<Source
 						source={props.source}
 						{...common} />
-				)}
-				{arc === 'fill' && aspectRatio !== '16:9' && (
+				) : <></>}
+				{arc === 'fill' && aspectRatio !== '16:9' ? (
 					<Centering
 						centering={props.centering}
 						{...common} />
-				)}
-				{arc === 'transform' && <>
+				) : <></>}
+				{arc === 'transform' ? <>
 					<Position
 						position={props.position}
 						{...common} />
@@ -77,14 +77,14 @@ const EditorOptions = props => {
 					<Crop
 						crop={props.crop}
 						{...common} />
-				</>}
+				</> : <></>}
 				<Rotation
 					rotation={props.rotation}
 					scale={props.scale}
 					crop={props.crop}
 					arc={arc}
 					{...common} />
-			</>}
+			</> : <></>}
 		</div>
 	)
 }

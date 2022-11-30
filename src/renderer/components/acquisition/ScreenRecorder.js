@@ -127,13 +127,13 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 						fill={recording ? '#ccc' : '#4c4c4c'} />
 				</button>
 			</div>
-			{!!recordSources.length && (
+			{!!recordSources.length ? (
 				<RecordSourceSelector
 					recordButton={ref.current}
 					closeRecordSources={() => setRecordSources([])}
 					recordSources={recordSources}
 					captureScreen={captureScreen} />
-			)}
+			) : <></>}
 			<ScreenRecorderTimer
 				timer={timer}
 				timerEnabled={timerEnabled}
@@ -141,7 +141,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 				recordButton={ref.current}
 				screenshot={screenshot}
 				dispatch={dispatch} />
-			{interop.isMac && <SoundflowerMessage />}
+			{interop.isMac ? <SoundflowerMessage /> : <></>}
 		</div>
 	)
 }

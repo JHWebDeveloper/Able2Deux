@@ -23,7 +23,7 @@ const MediaSelector = ({ media, selected, isBatch, editAll, dispatch }) => (
 			media={media}
 			selectedId={selected.id}
 			dispatch={dispatch} />
-		{isBatch && <EditAll editAll={editAll} dispatch={dispatch} />}
+		{isBatch ? <EditAll editAll={editAll} dispatch={dispatch} /> : <></>}
 	</div>
 )
 

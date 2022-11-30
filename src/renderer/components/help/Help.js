@@ -24,7 +24,7 @@ const Help = () => {
 	return <>
 		<header>
 			<h1>Able2 Help</h1>
-			{version && <p>Able2 Version {version}</p>}
+			{version ? <p>Able2 Version {version}</p> : <></>}
 			<p>Able2 is an all-in-one News Editor&apos;s video acquisition tool developed by Jonathan Hamilton and customized for the Editors and Photographers of WFTV in Orlando, FL. Able2 is able to download media from various online services, record video and audio from a user&apos;s desktop and convert and format video, image and audio files for air.</p>
 			<p>Report bugs to <address>able2@jonathanhamilton.com</address></p>
 		</header>

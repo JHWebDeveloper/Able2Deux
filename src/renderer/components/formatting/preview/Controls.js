@@ -46,11 +46,11 @@ const Controls = props => {
 
 	return (
 		<div id="preview-controls" onKeyPress={onKeyPress}>
-			{selected.mediaType === 'video' && (
+			{selected.mediaType === 'video' ? (
 				<FrameSelector
 					selected={selected}
 					dispatch={dispatch} />
-			)}
+			) : <></>}
 			<GridSelector
 				grids={props.grids}
 				gridButtons={props.gridButtons}

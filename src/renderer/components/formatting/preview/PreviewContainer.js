@@ -9,7 +9,7 @@ const PreviewContainer = props => {
 	return (
 		<details onToggle={() => { toggleOpen(!open) }} open>
 			<summary>Preview</summary>
-			{open && !!props.selected.id && <Preview {...props} />}
+			{open && !!props.selected.id ? <Preview {...props} /> : <></>}
 		</details>
 	)
 }

@@ -73,13 +73,13 @@ const SingleSlider = ({
 					setValue={setValue}
 					getTrack={getTrack} />
 			</span>
-			{!!snapPoints.length && (
+			{!!snapPoints.length ? (
 				<SliderSnapMarkers
 					markers={snapPoints}
 					min={min}
 					diff={diff}
 					id={sliderId} />
-			)}
+			) : <></>}
 		</span>
 	)
 }

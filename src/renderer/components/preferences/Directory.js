@@ -74,25 +74,25 @@ const Directory = ({ dir, index, total, dispatch }) => {
 			<DirectorySelector
 				directory={directory}
 				onChange={updateDirectory} />
-			{total > 1 && <>
-				{index > 0 && (
+			{total > 1 ? <>
+				{index > 0 ? (
 					<button
 						type="button"
 						name="up"
 						className="app-button symbol"
 						title="Move directory up"
 						onClick={moveUp}>keyboard_arrow_up</button>
-				)}
-				{index < total - 1 && (
+				) : <></>}
+				{index < total - 1 ? (
 					<button
 						type="button"
 						name="down"
 						className="app-button symbol"
 						title="Move directory down"
 						onClick={moveDown}>keyboard_arrow_down</button>
-				)}
+				) : <></>}
 				<DragIndicator />
-			</>}
+			</> : <></>}
 		</>
 	)
 }

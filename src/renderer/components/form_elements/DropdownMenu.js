@@ -33,27 +33,29 @@ const DropdownMenu = ({ buttons }) => {
 				}}
 				aria-haspopup="true"
 				aria-expanded={revealMenu}>more_vert</button>
-			{revealMenu && (
+			{revealMenu ? (
 				<span style={position}>
-					{buttons.map(({ hide, type, label, action }, i) => !hide && (type === 'spacer' ? (
-						<span
-							key={`${menuId}_${i}`}
-							className="spacer"
-							aria-hidden="true"
-							data-no-drag></span>
-					) : (
-						<button
-							key={`${menuId}_${i}`}
-							type="button"
-							autoFocus={i === 0}
-							onClick={() => {
-								action()
-								toggleRevealMenu(false)
-							}}
-							data-no-drag>{label}</button>
-					)))}
+					{buttons.map(({ hide, type, label, action }, i) => !hide ? (
+						type === 'spacer' ? (
+							<span
+								key={`${menuId}_${i}`}
+								className="spacer"
+								aria-hidden="true"
+								data-no-drag></span>
+						) : (
+							<button
+								key={`${menuId}_${i}`}
+								type="button"
+								autoFocus={i === 0}
+								onClick={() => {
+									action()
+									toggleRevealMenu(false)
+								}}
+								data-no-drag>{label}</button>
+						)
+					) : <></>)}
 				</span>
-			)}
+			) : <></>}
 		</span>
 	)
 }

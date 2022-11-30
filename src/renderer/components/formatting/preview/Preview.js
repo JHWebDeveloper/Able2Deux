@@ -104,7 +104,7 @@ const Preview = ({ selected, dispatch }) => {
 						gridColor={gridColor} />
 				</div>
 			</div>
-			{!isAudio && (
+			{!isAudio ? (
 				<Controls
 					selected={selected}
 					grids={grids}
@@ -112,7 +112,7 @@ const Preview = ({ selected, dispatch }) => {
 					gridColor={gridColor}
 					toggleGrids={toggleGrids}
 					dispatch={dispatch} />
-			)}
+			) : <></>}
 		</div>
 	)
 }

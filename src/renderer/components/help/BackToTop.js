@@ -28,12 +28,12 @@ const BackToTop = () => {
 		return () => window.onscroll = ''
 	}, [backToTopVisible])
 
-	return backToTopVisible && (
+	return backToTopVisible ? (
 		<button
 			type="button"
 			title="Back to Top"
 			onClick={throttle(scrollToTop, 1000)}>first_page</button>
-	)
+	) : <></>
 }
 
 export default BackToTop

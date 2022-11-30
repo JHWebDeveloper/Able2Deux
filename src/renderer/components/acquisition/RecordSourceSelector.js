@@ -37,7 +37,7 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 			ref={ref}
 			onBlur={closeSelectorOnBlur}>
 			<div style={getRecordButtonPos()}>
-				{visible && <>
+				{visible ? <>
 					<h2>
 						Select Screen or Window
 						<button
@@ -56,7 +56,7 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 							<span>{name}</span>
 						</button>
 					))}
-				</>}
+				</> : <></>}
 			</div>
 		</div>
 	)

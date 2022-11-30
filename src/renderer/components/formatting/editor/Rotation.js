@@ -162,13 +162,13 @@ const Rotation = memo(props => {
 					onChange={updateAngle}
 					buttons={angleButtons}/>
 			</fieldset>
-			{props.arc === 'transform' && (
+			{props.arc === 'transform' ? (
 				<RotationOffset
 					id={id}
 					editAll={editAll}
 					offset={rotation.offset}
 					dispatch={dispatch} />
-			)}
+			) : <></>}
 		</DetailsWrapper>
 	)
 }, compareProps)

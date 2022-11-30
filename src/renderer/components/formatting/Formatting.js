@@ -47,11 +47,11 @@ const Formatting = () => {
 					isBatch={isBatch}
 					editAll={editAll}
 					dispatch={dispatch} />	
-				{isBatch && (
+				{isBatch ? (
 					<BatchName
 						batch={batch}
 						dispatch={dispatch} />
-				)}
+				) : <></>}
 				<SaveOptions
 					isBatch={isBatch}
 					saveLocations={saveLocations}
@@ -65,14 +65,14 @@ const Formatting = () => {
 				batch={batch}
 				isBatch={isBatch}
 				dispatch={dispatch} />
-			{rendering && (
+			{rendering ? (
 				<RenderQueue
 					media={media}
 					batch={batch}
 					saveLocations={saveLocations}
 					closeRenderQueue={() => setRendering(false)}
 					dispatch={dispatch} />
-			)}
+			) : <></>}
 		</form>
 	)
 }

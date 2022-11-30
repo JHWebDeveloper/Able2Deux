@@ -134,13 +134,13 @@ const DoubleSlider = ({
 					getClickPos={getClickPosRight}
 					{...common} />
 			</span>
-			{!!snapPoints.length && (
+			{!!snapPoints.length ? (
 				<SliderSnapMarkers
 					markers={snapPoints}
 					min={min}
 					diff={diff}
 					id={leftId} />
-			)}
+			) : <></>}
 		</span>
 	)
 }
