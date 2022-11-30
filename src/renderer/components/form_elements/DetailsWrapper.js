@@ -8,7 +8,7 @@ const DetailsWrapper = ({ summary, id = '', className = '', open, buttons, child
 		<summary>
 			{summary}
 		</summary>
-		{buttons.length ? <DropdownMenu buttons={buttons} /> : <></>}
+		{buttons ? <DropdownMenu buttons={buttons} /> : <></>}
 		<div id={id} className={className}>
 			{children}
 		</div>
