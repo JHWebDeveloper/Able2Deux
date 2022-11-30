@@ -51,12 +51,12 @@ const Audio = memo(({ id, isBatch, mediaType, audio, editAll, dispatch }) => {
 		<DetailsWrapper
 			summary="Audio"
 			className="auto-columns"
-			buttons={isBatch && createSettingsMenu([
+			buttons={isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ audio })),
 				() => dispatch(applySettingsToAll(id, { audio }))
-			])}
+			]) : []}
 			open={mediaType === 'audio'}>
-			{mediaType === 'video' && (
+			{mediaType === 'video' ? (
 				<fieldset>
 					<legend>Export As:</legend>
 					<RadioSet
@@ -65,7 +65,7 @@ const Audio = memo(({ id, isBatch, mediaType, audio, editAll, dispatch }) => {
 						onChange={updateAudio}
 						buttons={exportAsButtons} />
 				</fieldset>
-			)}
+			) : <></>}
 			<fieldset disabled={audio.exportAs !== 'audio' && mediaType !== 'audio'}>
 				<legend>Format:</legend>
 				<RadioSet
