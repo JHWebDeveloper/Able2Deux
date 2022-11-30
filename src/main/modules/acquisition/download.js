@@ -1,5 +1,5 @@
 import { promises as fsp } from 'fs'
-import path, { parse } from 'path'
+import path from 'path'
 
 import { ytdl } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
@@ -41,7 +41,7 @@ const convertNumericString = (str, def) => /^[0-9]+$/.test(str) ? parseFloat(str
 
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
 	const { id, url, optimize, output, disableRateLimit } = formData
-	const cmdPrefixRegex = new RegExp(`^\r\\\[${id}\\\]`)
+	const cmdPrefixRegex = new RegExp(`^\r\\[${id}\\]`)
 
 	const downloadCmd = ytdl([
 		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],

@@ -127,7 +127,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 						fill={recording ? '#ccc' : '#4c4c4c'} />
 				</button>
 			</div>
-			{!!recordSources.length ? (
+			{recordSources.length ? (
 				<RecordSourceSelector
 					recordButton={ref.current}
 					closeRecordSources={() => setRecordSources([])}

@@ -35,11 +35,11 @@ const MediaInfo = memo(props => {
 			<ul>
 				{!!totalFrames && fps ? <li>{framesToTC(totalFrames, fps)}</li> : <></>}
 				{!!width && !!height ? <li>{width}x{height}</li> : <></>}
-				{!!aspectRatio ? <li>{aspectRatio}</li> : <></>}
-				{!!fps ? <li>{fps}fps</li> : <></>}
-				{!!channelLayout ? <li>{capitalize(channelLayout)}</li> : <></>}
-				{!!bitRate ? <li>{bitRate}</li> : <></>}
-				{!!sampleRate ? <li>{sampleRate}</li> : <></>}
+				{aspectRatio ? <li>{aspectRatio}</li> : <></>}
+				{fps ? <li>{fps}fps</li> : <></>}
+				{channelLayout ? <li>{capitalize(channelLayout)}</li> : <></>}
+				{bitRate ? <li>{bitRate}</li> : <></>}
+				{sampleRate ? <li>{sampleRate}</li> : <></>}
 			</ul>
 		</div>
 	)

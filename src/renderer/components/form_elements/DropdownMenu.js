@@ -35,7 +35,7 @@ const DropdownMenu = ({ buttons }) => {
 				aria-expanded={revealMenu}>more_vert</button>
 			{revealMenu ? (
 				<span style={position}>
-					{buttons.map(({ hide, type, label, action }, i) => !hide ? (
+					{buttons.map(({ hide, type, label, action }, i) => !hide ? ( // eslint-disable-line no-extra-parens
 						type === 'spacer' ? (
 							<span
 								key={`${menuId}_${i}`}

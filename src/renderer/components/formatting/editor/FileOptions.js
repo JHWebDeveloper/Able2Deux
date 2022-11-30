@@ -29,7 +29,7 @@ const FileOptions = memo(props => {
 					maxLength={251}
 					onChange={updateFilename} />
 			</fieldset>
-			{(mediaType === 'video' || mediaType === 'audio') ? <>
+			{mediaType === 'video' || mediaType === 'audio' ? <>
 				<StartEnd
 					id={id}
 					start={start}
