@@ -52,10 +52,11 @@ const Controls = props => {
 					dispatch={dispatch} />
 			) : <></>}
 			<GridSelector
-				grids={props.grids}
-				gridButtons={props.gridButtons}
+				showGrid={props.showGrid}
+				aspectRatioMarkers={props.aspectRatioMarkers}
 				gridColor={props.gridColor}
-				toggleGrids={props.toggleGrids} />
+				toggleGrid={props.toggleGrid}
+				dispatch={dispatch} />
 		</div>
 	)
 }
