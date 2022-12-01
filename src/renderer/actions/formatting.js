@@ -56,6 +56,11 @@ export const duplicateMedia = id => ({
 	}
 })
 
+export const toggleAspectRatioMarker = id => ({
+	type: ACTION.TOGGLE_ASPECT_RATIO_MARKER,
+	payload: { id }
+})
+
 export const splitMedia = (id, split, start, end) => async dispatch => {
 	const ammount = Math.ceil((end - start) / split)
 
