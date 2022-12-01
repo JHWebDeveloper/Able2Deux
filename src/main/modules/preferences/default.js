@@ -7,7 +7,7 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 	: app.getPath('temp')
 
 const defaultPrefs = {
-	version: 7,
+	version: 8,
 	renderOutput: '1280x720',
 	renderFrameRate: 'auto',
 	customFrameRate: 23.98,
@@ -27,14 +27,50 @@ const defaultPrefs = {
 	editAll: false,
 	sliderSnapPoints: true,
 	enableWidescreenGrids: false,
-	gridButtons: {
-		_43: true,
-		_11: true,
-		_916: true,
-		_239: false,
-		_185: false,
-		_166: false
-	},
+	aspectRatioMarkers: [
+		{
+			id: uuid(),
+			label: '2.39',
+			disabled: false,
+			selected: false,
+			ratio: [2.39, 1]
+		},
+		{
+			id: uuid(),
+			label: '1.85',
+			disabled: false,
+			selected: false,
+			ratio: [1.85, 1]
+		},
+		{
+			id: uuid(),
+			label: '1.66',
+			disabled: false,
+			selected: false,
+			ratio: [5, 3]
+		},
+		{
+			id: uuid(),
+			label: '4:3',
+			disabled: false,
+			selected: false,
+			ratio: [4, 3]
+		},
+		{
+			id: uuid(),
+			label: '1:1',
+			disabled: false,
+			selected: false,
+			ratio: [1, 1]
+		},
+		{
+			id: uuid(),
+			label: '9:16',
+			disabled: false,
+			selected: false,
+			ratio: [9, 16]
+		}
+	],
 	gridColor: '#ff00ff',
 	split: 270,
 	scaleSliderMax: 400,
@@ -47,9 +83,9 @@ const defaultPrefs = {
 	},
 	saveLocations: [
 		{
+			id: uuid(),
 			checked: true,
 			directory: app.getPath('desktop'),
-			id: uuid(),
 			label: 'Save to Desktop'
 		}
 	],
