@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { bool, exact, string } from 'prop-types'
 
 const Grid = props => {
-	const { grids, gridColor, gridButtons } = props
+	const { showGrid, gridColor, aspectRatioMarkers } = props
 	const cnv = useRef()
 	const ctx = useRef()
 
@@ -56,7 +56,7 @@ const Grid = props => {
 		ctx.current.clearRect(0, 0, cnv.current.width, cnv.current.height)
 		ctx.current.strokeStyle = gridColor
 		
-		if (grids.grid) {
+		if (showGrid) {
 			ctx.current.strokeRect(9.6, 5.4, 364.8, 205.2)
 			ctx.current.strokeRect(19.2, 10.8, 345.6, 194.4)
 
@@ -74,12 +74,9 @@ const Grid = props => {
 			])
 		}
 
-		if (gridButtons._43 && grids._43) drawAspectRatioMarkers(4, 3)
-		if (gridButtons._11 && grids._11) drawAspectRatioMarkers(1, 1)
-		if (gridButtons._916 && grids._916) drawAspectRatioMarkers(9, 16)
-		if (gridButtons._239 && grids._239) drawAspectRatioMarkers(2.39, 1)
-		if (gridButtons._185 && grids._185) drawAspectRatioMarkers(1.85, 1)
-		if (gridButtons._166 && grids._166) drawAspectRatioMarkers(5, 3)
+		for (const { disabled, selected, ratio } of aspectRatioMarkers) {
+			if (!disabled && selected) drawAspectRatioMarkers(...ratio)
+		}
 	}, [props, ctx])
 
 	return <canvas ref={cnv}></canvas>
