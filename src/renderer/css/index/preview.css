@@ -108,9 +108,9 @@
 
 #preview-controls > div:last-child { justify-content: flex-end; }
 
-button[name^="_"] { padding: 0 3px; }
+button.ar-marker { padding: 0 3px; }
 
-button[name^="_"] > span {
+button.ar-marker > span {
 	pointer-events: none;
 	font-weight: 600;
 	font-size: 10px;
