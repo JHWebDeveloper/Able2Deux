@@ -3,6 +3,7 @@ import toastr from 'toastr'
 import * as ACTION from 'actions/types'
 import * as shared from './shared'
 import { errorToString, toastrOpts } from 'utilities'
+import { ENABLE_GRID_MARKER } from '../actions/types'
 
 const { interop } = window.ABLE2
 
@@ -18,6 +19,8 @@ export default (state, action) => {
 			return shared.toggleCheckbox(state, payload)
 		case ACTION.UPDATE_NESTED_STATE:
 			return shared.updateNestedState(state, payload)
+		case ACTION.ENABLE_ASPECT_RATIO_MARKER:
+			return enableAspectRatioMarker(state, payload)
 		case ACTION.TOGGLE_NESTED_CHECKBOX: 
 			return shared.toggleNestedCheckbox(state, payload)
 		case ACTION.TOGGLE_SAVE_LOCATION:
@@ -42,6 +45,14 @@ export default (state, action) => {
 }
 
 // ---- "REACTIONS" --------
+
+const enableAspectRatioMarker = (state, payload) => ({
+	...state,
+	aspectRatioMarkers: state.aspectRatioMarkers.map(marker => marker.id === payload.id ? {
+		...marker,
+		disabled: !marker.disabled
+	} : marker)
+})
 
 const updateLocationField = (state, payload) => ({
 	...state,
