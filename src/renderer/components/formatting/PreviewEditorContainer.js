@@ -4,7 +4,7 @@ import { bool, func, number, object } from 'prop-types'
 import PreviewContainer from './preview/PreviewContainer'
 import EditorOptions from './editor/EditorOptions'
 
-const PreviewEditorContainer = ({ selected, editAll, batch, split, isBatch, dispatch }) => {
+const PreviewEditorContainer = ({ selected, aspectRatioMarkers, editAll, batch, split, isBatch, dispatch }) => {
 	const { arc, overlay, hasAlpha } = selected
 
 	const backgroundDisabled = useMemo(() => ( // eslint-disable-line no-extra-parens
@@ -15,6 +15,7 @@ const PreviewEditorContainer = ({ selected, editAll, batch, split, isBatch, disp
 		<div id="editor">
 			<PreviewContainer
 				selected={selected}
+				aspectRatioMarkers={aspectRatioMarkers}
 				dispatch={dispatch} />
 			<EditorOptions
 				batch={batch}
