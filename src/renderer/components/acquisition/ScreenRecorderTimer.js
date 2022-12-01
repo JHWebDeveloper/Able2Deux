@@ -5,7 +5,7 @@ import { updateState, toggleCheckbox } from 'actions'
 
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
-import Clock from '../form_elements/Clock'
+import Clock from './Clock'
 
 const ScreenRecorderTimer = ({ timer, timerEnabled, screenshot, recording, recordButton, dispatch }) => {
 	const updateTimecode = useCallback(({ name, value }) => {
