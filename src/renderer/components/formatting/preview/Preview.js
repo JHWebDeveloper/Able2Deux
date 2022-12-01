@@ -12,8 +12,8 @@ import Controls from './Controls'
 
 const { interop } = window.ABLE2
 
-const Preview = ({ selected, dispatch }) => {
-	const { renderOutput, gridButtons, gridColor } = useContext(PrefsContext).preferences
+const Preview = ({ selected, aspectRatioMarkers, dispatch }) => {
+	const { renderOutput, gridColor } = useContext(PrefsContext).preferences
 
 	const {
 		id,
@@ -31,15 +31,7 @@ const Preview = ({ selected, dispatch }) => {
 
 	const [ previewStill, loadPreviewStill ] = useState('')
 	
-	const [ grids, toggleGrids ] = useState({
-		grid: false,
-		_239: false,
-		_185: false,
-		_166: false,
-		_43: false,
-		_11: false,
-		_916: false
-	})
+	const [ showGrid, toggleGrid ] = useState(false)
 
 	const sourceData = useMemo(() => {
 		if (source?.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
@@ -99,18 +91,18 @@ const Preview = ({ selected, dispatch }) => {
 						? <PreviewCanvas previewStill={previewStill} />
 						: <Spinner />}
 					<Grid
-						grids={grids}
-						gridButtons={gridButtons}
+						showGrid={showGrid}
+						aspectRatioMarkers={aspectRatioMarkers}
 						gridColor={gridColor} />
 				</div>
 			</div>
 			{!isAudio ? (
 				<Controls
 					selected={selected}
-					grids={grids}
-					gridButtons={gridButtons}
+					showGrid={showGrid}
+					aspectRatioMarkers={aspectRatioMarkers}
 					gridColor={gridColor}
-					toggleGrids={toggleGrids}
+					toggleGrid={toggleGrid}
 					dispatch={dispatch} />
 			) : <></>}
 		</div>
