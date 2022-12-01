@@ -32,6 +32,8 @@ export default (state, action) => {
 			return splitMedia(state, payload)
 		case ACTION.REMOVE_MEDIA:
 			return removeMedia(state, payload)
+		case ACTION.TOGGLE_ASPECT_RATIO_MARKER:
+			return toggleAspectRatioMarker(state, payload)
 		case ACTION.PREPARE_MEDIA_FOR_FORMAT:
 			return prepareMediaForFormat(state)
 		case ACTION.PASTE_SETTINGS:
@@ -148,6 +150,14 @@ const splitMedia = (state, payload) => {
 const removeMedia = (state, payload) => ({
 	...state,
 	media: state.media.filter(item => item.id !== payload.id)
+})
+
+const toggleAspectRatioMarker = (state, payload) => ({
+	...state,
+	aspectRatioMarkers: state.aspectRatioMarkers.map(marker => marker.id === payload.id ? {
+		...marker,
+		selected: !marker.selected
+	} : marker)
 })
 
 const prepareMediaForFormat = state => {
