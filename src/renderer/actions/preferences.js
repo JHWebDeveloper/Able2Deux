@@ -33,6 +33,11 @@ export const disableWarningAndSave = warning => ({
 	payload: { warning }
 })
 
+export const enableAspectRatioMarker = id => ({
+	type: ACTION.ENABLE_ASPECT_RATIO_MARKER,
+	payload: { id }
+})
+
 export const removeLocationAndSave = id => ({
 	type: ACTION.REMOVE_LOCATION_AND_SAVE,
 	payload: { id }
