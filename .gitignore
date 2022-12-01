@@ -1,6 +1,7 @@
 node_modules/
 build/
 dist/
+.vscode/
 src/main/temp/
 src/main/data/
 /electron-builder.yml
