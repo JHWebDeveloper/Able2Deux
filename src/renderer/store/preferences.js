@@ -28,14 +28,7 @@ const initState = {
 	editAll: false,
 	sliderSnapPoints: true,
 	split: 270,
-	gridButtons: {
-		_43: true,
-		_11: true,
-		_916: true,
-		_239: false,
-		_185: false,
-		_166: false
-	},
+	aspectRatioMarkers: [],
 	gridColor: '#ff00ff',
 	scaleSliderMax: 400,
 	disableRateLimit: false,
