@@ -14,7 +14,7 @@ import SourceSuggestionList from './SourceSuggestionList'
 const { interop } = window.ABLE2
 
 const extractDefaults = (() => {
-	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot']
+	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot', 'aspectRatioMarkers']
 
 	return obj => objectExtract(obj, defaults)
 })()
