@@ -1,31 +1,25 @@
 import React, { useCallback } from 'react'
 import { bool, exact, func, string } from 'prop-types'
 
+import { toggleAspectRatioMarker } from 'actions'
+
 const toggleTitle = state => state ? 'Hide' : 'Show'
 
-const GridButton = ({ selected, label, name, toggleColor, onClick }) => (
+const GridButton = ({ title, style, onClick, label }) => (
 	<button
 		type="button"
-		className="monospace"
-		title={`${toggleTitle(selected)} ${label} Markers`}
-		name={name}
-		style={toggleColor(selected)}
+		className="ar-marker monospace"
+		title={title}
+		style={style}
 		onClick={onClick}>
 		<span>{label}</span>
 	</button>
 )
 
-const GridSelector = ({ grids, gridButtons, gridColor, toggleGrids }) => {
-	const toggleColor = useCallback(gridName => ({
-		color: gridName ? gridColor : '#eee'
+const GridSelector = ({ showGrid, aspectRatioMarkers, gridColor, toggleGrid, dispatch }) => {
+	const toggleColor = useCallback(gridSelected => ({
+		color: gridSelected ? gridColor : '#eee'
 	}), [gridColor])
-
-	const toggleGrid = useCallback(e => {
-		toggleGrids({
-			...grids,
-			[e.target.name]: !grids[e.target.name]
-		})
-	}, [grids])
 
 	return (
 		<div>
@@ -33,45 +27,17 @@ const GridSelector = ({ grids, gridButtons, gridColor, toggleGrids }) => {
 				type="button"
 				className="symbol"
 				name="grid"
-				title={`${toggleTitle(grids.grid)} Grid`}
-				style={toggleColor(grids.grid)}
-				onClick={toggleGrid}>grid_on</button>
-			{gridButtons._239 && <GridButton
-				label="2.39"
-				name="_239"
-				selected={grids._239}
-				toggleColor={toggleColor}
-				onClick={toggleGrid} />}
-			{gridButtons._185 && <GridButton
-				label="1.85"
-				name="_185"
-				selected={grids._185}
-				toggleColor={toggleColor}
-				onClick={toggleGrid} />}
-			{gridButtons._166 && <GridButton
-				label="1.66"
-				name="_166"
-				selected={grids._166}
-				toggleColor={toggleColor}
-				onClick={toggleGrid} />}
-			{gridButtons._43 && <GridButton
-				label="4:3"
-				name="_43"
-				selected={grids._43}
-				toggleColor={toggleColor}
-				onClick={toggleGrid} />}
-			{gridButtons._11 && <GridButton
-				label="1:1"
-				name="_11"
-				selected={grids._11}
-				toggleColor={toggleColor}
-				onClick={toggleGrid} />}
-			{gridButtons._916 && <GridButton
-				label="9:16"
-				name="_916"
-				selected={grids._916}
-				toggleColor={toggleColor}
-				onClick={toggleGrid} />}
+				title={`${toggleTitle(showGrid)} Grid`}
+				style={toggleColor(showGrid)}
+				onClick={() => toggleGrid(!showGrid)}>grid_on</button>
+			{aspectRatioMarkers.map(({ disabled, id, label, selected }) => disabled ? <></> : (
+				<GridButton
+					key={id}
+					label={label}
+					title={`${toggleTitle(selected)} ${label} Markers`}
+					style={toggleColor(selected)}
+					onClick={() => dispatch(toggleAspectRatioMarker(id))} />
+			))}
 		</div>
 	)
 }
