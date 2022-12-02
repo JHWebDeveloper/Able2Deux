@@ -5,7 +5,7 @@ import {
 	updateState,
 	updateStateFromEvent,
 	toggleCheckbox,
-	toggleNestedCheckbox
+	enableAspectRatioMarker
 } from 'actions'
 
 import PrefsPanel from './PrefsPanel'
@@ -14,7 +14,7 @@ import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 
 const FormattingSettings = props => {
-	const { gridButtons, dispatch } = props
+	const { aspectRatioMarkers, dispatch } = props
 
 	const toggleCheckboxDispatch = useCallback(e => {
 		dispatch(toggleCheckbox(e))
@@ -22,10 +22,6 @@ const FormattingSettings = props => {
 
 	const updateStateDispatch = useCallback(({ name, value }) => {
 		dispatch(updateState({ [name]: value }))
-	}, [])
-
-	const toggleGridButton = useCallback(e => {
-		dispatch(toggleNestedCheckbox('gridButtons', e))
 	}, [])
 
 	return (
@@ -44,36 +40,12 @@ const FormattingSettings = props => {
 				switchIcon />
 			<div className="grid-buttons-grid">
 				<h2>Grid Buttons</h2>
-				<Checkbox
-					label="4:3"
-					name="_43"
-					checked={gridButtons._43}
-					onChange={toggleGridButton} />
-				<Checkbox
-					label="1:1"
-					name="_11"
-					checked={gridButtons._11}
-					onChange={toggleGridButton} />
-				<Checkbox
-					label="9:16"
-					name="_916"
-					checked={gridButtons._916}
-					onChange={toggleGridButton} />
-				<Checkbox
-					label="2.39:1"
-					name="_239"
-					checked={gridButtons._239}
-					onChange={toggleGridButton} />
-				<Checkbox
-					label="1.85:1"
-					name="_185"
-					checked={gridButtons._185}
-					onChange={toggleGridButton} />
-				<Checkbox
-					label="1.66:1"
-					name="_166"
-					checked={gridButtons._166}
-					onChange={toggleGridButton} />
+				{aspectRatioMarkers.map(({ label, disabled, id }) => (
+					<Checkbox
+						label={label}
+						checked={!disabled}
+						onChange={() => dispatch(enableAspectRatioMarker(id))} />
+				))}
 			</div>
 			<span className="input-option">
 				<label htmlFor="grid-color">Grid Color</label>
