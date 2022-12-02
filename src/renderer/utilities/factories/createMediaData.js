@@ -6,8 +6,8 @@ const defaultMediaData = {
 	refId: '',
 	status: PENDING,
 	download: {
-		eta: '00:00:00',
-		percent: '0%'
+		eta: 0,
+		percent: 0
 	},
 	render: {
 		status: PENDING,
