@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { func, object, string } from 'prop-types'
+import { arrayOf, bool, exact, func, object, number, string } from 'prop-types'
 
 import { updateMediaState } from 'actions'
 
@@ -63,10 +63,16 @@ const Controls = props => {
 
 Controls.propTypes = {
 	selected: object.isRequired,
-	grids: object.isRequired,
-	gridButtons: object.isRequired,
+	showGrid: bool.isRequired,
+	aspectRatioMarkers: arrayOf(exact({
+		id: string,
+		label: string,
+		disabled: bool,
+		selected: bool,
+		ratio: arrayOf(number)
+	})).isRequired,
 	gridColor: string.isRequired,
-	toggleGrids: func,
+	toggleGrid: func,
 	dispatch: func.isRequired
 }
 

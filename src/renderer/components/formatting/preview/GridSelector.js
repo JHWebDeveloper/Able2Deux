@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { bool, exact, func, string } from 'prop-types'
+import { arrayOf, bool, exact, func, number, string } from 'prop-types'
 
 import { toggleAspectRatioMarker } from 'actions'
 
@@ -43,33 +43,26 @@ const GridSelector = ({ showGrid, aspectRatioMarkers, gridColor, toggleGrid, dis
 }
 
 GridButton.propTypes = {
-	selected: bool.isRequired,
+	title: string.isRequired,
 	label: string.isRequired,
-	name: string.isRequired,
-	toggleColor: func.isRequired,
+	style: exact({
+		color: string
+	}).isRequired,
 	onClick: func.isRequired
 }
 
 GridSelector.propTypes = {
-	grids: exact({
-		grid: bool,
-		_239: bool,
-		_185: bool,
-		_166: bool,
-		_43: bool,
-		_11: bool,
-		_916: bool
-	}).isRequired,
-	gridButtons: exact({
-		_239: bool,
-		_185: bool,
-		_166: bool,
-		_43: bool,
-		_11: bool,
-		_916: bool
-	}),
+	showGrid: bool.isRequired,
+	aspectRatioMarkers: arrayOf(exact({
+		id: string,
+		label: string,
+		disabled: bool,
+		selected: bool,
+		ratio: arrayOf(number)
+	})).isRequired,
 	gridColor: string.isRequired,
-	toggleGrids: func.isRequired
+	toggleGrid: func.isRequired,
+	dispatch: func.isRequired
 }
 
 export default GridSelector

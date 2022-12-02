@@ -50,6 +50,7 @@ MainProvider.propTypes = {
 		optimize: oneOf(['quality', 'download']),
 		screenshot: bool,
 		timerEnabled: bool,
-		timer: number
-	}).isRequired
+		timer: number,
+		aspectRatioMarkers: arrayOf(object).isRequired
+	})
 }

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { func, object } from 'prop-types'
+import { arrayOf, bool, exact, func, number, object, string } from 'prop-types'
 import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
@@ -111,6 +111,13 @@ const Preview = ({ selected, aspectRatioMarkers, dispatch }) => {
 
 Preview.propTypes = {
 	selected: object.isRequired,
+	aspectRatioMarkers: arrayOf(exact({
+		id: string,
+		label: string,
+		disabled: bool,
+		selected: bool,
+		ratio: arrayOf(number)
+	})).isRequired,
 	dispatch: func.isRequired
 }
 

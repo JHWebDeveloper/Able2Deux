@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { bool, exact, func, number, string } from 'prop-types'
+import { arrayOf, bool, exact, func, number, string } from 'prop-types'
 
 import {
 	updateState,
@@ -42,6 +42,7 @@ const FormattingSettings = props => {
 				<h2>Grid Buttons</h2>
 				{aspectRatioMarkers.map(({ label, disabled, id }) => (
 					<Checkbox
+						key={id}
 						label={label}
 						checked={!disabled}
 						onChange={() => dispatch(enableAspectRatioMarker(id))} />
@@ -85,13 +86,13 @@ const FormattingSettings = props => {
 FormattingSettings.propTypes = {
 	editAll: bool.isRequired,
 	sliderSnapPoints: bool.isRequired,
-	gridButtons: exact({
-		_239: bool,
-		_185: bool,
-		_43: bool,
-		_11: bool,
-		_916: bool
-	}),
+	aspectRatioMarkers: arrayOf(exact({
+		id: string,
+		label: string,
+		disabled: bool,
+		selected: bool,
+		ratio: arrayOf(number)
+	})).isRequired,
 	gridColor: string.isRequired,
 	split: number.isRequired,
 	scaleSliderMax: number.isRequired,

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { bool, func, number, object } from 'prop-types'
+import { arrayOf, bool, exact, func, number, object, string } from 'prop-types'
 
 import PreviewContainer from './preview/PreviewContainer'
 import EditorOptions from './editor/EditorOptions'
@@ -31,6 +31,13 @@ const PreviewEditorContainer = ({ selected, aspectRatioMarkers, editAll, batch, 
 
 PreviewEditorContainer.propTypes = {
 	selected: object.isRequired,
+	aspectRatioMarkers: arrayOf(exact({
+		id: string,
+		label: string,
+		disabled: bool,
+		selected: bool,
+		ratio: arrayOf(number)
+	})).isRequired,
 	editAll: bool.isRequired,
 	batch: object.isRequired,
 	split: number,

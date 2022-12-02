@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import { bool, exact, string } from 'prop-types'
+import { arrayOf, bool, exact, number, string } from 'prop-types'
 
 const Grid = props => {
 	const { showGrid, gridColor, aspectRatioMarkers } = props
@@ -83,23 +83,14 @@ const Grid = props => {
 }
 
 Grid.propTypes = {
-	grids: exact({
-		grid: bool,
-		_239: bool,
-		_185: bool,
-		_166: bool,
-		_43: bool,
-		_11: bool,
-		_916: bool
-	}).isRequired,
-	gridButtons: exact({
-		_239: bool,
-		_185: bool,
-		_166: bool,
-		_43: bool,
-		_11: bool,
-		_916: bool
-	}),
+	showGrid: bool.isRequired,
+	aspectRatioMarkers: arrayOf(exact({
+		id: string,
+		label: string,
+		disabled: bool,
+		selected: bool,
+		ratio: arrayOf(number)
+	})).isRequired,
 	gridColor: string.isRequired
 }
 

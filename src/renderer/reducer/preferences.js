@@ -3,7 +3,6 @@ import toastr from 'toastr'
 import * as ACTION from 'actions/types'
 import * as shared from './shared'
 import { errorToString, toastrOpts } from 'utilities'
-import { ENABLE_GRID_MARKER } from '../actions/types'
 
 const { interop } = window.ABLE2
 
