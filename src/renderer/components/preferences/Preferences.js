@@ -49,7 +49,7 @@ const Main = () => {
 			<FormattingSettings
 				editAll={preferences.editAll}
 				sliderSnapPoints={preferences.sliderSnapPoints}
-				gridButtons={preferences.gridButtons}
+				aspectRatioMarkers={preferences.aspectRatioMarkers}
 				gridColor={preferences.gridColor}
 				split={preferences.split}
 				scaleSliderMax={preferences.scaleSliderMax}
