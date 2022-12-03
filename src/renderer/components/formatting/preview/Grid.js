@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { arrayOf, bool, exact, number, string } from 'prop-types'
 
-const frameRatio = 16 / 9
-const frameRatioInverse = 9 / 16
-
 const Grid = props => {
 	const { showGrid, gridColor, aspectRatioMarkers } = props
 	const cnv = useRef()
@@ -26,11 +23,12 @@ const Grid = props => {
 
 	const drawAspectRatioMarkers = useCallback((antecedent, consequent) => {
 		const { width, height } = cnv.current
-		const coords = [[0, 0, 0, 0], [0, 0, 0, 0]]
+		const frameRatio = width / height
 		const ratio = antecedent / consequent
+		const coords = [[0, 0, 0, 0], [0, 0, 0, 0]]
 	
 		if (ratio < frameRatio) {
-			const markerGap = ratio * frameRatioInverse * width
+			const markerGap = ratio * height / width * width
 			const markerPad = (width - markerGap) / 2
 	
 			coords[0][0] = coords[0][2] = markerPad
