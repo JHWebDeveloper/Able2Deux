@@ -24,11 +24,11 @@ const Grid = props => {
 	const drawAspectRatioMarkers = useCallback((antecedent, consequent) => {
 		const { width, height } = cnv.current
 		const frameRatio = width / height
-		const ratio = antecedent / consequent
+		const markerRatio = antecedent / consequent
 		const coords = [[0, 0, 0, 0], [0, 0, 0, 0]]
 	
-		if (ratio < frameRatio) {
-			const markerGap = ratio * height / width * width
+		if (markerRatio < frameRatio) {
+			const markerGap = markerRatio * height / width * width
 			const markerPad = (width - markerGap) / 2
 	
 			coords[0][0] = coords[0][2] = markerPad
