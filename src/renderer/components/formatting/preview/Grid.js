@@ -25,27 +25,28 @@ const Grid = props => {
 	}, [ctx])
 
 	const drawAspectRatioMarkers = useCallback((antecedent, consequent) => {
+		const { width, height } = cnv.current
 		const coords = [[0, 0, 0, 0], [0, 0, 0, 0]]
 		const ratio = antecedent / consequent
 	
 		if (ratio < frameRatio) {
-			const width = ratio * frameRatioInverse * 384
-			const pad = (384 - width) / 2
+			const markerGap = ratio * frameRatioInverse * width
+			const markerPad = (width - markerGap) / 2
 	
-			coords[0][0] = coords[0][2] = pad
-			coords[0][3] = coords[1][3] = 216
-			coords[1][0] = coords[1][2] = width + pad
+			coords[0][0] = coords[0][2] = markerPad
+			coords[0][3] = coords[1][3] = height
+			coords[1][0] = coords[1][2] = markerGap + markerPad
 		} else {
-			const height = consequent / antecedent * frameRatio * 216
-			const pad = (216 - height) / 2
+			const markerGap = consequent / antecedent * frameRatio * height
+			const markerPad = (height - markerGap) / 2
 	
-			coords[0][1] = coords[0][3] = pad
-			coords[0][2] = coords[1][2] = 384
-			coords[1][1] = coords[1][3] = height + pad
+			coords[0][1] = coords[0][3] = markerPad
+			coords[0][2] = coords[1][2] = width
+			coords[1][1] = coords[1][3] = markerGap + markerPad
 		}
 	
 		drawGridMarkers(coords)
-	}, [ctx])
+	}, [cnv, ctx])
 	
 	useEffect(() => {
 		cnv.current.width = 384
