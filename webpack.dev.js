@@ -15,7 +15,7 @@ module.exports = merge(common, {
 			watch: true
 		},
 		hot: true,
-		onBeforeSetupMiddleware() {
+		setupMiddlewares(middlewares) {
 			spawn('electron', ['babelRegister.js'], {
 				cwd: path.resolve('src', 'main'),
 				shell: true,
@@ -26,6 +26,8 @@ module.exports = merge(common, {
 			}).on('error', spawnError => {
 				console.error(spawnError)
 			})
+
+			return middlewares
 		}
 	}
 })
