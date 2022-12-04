@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { arrayOf, bool, exact, number, string } from 'prop-types'
 
 const Grid = props => {
@@ -19,32 +19,37 @@ const Grid = props => {
 		}
 	
 		ctx.current.stroke()
-	}, [ctx])
+	}, [ctx.current])
 
-	const drawAspectRatioMarkers = useCallback((antecedent, consequent) => {
-		const { width, height } = cnv.current
-		const frameRatio = width / height
-		const markerRatio = antecedent / consequent
-		const coords = [[0, 0, 0, 0], [0, 0, 0, 0]]
-	
-		if (markerRatio < frameRatio) {
-			const markerGap = markerRatio * height / width * width
-			const markerPad = (width - markerGap) / 2
-	
-			coords[0][0] = coords[0][2] = markerPad
-			coords[0][3] = coords[1][3] = height
-			coords[1][0] = coords[1][2] = markerGap + markerPad
-		} else {
-			const markerGap = consequent / antecedent * frameRatio * height
-			const markerPad = (height - markerGap) / 2
-	
-			coords[0][1] = coords[0][3] = markerPad
-			coords[0][2] = coords[1][2] = width
-			coords[1][1] = coords[1][3] = markerGap + markerPad
+	const drawAspectRatioMarkers = useMemo(() => {
+		const frameWidth = cnv?.current?.width ?? 0
+		const frameHeight = cnv?.current?.height ?? 1
+		const frameRatio = frameWidth / frameHeight
+		const frameRatioInv = frameHeight / frameWidth
+
+		return (antecedent, consequent) => {
+			const markerRatio = antecedent / consequent
+			const coords = [[0, 0, 0, 0], [0, 0, 0, 0]]
+		
+			if (markerRatio < frameRatio) {
+				const markerGap = markerRatio * frameRatioInv * frameWidth
+				const markerPad = (frameWidth - markerGap) / 2
+		
+				coords[0][0] = coords[0][2] = markerPad
+				coords[0][3] = coords[1][3] = frameHeight
+				coords[1][0] = coords[1][2] = markerGap + markerPad
+			} else {
+				const markerGap = consequent / antecedent * frameRatio * frameHeight
+				const markerPad = (frameHeight - markerGap) / 2
+		
+				coords[0][1] = coords[0][3] = markerPad
+				coords[0][2] = coords[1][2] = frameWidth
+				coords[1][1] = coords[1][3] = markerGap + markerPad
+			}
+		
+			drawGridMarkers(coords)
 		}
-	
-		drawGridMarkers(coords)
-	}, [cnv, ctx])
+	}, [cnv.current, ctx.current])
 	
 	useEffect(() => {
 		cnv.current.width = 384
@@ -78,7 +83,7 @@ const Grid = props => {
 		for (const { disabled, selected, ratio } of aspectRatioMarkers) {
 			if (!disabled && selected) drawAspectRatioMarkers(...ratio)
 		}
-	}, [props, ctx])
+	}, [props, ctx.current])
 
 	return <canvas ref={cnv}></canvas>
 }
