@@ -10,6 +10,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ## [Unreleased][2.2.6] - TBD
 
+### Changed
+- Aspect ratio marker drawing logic completely recoded. Hard to tell with the naked eye, but markers are more accurate than before.
+
 ### Updated
 - Video service compatibility.
 - Electron 22
