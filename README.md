@@ -12,6 +12,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Updated
 - Video service compatibility.
+- Electron 22
 
 ### Fixed
 - Record light blink animation is now in exact sync with the seconds counter.
