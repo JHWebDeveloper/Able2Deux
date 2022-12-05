@@ -60,7 +60,7 @@ const SliderThumb = forwardRef(({
 			nextThumbPos = thumbPos.current - fineTuneStep
 		} else if (e.shiftKey && nextMousePos > prevMousePos) {
 			nextThumbPos = thumbPos.current + fineTuneStep
-		} else if (thresholds.length && ((point = snapToPoint(thresholds, nextMousePos)) || point === 0)) {
+		} else if (thresholds.length && ((point = snapToPoint(thresholds, nextMousePos)) || point === 0)) { // declaration inside if intended
 			nextThumbPos = point
 		} else {
 			nextThumbPos = (nextMousePos / step << 0) * step
