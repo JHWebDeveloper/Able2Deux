@@ -53,7 +53,7 @@ const DropdownMenu = ({ buttons }) => {
 								}}
 								data-no-drag>{label}</button>
 						)
-					) : <></>)}
+					) : <React.Fragment key={`${menuId}_${i}`}></React.Fragment>)}
 				</span>
 			) : <></>}
 		</span>
