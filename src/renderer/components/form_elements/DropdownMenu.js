@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { Fragment, useCallback, useMemo, useState } from 'react'
 import { v1 as uuid } from 'uuid'
 import { arrayOf, bool, func, shape, string } from 'prop-types'
 
@@ -53,7 +53,7 @@ const DropdownMenu = ({ buttons }) => {
 								}}
 								data-no-drag>{label}</button>
 						)
-					) : <React.Fragment key={`${menuId}_${i}`}></React.Fragment>)}
+					) : <Fragment key={`${menuId}_${i}`}></Fragment>)}
 				</span>
 			) : <></>}
 		</span>
