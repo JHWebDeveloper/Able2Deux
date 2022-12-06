@@ -3,12 +3,12 @@ import { arrayOf, element, func, bool, oneOfType, shape, string } from 'prop-typ
 
 import DropdownMenu from './DropdownMenu'
 
-const DetailsWrapper = ({ summary, id = '', className = '', open, buttons, children }) => (
+const DetailsWrapper = ({ summary, id = '', className = '', open, buttons = [], children }) => (
 	<details open={open}>
 		<summary>
 			{summary}
 		</summary>
-		{buttons ? <DropdownMenu buttons={buttons} /> : <></>}
+		{buttons.length ? <DropdownMenu buttons={buttons} /> : <></>}
 		<div id={id} className={className}>
 			{children}
 		</div>
@@ -20,12 +20,12 @@ DetailsWrapper.propTypes = {
 	id: string,
 	className: string,
 	open: bool,
-	buttons: oneOfType([bool, arrayOf(shape({
+	buttons: arrayOf(shape({
 		role: string,
 		label: string,
 		hide: bool,
 		action: func
-	}))]),
+	})),
 	children: oneOfType([element, arrayOf(oneOfType([bool, element]))])
 }
 
