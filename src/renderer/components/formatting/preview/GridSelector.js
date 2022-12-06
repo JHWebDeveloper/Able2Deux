@@ -30,15 +30,14 @@ const GridSelector = ({ showGrid, aspectRatioMarkers, gridColor, toggleGrid, dis
 				title={`${toggleTitle(showGrid)} Grid`}
 				style={toggleColor(showGrid)}
 				onClick={() => toggleGrid(!showGrid)}>grid_on</button>
-			{aspectRatioMarkers.map(({ disabled, id, label, selected }) => disabled
-				? <Fragment key={id}></Fragment>
-				: <GridButton
-						key={id}
-						label={label}
-						title={`${toggleTitle(selected)} ${label} Markers`}
-						style={toggleColor(selected)}
-						onClick={() => dispatch(toggleAspectRatioMarker(id))} />
-			)}
+			{aspectRatioMarkers.map(({ disabled, id, label, selected }) => disabled ? <Fragment key={id}></Fragment> : (
+				<GridButton
+					key={id}
+					label={label}
+					title={`${toggleTitle(selected)} ${label} Markers`}
+					style={toggleColor(selected)}
+					onClick={() => dispatch(toggleAspectRatioMarker(id))} />
+			))}
 		</div>
 	)
 }
