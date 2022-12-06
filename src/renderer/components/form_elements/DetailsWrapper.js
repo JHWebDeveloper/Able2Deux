@@ -26,7 +26,7 @@ DetailsWrapper.propTypes = {
 		hide: bool,
 		action: func
 	})),
-	children: oneOfType([element, arrayOf(oneOfType([bool, element]))])
+	children: oneOfType([element, arrayOf(element)])
 }
 
 export default DetailsWrapper
