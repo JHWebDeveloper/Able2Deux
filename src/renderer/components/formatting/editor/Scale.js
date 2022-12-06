@@ -47,10 +47,10 @@ const calculateFitPercent = (renderOutput, width, height, t, b, l, r) => {
 const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
-	const settingsMenu = useMemo(() => isBatch && createSettingsMenu([
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
 		() => dispatch(copySettings({ scale })),
 		() => dispatch(applySettingsToAll(id, { scale }))
-	]), [isBatch, id, scale])
+	]) : [], [isBatch, id, scale])
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
 	const distortion = useMemo(() => scale.y / scale.x || 1, [scale.x, scale.y])

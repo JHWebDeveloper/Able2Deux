@@ -103,10 +103,10 @@ const Formatting = memo(props => {
 		<DetailsWrapper
 			summary="Formatting"
 			className="auto-columns"
-			buttons={props.isBatch && createSettingsMenu([
+			buttons={props.isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ arc, background, overlay })),
 				() => dispatch(applySettingsToAll(id, { arc, background, overlay }))
-			])}
+			]) : []}
 			open>
 			<fieldset>
 				<legend>AR Correction:</legend>

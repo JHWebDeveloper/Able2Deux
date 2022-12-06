@@ -47,10 +47,10 @@ const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
 	return (
 		<DetailsWrapper
 			summary="Source"
-			buttons={isBatch && createSettingsMenu([
+			buttons={isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ source })),
 				() => dispatch(applySettingsToAll(id, { source }))
-			])}
+			]) : []}
 			open>
 			<fieldset>
 				<legend>Source Name:</legend>

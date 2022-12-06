@@ -36,10 +36,10 @@ const Centering = memo(({ id, isBatch, centering, editAll, dispatch }) => {
 		<DetailsWrapper
 			summary="Position"
 			className="single-slider-grid"
-			buttons={isBatch && createSettingsMenu([
+			buttons={isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ centering })),
 				() => dispatch(applySettingsToAll(id, { centering }))
-			])}
+			]) : []}
 			open>
 			<SliderSingle snapPoints={[0]} {...common} />
 			<NumberInput {...common} />
