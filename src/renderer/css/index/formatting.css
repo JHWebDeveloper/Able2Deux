@@ -241,6 +241,7 @@ input:is([name="filename"], [name="sourceName"]) { margin-bottom: 9px; }
 
 .auto-columns {
 	display: flex;
+	flex-wrap: wrap;
 	grid-gap: 9px;
 }
 
