@@ -47,7 +47,7 @@ const AcquisitionSettings = () => {
 	return (
 		<form>
 			<fieldset>
-				<legend>Download Mode</legend>
+				<legend>Default Download Mode</legend>
 				<div>
 					<RadioSet 
 						name="optimize"
@@ -57,7 +57,7 @@ const AcquisitionSettings = () => {
 				</div>
 			</fieldset>
 			<fieldset>
-				<legend>Screen Capture Mode</legend>
+				<legend>Default Screen Capture Mode</legend>
 				<div>
 					<RadioSet 
 						name="screenshot"
@@ -67,7 +67,7 @@ const AcquisitionSettings = () => {
 				</div>
 			</fieldset>
 			<span>
-				<label htmlFor="screenRecorderFrameRate">Recorder Frame Rate</label>
+				<label htmlFor="screenRecorderFrameRate">Screen Recorder Frame Rate</label>
 				<NumberInput
 					name="screenRecorderFrameRate"
 					id="screenRecorderFrameRate"
@@ -78,7 +78,7 @@ const AcquisitionSettings = () => {
 					onChange={updateStateDispatch} />
 			</span>
 			<span>
-				<label htmlFor="timer">Timer Duration</label>
+				<label htmlFor="timer">Default Timer Duration</label>
 				<TimecodeInputSeconds
 					name="timer"
 					id="timer"
@@ -88,7 +88,7 @@ const AcquisitionSettings = () => {
 					onChange={updateStateDispatch} />
 			</span>
 			<Checkbox
-				label="Timer Enabled"
+				label="Timer Enabled by Default"
 				name="timerEnabled"
 				checked={preferences.timerEnabled}
 				onChange={e => dispatch(toggleCheckbox(e))}
