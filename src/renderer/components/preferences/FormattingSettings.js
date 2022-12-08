@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react'
-import { arrayOf, bool, exact, func, number, string } from 'prop-types'
+import React, { useCallback, useContext } from 'react'
+
+import { PrefsContext } from 'store/preferences'
 
 import {
 	updateState,
@@ -8,13 +9,12 @@ import {
 	enableAspectRatioMarker
 } from 'actions'
 
-import PrefsPanel from './PrefsPanel'
 import NumberInput from '../form_elements/NumberInput'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 
-const FormattingSettings = props => {
-	const { aspectRatioMarkers, dispatch } = props
+const FormattingSettings = () => {
+	const { preferences, dispatch } = useContext(PrefsContext)
 
 	const toggleCheckboxDispatch = useCallback(e => {
 		dispatch(toggleCheckbox(e))
@@ -25,22 +25,22 @@ const FormattingSettings = props => {
 	}, [])
 
 	return (
-		<PrefsPanel title="Formatting Settings" className="span-1_3">
+		<form>
 			<Checkbox
 				label="Edit All by Default"
 				name="editAll"
-				checked={props.editAll}
+				checked={preferences.editAll}
 				onChange={toggleCheckboxDispatch}
 				switchIcon />
 			<Checkbox
 				label="Slider Snap Points"
 				name="sliderSnapPoints"
-				checked={props.sliderSnapPoints}
+				checked={preferences.sliderSnapPoints}
 				onChange={toggleCheckboxDispatch}
 				switchIcon />
 			<div className="grid-buttons-grid">
 				<h2>Grid Buttons</h2>
-				{aspectRatioMarkers.map(({ label, disabled, id }) => (
+				{preferences.aspectRatioMarkers.map(({ label, disabled, id }) => (
 					<Checkbox
 						key={id}
 						label={label}
@@ -54,7 +54,7 @@ const FormattingSettings = props => {
 					type="color"
 					name="gridColor"
 					id="grid-color"
-					value={props.gridColor}
+					value={preferences.gridColor}
 					onChange={e => dispatch(updateStateFromEvent(e))} />
 			</span>
 			<span>
@@ -62,41 +62,37 @@ const FormattingSettings = props => {
 				<TimecodeInputSeconds
 					name="split"
 					id="split"
-					value={props.split}
+					value={preferences.split}
 					min={1}
 					max={86399}
 					onChange={updateStateDispatch} />
 			</span>
+			<Checkbox
+				label="Animated by Default"
+				name="animateBackground"
+				checked={preferences.animateBackground}
+				onChange={toggleCheckboxDispatch}
+				switchIcon />
+			<Checkbox
+				label="Enable 11pm Backgrounds"
+				name="enable11pmBackgrounds"
+				checked={preferences.enable11pmBackgrounds}
+				onChange={toggleCheckboxDispatch}
+				switchIcon />
 			<span>
 				<label htmlFor="scaleSliderMax">Scale Slider Max</label>
 				<NumberInput
 					name="scaleSliderMax"
 					id="scaleSliderMax"
-					value={props.scaleSliderMax}
+					value={preferences.scaleSliderMax}
 					min={100}
 					max={4500}
 					fineTuneStep={1}
 					defaultValue={400}
 					onChange={updateStateDispatch} />
 			</span>
-		</PrefsPanel>
+		</form>
 	)
-}
-
-FormattingSettings.propTypes = {
-	editAll: bool.isRequired,
-	sliderSnapPoints: bool.isRequired,
-	aspectRatioMarkers: arrayOf(exact({
-		id: string,
-		label: string,
-		disabled: bool,
-		selected: bool,
-		ratio: arrayOf(number)
-	})).isRequired,
-	gridColor: string.isRequired,
-	split: number.isRequired,
-	scaleSliderMax: number.isRequired,
-	dispatch: func.isRequired
 }
 
 export default FormattingSettings

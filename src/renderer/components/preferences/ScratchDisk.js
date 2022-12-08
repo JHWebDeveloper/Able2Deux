@@ -1,12 +1,15 @@
-import React, { useCallback } from 'react'
-import { exact, func, string } from 'prop-types'
+import React, { useCallback, useContext } from 'react'
+
+import { PrefsContext } from 'store/preferences'
 
 import { updateNestedState } from 'actions'
 
-import PrefsPanel from './PrefsPanel'
 import DirectorySelector from '../form_elements/DirectorySelector'
 
-const ScratchDisk = ({ scratchDisk, dispatch }) => {
+const ScratchDisk = () => {
+	const { preferences, dispatch } = useContext(PrefsContext)
+	const { scratchDisk } = preferences
+
 	const updateScratchDisk = useCallback(property => value => {
 		dispatch(updateNestedState('scratchDisk', {
 			[property]: value
@@ -18,7 +21,7 @@ const ScratchDisk = ({ scratchDisk, dispatch }) => {
 	const updatePreview = useCallback(updateScratchDisk('previews'), [])
 
 	return (
-		<PrefsPanel title="Scratch Disk" className="span-2_3">
+		<form>
 			<label>Import Cache</label>
 			<DirectorySelector
 				directory={scratchDisk.imports}
@@ -31,17 +34,8 @@ const ScratchDisk = ({ scratchDisk, dispatch }) => {
 			<DirectorySelector
 				directory={scratchDisk.previews}
 				onChange={updatePreview} />
-		</PrefsPanel>
+		</form>
 	)
-}
-
-ScratchDisk.propTypes = {
-	scratchDisk: exact({
-		imports: string,
-		exports: string,
-		previews: string
-	}).isRequired,
-	dispatch: func.isRequired
 }
 
 export default ScratchDisk

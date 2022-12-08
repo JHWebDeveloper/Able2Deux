@@ -17,7 +17,7 @@ const SaveAndClose = ({ dispatch }) => {
 	}), [])
 
 	return (
-		<div className="span-all">
+		<div>
 			<button
 				type="button"
 				className="app-button"

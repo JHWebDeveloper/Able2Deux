@@ -1,18 +1,21 @@
-import React, { useCallback } from 'react'
-import { bool, exact, func } from 'prop-types'
+import React, { useCallback, useContext } from 'react'
+
+import { PrefsContext } from 'store/preferences'
 
 import { toggleNestedCheckbox } from 'actions'
 
-import PrefsPanel from './PrefsPanel'
 import Checkbox from '../form_elements/Checkbox'
 
-const Warnings = ({ warnings, dispatch }) => {
+const Warnings = () => {
+	const { preferences, dispatch } = useContext(PrefsContext)
+	const { warnings } = preferences
+
 	const toggleWarning = useCallback(e => {
 		dispatch(toggleNestedCheckbox('warnings', e))
 	}, [])
 
 	return (
-		<PrefsPanel title="Warnings" className="span-1_3">
+		<form>
 			<Checkbox
 				label="Remove"
 				name="remove"
@@ -43,19 +46,8 @@ const Warnings = ({ warnings, dispatch }) => {
 				checked={warnings.startOver}
 				onChange={toggleWarning}
 				switchIcon />
-		</PrefsPanel>
+		</form>
 	)
-}
-
-Warnings.propTypes = {
-	warnings: exact({
-		remove: bool,
-		removeAll: bool,
-		applyToAll: bool,
-		sourceOnTop: bool,
-		startOver: bool
-	}).isRequired,
-	dispatch: func.isRequired
 }
 
 export default Warnings

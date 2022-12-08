@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react'
-import { bool, func, number, oneOf } from 'prop-types'
+import React, { useCallback, useContext } from 'react'
+
+import { PrefsContext } from 'store/preferences'
 
 import { updateState, updateStateFromEvent, toggleCheckbox } from 'actions'
 
-import PrefsPanel from './PrefsPanel'
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
@@ -31,7 +31,9 @@ const screenshotButtons = [
 	}
 ]
 
-const AcquisitionSettings = ({ optimize, screenRecorderFrameRate, screenshot, timerEnabled, timer, dispatch }) => {
+const AcquisitionSettings = () => {
+	const { preferences, dispatch } = useContext(PrefsContext)
+
 	const screenshotToBoolean = useCallback(e => {
 		dispatch(updateState({
 			screenshot: e.target.value === 'screenshot'
@@ -43,13 +45,13 @@ const AcquisitionSettings = ({ optimize, screenRecorderFrameRate, screenshot, ti
 	}, [])
 
 	return (
-		<PrefsPanel title="Acquisition Settings" className="span-1_3">
+		<form>
 			<fieldset>
 				<legend>Download Mode</legend>
 				<div>
 					<RadioSet 
 						name="optimize"
-						state={optimize}
+						state={preferences.optimize}
 						onChange={e => dispatch(updateStateFromEvent(e))}
 						buttons={optimizeButtons}/>
 				</div>
@@ -59,7 +61,7 @@ const AcquisitionSettings = ({ optimize, screenRecorderFrameRate, screenshot, ti
 				<div>
 					<RadioSet 
 						name="screenshot"
-						state={screenshot ? 'screenshot' : 'screen_record'}
+						state={preferences.screenshot ? 'screenshot' : 'screen_record'}
 						onChange={screenshotToBoolean}
 						buttons={screenshotButtons}/>
 				</div>
@@ -69,7 +71,7 @@ const AcquisitionSettings = ({ optimize, screenRecorderFrameRate, screenshot, ti
 				<NumberInput
 					name="screenRecorderFrameRate"
 					id="screenRecorderFrameRate"
-					value={screenRecorderFrameRate}
+					value={preferences.screenRecorderFrameRate}
 					min={1}
 					max={120}
 					fineTuneStep={1}
@@ -80,7 +82,7 @@ const AcquisitionSettings = ({ optimize, screenRecorderFrameRate, screenshot, ti
 				<TimecodeInputSeconds
 					name="timer"
 					id="timer"
-					value={timer}
+					value={preferences.timer}
 					min={1}
 					max={86399}
 					onChange={updateStateDispatch} />
@@ -88,20 +90,11 @@ const AcquisitionSettings = ({ optimize, screenRecorderFrameRate, screenshot, ti
 			<Checkbox
 				label="Timer Enabled"
 				name="timerEnabled"
-				checked={timerEnabled}
+				checked={preferences.timerEnabled}
 				onChange={e => dispatch(toggleCheckbox(e))}
 				switchIcon />
-		</PrefsPanel>
+		</form>
 	)
-}
-
-AcquisitionSettings.propTypes = {
-	optimize: oneOf(['quality', 'download']),
-	screenRecorderFrameRate: number.isRequired,
-	screenshot: bool.isRequired,
-	timerEnabled: bool.isRequired,
-	timer: number.isRequired,
-	dispatch: func.isRequired
 }
 
 export default AcquisitionSettings

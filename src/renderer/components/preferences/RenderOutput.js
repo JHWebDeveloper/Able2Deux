@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react'
-import { func, number, oneOf, bool } from 'prop-types'
+import React, { useCallback, useContext } from 'react'
+
+import { PrefsContext } from 'store/preferences'
 
 import {
 	updateState,
@@ -7,7 +8,6 @@ import {
 	toggleCheckbox
 } from 'actions'
 
-import PrefsPanel from './PrefsPanel'
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
@@ -38,7 +38,9 @@ const frameRateButtons = [
 	}
 ]
 
-const RenderOutput = ({ renderOutput, renderFrameRate, customFrameRate, autoPNG, asperaSafe, concurrent, dispatch }) => {
+const RenderOutput = () => {
+	const { preferences, dispatch } = useContext(PrefsContext)
+
 	const updateCustomFrameRate = useCallback(({ name, value }) => {
 		dispatch(updateState({ [name]: value }))
 	}, [])
@@ -50,13 +52,13 @@ const RenderOutput = ({ renderOutput, renderFrameRate, customFrameRate, autoPNG,
 	}, [])
 
 	return (
-		<PrefsPanel title="Output" className="output-grid span-1_3">
+		<form>
 			<fieldset>
 				<legend>Resolution</legend>
 				<div>
 					<RadioSet 
 						name="renderOutput"
-						state={renderOutput}
+						state={preferences.renderOutput}
 						onChange={e => dispatch(updateStateFromEvent(e))}
 						buttons={outputButtons}/>
 				</div>
@@ -66,7 +68,7 @@ const RenderOutput = ({ renderOutput, renderFrameRate, customFrameRate, autoPNG,
 				<div>
 					<RadioSet 
 						name="renderFrameRate"
-						state={renderFrameRate}
+						state={preferences.renderFrameRate}
 						onChange={e => dispatch(updateStateFromEvent(e))}
 						buttons={[
 							...frameRateButtons,
@@ -75,7 +77,7 @@ const RenderOutput = ({ renderOutput, renderFrameRate, customFrameRate, autoPNG,
 								value: 'custom',
 								component: <NumberInput
 									name="customFrameRate"
-									value={customFrameRate}
+									value={preferences.customFrameRate}
 									min={1}
 									max={240}
 									onChange={updateCustomFrameRate} />
@@ -86,13 +88,13 @@ const RenderOutput = ({ renderOutput, renderFrameRate, customFrameRate, autoPNG,
 			<Checkbox
 				label="Auto Export as .png"
 				name="autoPNG"
-				checked={autoPNG}
+				checked={preferences.autoPNG}
 				onChange={e => dispatch(toggleCheckbox(e))}
 				switchIcon/>
 			<Checkbox
 				label="Aspera Safe Characters"
 				name="asperaSafe"
-				checked={asperaSafe}
+				checked={preferences.asperaSafe}
 				onChange={e => dispatch(toggleCheckbox(e))}
 				switchIcon/>
 			<span className="input-option">
@@ -100,25 +102,15 @@ const RenderOutput = ({ renderOutput, renderFrameRate, customFrameRate, autoPNG,
 				<NumberInput
 					name="concurrent"
 					id="concurrent"
-					value={concurrent}
+					value={preferences.concurrent}
 					min={1}
 					max={10}
 					defaultValue={2}
 					fineTuneStep={1}
 					onChange={updateConcurrent} />
 			</span>
-		</PrefsPanel>
+		</form>
 	)
-}
-
-RenderOutput.propTypes = {
-	renderOutput: oneOf(['1280x720', '1920x1080']).isRequired,
-	renderFrameRate: oneOf(['auto', '29.97', '59.94', 'custom']).isRequired,
-	customFrameRate: number.isRequired,
-	autoPNG: bool.isRequired,
-	asperaSafe: bool.isRequired,
-	concurrent: number.isRequired,
-	dispatch: func.isRequired
 }
 
 export default RenderOutput
