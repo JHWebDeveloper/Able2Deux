@@ -33,7 +33,7 @@ const FormattingSettings = () => {
 				onChange={toggleCheckboxDispatch}
 				switchIcon />
 			<Checkbox
-				label="Slider Snap Points"
+				label="Enable Slider Snap Points"
 				name="sliderSnapPoints"
 				checked={preferences.sliderSnapPoints}
 				onChange={toggleCheckboxDispatch}
@@ -58,7 +58,7 @@ const FormattingSettings = () => {
 					onChange={e => dispatch(updateStateFromEvent(e))} />
 			</span>
 			<span>
-				<label htmlFor="split">Split Duration</label>
+				<label htmlFor="split">Default Split Duration</label>
 				<TimecodeInputSeconds
 					name="split"
 					id="split"

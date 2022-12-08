@@ -54,7 +54,7 @@ const RenderOutput = () => {
 	return (
 		<form>
 			<fieldset>
-				<legend>Resolution</legend>
+				<legend>Output Resolution</legend>
 				<div>
 					<RadioSet 
 						name="renderOutput"
@@ -64,7 +64,7 @@ const RenderOutput = () => {
 				</div>
 			</fieldset>
 			<fieldset>
-				<legend>Frame Rate</legend>
+				<legend>Output Frame Rate</legend>
 				<div>
 					<RadioSet 
 						name="renderFrameRate"
@@ -86,13 +86,13 @@ const RenderOutput = () => {
 				</div>
 			</fieldset>
 			<Checkbox
-				label="Auto Export as .png"
+				label="Auto Export as .png if video is still"
 				name="autoPNG"
 				checked={preferences.autoPNG}
 				onChange={e => dispatch(toggleCheckbox(e))}
 				switchIcon/>
 			<Checkbox
-				label="Aspera Safe Characters"
+				label="Filter Unsafe Characters for Aspera"
 				name="asperaSafe"
 				checked={preferences.asperaSafe}
 				onChange={e => dispatch(toggleCheckbox(e))}
