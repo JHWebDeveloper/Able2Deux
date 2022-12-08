@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import { HashRouter, NavLink, Routes, Route } from 'react-router-dom'
 import toastr from 'toastr'
 import 'css/preferences.css'
 
@@ -16,7 +17,7 @@ import SaveAndClose from './SaveAndClose'
 
 const konami = createKonamiListener()
 
-const Main = () => {
+const PreferencesRouter = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
 	const { disableRateLimit } = preferences
 
@@ -38,47 +39,67 @@ const Main = () => {
 	})
 
 	return (
-		<form>
-			<AcquisitionSettings
-				optimize={preferences.optimize}
-				screenshot={preferences.screenshot}
-				screenRecorderFrameRate={preferences.screenRecorderFrameRate}
-				timerEnabled={preferences.timerEnabled}
-				timer={preferences.timer}
-				dispatch={dispatch} />
-			<FormattingSettings
-				editAll={preferences.editAll}
-				sliderSnapPoints={preferences.sliderSnapPoints}
-				aspectRatioMarkers={preferences.aspectRatioMarkers}
-				gridColor={preferences.gridColor}
-				split={preferences.split}
-				scaleSliderMax={preferences.scaleSliderMax}
-				dispatch={dispatch} />
-			<Warnings
-				warnings={preferences.warnings}
-				dispatch={dispatch} />
-			<ScratchDisk 
-				scratchDisk={preferences.scratchDisk}
-				dispatch={dispatch} />
-			<RenderOutput
-				renderOutput={preferences.renderOutput}
-				renderFrameRate={preferences.renderFrameRate}
-				customFrameRate={preferences.customFrameRate}
-				autoPNG={preferences.autoPNG}
-				asperaSafe={preferences.asperaSafe}
-				concurrent={preferences.concurrent}
-				dispatch={dispatch} />
-			<SaveLocations
-				saveLocations={preferences.saveLocations}
-				dispatch={dispatch} />
+		<HashRouter>
+			<nav>
+				<NavLink to="/" title="Acquisition">Acquisition</NavLink>
+				<NavLink to="/scratchdisk" title="Scratch Disk">Scratch Disk</NavLink>
+				<NavLink to="/formatting" title="Formatting">Formatting</NavLink>
+				<NavLink to="/savelocations" title="Save Locations">Save Locations</NavLink>
+				<NavLink to="/renderoutput" title="Render Output">Render Output</NavLink>
+				<NavLink to="/warnings" title="Warnings">Warnings</NavLink>
+			</nav>
+			<Routes>
+				<Route path="/" element={<AcquisitionSettings />} />
+				<Route path="/scratchdisk" element={<ScratchDisk />} />
+				<Route path="/formatting" element={<FormattingSettings />} />
+				<Route path="/savelocations" element={<SaveLocations />} />
+				<Route path="/renderoutput" element={<RenderOutput />} />
+				<Route path="/warnings" element={<Warnings />} />
+			</Routes>
 			<SaveAndClose dispatch={dispatch} />
-		</form>
+		</HashRouter> 
 	)
 }
 
+			// <AcquisitionSettings
+			// 	optimize={preferences.optimize}
+			// 	screenshot={preferences.screenshot}
+			// 	screenRecorderFrameRate={preferences.screenRecorderFrameRate}
+			// 	timerEnabled={preferences.timerEnabled}
+			// 	timer={preferences.timer}
+			// 	dispatch={dispatch} />
+			// <FormattingSettings
+			// 	editAll={preferences.editAll}
+			// 	sliderSnapPoints={preferences.sliderSnapPoints}
+			// 	aspectRatioMarkers={preferences.aspectRatioMarkers}
+			// 	gridColor={preferences.gridColor}
+			// 	split={preferences.split}
+			// 	animateBackground={preferences.animateBackground}
+			// 	enable11pmBackgrounds={preferences.enable11pmBackgrounds}
+			// 	scaleSliderMax={preferences.scaleSliderMax}
+			// 	dispatch={dispatch} />
+			// <Warnings
+			// 	warnings={preferences.warnings}
+			// 	dispatch={dispatch} />
+			// <ScratchDisk 
+			// 	scratchDisk={preferences.scratchDisk}
+			// 	dispatch={dispatch} />
+			// <RenderOutput
+			// 	renderOutput={preferences.renderOutput}
+			// 	renderFrameRate={preferences.renderFrameRate}
+			// 	customFrameRate={preferences.customFrameRate}
+			// 	autoPNG={preferences.autoPNG}
+			// 	asperaSafe={preferences.asperaSafe}
+			// 	concurrent={preferences.concurrent}
+			// 	dispatch={dispatch} />
+			// <SaveLocations
+			// 	saveLocations={preferences.saveLocations}
+			// 	dispatch={dispatch} />
+			// <SaveAndClose dispatch={dispatch} /> 
+
 const Preferences = () => (
 	<PrefsProvider>
-		<Main />
+		<PreferencesRouter />
 	</PrefsProvider>
 )
 
