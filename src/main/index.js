@@ -230,7 +230,7 @@ const prefsMenuItem = [
 				parent: mainWin,
 				width,
 				height,
-				resizable: false,
+				resizable: dev,
 				modal: true
 			})
 
