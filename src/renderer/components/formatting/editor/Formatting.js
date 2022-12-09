@@ -1,5 +1,7 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { bool, func, oneOf, string } from 'prop-types'
+
+import { PrefsContext } from 'store/preferences'
 
 import {
 	updateMediaState,
@@ -32,7 +34,7 @@ const formattingButtons = [
 	}
 ]
 
-const backgroundButtons = [
+const createBackgroundButtons = enable11pmBackgrounds => [
 	{
 		label: 'Blue',
 		value: 'blue'
@@ -41,6 +43,24 @@ const backgroundButtons = [
 		label: 'Grey',
 		value: 'grey'
 	},
+	...(enable11pmBackgrounds ? [
+		{
+			label: '11pm Blue 1',
+			value: 'light_blue'
+		},
+		{
+			label: '11pm Blue 2',
+			value: 'dark_blue'
+		},
+		{
+			label: '11pm Teal',
+			value: 'Teal'
+		},
+		{
+			label: '11pm Tan',
+			value: 'tan'
+		}
+	] : []),
 	{
 		label: 'Transparent',
 		value: 'alpha'
@@ -62,6 +82,18 @@ const overlayButtons = [
 	}
 ]
 
+const backgroundMotionButtons = [
+	{
+		label: 'Animated',
+		value: 'animated'
+	},
+	{
+		label: 'Still',
+		value: 'still'
+	},
+]
+
+
 const BgColorPicker = ({ value, onChange, onFocus }) => {
 	const [ color, setColor ] = useState(value)
 
@@ -82,10 +114,13 @@ const BgColorPicker = ({ value, onChange, onFocus }) => {
 
 const Formatting = memo(props => {
 	const { id, arc, background, bgColor, overlay, editAll, dispatch } = props
+	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
 
 	const updateMediaStateDispatch = useCallback(e => {
 		dispatch(updateMediaStateFromEvent(id, e, editAll))
 	}, [id, editAll])
+
+	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
 
 	const updateBgColor = useCallback(color => {
 		dispatch(updateMediaState(id, {
@@ -102,7 +137,7 @@ const Formatting = memo(props => {
 	return (
 		<DetailsWrapper
 			summary="Formatting"
-			className="auto-columns"
+			className="formatting-panel"
 			buttons={props.isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ arc, background, overlay })),
 				() => dispatch(applySettingsToAll(id, { arc, background, overlay }))
@@ -116,7 +151,7 @@ const Formatting = memo(props => {
 					onChange={updateMediaStateDispatch}
 					buttons={formattingButtons}/>
 			</fieldset>
-			<fieldset disabled={props.backgroundDisabled}>
+			<fieldset className="background-column" disabled={props.backgroundDisabled}>
 				<legend>Background:</legend>
 				<RadioSet
 					name="background"
@@ -141,6 +176,14 @@ const Formatting = memo(props => {
 					state={overlay}
 					onChange={updateMediaStateDispatch}
 					buttons={overlayButtons}/>
+			</fieldset>
+			<fieldset disabled={background === 'alpha' || background === 'color'}>
+				<legend>Motion:</legend>
+				<RadioSet
+					name="backgroundMotion"
+					state={props.backgroundMotion}
+					onChange={updateMediaStateDispatch}
+					buttons={backgroundMotionButtons}/>
 			</fieldset>
 		</DetailsWrapper>
 	)
