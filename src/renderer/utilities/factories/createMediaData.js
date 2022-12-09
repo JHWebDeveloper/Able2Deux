@@ -47,7 +47,6 @@ const defaultMediaData = {
 	},
 	arc: 'none',
 	background: 'blue',
-	backgroundMotion: 'animated',
 	bgColor: '#000000',
 	overlay: 'none',
 	source: {
