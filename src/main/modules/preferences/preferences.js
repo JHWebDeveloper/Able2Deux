@@ -50,26 +50,24 @@ export const initPreferences = async () => {
 		}
 
 		if (prefs.version < 8) {
-			const v8Prefs = {
+			defaultPrefs.aspectRatioMarkers[0].disabled = !prefs.gridButtons._239
+			defaultPrefs.aspectRatioMarkers[1].disabled = !prefs.gridButtons._185
+			defaultPrefs.aspectRatioMarkers[2].disabled = !prefs.gridButtons._166
+			defaultPrefs.aspectRatioMarkers[3].disabled = !prefs.gridButtons._43
+			defaultPrefs.aspectRatioMarkers[4].disabled = !prefs.gridButtons._11
+			defaultPrefs.aspectRatioMarkers[5].disabled = !prefs.gridButtons._916
+
+			delete prefs.gridButtons
+		}
+
+		if (prefs.version < 9) {
+			const v9Prefs = {
 				...defaultPrefs,
 				...prefs,
-				warnings: {
-					...defaultPrefs.warnings,
-					...prefs.warnings
-				},
-				version: 8
+				version: 9
 			}
 
-			v8Prefs.aspectRatioMarkers[0].disabled = !prefs.gridButtons._239
-			v8Prefs.aspectRatioMarkers[1].disabled = !prefs.gridButtons._185
-			v8Prefs.aspectRatioMarkers[2].disabled = !prefs.gridButtons._166
-			v8Prefs.aspectRatioMarkers[3].disabled = !prefs.gridButtons._43
-			v8Prefs.aspectRatioMarkers[4].disabled = !prefs.gridButtons._11
-			v8Prefs.aspectRatioMarkers[5].disabled = !prefs.gridButtons._916
-
-			delete v8Prefs.gridButtons
-
-			await fsp.writeFile(prefsPath, JSON.stringify(v8Prefs))
+			await fsp.writeFile(prefsPath, JSON.stringify(v9Prefs))
 		}
 	}
 }
