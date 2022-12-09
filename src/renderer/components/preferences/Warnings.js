@@ -16,36 +16,46 @@ const Warnings = () => {
 
 	return (
 		<form>
-			<Checkbox
-				label="Remove"
-				name="remove"
-				checked={warnings.remove}
-				onChange={toggleWarning}
-				switchIcon />
-			<Checkbox
-				label="Remove All"
-				name="removeAll"
-				checked={warnings.removeAll}
-				onChange={toggleWarning}
-				switchIcon />
-			<Checkbox
-				label="Apply to All"
-				name="applyToAll"
-				checked={warnings.applyToAll}
-				onChange={toggleWarning}
-				switchIcon />
-			<Checkbox
-				label="Source on Top"
-				name="sourceOnTop"
-				checked={warnings.sourceOnTop}
-				onChange={toggleWarning}
-				switchIcon />
-			<Checkbox
-				label="Start Over"
-				name="startOver"
-				checked={warnings.startOver}
-				onChange={toggleWarning}
-				switchIcon />
+			<span className="input-option">
+				<Checkbox
+					label="Remove"
+					name="remove"
+					checked={warnings.remove}
+					onChange={toggleWarning}
+					switchIcon />
+			</span>
+			<span className="input-option">
+				<Checkbox
+					label="Remove All"
+					name="removeAll"
+					checked={warnings.removeAll}
+					onChange={toggleWarning}
+					switchIcon />
+			</span>
+			<span className="input-option">
+				<Checkbox
+					label="Apply to All"
+					name="applyToAll"
+					checked={warnings.applyToAll}
+					onChange={toggleWarning}
+					switchIcon />
+			</span>
+			<span className="input-option">
+				<Checkbox
+					label="Source on Top"
+					name="sourceOnTop"
+					checked={warnings.sourceOnTop}
+					onChange={toggleWarning}
+					switchIcon />
+			</span>
+			<span className="input-option">
+				<Checkbox
+					label="Start Over"
+					name="startOver"
+					checked={warnings.startOver}
+					onChange={toggleWarning}
+					switchIcon />
+			</span>
 		</form>
 	)
 }
