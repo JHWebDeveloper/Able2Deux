@@ -1,15 +1,10 @@
-import React, { useCallback, useContext } from 'react'
-
-import { PrefsContext } from 'store/preferences'
+import React, { useCallback } from 'react'
 
 import { updateNestedState } from 'actions'
 
 import DirectorySelector from '../form_elements/DirectorySelector'
 
-const ScratchDisk = () => {
-	const { preferences, dispatch } = useContext(PrefsContext)
-	const { scratchDisk } = preferences
-
+const ScratchDisk = ({ scratchDisk, dispatch }) => {
 	const updateScratchDisk = useCallback(property => value => {
 		dispatch(updateNestedState('scratchDisk', {
 			[property]: value
@@ -21,20 +16,27 @@ const ScratchDisk = () => {
 	const updatePreview = useCallback(updateScratchDisk('previews'), [])
 
 	return (
-		<form>
-			<label>Import Cache</label>
-			<DirectorySelector
-				directory={scratchDisk.imports}
-				onChange={updateImports} />
-			<label>Export Cache</label>
-			<DirectorySelector
-				directory={scratchDisk.exports}
-				onChange={updateExports} />
-			<label>Preview Cache</label>
-			<DirectorySelector
-				directory={scratchDisk.previews}
-				onChange={updatePreview} />
-		</form>
+		<fieldset>
+			<legend>Scratch Disks</legend>
+			<span className="input-option">
+				<label>Import Cache</label>
+				<DirectorySelector
+					directory={scratchDisk.imports}
+					onChange={updateImports} />
+			</span>
+			<span className="input-option">
+				<label>Export Cache</label>
+				<DirectorySelector
+					directory={scratchDisk.exports}
+					onChange={updateExports} />
+			</span>
+			<span className="input-option">
+				<label>Preview Cache</label>
+				<DirectorySelector
+					directory={scratchDisk.previews}
+					onChange={updatePreview} />
+			</span>
+		</fieldset>
 	)
 }
 
