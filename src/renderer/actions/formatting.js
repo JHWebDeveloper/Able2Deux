@@ -127,7 +127,7 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 		hasAlpha
 	} : sourceMediaData
 
-	const mediaData = createMediaData({
+	const mediaData = await createMediaData({
 		...inheritance,
 		...stillData,
 		title: `Screengrab ${sourceMediaData.title}`,

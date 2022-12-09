@@ -69,13 +69,19 @@ const updateDownloadProgress = ({ id, eta, percent }) => ({
 export const download = ({ url, optimize, output, disableRateLimit }) => async dispatch => {
 	dispatch(resetURL())
 
-	const mediaData = createMediaData({
-		url,
-		title: url,
-		status: STATUS.DOWNLOAD_PENDING,
-		filename: 'download',
-		acquisitionType: 'download'
-	})
+	let mediaData = {}
+
+	try {
+		mediaData = await createMediaData({
+			url,
+			title: url,
+			status: STATUS.DOWNLOAD_PENDING,
+			filename: 'download',
+			acquisitionType: 'download'
+		})
+	} catch (err) {
+		return toastr.error(errorToString(err), false, toastrOpts)
+	}
 
 	dispatch(addMedia(mediaData))
 
@@ -127,6 +133,7 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 
 export const upload = ({ name, path }) => async dispatch => {
 	let streamData = {}
+	let mediaData = {}
 
 	try {
 		streamData = await interop.checkFileType(path)
@@ -134,13 +141,17 @@ export const upload = ({ name, path }) => async dispatch => {
 		return toastr.error(errorToString(err), false, toastrOpts)
 	}
 
-	const mediaData = createMediaData({
-		title: name,
-		filename: interop.getFileName(name),
-		sourceFilePath: path,
-		acquisitionType: 'upload',
-		...streamData
-	})
+	try {
+		mediaData = await createMediaData({
+			title: name,
+			filename: interop.getFileName(name),
+			sourceFilePath: path,
+			acquisitionType: 'upload',
+			...streamData
+		})
+	} catch (err) {
+		return toastr.error(errorToString(err), false, toastrOpts)
+	}
 
 	dispatch(addMedia(mediaData))
 
@@ -163,14 +174,19 @@ export const upload = ({ name, path }) => async dispatch => {
 
 export const loadRecording = (id, screenshot) => async dispatch => {
 	const title = replaceTokens(`Able2 Screen${screenshot ? 'shot' : ' Record'} $t $d`)
+	let mediaData = {}
 
-	const mediaData = createMediaData({
-		id,
-		title,
-		filename: title,
-		acquisitionType: screenshot ? 'screenshot' : 'screen_record',
-		status: STATUS.LOADING
-	})
+	try {
+		mediaData = await createMediaData({
+			id,
+			title,
+			filename: title,
+			acquisitionType: screenshot ? 'screenshot' : 'screen_record',
+			status: STATUS.LOADING
+		})
+	} catch (err) {
+		return toastr.error(errorToString(err), false, toastrOpts)
+	}
 
 	dispatch(addMedia(mediaData))
 }
