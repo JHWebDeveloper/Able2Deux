@@ -11,6 +11,7 @@ import {
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
+import SaveLocations from './SaveLocations'
 
 const outputButtons = [
 	{
@@ -85,18 +86,22 @@ const RenderOutput = () => {
 						]}/>
 				</div>
 			</fieldset>
-			<Checkbox
-				label="Auto Export as .png if video is still"
-				name="autoPNG"
-				checked={preferences.autoPNG}
-				onChange={e => dispatch(toggleCheckbox(e))}
-				switchIcon/>
-			<Checkbox
-				label="Filter Unsafe Characters for Aspera"
-				name="asperaSafe"
-				checked={preferences.asperaSafe}
-				onChange={e => dispatch(toggleCheckbox(e))}
-				switchIcon/>
+			<span className="input-option">
+				<Checkbox
+					label="Auto Export Still Video as .png"
+					name="autoPNG"
+					checked={preferences.autoPNG}
+					onChange={e => dispatch(toggleCheckbox(e))}
+					switchIcon/>
+			</span>
+			<span className="input-option">
+				<Checkbox
+					label="Filter Unsafe Characters for Aspera"
+					name="asperaSafe"
+					checked={preferences.asperaSafe}
+					onChange={e => dispatch(toggleCheckbox(e))}
+					switchIcon />
+			</span>
 			<span className="input-option">
 				<label htmlFor="concurrent">Concurrent Renders</label>
 				<NumberInput
@@ -109,6 +114,9 @@ const RenderOutput = () => {
 					fineTuneStep={1}
 					onChange={updateConcurrent} />
 			</span>
+			<SaveLocations
+				saveLocations={preferences.saveLocations}
+				dispatch={dispatch} />
 		</form>
 	)
 }
