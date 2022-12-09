@@ -1,16 +1,11 @@
-import React, { useCallback, useContext, useEffect } from 'react'
-
-import { PrefsContext } from 'store/preferences'
+import React, { useCallback, useEffect } from 'react'
 
 import { addNewLocation, moveLocation } from 'actions'
 
 import DraggableList from '../form_elements/DraggableList'
 import Directory from './Directory'
 
-const SaveLocations = () => {
-	const { preferences, dispatch } = useContext(PrefsContext)
-	const { saveLocations } = preferences
-	
+const SaveLocations = ({ saveLocations, dispatch }) => {	
 	const sortingAction = useCallback((oldPos, newPos) => {
 		dispatch(moveLocation(oldPos, newPos))
 	}, [])
@@ -22,7 +17,8 @@ const SaveLocations = () => {
 	}, [saveLocations])
 
 	return (
-		<form>
+		<fieldset>
+			<legend>Save Locations</legend>
 			<div class="save-locations-grid">
 				<label id="default">Default</label>
 				<label id="label">Label</label>
@@ -38,7 +34,7 @@ const SaveLocations = () => {
 					))}
 				</DraggableList>
 			</div>
-		</form>
+		</fieldset>
 	)
 }
 
