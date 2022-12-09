@@ -5,16 +5,49 @@ import { PrefsContext } from 'store/preferences'
 import {
 	updateState,
 	updateStateFromEvent,
-	toggleCheckbox,
-	enableAspectRatioMarker
+	updateNestedStateFromEvent,
+	toggleCheckbox
 } from 'actions'
 
+import RadioSet from '../form_elements/RadioSet'
 import NumberInput from '../form_elements/NumberInput'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
+import AspectRatioMarkers from './AspectRatioMarkers'
+
+const arcButtons = [
+	{
+		label: 'None',
+		value: 'none'
+	},
+	{
+		label: 'Fill Frame',
+		value: 'fill'
+	},
+	{
+		label: 'Fit in Frame',
+		value: 'fit'
+	},
+	{
+		label: 'Transform',
+		value: 'transform'
+	}
+]
+
+const backgroundMotionButtons = [
+	{
+		label: 'Animated',
+		value: 'animated'
+	},
+	{
+		label: 'Still',
+		value: 'still'
+	},
+]
 
 const FormattingSettings = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
+	const { editorSettings } = preferences
 
 	const toggleCheckboxDispatch = useCallback(e => {
 		dispatch(toggleCheckbox(e))
@@ -24,21 +57,53 @@ const FormattingSettings = () => {
 		dispatch(updateState({ [name]: value }))
 	}, [])
 
+	const updateEditorSettingsDispatch = useCallback(e => {
+		dispatch(updateNestedStateFromEvent('editorSettings', e))
+	}, [])
+
 	return (
 		<form>
-			<Checkbox
-				label="Edit All by Default"
-				name="editAll"
-				checked={preferences.editAll}
-				onChange={toggleCheckboxDispatch}
-				switchIcon />
-			<Checkbox
-				label="Enable Slider Snap Points"
-				name="sliderSnapPoints"
-				checked={preferences.sliderSnapPoints}
-				onChange={toggleCheckboxDispatch}
-				switchIcon />
-			<div className="grid-buttons-grid">
+			<fieldset>
+				<legend>Default AR Correction:</legend>
+				<RadioSet
+					name="arc"
+					state={editorSettings.arc}
+					onChange={updateEditorSettingsDispatch}
+					buttons={arcButtons} />
+			</fieldset>
+			<fieldset>
+				<legend>Default Background Motion:</legend>
+				<RadioSet
+					name="backgroundMotion"
+					state={editorSettings.backgroundMotion}
+					onChange={updateEditorSettingsDispatch}
+					buttons={backgroundMotionButtons} />
+			</fieldset>
+			<span className="input-option">
+				<Checkbox
+					label="Edit All Enabled by Default"
+					name="editAll"
+					checked={preferences.editAll}
+					onChange={toggleCheckboxDispatch}
+					switchIcon />
+			</span>
+			<span className="input-option">
+				<Checkbox
+					label="Show 11pm Backgrounds"
+					name="enable11pmBackgrounds"
+					checked={preferences.enable11pmBackgrounds}
+					onChange={toggleCheckboxDispatch}
+					switchIcon />
+			</span>
+			<span className="input-option">
+				<Checkbox
+					label="Enable Slider Snap Points"
+					name="sliderSnapPoints"
+					checked={preferences.sliderSnapPoints}
+					onChange={toggleCheckboxDispatch}
+					switchIcon />
+			</span>
+			{/* <div className="grid-buttons-grid">
 				<h2>Grid Buttons</h2>
 				{preferences.aspectRatioMarkers.map(({ label, disabled, id }) => (
 					<Checkbox
@@ -47,7 +112,7 @@ const FormattingSettings = () => {
 						checked={!disabled}
 						onChange={() => dispatch(enableAspectRatioMarker(id))} />
 				))}
-			</div>
+			</div> */}
 			<span className="input-option">
 				<label htmlFor="grid-color">Grid Color</label>
 				<input
@@ -57,7 +122,7 @@ const FormattingSettings = () => {
 					value={preferences.gridColor}
 					onChange={e => dispatch(updateStateFromEvent(e))} />
 			</span>
-			<span>
+			<span className="input-option">
 				<label htmlFor="split">Default Split Duration</label>
 				<TimecodeInputSeconds
 					name="split"
@@ -67,19 +132,7 @@ const FormattingSettings = () => {
 					max={86399}
 					onChange={updateStateDispatch} />
 			</span>
-			<Checkbox
-				label="Animated by Default"
-				name="animateBackground"
-				checked={preferences.animateBackground}
-				onChange={toggleCheckboxDispatch}
-				switchIcon />
-			<Checkbox
-				label="Enable 11pm Backgrounds"
-				name="enable11pmBackgrounds"
-				checked={preferences.enable11pmBackgrounds}
-				onChange={toggleCheckboxDispatch}
-				switchIcon />
-			<span>
+			<span className="input-option">
 				<label htmlFor="scaleSliderMax">Scale Slider Max</label>
 				<NumberInput
 					name="scaleSliderMax"
@@ -91,6 +144,9 @@ const FormattingSettings = () => {
 					defaultValue={400}
 					onChange={updateStateDispatch} />
 			</span>
+			<AspectRatioMarkers
+				aspectRatioMarkers={preferences.aspectRatioMarkers}
+				dispatch={dispatch} />
 		</form>
 	)
 }
