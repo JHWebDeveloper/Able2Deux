@@ -7,7 +7,7 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 	: app.getPath('temp')
 
 const defaultPrefs = {
-	version: 8,
+	version: 9,
 	renderOutput: '1280x720',
 	renderFrameRate: 'auto',
 	customFrameRate: 23.98,
@@ -73,7 +73,12 @@ const defaultPrefs = {
 	],
 	gridColor: '#ff00ff',
 	split: 270,
+	enable11pmBackgrounds: false,
 	scaleSliderMax: 400,
+	editorSettings: {
+		arc: 'none',
+		backgroundMotion: 'animated',
+	},
 	warnings: {
 		remove: true,
 		removeAll: true,
