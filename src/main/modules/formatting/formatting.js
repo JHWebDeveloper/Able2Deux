@@ -33,15 +33,15 @@ const checkNeedsAlpha = ({ mediaType, arc, background, overlay, hasAlpha }) => (
 const checkIsStill = exportData => {
 	if (exportData.mediaType !== 'image' || !exportData.autoPNG) return false
 
-	const { arc, background, overlay, hasAlpha, aspectRatio } = exportData
+	const { arc, backgroundMotion, background, overlay, hasAlpha, aspectRatio } = exportData
 
-	let isStill = false
-
-	isStill ||= arc === 'none'
-	isStill ||= background === 'color' || background === 'alpha'
-	isStill ||= overlay === 'none' && (!hasAlpha && (arc === 'fill' || arc === 'fit' && aspectRatio === '16:9'))
-
-	return isStill
+	return (
+		arc === 'none' ||
+		backgroundMotion === 'still' ||
+		background === 'color' ||
+		background === 'alpha' ||
+		(overlay === 'none' && (!hasAlpha && (arc === 'fill' || arc === 'fit' && aspectRatio === '16:9')))
+	)
 }
 
 const getIntegerLength = n => {
@@ -101,6 +101,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		audio,
 		arc,
 		background,
+		backgroundMotion,
 		overlay,
 		sourceData,
 		rotation,
@@ -240,9 +241,9 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		}
 
 		if (arc !== 'none' && !(arc === 'fill' && overlay === 'none' && !hasAlpha)) {
-			if (background === 'blue' || background === 'grey') {
+			if (background !== 'alpha' && background !== 'color') {
 				renderCmd
-					.input(path.join(assetsPath, renderHeight, `${background}.mov`))
+					.input(path.join(assetsPath, renderHeight, `${background}.${backgroundMotion === 'still' ? 'png' : 'mov'}`))
 					.inputOption('-stream_loop -1')
 			} else {
 				renderCmd
