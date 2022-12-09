@@ -1,6 +1,8 @@
 import { v1 as uuid } from 'uuid'
 import { PENDING } from 'status'
 
+const { interop } = window.ABLE2
+
 const defaultMediaData = {
 	id: '',
 	refId: '',
@@ -45,6 +47,7 @@ const defaultMediaData = {
 	},
 	arc: 'none',
 	background: 'blue',
+	backgroundMotion: 'animated',
 	bgColor: '#000000',
 	overlay: 'none',
 	source: {
@@ -78,12 +81,15 @@ const defaultMediaData = {
 	}
 }
 
-export const createMediaData = params => {
+export const createMediaData = async params => {
+	const { backgroundMotion } = await interop.requestPrefs()
+
 	params.id = params.id || uuid()
 	params.refId = params.id
 
 	return {
 		...defaultMediaData,
+		backgroundMotion,
 		...params
 	}
 }
