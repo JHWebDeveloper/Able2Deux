@@ -27,6 +27,8 @@ const initState = {
 	timer: 60,
 	editAll: false,
 	sliderSnapPoints: true,
+	enable11pmBackgrounds: false,
+	backgroundMotion: 'animated',
 	split: 270,
 	aspectRatioMarkers: [],
 	gridColor: '#ff00ff',
