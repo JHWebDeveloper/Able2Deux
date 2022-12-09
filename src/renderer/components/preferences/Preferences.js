@@ -8,11 +8,9 @@ import { updateState } from 'actions'
 import { toastrOpts, createKonamiListener } from 'utilities'
 
 import RenderOutput from './RenderOutput'
-import ScratchDisk from './ScratchDisk'
 import AcquisitionSettings from './AcquisitionSettings'
 import FormattingSettings from './FormattingSettings'
 import Warnings from './Warnings'
-import SaveLocations from './SaveLocations'
 import SaveAndClose from './SaveAndClose'
 
 const konami = createKonamiListener()
@@ -42,17 +40,13 @@ const PreferencesRouter = () => {
 		<HashRouter>
 			<nav>
 				<NavLink to="/" title="Acquisition">Acquisition</NavLink>
-				<NavLink to="/scratchdisk" title="Scratch Disk">Scratch Disk</NavLink>
 				<NavLink to="/formatting" title="Formatting">Formatting</NavLink>
-				<NavLink to="/savelocations" title="Save Locations">Save Locations</NavLink>
 				<NavLink to="/renderoutput" title="Render Output">Render Output</NavLink>
 				<NavLink to="/warnings" title="Warnings">Warnings</NavLink>
 			</nav>
 			<Routes>
 				<Route path="/" element={<AcquisitionSettings />} />
-				<Route path="/scratchdisk" element={<ScratchDisk />} />
 				<Route path="/formatting" element={<FormattingSettings />} />
-				<Route path="/savelocations" element={<SaveLocations />} />
 				<Route path="/renderoutput" element={<RenderOutput />} />
 				<Route path="/warnings" element={<Warnings />} />
 			</Routes>
