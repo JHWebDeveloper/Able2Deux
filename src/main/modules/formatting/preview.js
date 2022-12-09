@@ -39,7 +39,7 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 	}
 
 	if (arc !== 'none' && !(arc === 'fill' && overlay === 'none' && !hasAlpha)) {
-		if (background === 'blue' || background === 'grey') {
+		if (background !== 'alpha' && background !== 'color') {
 			command.input(path.join(assetsPath, renderHeight, `${background}.jpg`))
 		} else if (background === 'alpha') {
 			command.input(path.join(assetsPath, renderHeight, 'alpha.jpg'))
