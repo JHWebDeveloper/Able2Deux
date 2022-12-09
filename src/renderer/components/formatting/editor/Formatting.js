@@ -15,7 +15,7 @@ import { compareProps, createSettingsMenu, debounce } from 'utilities'
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
 
-const formattingButtons = [
+const arcButtons = [
 	{
 		label: 'None',
 		value: 'none'
@@ -149,7 +149,7 @@ const Formatting = memo(props => {
 					name="arc"
 					state={arc}
 					onChange={updateMediaStateDispatch}
-					buttons={formattingButtons}/>
+					buttons={arcButtons}/>
 			</fieldset>
 			<fieldset className="background-column" disabled={props.backgroundDisabled}>
 				<legend>Background:</legend>
