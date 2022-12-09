@@ -82,14 +82,14 @@ const defaultMediaData = {
 }
 
 export const createMediaData = async params => {
-	const { backgroundMotion } = await interop.requestPrefs()
+	const { editorSettings } = await interop.requestPrefs()
 
 	params.id = params.id || uuid()
 	params.refId = params.id
 
 	return {
 		...defaultMediaData,
-		backgroundMotion,
+		...editorSettings,
 		...params
 	}
 }
