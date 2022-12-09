@@ -8,6 +8,7 @@ import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 import NumberInput from '../form_elements/NumberInput'
+import ScratchDisk from './ScratchDisk'
 
 const optimizeButtons = [
 	{
@@ -46,6 +47,9 @@ const AcquisitionSettings = () => {
 
 	return (
 		<form>
+			<ScratchDisk
+				scratchDisk={preferences.scratchDisk}
+				dispatch={dispatch} />
 			<fieldset>
 				<legend>Default Download Mode</legend>
 				<div>
@@ -66,7 +70,15 @@ const AcquisitionSettings = () => {
 						buttons={screenshotButtons}/>
 				</div>
 			</fieldset>
-			<span>
+			<span className="input-option">
+				<Checkbox
+					label="Timer Enabled by Default"
+					name="timerEnabled"
+					checked={preferences.timerEnabled}
+					onChange={e => dispatch(toggleCheckbox(e))}
+					switchIcon />
+			</span>
+			<span className="input-option">
 				<label htmlFor="screenRecorderFrameRate">Screen Recorder Frame Rate</label>
 				<NumberInput
 					name="screenRecorderFrameRate"
@@ -77,7 +89,7 @@ const AcquisitionSettings = () => {
 					fineTuneStep={1}
 					onChange={updateStateDispatch} />
 			</span>
-			<span>
+			<span className="input-option">
 				<label htmlFor="timer">Default Timer Duration</label>
 				<TimecodeInputSeconds
 					name="timer"
@@ -87,12 +99,6 @@ const AcquisitionSettings = () => {
 					max={86399}
 					onChange={updateStateDispatch} />
 			</span>
-			<Checkbox
-				label="Timer Enabled by Default"
-				name="timerEnabled"
-				checked={preferences.timerEnabled}
-				onChange={e => dispatch(toggleCheckbox(e))}
-				switchIcon />
 		</form>
 	)
 }
