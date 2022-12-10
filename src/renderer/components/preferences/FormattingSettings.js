@@ -43,6 +43,10 @@ const backgroundMotionButtons = [
 		label: 'Still',
 		value: 'still'
 	},
+	{
+		label: 'Auto',
+		value: 'auto'
+	}
 ]
 
 const FormattingSettings = () => {
