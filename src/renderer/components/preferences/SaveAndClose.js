@@ -17,7 +17,7 @@ const SaveAndClose = ({ dispatch }) => {
 	}), [])
 
 	return (
-		<div>
+		<footer>
 			<button
 				type="button"
 				className="app-button"
@@ -43,7 +43,7 @@ const SaveAndClose = ({ dispatch }) => {
 				title="Restore Default"
 				style={{ float: 'right' }}
 				onClick={restoreDefaultPrefsWarning}>Restore Default</button>
-		</div>
+		</footer>
 	)
 }
 
