@@ -57,8 +57,8 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 		interop.captureScreenshot({
 			streamId,
 			frameRate,
-			onCapture(recordId, mediaData) {
-				dispatch(loadRecording(recordId, true))
+			async onCapture(recordId, mediaData) {
+				await dispatch(loadRecording(recordId, true))
 				dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
 			},
 			onError(err, recordId) {
