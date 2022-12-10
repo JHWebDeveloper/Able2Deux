@@ -19,7 +19,7 @@ const SaveLocations = ({ saveLocations, dispatch }) => {
 	return (
 		<fieldset>
 			<legend>Save Locations</legend>
-			<div class="save-locations-grid">
+			<div className="save-locations-grid">
 				<label id="default">Default</label>
 				<label id="label">Label</label>
 				<label id="folder">Folder</label>
