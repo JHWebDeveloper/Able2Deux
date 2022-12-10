@@ -24,14 +24,14 @@ export default (state, action) => {
 			return shared.toggleNestedCheckbox(state, payload)
 		case ACTION.TOGGLE_SAVE_LOCATION:
 			return shared.toggleSaveLocation(state, payload)
-		case ACTION.UPDATE_LOCATION_FIELD:
-			return updateLocationField(state, payload)
-		case ACTION.ADD_LOCATION:
-			return addLocation(state, payload)
-		case ACTION.REMOVE_LOCATION:
-			return removeLocation(state, payload)
-		case ACTION.MOVE_LOCATION:
-			return moveLocation(state, payload)
+		case ACTION.UPDATE_SORTABLE_ELEMENT_FIELD:
+			return updateSortableElementField(state, payload)
+		case ACTION.ADD_SORTABLE_ELEMENT:
+			return addSortableElement(state, payload)
+		case ACTION.REMOVE_SORTABLE_ELEMENT:
+			return removeSortableElement(state, payload)
+		case ACTION.MOVE_SORTABLE_ELEMENT:
+			return moveSortableElement(state, payload)
 		case ACTION.FIX_LOCATIONS_AND_SAVE:
 			return fixSaveLocationsAndSave(state, callback)
 		case ACTION.REMOVE_LOCATION_AND_SAVE:
@@ -53,42 +53,42 @@ const enableAspectRatioMarker = (state, payload) => ({
 	} : marker)
 })
 
-const updateLocationField = (state, payload) => ({
+const updateSortableElementField = (state, payload) => ({
 	...state,
-	saveLocations: state.saveLocations.map(location => location.id === payload.id ? {
-		...location,
+	[payload.nest]: state[payload.nest].map(obj => obj.id === payload.id ? {
+		...obj,
 		[payload.name]: payload.value
-	} : location)
+	} : obj)
 })
 
-const addLocation = (state, payload) => {
-	const saveLocations = [...state.saveLocations]
+const addSortableElement = (state, payload) => {
+	const elements = [...state[payload.nest]]
 
-	saveLocations.splice(payload.pos, 0, payload.location)
+	elements.splice(payload.pos, 0, payload.element)
 	
 	return {
 		...state,
-		saveLocations
+		[payload.nest]: elements
 	}
 }
 
-const removeLocation = (state, payload) => ({
+const removeSortableElement = (state, payload) => ({
 	...state,
-	saveLocations: state.saveLocations.filter(({ id }) => id !== payload.id)
+	[payload.nest]: state[payload.nest].filter(({ id }) => id !== payload.id)
 })
 
-const moveLocation = (state, payload) => {
+const moveSortableElement = (state, payload) => {
 	let { oldPos, newPos } = payload
-	const saveLocations = [...state.saveLocations]
-	const targetLocation = saveLocations.splice(oldPos, 1)[0]
+	const elements = [...state[payload.nest]]
+	const targetElement = elements.splice(oldPos, 1)[0]
 
 	if (oldPos < newPos) newPos--
 
-	saveLocations.splice(newPos, 0, targetLocation)
+	elements.splice(newPos, 0, targetElement)
 
 	return {
 		...state,
-		saveLocations
+		[payload.nest]: elements
 	}
 }
 
@@ -118,7 +118,7 @@ const fixSaveLocationsAndSave = (state, callback) => {
 }
 
 const removeLocationAndSave = (state, payload) => {
-	const newPrefs = removeLocation(state, payload)
+	const newPrefs = removeSortableElement(state, payload)
 
 	savePrefs(newPrefs)
 

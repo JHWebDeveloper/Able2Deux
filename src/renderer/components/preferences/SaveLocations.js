@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect } from 'react'
 
-import { addNewLocation, moveLocation } from 'actions'
+import { addNewLocation, moveSortableElement } from 'actions'
 
 import DraggableList from '../form_elements/DraggableList'
 import Directory from './Directory'
 
 const SaveLocations = ({ saveLocations, dispatch }) => {	
 	const sortingAction = useCallback((oldPos, newPos) => {
-		dispatch(moveLocation(oldPos, newPos))
+		dispatch(moveSortableElement('saveLocations', oldPos, newPos))
 	}, [])
 
 	useEffect(() => {

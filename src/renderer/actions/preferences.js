@@ -40,48 +40,53 @@ export const enableAspectRatioMarker = id => ({
 
 export const removeLocationAndSave = id => ({
 	type: ACTION.REMOVE_LOCATION_AND_SAVE,
-	payload: { id }
+	payload: { id, nest: 'saveLocations' }
 })
 
-export const updateLocationField = (id, name, value) => ({
-	type: ACTION.UPDATE_LOCATION_FIELD,
-	payload: { id, name, value }
+export const updateSortableElementField = (id, nest, name, value) => ({
+	type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
+	payload: { id, nest, name, value }
 })
 
-export const updateLocationFieldFromEvent = (id, e) => dispatch => {
+export const updateSortableElementFieldFromEvent = (id, nest, e) => dispatch => {
 	const { name, value } = e.target
 
 	dispatch({
-		type: ACTION.UPDATE_LOCATION_FIELD,
-		payload: { id, name, value }
+		type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
+		payload: { id, nest, name, value }
 	})
 }
 
-export const addNewLocation = (index, e) => dispatch => {
+const addNewSortableElement = (nest, element, index, e) => dispatch => {
 	const pos = e.shiftKey ? 1 : 0
 
 	dispatch({
-		type: ACTION.ADD_LOCATION,
+		type: ACTION.ADD_SORTABLE_ELEMENT,
 		payload: {
 			pos: index + pos,
-			location: {
-				id: uuid(),
-				checked: false,
-				label: '',
-				directory: ''
-			}
+			nest,
+			element
 		}
 	})
 }
 
-export const removeLocation = id => ({
-	type: ACTION.REMOVE_LOCATION,
-	payload: { id }
+export const addNewLocation = (index, e) => dispatch => {
+	addNewSortableElement('saveLocations', {
+		id: uuid(),
+		checked: false,
+		label: '',
+		directory: ''
+	}, index, e)(dispatch)
+}
+
+export const removeSortableElement = (id, nest) => ({
+	type: ACTION.REMOVE_SORTABLE_ELEMENT,
+	payload: { id, nest }
 })
 
-export const moveLocation = (oldPos, newPos) => ({
-	type: ACTION.MOVE_LOCATION,
-	payload: { oldPos, newPos }
+export const moveSortableElement = (nest, oldPos, newPos) => ({
+	type: ACTION.MOVE_SORTABLE_ELEMENT,
+	payload: { nest, oldPos, newPos }
 })
 
 export const restoreDefaultPrefs = () => async dispatch => {

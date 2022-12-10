@@ -3,11 +3,11 @@ import { bool, func, number, exact, string } from 'prop-types'
 
 import {
 	toggleSaveLocation,
-	updateLocationFieldFromEvent,
-	updateLocationField,
+	updateSortableElementFieldFromEvent,
+	updateSortableElementField,
 	addNewLocation,
-	removeLocation,
-	moveLocation
+	removeSortableElement,
+	moveSortableElement
 } from 'actions'
 
 import DirectorySelector from '../form_elements/DirectorySelector'
@@ -25,23 +25,23 @@ const Directory = ({ dir, index, total, dispatch }) => {
 	}, [index])
 
 	const remove = useCallback(() => {
-		dispatch(removeLocation(id))
+		dispatch(removeSortableElement(id, 'saveLocations'))
 	}, [id])
 
 	const updateLocation = useCallback(e => {
-		dispatch(updateLocationFieldFromEvent(id, e))
+		dispatch(updateSortableElementFieldFromEvent(id, 'saveLocations', e))
 	}, [id])
 
 	const updateDirectory = useCallback(dir => {
-		dispatch(updateLocationField(id, 'directory', dir))
+		dispatch(updateSortableElementField(id, 'saveLocations', 'directory', dir))
 	}, [id])
 
 	const moveUp = useCallback(() => {
-		dispatch(moveLocation(index, index - 1))
+		dispatch(moveSortableElement('saveLocations', index, index - 1))
 	}, [index])
 
 	const moveDown = useCallback(() => {
-		dispatch(moveLocation(index, index + 2))
+		dispatch(moveSortableElement('saveLocations', index, index + 2))
 	}, [index])
 
 	return (
