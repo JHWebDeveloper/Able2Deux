@@ -87,6 +87,10 @@ export const createMediaData = async params => {
 	params.id = params.id || uuid()
 	params.refId = params.id
 
+	if (editorSettings.backgroundMotion === 'auto') {
+		editorSettings.backgroundMotion = params.mediaType === 'image' ? 'still' : 'animated'
+	}
+
 	return {
 		...defaultMediaData,
 		...editorSettings,
