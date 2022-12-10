@@ -78,7 +78,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 				{index > 0 ? (
 					<button
 						type="button"
-						name="up"
+						name="directory-up"
 						className="app-button symbol"
 						title="Move directory up"
 						onClick={moveUp}>keyboard_arrow_up</button>
@@ -86,7 +86,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 				{index < total - 1 ? (
 					<button
 						type="button"
-						name="down"
+						name="directory-down"
 						className="app-button symbol"
 						title="Move directory down"
 						onClick={moveDown}>keyboard_arrow_down</button>
