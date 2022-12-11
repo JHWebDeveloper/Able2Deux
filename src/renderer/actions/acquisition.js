@@ -27,8 +27,12 @@ export const updateMediaStatus = (id, status, mediaData) => ({
 // ---- ADD/REMOVE MEDIA ------------
 
 export const addMedia = newMedia => ({
-	type: ACTION.ADD_MEDIA,
-	payload: { newMedia }
+	type: ACTION.ADD_SORTABLE_ELEMENT,
+	payload: {
+		element: newMedia,
+		nest: 'media',
+		pos: 0
+	}
 })
 
 export const removeMedia = ({ status, id, refId, references = 0 }) => async dispatch => {
