@@ -2,6 +2,7 @@ import toastr from 'toastr'
 import { v1 as uuid } from 'uuid'
 
 import * as ACTION from './types'
+import { addNewSortableElement } from '.'
 import { errorToString, toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
@@ -43,33 +44,6 @@ export const removeLocationAndSave = id => ({
 	payload: { id, nest: 'saveLocations' }
 })
 
-export const updateSortableElementField = (id, nest, name, value) => ({
-	type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
-	payload: { id, nest, name, value }
-})
-
-export const updateSortableElementFieldFromEvent = (id, nest, e) => dispatch => {
-	const { name, value } = e.target
-
-	dispatch({
-		type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
-		payload: { id, nest, name, value }
-	})
-}
-
-const addNewSortableElement = (nest, element, index, e) => dispatch => {
-	const pos = e.shiftKey ? 1 : 0
-
-	dispatch({
-		type: ACTION.ADD_SORTABLE_ELEMENT,
-		payload: {
-			pos: index + pos,
-			nest,
-			element
-		}
-	})
-}
-
 export const addNewLocation = (index, e) => dispatch => {
 	addNewSortableElement('saveLocations', {
 		id: uuid(),
@@ -88,16 +62,6 @@ export const addNewAspectRatioMarker = (index, e) => dispatch => {
 		ratio: [1, 1]
 	}, index, e)(dispatch)
 }
-
-export const removeSortableElement = (id, nest) => ({
-	type: ACTION.REMOVE_SORTABLE_ELEMENT,
-	payload: { id, nest }
-})
-
-export const moveSortableElement = (nest, oldPos, newPos) => ({
-	type: ACTION.MOVE_SORTABLE_ELEMENT,
-	payload: { nest, oldPos, newPos }
-})
 
 export const restoreDefaultPrefs = () => async dispatch => {
 	const defaults = await interop.requestDefaultPrefs()

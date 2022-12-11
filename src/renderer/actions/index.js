@@ -53,6 +53,29 @@ export const toggleNestedCheckbox = (nest, e) => ({
 	}
 })
 
+export const addNewSortableElement = (nest, element, index, e) => dispatch => {
+	const pos = e.shiftKey ? 1 : 0
+
+	dispatch({
+		type: ACTION.ADD_SORTABLE_ELEMENT,
+		payload: {
+			pos: index + pos,
+			nest,
+			element
+		}
+	})
+}
+
+export const removeSortableElement = (id, nest) => ({
+	type: ACTION.REMOVE_SORTABLE_ELEMENT,
+	payload: { id, nest }
+})
+
+export const moveSortableElement = (nest, oldPos, newPos) => ({
+	type: ACTION.MOVE_SORTABLE_ELEMENT,
+	payload: { nest, oldPos, newPos }
+})
+
 
 // ---- 3RD LEVEL STATE --------
 
@@ -75,6 +98,20 @@ export const updateMediaStateFromEvent = (id, e, editAll) => ({
 		}
 	}
 })
+
+export const updateSortableElementField = (id, nest, name, value) => ({
+	type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
+	payload: { id, nest, name, value }
+})
+
+export const updateSortableElementFieldFromEvent = (id, nest, e) => dispatch => {
+	const { name, value } = e.target
+
+	dispatch({
+		type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
+		payload: { id, nest, name, value }
+	})
+}
 
 
 // ---- 4TH LEVEL STATE --------
