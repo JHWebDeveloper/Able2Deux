@@ -13,6 +13,8 @@ import {
 import DirectorySelector from '../form_elements/DirectorySelector'
 import DragIndicator from '../svg/DragIndicator'
 
+const saveLocations = 'saveLocations'
+
 const Directory = ({ dir, index, total, dispatch }) => {
 	const { checked, label, directory, id } = dir
 
@@ -25,23 +27,23 @@ const Directory = ({ dir, index, total, dispatch }) => {
 	}, [index])
 
 	const remove = useCallback(() => {
-		dispatch(removeSortableElement(id, 'saveLocations'))
+		dispatch(removeSortableElement(id, saveLocations))
 	}, [id])
 
 	const updateLocation = useCallback(e => {
-		dispatch(updateSortableElementFieldFromEvent(id, 'saveLocations', e))
+		dispatch(updateSortableElementFieldFromEvent(id, saveLocations, e))
 	}, [id])
 
 	const updateDirectory = useCallback(dir => {
-		dispatch(updateSortableElementField(id, 'saveLocations', 'directory', dir))
+		dispatch(updateSortableElementField(id, saveLocations, 'directory', dir))
 	}, [id])
 
 	const moveUp = useCallback(() => {
-		dispatch(moveSortableElement('saveLocations', index, index - 1))
+		dispatch(moveSortableElement(saveLocations, index, index - 1))
 	}, [index])
 
 	const moveDown = useCallback(() => {
-		dispatch(moveSortableElement('saveLocations', index, index + 2))
+		dispatch(moveSortableElement(saveLocations, index, index + 2))
 	}, [index])
 
 	return (
