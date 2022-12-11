@@ -9,6 +9,7 @@ import {
 } from 'actions'
 
 import DropdownMenu from '../../form_elements/DropdownMenu'
+import MediaOptionButtons from '../../form_elements/MediaOptionButtons'
 
 const { interop } = window.ABLE2
 
@@ -132,7 +133,9 @@ const BatchItem = props => {
 		<div
 			className={`batch-item${selected ? ' selected' : ''}`}
 			onKeyDown={onKeyDown}>
-			<DropdownMenu buttons={dropdown} />
+			<DropdownMenu>				
+				<MediaOptionButtons buttons={dropdown} />
+			</DropdownMenu>
 			<button
 				type="button"
 				ref={ref}
