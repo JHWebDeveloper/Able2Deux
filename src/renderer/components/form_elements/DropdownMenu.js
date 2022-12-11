@@ -1,10 +1,9 @@
-import React, { Fragment, useCallback, useMemo, useState } from 'react'
-import { v1 as uuid } from 'uuid'
+import React, { useCallback, useState } from 'react'
 import { arrayOf, bool, func, shape, string } from 'prop-types'
 
 import { detectTabExit } from 'utilities'
 
-const DropdownMenu = ({ buttons }) => {
+const DropdownMenu = ({ children }) => {
 	const [ revealMenu, toggleRevealMenu ] = useState(false)
 	const [ position, setPosition ] = useState({ top: 0, left: 0 })
 
@@ -19,8 +18,6 @@ const DropdownMenu = ({ buttons }) => {
 
 	const closeMenuOnBlur = useCallback(detectTabExit(toggleRevealMenu), [])
 
-	const menuId = useMemo(uuid, [])
-
 	return (
 		<span className="dropdown" onBlur={closeMenuOnBlur}>
 			<button
@@ -33,29 +30,7 @@ const DropdownMenu = ({ buttons }) => {
 				}}
 				aria-haspopup="true"
 				aria-expanded={revealMenu}>more_vert</button>
-			{revealMenu ? (
-				<span style={position}>
-					{buttons.map(({ hide, type, label, action }, i) => !hide ? ( // eslint-disable-line no-extra-parens
-						type === 'spacer' ? (
-							<span
-								key={`${menuId}_${i}`}
-								className="spacer"
-								aria-hidden="true"
-								data-no-drag></span>
-						) : (
-							<button
-								key={`${menuId}_${i}`}
-								type="button"
-								autoFocus={i === 0}
-								onClick={() => {
-									action()
-									toggleRevealMenu(false)
-								}}
-								data-no-drag>{label}</button>
-						)
-					) : <Fragment key={`${menuId}_${i}`}></Fragment>)}
-				</span>
-			) : <></>}
+			{revealMenu ? <span style={position}>{children}</span> : <></>}
 		</span>
 	)
 }
