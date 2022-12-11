@@ -24,8 +24,8 @@ export default (state, action) => {
 			return toggleMediaNestedCheckbox(state, payload)
 		case ACTION.ADD_MEDIA:
 			return addMedia(state, payload)
-		case ACTION.MOVE_MEDIA:
-			return moveMedia(state, payload)
+		case ACTION.MOVE_SORTABLE_ELEMENT:
+			return shared.moveSortableElement(state, payload)
 		case ACTION.DUPLICATE_MEDIA: 
 			return duplicateMedia(state, payload)
 		case ACTION.SPLIT_MEDIA: 
@@ -97,21 +97,6 @@ const addMedia = (state, payload) => ({
 	...state,
 	media: [payload.newMedia].concat(state.media)
 })
-
-const moveMedia = (state, payload) => {
-	let { oldPos, newPos } = payload
-	const media = [...state.media]
-	const targetMedia = media.splice(oldPos, 1)[0]
-
-	if (oldPos < newPos) newPos--
-
-	media.splice(newPos, 0, targetMedia)
-
-	return {
-		...state,
-		media
-	}
-}
 
 const duplicate = (insert, media) => {
 	media = [...media]
