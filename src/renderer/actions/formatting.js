@@ -43,11 +43,6 @@ export const pasteSettings = id => ({
 	payload: { id }
 })
 
-export const moveMedia = (oldPos, newPos) => ({
-	type: ACTION.MOVE_MEDIA,
-	payload: { oldPos, newPos }
-})
-
 export const duplicateMedia = id => ({
 	type: ACTION.DUPLICATE_MEDIA,
 	payload: {
