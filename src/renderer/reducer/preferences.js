@@ -31,7 +31,7 @@ export default (state, action) => {
 		case ACTION.REMOVE_SORTABLE_ELEMENT:
 			return removeSortableElement(state, payload)
 		case ACTION.MOVE_SORTABLE_ELEMENT:
-			return moveSortableElement(state, payload)
+			return shared.moveSortableElement(state, payload)
 		case ACTION.FIX_LOCATIONS_AND_SAVE:
 			return fixSaveLocationsAndSave(state, callback)
 		case ACTION.REMOVE_LOCATION_AND_SAVE:
@@ -76,21 +76,6 @@ const removeSortableElement = (state, payload) => ({
 	...state,
 	[payload.nest]: state[payload.nest].filter(({ id }) => id !== payload.id)
 })
-
-const moveSortableElement = (state, payload) => {
-	let { oldPos, newPos } = payload
-	const elements = [...state[payload.nest]]
-	const targetElement = elements.splice(oldPos, 1)[0]
-
-	if (oldPos < newPos) newPos--
-
-	elements.splice(newPos, 0, targetElement)
-
-	return {
-		...state,
-		[payload.nest]: elements
-	}
-}
 
 const savePrefs = async (prefs, callback) => {
 	try {

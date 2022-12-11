@@ -35,3 +35,18 @@ export const toggleSaveLocation = (state, payload) => ({
 		checked: !location.checked
 	} : location)
 })
+
+export const moveSortableElement = (state, payload) => {
+	let { oldPos, newPos } = payload
+	const elements = [...state[payload.nest]]
+	const targetElement = elements.splice(oldPos, 1)[0]
+
+	if (oldPos < newPos) newPos--
+
+	elements.splice(newPos, 0, targetElement)
+
+	return {
+		...state,
+		[payload.nest]: elements
+	}
+}
