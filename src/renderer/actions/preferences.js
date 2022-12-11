@@ -18,30 +18,9 @@ export const loadPrefs = () => async dispatch => {
 	}
 }
 
-export const fixLocationsAndSave = saveAndClose => ({
-	type: ACTION.FIX_LOCATIONS_AND_SAVE,
-	callback() {
-		if (saveAndClose) {
-			interop.closePreferences()
-		} else {
-			toastr.success('Preferences saved', false, { ...toastrOpts, timeOut: 2000 })
-		}
-	}
-})
-
-export const disableWarningAndSave = warning => ({
-	type: ACTION.DISABLE_WARNING_AND_SAVE,
-	payload: { warning }
-})
-
 export const enableAspectRatioMarker = id => ({
 	type: ACTION.ENABLE_ASPECT_RATIO_MARKER,
 	payload: { id }
-})
-
-export const removeLocationAndSave = id => ({
-	type: ACTION.REMOVE_LOCATION_AND_SAVE,
-	payload: { id, nest: 'saveLocations' }
 })
 
 export const addNewLocation = (index, e) => dispatch => {
@@ -62,6 +41,27 @@ export const addNewAspectRatioMarker = (index, e) => dispatch => {
 		ratio: [1, 1]
 	}, index, e)(dispatch)
 }
+
+export const fixLocationsAndSave = saveAndClose => ({
+	type: ACTION.FIX_LOCATIONS_AND_SAVE,
+	callback() {
+		if (saveAndClose) {
+			interop.closePreferences()
+		} else {
+			toastr.success('Preferences saved', false, { ...toastrOpts, timeOut: 2000 })
+		}
+	}
+})
+
+export const removeLocationAndSave = id => ({
+	type: ACTION.REMOVE_LOCATION_AND_SAVE,
+	payload: { id, nest: 'saveLocations' }
+})
+
+export const disableWarningAndSave = warning => ({
+	type: ACTION.DISABLE_WARNING_AND_SAVE,
+	payload: { warning }
+})
 
 export const restoreDefaultPrefs = () => async dispatch => {
 	const defaults = await interop.requestDefaultPrefs()
