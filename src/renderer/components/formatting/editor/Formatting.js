@@ -151,7 +151,9 @@ const Formatting = memo(props => {
 					onChange={updateMediaStateDispatch}
 					buttons={arcButtons}/>
 			</fieldset>
-			<fieldset className="background-column" disabled={props.backgroundDisabled}>
+			<fieldset
+				id="background-column"
+				disabled={props.backgroundDisabled}>
 				<legend>Background:</legend>
 				<RadioSet
 					name="background"
@@ -177,7 +179,9 @@ const Formatting = memo(props => {
 					onChange={updateMediaStateDispatch}
 					buttons={overlayButtons}/>
 			</fieldset>
-			<fieldset disabled={background === 'alpha' || background === 'color'}>
+			<fieldset
+				id="motion-column"
+				disabled={background === 'alpha' || background === 'color'}>
 				<legend>Motion:</legend>
 				<RadioSet
 					name="backgroundMotion"
