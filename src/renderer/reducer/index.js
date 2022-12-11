@@ -24,14 +24,14 @@ export default (state, action) => {
 			return toggleMediaNestedCheckbox(state, payload)
 		case ACTION.ADD_MEDIA:
 			return addMedia(state, payload)
+		case ACTION.REMOVE_SORTABLE_ELEMENT:
+			return shared.removeSortableElement(state, payload)
 		case ACTION.MOVE_SORTABLE_ELEMENT:
 			return shared.moveSortableElement(state, payload)
 		case ACTION.DUPLICATE_MEDIA: 
 			return duplicateMedia(state, payload)
 		case ACTION.SPLIT_MEDIA: 
 			return splitMedia(state, payload)
-		case ACTION.REMOVE_MEDIA:
-			return removeMedia(state, payload)
 		case ACTION.TOGGLE_ASPECT_RATIO_MARKER:
 			return toggleAspectRatioMarker(state, payload)
 		case ACTION.PREPARE_MEDIA_FOR_FORMAT:
