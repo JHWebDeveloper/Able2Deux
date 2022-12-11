@@ -2,7 +2,7 @@ import toastr from 'toastr'
 
 import * as ACTION from './types'
 import * as STATUS from 'status'
-import { updateMediaState } from '.'
+import { updateMediaState, removeSortableElement } from '.'
 import { createMediaData, errorToString, replaceTokens, toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
@@ -38,10 +38,7 @@ export const removeMedia = ({ status, id, refId, references = 0 }) => async disp
 		await interop.removeMediaFile(refId)
 	}
 
-	dispatch({
-		type: ACTION.REMOVE_MEDIA,
-		payload: { id }
-	})
+	dispatch(removeSortableElement(id, 'media'))
 }
 
 // eslint-disable-next-line no-extra-parens
