@@ -79,6 +79,16 @@ export const addNewLocation = (index, e) => dispatch => {
 	}, index, e)(dispatch)
 }
 
+export const addNewAspectRatioMarker = (index, e) => dispatch => {
+	addNewSortableElement('aspectRatioMarkers', {
+		id: uuid(),
+		disabled: true,
+		selected: false,
+		label: '',
+		ratio: [1, 1]
+	}, index, e)(dispatch)
+}
+
 export const removeSortableElement = (id, nest) => ({
 	type: ACTION.REMOVE_SORTABLE_ELEMENT,
 	payload: { id, nest }
