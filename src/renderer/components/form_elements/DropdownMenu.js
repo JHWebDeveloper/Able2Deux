@@ -3,7 +3,7 @@ import { arrayOf, bool, func, shape, string } from 'prop-types'
 
 import { detectTabExit } from 'utilities'
 
-const DropdownMenu = ({ children }) => {
+const DropdownMenu = ({ icon = 'more_vert', children }) => {
 	const [ revealMenu, toggleRevealMenu ] = useState(false)
 	const [ position, setPosition ] = useState({ top: 0, left: 0 })
 
@@ -29,7 +29,7 @@ const DropdownMenu = ({ children }) => {
 					toggleRevealMenu(!revealMenu)
 				}}
 				aria-haspopup="true"
-				aria-expanded={revealMenu}>more_vert</button>
+				aria-expanded={revealMenu}>{icon}</button>
 			{revealMenu ? <span style={position}>{children}</span> : <></>}
 		</span>
 	)
