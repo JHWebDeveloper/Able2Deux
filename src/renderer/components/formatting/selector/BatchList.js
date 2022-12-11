@@ -4,7 +4,7 @@ import { arrayOf, func, object, string } from 'prop-types'
 import { PrefsContext } from 'store/preferences'
 
 import {
-	moveMedia,
+	moveSortableElement,
 	removeMedia,
 	copySettings,
 	applySettingsToAll,
@@ -69,7 +69,7 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 	}), [media, prefs.warnings.remove])
 
 	const sortingAction = useCallback((oldPos, newPos) => {
-		dispatch(moveMedia(oldPos, newPos))
+		dispatch(moveSortableElement('media', oldPos, newPos))
 	}, [])
 
 	const ref = useRef()

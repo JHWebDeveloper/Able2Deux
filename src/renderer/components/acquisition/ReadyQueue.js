@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import { arrayOf, bool, func, object, shape } from 'prop-types'
 
 import {
-	moveMedia,
+	moveSortableElement,
 	removeMedia,
 	removeAllMedia,
 	prepareMediaForFormat,
@@ -68,7 +68,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch }) => 
 	}, [])
 
 	const sortingAction = useCallback((newPos, oldPos) => {
-		dispatch(moveMedia(newPos, oldPos))
+		dispatch(moveSortableElement('media', newPos, oldPos))
 	}, [])
 
 	return (

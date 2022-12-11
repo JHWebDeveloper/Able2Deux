@@ -4,7 +4,7 @@ import { bool, func, string, number } from 'prop-types'
 import {
 	selectMedia,
 	pasteSettings,
-	moveMedia,
+	moveSortableElement,
 	duplicateMedia
 } from 'actions'
 
@@ -68,14 +68,14 @@ const BatchItem = props => {
 			label: 'Move Up',
 			hide: !prevId,
 			action() {
-				dispatch(moveMedia(index, index - 1))
+				dispatch(moveSortableElement('media', index, index - 1))
 			}
 		},
 		{
 			label: 'Move Down',
 			hide: !nextId,
 			action() {
-				dispatch(moveMedia(index, index + 2))
+				dispatch(moveSortableElement('media', index, index + 2))
 			}
 		},
 		{ type: 'spacer' },
