@@ -61,6 +61,15 @@ const updateSortableElementField = (state, payload) => ({
 	} : obj)
 })
 
+const savePrefs = async (prefs, callback) => {
+	try {
+		await interop.savePrefs(prefs)
+		callback?.()
+	} catch (err) {
+		toastr.error(errorToString(err), false, toastrOpts)
+	}
+}
+
 const fixSaveLocationsAndSave = (state, callback) => {
 	const newPrefs = {
 		...state,
