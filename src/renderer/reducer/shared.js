@@ -36,6 +36,17 @@ export const toggleSaveLocation = (state, payload) => ({
 	} : location)
 })
 
+export const addSortableElement = (state, payload) => {
+	const elements = [...state[payload.nest]]
+
+	elements.splice(payload.pos, 0, payload.element)
+	
+	return {
+		...state,
+		[payload.nest]: elements
+	}
+}
+
 export const removeSortableElement = (state, payload) => ({
 	...state,
 	[payload.nest]: state[payload.nest].filter(({ id }) => id !== payload.id)

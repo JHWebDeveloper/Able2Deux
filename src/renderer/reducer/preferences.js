@@ -27,7 +27,7 @@ export default (state, action) => {
 		case ACTION.UPDATE_SORTABLE_ELEMENT_FIELD:
 			return updateSortableElementField(state, payload)
 		case ACTION.ADD_SORTABLE_ELEMENT:
-			return addSortableElement(state, payload)
+			return shared.addSortableElement(state, payload)
 		case ACTION.REMOVE_SORTABLE_ELEMENT:
 			return shared.removeSortableElement(state, payload)
 		case ACTION.MOVE_SORTABLE_ELEMENT:
@@ -60,17 +60,6 @@ const updateSortableElementField = (state, payload) => ({
 		[payload.name]: payload.value
 	} : obj)
 })
-
-const addSortableElement = (state, payload) => {
-	const elements = [...state[payload.nest]]
-
-	elements.splice(payload.pos, 0, payload.element)
-	
-	return {
-		...state,
-		[payload.nest]: elements
-	}
-}
 
 const fixSaveLocationsAndSave = (state, callback) => {
 	const newPrefs = {
