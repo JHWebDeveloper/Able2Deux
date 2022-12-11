@@ -29,7 +29,7 @@ export default (state, action) => {
 		case ACTION.ADD_SORTABLE_ELEMENT:
 			return addSortableElement(state, payload)
 		case ACTION.REMOVE_SORTABLE_ELEMENT:
-			return removeSortableElement(state, payload)
+			return shared.removeSortableElement(state, payload)
 		case ACTION.MOVE_SORTABLE_ELEMENT:
 			return shared.moveSortableElement(state, payload)
 		case ACTION.FIX_LOCATIONS_AND_SAVE:
@@ -69,20 +69,6 @@ const addSortableElement = (state, payload) => {
 	return {
 		...state,
 		[payload.nest]: elements
-	}
-}
-
-const removeSortableElement = (state, payload) => ({
-	...state,
-	[payload.nest]: state[payload.nest].filter(({ id }) => id !== payload.id)
-})
-
-const savePrefs = async (prefs, callback) => {
-	try {
-		await interop.savePrefs(prefs)
-		callback?.()
-	} catch (err) {
-		toastr.error(errorToString(err), false, toastrOpts)
 	}
 }
 

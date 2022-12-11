@@ -36,6 +36,20 @@ export const toggleSaveLocation = (state, payload) => ({
 	} : location)
 })
 
+export const removeSortableElement = (state, payload) => ({
+	...state,
+	[payload.nest]: state[payload.nest].filter(({ id }) => id !== payload.id)
+})
+
+const savePrefs = async (prefs, callback) => {
+	try {
+		await interop.savePrefs(prefs)
+		callback?.()
+	} catch (err) {
+		toastr.error(errorToString(err), false, toastrOpts)
+	}
+}
+
 export const moveSortableElement = (state, payload) => {
 	let { oldPos, newPos } = payload
 	const elements = [...state[payload.nest]]
