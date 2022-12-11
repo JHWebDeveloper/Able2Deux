@@ -30,31 +30,10 @@ const defaultPrefs = {
 	aspectRatioMarkers: [
 		{
 			id: uuid(),
-			label: '2.39',
+			label: '9:16',
 			disabled: false,
 			selected: false,
-			ratio: [2.39, 1]
-		},
-		{
-			id: uuid(),
-			label: '1.85',
-			disabled: false,
-			selected: false,
-			ratio: [1.85, 1]
-		},
-		{
-			id: uuid(),
-			label: '1.66',
-			disabled: false,
-			selected: false,
-			ratio: [5, 3]
-		},
-		{
-			id: uuid(),
-			label: '4:3',
-			disabled: false,
-			selected: false,
-			ratio: [4, 3]
+			ratio: [9, 16]
 		},
 		{
 			id: uuid(),
@@ -65,11 +44,32 @@ const defaultPrefs = {
 		},
 		{
 			id: uuid(),
-			label: '9:16',
+			label: '4:3',
 			disabled: false,
 			selected: false,
-			ratio: [9, 16]
-		}
+			ratio: [4, 3]
+		},
+		{
+			id: uuid(),
+			label: '1.66',
+			disabled: true,
+			selected: false,
+			ratio: [5, 3]
+		},
+		{
+			id: uuid(),
+			label: '1.85',
+			disabled: true,
+			selected: false,
+			ratio: [1.85, 1]
+		},
+		{
+			id: uuid(),
+			label: '2.39',
+			disabled: true,
+			selected: false,
+			ratio: [2.39, 1]
+		},
 	],
 	gridColor: '#ff00ff',
 	split: 270,
