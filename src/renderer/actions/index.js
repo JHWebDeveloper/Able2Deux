@@ -99,20 +99,6 @@ export const updateMediaStateFromEvent = (id, e, editAll) => ({
 	}
 })
 
-export const updateSortableElementField = (id, nest, name, value) => ({
-	type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
-	payload: { id, nest, name, value }
-})
-
-export const updateSortableElementFieldFromEvent = (id, nest, e) => dispatch => {
-	const { name, value } = e.target
-
-	dispatch({
-		type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
-		payload: { id, nest, name, value }
-	})
-}
-
 
 // ---- 4TH LEVEL STATE --------
 

@@ -46,6 +46,20 @@ export const addNewLocation = (index, e) => dispatch => {
 	}, index, e)(dispatch)
 }
 
+export const updateSortableElementField = (id, nest, name, value) => ({
+	type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
+	payload: { id, nest, name, value }
+})
+
+export const updateSortableElementFieldFromEvent = (id, nest, e) => dispatch => {
+	const { name, value } = e.target
+
+	dispatch({
+		type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
+		payload: { id, nest, name, value }
+	})
+}
+
 export const fixLocationsAndSave = saveAndClose => ({
 	type: ACTION.FIX_LOCATIONS_AND_SAVE,
 	callback() {
