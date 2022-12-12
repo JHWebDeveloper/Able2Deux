@@ -78,3 +78,23 @@ export const tcToFrames = (hmsf, fps) => {
 
 	return frms
 }
+
+export const simplifyAspectRatio = (ant = 1, con = 1) => {
+	const ratio = Number(parseFloat(con / ant).toFixed(12))
+	const inverse = Number(parseFloat(ant / con).toFixed(12))
+
+	if (Number.isInteger(ratio)) {
+		return [inverse * ratio, ratio]
+	}
+
+	if (Number.isInteger(inverse)) {
+		return [inverse, inverse * ratio]
+	}
+
+	while (ant < 1 || con < 1) {
+		ant *= 10
+		con *= 10
+	}
+
+	return [ant, con]
+}
