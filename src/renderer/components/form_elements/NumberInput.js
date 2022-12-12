@@ -27,6 +27,7 @@ const NumberInput = ({
 	max = 100,
 	step = 1,
 	fineTuneStep = 0.1,
+	decimalPlaces = 3,
 	onChange
 }) => {
 	const onChangeParse = useCallback(e => {
@@ -34,9 +35,9 @@ const NumberInput = ({
 
 		onChange({
 			name,
-			value: value === '' ? value : parseFloat(value)
+			value: value === '' ? value : Number(parseFloat(value).toFixed(decimalPlaces))
 		})
-	}, [onChange])
+	}, [onChange, decimalPlaces])
 
 	const onBlurParse = useCallback(e => onChange({
 		name: e.target.name,
@@ -76,6 +77,7 @@ NumberInput.propTypes = {
 	max: number,
 	step: number,
 	fineTuneStep: number,
+	decimalPlaces: number,
 	onChange: func
 }
 
