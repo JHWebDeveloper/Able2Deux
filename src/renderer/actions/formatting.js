@@ -52,8 +52,12 @@ export const duplicateMedia = id => ({
 })
 
 export const toggleAspectRatioMarker = id => ({
-	type: ACTION.TOGGLE_ASPECT_RATIO_MARKER,
-	payload: { id }
+	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
+	payload: {
+		property: 'selected',
+		nest: 'aspectRatioMarkers',
+		id 
+	}
 })
 
 export const splitMedia = (id, split, start, end) => async dispatch => {
