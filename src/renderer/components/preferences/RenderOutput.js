@@ -11,7 +11,6 @@ import {
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
-import SaveLocations from './SaveLocations'
 
 const outputButtons = [
 	{
@@ -114,9 +113,6 @@ const RenderOutput = () => {
 					fineTuneStep={1}
 					onChange={updateConcurrent} />
 			</span>
-			<SaveLocations
-				saveLocations={preferences.saveLocations}
-				dispatch={dispatch} />
 		</form>
 	)
 }
