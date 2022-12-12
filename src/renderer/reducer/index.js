@@ -22,6 +22,8 @@ export default (state, action) => {
 			return updateMediaNestedState(state, payload)
 		case ACTION.TOGGLE_MEDIA_NESTED_CHECKBOX: 
 			return toggleMediaNestedCheckbox(state, payload)
+		case ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX:
+			return shared.toggleSortableElementCheckbox(state, payload)
 		case ACTION.ADD_SORTABLE_ELEMENT:
 			return shared.addSortableElement(state, payload)
 		case ACTION.REMOVE_SORTABLE_ELEMENT:
@@ -40,8 +42,8 @@ export default (state, action) => {
 			return pasteSettings(state, payload)
 		case ACTION.APPLY_TO_ALL:
 			return applyToAll(state, payload)
-		case ACTION.TOGGLE_SAVE_LOCATION:
-			return shared.toggleSaveLocation(state, payload)
+		// case ACTION.TOGGLE_SAVE_LOCATION:
+		// 	return shared.toggleSaveLocation(state, payload)
 		case ACTION.START_OVER:
 			return startOver(state)
 		default:
@@ -126,11 +128,6 @@ const splitMedia = (state, payload) => {
 
 	return { ...state, media }
 }
-
-const removeMedia = (state, payload) => ({
-	...state,
-	media: state.media.filter(item => item.id !== payload.id)
-})
 
 const toggleAspectRatioMarker = (state, payload) => ({
 	...state,
