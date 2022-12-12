@@ -4,7 +4,6 @@ import { PrefsContext } from 'store/preferences'
 
 import {
 	updateState,
-	updateStateFromEvent,
 	updateNestedStateFromEvent,
 	toggleCheckbox
 } from 'actions'
@@ -13,7 +12,6 @@ import RadioSet from '../form_elements/RadioSet'
 import NumberInput from '../form_elements/NumberInput'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
-import AspectRatioMarkers from './AspectRatioMarkers'
 
 const arcButtons = [
 	{
@@ -107,25 +105,6 @@ const FormattingSettings = () => {
 					onChange={toggleCheckboxDispatch}
 					switchIcon />
 			</span>
-			{/* <div className="grid-buttons-grid">
-				<h2>Grid Buttons</h2>
-				{preferences.aspectRatioMarkers.map(({ label, disabled, id }) => (
-					<Checkbox
-						key={id}
-						label={label}
-						checked={!disabled}
-						onChange={() => dispatch(enableAspectRatioMarker(id))} />
-				))}
-			</div> */}
-			<span className="input-option">
-				<label htmlFor="grid-color">Grid Color</label>
-				<input
-					type="color"
-					name="gridColor"
-					id="grid-color"
-					value={preferences.gridColor}
-					onChange={e => dispatch(updateStateFromEvent(e))} />
-			</span>
 			<span className="input-option">
 				<label htmlFor="split">Default Split Duration</label>
 				<TimecodeInputSeconds
@@ -148,9 +127,6 @@ const FormattingSettings = () => {
 					defaultValue={400}
 					onChange={updateStateDispatch} />
 			</span>
-			<AspectRatioMarkers
-				aspectRatioMarkers={preferences.aspectRatioMarkers}
-				dispatch={dispatch} />
 		</form>
 	)
 }
