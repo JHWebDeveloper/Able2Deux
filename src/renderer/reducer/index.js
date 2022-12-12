@@ -34,16 +34,12 @@ export default (state, action) => {
 			return duplicateMedia(state, payload)
 		case ACTION.SPLIT_MEDIA: 
 			return splitMedia(state, payload)
-		case ACTION.TOGGLE_ASPECT_RATIO_MARKER:
-			return toggleAspectRatioMarker(state, payload)
 		case ACTION.PREPARE_MEDIA_FOR_FORMAT:
 			return prepareMediaForFormat(state)
 		case ACTION.PASTE_SETTINGS:
 			return pasteSettings(state, payload)
 		case ACTION.APPLY_TO_ALL:
 			return applyToAll(state, payload)
-		// case ACTION.TOGGLE_SAVE_LOCATION:
-		// 	return shared.toggleSaveLocation(state, payload)
 		case ACTION.START_OVER:
 			return startOver(state)
 		default:
@@ -128,14 +124,6 @@ const splitMedia = (state, payload) => {
 
 	return { ...state, media }
 }
-
-const toggleAspectRatioMarker = (state, payload) => ({
-	...state,
-	aspectRatioMarkers: state.aspectRatioMarkers.map(marker => marker.id === payload.id ? {
-		...marker,
-		selected: !marker.selected
-	} : marker)
-})
 
 const prepareMediaForFormat = state => {
 	const media = state.media.filter(item => item.status !== STATUS.FAILED)
