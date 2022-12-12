@@ -30,7 +30,7 @@ export const enableAspectRatioMarker = id => ({
 export const addNewAspectRatioMarker = (index, e) => dispatch => {
 	addNewSortableElement('aspectRatioMarkers', {
 		id: uuid(),
-		disabled: true,
+		disabled: false,
 		selected: false,
 		label: '',
 		ratio: [1, 1]
