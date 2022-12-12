@@ -46,17 +46,27 @@ export const addNewLocation = (index, e) => dispatch => {
 	}, index, e)(dispatch)
 }
 
-export const updateSortableElementField = (id, nest, name, value) => ({
+export const updateSaveLocation = (id, name, value) => ({
 	type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
-	payload: { id, nest, name, value }
+	payload: {
+		nest: 'saveLocations',
+		id,
+		name,
+		value
+	}
 })
 
-export const updateSortableElementFieldFromEvent = (id, nest, e) => dispatch => {
+export const updateSaveLocationFromEvent = (id, e) => dispatch => {
 	const { name, value } = e.target
 
 	dispatch({
 		type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
-		payload: { id, nest, name, value }
+		payload: {
+			nest: 'saveLocations',
+			id,
+			name,
+			value
+		}
 	})
 }
 
