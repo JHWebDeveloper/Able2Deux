@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { func } from 'prop-types'
 
-import { fixLocationsAndSave, restoreDefaultPrefs } from 'actions'
+import { cleanupPrefsAndSave, restoreDefaultPrefs } from 'actions'
 import { warn } from 'utilities'
 
 const { interop } = window.ABLE2
@@ -23,14 +23,14 @@ const SaveAndClose = ({ dispatch }) => {
 				className="app-button"
 				title="Save and Close"
 				onClick={() => {
-					dispatch(fixLocationsAndSave(true))
+					dispatch(cleanupPrefsAndSave(true))
 				}}>Save &amp; Close</button>
 			<button
 				type="button"
 				className="app-button"
 				title="Save"
 				onClick={() => {
-					dispatch(fixLocationsAndSave())
+					dispatch(cleanupPrefsAndSave())
 				}}>Save</button>
 			<button
 				type="button"
