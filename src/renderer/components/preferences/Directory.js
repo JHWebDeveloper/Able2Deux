@@ -25,7 +25,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 	}, [index])
 
 	const remove = useCallback(() => {
-		dispatch(removeSortableElement(id, saveLocations))
+		dispatch(removeSortableElement(id, 'saveLocations'))
 	}, [id])
 
 	const updateLocation = useCallback(e => {
