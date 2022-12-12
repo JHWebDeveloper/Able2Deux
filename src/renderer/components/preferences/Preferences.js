@@ -9,6 +9,7 @@ import { toastrOpts, createKonamiListener } from 'utilities'
 
 import Rendering from './RenderOutput'
 import AcquisitionSettings from './AcquisitionSettings'
+import PreviewSettings from './PreviewSettings'
 import FormattingSettings from './FormattingSettings'
 import SaveLocations from './SaveLocations'
 import Warnings from './Warnings'
@@ -41,6 +42,7 @@ const PreferencesRouter = () => {
 		<HashRouter>
 			<nav>
 				<NavLink to="/" title="Acquisition">Acquisition</NavLink>
+				<NavLink to="/preview" title="Preview">Preview</NavLink>
 				<NavLink to="/formatting" title="Formatting">Formatting</NavLink>
 				<NavLink to="/rendering" title="Rendering">Rendering</NavLink>
 				<NavLink to="/save-locations" title="Save Locations">Save Locations</NavLink>
@@ -48,6 +50,7 @@ const PreferencesRouter = () => {
 			</nav>
 			<Routes>
 				<Route path="/" element={<AcquisitionSettings />} />
+				<Route path="/preview" element={<PreviewSettings />} />
 				<Route path="/formatting" element={<FormattingSettings />} />
 				<Route path="/rendering" element={<Rendering />} />
 				<Route path="/save-locations" element={<SaveLocations />} />
