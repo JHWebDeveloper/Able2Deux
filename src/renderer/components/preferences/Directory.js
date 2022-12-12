@@ -3,8 +3,8 @@ import { bool, func, number, exact, string } from 'prop-types'
 
 import {
 	toggleSaveLocation,
-	updateSortableElementFieldFromEvent,
-	updateSortableElementField,
+	updateSaveLocationFromEvent,
+	updateSaveLocation,
 	addNewLocation,
 	removeSortableElement,
 	moveSortableElement
@@ -29,11 +29,11 @@ const Directory = ({ dir, index, total, dispatch }) => {
 	}, [id])
 
 	const updateLocation = useCallback(e => {
-		dispatch(updateSortableElementFieldFromEvent(id, 'saveLocations', e))
+		dispatch(updateSaveLocationFromEvent(id, e))
 	}, [id])
 
 	const updateDirectory = useCallback(dir => {
-		dispatch(updateSortableElementField(id, 'saveLocations', 'directory', dir))
+		dispatch(updateSaveLocation(id, 'directory', dir))
 	}, [id])
 
 	const moveUp = useCallback(() => {
