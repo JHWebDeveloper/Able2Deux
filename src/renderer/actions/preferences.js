@@ -94,8 +94,8 @@ export const updateSaveLocationFromEvent = (id, e) => dispatch => {
 	})
 }
 
-export const fixLocationsAndSave = saveAndClose => ({
-	type: ACTION.FIX_LOCATIONS_AND_SAVE,
+export const cleanupPrefsAndSave = saveAndClose => ({
+	type: ACTION.CLEANUP_PREFS_AND_SAVE,
 	callback() {
 		if (saveAndClose) {
 			interop.closePreferences()
