@@ -19,18 +19,13 @@ export const loadPrefs = () => async dispatch => {
 }
 
 export const enableAspectRatioMarker = id => ({
-	type: ACTION.ENABLE_ASPECT_RATIO_MARKER,
-	payload: { id }
+	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
+	payload: {
+		property: 'disabled',
+		nest: 'aspectRatioMarkers',
+		id
+	}
 })
-
-export const addNewLocation = (index, e) => dispatch => {
-	addNewSortableElement('saveLocations', {
-		id: uuid(),
-		checked: false,
-		label: '',
-		directory: ''
-	}, index, e)(dispatch)
-}
 
 export const addNewAspectRatioMarker = (index, e) => dispatch => {
 	addNewSortableElement('aspectRatioMarkers', {
@@ -39,6 +34,15 @@ export const addNewAspectRatioMarker = (index, e) => dispatch => {
 		selected: false,
 		label: '',
 		ratio: [1, 1]
+	}, index, e)(dispatch)
+}
+
+export const addNewLocation = (index, e) => dispatch => {
+	addNewSortableElement('saveLocations', {
+		id: uuid(),
+		checked: false,
+		label: '',
+		directory: ''
 	}, index, e)(dispatch)
 }
 
