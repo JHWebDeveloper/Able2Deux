@@ -30,8 +30,8 @@ export default (state, action) => {
 			return shared.removeSortableElement(state, payload)
 		case ACTION.MOVE_SORTABLE_ELEMENT:
 			return shared.moveSortableElement(state, payload)
-		case ACTION.FIX_LOCATIONS_AND_SAVE:
-			return fixSaveLocationsAndSave(state, callback)
+		case ACTION.CLEANUP_PREFS_AND_SAVE:
+			return cleanupPrefsAndSave(state, callback)
 		case ACTION.REMOVE_LOCATION_AND_SAVE:
 			return removeLocationAndSave(state, payload)
 		case ACTION.DISABLE_WARNING_AND_SAVE:
@@ -60,7 +60,7 @@ const savePrefs = async (prefs, callback) => {
 	}
 }
 
-const fixSaveLocationsAndSave = (state, callback) => {
+const cleanupPrefsAndSave = (state, callback) => {
 	const newPrefs = {
 		...state,
 		aspectRatioMarkers: state.aspectRatioMarkers
