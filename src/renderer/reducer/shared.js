@@ -28,13 +28,17 @@ export const toggleNestedCheckbox = (state, payload) => {
 	}
 }
 
-export const toggleSaveLocation = (state, payload) => ({
-	...state,
-	saveLocations: state.saveLocations.map(location => location.id === payload.id ? {
-		...location,
-		checked: !location.checked
-	} : location)
-})
+export const toggleSortableElementCheckbox = (state, payload) => {
+	const { property = 'checked' } = payload
+
+	return ({
+		...state,
+		[payload.nest]: state[payload.nest].map(obj => obj.id === payload.id ? {
+			...obj,
+			[property]: !obj[property]
+		} : obj)
+	})
+}
 
 export const addSortableElement = (state, payload) => {
 	const elements = [...state[payload.nest]]
