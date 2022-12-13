@@ -8,7 +8,6 @@ import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 import NumberInput from '../form_elements/NumberInput'
-import ScratchDisk from './ScratchDisk'
 
 const optimizeButtons = [
 	{
@@ -47,9 +46,6 @@ const AcquisitionSettings = () => {
 
 	return (
 		<form>
-			<ScratchDisk
-				scratchDisk={preferences.scratchDisk}
-				dispatch={dispatch} />
 			<fieldset>
 				<legend>Default Download Mode</legend>
 				<div>
