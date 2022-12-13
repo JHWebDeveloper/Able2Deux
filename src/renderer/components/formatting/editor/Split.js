@@ -4,7 +4,6 @@ import { func, number, string } from 'prop-types'
 import { updateState, splitMedia } from 'actions'
 
 import TimecodeInputSeconds from '../../form_elements/TimecodeInputSeconds'
-import SplitIcon from '../../svg/SplitIcon'
 
 const Split = ({ id, split, start, end, fps, dispatch }) => {
 	const updateSplitDuration = useCallback(({ value }) => {
@@ -29,9 +28,7 @@ const Split = ({ id, split, start, end, fps, dispatch }) => {
 				type="button"
 				title="Split into subclips"
 				className="app-button small symbol"
-				onClick={splitIntoSubclips}>
-				<SplitIcon />
-			</button>
+				onClick={splitIntoSubclips}>content_cut</button>
 		</div>
 	)
 }
