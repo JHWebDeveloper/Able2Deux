@@ -181,7 +181,7 @@ const Formatting = memo(props => {
 			</fieldset>
 			<fieldset
 				id="motion-column"
-				disabled={background === 'alpha' || background === 'color'}>
+				disabled={background === 'alpha' || background === 'color' || props.backgroundDisabled}>
 				<legend>Motion:</legend>
 				<RadioSet
 					name="backgroundMotion"
