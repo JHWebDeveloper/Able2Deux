@@ -43,6 +43,12 @@ const createPNGCopy = (id, tempFilePath, mediaType) => new Promise(resolve => {
 const gcd = (a, b) => b === 0 ? a : gcd(b, a % b)
 
 const calculateAspectRatio = (a, b) => {
+	const ratio = a / b
+
+	if (ratio === 1.89) return '1.89:1'
+	if (ratio === 2.35) return '2.35:1'
+	if (ratio === 2.39) return '2.39:1'
+
 	const _gcd = gcd(a, b)
 
 	return `${a / _gcd}:${b / _gcd}`
