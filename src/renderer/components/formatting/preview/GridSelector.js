@@ -1,22 +1,31 @@
-import React, { Fragment, useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { arrayOf, bool, exact, func, number, string } from 'prop-types'
 
 import { toggleAspectRatioMarker } from 'actions'
 
+import DropdownMenu from '../../form_elements/DropdownMenu'
+
 const toggleTitle = state => state ? 'Hide' : 'Show'
 
-const GridButton = ({ title, style, onClick, label }) => (
-	<button
-		type="button"
-		className="ar-marker monospace"
-		title={title}
-		style={style}
-		onClick={onClick}>
-		<span>{label}</span>
-	</button>
+const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
+	buttons.map(({ id, label, selected }) => (
+		<button
+			key={id}
+			type="button"
+			className="ar-marker monospace"
+			title={`${toggleTitle(selected)} ${label} Markers`}
+			style={toggleColor(selected)}
+			onClick={() => dispatch(toggleAspectRatioMarker(id))}>
+			<span>{label}</span>
+		</button>
+	))
 )
 
 const GridSelector = ({ showGrid, aspectRatioMarkers, gridColor, toggleGrid, dispatch }) => {
+	const enabledAspectRatioMarkers = useMemo(() => (
+		aspectRatioMarkers.filter(({ disabled }) => !disabled)
+	), [aspectRatioMarkers])
+
 	const toggleColor = useCallback(gridSelected => ({
 		color: gridSelected ? gridColor : '#eee'
 	}), [gridColor])
@@ -30,25 +39,29 @@ const GridSelector = ({ showGrid, aspectRatioMarkers, gridColor, toggleGrid, dis
 				title={`${toggleTitle(showGrid)} Grid`}
 				style={toggleColor(showGrid)}
 				onClick={() => toggleGrid(!showGrid)}>grid_on</button>
-			{aspectRatioMarkers.map(({ disabled, id, label, selected }) => disabled ? <Fragment key={id}></Fragment> : (
-				<GridButton
-					key={id}
-					label={label}
-					title={`${toggleTitle(selected)} ${label} Markers`}
-					style={toggleColor(selected)}
-					onClick={() => dispatch(toggleAspectRatioMarker(id))} />
-			))}
+			{enabledAspectRatioMarkers.length > 3 ? (
+				<>
+					<AspectRatioMarkerButtons
+						buttons={enabledAspectRatioMarkers.slice(0, 2)}
+						toggleColor={toggleColor}
+						dispatch={dispatch} />
+					<DropdownMenu
+						className="ar-markers"
+						icon="arrow_drop_down">
+						<AspectRatioMarkerButtons
+							buttons={enabledAspectRatioMarkers.slice(2)}
+							toggleColor={toggleColor}
+							dispatch={dispatch} />
+					</DropdownMenu>
+				</>
+			) : (
+				<AspectRatioMarkerButtons
+					buttons={enabledAspectRatioMarkers}
+					toggleColor={toggleColor}
+					dispatch={dispatch} />
+			)}
 		</div>
 	)
-}
-
-GridButton.propTypes = {
-	title: string.isRequired,
-	label: string.isRequired,
-	style: exact({
-		color: string
-	}).isRequired,
-	onClick: func.isRequired
 }
 
 GridSelector.propTypes = {
