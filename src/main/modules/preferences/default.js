@@ -8,6 +8,7 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 
 const defaultPrefs = {
 	version: 9,
+	theme: 'classic',
 	renderOutput: '1280x720',
 	renderFrameRate: 'auto',
 	customFrameRate: 23.98,
