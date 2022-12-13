@@ -2,7 +2,7 @@ import toastr from 'toastr'
 
 import * as ACTION from 'actions/types'
 import * as shared from './shared'
-import { errorToString, toastrOpts, simplifyAspectRatio } from 'utilities'
+import { errorToString, toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -65,10 +65,6 @@ const cleanupPrefsAndSave = (state, callback) => {
 		...state,
 		aspectRatioMarkers: state.aspectRatioMarkers
 			.filter(mrkr => mrkr.ratio.length === 2)
-			.map(mrkr => ({
-				...mrkr,
-				ratio: simplifyAspectRatio(...mrkr.ratio)
-			}))
 			.map(mrkr => mrkr.label ? mrkr : {
 				...mrkr,
 				label: mrkr.ratio.join(':').slice(0, 6)
