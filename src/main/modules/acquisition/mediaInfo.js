@@ -40,24 +40,12 @@ const createPNGCopy = (id, tempFilePath, mediaType) => new Promise(resolve => {
 		.run()
 })
 
-const simplifyAspectRatio = (ant = 1, con = 1) => {
-	const ratio = Number(parseFloat(con / ant).toFixed(12))
-	const inverse = Number(parseFloat(ant / con).toFixed(12))
+const gcd = (a, b) => b === 0 ? a : gcd(b, a % b)
 
-	if (Number.isInteger(ratio)) {
-		return [inverse * ratio, ratio]
-	}
+const calculateAspectRatio = (a, b) => {
+	const _gcd = gcd(a, b)
 
-	if (Number.isInteger(inverse)) {
-		return [inverse, inverse * ratio]
-	}
-
-	while (ant < 1 || con < 1) {
-		ant *= 10
-		con *= 10
-	}
-
-	return [ant, con]
+	return `${a / _gcd}:${b / _gcd}`
 }
 
 const getVisualMediaType = (codec, ext) => {
@@ -216,7 +204,7 @@ export const getMediaInfo = async (id, tempFilePath, streamData, forcedFPS) => {
 		Object.assign(mediaData, {
 			width: hasW ? width : 0,
 			height: hasH ? height : 0,
-			aspectRatio: hasW && hasH ? simplifyAspectRatio(width, height).join(':') : '',
+			aspectRatio: hasW && hasH ? calculateAspectRatio(width, height) : '',
 			hasAlpha
 		})
 
