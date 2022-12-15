@@ -161,8 +161,8 @@ button[name="screenshot"] { height: 26px; }
 }
 
 @keyframes modal-fade-out {
-	0% { background-color: var(--overlay-fade-in); }
-	100% { background-color: var(--overlay); }
+	0% { background-color: var(--overlay); }
+	100% { background-color: var(--overlay-fade-in); }
 }
 
 @keyframes reveal-source-select {
