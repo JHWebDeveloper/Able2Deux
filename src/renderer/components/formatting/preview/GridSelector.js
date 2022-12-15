@@ -27,7 +27,7 @@ const GridSelector = ({ showGrid, aspectRatioMarkers, gridColor, toggleGrid, dis
 	), [aspectRatioMarkers])
 
 	const toggleColor = useCallback(gridSelected => ({
-		color: gridSelected ? gridColor : '#eee'
+		color: gridSelected ? gridColor : 'currentColor'
 	}), [gridColor])
 
 	return (
