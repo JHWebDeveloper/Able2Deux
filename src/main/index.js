@@ -5,6 +5,7 @@ import { pathToFileURL } from 'url'
 import path from 'path'
 
 import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs } from './modules/preferences/preferences'
+import { loadTheme } from './modules/themes/loadTheme'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -133,8 +134,15 @@ const createMainWindow = () => {
 
 	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate))
 
-	mainWin.on('ready-to-show', () => {
+	mainWin.on('ready-to-show', async () => {
+		try {
+			await loadTheme(mainWin, 'main')
+		} catch (err) {
+			console.error(err)
+		}
+
 		mainWin.show()
+
 		if (splashWin) splashWin.close()
 		if (dev) mainWin.webContents.openDevTools()
 	})
@@ -234,7 +242,13 @@ const prefsMenuItem = [
 
 			preferences.loadURL(createURL('preferences'))
 
-			preferences.once('ready-to-show', () => {
+			preferences.once('ready-to-show', async () => {
+				try {
+					await loadTheme(preferences)
+				} catch (err) {
+					console.error(err)
+				}
+
 				preferences.show()
 			})
 
