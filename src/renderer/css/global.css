@@ -69,7 +69,7 @@ button {
 	background-color: transparent;
 }
 
-svg:not([fill]) { fill: currentColor; }
+svg:not([fill]) { fill: var(--primary); }
 
 progress,
 input[type="checkbox"],
@@ -91,9 +91,37 @@ input[type="number"]::-webkit-outer-spin-button {
 	--primary: #4c4c4c;
 	--secondary: #7c7c7c;
 	--disabled: #ccc;
-	--highlight: #ff4800;
+	--button: var(--primary); 
+	--button-text: var(--background);
+	--button-disabled: var(--disabled);
+	--button-disabled-text: var(--button-text);
+	--thumbnail-background: var(--primary);
+	--preview-background: var(--primary);
+	--preview-text: var(--background);
+	--overlay-fade-in: rgba(238, 238, 238, 0);
+	--overlay: rgba(238, 238, 238, 0.5);
+	--record-light: #ff4800;
 	--main-border-style: 2px solid var(--primary);
 	--font-stack: Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: #222;
+		--background-alt-1: #333;
+		--background-alt-2: #555;
+		--primary: #eee;
+		--disabled: #444;
+		--button: var(--background-alt-2); 
+		--button-text: var(--primary);
+		--button-disabled: var(--background-alt-1);
+		--button-disabled-text: var(--disabled);
+		--thumbnail-background: var(--background);
+		--preview-background: var(--background-alt-2);
+		--preview-text: var(--primary);
+		--overlay-fade-in: rgba(68, 68, 68, 0);
+		--overlay: rgba(68, 68, 68, 0.75);
+	}
 }
 
 html, body, #root {
@@ -185,8 +213,8 @@ label {
 label > :is(input, span, svg) { vertical-align: middle; }
 
 .app-button {
-	background-color: var(--primary);
-	color: var(--background);
+	background-color: var(--button);
+	color: var(--button-text);
 	padding: 6px 20px;
 	border-radius: 5px;
 	transition: background-color 250ms;
@@ -204,7 +232,8 @@ label > :is(input, span, svg) { vertical-align: middle; }
 }
 
 .app-button:disabled {
-	background-color: var(--disabled);
+	background-color: var(--button-disabled);
+	color: var(--button-disabled-text);
 }
 
 .symbol {
@@ -217,6 +246,12 @@ label > :is(input, span, svg) { vertical-align: middle; }
 	border-radius: 3px;
 	background-color: var(--background);
 }
+
+svg.toggle-switch-disabled { fill: var(--disabled); }
+
+svg.toggle-switch-disabled > .exclude-disabled { fill: var(--primary); }
+
+.toggle-switch-switch { fill: var(--background); }
 
 .timecode {
 	width: 82px;

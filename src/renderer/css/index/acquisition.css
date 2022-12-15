@@ -7,7 +7,6 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	color: var(--secondary);
 }
 
 
@@ -21,6 +20,10 @@
 }
 
 #downloader > input[type="text"] { grid-column: span 2; }
+
+#downloader > input[type="text"]::placeholder {
+	color: var(--primary);
+}
 
 #downloader > button { grid-row: 2; }
 
@@ -103,7 +106,7 @@ button[name="record"] {
 }
 
 button[name="record"]:disabled {
-	background-color: var(--disabled);
+	background-color: var(--button-disabled);
 }
 
 button[name="record"]:enabled:hover {
@@ -123,7 +126,7 @@ button[name="record"]::after {
 }
 
 button[name="record"].blink::after {
-	background-color: var(--highlight);
+	background-color: var(--record-light);
 }
 
 button[name="screenshot"] { height: 26px; }
@@ -153,13 +156,13 @@ button[name="screenshot"] { height: 26px; }
 /* ---- RECORD SOURCE SELECTOR -------- */
 
 @keyframes modal-fade-in {
-	0% { background-color: rgba(238, 238, 238, 0); }
-	100% { background-color: rgba(238, 238, 238, 0.5); }
+	0% { background-color: var(--overlay-fade-in); }
+	100% { background-color: var(--overlay); }
 }
 
 @keyframes modal-fade-out {
-	0% { background-color: rgba(238, 238, 238, 0.5); }
-	100% { background-color: rgba(238, 238, 238, 0); }
+	0% { background-color: var(--overlay-fade-in); }
+	100% { background-color: var(--overlay); }
 }
 
 @keyframes reveal-source-select {
@@ -279,8 +282,11 @@ button[name="screenshot"] { height: 26px; }
 	height: auto;
 	padding: 12px;
 	border-radius: 5px;
+	background-color: var(--background-alt-1);
 	transition: background-color 250ms;
 }
+
+#ready-queue > div.populated { background-color: var(--background-alt-2); }
 
 #ready-queue .insert-last { flex: 1; }
 

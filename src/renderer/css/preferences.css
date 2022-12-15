@@ -13,7 +13,7 @@ nav, footer {
 
 nav {
 	display: flex;
-	background-color: var(--background-alt-1);
+	background-color: var(--background);
 }
 
 nav > a, form, footer { padding: 18px; }
@@ -27,7 +27,7 @@ nav > a {
 	text-align: center;
 }
 
-nav > a:is(.active, :hover) { background-color: var(--background); }
+nav > a:is(.active, :hover) { background-color: var(--background-alt-1); }
 
 form {
 	overflow-y: scroll;
@@ -38,6 +38,7 @@ form {
 	bottom: 67px;
 	width: 100%;
 	height: calc(100% - 122px);
+	background-color: var(--background-alt-1);
 }
 
 fieldset { margin-bottom: 18px; }
@@ -68,8 +69,6 @@ form .app-button {
 	width: 24px;
 	padding: 0;
 }
-
-.panel-input { background-color: #fff; }
 
 input[name="customFrameRate"] { width: 50px; }
 
@@ -105,7 +104,7 @@ input[name="customFrameRate"] { width: 50px; }
 	display: inherit;
 	grid-template-columns: inherit;
 	grid-gap: inherit;
-	background-color: var(--background);
+	background-color: var(--background-alt-1);
 }
 
 :is(.aspect-ratio-markers-grid, .save-locations-grid) input[type="checkbox"] {
