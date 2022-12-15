@@ -26,7 +26,6 @@ const checkMediaFailed = ({ status }) => status === STATUS.FAILED
 
 const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch }) => {
 	const navigate = useNavigate()
-	const backgroundColor = !media.length ? '#e0e0e0' : '#bbb'
 
 	// eslint-disable-next-line no-extra-parens
 	const notReady = useMemo(() => (
@@ -73,7 +72,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch }) => 
 
 	return (
 		<div id="ready-queue">
-			<div style={{ backgroundColor }}>
+			<div className={media.length ? 'populated' : ''}>
 				<DraggableList sortingAction={sortingAction}>
 					{media.map(info => (
 						<MediaElement
