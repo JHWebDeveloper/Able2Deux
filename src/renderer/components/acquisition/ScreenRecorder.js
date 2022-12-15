@@ -124,7 +124,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 					disabled={recording}>
 					<CaptureModeSwitch
 						screenshot={screenshot}
-						fill={recording ? '#ccc' : '#4c4c4c'} />
+						disabled={recording} />
 				</button>
 			</div>
 			{recordSources.length ? (
