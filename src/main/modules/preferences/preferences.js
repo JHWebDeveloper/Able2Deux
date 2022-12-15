@@ -1,4 +1,4 @@
-import { app } from 'electron'
+import { app, nativeTheme } from 'electron'
 import { promises as fsp } from 'fs'
 import path from 'path'
 
@@ -82,3 +82,9 @@ export const savePrefs = async prefs => fsp.writeFile(prefsPath, JSON.stringify(
 }))
 
 export const getDefaultPrefs = () => defaultPrefs
+
+export const loadTheme = async ()  => {
+  const { theme } =  await loadPrefs()
+
+  nativeTheme.themeSource = theme
+}
