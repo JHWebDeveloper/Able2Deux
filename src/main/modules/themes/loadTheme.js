@@ -17,3 +17,13 @@ export const loadTheme = async ({ webContents }, cssKeyName)  => {
 
   cssKeyStore.set(cssKeyName, key)
 }
+
+export const reloadTheme = async (win, cssKeyName) => {
+  if (!win) return Promise.resolve()
+
+  const key = cssKeyStore.get(cssKeyName)
+
+  await win.webContents.removeInsertedCSS(key)
+
+  return loadTheme(win, cssKeyName)
+}
