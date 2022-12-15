@@ -1,11 +1,10 @@
-import { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, powerSaveBlocker } from 'electron'
+import { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, powerSaveBlocker, systemPreferences } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 import { pathToFileURL } from 'url'
 import path from 'path'
 
-import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs } from './modules/preferences/preferences'
-import { loadTheme, reloadTheme } from './modules/themes/loadTheme'
+import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs, loadTheme } from './modules/preferences/preferences'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -498,8 +497,7 @@ const savePrefsIPC = async (evt, prefs) => {
 		try {
 			await Promise.all([
 				updateScratchDisk(),
-				reloadTheme(mainWin, 'main'),
-				reloadTheme(preferences, 'preferences')
+				loadTheme()
 			])
 		} catch (err) {
 			console.error(err)
