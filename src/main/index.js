@@ -5,7 +5,7 @@ import { pathToFileURL } from 'url'
 import path from 'path'
 
 import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs } from './modules/preferences/preferences'
-import { loadTheme } from './modules/themes/loadTheme'
+import { loadTheme, reloadTheme } from './modules/themes/loadTheme'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -244,7 +244,7 @@ const prefsMenuItem = [
 
 			preferences.once('ready-to-show', async () => {
 				try {
-					await loadTheme(preferences)
+					await loadTheme(preferences, 'preferences')
 				} catch (err) {
 					console.error(err)
 				}
@@ -496,7 +496,11 @@ const savePrefsIPC = async (evt, prefs) => {
 		await savePrefs(prefs)
 
 		try {
-			await updateScratchDisk()
+			await Promise.all([
+				updateScratchDisk(),
+				reloadTheme(mainWin, 'main'),
+				reloadTheme(preferences, 'preferences')
+			])
 		} catch (err) {
 			console.error(err)
 		}
