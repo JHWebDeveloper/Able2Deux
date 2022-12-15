@@ -10,8 +10,12 @@ import Checkbox from '../form_elements/Checkbox'
 
 const themeButtons = [
 	{
+		label: 'System',
+		value: 'system'
+	},
+	{
 		label: 'Classic',
-		value: 'classic'
+		value: 'light'
 	},
 	{
 		label: 'Dark',
