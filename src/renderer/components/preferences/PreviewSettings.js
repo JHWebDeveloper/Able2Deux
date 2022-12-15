@@ -7,10 +7,10 @@ import { updateStateFromEvent } from 'actions'
 import AspectRatioMarkers from './AspectRatioMarkers'
 
 const PreviewSettings = () => {
-  const { preferences, dispatch } = useContext(PrefsContext)
+	const { preferences, dispatch } = useContext(PrefsContext)
 
-  return (
-    <form>
+	return (
+		<form>
 			<span className="input-option">
 				<label htmlFor="grid-color">Grid Color</label>
 				<input
@@ -20,11 +20,11 @@ const PreviewSettings = () => {
 					value={preferences.gridColor}
 					onChange={e => dispatch(updateStateFromEvent(e))} />
 			</span>
-      <AspectRatioMarkers
+			<AspectRatioMarkers
 				aspectRatioMarkers={preferences.aspectRatioMarkers}
 				dispatch={dispatch} />
-    </form>
-  )
+		</form>
+	)
 }
 
 export default PreviewSettings

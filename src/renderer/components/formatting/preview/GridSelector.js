@@ -7,6 +7,7 @@ import DropdownMenu from '../../form_elements/DropdownMenu'
 
 const toggleTitle = state => state ? 'Hide' : 'Show'
 
+// eslint-disable-next-line no-extra-parens
 const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
 	buttons.map(({ id, label, selected }) => (
 		<button
@@ -22,6 +23,7 @@ const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
 )
 
 const GridSelector = ({ showGrid, aspectRatioMarkers, gridColor, toggleGrid, dispatch }) => {
+	// eslint-disable-next-line no-extra-parens
 	const enabledAspectRatioMarkers = useMemo(() => (
 		aspectRatioMarkers.filter(({ disabled }) => !disabled)
 	), [aspectRatioMarkers])

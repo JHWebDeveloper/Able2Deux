@@ -83,8 +83,8 @@ export const savePrefs = async prefs => fsp.writeFile(prefsPath, JSON.stringify(
 
 export const getDefaultPrefs = () => defaultPrefs
 
-export const loadTheme = async ()  => {
-  const { theme } =  await loadPrefs()
+export const loadTheme = async () => {
+	const { theme } = await loadPrefs()
 
-  nativeTheme.themeSource = theme
+	nativeTheme.themeSource = theme
 }

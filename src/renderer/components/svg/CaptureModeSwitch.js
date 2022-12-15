@@ -1,5 +1,5 @@
 import React from 'react'
-import { bool, string } from 'prop-types'
+import { bool } from 'prop-types'
 
 const CaptureModeSwitch = ({ screenshot, disabled }) => (
 	<svg className={disabled ? 'toggle-switch-disabled' : ''} width="41px" height="26px" viewBox="0 0 41 26">
@@ -21,7 +21,7 @@ const CaptureModeSwitch = ({ screenshot, disabled }) => (
 
 CaptureModeSwitch.propTypes = {
 	screenshot: bool.isRequired,
-	fill: string.isRequired
+	disabled: bool.isRequired
 }
 
 export default CaptureModeSwitch

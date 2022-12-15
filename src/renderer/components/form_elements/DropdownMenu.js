@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react'
-import { arrayOf, bool, func, shape, string } from 'prop-types'
+import React, { cloneElement, useCallback, useState } from 'react'
+import { arrayOf, element, string } from 'prop-types'
 
 import { detectTabExit } from 'utilities'
 
@@ -30,18 +30,18 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 				}}
 				aria-haspopup="true"
 				aria-expanded={revealMenu}>{icon}</button>
-			{revealMenu ? <span style={position}>{children}</span> : <></>}
+			{revealMenu ? (
+				<span style={position}>
+					{cloneElement(children, { toggleRevealMenu })}
+				</span>
+			) : <></>}
 		</span>
 	)
 }
 
 DropdownMenu.propTypes = {
-	buttons: arrayOf(shape({
-		hide: bool,
-		role: string,
-		label: string,
-		action: func
-	}))
+	icon: string.isRequired,
+	children: arrayOf(element)
 }
 
 export default DropdownMenu

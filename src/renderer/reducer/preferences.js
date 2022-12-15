@@ -83,7 +83,7 @@ const cleanupPrefsAndSave = (state, callback) => {
 }
 
 const removeLocationAndSave = (state, payload) => {
-	const newPrefs = removeSortableElement(state, payload)
+	const newPrefs = shared.removeSortableElement(state, payload)
 
 	savePrefs(newPrefs)
 

@@ -111,6 +111,7 @@ EditorOptions.propTypes = {
 	audio: object,
 	arc: string,
 	background: string,
+	backgroundMotion: string,
 	bgColor: string,
 	overlay: string,
 	backgroundDisabled: bool.isRequired,

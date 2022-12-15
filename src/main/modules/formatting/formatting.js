@@ -40,7 +40,7 @@ const checkIsStill = exportData => {
 		backgroundMotion === 'still' ||
 		background === 'color' ||
 		background === 'alpha' ||
-		(overlay === 'none' && (!hasAlpha && (arc === 'fill' || arc === 'fit' && aspectRatio === '16:9')))
+		overlay === 'none' && (!hasAlpha && (arc === 'fill' || arc === 'fit' && aspectRatio === '16:9'))
 	)
 }
 

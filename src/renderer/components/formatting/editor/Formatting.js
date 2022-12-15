@@ -43,7 +43,7 @@ const createBackgroundButtons = enable11pmBackgrounds => [
 		label: 'Grey',
 		value: 'grey'
 	},
-	...(enable11pmBackgrounds ? [
+	...enable11pmBackgrounds ? [
 		{
 			label: '11pm Blue 1',
 			value: 'light_blue'
@@ -60,7 +60,7 @@ const createBackgroundButtons = enable11pmBackgrounds => [
 			label: '11pm Tan',
 			value: 'tan'
 		}
-	] : []),
+	] : [],
 	{
 		label: 'Transparent',
 		value: 'alpha'
@@ -90,7 +90,7 @@ const backgroundMotionButtons = [
 	{
 		label: 'Still',
 		value: 'still'
-	},
+	}
 ]
 
 
@@ -204,6 +204,7 @@ Formatting.propTypes = {
 	isBatch: bool.isRequired,
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
 	background: oneOf(['blue', 'grey', 'alpha', 'color']).isRequired,
+	backgroundMotion: oneOf(['animated', 'still', 'auto']).isRequired,
 	bgColor: string.isRequired,
 	overlay: oneOf(['none', 'tv', 'laptop']),
 	backgroundDisabled: bool.isRequired,

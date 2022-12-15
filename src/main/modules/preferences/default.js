@@ -70,7 +70,7 @@ const defaultPrefs = {
 			disabled: true,
 			selected: false,
 			ratio: [2.39, 1]
-		},
+		}
 	],
 	gridColor: '#ff00ff',
 	split: 270,
@@ -78,7 +78,7 @@ const defaultPrefs = {
 	scaleSliderMax: 400,
 	editorSettings: {
 		arc: 'none',
-		backgroundMotion: 'animated',
+		backgroundMotion: 'animated'
 	},
 	warnings: {
 		remove: true,

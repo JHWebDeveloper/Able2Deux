@@ -31,13 +31,13 @@ export const toggleNestedCheckbox = (state, payload) => {
 export const toggleSortableElementCheckbox = (state, payload) => {
 	const { property = 'checked' } = payload
 
-	return ({
+	return {
 		...state,
 		[payload.nest]: state[payload.nest].map(obj => obj.id === payload.id ? {
 			...obj,
 			[property]: !obj[property]
 		} : obj)
-	})
+	}
 }
 
 export const addSortableElement = (state, payload) => {

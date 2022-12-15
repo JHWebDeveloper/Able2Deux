@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { exact, func, string } from 'prop-types'
 
 import { updateNestedState } from 'actions'
 
@@ -38,6 +39,15 @@ const ScratchDisk = ({ scratchDisk, dispatch }) => {
 			</span>
 		</fieldset>
 	)
+}
+
+ScratchDisk.propTypes = {
+	scratchDisk: exact({
+		imports: string,
+		previews: string,
+		exports: string
+	}).isRequired,
+	dispatch: func.isRequired
 }
 
 export default ScratchDisk
