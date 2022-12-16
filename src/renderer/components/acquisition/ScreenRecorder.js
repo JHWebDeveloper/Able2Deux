@@ -14,7 +14,7 @@ import { errorToString, toastrOpts } from 'utilities'
 
 import RecordSourceSelector from './RecordSourceSelector'
 import ScreenRecorderTimer from './ScreenRecorderTimer'
-import SoundflowerMessage from './SoundflowerMessage'
+import BlackHoleMessage from './BlackHoleMessage'
 import DurationPointer from '../svg/DurationPointer'
 import CaptureModeSwitch from '../svg/CaptureModeSwitch'
 
@@ -141,7 +141,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 				recordButton={ref.current}
 				screenshot={screenshot}
 				dispatch={dispatch} />
-			{interop.isMac ? <SoundflowerMessage /> : <></>}
+			{interop.isMac ? <BlackHoleMessage /> : <></>}
 		</div>
 	)
 }
