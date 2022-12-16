@@ -69,7 +69,7 @@
 
 #preview-controls .slider-track {
 	height: 6px;
-	background-color: var(--background-alt-2);
+	background-color: var(--frame-selector-track);
 }
 
 #preview-controls .slider-track > span {

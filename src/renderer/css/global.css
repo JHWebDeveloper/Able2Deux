@@ -98,6 +98,7 @@ input[type="number"]::-webkit-outer-spin-button {
 	--thumbnail-background: var(--primary);
 	--preview-background: var(--primary);
 	--preview-text: var(--background);
+	--frame-selector-track: var(--background-alt-2);
 	--overlay-fade-in: rgba(238, 238, 238, 0);
 	--overlay: rgba(238, 238, 238, 0.5);
 	--record-light: #ff4800;
@@ -120,6 +121,7 @@ input[type="number"]::-webkit-outer-spin-button {
 		--thumbnail-background: var(--background);
 		--preview-background: var(--background-alt-2);
 		--preview-text: var(--primary);
+		--frame-selector-track: var(--background-alt-1);
 		--overlay-fade-in: rgba(68, 68, 68, 0);
 		--overlay: rgba(68, 68, 68, 0.75);
 		--scroll-thumb: var(--button);
