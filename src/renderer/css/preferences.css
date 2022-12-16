@@ -136,11 +136,11 @@ button[name="marker-down"] { grid-column: 9; }
 }
 
 .save-locations-grid {
-	grid-template-columns: repeat(3, 24px) auto auto repeat(3, 24px);
+	grid-template-columns: repeat(3, 24px) auto 287px repeat(3, 24px);
 	grid-gap: 0 6px;
 }
 
-.save-locations-grid > :is(div, span) { grid-column: 1 / span 9; }
+.save-locations-grid > :is(div, span) { grid-column: 1 / span 8; }
 
 .save-locations-grid label { margin-bottom: 6px; }
 
