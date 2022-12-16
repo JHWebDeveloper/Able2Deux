@@ -11,7 +11,6 @@ import {
 } from 'actions'
 
 import DraggableList from '../form_elements/DraggableList'
-import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
 import DragIndicator from '../svg/DragIndicator'
 
@@ -50,9 +49,11 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 
 	return (
 		<>
-			<Checkbox
+			<input
+				type="checkbox"
 				name="disabled"
 				title="Show aspect ratio marker"
+				aria-labelledby="ar-markers-enabled"
 				checked={!marker.disabled}
 				onChange={toggleVisibility} />
 			<button
@@ -73,11 +74,13 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 				title="Label"
 				className="panel-input"
 				maxLength="6"
+				aria-labelledby="ar-markers-label"
 				value={marker.label}
 				onChange={updateLabel} />
 			<NumberInput
 				name="ratio"
 				title="Antecedent"
+				ariaLabelledby="ar-markers-ratio"
 				value={ratio[0]}
 				min={0.0001}
 				max={9999}
@@ -93,7 +96,8 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 				max={9999}
 				defaultValue={1}
 				decimalPlaces={4}
-				onChange={e => updateRatio(1, e)} />
+				onChange={e => updateRatio(1, e)}
+				ariaLabelledby="ar-markers-ratio" />
 			{total > 1 ? <>
 				{index > 0 ? (
 					<button
@@ -132,6 +136,9 @@ const AspectRatioMarkers = ({ aspectRatioMarkers, dispatch }) => {
 		<fieldset className="aspect-ratio-markers">
 			<legend>Aspect Ratio Markers:</legend>
 			<div className="aspect-ratio-markers-grid">
+				<label id="ar-markers-enabled">Enabled</label>
+				<label id="ar-markers-label">Label</label>
+				<label id="ar-markers-ratio">Ratio</label>
 				<DraggableList sortingAction={sortingAction}>
 					{aspectRatioMarkers.map((marker, i) => (
 						<AspectRatioMarker
