@@ -7,15 +7,15 @@ const SoundflowerMessage = () => {
 
 	useEffect(() => {
 		(async () => {
-			setShow(!await interop.findSoundflower())
+			setShow(!await interop.findBlackHole())
 		})()
 	}, [])
 
-	return show && (
-		<a title="Get Soundflower" onClick={interop.getSoundflower}>
-			(Soundflower is required for audio on Mac)
+	return show ? (
+		<a title="Get BlackHole" onClick={interop.getBlackHole}>
+			(BlackHole is required for audio on Mac)
 		</a>
-	)
+	) : <></>
 }
 
 export default SoundflowerMessage
