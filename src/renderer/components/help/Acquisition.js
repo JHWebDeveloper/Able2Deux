@@ -1,6 +1,6 @@
 import React from 'react'
 
-const { interop } = window.ABLE2
+// const { interop } = window.ABLE2
 
 const Acquisition = () => (
 	<section id="aquisition">
