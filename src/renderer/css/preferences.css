@@ -126,10 +126,8 @@ input[name="customFrameRate"] { width: 50px; }
 	grid-column: 4;
 }
 
-#ar-markers-ratio,
-#save-locations-folder {
-	grid-column: 5;
-}
+#ar-markers-ratio { grid-column: 5 / span 3; }
+#save-locations-folder { grid-column: 5; }
 
 .aspect-ratio-markers-grid input:nth-of-type(3n - 1) {
 	text-align: right;
