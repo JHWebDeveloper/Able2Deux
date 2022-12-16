@@ -41,6 +41,8 @@ form {
 	background-color: var(--background-alt-1);
 }
 
+fieldset { margin-bottom: 18px; }
+
 fieldset:nth-child(n + 2) { margin-top: 18px; }
 
 legend, label {
@@ -57,6 +59,8 @@ label { font-weight: 500; }
 .input-option > label { margin-right: 9px; }
 
 .input-option { margin-bottom: 9px; }
+
+form > :last-child { margin-bottom: 0; }
 
 form :is(.app-button, input[type="text"], input[type="number"], input[type="color"]) {
 	height: 24px;
