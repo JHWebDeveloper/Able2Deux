@@ -85,14 +85,13 @@ input[name="customFrameRate"] { width: 50px; }
 	background-color: var(--background-alt-2);
 }
 
-.aspect-ratio-markers-grid,
-.save-locations-grid {
+.sortable-grid {
 	display: grid;
 	position: relative;
 	grid-auto-rows: auto;
 }
 
-:is(.aspect-ratio-markers-grid, .save-locations-grid)::after {
+.sortable-grid::after {
 	content: '';
 	display: block;
 	position: absolute;
@@ -102,14 +101,14 @@ input[name="customFrameRate"] { width: 50px; }
 	height: 67px;
 }
 
-:is(.aspect-ratio-markers-grid, .save-locations-grid) > div {
+.sortable-grid > div {
 	display: inherit;
 	grid-template-columns: inherit;
 	grid-gap: inherit;
 	background-color: var(--background-alt-1);
 }
 
-:is(.aspect-ratio-markers-grid, .save-locations-grid) input[type="checkbox"] {
+.sortable-grid input[type="checkbox"] {
   display: flex;
   justify-content: center;
 	align-items: center;
