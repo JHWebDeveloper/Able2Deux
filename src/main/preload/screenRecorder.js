@@ -27,23 +27,23 @@ export const getRecordSources = () => sendMessage({
 	errMsg: 'requestRecordSourcesErr'
 })
 
-export const findSoundflower = async () => {
+export const findBlackHole = async () => {
 	const devices = await navigator.mediaDevices.enumerateDevices()
 
 	if (!devices.length) return false
 
 	// eslint-disable-next-line no-extra-parens
-	const soundflower = devices.filter(device => (
+	const blackHole = devices.filter(device => (
 		device.kind === 'audiooutput' &&
-		device.label === 'Soundflower (2ch)' &&
+		device.label === 'BlackHole 2ch (Virtual)' &&
 		device.deviceId !== 'default'
 	))
 
-	return soundflower?.[0]?.deviceId
+	return blackHole?.[0]?.deviceId
 }
 
-export const getSoundflower = () => {
-	shell.openExternal('https://github.com/mattingalls/Soundflower/releases/tag/2.0b2')
+export const getBlackHole = () => {
+	shell.openExternal('https://existential.audio/blackhole/')
 }
 
 const mac = process.platform === 'darwin'
@@ -67,7 +67,7 @@ const getStream = async (chromeMediaSourceId, frameRate, noAudio) => {
 
 	if (!mac) return videoStream
 
-	const deviceId = await findSoundflower()
+	const deviceId = await findBlackHole()
 
 	if (!deviceId) return videoStream 
 
