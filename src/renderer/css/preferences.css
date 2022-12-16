@@ -60,6 +60,8 @@ label { font-weight: 500; }
 
 .input-option { margin-bottom: 9px; }
 
+form > :last-child { margin-bottom: 0; }
+
 form :is(.app-button, input[type="text"], input[type="number"], input[type="color"]) {
 	height: 24px;
 	vertical-align: middle;
