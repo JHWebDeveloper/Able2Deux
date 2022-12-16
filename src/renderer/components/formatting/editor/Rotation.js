@@ -144,9 +144,9 @@ const Rotation = memo(props => {
 	return (
 		<DetailsWrapper
 			summary="Rotation"
-			className="auto-columns"
+			className="editor-panel auto-columns"
 			buttons={settingsMenu}>
-			<fieldset>
+			<fieldset className="editor-option-column">
 				<legend>Reflect:</legend>
 				<RadioSet
 					name="reflect"
@@ -154,7 +154,7 @@ const Rotation = memo(props => {
 					onChange={updateReflect}
 					buttons={flipButtons(isSideways)} />
 			</fieldset>
-			<fieldset>
+			<fieldset className="editor-option-column">
 				<legend>Rotate:</legend>
 				<RadioSet 
 					name="angle"

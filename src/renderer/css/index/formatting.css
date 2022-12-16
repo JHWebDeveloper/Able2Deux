@@ -217,89 +217,39 @@ summary::before {
 
 details[open] > summary::before { content: 'keyboard_arrow_down'; }
 
-details[open] > div { padding-top: 9px; }
-
 #editor-options { overflow-y: auto; }
 
 #editor-options > details:nth-last-child(n+2) { margin-bottom: 9px; }
 
-#editor-options > details[open] {
-	overflow: visible;
-	padding-bottom: 9px;
+/* -- All Editor Panels -- */
+
+.editor-panel {
+	display: grid;
+	margin: 0 18px 0 27px;
+	font-size: 12px;
 }
 
-#editor-options > details > div { margin: 0 18px 0 27px; }
+details[open] > .editor-panel { padding: 9px 0 12px; }
 
-legend {
+.editor-panel legend {
 	white-space: nowrap;
 	font-size: 14px;
 }
 
-details label { font-size: 12px; }
-
-#file label {
-	font-weight: 500;
-	font-size: 14px;
-}
-
-input:is([name="filename"], [name="sourceName"]) { margin-bottom: 9px; }
-
-.formatting-panel {
-	display: grid;
-	grid-template-columns: repeat(3, min-content);
-	grid-template-rows: repeat(2, min-content);
-	grid-gap: 9px;
-}
-
-#background-column {
-	grid-column: 2;
-	grid-row: 1 / span 2;
-}
-
-#motion-column { align-self: flex-end; }
-
-.auto-columns {
-	display: flex;
-	grid-gap: 9px;
-}
-
-.auto-columns > fieldset:last-of-type { flex: 1; }
-
-.auto-columns label {
+.editor-option-column > label {
 	display: block;
 	margin: 3px;
 }
 
-.panel-input[type="number"],
-label > input[type="color"] {
+.editor-panel input[type="text"] {
+	font-size: 16px;
+	margin-bottom: 9px;
+}
+
+.editor-panel input[type="number"],
+.editor-panel input[type="color"] {
 	height: 18px;
 	width: 42px;
-}
-
-
-/* ---- SLIDER STYLES ---- */
-
-.single-slider-grid,
-.double-slider-grid,
-.timecode-slider-grid,
-.split-grid {
-	display: grid;
-	grid-auto-rows: auto;
-	align-items: center;
-}
-
-.single-slider-grid,
-.double-slider-grid {
-	font-size: 12px;
-}
-
-.single-slider-grid {
-	grid-template-columns: min-content auto repeat(4, min-content);
-}
-
-.single-slider-grid > input:first-of-type ~ :is(label, span, input, button:not([name^="link"])),
-.double-slider-grid > button:first-of-type ~ :is(label, span, input, button) {
-	grid-row: 2;
 }
 
 button[name^="link"] {
@@ -310,33 +260,42 @@ button[name^="link"] {
 
 button[name^="link"] > svg { pointer-events: none; }
 
-.single-slider-grid > button[name^="link"] {
-	grid-row: 1 / span 2;
-	height: 100%;
+.auto-rows {
+	grid-auto-rows: min-content;
+	align-items: center;
 }
 
-.single-slider-grid > .slider { grid-column: 2; }
-
-.single-slider-grid > button:not(:last-child) { margin-right: 5px; }
-
-button[title$=" to Width"] { transform: rotate(90deg); }
-
-.double-slider-grid {
-	grid-template-columns: repeat(2, min-content) auto repeat(3, min-content);
+.auto-columns {
+	display: flex;
+	grid-gap: 0 9px;
 }
 
-.double-slider-grid > label:nth-of-type(odd) { margin-right: 5px; }
-.double-slider-grid > label:nth-of-type(even) { margin-left: 5px; }
+.auto-columns > :last-child { flex: 1; }
+
+/* -- File Panel -- */
+
+.timecode-slider-grid,
+.split-grid {
+	display: inherit;
+	grid-gap: 0 6px;
+	justify-content: center;
+	margin-top: 6px;
+}
+
+:is(.timecode-slider-grid, .split-grid) > label {
+	font-size: 14px;
+	font-weight: 500;
+}
 
 .timecode-slider-grid {
 	grid-template-columns: 35px min-content auto min-content 35px;
 	grid-gap: 0 6px;
-	margin-top: 6px;
 }
 
-.timecode-slider-grid > label { justify-self: center; }
-
-.timecode-slider-grid > input { width: 112px; }
+.timecode-slider-grid > input[type="text"] {
+	width: 112px;
+	margin-bottom: 0;
+}
 
 .timecode-slider-grid > input:last-of-type { grid-column: 4; }
 
@@ -344,6 +303,72 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 	grid-column: 1 / span 5;
 	grid-row: 2;
 }
+
+.split-grid { grid-template-columns: 35px min-content 35px; }
+
+/* -- Formatting Panel -- */
+
+.formatting-panel {
+	grid-template-columns: repeat(3, min-content);
+	grid-template-rows: repeat(2, min-content);
+	grid-gap: 9px;
+}
+
+.formatting-panel > fieldset:nth-of-type(2) { /* background column */
+	grid-column: 2;
+	grid-row: 1 / span 2;
+}
+
+.formatting-panel > fieldset:nth-of-type(4) { /* motion column */
+	align-self: flex-end;
+}
+
+/* -- Position Panel -- */
+
+.position-panel {
+	grid-template-columns: min-content auto min-content;
+}
+
+.position-panel > .slider { grid-column: 2; }
+
+/* -- Scale Panel -- */
+
+.scale-panel {
+	grid-template-columns: min-content auto repeat(3, min-content);
+}
+
+.scale-panel > .slider { grid-column: 2; }
+
+.scale-panel > .app-button { margin-right: 5px; }
+
+.scale-panel > .app-button:first-of-type { transform: rotate(90deg); }
+
+button[name="linkXY"] {
+	grid-column: 5;
+	grid-row: 1 / span 2;
+}
+
+/* -- Crop Panel -- */
+
+.crop-panel {
+	grid-template-columns: repeat(2, min-content) auto repeat(3, min-content);
+}
+
+.crop-panel > .slider { grid-column: 3; }
+
+.crop-panel > label:nth-of-type(odd) { margin-right: 5px; }
+.crop-panel > label:nth-of-type(even) { margin-left: 5px; }
+
+/* -- Rotation Panel -- */
+
+.offset-grid {
+	display: grid;
+	grid-template-columns: auto min-content;
+	align-items: center;
+}
+
+
+/* ---- SLIDER STYLES ---- */
 
 .slider, .slider span { display: block; }
 
@@ -448,13 +473,6 @@ button[title$=" to Width"] { transform: rotate(90deg); }
 	height: inherit;
 	background-color: var(--primary);
 	transform: translateX(-50%);
-}
-
-.split-grid {
-	grid-template-columns: 35px min-content 35px;
-	grid-gap: 0 6px;
-	justify-content: center;
-	margin-top: 6px;
 }
 
 

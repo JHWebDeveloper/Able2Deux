@@ -137,13 +137,13 @@ const Formatting = memo(props => {
 	return (
 		<DetailsWrapper
 			summary="Formatting"
-			className="formatting-panel"
+			className="editor-panel formatting-panel"
 			buttons={props.isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ arc, background, overlay })),
 				() => dispatch(applySettingsToAll(id, { arc, background, overlay }))
 			]) : []}
 			open>
-			<fieldset>
+			<fieldset className="editor-option-column">
 				<legend>AR Correction:</legend>
 				<RadioSet
 					name="arc"
@@ -152,7 +152,7 @@ const Formatting = memo(props => {
 					buttons={arcButtons}/>
 			</fieldset>
 			<fieldset
-				id="background-column"
+				className="editor-option-column"
 				disabled={props.backgroundDisabled}>
 				<legend>Background:</legend>
 				<RadioSet
@@ -171,7 +171,9 @@ const Formatting = memo(props => {
 						}
 					]}/>
 			</fieldset>
-			<fieldset disabled={arc === 'none'}>
+			<fieldset
+				className="editor-option-column"
+				disabled={arc === 'none'}>
 				<legend>Box Overlay:</legend>
 				<RadioSet
 					name="overlay"
@@ -180,7 +182,7 @@ const Formatting = memo(props => {
 					buttons={overlayButtons}/>
 			</fieldset>
 			<fieldset
-				id="motion-column"
+				className="editor-option-column"
 				disabled={background === 'alpha' || background === 'color' || props.backgroundDisabled}>
 				<legend>Motion:</legend>
 				<RadioSet

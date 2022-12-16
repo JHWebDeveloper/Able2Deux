@@ -38,7 +38,7 @@ const Position = memo(({ id, isBatch, position, editAll, dispatch }) => {
 	return (
 		<DetailsWrapper
 			summary="Position"
-			className="single-slider-grid"
+			className="editor-panel auto-rows position-panel"
 			buttons={isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ position })),
 				() => dispatch(applySettingsToAll(id, { position }))

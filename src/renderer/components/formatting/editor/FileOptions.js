@@ -17,7 +17,11 @@ const FileOptions = memo(props => {
 	}, [id])
 
 	return (
-		<DetailsWrapper summary="File" id="file" open>
+		<DetailsWrapper
+			summary="File"
+			id="file"
+			className="editor-panel auto-rows"
+			open>
 			<fieldset disabled={props.isBatch && batch.name && batch.position === 'replace'}>
 				<legend>Filename:</legend>
 				<input

@@ -97,7 +97,7 @@ const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 	return (
 		<DetailsWrapper
 			summary="Crop"
-			className="double-slider-grid"
+			className="editor-panel auto-rows crop-panel"
 			buttons={isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ crop })),
 				() => dispatch(applySettingsToAll(id, { crop }))

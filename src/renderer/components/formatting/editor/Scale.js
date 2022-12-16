@@ -134,7 +134,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 	return (
 		<DetailsWrapper
 			summary="Scale"
-			className="single-slider-grid"
+			className="editor-panel auto-rows scale-panel"
 			buttons={settingsMenu}>
 			<label>X</label>
 			<SliderSingle
@@ -160,7 +160,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 				{...numberProps} />
 			<button
 				type="button"
-				name="link"
+				name="linkXY"
 				onClick={toggleScaleLink}
 				title={`${scale.link ? 'Unl' : 'L'}ink X and Y`}>
 				<LinkIcon linked={scale.link} />

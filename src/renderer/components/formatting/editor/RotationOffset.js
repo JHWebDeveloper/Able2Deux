@@ -23,7 +23,7 @@ const RotationOffset = ({ id, editAll, offset, dispatch }) => {
 	return (
 		<fieldset>
 			<legend>Offset:</legend>
-			<div className="single-slider-grid">
+			<div className="offset-grid">
 				<SliderSingle {...offsetProps} snapPoints={[0]} />
 				<NumberInput {...offsetProps} />
 			</div>

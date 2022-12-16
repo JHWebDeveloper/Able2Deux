@@ -47,6 +47,7 @@ const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
 	return (
 		<DetailsWrapper
 			summary="Source"
+			className="editor-panel"
 			buttons={isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ source })),
 				() => dispatch(applySettingsToAll(id, { source }))

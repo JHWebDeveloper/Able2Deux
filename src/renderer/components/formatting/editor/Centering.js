@@ -35,7 +35,7 @@ const Centering = memo(({ id, isBatch, centering, editAll, dispatch }) => {
 	return (
 		<DetailsWrapper
 			summary="Position"
-			className="single-slider-grid"
+			className="editor-panel auto-rows position-panel"
 			buttons={isBatch ? createSettingsMenu([
 				() => dispatch(copySettings({ centering })),
 				() => dispatch(applySettingsToAll(id, { centering }))
