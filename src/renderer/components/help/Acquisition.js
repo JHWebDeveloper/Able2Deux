@@ -52,7 +52,7 @@ const Acquisition = () => (
 		<p>Alternatively you can take a still image of your screen instead of a video. Click the switch to the right of the record button so that the <i>camera_alt</i> icon is selected (The <i style={{ transform: 'rotate(90deg)' }}>local_movies</i> icon will be selected by default). Once screenshot is selected, click the record button and select a record source.</p>
 		<p>Once a record source is selected, the Able2 window will disappear, take the screenshot and reappear. The screenshot will now be listed in the ready queue.</p>
 		<p>The stop timer has no effect in screenshot mode and will be disabled.</p>
-		{interop.isMac ?
+		{/* {interop.isMac ?
 			<>
 				<h4 id="audio-support-for-mac">Audio Support for Mac</h4>
 				<p>Due to limitations on Mac devices a free third-party program called Soundflower is required for recording device audio with video.</p>
@@ -76,7 +76,7 @@ const Acquisition = () => (
 					<li>When finished recording it is recommended that you set <q>Input</q> and <q>Output</q> back to their original settings as these changes may affect other applications.</li>
 				</ol>
 			</> : <></>
-		}
+		} */}
 		<h3 id="the-ready-queue">The Ready Queue</h3>
 		<p>The Ready Queue is the area taking up the entire right side of the application. It lists all of the media files you have loaded into Able2.</p>
 		<p>On the left side of each media item is a circular icon <i style={{ color: '#bbb' }}>lens</i> indicating the status of each media item. When the media is ready to format it will turn green <i style={{ color: '#0cf700' }}>lens</i>. Should there be an error loading the media or cancelled download it will turn red <i style={{ color: '#ff4800' }}>lens</i>. For all loading processes, the icon will be yellow <i style={{ color: '#fcdb03' }}>lens</i>.</p>
