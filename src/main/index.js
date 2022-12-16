@@ -234,7 +234,7 @@ const prefsMenuItem = [
 			preferences = openWindow({
 				parent: mainWin,
 				width: mac ? 746 : 762,
-				height: 620,
+				height: 622,
 				resizable: dev,
 				modal: true
 			})
