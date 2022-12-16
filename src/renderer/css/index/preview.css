@@ -83,7 +83,7 @@
 :is(.start-visible, .end-visible) .snap-marker {
 	overflow: hidden;
 	width: 6px;
-	background-color: var(--background-alt-1);
+	background-color: var(--preview-text);
 	transform: none;
 }
 
@@ -96,7 +96,7 @@
 	position: inherit;
 	width: 18px;
 	height: 18px;
-	background-color: var(--primary);
+	background-color: var(--preview-background);
 	transform: rotate(45deg);
 }
 
