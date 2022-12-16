@@ -10,7 +10,6 @@ import {
 	moveSortableElement
 } from 'actions'
 
-import Checkbox from '../form_elements/Checkbox'
 import DirectorySelector from '../form_elements/DirectorySelector'
 import DragIndicator from '../svg/DragIndicator'
 
@@ -47,9 +46,11 @@ const Directory = ({ dir, index, total, dispatch }) => {
 
 	return (
 		<>
-			<Checkbox
+			<input
+				type="checkbox"
 				name="default"
 				title="Selected by default"
+				aria-labelledby="save-locations-default"
 				checked={checked}
 				onChange={toggleDefault} />
 			<button
@@ -70,11 +71,12 @@ const Directory = ({ dir, index, total, dispatch }) => {
 				className="panel-input"
 				value={label}
 				onChange={updateLocation}
-				aria-labelledby="label"
+				aria-labelledby="save-locations-label"
 				data-no-drag />
 			<DirectorySelector
 				directory={directory}
-				onChange={updateDirectory} />
+				onChange={updateDirectory}
+				ariaLabelledby="save-locations-folder" />
 			{total > 1 ? <>
 				{index > 0 ? (
 					<button
