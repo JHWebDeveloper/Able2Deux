@@ -26,9 +26,9 @@ const SaveLocations = () => {
 			<fieldset>
 				<legend>Save Locations</legend>
 				<div className="save-locations-grid">
-					<label id="default">Default</label>
-					<label id="label">Label</label>
-					<label id="folder">Folder</label>
+					<label id="save-locations-default">Default</label>
+					<label id="save-locations-label">Label</label>
+					<label id="save-locations-folder">Folder</label>
 					<DraggableList sortingAction={sortingAction}>
 						{saveLocations.map((dir, i) => (
 							<Directory
