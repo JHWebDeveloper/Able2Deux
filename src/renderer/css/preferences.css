@@ -121,6 +121,16 @@ input[name="customFrameRate"] { width: 50px; }
 	grid-gap: 3px;
 }
 
+#ar-markers-label,
+#save-locations-label {
+	grid-column: 4;
+}
+
+#ar-markers-ratio,
+#save-locations-folder {
+	grid-column: 5;
+}
+
 .aspect-ratio-markers-grid input:nth-of-type(3n - 1) {
 	text-align: right;
 }
@@ -143,10 +153,6 @@ button[name="marker-down"] { grid-column: 9; }
 .save-locations-grid > :is(div, span) { grid-column: 1 / span 8; }
 
 .save-locations-grid label { margin-bottom: 6px; }
-
-#default { grid-column: 1 / span 3; }
-
-#folder { grid-column: 5 / span 4; }
 
 .save-locations-grid div:only-of-type > .directory-selector {
 	grid-column: span 4;
