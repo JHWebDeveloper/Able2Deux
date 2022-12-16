@@ -135,7 +135,7 @@ const AspectRatioMarkers = ({ aspectRatioMarkers, dispatch }) => {
 	return (
 		<fieldset className="aspect-ratio-markers">
 			<legend>Aspect Ratio Markers:</legend>
-			<div className="aspect-ratio-markers-grid">
+			<div className="sortable-grid aspect-ratio-markers-grid">
 				<label id="ar-markers-enabled">Enabled</label>
 				<label id="ar-markers-label">Label</label>
 				<label id="ar-markers-ratio">Ratio</label>
