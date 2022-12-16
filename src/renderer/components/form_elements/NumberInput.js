@@ -28,7 +28,8 @@ const NumberInput = ({
 	step = 1,
 	fineTuneStep = 0.1,
 	decimalPlaces = 3,
-	onChange
+	onChange,
+	ariaLabelledby
 }) => {
 	const onChangeParse = useCallback(e => {
 		const { name, value } = e.target
@@ -63,7 +64,8 @@ const NumberInput = ({
 			onClick={e => e.currentTarget.select()}
 			onBlur={onBlurParse}
 			onKeyUp={onKeyUp} 
-			onKeyDown={onKeyDown} />
+			onKeyDown={onKeyDown}
+			aria-labelledby={ariaLabelledby} />
 	)
 }
 

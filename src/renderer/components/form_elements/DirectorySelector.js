@@ -3,7 +3,7 @@ import { func, string } from 'prop-types'
 
 const { interop } = window.ABLE2
 
-const DirectorySelector = ({ directory, onChange }) => {
+const DirectorySelector = ({ directory, onChange, ariaLabelledby }) => {
 	const selectDirectory = useCallback(async () => {
 		const { filePaths, canceled } = await interop.chooseDirectory()
 		
@@ -23,6 +23,7 @@ const DirectorySelector = ({ directory, onChange }) => {
 				title="Directory"
 				className="panel-input"
 				value={directory}
+				aria-labelledby={ariaLabelledby}
 				readOnly />
 		</span>
 	)
