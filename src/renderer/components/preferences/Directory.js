@@ -10,6 +10,7 @@ import {
 	moveSortableElement
 } from 'actions'
 
+import Checkbox from '../form_elements/Checkbox'
 import DirectorySelector from '../form_elements/DirectorySelector'
 import DragIndicator from '../svg/DragIndicator'
 
@@ -46,8 +47,8 @@ const Directory = ({ dir, index, total, dispatch }) => {
 
 	return (
 		<>
-			<input
-				type="checkbox"
+			<Checkbox
+				name="default"
 				title="Selected by default"
 				checked={checked}
 				onChange={toggleDefault} />
