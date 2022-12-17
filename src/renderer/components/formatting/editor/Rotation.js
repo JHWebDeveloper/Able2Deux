@@ -14,8 +14,8 @@ import RadioSet from '../../form_elements/RadioSet'
 import RotationOffset from './RotationOffset'
 
 const directions = Object.freeze(['t', 'l', 'b', 'r'])
-const transpose = Object.freeze(['', 'transpose=1,', 'transpose=2,transpose=2,', 'transpose=2,'])
-const flip = Object.freeze(['', 'hflip,', 'vflip,', 'hflip,vflip,'])
+const transpose = Object.freeze(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2'])
+const flip = Object.freeze(['', 'hflip', 'vflip', 'hflip,vflip'])
 
 const detectSideways = angle => angle === transpose[1] || angle === transpose[3]
 const detectOrientationChange = (prev, next) => !!(detectSideways(prev) ^ detectSideways(next))
