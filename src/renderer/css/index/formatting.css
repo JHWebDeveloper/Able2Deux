@@ -343,9 +343,10 @@ button[name^="link"] > svg { pointer-events: none; }
 
 .scale-panel > .app-button:first-of-type { transform: rotate(90deg); }
 
-button[name="linkXY"] {
+button[name="link"] {
 	grid-column: 5;
 	grid-row: 1 / span 2;
+	height: 100%;
 }
 
 /* -- Crop Panel -- */

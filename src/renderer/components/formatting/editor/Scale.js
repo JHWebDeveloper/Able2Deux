@@ -160,7 +160,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 				{...numberProps} />
 			<button
 				type="button"
-				name="linkXY"
+				name="link"
 				onClick={toggleScaleLink}
 				title={`${scale.link ? 'Unl' : 'L'}ink X and Y`}>
 				<LinkIcon linked={scale.link} />
