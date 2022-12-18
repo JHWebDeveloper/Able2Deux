@@ -147,6 +147,7 @@ const Formatting = memo(props => {
 							label: 'Color',
 							value: 'color',
 							component: <ColorInput
+								title="Select background color"
 								value={bgColor}
 								onChange={updateBgColor}
 								onFocus={setRadioToColor} />
