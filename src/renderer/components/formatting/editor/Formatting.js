@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useContext, useMemo } from 'react'
 import { bool, func, oneOf, string } from 'prop-types'
 
 import { PrefsContext } from 'store/preferences'
@@ -10,10 +10,11 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, createSettingsMenu, debounce } from 'utilities'
+import { compareProps, createSettingsMenu } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
+import ColorInput from '../../form_elements/ColorInput'
 
 const arcButtons = [
 	{
@@ -93,25 +94,6 @@ const backgroundMotionButtons = [
 	}
 ]
 
-
-const BgColorPicker = ({ value, onChange, onFocus }) => {
-	const [ color, setColor ] = useState(value)
-
-	const onChangeDebounce = useMemo(() => debounce(onChange, 60), [onChange])
-
-	useEffect(() => {
-		onChangeDebounce(color)
-	}, [color])
-
-	return (
-		<input
-			type="color"
-			value={value}
-			onChange={e => setColor(e.target.value)}
-			onFocus={onFocus} />
-	)
-}
-
 const Formatting = memo(props => {
 	const { id, arc, background, bgColor, overlay, editAll, dispatch } = props
 	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
@@ -164,7 +146,7 @@ const Formatting = memo(props => {
 						{
 							label: 'Color',
 							value: 'color',
-							component: <BgColorPicker
+							component: <ColorInput
 								value={bgColor}
 								onChange={updateBgColor}
 								onFocus={setRadioToColor} />
@@ -194,12 +176,6 @@ const Formatting = memo(props => {
 		</DetailsWrapper>
 	)
 }, compareProps)
-
-BgColorPicker.propTypes = {
-	value: string.isRequired,
-	onChange: func.isRequired,
-	onFocus: func
-}
 
 Formatting.propTypes = {
 	id: string.isRequired,
