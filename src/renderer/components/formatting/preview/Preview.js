@@ -80,7 +80,9 @@ const Preview = ({ selected, aspectRatioMarkers, dispatch }) => {
 		selected.centering,
 		selected.position,
 		selected.scale,
-		selected.crop
+		selected.crop,
+		selected.keying,
+		selected.whiteBalance
 	])
 
 	return (
