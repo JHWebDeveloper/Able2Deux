@@ -17,6 +17,7 @@ const SingleSlider = ({
 	fineTuneStep = 0.1,
 	snapPoints = [],
 	sensitivity = 4,
+	disabled = false,
 	onChange = () => {}
 }) => {
 	const { sliderSnapPoints } = useContext(PrefsContext).preferences
@@ -54,7 +55,9 @@ const SingleSlider = ({
 	}, [min, diff, onChange])
 
 	return (
-		<span className="slider" title={title}>
+		<span
+			className={`slider${disabled ? ' disabled' : ''}`}
+			title={title}>
 			<span
 				className="slider-track single"
 				ref={trackRef}

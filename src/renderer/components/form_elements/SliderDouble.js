@@ -37,7 +37,8 @@ const DoubleSlider = ({
 	sliderTitle = '',
 	middleThumbTitle = '',
 	onPan,
-	enableAutoCenter = false
+	enableAutoCenter = false,
+	disabled = false
 }) => {
 	const { sliderSnapPoints } = useContext(PrefsContext).preferences
 
@@ -94,7 +95,9 @@ const DoubleSlider = ({
 	const common = { diff, step, fineTuneStep, getTrack }
 
 	return (
-		<span className="slider" title={sliderTitle}>
+		<span
+			className={`slider${disabled ? ' disabled' : ''}`}
+			title={sliderTitle}>
 			<span
 				className="slider-track double"
 				ref={trackRef}
