@@ -4,6 +4,7 @@ import { bool, func, number, object, oneOf, oneOfType, string } from 'prop-types
 import { createScrollbarPadder } from 'utilities'
 
 import FileOptions from './FileOptions'
+import Audio from './Audio'
 import Formatting from './Formatting'
 import Source from './Source'
 import Centering from './Centering'
@@ -11,7 +12,8 @@ import Position from './Position'
 import Scale from './Scale'
 import Crop from './Crop'
 import Rotation from './Rotation'
-import Audio from './Audio'
+import Keying from './Keying'
+import WhiteBalance from './WhiteBalance'
 
 const scrollbarPadder = createScrollbarPadder()
 
@@ -84,6 +86,14 @@ const EditorOptions = props => {
 					scale={props.scale}
 					crop={props.crop}
 					arc={arc}
+					{...common} />
+				{arc === 'fit' || arc === 'transform' ? (
+					<Keying
+						keying={props.keying}
+						{...common} />
+				) : <></>}
+				<WhiteBalance
+					whiteBalance={props.whiteBalance}
 					{...common} />
 			</> : <></>}
 		</div>
