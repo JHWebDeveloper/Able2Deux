@@ -28,6 +28,7 @@ const NumberInput = ({
 	step = 1,
 	fineTuneStep = 0.1,
 	decimalPlaces = 3,
+	disabled = false,
 	onChange,
 	ariaLabelledby
 }) => {
@@ -65,6 +66,7 @@ const NumberInput = ({
 			onBlur={onBlurParse}
 			onKeyUp={onKeyUp} 
 			onKeyDown={onKeyDown}
+			disabled={disabled}
 			aria-labelledby={ariaLabelledby} />
 	)
 }
