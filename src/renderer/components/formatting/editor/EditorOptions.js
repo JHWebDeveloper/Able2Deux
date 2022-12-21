@@ -13,7 +13,6 @@ import Scale from './Scale'
 import Crop from './Crop'
 import Rotation from './Rotation'
 import Keying from './Keying'
-import WhiteBalance from './WhiteBalance'
 
 const scrollbarPadder = createScrollbarPadder()
 
@@ -92,9 +91,6 @@ const EditorOptions = props => {
 						keying={props.keying}
 						{...common} />
 				) : <></>}
-				<WhiteBalance
-					whiteBalance={props.whiteBalance}
-					{...common} />
 			</> : <></>}
 		</div>
 	)
