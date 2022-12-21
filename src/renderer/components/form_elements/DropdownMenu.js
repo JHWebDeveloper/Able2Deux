@@ -40,7 +40,7 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 }
 
 DropdownMenu.propTypes = {
-	icon: string.isRequired,
+	icon: string,
 	children: arrayOf(element)
 }
 
