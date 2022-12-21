@@ -78,6 +78,23 @@ const defaultMediaData = {
 		angle: '',
 		reflect: '',
 		offset: 0
+	},
+	keying: {
+		disabled: true,
+		hidden: false,
+		type: 'colorkey',
+		color: '#04f404',
+		similarity: 1,
+		blend: 0
+	},
+	whiteBalance: {
+		whiteDisabled: true,
+		whiteHidden: false,
+		whitept: '#ffffff',
+		blackDisabled: true,
+		backHidden: false,
+		blackpt: '#000000',
+		intensity: 50
 	}
 }
 
