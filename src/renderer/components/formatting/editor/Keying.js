@@ -72,7 +72,7 @@ const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
 				() => dispatch(copySettings({ keying })),
 				() => dispatch(applySettingsToAll(id, { keying }))
 			]) : []}>
-      <div className="on-off-switch">
+      <div>
         <Checkbox
           name="disabled"
           title={`Turn keying ${disabled ? 'on' : 'off' }`}
