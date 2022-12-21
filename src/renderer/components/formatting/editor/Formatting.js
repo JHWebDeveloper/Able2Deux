@@ -104,9 +104,9 @@ const Formatting = memo(props => {
 
 	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
 
-	const updateBgColor = useCallback(color => {
+	const updateBgColor = useCallback(({ name, value }) => {
 		dispatch(updateMediaState(id, {
-			bgColor: color
+			[name]: value
 		}, editAll))
 	}, [id, editAll])
 
@@ -147,6 +147,7 @@ const Formatting = memo(props => {
 							label: 'Color',
 							value: 'color',
 							component: <ColorInput
+								name="bgColor"
 								title="Select background color"
 								value={bgColor}
 								onChange={updateBgColor}
