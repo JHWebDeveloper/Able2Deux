@@ -10,6 +10,7 @@ import {
 	moveSortableElement
 } from 'actions'
 
+import Checkbox from '../form_elements/Checkbox'
 import DirectorySelector from '../form_elements/DirectorySelector'
 import DragIndicator from '../svg/DragIndicator'
 
@@ -49,7 +50,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 			<input
 				type="checkbox"
 				name="default"
-				title="Selected by default"
+				title={`Set ${label} to be ${disabled ? '' : 'un'} selected by default`}
 				aria-labelledby="save-locations-default"
 				checked={checked}
 				onChange={toggleDefault} />
@@ -57,13 +58,13 @@ const Directory = ({ dir, index, total, dispatch }) => {
 				type="button"
 				name="add"
 				className="app-button symbol"
-				title="Add directory"
+				title="Add new directory"
 				onClick={add}>add</button>
 			<button
 				type="button"
 				name="delete"
 				className="app-button symbol"
-				title="Delete directory"
+				title={`Delete ${label}`}
 				onClick={remove}>remove</button>
 			<input
 				type="text"
@@ -83,7 +84,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 						type="button"
 						name="directory-up"
 						className="app-button symbol"
-						title="Move directory up"
+						title={`Move ${label} up`}
 						onClick={moveUp}>keyboard_arrow_up</button>
 				) : <></>}
 				{index < total - 1 ? (
@@ -91,7 +92,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 						type="button"
 						name="directory-down"
 						className="app-button symbol"
-						title="Move directory down"
+						title={`Move ${label} up`}
 						onClick={moveDown}>keyboard_arrow_down</button>
 				) : <></>}
 				<DragIndicator />
