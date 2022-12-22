@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
-import { createScrollbarPadder } from 'utilities'
+import { createScrollbarPadder, objectExtract } from 'utilities'
 
 import FileOptions from './FileOptions'
 import Audio from './Audio'
@@ -16,7 +16,11 @@ import Keying from './Keying'
 
 const scrollbarPadder = createScrollbarPadder()
 
-const extractCommonProps = ({ id, mediaType, editAll, isBatch, width, height, aspectRatio, dispatch, arc }) => ({ id, mediaType, editAll, isBatch, width, height, aspectRatio, dispatch, arc })
+const extractCommonProps = (() => {
+	const common = ['id', 'mediaType', 'editAll', 'isBatch', 'width', 'height', 'aspectRatio', 'dispatch', 'arc']
+
+	return obj => objectExtract(obj, common)
+})()
 
 const EditorOptions = props => {
 	if (!props.id) return false
