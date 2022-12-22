@@ -12,11 +12,12 @@ const CheckboxWrapper = ({ label, children }) => !!label ? (
 	<span>{children}</span>
 )
 
-const Checkbox = ({ label, name, checked, visibleIcon, switchIcon, disabled, onChange, ariaLabelledby }) => (
+const Checkbox = ({ label, name, title, checked, visibleIcon, switchIcon, disabled, onChange, ariaLabelledby }) => (
 	<CheckboxWrapper label={label}>
 		<input
 			type="checkbox"
 			name={name}
+			title={title}
 			className={visibleIcon ? 'visibility' : switchIcon ? 'switch' : ''}
 			checked={checked}
 			onChange={onChange}
