@@ -1,7 +1,5 @@
 import React, { memo, useCallback } from 'react'
 
-import 'css/index/key_and_cc.css'
-
 import {
   toggleMediaNestedCheckbox,
   updateMediaNestedState,
