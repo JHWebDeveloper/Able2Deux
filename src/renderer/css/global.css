@@ -160,9 +160,9 @@ input.underline {
 	border-bottom: var(--main-border-style);
 }
 
-input[type="text"] { text-overflow: ellipsis; }
+input:is([type="text"], [type="number"]):disabled { color: var(--disabled); }
 
-input[type="text"]:disabled { color: var(--disabled); }
+input[type="text"] { text-overflow: ellipsis; }
 
 input:is([type="checkbox"], [type="radio"]),
 label > svg {
@@ -187,6 +187,9 @@ input:is([type="checkbox"], [type="radio"]):disabled::after {
 
 input[type="checkbox"]::after { content: 'check_box_outline_blank'; } 
 input[type="checkbox"]:checked::after { content: 'check_box'; }
+
+input[type="checkbox"].visibility::after { content: 'visibility'; } 
+input[type="checkbox"].visibility:checked::after { content: 'visibility_off'; }
 
 input[type="radio"]::after { content: 'radio_button_unchecked'; } 
 input[type="radio"]:checked::after { content: 'radio_button_checked'; }
@@ -215,6 +218,8 @@ label {
 }
 
 label > :is(input, span, svg) { vertical-align: middle; }
+
+.disabled label { color: var(--disabled); }
 
 .app-button {
 	background-color: var(--button);
