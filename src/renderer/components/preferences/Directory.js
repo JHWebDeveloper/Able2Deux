@@ -47,8 +47,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 
 	return (
 		<>
-			<input
-				type="checkbox"
+			<Checkbox
 				name="default"
 				title={`Set ${label} to be ${disabled ? '' : 'un'} selected by default`}
 				aria-labelledby="save-locations-default"
