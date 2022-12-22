@@ -51,7 +51,6 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 	return (
 		<>
 			<Checkbox
-				type="checkbox"
 				name="disabled"
 				title={`${disabled ? 'Show' : 'Hide'} ${label} marker`}
 				aria-labelledby="ar-markers-visible"
