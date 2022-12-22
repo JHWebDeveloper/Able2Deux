@@ -11,11 +11,12 @@ import {
 } from 'actions'
 
 import DraggableList from '../form_elements/DraggableList'
+import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
 import DragIndicator from '../svg/DragIndicator'
 
 const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
-	const { id, ratio } = marker
+	const { id, label, ratio, disabled } = marker
 
 	const toggleVisibility = useCallback(() => {
 		dispatch(enableAspectRatioMarker(id))
@@ -49,24 +50,25 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 
 	return (
 		<>
-			<input
+			<Checkbox
 				type="checkbox"
 				name="disabled"
-				title="Show aspect ratio marker"
-				aria-labelledby="ar-markers-enabled"
-				checked={!marker.disabled}
-				onChange={toggleVisibility} />
+				title={`${disabled ? 'Show' : 'Hide'} ${label} marker`}
+				aria-labelledby="ar-markers-visible"
+				checked={disabled}
+				onChange={toggleVisibility}
+				visibleIcon />
 			<button
 				type="button"
 				name="add"
 				className="app-button symbol"
-				title="Add aspect ratio"
+				title="Add new aspect ratio marker"
 				onClick={add}>add</button>
 			<button
 				type="button"
 				name="delete"
 				className="app-button symbol"
-				title="Add aspect ratio"
+				title={`Delete ${label} marker`}
 				onClick={remove}>remove</button>
 			<input
 				type="text"
@@ -75,7 +77,7 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 				className="panel-input"
 				maxLength="6"
 				aria-labelledby="ar-markers-label"
-				value={marker.label}
+				value={label}
 				onChange={updateLabel} />
 			<NumberInput
 				name="ratio"
@@ -104,7 +106,7 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 						type="button"
 						name="marker-up"
 						className="app-button symbol"
-						title="Move aspect ratio up"
+						title={`Move ${label} marker up`}
 						onClick={moveUp}>keyboard_arrow_up</button>
 				) : <></>}
 				{index < total - 1 ? (
@@ -112,7 +114,7 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 						type="button"
 						name="marker-down"
 						className="app-button symbol"
-						title="Move aspect ratio down"
+						title={`Move ${label} marker down`}
 						onClick={moveDown}>keyboard_arrow_down</button>
 				) : <></>}
 				<DragIndicator />
@@ -136,7 +138,7 @@ const AspectRatioMarkers = ({ aspectRatioMarkers, dispatch }) => {
 		<fieldset className="aspect-ratio-markers">
 			<legend>Aspect Ratio Markers:</legend>
 			<div className="sortable-grid aspect-ratio-markers-grid">
-				<label id="ar-markers-enabled">Enabled</label>
+				<label id="ar-markers-visible">Visible</label>
 				<label id="ar-markers-label">Label</label>
 				<label id="ar-markers-ratio">Ratio</label>
 				<DraggableList sortingAction={sortingAction}>
