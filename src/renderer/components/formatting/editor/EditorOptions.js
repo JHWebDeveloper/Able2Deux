@@ -16,11 +16,13 @@ import Keying from './Keying'
 
 const scrollbarPadder = createScrollbarPadder()
 
+const extractCommonProps = ({ id, mediaType, editAll, isBatch, width, height, aspectRatio, dispatch, arc }) => ({ id, mediaType, editAll, isBatch, width, height, aspectRatio, dispatch, arc })
+
 const EditorOptions = props => {
 	if (!props.id) return false
 
-	const { id, mediaType, editAll, isBatch, width, height, aspectRatio, dispatch, arc } = props
-	const common = { id, mediaType, editAll, isBatch, width, height, aspectRatio, dispatch }
+	const common = extractCommonProps(props)
+	const { mediaType, aspectRatio, arc } = common
 
 	const ref = useRef()
 
