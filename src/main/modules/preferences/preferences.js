@@ -64,10 +64,11 @@ export const initPreferences = async () => {
 			const v9Prefs = {
 				...defaultPrefs,
 				...prefs,
-				aspectRatioMarkers: prefs.aspectRatioMarkers.reverse(),
 				saveLocations: prefs.saveLocations.map(loc => ({ ...loc, hidden: false })),
 				version: 9
 			}
+
+			v9Prefs.aspectRatioMarkers.reverse()
 
 			await fsp.writeFile(prefsPath, JSON.stringify(v9Prefs))
 		}
