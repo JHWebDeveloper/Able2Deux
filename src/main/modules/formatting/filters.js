@@ -7,10 +7,10 @@ const getBGLayerNumber = (sourceData, overlayDim) => {
 }
 
 /**
-	Storing larger chunks of command strings in variables outside of their
-	respective functions. Dev acknowledges the readability hit, but preview
-	speed is so crucial to app, performance is favored here.
-	*/
+ * Storing larger chunks of command strings in variables outside of their
+ * respective functions. Dev acknowledges the readability hit, but preview
+ * speed is so crucial to app, performance is favored here.
+ */
 
 const shortestAndFormat = ':shortest=1:format=auto'
 const sourceDataCmd = '[tosrc];[tosrc][1:v]overlay'
@@ -32,23 +32,37 @@ const finalize = ({ filter, sourceData, overlayDim, isPreview }) => {
 	return filter
 }
 
+const buildCommonFilter = (reflect, angle, wb) => {
+	let filter = 'null'
+
+	if (reflect && angle) {
+		filter = `${reflect},${angle}`
+	} else if (reflect) {
+		filter = reflect
+	} else if (angle) {
+		filter = angle
+	}
+
+	return filter
+}
+
 const noneCmdLargeChunk = '[vid];[vid][1:v]overlay'
 
 export const none = (filterData, isPreview) => {
-	const { angle, sourceData, reflect, renderWidth, renderHeight } = filterData
+	const { reflect, angle, sourceData, renderWidth, renderHeight } = filterData
 
-	let filter = `${reflect}${angle}`
+	let filter = buildCommonFilter(reflect, angle)
 
 	if (sourceData || isPreview) filter = `[0:v]${filter}`
-	if (sourceData) filter = `${filter}scale=w=${renderWidth}:h=${renderHeight}${noneCmdLargeChunk}`
+	if (sourceData) filter = `${filter},scale=w=${renderWidth}:h=${renderHeight}${noneCmdLargeChunk}`
 
 	if (sourceData && isPreview) {
 		filter = `${filter}${previewMixdown}`
 	} else if (isPreview) {
-		filter = `${filter}${previewResize}`
+		filter = `${filter},${previewResize}`
 	}
 
-	return filter ? filter.replace(/,$/, '') : 'nullsink'
+	return filter ? filter : 'nullsink'
 }
 
 const fillCmdChunks = [
@@ -58,11 +72,11 @@ const fillCmdChunks = [
 ]
 
 export const fill = (filterData, isPreview) => {
-	let { sourceData, overlayDim, centering, angle, reflect, renderWidth, renderHeight, hasAlpha } = filterData
+	let { reflect, angle, centering, sourceData, overlayDim, renderWidth, renderHeight, hasAlpha } = filterData
 
 	centering /= -100
 
-	let filter = `[0:v]${reflect}${angle}scale=w=${renderWidth}:h=${renderHeight}${fillCmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdChunks[1]}${centering}*(ih-oh)/2`
+	let filter = `[0:v]${buildCommonFilter(reflect, angle)},scale=w=${renderWidth}:h=${renderHeight}${fillCmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdChunks[1]}${centering}*(ih-oh)/2`
 
 	if (hasAlpha) {
 		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${fillCmdChunks[2]}${shortestAndFormat}`
@@ -71,16 +85,25 @@ export const fill = (filterData, isPreview) => {
 	return finalize({ filter, sourceData, overlayDim, isPreview })
 }
 
+const buildKeyFilter = (isPreview, keying) => {
+	const { disabled, hidden, type, color, similarity, blend } = keying
+
+	if (isPreview && hidden) return ''
+	if (disabled) return ''
+
+	return `${type}=${color}:${similarity / 100}:${blend / 100}[ky];[ky]`
+}
+
 const fitCmdChunks = [
 	':force_original_aspect_ratio=decrease[fg];',
 	':v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2'
 ]
 
 export const fit = (filterData, isPreview) => {
-	const { sourceData, overlayDim, angle, reflect, renderWidth, renderHeight } = filterData
+	const { keying, reflect, angle, sourceData, overlayDim, renderWidth, renderHeight } = filterData
 
 	const filter = [
-		`[0:v]${reflect}${angle}scale=w=${renderWidth}:h=${renderHeight}${fitCmdChunks[0]}`,
+		`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(reflect, angle)},scale=w=${renderWidth}:h=${renderHeight}${fitCmdChunks[0]}`,
 		`[${getBGLayerNumber(sourceData, overlayDim)}${fitCmdChunks[1]}${shortestAndFormat}`
 	].join('')
 
@@ -100,7 +123,7 @@ const offsetCmdChunks = [
 ]
 
 export const transform = (filterData, isPreview) => {
-	const { crop, scale, position, angle, offset, reflect, sourceData, overlayDim } = filterData
+	const { crop, scale, position, keying, reflect, angle, offset, sourceData, overlayDim } = filterData
 
 	const cropH = (crop.b - crop.t) / 100
 	const cropW = (crop.r - crop.l) / 100
@@ -113,7 +136,7 @@ export const transform = (filterData, isPreview) => {
 	position.y /= 100
 
 	const filter = [
-		`[0:v]${reflect}${angle}crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}${transformCmdChunks[0]}${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih${offset === 0 ? '' : offsetCmdChunks.join(offset)}[fg];`,
+		`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(reflect, angle)},crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}${transformCmdChunks[0]}${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih${offset === 0 ? '' : offsetCmdChunks.join(offset)}[fg];`,
 		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdChunks[1]}${position.x}${transformCmdChunks[2]}${position.y}${transformCmdChunks[3]}${shortestAndFormat}`
 	].join('')
 
