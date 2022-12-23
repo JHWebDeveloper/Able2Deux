@@ -122,13 +122,8 @@ input[name="customFrameRate"] { width: 50px; }
 	grid-gap: 3px;
 }
 
-#ar-markers-label,
-#save-locations-label {
-	grid-column: 4;
-}
-
+#ar-markers-label { grid-column: 4; }
 #ar-markers-ratio { grid-column: 5 / span 3; }
-#save-locations-folder { grid-column: 5; }
 
 .aspect-ratio-markers-grid input:nth-of-type(3n - 1) {
 	text-align: right;
@@ -145,9 +140,13 @@ button[name="marker-down"] { grid-column: 9; }
 }
 
 .save-locations-grid {
-	grid-template-columns: repeat(3, 24px) auto 287px repeat(3, 24px);
+	grid-template-columns: repeat(4, 24px) auto 287px repeat(3, 24px);
 	grid-gap: 0 6px;
 }
+
+#save-locations-default { grid-column: 2; }
+#save-locations-label { grid-column: 5; }
+#save-locations-folder { grid-column: 6; }
 
 .save-locations-grid > :is(div, span) { grid-column: 1 / span 8; }
 
@@ -157,11 +156,11 @@ button[name="marker-down"] { grid-column: 9; }
 	grid-column: span 4;
 }
 
-button[name="directory-up"] { grid-column: 6; }
-button[name="directory-down"] { grid-column: 7; }
+button[name="directory-up"] { grid-column: 7; }
+button[name="directory-down"] { grid-column: 8; }
 
 .save-locations-grid svg {
-	grid-column: 8;
+	grid-column: 9;
 	fill: var(--secondary);
 }
 
