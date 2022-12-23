@@ -50,12 +50,12 @@ export const initPreferences = async () => {
 		}
 
 		if (prefs.version < 8) {
-			defaultPrefs.aspectRatioMarkers[0].disabled = !prefs.gridButtons._916
-			defaultPrefs.aspectRatioMarkers[1].disabled = !prefs.gridButtons._11
-			defaultPrefs.aspectRatioMarkers[2].disabled = !prefs.gridButtons._43
-			defaultPrefs.aspectRatioMarkers[3].disabled = !prefs.gridButtons._166
-			defaultPrefs.aspectRatioMarkers[4].disabled = !prefs.gridButtons._185
-			defaultPrefs.aspectRatioMarkers[5].disabled = !prefs.gridButtons._239
+			defaultPrefs.aspectRatioMarkers[0].disabled = !prefs.gridButtons._239
+			defaultPrefs.aspectRatioMarkers[1].disabled = !prefs.gridButtons._185
+			defaultPrefs.aspectRatioMarkers[2].disabled = !prefs.gridButtons._166
+			defaultPrefs.aspectRatioMarkers[3].disabled = !prefs.gridButtons._43
+			defaultPrefs.aspectRatioMarkers[4].disabled = !prefs.gridButtons._11
+			defaultPrefs.aspectRatioMarkers[5].disabled = !prefs.gridButtons._916
 
 			delete prefs.gridButtons
 		}
