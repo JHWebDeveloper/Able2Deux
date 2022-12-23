@@ -97,10 +97,11 @@ export const applySettingsToAll = (id, properties) => ({
 	payload: { id, properties }
 })
 
-export const toggleSaveLocation = id => ({
+export const toggleSaveLocation = (id, property) => ({
 	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
 	payload: {
 		nest: 'saveLocations',
+		property,
 		id
 	}
 })
