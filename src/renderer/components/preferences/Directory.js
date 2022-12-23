@@ -15,7 +15,11 @@ import DirectorySelector from '../form_elements/DirectorySelector'
 import DragIndicator from '../svg/DragIndicator'
 
 const Directory = ({ dir, index, total, dispatch }) => {
-	const { checked, label, directory, id } = dir
+	const { id, hidden, checked, label, directory } = dir
+
+	const toggleVisibility = useCallback(() => {
+		dispatch(toggleSaveLocation(id, 'hidden'))
+	}, [id])
 
 	const toggleDefault = useCallback(() => {
 		dispatch(toggleSaveLocation(id))
@@ -48,8 +52,14 @@ const Directory = ({ dir, index, total, dispatch }) => {
 	return (
 		<>
 			<Checkbox
+				name="hidden"
+				title={`${hidden ? 'Show' : 'Hide'} ${label}`}
+				checked={hidden}
+				onChange={toggleVisibility}
+				visibleIcon />
+			<Checkbox
 				name="default"
-				title={`Set ${label} to be ${disabled ? '' : 'un'} selected by default`}
+				title={`Set ${label} to be ${checked ? '' : 'un'} selected by default`}
 				aria-labelledby="save-locations-default"
 				checked={checked}
 				onChange={toggleDefault} />
