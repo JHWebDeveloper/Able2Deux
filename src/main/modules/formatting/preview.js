@@ -70,7 +70,8 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 			centering: exportData.centering,
 			position: exportData.position,
 			scale: exportData.scale,
-			crop: exportData.crop
+			crop: exportData.crop,
+			keying: exportData.keying
 		}, true))
 		.run()
 })
