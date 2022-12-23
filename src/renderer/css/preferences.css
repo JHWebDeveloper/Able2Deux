@@ -117,6 +117,8 @@ input[name="customFrameRate"] { width: 50px; }
 	margin: 0;
 }
 
+:is(.aspect-ratio-markers-grid, .save-locations-grid) > :is(div, span) { grid-column: 1 / -1; }
+
 :is(.aspect-ratio-markers-grid, .save-locations-grid) > label { font-size: 10px; }
 
 .aspect-ratio-markers-grid {
@@ -130,8 +132,6 @@ input[name="customFrameRate"] { width: 50px; }
 .aspect-ratio-markers-grid input:nth-of-type(3n - 1) {
 	text-align: right;
 }
-
-.aspect-ratio-markers-grid > div { grid-column: 1 / span 10; }
 
 button[name="marker-up"] { grid-column: 8; }
 button[name="marker-down"] { grid-column: 9; }
@@ -149,8 +149,6 @@ button[name="marker-down"] { grid-column: 9; }
 #save-locations-default { grid-column: 2; }
 #save-locations-label { grid-column: 5; }
 #save-locations-folder { grid-column: 6; }
-
-.save-locations-grid > :is(div, span) { grid-column: 1 / span 8; }
 
 .save-locations-grid label { margin-bottom: 6px; }
 
