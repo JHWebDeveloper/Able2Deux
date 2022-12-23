@@ -25,8 +25,8 @@ const extractCommonProps = (() => {
 const EditorOptions = props => {
 	if (!props.id) return false
 
+	const { mediaType, aspectRatio, arc, audio, scale, crop } = props
 	const common = extractCommonProps(props)
-	const { mediaType, aspectRatio, arc } = common
 
 	const ref = useRef()
 
@@ -52,10 +52,10 @@ const EditorOptions = props => {
 				{...common} />
 			{props.hasAudio ? (
 				<Audio
-					audio={props.audio}
+					audio={audio}
 					{...common} />
 			) : <></>}
-			{mediaType !== 'audio' && !(mediaType === 'video' && props.audio.exportAs === 'audio') ? <>
+			{mediaType !== 'audio' && !(mediaType === 'video' && audio.exportAs === 'audio') ? <>
 				<Formatting 
 					arc={arc}
 					background={props.background}
@@ -79,17 +79,17 @@ const EditorOptions = props => {
 						position={props.position}
 						{...common} />
 					<Scale
-						scale={props.scale}
-						crop={props.crop}
+						scale={scale}
+						crop={crop}
 						{...common} />
 					<Crop
-						crop={props.crop}
+						crop={crop}
 						{...common} />
 				</> : <></>}
 				<Rotation
 					rotation={props.rotation}
-					scale={props.scale}
-					crop={props.crop}
+					scale={scale}
+					crop={crop}
 					arc={arc}
 					{...common} />
 				{arc === 'fit' || arc === 'transform' ? (
