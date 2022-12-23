@@ -144,6 +144,11 @@ const createMainWindow = () => {
 
 		if (splashWin) splashWin.close()
 		if (dev) mainWin.webContents.openDevTools()
+
+		if (openWithQueue.length) {
+			mainWin.webContents.send('openWith', openWithQueue)
+			openWithQueue = []
+		}
 	})
 
 	mainWin.on('close', () => mainWin = false)
@@ -189,6 +194,21 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
 	if (!mainWin && !splashWin && !updateWin) createMainWindow()
+})
+
+const openWithQueue = []
+
+app.on('open-file', (evt, file) => {
+	const fileData = {
+		name: path.basename(file),
+		path: file
+	}
+
+	if (mainWin) {
+		mainWin.webContents.send('openWith', [fileData])
+	} else {
+		openWithQueue.push(fileData)
+	}
 })
 
 
