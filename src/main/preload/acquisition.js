@@ -59,3 +59,13 @@ export const requestUpload = data => sendMessage({
 })
 
 export const removeMediaFile = id => ipcRenderer.send('removeMediaFile', id)
+
+export const setOpenWithListener = callback => {
+	ipcRenderer.on('openWith', (evt, files) => {
+		callback(files)
+	})
+}
+
+export const removeOpenWithListener = () => {
+	ipcRenderer.removeAllListeners('openWith')
+}
