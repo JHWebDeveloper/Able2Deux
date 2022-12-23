@@ -53,14 +53,15 @@ const Directory = ({ dir, index, total, dispatch }) => {
 		<>
 			<Checkbox
 				name="hidden"
+				ariaLabelledby="save-locations-hide"
 				title={`${hidden ? 'Show' : 'Hide'} ${label}`}
 				checked={hidden}
 				onChange={toggleVisibility}
 				visibleIcon />
 			<Checkbox
 				name="default"
+				ariaLabelledby="save-locations-default"
 				title={`Set ${label} to be ${checked ? '' : 'un'} selected by default`}
-				aria-labelledby="save-locations-default"
 				checked={checked}
 				onChange={toggleDefault} />
 			<button
@@ -84,9 +85,9 @@ const Directory = ({ dir, index, total, dispatch }) => {
 				aria-labelledby="save-locations-label"
 				data-no-drag />
 			<DirectorySelector
+				ariaLabelledby="save-locations-folder"
 				directory={directory}
-				onChange={updateDirectory}
-				ariaLabelledby="save-locations-folder" />
+				onChange={updateDirectory} />
 			{total > 1 ? <>
 				{index > 0 ? (
 					<button
