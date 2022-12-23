@@ -53,7 +53,7 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 			<Checkbox
 				name="disabled"
 				title={`${disabled ? 'Show' : 'Hide'} ${label} marker`}
-				aria-labelledby="ar-markers-visible"
+				ariaLabelledby="ar-markers-hide"
 				checked={disabled}
 				onChange={toggleVisibility}
 				visibleIcon />
@@ -92,13 +92,13 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 			<NumberInput
 				name="ratio"
 				title="Consequent"
+				ariaLabelledby="ar-markers-ratio"
 				value={ratio[1]}
 				min={0.0001}
 				max={9999}
 				defaultValue={1}
 				decimalPlaces={4}
-				onChange={e => updateRatio(1, e)}
-				ariaLabelledby="ar-markers-ratio" />
+				onChange={e => updateRatio(1, e)} />
 			{total > 1 ? <>
 				{index > 0 ? (
 					<button
@@ -137,7 +137,7 @@ const AspectRatioMarkers = ({ aspectRatioMarkers, dispatch }) => {
 		<fieldset className="aspect-ratio-markers">
 			<legend>Aspect Ratio Markers:</legend>
 			<div className="sortable-grid aspect-ratio-markers-grid">
-				<label id="ar-markers-visible">Visible</label>
+				<label id="ar-markers-hide">Hide</label>
 				<label id="ar-markers-label">Label</label>
 				<label id="ar-markers-ratio">Ratio</label>
 				<DraggableList sortingAction={sortingAction}>
