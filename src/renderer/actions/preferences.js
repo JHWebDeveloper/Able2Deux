@@ -64,6 +64,7 @@ export const updateAspectRatioMarkerFromEvent = (id, e) => dispatch => {
 export const addNewLocation = (index, e) => dispatch => {
 	addNewSortableElement('saveLocations', {
 		id: uuid(),
+		hidden: false,
 		checked: false,
 		label: '',
 		directory: ''
