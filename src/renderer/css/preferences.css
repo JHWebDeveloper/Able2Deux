@@ -117,6 +117,8 @@ input[name="customFrameRate"] { width: 50px; }
 	margin: 0;
 }
 
+:is(.aspect-ratio-markers-grid, .save-locations-grid) > label { font-size: 10px; }
+
 .aspect-ratio-markers-grid {
 	grid-template-columns: repeat(3, 24px) 75px 62px 4px 62px repeat(3, 24px);
 	grid-gap: 3px;
