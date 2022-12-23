@@ -290,7 +290,7 @@ const renderItem = (params, dispatch) => {
 export const render = params => async dispatch => {
 	let { media, saveLocations, batch, goBack, removeLocation } = params
 
-	saveLocations = saveLocations.filter(({ checked }) => checked)
+	saveLocations = saveLocations.filter(({ hidden, checked }) => !hidden && checked)
 
 	// Check for non-existent directories and prompt to abort render if found
 
