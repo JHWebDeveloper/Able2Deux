@@ -17,7 +17,8 @@ const initState = {
 		position: 'replace'
 	},
 	editAll: false,
-	copiedSettings: {}
+	copiedSettings: {},
+	rendering: false
 }
 
 export const MainContext = createContext()
