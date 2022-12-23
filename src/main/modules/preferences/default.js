@@ -90,6 +90,7 @@ const defaultPrefs = {
 	saveLocations: [
 		{
 			id: uuid(),
+			hidden: false,
 			checked: true,
 			directory: app.getPath('desktop'),
 			label: 'Save to Desktop'
