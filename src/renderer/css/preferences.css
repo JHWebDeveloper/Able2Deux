@@ -11,10 +11,7 @@ nav, footer {
 	background-color: var(--background);
 }
 
-nav {
-	display: flex;
-	background-color: var(--background);
-}
+nav { display: flex; }
 
 nav > a, form, footer { padding: 18px; }
 
