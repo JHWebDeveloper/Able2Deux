@@ -9,8 +9,8 @@ import { toastrOpts, createKonamiListener } from 'utilities'
 
 import GeneralSettings from './GeneralSettings'
 import AcquisitionSettings from './AcquisitionSettings'
-import PreviewSettings from './PreviewSettings'
 import FormattingSettings from './FormattingSettings'
+import PreviewSettings from './PreviewSettings'
 import Rendering from './RenderOutput'
 import SaveLocations from './SaveLocations'
 import SaveAndClose from './SaveAndClose'
@@ -43,16 +43,16 @@ const PreferencesRouter = () => {
 			<nav>
 				<NavLink to="/" title="General">General</NavLink>
 				<NavLink to="/acquisition" title="Acquisition">Acquisition</NavLink>
-				<NavLink to="/preview" title="Preview">Preview</NavLink>
 				<NavLink to="/formatting" title="Formatting">Formatting</NavLink>
+				<NavLink to="/preview" title="Preview">Preview</NavLink>
 				<NavLink to="/rendering" title="Rendering">Rendering</NavLink>
 				<NavLink to="/save-locations" title="Save Locations">Save Locations</NavLink>
 			</nav>
 			<Routes>
 				<Route path="/" element={<GeneralSettings />} />
 				<Route path="/acquisition" element={<AcquisitionSettings />} />
-				<Route path="/preview" element={<PreviewSettings />} />
 				<Route path="/formatting" element={<FormattingSettings />} />
+				<Route path="/preview" element={<PreviewSettings />} />
 				<Route path="/rendering" element={<Rendering />} />
 				<Route path="/save-locations" element={<SaveLocations />} />
 			</Routes>
