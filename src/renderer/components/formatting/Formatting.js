@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { Navigate } from 'react-router-dom'
 import 'css/index/formatting.css'
 
 import { MainContext } from 'store'
-import { selectMedia } from 'actions'
+import { selectMedia, updateState } from 'actions'
 
 import MediaSelector from './selector/MediaSelector'
 import BatchName from './BatchName'
@@ -21,15 +21,19 @@ const Formatting = () => {
 		split,
 		saveLocations,
 		aspectRatioMarkers,
+		rendering,
 		dispatch
 	} = useContext(MainContext)
 
 	if (!media.length) return <Navigate replace to="/" />
 
-	const [ rendering, setRendering ] = useState(false)
 	const prevIndex = useRef(0)
 	const selected = media.find(item => item.id === selectedId) || {}
 	const isBatch = media.length > 1
+
+	const setRendering = useCallback(isRendering => {
+		dispatch(updateState({ rendering: isRendering }))
+	}, [])
 
 	useEffect(() => {
 		if (selected.id) {
