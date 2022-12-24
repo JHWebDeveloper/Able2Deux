@@ -24,7 +24,7 @@ const SaveLocations = () => {
 	return (
 		<form>
 			<fieldset>
-				<legend>Save Locations</legend>
+				<legend>Save Locations:</legend>
 				<div className="sortable-grid save-locations-grid">
 					<label id="save-locations-hide">Hide</label>
 					<label id="save-locations-default">Default</label>

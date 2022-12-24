@@ -47,7 +47,7 @@ const AcquisitionSettings = () => {
 	return (
 		<form>
 			<fieldset>
-				<legend>Default Download Mode</legend>
+				<legend>Default Download Mode:</legend>
 				<div>
 					<RadioSet 
 						name="optimize"
@@ -57,7 +57,7 @@ const AcquisitionSettings = () => {
 				</div>
 			</fieldset>
 			<fieldset>
-				<legend>Default Screen Capture Mode</legend>
+				<legend>Default Screen Capture Mode:</legend>
 				<div>
 					<RadioSet 
 						name="screenshot"

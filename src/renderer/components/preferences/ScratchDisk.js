@@ -18,7 +18,7 @@ const ScratchDisk = ({ scratchDisk, dispatch }) => {
 
 	return (
 		<fieldset>
-			<legend>Scratch Disks</legend>
+			<legend>Scratch Disks:</legend>
 			<span className="input-option">
 				<label>Import Cache</label>
 				<DirectorySelector
