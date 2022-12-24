@@ -100,7 +100,9 @@ interop.setContextMenu = () => {
 
 interop.checkIfDirectoryExists = async dir => ipcRenderer.invoke('checkDirectoryExists', dir)
 
-interop.clearTempFiles = () => ipcRenderer.send('clearTempFiles')
+interop.clearTempFiles = () => {
+	ipcRenderer.send('clearTempFiles')
+}
 
 
 // ---- ATTACH ALL TO RENDERER --------

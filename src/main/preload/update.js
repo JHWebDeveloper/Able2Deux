@@ -18,6 +18,10 @@ export const removeUpdateListeners = () => {
 	ipcRenderer.removeAllListeners('updateError')
 }
 
-export const retryUpdate = () => ipcRenderer.send('retryUpdate')
+export const retryUpdate = () => {
+	ipcRenderer.send('retryUpdate')
+}
 
-export const checkForUpdateBackup = () => ipcRenderer.send('checkForUpdateBackup')
+export const checkForUpdateBackup = () => {
+	ipcRenderer.send('checkForUpdateBackup')
+}

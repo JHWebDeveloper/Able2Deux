@@ -33,9 +33,13 @@ export const requestDownloadChannel = params => {
 	})
 }
 
-export const cancelDownload = id => ipcRenderer.send('cancelDownload', id)
+export const cancelDownload = id => {
+	ipcRenderer.send('cancelDownload', id)
+}
 
-export const stopLiveDownload = id => ipcRenderer.send('stopLiveDownload', id)
+export const stopLiveDownload = id => {
+	ipcRenderer.send('stopLiveDownload', id)
+}
 
 
 // ---- UPLOAD --------
@@ -62,7 +66,9 @@ export const requestUpload = data => sendMessage({
 	data: data
 })
 
-export const removeMediaFile = id => ipcRenderer.send('removeMediaFile', id)
+export const removeMediaFile = id => {
+	ipcRenderer.send('removeMediaFile', id)
+}
 
 export const setOpenWithListener = callback => {
 	ipcRenderer.on('openWith', (evt, files) => {
