@@ -12,7 +12,7 @@ import { getRecordSources, saveScreenRecording } from './modules/acquisition/scr
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
 import { createPreviewStill, changePreviewSource, copyPreviewToImports } from './modules/formatting/preview'
 import { render, cancelRender } from './modules/formatting/formatting'
-import { fileExistsPromise } from './modules/utilities'
+import { fileExistsPromise, supportedExtensions } from './modules/utilities'
 
 const mac = process.platform === 'darwin'
 const dev = process.env.NODE_ENV === 'development'
@@ -211,6 +211,26 @@ app.on('open-file', (evt, file) => {
 	}
 })
 
+const openFiles = async () => {
+	const { filePaths, canceled } = await dialog.showOpenDialog({
+		filters: [
+			{ name: 'All Media Files', extensions: [ ...supportedExtensions.images, ...supportedExtensions.video, ...supportedExtensions.audio ]},
+			{ name: 'Video Files', extensions: supportedExtensions.video },
+			{ name: 'Image Files', extensions: supportedExtensions.images },
+			{ name: 'Audio Files', extensions: supportedExtensions.audio },
+			{ name: 'All Files', extensions: ['*'] }
+		],
+		properties: ['openFile', 'multiSelections', 'createDirectory']
+	})
+
+	if (!canceled) {
+			mainWin.webContents.send('openWith', filePaths.map(fp => ({
+			name: path.basename(fp),
+			path: fp
+		})))
+	}
+}
+
 
 // ---- MENU CONFIG --------
 
@@ -289,6 +309,11 @@ const mainMenuTemplate = [
 	{
 		label: 'File',
 		submenu: [
+			{
+				label: 'Open',
+				click: openFiles
+			},
+			{ type: 'separator' },
 			{
 				label: 'Open Import Cache',
 				click() {
@@ -553,6 +578,7 @@ ipcMain.on('getURLInfo', getURLInfoIPC)
 ipcMain.on('requestDownload', requestDownloadIPC)
 ipcMain.on('cancelDownload', cancelDownloadIPC)
 ipcMain.on('stopLiveDownload', stopLiveDownloadIPC)
+ipcMain.on('openFiles', openFiles)
 ipcMain.on('checkFileType', checkFileTypeIPC)
 ipcMain.on('requestUpload', requestUploadIPC)
 ipcMain.on('requestRecordSources', requestRecordSourcesIPC)
