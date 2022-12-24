@@ -32,6 +32,7 @@ const Uploader = ({ dispatch }) => {
 			<p>...or drag and drop file(s) here</p>
 			<div
 				tabIndex="0"
+				aria-role="button"
 				aria-label="Select Files to Upload"
 				onClick={openFiles}
 				onDragOver={e => e.preventDefault()}
