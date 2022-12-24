@@ -293,7 +293,7 @@ button[name^="link"] > svg { pointer-events: none; }
 .split-grid {
 	display: inherit;
 	grid-gap: 0 6px;
-	justify-content: center;
+	align-items: center;
 	margin-top: 6px;
 }
 
@@ -302,15 +302,14 @@ button[name^="link"] > svg { pointer-events: none; }
 	font-weight: 500;
 }
 
+:is(.timecode-slider-grid, .split-grid) > input[type="text"] { margin-bottom: 0; }
+
 .timecode-slider-grid {
 	grid-template-columns: 35px min-content auto min-content 35px;
 	grid-gap: 0 6px;
 }
 
-.timecode-slider-grid > input[type="text"] {
-	width: 112px;
-	margin-bottom: 0;
-}
+.timecode-slider-grid > input[type="text"] { width: 112px; }
 
 .timecode-slider-grid > input:last-of-type { grid-column: 4; }
 
@@ -319,7 +318,10 @@ button[name^="link"] > svg { pointer-events: none; }
 	grid-row: 2;
 }
 
-.split-grid { grid-template-columns: 35px min-content 35px; }
+.split-grid {
+	grid-template-columns: 35px min-content 35px;
+	justify-content: center;
+}
 
 /* -- Formatting Panel -- */
 
