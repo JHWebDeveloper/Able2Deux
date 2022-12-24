@@ -14,11 +14,18 @@ const dragLeave = e => {
 }
 
 const Uploader = ({ dispatch }) => {
-	const prepFilesForUpload = useCallback(e => {
-		const files = Array.from(e.dataTransfer.files)
-
+	const prepFilesForUpload = useCallback(files => {
 		for (const file of files) dispatch(upload(file))
+	}, [])
 
+	const openFiles = useCallback(async () => {
+		const files = await interop.openFiles()
+
+		if (files.length) prepFilesForUpload(files)
+	}, [])
+
+	const dropFiles = useCallback(e => {
+		prepFilesForUpload(Array.from(e.dataTransfer.files))
 		dragLeave(e)
 	}, [])
 
@@ -28,11 +35,11 @@ const Uploader = ({ dispatch }) => {
 			<div
 				tabIndex="0"
 				aria-label="Select Files to Upload"
-				onClick={interop.openFiles}
+				onClick={openFiles}
 				onDragOver={e => e.preventDefault()}
 				onDragEnter={dragEnter}
 				onDragLeave={dragLeave}
-				onDrop={prepFilesForUpload}></div>
+				onDrop={dropFiles}></div>
 		</div>
 	)
 }
