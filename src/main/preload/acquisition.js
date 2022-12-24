@@ -44,9 +44,7 @@ export const stopLiveDownload = id => {
 
 // ---- UPLOAD --------
 
-export const openFiles = () => {
-	ipcRenderer.send('openFiles')
-}
+export const openFiles = () => ipcRenderer.invoke('openFiles')
 
 export const checkFileType = file => {
 	const tempID = uuid()
