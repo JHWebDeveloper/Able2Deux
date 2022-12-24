@@ -3,33 +3,36 @@ import { func } from 'prop-types'
 
 import { upload } from 'actions'
 
-const dragOver = e => {
+const { interop } = window.ABLE2
+
+const dragEnter = e => {
 	e.target.parentElement.classList.add('drag-enter')
 }
 
-const dragOut = e => {
+const dragLeave = e => {
 	e.target.parentElement.classList.remove('drag-enter')
 }
 
 const Uploader = ({ dispatch }) => {
 	const prepFilesForUpload = useCallback(e => {
-		const files = Array.from(e.target.files)
-
-		e.target.value = ''
+		const files = Array.from(e.dataTransfer.files)
 
 		for (const file of files) dispatch(upload(file))
+
+		dragLeave(e)
 	}, [])
 
 	return (
 		<div id="uploader">
 			<p>...or drag and drop file(s) here</p>
-			<input
-				type="file"
-				onChange={prepFilesForUpload}
-				onDragEnter={dragOver}
-				onDragLeave={dragOut}
-				onDrop={dragOut}
-				multiple />
+			<div
+				tabIndex="0"
+				aria-label="Select Files to Upload"
+				onClick={interop.openFiles}
+				onDragOver={e => e.preventDefault()}
+				onDragEnter={dragEnter}
+				onDragLeave={dragLeave}
+				onDrop={prepFilesForUpload}></div>
 		</div>
 	)
 }
