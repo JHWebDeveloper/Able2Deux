@@ -70,14 +70,13 @@ body.accessible #uploader:focus-within {
 
 #uploader > p { z-index: 2 }
 
-input[type="file"] {
+#uploader > div {
 	position: absolute;
 	top: 0;
 	left: 0;
 	z-index: 3;
 	width: 100%;
 	height: 100%;
-	opacity: 0;
 }
 
 
@@ -85,7 +84,12 @@ input[type="file"] {
 
 #screen-recorder {
 	grid-template-rows: repeat(5, min-content);
+	justify-items: center;
 	grid-row: 4;
+}
+
+#screen-recorder > div:not(#record-source-selector) {
+	width: 132px;
 }
 
 #screen-recorder > div:first-of-type {
@@ -132,7 +136,9 @@ button[name="record"].blink::after {
 button[name="screenshot"] { height: 26px; }
 
 .screen-recorder-timer {
-	padding-right: 29px;
+	display: inherit;
+	grid-gap: 0 1px;
+	align-items: center;
 	white-space: nowrap;
 }
 
