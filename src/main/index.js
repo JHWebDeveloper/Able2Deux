@@ -223,12 +223,10 @@ const openFiles = async () => {
 		properties: ['openFile', 'multiSelections', 'createDirectory']
 	})
 
-	if (!canceled) {
-			mainWin.webContents.send('openWith', filePaths.map(fp => ({
-			name: path.basename(fp),
-			path: fp
-		})))
-	}
+	return canceled ? [] : filePaths.map(filePath => ({
+		name: path.basename(filePath),
+		path: filePath
+	}))
 }
 
 
@@ -311,7 +309,10 @@ const mainMenuTemplate = [
 		submenu: [
 			{
 				label: 'Open',
-				click: openFiles
+				async click() {
+					const files = await openFiles()
+					if (files.length) mainWin.webContents.send('openWith', files)
+				}
 			},
 			{ type: 'separator' },
 			{
@@ -578,7 +579,7 @@ ipcMain.on('getURLInfo', getURLInfoIPC)
 ipcMain.on('requestDownload', requestDownloadIPC)
 ipcMain.on('cancelDownload', cancelDownloadIPC)
 ipcMain.on('stopLiveDownload', stopLiveDownloadIPC)
-ipcMain.on('openFiles', openFiles)
+ipcMain.handle('openFiles', openFiles)
 ipcMain.on('checkFileType', checkFileTypeIPC)
 ipcMain.on('requestUpload', requestUploadIPC)
 ipcMain.on('requestRecordSources', requestRecordSourcesIPC)
