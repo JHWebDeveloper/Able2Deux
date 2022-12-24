@@ -19,9 +19,7 @@ const Uploader = ({ dispatch }) => {
 	}, [])
 
 	const openFiles = useCallback(async () => {
-		const files = await interop.openFiles()
-
-		if (files.length) prepFilesForUpload(files)
+		prepFilesForUpload(await interop.openFiles())
 	}, [])
 
 	const dropFiles = useCallback(e => {
