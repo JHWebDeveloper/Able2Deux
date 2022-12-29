@@ -31,7 +31,8 @@ const DirectorySelector = ({ directory, onChange, ariaLabelledby }) => {
 
 DirectorySelector.propTypes = {
 	directory: string,
-	onChange: func.isRequired
+	onChange: func.isRequired,
+	ariaLabelledby: string
 }
 
 export default DirectorySelector

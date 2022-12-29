@@ -167,7 +167,8 @@ DoubleSlider.propTypes = {
 	sliderTitle: string,
 	middleThumbTitle: string,
 	onPan: func,
-	enableAutoCenter: bool
+	enableAutoCenter: bool,
+	disabled: bool
 }
 
 export default DoubleSlider

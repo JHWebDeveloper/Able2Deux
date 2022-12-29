@@ -31,7 +31,7 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 				aria-haspopup="true"
 				aria-expanded={revealMenu}>{icon}</button>
 			{revealMenu ? (
-				<span aria-role="menu" style={position}>
+				<span role="menu" style={position}>
 					{cloneElement(children, { toggleRevealMenu })}
 				</span>
 			) : <></>}

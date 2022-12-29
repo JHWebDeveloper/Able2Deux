@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import { arrayOf, func, number, oneOf, oneOfType, string } from 'prop-types'
+import { arrayOf, bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 import { v1 as uuid } from 'uuid'
 
 import { PrefsContext } from 'store/preferences.js'
@@ -97,7 +97,8 @@ SingleSlider.propTypes = {
 	step: number,
 	fineTuneStep: number,
 	snapPoints: arrayOf(number),
-	sensitivity: number
+	sensitivity: number,
+	disabled: bool
 }
 
 export default SingleSlider

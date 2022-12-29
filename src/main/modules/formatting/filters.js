@@ -32,7 +32,7 @@ const finalize = ({ filter, sourceData, overlayDim, isPreview }) => {
 	return filter
 }
 
-const buildCommonFilter = (reflect, angle, wb) => {
+const buildCommonFilter = (reflect, angle) => {
 	let filter = 'null'
 
 	if (reflect && angle) {

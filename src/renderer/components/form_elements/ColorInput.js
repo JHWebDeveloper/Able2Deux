@@ -15,23 +15,24 @@ const ColorInput = ({ name, value, title, onChange, onFocus, disabled, ariaLabel
 	return (
 		<input
 			type="color"
-      name={name}
+			name={name}
 			value={value}
-      title={title}
+			title={title}
 			onChange={e => setColor(e.target.value)}
 			onFocus={onFocus}
-      disabled={disabled}
+			disabled={disabled}
 			aria-labelledby={ariaLabelledby} />
 	)
 }
 
 ColorInput.propTypes = {
-  name: string,
-  value: string.isRequired,
-  title: string,
-  onChange: func.isRequired,
-  onFocus: func,
-  disabled: bool
+	name: string,
+	value: string.isRequired,
+	title: string,
+	onChange: func.isRequired,
+	onFocus: func,
+	disabled: bool,
+	ariaLabelledby: string
 }
 
 export default ColorInput

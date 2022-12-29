@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { func, number, oneOf, oneOfType, string } from 'prop-types'
+import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import { clamp } from 'utilities'
 
@@ -82,7 +82,9 @@ NumberInput.propTypes = {
 	step: number,
 	fineTuneStep: number,
 	decimalPlaces: number,
-	onChange: func
+	disabled: bool,
+	onChange: func,
+	ariaLabelledby: string 
 }
 
 export default NumberInput

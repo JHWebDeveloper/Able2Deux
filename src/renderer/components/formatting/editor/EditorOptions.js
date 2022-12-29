@@ -133,6 +133,7 @@ EditorOptions.propTypes = {
 	scale: object,
 	crop: object,
 	rotation: object,
+	keying: object,
 	dispatch: func.isRequired
 }
 

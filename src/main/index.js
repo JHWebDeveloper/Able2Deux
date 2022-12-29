@@ -148,7 +148,7 @@ const createMainWindow = () => {
 		if (openWithQueue.length) {
 			mainWin.webContents.send('openWith', openWithQueue)
 		}
-		
+
 		openWithQueue = false
 	})
 
@@ -215,7 +215,7 @@ app.on('open-file', (evt, file) => {
 const openFiles = async () => {
 	const { filePaths, canceled } = await dialog.showOpenDialog({
 		filters: [
-			{ name: 'All Media Files', extensions: [ ...supportedExtensions.images, ...supportedExtensions.video, ...supportedExtensions.audio ]},
+			{ name: 'All Media Files', extensions: [ ...supportedExtensions.images, ...supportedExtensions.video, ...supportedExtensions.audio ] },
 			{ name: 'Video Files', extensions: supportedExtensions.video },
 			{ name: 'Image Files', extensions: supportedExtensions.images },
 			{ name: 'Audio Files', extensions: supportedExtensions.audio },
