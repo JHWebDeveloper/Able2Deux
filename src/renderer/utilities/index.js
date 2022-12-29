@@ -86,3 +86,5 @@ export const toastrOpts = {
 	timeOut: 0,
 	extendedTimeOut: 0
 }
+
+export const pythagorean = (a, b) => a ** 2 + b ** 2 // omitting square root for performance
