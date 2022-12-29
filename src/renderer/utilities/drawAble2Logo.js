@@ -1,4 +1,4 @@
-export const TAU = Math.PI * 2
+import { TAU } from '.'
 
 export const drawAble2Logo = ctx => {
 	ctx.strokeStyle = '#4c4c4c'

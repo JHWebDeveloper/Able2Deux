@@ -4,6 +4,8 @@ export * from './drawAble2Logo'
 export * from './factories'
 export * from './valueModifiers'
 
+export const TAU = Math.PI * 2
+
 export const arrayCount = (arr, exp) => {
 	let i = arr.length
 	let count = 0
