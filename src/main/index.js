@@ -147,8 +147,9 @@ const createMainWindow = () => {
 
 		if (openWithQueue.length) {
 			mainWin.webContents.send('openWith', openWithQueue)
-			openWithQueue = []
 		}
+		
+		openWithQueue = false
 	})
 
 	mainWin.on('close', () => mainWin = false)
@@ -196,7 +197,7 @@ app.on('activate', () => {
 	if (!mainWin && !splashWin && !updateWin) createMainWindow()
 })
 
-const openWithQueue = []
+let openWithQueue = []
 
 app.on('open-file', (evt, file) => {
 	const fileData = {
