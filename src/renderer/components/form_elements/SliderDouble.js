@@ -155,7 +155,7 @@ const thumbPropType = exact({
 	onChange: func
 })
 
-DoubleSlider.propTypes = {
+SliderDouble.propTypes = {
 	leftThumb: thumbPropType,
 	rightThumb: thumbPropType,
 	min: number,
