@@ -1,5 +1,5 @@
 import React from 'react'
-import { arrayOf, bool, element, func, string } from 'prop-types'
+import { arrayOf, bool, element, func, oneOfType, string } from 'prop-types'
 
 import ToggleSwitch from '../svg/ToggleSwitch'
 
@@ -27,7 +27,7 @@ const Checkbox = ({ label, name, title, checked, visibleIcon, switchIcon, disabl
 
 CheckboxWrapper.propTypes = {
 	label: string,
-	children: arrayOf(element).isRequired
+	children: oneOfType([element, arrayOf(element)]).isRequired
 }
 
 Checkbox.propTypes = {

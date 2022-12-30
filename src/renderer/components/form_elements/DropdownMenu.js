@@ -1,5 +1,5 @@
 import React, { cloneElement, useCallback, useState } from 'react'
-import { arrayOf, element, string } from 'prop-types'
+import { arrayOf, element, oneOfType, string } from 'prop-types'
 
 import { detectTabExit } from 'utilities'
 
@@ -41,7 +41,7 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 
 DropdownMenu.propTypes = {
 	icon: string,
-	children: arrayOf(element)
+	children: oneOfType([element, arrayOf(element)])
 }
 
 export default DropdownMenu
