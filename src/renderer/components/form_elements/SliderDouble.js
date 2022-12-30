@@ -1,5 +1,5 @@
 import React, { createRef, useCallback, useContext, useMemo, useRef } from 'react'
-import { arrayOf, bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
+import { arrayOf, bool, func, number, oneOf, oneOfType, shape, string } from 'prop-types'
 import { v1 as uuid } from 'uuid'
 
 import { PrefsContext } from 'store/preferences.js'
@@ -20,13 +20,15 @@ const SliderDouble = ({
 		name: '',
 		title: '',
 		value: 0,
-		onChange() {}
+		max,
+		onChange() {},
 	},
 	rightThumb = {
 		name: '',
 		title: '',
 		value: 100,
-		onChange() {}
+		min,
+		onChange() {},
 	},
 	min = 0,
 	max = 100,
@@ -36,7 +38,7 @@ const SliderDouble = ({
 	sensitivity = 4,
 	sliderTitle = '',
 	middleThumbTitle = '',
-	onPan,
+	onPan = () => {},
 	enableAutoCenter = false,
 	disabled = false
 }) => {
@@ -108,7 +110,7 @@ const SliderDouble = ({
 					title={leftThumb.title}
 					value={leftThumb.value}
 					min={min}
-					max={rightThumb.value - fineTuneStep}
+					max={leftThumb.max ?? rightThumb.value - fineTuneStep}
 					thresholds={sliderSnapPoints && thresholds}
 					setValue={setLeft}
 					getClickPos={getClickPosLeft}
@@ -129,7 +131,7 @@ const SliderDouble = ({
 					ref={rightRef}
 					title={rightThumb.title}
 					value={rightThumb.value}
-					min={leftThumb.value + fineTuneStep}
+					min={rightThumb.min ?? leftThumb.value + fineTuneStep}
 					max={max}
 					absoluteMin={min}
 					thresholds={sliderSnapPoints && thresholds}
@@ -148,11 +150,13 @@ const SliderDouble = ({
 	)
 }
 
-const thumbPropType = exact({
-	name: string,
+const thumbPropType = shape({
+	name: string.isRequired,
 	title: string,
-	value: oneOfType([oneOf(['']), number]),
-	onChange: func
+	value: oneOfType([oneOf(['']), number]).isRequired,
+	min: number,
+	max: number,
+	onChange: func.isRequired
 })
 
 SliderDouble.propTypes = {
