@@ -114,9 +114,10 @@ const Directory = ({ dir, index, total, dispatch }) => {
 Directory.propTypes = {
 	dir: exact({
 		checked: bool,
-		label: string,
 		directory: string,
-		id: string
+		hidden: bool,
+		id: string,
+		label: string
 	}).isRequired,
 	index: number.isRequired,
 	total: number.isRequired,

@@ -23,10 +23,11 @@ const SaveOptions = ({ isBatch, saveLocations, dispatch }) => (
 SaveOptions.propTypes = {
 	isBatch: bool.isRequired,
 	saveLocations: arrayOf(exact({
-		id: string,
+		checked: bool,
 		directory: string,
-		label: string,
-		checked: bool
+		hidden: bool,
+		id: string,
+		label: string
 	})).isRequired,
 	dispatch: func.isRequired
 }
