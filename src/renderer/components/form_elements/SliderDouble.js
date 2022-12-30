@@ -15,7 +15,7 @@ const setValue = ({ name, onChange }, val) => onChange({
 	value: parseFloat(val.toFixed(2))
 })
 
-const DoubleSlider = ({
+const SliderDouble = ({
 	leftThumb = {
 		name: '',
 		title: '',
@@ -171,4 +171,4 @@ DoubleSlider.propTypes = {
 	disabled: bool
 }
 
-export default DoubleSlider
+export default SliderDouble
