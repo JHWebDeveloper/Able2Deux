@@ -3,6 +3,19 @@ import { PENDING } from 'status'
 
 const { interop } = window.ABLE2
 
+export const createCurvePoint = (x, y, limit = false) => ({
+	id: uuid(),
+	hidden: false,
+	limit,
+	x,
+	y
+})
+
+export const createDefaultCurvePoints = () => ([
+	createCurvePoint(0, 255, true),
+	createCurvePoint(255, 0, true)
+])
+
 const defaultMediaData = {
 	id: '',
 	refId: '',
@@ -86,6 +99,15 @@ const defaultMediaData = {
 		color: '#04f404',
 		similarity: 1,
 		blend: 0
+	},
+	colorCurves: {
+		disabled: true,
+		hidden: false,
+		selectedCurve: 'rgb',
+		rgb: createDefaultCurvePoints(),
+		r: createDefaultCurvePoints(),
+		g: createDefaultCurvePoints(),
+		b: createDefaultCurvePoints()
 	}
 }
 
