@@ -3,10 +3,13 @@ import toastr from 'toastr'
 
 import * as ACTION from './types'
 import * as STATUS from 'status'
-import { updateMediaState, addMedia } from '.'
+import { updateMediaState, updateMediaNestedState, addMedia } from '.'
 
 import {
+	clamp,
 	createMediaData,
+	createCurvePoint,
+	createDefaultCurvePoints,
 	createPromiseQueue,
 	buildSource,
 	getIntegerLength,
@@ -19,7 +22,7 @@ import {
 
 const { interop } = window.ABLE2
 
-// ---- MEDIA MANAGER --------
+// ---- MEDIA SELECTOR --------
 
 export const selectMedia = id => ({
 	type: ACTION.UPDATE_STATE,
@@ -43,6 +46,11 @@ export const pasteSettings = id => ({
 	payload: { id }
 })
 
+export const applySettingsToAll = (id, properties) => ({
+	type: ACTION.APPLY_TO_ALL,
+	payload: { id, properties }
+})
+
 export const duplicateMedia = id => ({
 	type: ACTION.DUPLICATE_MEDIA,
 	payload: {
@@ -50,6 +58,8 @@ export const duplicateMedia = id => ({
 		newId: uuid()
 	}
 })
+
+// ---- EDITOR --------
 
 export const toggleAspectRatioMarker = id => ({
 	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
@@ -92,9 +102,84 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 	dispatch(updateMediaState(id, { start: i }))
 }
 
-export const applySettingsToAll = (id, properties) => ({
-	type: ACTION.APPLY_TO_ALL,
-	payload: { id, properties }
+export const addCurvePoint = (id, curveName, pointData) => ({
+	type: ACTION.ADD_CURVE_POINT,
+	payload: {
+		id,
+		curveName,
+		pointData
+	}
+})
+
+export const addOrUpdateCurvePoint = (id, curveName, pointData) => ({
+	type: ACTION.ADD_OR_UPDATE_CURVE_POINT,
+	payload: {
+		id,
+		curveName,
+		pointData
+	}
+})
+
+export const deleteCurvePoint = (id, curveName, pointId) => ({
+	type: ACTION.DELETE_CURVE_POINT,
+	payload: {
+		id,
+		curveName,
+		pointId
+	}
+})
+
+export const resetCurve = (id, curveName) => ({
+	type: ACTION.RESET_CURVE,
+	payload: {
+		id,
+		curveName,
+		pointData: createDefaultCurvePoints()
+	}
+})
+
+const createWhiteBalancedCurve =  (b, w) => {
+	w.x = clamp(w.x, 6, 255)
+	if (w.x < b.x) b.x = w.x - 6
+
+	return [b, w]
+}
+
+const createBlackBalancedCurve =  (b, w) => {
+	b.x = clamp(b.x, 0, 249)
+	if (b.x > w.x) w.x = b.x + 6
+
+	return [b, w]
+}
+
+export const colorBalance = (id, eyedropper, colorCurves) => dispatch => {
+	const { active, pixelData } = eyedropper
+	let r = []
+	let g = []
+	let b = []
+
+	if (active === 'white') {
+		r = createWhiteBalancedCurve(colorCurves.r[0], createCurvePoint(pixelData.r, 0, true))
+		g = createWhiteBalancedCurve(colorCurves.g[0], createCurvePoint(pixelData.g, 0, true))
+		b = createWhiteBalancedCurve(colorCurves.b[0], createCurvePoint(pixelData.b, 0, true))
+	} else {
+		r = createBlackBalancedCurve(createCurvePoint(pixelData.r, 255, true), colorCurves.r.at(-1))
+		g = createBlackBalancedCurve(createCurvePoint(pixelData.g, 255, true), colorCurves.g.at(-1))
+		b = createBlackBalancedCurve(createCurvePoint(pixelData.b, 255, true), colorCurves.b.at(-1))
+	}
+
+	dispatch(updateMediaNestedState(id, 'colorCurves', {
+		hidden: false,
+		rgb: createDefaultCurvePoints(),
+		r,
+		g,
+		b
+	}))
+}
+
+export const cleanupCurve = (id, curveName) => ({
+	type: ACTION.CLEANUP_CURVE,
+	payload: { id, curveName }
 })
 
 export const toggleSaveLocation = (id, property) => ({
