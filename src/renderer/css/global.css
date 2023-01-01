@@ -164,8 +164,7 @@ input:is([type="text"], [type="number"]):disabled { color: var(--disabled); }
 
 input[type="text"] { text-overflow: ellipsis; }
 
-input:is([type="checkbox"], [type="radio"]),
-label > svg {
+label > :is(input[type="checkbox"], input[type="radio"], svg) {
 	margin-right: 5px;
 }
 
