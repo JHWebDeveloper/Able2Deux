@@ -71,7 +71,8 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 			position: exportData.position,
 			scale: exportData.scale,
 			crop: exportData.crop,
-			keying: exportData.keying
+			keying: exportData.keying,
+			colorCurves: exportData.colorCurves
 		}, true))
 		.run()
 })
