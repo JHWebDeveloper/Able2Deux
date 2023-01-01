@@ -13,6 +13,7 @@ import Scale from './Scale'
 import Crop from './Crop'
 import Rotation from './Rotation'
 import Keying from './Keying'
+import ColorCorrection from './ColorCorrection'
 
 const scrollbarPadder = createScrollbarPadder()
 
@@ -97,6 +98,11 @@ const EditorOptions = props => {
 						keying={props.keying}
 						{...common} />
 				) : <></>}
+				<ColorCorrection
+					colorCurves={props.colorCurves}
+					eyedropper={props.eyedropper}
+					setEyedropper={props.setEyedropper}
+					{...common} />
 			</> : <></>}
 		</div>
 	)
