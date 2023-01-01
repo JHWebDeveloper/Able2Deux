@@ -32,7 +32,16 @@ const finalize = ({ filter, sourceData, overlayDim, isPreview }) => {
 	return filter
 }
 
-const buildCommonFilter = (reflect, angle) => {
+const normalizeCurve = pts => pts
+	.filter(pt => !pt.hidden)
+	.map(pt => `${pt.x / 255}/${(255 - pt.y) / 255}`)
+	.join(' ')
+
+const buildCurvesFilter = ({ rgb, r, g, b }) => (
+	`curves=m='${normalizeCurve(rgb)}':r='${normalizeCurve(r)}':g='${normalizeCurve(g)}':b='${normalizeCurve(b)}'[cc];[cc]`
+)
+
+const buildCommonFilter = (isPreview, reflect, angle, curves) => {
 	let filter = 'null'
 
 	if (reflect && angle) {
@@ -43,15 +52,17 @@ const buildCommonFilter = (reflect, angle) => {
 		filter = angle
 	}
 
+	if (!curves.disabled && !(isPreview && curves.hidden)) filter = `${buildCurvesFilter(curves)}${filter}`
+
 	return filter
 }
 
 const noneCmdLargeChunk = '[vid];[vid][1:v]overlay'
 
 export const none = (filterData, isPreview) => {
-	const { reflect, angle, sourceData, renderWidth, renderHeight } = filterData
+	const { reflect, angle, colorCurves, sourceData, renderWidth, renderHeight } = filterData
 
-	let filter = buildCommonFilter(reflect, angle)
+	let filter = buildCommonFilter(isPreview, reflect, angle, colorCurves)
 
 	if (sourceData || isPreview) filter = `[0:v]${filter}`
 	if (sourceData) filter = `${filter},scale=w=${renderWidth}:h=${renderHeight}${noneCmdLargeChunk}`
@@ -72,11 +83,11 @@ const fillCmdChunks = [
 ]
 
 export const fill = (filterData, isPreview) => {
-	let { reflect, angle, centering, sourceData, overlayDim, renderWidth, renderHeight, hasAlpha } = filterData
+	let { reflect, angle, colorCurves, centering, sourceData, overlayDim, renderWidth, renderHeight, hasAlpha } = filterData
 
 	centering /= -100
 
-	let filter = `[0:v]${buildCommonFilter(reflect, angle)},scale=w=${renderWidth}:h=${renderHeight}${fillCmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdChunks[1]}${centering}*(ih-oh)/2`
+	let filter = `[0:v]${buildCommonFilter(isPreview, reflect, angle, colorCurves)},scale=w=${renderWidth}:h=${renderHeight}${fillCmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdChunks[1]}${centering}*(ih-oh)/2`
 
 	if (hasAlpha) {
 		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${fillCmdChunks[2]}${shortestAndFormat}`
@@ -100,10 +111,10 @@ const fitCmdChunks = [
 ]
 
 export const fit = (filterData, isPreview) => {
-	const { keying, reflect, angle, sourceData, overlayDim, renderWidth, renderHeight } = filterData
+	const { keying, reflect, colorCurves, angle, sourceData, overlayDim, renderWidth, renderHeight } = filterData
 
 	const filter = [
-		`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(reflect, angle)},scale=w=${renderWidth}:h=${renderHeight}${fitCmdChunks[0]}`,
+		`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, reflect, angle, colorCurves)},scale=w=${renderWidth}:h=${renderHeight}${fitCmdChunks[0]}`,
 		`[${getBGLayerNumber(sourceData, overlayDim)}${fitCmdChunks[1]}${shortestAndFormat}`
 	].join('')
 
@@ -123,7 +134,7 @@ const offsetCmdChunks = [
 ]
 
 export const transform = (filterData, isPreview) => {
-	const { crop, scale, position, keying, reflect, angle, offset, sourceData, overlayDim } = filterData
+	const { crop, scale, position, keying, reflect, angle, colorCurves, offset, sourceData, overlayDim } = filterData
 
 	const cropH = (crop.b - crop.t) / 100
 	const cropW = (crop.r - crop.l) / 100
@@ -136,7 +147,7 @@ export const transform = (filterData, isPreview) => {
 	position.y /= 100
 
 	const filter = [
-		`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(reflect, angle)},crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}${transformCmdChunks[0]}${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih${offset === 0 ? '' : offsetCmdChunks.join(offset)}[fg];`,
+		`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, reflect, angle, colorCurves)},crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}${transformCmdChunks[0]}${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih${offset === 0 ? '' : offsetCmdChunks.join(offset)}[fg];`,
 		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdChunks[1]}${position.x}${transformCmdChunks[2]}${position.y}${transformCmdChunks[3]}${shortestAndFormat}`
 	].join('')
 
