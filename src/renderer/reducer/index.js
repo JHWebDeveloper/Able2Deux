@@ -40,6 +40,16 @@ export default (state, action) => {
 			return pasteSettings(state, payload)
 		case ACTION.APPLY_TO_ALL:
 			return applyToAll(state, payload)
+		case ACTION.ADD_CURVE_POINT:
+			return addCurvePoint(state, payload)
+		case ACTION.ADD_OR_UPDATE_CURVE_POINT:
+			return addOrUpdateCurvePoint(state, payload)
+		case ACTION.DELETE_CURVE_POINT:
+			return deleteCurvePoint(state, payload)
+		case ACTION.RESET_CURVE:
+			return resetCurve(state, payload)
+		case ACTION.CLEANUP_CURVE:
+			return cleanupCurve(state, payload)
 		case ACTION.START_OVER:
 			return startOver(state)
 		default:
@@ -150,6 +160,95 @@ const applyToAll = (state, payload) => ({
 		...payload.properties
 	} : item)
 })
+
+const sortCurvePoints = (a, b) => a.x - b.x
+
+const addCurvePoint = (state, payload) => {
+	const { id, curveName, pointData } = payload
+
+	return {
+		...state,
+		media: state.media.map(obj => obj.id === id ? {
+			...obj,
+			colorCurves: {
+				...obj.colorCurves,
+				[curveName]: [...obj.colorCurves[curveName], pointData].sort(sortCurvePoints)
+			}
+		} : obj)
+	}
+}
+
+const addOrUpdateCurvePoint = (state, payload) => {
+	const { id, curveName, pointData } = payload
+
+	return {
+		...state,
+		media: state.media.map(obj => obj.id === id ? {
+			...obj,
+			colorCurves: {
+				...obj.colorCurves,
+				[curveName]: (obj.colorCurves[curveName].some(pt => pt.id === pointData.id)
+					? obj.colorCurves[curveName].map(pt => pt.id === pointData.id ? pointData : pt)
+					: [...obj.colorCurves[curveName], pointData]
+				).sort(sortCurvePoints)
+			}
+		} : obj)
+	}
+}
+
+const deleteCurvePoint = (state, payload) => {
+	const { id, curveName, pointId } = payload
+
+	return {
+		...state,
+		media: state.media.map(obj => obj.id === id ? {
+			...obj,
+			colorCurves: {
+				...obj.colorCurves,
+				[curveName]: obj.colorCurves[curveName].filter(pt => pt.id !== pointId)
+			}
+		} : obj)
+	}
+}
+
+const resetCurve = (state, payload) => {
+	const { id, curveName, pointData } = payload
+
+	const newCurveData = curveName ? ({
+		[curveName]: pointData
+	}) : ({
+		rgb: [...pointData],
+		r: [...pointData],
+		g: [...pointData],
+		b: [...pointData]
+	})
+
+	return {
+		...state,
+		media: state.media.map(obj => obj.id === id ? {
+			...obj,
+			colorCurves: {
+				...obj.colorCurves,
+				...newCurveData
+			}
+		} : obj)
+	}
+}
+
+const cleanupCurve = (state, payload) => {
+	const { id, curveName } = payload
+
+	return {
+		...state,
+		media: state.media.map(obj => obj.id === id ? {
+			...obj,
+			colorCurves: {
+				...obj.colorCurves,
+				[curveName]: obj.colorCurves[curveName].filter(pt => !pt.hidden)
+			}
+		} : obj)
+	}
+}
 
 const startOver = state => ({
 	...state,
