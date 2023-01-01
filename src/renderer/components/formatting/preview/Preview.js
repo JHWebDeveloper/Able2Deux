@@ -12,7 +12,7 @@ import Controls from './Controls'
 
 const { interop } = window.ABLE2
 
-const Preview = ({ selected, aspectRatioMarkers, dispatch }) => {
+const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, dispatch }) => {
 	const { renderOutput, gridColor } = useContext(PrefsContext).preferences
 
 	const {
@@ -89,9 +89,12 @@ const Preview = ({ selected, aspectRatioMarkers, dispatch }) => {
 		<div id="preview">
 			<div>
 				<div id="preview-container">
-					{previewStill
-						? <PreviewCanvas previewStill={previewStill} />
-						: <Spinner />}
+					{previewStill ? (
+						<PreviewCanvas
+							previewStill={previewStill}
+							eyedropper={eyedropper}
+							setEyedropper={setEyedropper} />
+					)	: <Spinner />}
 					<Grid
 						showGrid={showGrid}
 						aspectRatioMarkers={aspectRatioMarkers}
