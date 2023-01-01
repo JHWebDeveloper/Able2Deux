@@ -393,9 +393,11 @@ button[name="link"] {
   align-items: flex-start;
 }
 
-.keying-panel > div:first-of-type {
-  align-self: center;
-  transform: rotate(270deg);
+.on-off-switch { align-self: center; }
+
+.on-off-switch > span {
+	display: inline-block;
+	transform: rotate(270deg);
 }
 
 .color-picker-with-toggle {
@@ -422,6 +424,96 @@ button[name="link"] {
   display: inherit;
   grid-template-columns: auto min-content;
   align-items: center;
+}
+
+/* -- Color Correction Panel -- */
+
+.cc-panel {
+	grid-template-columns: repeat(2, min-content);
+	grid-template-rows: repeat(3, min-content);
+	grid-gap: 6px;
+  align-items: flex-start;
+}
+
+.cc-panel > .on-off-switch { grid-row: 2; }
+
+.cc-panel > :is(div:first-of-type, fieldset) {
+	display: inherit;
+	justify-items: center;
+}
+
+.cc-panel > div { grid-row: 2; }
+
+.cc-panel > div:first-of-type {
+	grid-auto-rows: 36px;
+	grid-gap: 6px;
+	align-items: center;
+	align-content: center;
+	height: 100%;
+}
+
+.cc-panel button {
+	width: 36px;
+	height: 36px;
+	padding: 6px;
+	border-radius: 5px;
+}
+
+.cc-panel button:disabled { color: var(--disabled); }
+
+.cc-panel button.eyedropper-active {
+	background-color: var(--background-alt-2);
+}
+
+button[title="Reset Curves"] { font-size: 20px; }
+
+button[title="Reset Curves"]:active { color: #fff; }
+
+.cc-panel > :is(fieldset, .curves, .slider) { grid-column: 2; }
+
+.cc-panel > fieldset {
+	grid-template-columns: repeat(4, 1fr);
+	font-weight: 500;
+}
+
+/* hide legend but keep for screen readers */
+.cc-panel > fieldset > legend { font-size: 0; }
+
+
+/* ---- CURVES STYLES ---- */
+
+.curves {
+	display: grid;
+	grid-template-columns: 6px 257px;
+	grid-template-rows: 257px 6px;
+}
+
+.curves.disabled { pointer-events: none; }
+
+.curves > span {
+	display: block;
+	pointer-events: none;
+}
+
+.curves > span:first-of-type {
+	height: 255px;
+	margin: 1px 0;
+	background-image: linear-gradient(#fff, #000);
+}
+
+.curves > span:last-of-type {
+	grid-row: 2;
+	grid-column: 2;
+	width: 255px;
+	margin: 0 1px;
+	background-image: linear-gradient(to left, #fff, #000);
+}
+
+.curves > canvas {
+	cursor: crosshair;
+	display: block;
+	border: 1px solid var(--primary);
+	background-color: #fff;
 }
 
 
@@ -538,6 +630,46 @@ button[name="link"] {
 	height: inherit;
 	background-color: var(--primary);
 	transform: translateX(-50%);
+}
+
+/* -- curves double slider overrides -- */
+
+.cc-panel > .slider {
+	width: 255px;
+	height: 14px;
+	margin-left: 7px;
+	padding: 0;
+}
+
+.cc-panel .slider-track.double {
+	top: 0; 
+	height: inherit;
+	background-color: transparent;
+	transform: none;
+}
+
+.cc-panel .slider-track.double > span:nth-child(odd) {
+	top: inherit;
+	width: 10px;
+	height: 10px;
+	border: 1px solid;
+	transform: translate(-50%, 2px) rotate(45deg);
+}
+
+.cc-panel .slider-track.double > span:nth-child(odd):focus { z-index: 3; }
+
+.cc-panel .slider-track.double > span:first-child {
+	background-color: #000;
+	border-color: #fff;
+}
+
+.cc-panel .slider-track.double > span:last-child {
+	background-color: #fff;
+	border-color: #000;
+}
+
+.cc-panel .slider-track.double > span:nth-child(2) {
+	visibility: hidden;
 }
 
 
