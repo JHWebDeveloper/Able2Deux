@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { exact, func, oneOf, string } from 'prop-types'
 
-const PreviewCanvas = ({ previewStill, eyedropper, setEyedropper }) => {
+const PreviewCanvas = ({ previewStill, previewSize, eyedropper, setEyedropper }) => {
 	const cnv = useRef()
 	const ctx = useRef()
 	const img = useMemo(() => new Image(), [])
@@ -24,19 +24,24 @@ const PreviewCanvas = ({ previewStill, eyedropper, setEyedropper }) => {
 	} : {}, [eyedropper.active, cnv, ctx])
 
 	useEffect(() => {
-		cnv.current.width = 384
-		cnv.current.height = 216
 		ctx.current = cnv.current.getContext('2d')
-
-		img.onload = () => {
-			ctx.current.clearRect(0, 0, 384, 216)
-			ctx.current.drawImage(img, 0, 0, 384, 216)
-		}
 	}, [])
 
 	useEffect(() => {
+		cnv.current.width = previewSize.width
+		cnv.current.height = previewSize.height
+
+		img.onload = () => {
+			ctx.current.clearRect(0, 0, cnv.current.width, cnv.current.height)
+			ctx.current.drawImage(img, 0, 0, cnv.current.width, cnv.current.height)
+		}
+
+		return () => img.onload = ''
+	}, [previewSize])
+
+	useEffect(() => {
 		img.src = previewStill
-	}, [previewStill])
+	}, [previewStill, previewSize])
 
 	return (
 		<canvas
@@ -50,11 +55,11 @@ PreviewCanvas.propTypes = {
 	previewStill: string.isRequired,
 	eyedropper: exact({
 		active: oneOf([false, 'white', 'black']),
-		pixelData: exact({
+		pixelData: oneOf([false, exact({
 			r: string,
 			g: string,
 			b: string
-		})
+		})])
 	}).isRequired,
 	setEyedropper: func.isRequired
 }
