@@ -15,7 +15,7 @@ import FileOpenListener from './FileOpenListener'
 const { interop } = window.ABLE2
 
 const extractDefaults = (() => {
-	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot', 'aspectRatioMarkers']
+	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot', 'previewQuality', 'aspectRatioMarkers']
 
 	return obj => objectExtract(obj, defaults)
 })()
