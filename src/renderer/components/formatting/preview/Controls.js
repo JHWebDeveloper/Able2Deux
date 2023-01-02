@@ -52,6 +52,7 @@ const Controls = props => {
 					dispatch={dispatch} />
 			) : <></>}
 			<GridSelector
+				previewQuality={props.previewQuality}
 				showGrid={props.showGrid}
 				aspectRatioMarkers={props.aspectRatioMarkers}
 				gridColor={props.gridColor}
