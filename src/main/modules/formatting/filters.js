@@ -37,6 +37,7 @@ const normalizeCurve = pts => pts
 	.map(pt => `${pt.x / 255}/${(255 - pt.y) / 255}`)
 	.join(' ')
 
+// eslint-disable-next-line no-extra-parens
 const buildCurvesFilter = ({ rgb, r, g, b }) => (
 	`curves=m='${normalizeCurve(rgb)}':r='${normalizeCurve(r)}':g='${normalizeCurve(g)}':b='${normalizeCurve(b)}'[cc];[cc]`
 )
