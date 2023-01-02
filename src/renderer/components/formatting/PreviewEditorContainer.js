@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { arrayOf, bool, exact, func, number, object, string } from 'prop-types'
+import { arrayOf, bool, exact, func, number, object, oneOf, string } from 'prop-types'
 
 import PreviewContainer from './preview/PreviewContainer'
 import EditorOptions from './editor/EditorOptions'
@@ -37,6 +37,7 @@ const PreviewEditorContainer = ({ selected, aspectRatioMarkers, previewQuality, 
 
 PreviewEditorContainer.propTypes = {
 	selected: object.isRequired,
+	previewQuality: oneOf([1, 2, 4]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,

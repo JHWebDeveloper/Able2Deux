@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { arrayOf, bool, exact, func, object, number, string } from 'prop-types'
+import { arrayOf, bool, exact, func, object, number, string, oneOf } from 'prop-types'
 
 import { updateMediaState } from 'actions'
 
@@ -65,6 +65,7 @@ const Controls = props => {
 Controls.propTypes = {
 	selected: object.isRequired,
 	showGrid: bool.isRequired,
+	previewQuality: oneOf([1, 2, 4]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,

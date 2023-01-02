@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
-import { exact, func, oneOf, string } from 'prop-types'
+import { exact, func, number, oneOf, string } from 'prop-types'
 
 const PreviewCanvas = ({ previewStill, previewSize, eyedropper, setEyedropper }) => {
 	const cnv = useRef()
@@ -53,6 +53,10 @@ const PreviewCanvas = ({ previewStill, previewSize, eyedropper, setEyedropper })
 
 PreviewCanvas.propTypes = {
 	previewStill: string.isRequired,
+	previewSize: exact({
+		width: number,
+		height: number
+	}),
 	eyedropper: exact({
 		active: oneOf([false, 'white', 'black']),
 		pixelData: oneOf([false, exact({

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { arrayOf, bool, exact, func, number, string } from 'prop-types'
+import { arrayOf, bool, exact, func, number, oneOf, string } from 'prop-types'
 
 import { updateState, toggleAspectRatioMarker } from 'actions'
 
@@ -83,6 +83,7 @@ const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor,
 
 GridSelector.propTypes = {
 	showGrid: bool.isRequired,
+	previewQuality: oneOf([1, 2, 4]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,

@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { arrayOf, bool, exact, func, number, object, string } from 'prop-types'
+import { arrayOf, bool, exact, func, number, object, oneOf, string } from 'prop-types'
 import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
@@ -149,6 +149,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 
 Preview.propTypes = {
 	selected: object.isRequired,
+	previewQuality: oneOf([1, 2, 4]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,

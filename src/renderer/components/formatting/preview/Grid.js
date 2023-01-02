@@ -112,6 +112,10 @@ const Grid = ({ showGrid, gridColor, aspectRatioMarkers, previewSize }) => {
 
 Grid.propTypes = {
 	showGrid: bool.isRequired,
+	previewSize: exact({
+		width: number,
+		height: number
+	}),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,
