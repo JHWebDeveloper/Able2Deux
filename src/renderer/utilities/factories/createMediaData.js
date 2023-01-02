@@ -11,10 +11,10 @@ export const createCurvePoint = (x, y, limit = false) => ({
 	y
 })
 
-export const createDefaultCurvePoints = () => ([
+export const createDefaultCurvePoints = () => [
 	createCurvePoint(0, 255, true),
 	createCurvePoint(255, 0, true)
-])
+]
 
 const defaultMediaData = {
 	id: '',

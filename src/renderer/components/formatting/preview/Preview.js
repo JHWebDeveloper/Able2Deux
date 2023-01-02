@@ -123,6 +123,8 @@ Preview.propTypes = {
 		selected: bool,
 		ratio: arrayOf(number)
 	})).isRequired,
+	eyedropper: object.isRequired,
+	setEyedropper: func.isRequired,
 	dispatch: func.isRequired
 }
 

@@ -214,14 +214,14 @@ const deleteCurvePoint = (state, payload) => {
 const resetCurve = (state, payload) => {
 	const { id, curveName, pointData } = payload
 
-	const newCurveData = curveName ? ({
+	const newCurveData = curveName ? {
 		[curveName]: pointData
-	}) : ({
+	} : {
 		rgb: [...pointData],
 		r: [...pointData],
 		g: [...pointData],
 		b: [...pointData]
-	})
+	}
 
 	return {
 		...state,

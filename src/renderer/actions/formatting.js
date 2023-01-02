@@ -138,14 +138,14 @@ export const resetCurve = (id, curveName) => ({
 	}
 })
 
-const createWhiteBalancedCurve =  (b, w) => {
+const createWhiteBalancedCurve = (b, w) => {
 	w.x = clamp(w.x, 6, 255)
 	if (w.x < b.x) b.x = w.x - 6
 
 	return [b, w]
 }
 
-const createBlackBalancedCurve =  (b, w) => {
+const createBlackBalancedCurve = (b, w) => {
 	b.x = clamp(b.x, 0, 249)
 	if (b.x > w.x) w.x = b.x + 6
 

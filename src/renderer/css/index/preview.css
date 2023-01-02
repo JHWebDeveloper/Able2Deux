@@ -6,19 +6,16 @@
 
 #preview-container {
 	position: relative;
-	width: 384px;
-	height: 216px;
+	min-width: 384px;
+	aspect-ratio: 16 / 9;
 	margin: auto;
-}
-
-#preview-container > :is(span, canvas) {
-	width: inherit;
-	height: inherit;
 }
 
 #preview-container > :is(span, canvas) {
 	top: 0;
 	left: 0;
+	width: 100%;
+	height: 100%;
 }
 
 #preview-container > span {

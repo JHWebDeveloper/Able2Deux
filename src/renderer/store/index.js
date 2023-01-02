@@ -18,6 +18,7 @@ const initState = {
 	},
 	editAll: false,
 	copiedSettings: {},
+	// previewQuality: 'high',
 	rendering: false
 }
 

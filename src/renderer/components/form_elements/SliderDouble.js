@@ -21,14 +21,14 @@ const SliderDouble = ({
 		title: '',
 		value: 0,
 		max,
-		onChange() {},
+		onChange() {}
 	},
 	rightThumb = {
 		name: '',
 		title: '',
 		value: 100,
 		min,
-		onChange() {},
+		onChange() {}
 	},
 	min = 0,
 	max = 100,

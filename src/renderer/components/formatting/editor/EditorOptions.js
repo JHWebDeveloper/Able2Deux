@@ -140,6 +140,9 @@ EditorOptions.propTypes = {
 	crop: object,
 	rotation: object,
 	keying: object,
+	colorCurves: object,
+	eyedropper: object.isRequired,
+	setEyedropper: func.isRequired,
 	dispatch: func.isRequired
 }
 

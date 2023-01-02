@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { arrayOf, bool, exact, func, number, string } from 'prop-types'
 
 import { clamp, createCurvePoint, CSPL, pythagorean, throttle } from 'utilities'
 
@@ -54,8 +55,8 @@ const drawGridLines = (ctx, width, height, rows, cols = rows) => {
 	let xPos = colGap
 	let yPos = rowGap
 
-  ctx.save()
-  ctx.lineWidth = 0.25
+	ctx.save()
+	ctx.lineWidth = 0.25
 
 	while (rowLines && colLines) {
 		drawGridLine(ctx, 0, yPos, height, yPos)
@@ -76,7 +77,7 @@ const drawGridLines = (ctx, width, height, rows, cols = rows) => {
 		xPos += colGap
 	}
 
-  ctx.restore()
+	ctx.restore()
 }
 
 const drawCrossHairs = (ctx, x, y) => {
@@ -100,7 +101,7 @@ const drawDots = (ctx, pts, selectedId, dotColor) => {
 		
 		if (id === selectedId) {
 			ctx.fill()
-			ctx.strokeStyle = '#000';
+			ctx.strokeStyle = '#000'
 			drawCrossHairs(ctx, x, y)
 		} else {
 			ctx.stroke()
@@ -167,8 +168,8 @@ const Curves = ({
 	const selectPointAndGetData = useCallback((pointData, points, offsets = {}) => {		
 		pointData = {
 			...pointData,
-			boundR: ((points.find(pt => pt.id !== pointData.id && pt.x >= pointData.x))?.x ?? 259) - 4,
-			boundL: ((points.findLast(pt => pt.id !== pointData.id && pt.x <= pointData.x))?.x ?? -4) + 4,
+			boundR: (points.find(pt => pt.id !== pointData.id && pt.x >= pointData.x)?.x ?? 259) - 4,
+			boundL: (points.findLast(pt => pt.id !== pointData.id && pt.x <= pointData.x)?.x ?? -4) + 4,
 			offsetX: offsets.x ? pointData.x - offsets.x : 0,
 			offsetY: offsets.y ? pointData.y - offsets.y : 0
 		}
@@ -276,7 +277,29 @@ const Curves = ({
 				onBlur={() => setSelectedPoint({})}></canvas>
 			<span aria-hidden="true"></span>
 		</div>
-  )
+	)
+}
+
+const pointPropType = exact({
+	id: string,
+	hidden: bool,
+	limit: bool,
+	x: number,
+	y: number
+})
+
+Curves.propTypes = {
+	curve: arrayOf(pointPropType),
+	curveColor: string.isRequired,
+	backgroundCurves: arrayOf(exact({
+		color: string,
+		data: arrayOf(pointPropType)
+	})),
+	addCurvePoint: func.isRequired,
+	addOrUpdateCurvePoint: func.isRequired,
+	deleteCurvePoint: func.isRequired,
+	cleanupCurve: func.isRequired,
+	disabled: bool.isRequired
 }
 
 export default Curves
