@@ -474,7 +474,7 @@ const removeMediaFileIPC = async (evt, id) => {
 
 const initPreviewIPC = async (evt, data) => {
 	try {
-		changePreviewSource(data, mainWin)
+		await changePreviewSource(data, mainWin)
 	} catch (err) {
 		console.error(err)
 	}
