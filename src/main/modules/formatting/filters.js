@@ -14,8 +14,8 @@ const getBGLayerNumber = (sourceData, overlayDim) => {
 
 const shortestAndFormat = ':shortest=1:format=auto'
 const sourceDataCmd = '[tosrc];[tosrc][1:v]overlay'
-const previewResize = 'scale=w=384:h=216:force_original_aspect_ratio=decrease'
-const previewMixdown = `[final];[final]${previewResize}`
+const previewResize = ({ width, height }) => `scale=w=${width}:h=${height}:force_original_aspect_ratio=decrease`
+const previewMixdown = size => `[final];[final]${previewResize(size)}`
 
 const overlayDimCmdChunks = [
 	'[tooverlay];[tooverlay]scale=w=',
@@ -24,10 +24,10 @@ const overlayDimCmdChunks = [
 	':shortest=1[positioned];[positioned]['
 ]
 
-const finalize = ({ filter, sourceData, overlayDim, isPreview }) => {
+const finalize = ({ filter, sourceData, overlayDim, isPreview, previewSize }) => {
 	if (sourceData) filter = `${filter}${sourceDataCmd}`
 	if (overlayDim) filter = `${filter}${overlayDimCmdChunks[0]}${overlayDim.width}:h=${overlayDim.height}${overlayDimCmdChunks[1]}${sourceData ? 2 : 1}${overlayDimCmdChunks[2]}${overlayDim.y}${overlayDimCmdChunks[3]}${sourceData ? 3 : 2}:v]overlay`
-	if (isPreview) filter = `${filter}${previewMixdown}`
+	if (isPreview) filter = `${filter}${previewMixdown(previewSize)}`
 
 	return filter
 }
@@ -60,7 +60,7 @@ const buildCommonFilter = (isPreview, reflect, angle, curves) => {
 
 const noneCmdLargeChunk = '[vid];[vid][1:v]overlay'
 
-export const none = (filterData, isPreview) => {
+export const none = (filterData, isPreview, previewSize) => {
 	const { reflect, angle, colorCurves, sourceData, renderWidth, renderHeight } = filterData
 
 	let filter = buildCommonFilter(isPreview, reflect, angle, colorCurves)
@@ -69,9 +69,9 @@ export const none = (filterData, isPreview) => {
 	if (sourceData) filter = `${filter},scale=w=${renderWidth}:h=${renderHeight}${noneCmdLargeChunk}`
 
 	if (sourceData && isPreview) {
-		filter = `${filter}${previewMixdown}`
+		filter = `${filter}${previewMixdown(previewSize)}`
 	} else if (isPreview) {
-		filter = `${filter},${previewResize}`
+		filter = `${filter},${previewResize(previewSize)}`
 	}
 
 	return filter ? filter : 'nullsink'
@@ -83,7 +83,7 @@ const fillCmdChunks = [
 	':v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2'
 ]
 
-export const fill = (filterData, isPreview) => {
+export const fill = (filterData, isPreview, previewSize) => {
 	let { reflect, angle, colorCurves, centering, sourceData, overlayDim, renderWidth, renderHeight, hasAlpha } = filterData
 
 	centering /= -100
@@ -94,7 +94,7 @@ export const fill = (filterData, isPreview) => {
 		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${fillCmdChunks[2]}${shortestAndFormat}`
 	}
 
-	return finalize({ filter, sourceData, overlayDim, isPreview })
+	return finalize({ filter, sourceData, overlayDim, isPreview, previewSize })
 }
 
 const buildKeyFilter = (isPreview, keying) => {
@@ -111,7 +111,7 @@ const fitCmdChunks = [
 	':v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2'
 ]
 
-export const fit = (filterData, isPreview) => {
+export const fit = (filterData, isPreview, previewSize) => {
 	const { keying, reflect, colorCurves, angle, sourceData, overlayDim, renderWidth, renderHeight } = filterData
 
 	const filter = [
@@ -119,7 +119,7 @@ export const fit = (filterData, isPreview) => {
 		`[${getBGLayerNumber(sourceData, overlayDim)}${fitCmdChunks[1]}${shortestAndFormat}`
 	].join('')
 
-	return finalize({ filter, sourceData, overlayDim, isPreview })
+	return finalize({ filter, sourceData, overlayDim, isPreview, previewSize })
 }
 
 const transformCmdChunks = [
@@ -134,7 +134,7 @@ const offsetCmdChunks = [
 	'*PI/180:ow=hypot(iw,ih):oh=ow:oh=ow:c=none\''
 ]
 
-export const transform = (filterData, isPreview) => {
+export const transform = (filterData, isPreview, previewSize) => {
 	const { crop, scale, position, keying, reflect, angle, colorCurves, offset, sourceData, overlayDim } = filterData
 
 	const cropH = (crop.b - crop.t) / 100
@@ -152,7 +152,7 @@ export const transform = (filterData, isPreview) => {
 		`[${getBGLayerNumber(sourceData, overlayDim)}${transformCmdChunks[1]}${position.x}${transformCmdChunks[2]}${position.y}${transformCmdChunks[3]}${shortestAndFormat}`
 	].join('')
 
-	return finalize({ filter, sourceData, overlayDim, isPreview })
+	return finalize({ filter, sourceData, overlayDim, isPreview, previewSize })
 }
 
 const videoToBarsCmdChunks = [
