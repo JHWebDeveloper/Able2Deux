@@ -4,7 +4,7 @@ import { arrayOf, bool, exact, func, number, object, string } from 'prop-types'
 import PreviewContainer from './preview/PreviewContainer'
 import EditorOptions from './editor/EditorOptions'
 
-const PreviewEditorContainer = ({ selected, aspectRatioMarkers, editAll, batch, split, isBatch, dispatch }) => {
+const PreviewEditorContainer = ({ selected, aspectRatioMarkers, previewQuality, editAll, batch, split, isBatch, dispatch }) => {
 	const [ eyedropper, setEyedropper ] = useState({ active: false, pixelData: false })
 	const { arc, overlay, hasAlpha } = selected
 
@@ -19,6 +19,7 @@ const PreviewEditorContainer = ({ selected, aspectRatioMarkers, editAll, batch, 
 				setEyedropper={setEyedropper}
 				selected={selected}
 				aspectRatioMarkers={aspectRatioMarkers}
+				previewQuality={previewQuality}
 				dispatch={dispatch} />
 			<EditorOptions
 				eyedropper={eyedropper}
