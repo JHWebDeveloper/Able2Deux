@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
-import { arrayOf, bool, exact, number, string } from 'prop-types'
+import { arrayOf, bool, exact, number, oneOf, string } from 'prop-types'
 
 const createThirdMarkerCoords = (x, y, r) => [
 	[x - r, y, x + r, y],
@@ -112,10 +112,10 @@ const Grid = ({ showGrid, gridColor, aspectRatioMarkers, previewSize }) => {
 
 Grid.propTypes = {
 	showGrid: bool.isRequired,
-	previewSize: exact({
+	previewSize: oneOf([false, exact({
 		width: number,
 		height: number
-	}),
+	})]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,

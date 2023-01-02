@@ -53,10 +53,10 @@ const PreviewCanvas = ({ previewStill, previewSize, eyedropper, setEyedropper })
 
 PreviewCanvas.propTypes = {
 	previewStill: string.isRequired,
-	previewSize: exact({
+	previewSize: oneOf([false, exact({
 		width: number,
 		height: number
-	}),
+	})]),
 	eyedropper: exact({
 		active: oneOf([false, 'white', 'black']),
 		pixelData: oneOf([false, exact({
