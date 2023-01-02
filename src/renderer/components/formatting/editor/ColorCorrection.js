@@ -271,11 +271,11 @@ ColorCorrection.propTypes = {
 	}).isRequired,
 	eyedropper: exact({
 		active: oneOf([false, 'white', 'black']),
-		pixelData: exact({
+		pixelData: oneOf([false, exact({
 			r: string,
 			g: string,
 			b: string
-		})
+		})])
 	}).isRequired,
 	setEyedropper: func.isRequired,
 	editAll: bool,
