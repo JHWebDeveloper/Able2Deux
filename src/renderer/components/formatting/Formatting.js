@@ -21,6 +21,7 @@ const Formatting = () => {
 		split,
 		saveLocations,
 		aspectRatioMarkers,
+		previewQuality,
 		rendering,
 		dispatch
 	} = useContext(MainContext)
@@ -65,11 +66,12 @@ const Formatting = () => {
 			</div>
 			<PreviewEditorContainer
 				selected={selected}
-				aspectRatioMarkers={aspectRatioMarkers}
 				editAll={editAll}
-				split={split}
+				aspectRatioMarkers={aspectRatioMarkers}
+				previewQuality={previewQuality}
 				batch={batch}
 				isBatch={isBatch}
+				split={split}
 				dispatch={dispatch} />
 			{rendering ? (
 				<RenderQueue
