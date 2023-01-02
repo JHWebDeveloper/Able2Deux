@@ -1,8 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { arrayOf, bool, exact, number, string } from 'prop-types'
 
-const Grid = props => {
-	const { showGrid, gridColor, aspectRatioMarkers } = props
+const createThirdMarkerCoords = (x, y, r) => [
+	[x - r, y, x + r, y],
+	[x, y - r, x, y + r]
+]
+
+const Grid = ({ showGrid, gridColor, aspectRatioMarkers, previewSize }) => {
 	const cnv = useRef()
 	const ctx = useRef()
 
@@ -22,8 +26,8 @@ const Grid = props => {
 	}, [ctx.current])
 
 	const drawAspectRatioMarkers = useMemo(() => {
-		const frameWidth = cnv?.current?.width ?? 0
-		const frameHeight = cnv?.current?.height ?? 1
+		const frameWidth = previewSize.width
+		const frameHeight = previewSize.height
 		const frameRatio = frameWidth / frameHeight
 		const frameRatioInv = frameHeight / frameWidth
 
@@ -49,41 +53,59 @@ const Grid = props => {
 		
 			drawGridMarkers(coords)
 		}
-	}, [cnv.current, ctx.current])
+	}, [previewSize])
+
+	const drawGrid = useMemo(() => {
+		const { width, height } = previewSize
+
+		const titleSafePadX = width / 20
+		const titleSafePadY = height / 20
+		const actionSafe = [titleSafePadX / 2, titleSafePadY / 2, width - titleSafePadX, height - titleSafePadY]
+		const titleSafe = [titleSafePadX, titleSafePadY, width - titleSafePadX * 2, height - titleSafePadY * 2]
+
+		const halfX = width / 2
+		const halfY = height / 2
+		const thirdX = width / 3
+		const thirdY = height / 3
+		const thirdRadius = width / 48
+
+		const halvesAndThirds = [
+			[0, halfY, width, halfY],
+			[halfX, 0, halfX, height],
+			...createThirdMarkerCoords(thirdX, thirdY, thirdRadius),
+			...createThirdMarkerCoords(thirdX * 2, thirdY, thirdRadius),
+			...createThirdMarkerCoords(thirdX, thirdY * 2, thirdRadius),
+			...createThirdMarkerCoords(thirdX * 2, thirdY * 2, thirdRadius)
+		]
+
+		return () => {
+			ctx.current.strokeRect(...actionSafe)
+			ctx.current.strokeRect(...titleSafe)
+
+			drawGridMarkers(halvesAndThirds)
+		}
+	}, [previewSize])
+
+	useEffect(() => {
+		ctx.current = cnv.current.getContext('2d')
+	}, [])
 	
 	useEffect(() => {
-		cnv.current.width = 384
-		cnv.current.height = 216
-		ctx.current = cnv.current.getContext('2d')
-		ctx.current.lineWidth = 1.25
-	}, [])
+		cnv.current.width = previewSize.width
+		cnv.current.height = previewSize.height
+		ctx.current.lineWidth = 3
+	}, [previewSize])
 
 	useEffect(() => {
-		ctx.current.clearRect(0, 0, cnv.current.width, cnv.current.height)
+		ctx.current.clearRect(0, 0, previewSize.width, previewSize.height)
 		ctx.current.strokeStyle = gridColor
 		
-		if (showGrid) {
-			ctx.current.strokeRect(9.6, 5.4, 364.8, 205.2)
-			ctx.current.strokeRect(19.2, 10.8, 345.6, 194.4)
-
-			drawGridMarkers([
-				[192, 0, 192, 216],
-				[0, 108, 384, 108],
-				[120, 72, 136, 72],
-				[128, 64, 128, 80],
-				[248, 72, 264, 72],
-				[256, 64, 256, 80],
-				[248, 144, 264, 144],
-				[256, 136, 256, 152],
-				[120, 144, 136, 144],
-				[128, 136, 128, 152]
-			])
-		}
+		if (showGrid) drawGrid()
 
 		for (const { disabled, selected, ratio } of aspectRatioMarkers) {
 			if (!disabled && selected) drawAspectRatioMarkers(...ratio)
 		}
-	}, [props, ctx.current])
+	}, [showGrid, gridColor, aspectRatioMarkers, previewSize])
 
 	return <canvas ref={cnv}></canvas>
 }
