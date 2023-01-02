@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo } from 'react'
 import { arrayOf, bool, exact, func, number, string } from 'prop-types'
 
-import { toggleAspectRatioMarker } from 'actions'
+import { updateState, toggleAspectRatioMarker } from 'actions'
 
+import QualityIcon from '../../svg/QualityIcon.js'
 import DropdownMenu from '../../form_elements/DropdownMenu'
 
 const toggleTitle = state => state ? 'Hide' : 'Show'
@@ -22,11 +23,19 @@ const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
 	))
 )
 
-const GridSelector = ({ showGrid, aspectRatioMarkers, gridColor, toggleGrid, dispatch }) => {
+const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor, toggleGrid, dispatch }) => {
 	// eslint-disable-next-line no-extra-parens
 	const enabledAspectRatioMarkers = useMemo(() => (
 		aspectRatioMarkers.filter(({ disabled }) => !disabled)
 	), [aspectRatioMarkers])
+
+	const changePreviewQuality = useCallback(() => {
+		let q = previewQuality / 2
+
+		if (q < 1) q = 4
+
+		dispatch(updateState({ previewQuality: q }))
+	}, [previewQuality])
 
 	const toggleColor = useCallback(gridSelected => ({
 		color: gridSelected ? gridColor : 'currentColor'
@@ -37,7 +46,13 @@ const GridSelector = ({ showGrid, aspectRatioMarkers, gridColor, toggleGrid, dis
 			<button
 				type="button"
 				className="symbol"
-				name="grid"
+				title={`Preview Quality: ${100 / previewQuality}%`}
+				onClick={changePreviewQuality}>
+				<QualityIcon quality={previewQuality}/>
+			</button>
+			<button
+				type="button"
+				className="symbol"
 				title={`${toggleTitle(showGrid)} Grid`}
 				style={toggleColor(showGrid)}
 				onClick={() => toggleGrid(!showGrid)}>grid_on</button>
