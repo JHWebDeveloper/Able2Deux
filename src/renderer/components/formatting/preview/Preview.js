@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { arrayOf, bool, exact, func, number, object, string } from 'prop-types'
 import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
-import { buildSource } from 'utilities'
+import { buildSource, debounce } from 'utilities'
 
 import PreviewCanvas from './PreviewCanvas'
 import Spinner from '../../svg/Spinner'
@@ -12,8 +12,12 @@ import Controls from './Controls'
 
 const { interop } = window.ABLE2
 
-const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, dispatch }) => {
+const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, previewQuality, dispatch }) => {
 	const { renderOutput, gridColor } = useContext(PrefsContext).preferences
+	const [ previewSize, setPreviewSize ] = useState(false)
+	const [ previewStill, loadPreviewStill ] = useState('')
+	const [ showGrid, toggleGrid ] = useState(false)
+	const container = useRef()
 
 	const {
 		id,
@@ -29,10 +33,6 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, disp
 		timecode
 	} = selected
 
-	const [ previewStill, loadPreviewStill ] = useState('')
-	
-	const [ showGrid, toggleGrid ] = useState(false)
-
 	const sourceData = useMemo(() => {
 		if (source?.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
 			return buildSource(source, renderOutput)
@@ -43,6 +43,13 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, disp
 
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
 
+	const calcPreviewSize = useCallback(() => ({
+		width: container.current.clientWidth * window.devicePixelRatio / previewQuality,
+		height: container.current.clientHeight * window.devicePixelRatio / previewQuality
+	}), [previewQuality])
+
+	// ---- Listen for preview still updates and rerender
+
 	useEffect(() => {
 		interop.setPreviewListeners(loadPreviewStill)
 
@@ -51,24 +58,47 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, disp
 		}
 	}, [])
 
+	// ---- Initialize preview size based on window dimensions and update on resize
+
+	useEffect(() => {
+		const applyDimenions = () => setPreviewSize(calcPreviewSize())
+
+		applyDimenions()
+		
+		const applyDimenionsOnResize = debounce(applyDimenions, 500)
+
+		window.addEventListener('resize', applyDimenionsOnResize)
+
+		return () => {
+			window.removeEventListener('resize', applyDimenionsOnResize)
+		}
+	}, [previewQuality])
+
+	// ---- Create new preview still on source or timecode change
+
 	useEffect(() => {
 		interop.initPreview({
 			...selected,
 			isAudio,
 			renderOutput,
 			sourceData,
-			tc: timecode / fps / duration * 100
+			tc: timecode / fps / duration * 100,
+			previewSize: calcPreviewSize()
 		})
 	}, [id, mediaType, isAudio, audio?.format, timecode])
 
+	// ---- Update preview on attribute changes
+
 	useEffect(() => {
-		interop.requestPreviewStill({
+		if (previewSize) interop.requestPreviewStill({
 			...selected,
 			isAudio,
 			renderOutput,
-			sourceData
+			sourceData,
+			previewSize
 		})
 	}, [
+		previewSize,
 		renderOutput,
 		audio,
 		arc,
@@ -88,16 +118,18 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, disp
 	return (
 		<div id="preview">
 			<div>
-				<div id="preview-container">
+				<div id="preview-container" ref={container}>
 					{previewStill ? (
 						<PreviewCanvas
 							previewStill={previewStill}
+							previewSize={previewSize}
 							eyedropper={eyedropper}
 							setEyedropper={setEyedropper} />
 					)	: <Spinner />}
 					<Grid
 						showGrid={showGrid}
 						aspectRatioMarkers={aspectRatioMarkers}
+						previewSize={previewSize}
 						gridColor={gridColor} />
 				</div>
 			</div>
@@ -106,6 +138,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, disp
 					selected={selected}
 					showGrid={showGrid}
 					aspectRatioMarkers={aspectRatioMarkers}
+					previewQuality={previewQuality}
 					gridColor={gridColor}
 					toggleGrid={toggleGrid}
 					dispatch={dispatch} />
