@@ -28,6 +28,8 @@ const defaultPrefs = {
 	editAll: false,
 	sliderSnapPoints: true,
 	enableWidescreenGrids: false,
+	previewQuality: 1,
+	gridColor: '#ff00ff',
 	aspectRatioMarkers: [
 		{
 			id: uuid(),
@@ -72,7 +74,6 @@ const defaultPrefs = {
 			ratio: [2.39, 1]
 		}
 	],
-	gridColor: '#ff00ff',
 	split: 270,
 	enable11pmBackgrounds: false,
 	scaleSliderMax: 400,
