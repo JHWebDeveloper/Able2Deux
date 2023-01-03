@@ -43,6 +43,8 @@ const TimecodeInput = ({
 	}, [min, max])
 
 	const onKeyDown = useCallback(e => {
+		limitChars(e)
+		
 		switch (e.key) {
 			case 'Enter':
 				e.preventDefault()
@@ -73,7 +75,6 @@ const TimecodeInput = ({
 			name={name}
 			title={title}
 			value={display}
-			onKeyPress={limitChars}
 			onKeyDown={onKeyDown}
 			onChange={e => updateDisplay(e.target.value)}
 			onBlur={e => syncTimecode(e.target.value)}
