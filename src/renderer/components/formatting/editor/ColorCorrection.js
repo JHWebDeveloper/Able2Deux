@@ -64,7 +64,7 @@ const getCurveColor = curveName => {
 }
 
 const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, editAll, dispatch }) => {
-	const { disabled, selectedCurve, rgb, r, g, b } = colorCurves
+	const { enabled, selectedCurve, rgb, r, g, b } = colorCurves
 
 	const toggleCCCheckbox = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'colorCurves', e, editAll))
@@ -85,24 +85,24 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 	// ---- Curves ----
 
 	const dispatchAddCurvePoint = useCallback(pointData => {
-		dispatch(addCurvePoint(id, selectedCurve, pointData))
-	}, [id, selectedCurve])
+		dispatch(addCurvePoint(id, selectedCurve, pointData, editAll))
+	}, [id, selectedCurve, editAll])
 
 	const dispatchAddOrUpdateCurvePoint = useCallback(pointData => {
-		dispatch(addOrUpdateCurvePoint(id, selectedCurve, pointData))
-	}, [id, selectedCurve])
+		dispatch(addOrUpdateCurvePoint(id, selectedCurve, pointData, editAll))
+	}, [id, selectedCurve, editAll])
 
 	const dispatchDeleteCurvePoint = useCallback(pointId => {
-		dispatch(deleteCurvePoint(id, selectedCurve, pointId))
-	}, [id, selectedCurve])
+		dispatch(deleteCurvePoint(id, selectedCurve, pointId, editAll))
+	}, [id, selectedCurve, editAll])
 
 	const dispatchCleanupCurve = useCallback(() => {
-		dispatch(cleanupCurve(id, selectedCurve))
-	}, [id, selectedCurve])
+		dispatch(cleanupCurve(id, selectedCurve, editAll))
+	}, [id, selectedCurve, editAll])
 
 	const dispatchResetCurve = useCallback(e => {
-		dispatch(resetCurve(id, e.shiftKey && selectedCurve))
-	}, [id, selectedCurve])
+		dispatch(resetCurve(id, e.shiftKey && selectedCurve, editAll))
+	}, [id, selectedCurve, editAll])
 
 	// ---- Curves Channels ----
 
@@ -133,15 +133,15 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 		dispatch(addOrUpdateCurvePoint(id, selectedCurve, {
 			...blackPt,
 			x: value
-		}))
-	}, [id, selectedCurve, blackPt])
+		}, editAll))
+	}, [id, selectedCurve, blackPt, editAll])
 
 	const setWhitePoint = useCallback(({ value }) => {
 		dispatch(addOrUpdateCurvePoint(id, selectedCurve, {
 			...whitePt,
 			x: value
-		}))
-	}, [id, selectedCurve, whitePt])
+		}, editAll))
+	}, [id, selectedCurve, whitePt, editAll])
 
 	/* ---- Eye Droppers ---- */
 
@@ -163,10 +163,10 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 
 	useEffect(() => {
 		if (eyedropper.active && eyedropper.pixelData) {
-			dispatch(colorBalance(id, eyedropper, { r, g, b }))
+			dispatch(colorBalance(id, eyedropper, { r, g, b }, editAll))
 			setEyedropper({ active: false, pixelData: false })
 		}
-	}, [id, eyedropper, r, g, b])
+	}, [id, eyedropper, r, g, b, editAll])
 
 	return (
 		<DetailsWrapper
@@ -175,8 +175,8 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 			<div>
 				<div className="on-off-switch">
 					<Checkbox
-						name="disabled"
-						checked={!disabled}
+						name="enabled"
+						checked={enabled}
 						onChange={toggleColorCorrection}
 						switchIcon />
 				</div>
@@ -185,35 +185,35 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 					title="Select Black Point"
 					className={eyedropper.active === 'black' ? 'eyedropper-active' : ''}
 					onClick={selectBlackPt}
-					disabled={disabled}>
+					disabled={!enabled}>
 					<EyedropperIcon
 						contentColor="#000"
-						disabled={disabled} />
+						disabled={!enabled} />
 				</button>
 				<button
 					type="button"
 					title="Select White Point"
 					className={eyedropper.active === 'white' ? 'eyedropper-active' : ''}
 					onClick={selectWhitePt}
-					disabled={disabled}>
+					disabled={!enabled}>
 					<EyedropperIcon
 						contentColor="#fff"
-						disabled={disabled} />
+						disabled={!enabled} />
 				</button>
 				<Checkbox
 					name="hidden"
 					checked={colorCurves.hidden}
 					onChange={toggleCCCheckbox}
-					disabled={disabled}
+					disabled={!enabled}
 					visibleIcon />
 				<button
 					type="button"
 					title="Reset Curves"
 					className="symbol"
 					onClick={dispatchResetCurve}
-					disabled={disabled}>format_color_reset</button>
+					disabled={!enabled}>format_color_reset</button>
 			</div>
-			<fieldset disabled={disabled}>
+			<fieldset disabled={!enabled}>
 				<legend>Color Channel</legend>
 				<RadioSet
 					name="selectedCurve"
@@ -230,7 +230,7 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 				addOrUpdateCurvePoint={dispatchAddOrUpdateCurvePoint}
 				deleteCurvePoint={dispatchDeleteCurvePoint}
 				cleanupCurve={dispatchCleanupCurve}
-				disabled={disabled} />
+				disabled={!enabled} />
 			<SliderDouble
 				leftThumb={{
 					...propsBlackPtStatic,
@@ -247,7 +247,7 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 				min={0}
 				max={255}
 				fineTuneStep={1}
-				disabled={disabled} />
+				disabled={!enabled} />
 		</DetailsWrapper>
 	)
 }, compareProps)
@@ -263,7 +263,7 @@ const pointPropType = exact({
 ColorCorrection.propTypes = {
 	id: string.isRequired,
 	colorCurves: exact({
-		disabled: bool,
+		enabled: bool,
 		hidden: bool,
 		selectedCurve: oneOf(['rgb', 'r', 'g', 'b']),
 		rgb: arrayOf(pointPropType),

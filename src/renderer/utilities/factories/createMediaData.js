@@ -93,7 +93,7 @@ const defaultMediaData = {
 		offset: 0
 	},
 	keying: {
-		disabled: true,
+		enabled: false,
 		hidden: false,
 		type: 'colorkey',
 		color: '#04f404',
@@ -101,7 +101,7 @@ const defaultMediaData = {
 		blend: 0
 	},
 	colorCurves: {
-		disabled: true,
+		enabled: false,
 		hidden: false,
 		selectedCurve: 'rgb',
 		rgb: createDefaultCurvePoints(),

@@ -33,7 +33,7 @@ const keyTypeButtons = [
 ]
 
 const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
-	const { disabled, hidden } = keying
+	const { enabled, hidden } = keying
 
 	const toggleKeyingCheckbox = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'keying', e, editAll))
@@ -53,14 +53,14 @@ const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
 		...similarityStaticProps,
 		value: keying.similarity,
 		onChange: updateKeying,
-		disabled
+		disabled: !enabled
 	}
 
 	const blendProps = {
 		...blendStaticProps,
 		value: keying.blend,
 		onChange: updateKeying,
-		disabled
+		disabled: !enabled
 	}
 
 	return (
@@ -73,15 +73,15 @@ const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
 			]) : []}>
 			<div className="on-off-switch">
 				<Checkbox
-					name="disabled"
-					title={`Turn keying ${disabled ? 'on' : 'off'}`}
-					checked={!disabled}
+					name="enabled"
+					title={`Turn keying ${enabled ? 'off' : 'on'}`}
+					checked={enabled}
 					onChange={toggleKeyingCheckbox}
 					switchIcon />
 			</div>
 			<fieldset
 				className="editor-option-column"
-				disabled={disabled}>
+				disabled={!enabled}>
 				<legend>Type:</legend>
 				<RadioSet
 					name="type"
@@ -89,23 +89,23 @@ const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
 					onChange={updateKeyingFromEvent}
 					buttons={keyTypeButtons}/>
 			</fieldset>
-			<div className={`color-picker-with-toggle ${disabled ? 'disabled' : ''}`}>
+			<div className={`color-picker-with-toggle ${enabled ? '' : 'disabled'}`}>
 				<label id="key-color">Color:</label>
 				<ColorInput
 					name="color"
 					value={keying.color}
 					onChange={updateKeying}
-					disabled={disabled}
+					disabled={!enabled}
 					ariaLabelledby="key-color" />
 				<Checkbox
 					name="hidden"
 					title={`Show ${hidden ? 'effect' : 'original'}`}
 					checked={hidden}
 					onChange={toggleKeyingCheckbox}
-					disabled={disabled}
+					disabled={!enabled}
 					visibleIcon />
 			</div>
-			<div className={`color-sliders-panel${disabled ? ' disabled' : ''}`}>
+			<div className={`color-sliders-panel${enabled ? '' : ' disabled'}`}>
 				<label>Similarity</label>
 				<SingleSlider {...similarityProps} />
 				<NumberInput {...similarityProps} />
@@ -122,7 +122,7 @@ Keying.propTypes = {
 	keying: exact({
 		blend: number,
 		color: string,
-		disabled: bool,
+		enabled: bool,
 		hidden: bool,
 		similarity: number,
 		type: string
