@@ -21,7 +21,7 @@ const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 		}))
 	}, [id])
 
-	const onKeyPress = useCallback(e => {
+	const onKeyDown = useCallback(e => {
 		const props = {}
 		
 		switch (e.key) {
@@ -60,7 +60,7 @@ const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 	}
 
 	return (
-		<div className="timecode-slider-grid" onKeyPress={onKeyPress}>
+		<div className="timecode-slider-grid" onKeyDown={onKeyDown}>
 			<label htmlFor="start">Start</label>
 			<TimecodeInputFrames
 				id={startProps.name}

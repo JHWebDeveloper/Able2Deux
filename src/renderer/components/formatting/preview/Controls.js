@@ -10,7 +10,7 @@ const Controls = props => {
 	const { selected, dispatch } = props
 	const { id, timecode, start, end, totalFrames } = selected
 
-	const onKeyPress = useCallback(e => {
+	const onKeyDown = useCallback(e => {
 		const props = {}
 		
 		switch (e.key) {
@@ -45,7 +45,7 @@ const Controls = props => {
 	}, [id, timecode, start, end, totalFrames])
 
 	return (
-		<div id="preview-controls" onKeyPress={onKeyPress}>
+		<div id="preview-controls" onKeyDown={onKeyDown}>
 			{selected.mediaType === 'video' ? (
 				<FrameSelector
 					selected={selected}
