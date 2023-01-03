@@ -3,7 +3,7 @@
  * https://blog.ivank.net/interpolation-with-cubic-splines.html
  * https://github.com/kuckir/CSPL.js
  * 
- * Same code, just converted to personal lint style and updated const's to const and let
+ * Same code, just converted to personal lint style and updated var's to const and let
  * 
  */
 
