@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { arrayOf, bool, exact, func, number, oneOf, string } from 'prop-types'
 
 import {
@@ -11,6 +11,8 @@ import {
 	colorBalance,
 	cleanupCurve
 } from 'actions'
+
+import { compareProps } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Checkbox from '../../form_elements/Checkbox'
@@ -61,7 +63,7 @@ const getCurveColor = curveName => {
 	}
 }
 
-const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, dispatch }) => {
+const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, editAll, dispatch }) => {
 	const { disabled, selectedCurve, rgb, r, g, b } = colorCurves
 
 	const toggleCCCheckbox = useCallback(e => {
@@ -248,7 +250,7 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 				disabled={disabled} />
 		</DetailsWrapper>
 	)
-}
+}, compareProps)
 
 const pointPropType = exact({
 	id: string,
