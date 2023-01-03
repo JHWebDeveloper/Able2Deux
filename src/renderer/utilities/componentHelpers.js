@@ -57,10 +57,12 @@ export const getStatusColor = status => {
 }
 
 export const limitTCChars = colonMax => e => {
-	const colons = e.target.value.match(/:|;/g) || []
-	const regex = colons.length === colonMax ? /[.0-9]/ : /[:;.0-9]/
-
-	if (!regex.test(e.key)) e.preventDefault()
+	if (/^[A-Za-z0-9~`!@#$%^&*()_\-+={}\[\]|\\:;"'<>,.?\/]$/.test(e.key)) {
+		const colons = e.target.value.match(/:|;/g) || []
+		const regex = colons.length === colonMax ? /[.0-9]/ : /[:;.0-9]/
+	
+		if (!regex.test(e.key)) e.preventDefault()
+	}
 }
 
 export const scrollText = el => {
