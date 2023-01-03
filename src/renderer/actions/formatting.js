@@ -89,6 +89,7 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 	while (i < len) duplicates.push({
 		newId: uuid(),
 		changes: {
+			timecode: i,
 			start: i,
 			end: i += split
 		}
