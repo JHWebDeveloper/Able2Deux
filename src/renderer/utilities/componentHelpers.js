@@ -57,7 +57,7 @@ export const getStatusColor = status => {
 }
 
 export const limitTCChars = colonMax => e => {
-	if (/^[A-Za-z0-9~`!@#$%^&*()_\-+={}\[\]|\\:;"'<>,.?\/]$/.test(e.key)) {
+	if (/^[A-Za-z0-9~`!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/]$/.test(e.key)) {
 		const colons = e.target.value.match(/:|;/g) || []
 		const regex = colons.length === colonMax ? /[.0-9]/ : /[:;.0-9]/
 	
