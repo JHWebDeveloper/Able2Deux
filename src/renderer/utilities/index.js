@@ -5,7 +5,7 @@ export * from './drawAble2Logo'
 export * from './factories'
 export * from './valueModifiers'
 
-// ---- contants ---- //
+// ---- constants ---- //
 
 export const TAU = Math.PI * 2
 
