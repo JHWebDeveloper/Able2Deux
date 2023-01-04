@@ -17,7 +17,7 @@ export const toastrOpts = {
 	extendedTimeOut: 0
 }
 
-// ---- calculators ---- //
+// ---- calculators and converters ---- //
 
 export const clamp = (val, min, max) => Math.max(min, Math.min(max, val))
 
@@ -35,8 +35,6 @@ export const getIntegerLength = n => {
 
 	return count
 }
-
-// ---- converters ---- //
 
 export const errorToString = err => err.toString().replace(/^.*Error: /, '')
 
