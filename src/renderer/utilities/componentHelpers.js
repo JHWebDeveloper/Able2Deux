@@ -1,5 +1,3 @@
-import { v1 as uuid } from 'uuid'
-
 import * as STATUS from 'status'
 import { createAnimator } from '.'
 
