@@ -16,7 +16,7 @@ const PreviewCanvas = ({ previewStill, previewSize, eyedropper, setEyedropper })
 			active: eyedropper.active,
 			pixelData: { r, g, b }
 		})
-	}, [cnv, ctx, eyedropper])
+	}, [previewSize, eyedropper])
 
 	const eyedropperProps = useMemo(() => eyedropper.active ? {
 		className: 'eyedropper',
