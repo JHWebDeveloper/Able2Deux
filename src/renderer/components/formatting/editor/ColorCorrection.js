@@ -14,7 +14,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, copyCurve, createSettingsMenu } from 'utilities'
+import { compareProps, copyCurveSet, createSettingsMenu } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Checkbox from '../../form_elements/Checkbox'
@@ -64,14 +64,6 @@ const getCurveColor = curveName => {
 			return '#000'
 	}
 }
-
-const copyCurveSet = curveSet => ({
-	...curveSet,
-	rgb: copyCurve(curveSet.rgb),
-	r: copyCurve(curveSet.r),
-	g: copyCurve(curveSet.g),
-	b: copyCurve(curveSet.b),
-})
 
 const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBatch, editAll, dispatch }) => {
 	const { enabled, selectedCurve, rgb, r, g, b } = colorCurves
