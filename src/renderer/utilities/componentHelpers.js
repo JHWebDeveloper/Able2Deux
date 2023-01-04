@@ -1,3 +1,5 @@
+import { v1 as uuid } from 'uuid'
+
 import * as STATUS from 'status'
 import { createAnimator } from '.'
 
@@ -27,6 +29,10 @@ export const compareProps = (prevProps, nextProps) => {
 
 	return true
 }
+
+export const copyCurve = curve => curve.map(pt => ({ ...pt, id: uuid() }))
+
+export const sortCurvePoints = (a, b) => a.x - b.x
 
 export const createSettingsMenu = actions => [
 	{

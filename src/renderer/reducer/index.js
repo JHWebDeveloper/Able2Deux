@@ -1,8 +1,8 @@
-import { v1 as uuid } from 'uuid'
-
 import * as ACTION from 'actions/types'
 import * as STATUS from 'status'
 import * as shared from './shared'
+
+import { copyCurve, sortCurvePoints } from 'utilities'
 
 // ---- REDUCER --------
 
@@ -162,10 +162,6 @@ const applyToAll = (state, payload) => ({
 		...payload.properties
 	} : item)
 })
-
-const sortCurvePoints = (a, b) => a.x - b.x
-
-const copyCurve = curve => curve.map(pt => ({ ...pt, id: uuid() }))
 
 const addCurvePoint = (state, payload) => {
 	const { id, curveName, pointData, editAll } = payload
