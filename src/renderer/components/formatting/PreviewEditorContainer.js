@@ -37,7 +37,7 @@ const PreviewEditorContainer = ({ selected, aspectRatioMarkers, previewQuality, 
 
 PreviewEditorContainer.propTypes = {
 	selected: object.isRequired,
-	previewQuality: oneOf([1, 2, 4]),
+	previewQuality: oneOf([1, 0.75, 0.5]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,
