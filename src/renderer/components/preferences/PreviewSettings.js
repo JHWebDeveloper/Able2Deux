@@ -13,12 +13,12 @@ const qualityButtons = [
 		value: '1'
 	},
 	{
-		label: '50%',
-		value: '2'
+		label: '75%',
+		value: '0.75'
 	},
 	{
-		label: '25%',
-		value: '4'
+		label: '50%',
+		value: '0.5'
 	}
 ]
 
@@ -27,7 +27,7 @@ const PreviewSettings = () => {
 
 	const setPreviewQuality = useCallback(e => {
 		dispatch(updateState({
-			previewQuality: parseInt(e.target.value)
+			previewQuality: parseFloat(e.target.value)
 		}))
 	}, [])
 
