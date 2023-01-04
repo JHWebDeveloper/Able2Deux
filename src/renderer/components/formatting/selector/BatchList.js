@@ -12,9 +12,11 @@ import {
 } from 'actions'
 
 import {
-	warn,
 	arrayCount,
-	createScrollbarPadder
+	copyCurveSet,
+	createScrollbarPadder,
+	objectExtract,
+	warn
 } from 'utilities'
 
 import DraggableList from '../../form_elements/DraggableList'
@@ -24,10 +26,19 @@ const applyToAllMessage = 'Apply current settings to all media items?'
 const applyToAllDetail = 'This will overwrite the settings of all other media items in the batch except for filenames and start and end timecodes. This cannot be undone. Proceed?'
 const removeMediaDetail = 'This cannot be undone. Proceed?'
 
-export const extractSettingsToCopy = settings => {
-	const { audio, arc, background, overlay, source, centering, position, scale, crop, rotation } = settings
-	return { audio, arc, background, overlay, source, centering, position, scale, crop, rotation }
-}
+export const extractSettingsToCopy = (() => {
+	const keys = ['arc', 'background', 'overlay', 'source', 'centering', 'position', 'scale', 'crop', 'rotation', 'keying', 'colorCurves', 'audio']
+
+	return ({ ...settings }) => {
+		const isAudio = settings.mediaType === 'audio' || settings.audio.exportAs === 'audio'
+
+		if (!isAudio) {
+			settings.colorCurves = copyCurveSet(settings.colorCurves)
+		}
+
+		return objectExtract(settings, isAudio ? keys.slice(-1) : keys)
+	}
+})()
 
 const scrollbarPadder = createScrollbarPadder()
 
@@ -37,7 +48,9 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 	const prefs = prefsCtx.preferences
 
 	const copyAllSettings = useCallback(id => {
-		dispatch(copySettings(extractSettingsToCopy(media.find(item => item.id === id))))
+		const mediaItem = { ...media.find(item => item.id === id) }
+
+		dispatch(copySettings(extractSettingsToCopy(mediaItem)))
 	}, [media])
 
 	const applyToAllWarning = useCallback(id => warn({
