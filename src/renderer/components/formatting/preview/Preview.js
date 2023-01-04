@@ -44,8 +44,8 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
 
 	const calcPreviewSize = useCallback(() => ({
-		width: container.current.clientWidth / previewQuality,
-		height: container.current.clientHeight / previewQuality
+		width: container.current.clientWidth * previewQuality,
+		height: container.current.clientHeight * previewQuality
 	}), [previewQuality])
 
 	// ---- Listen for preview still updates and rerender
@@ -149,7 +149,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 
 Preview.propTypes = {
 	selected: object.isRequired,
-	previewQuality: oneOf([1, 2, 4]),
+	previewQuality: oneOf([1, 0.75, 0.5]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,
