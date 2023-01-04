@@ -9,10 +9,12 @@ import {
 	deleteCurvePoint,
 	resetCurve,
 	colorBalance,
-	cleanupCurve
+	cleanupCurve,
+	copySettings,
+	applySettingsToAll
 } from 'actions'
 
-import { compareProps } from 'utilities'
+import { compareProps, copyCurve, createSettingsMenu } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Checkbox from '../../form_elements/Checkbox'
@@ -63,7 +65,15 @@ const getCurveColor = curveName => {
 	}
 }
 
-const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, editAll, dispatch }) => {
+const copyCurveSet = curveSet => ({
+	...curveSet,
+	rgb: copyCurve(curveSet.rgb),
+	r: copyCurve(curveSet.r),
+	g: copyCurve(curveSet.g),
+	b: copyCurve(curveSet.b),
+})
+
+const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBatch, editAll, dispatch }) => {
 	const { enabled, selectedCurve, rgb, r, g, b } = colorCurves
 
 	const toggleCCCheckbox = useCallback(e => {
@@ -81,6 +91,15 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 	const selectCurve = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'colorCurves', e))
 	}, [id])
+
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+		() => dispatch(copySettings({
+			colorCurves: copyCurveSet(colorCurves)
+		})),
+		() => dispatch(applySettingsToAll(id, {
+			colorCurves: copyCurveSet(colorCurves)
+		}))
+	]) : [], [isBatch, id, colorCurves])
 
 	// ---- Curves ----
 
@@ -171,7 +190,8 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 	return (
 		<DetailsWrapper
 			summary="Color Correction"
-			className="editor-panel cc-panel">
+			className="editor-panel cc-panel"
+			buttons={settingsMenu}>
 			<div>
 				<div className="on-off-switch">
 					<Checkbox
