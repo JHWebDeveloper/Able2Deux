@@ -44,8 +44,8 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
 
 	const calcPreviewSize = useCallback(() => ({
-		width: container.current.clientWidth * window.devicePixelRatio / previewQuality,
-		height: container.current.clientHeight * window.devicePixelRatio / previewQuality
+		width: container.current.clientWidth / previewQuality,
+		height: container.current.clientHeight / previewQuality
 	}), [previewQuality])
 
 	// ---- Listen for preview still updates and rerender
