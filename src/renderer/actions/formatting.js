@@ -103,39 +103,43 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 	dispatch(updateMediaState(id, { start: i }))
 }
 
-export const addCurvePoint = (id, curveName, pointData) => ({
+export const addCurvePoint = (id, curveName, pointData, editAll) => ({
 	type: ACTION.ADD_CURVE_POINT,
 	payload: {
 		id,
 		curveName,
-		pointData
+		pointData,
+		editAll
 	}
 })
 
-export const addOrUpdateCurvePoint = (id, curveName, pointData) => ({
+export const addOrUpdateCurvePoint = (id, curveName, pointData, editAll) => ({
 	type: ACTION.ADD_OR_UPDATE_CURVE_POINT,
 	payload: {
 		id,
 		curveName,
-		pointData
+		pointData,
+		editAll
 	}
 })
 
-export const deleteCurvePoint = (id, curveName, pointId) => ({
+export const deleteCurvePoint = (id, curveName, pointId, editAll) => ({
 	type: ACTION.DELETE_CURVE_POINT,
 	payload: {
 		id,
 		curveName,
-		pointId
+		pointId,
+		editAll
 	}
 })
 
-export const resetCurve = (id, curveName) => ({
+export const resetCurve = (id, curveName, editAll) => ({
 	type: ACTION.RESET_CURVE,
 	payload: {
 		id,
 		curveName,
-		pointData: createDefaultCurvePoints()
+		pointData: createDefaultCurvePoints(),
+		editAll
 	}
 })
 
@@ -153,7 +157,7 @@ const createBlackBalancedCurve = (b, w) => {
 	return [b, w]
 }
 
-export const colorBalance = (id, eyedropper, colorCurves) => dispatch => {
+export const colorBalance = (id, eyedropper, colorCurves, editAll) => dispatch => {
 	const { active, pixelData } = eyedropper
 	let r = []
 	let g = []
@@ -175,12 +179,12 @@ export const colorBalance = (id, eyedropper, colorCurves) => dispatch => {
 		r,
 		g,
 		b
-	}))
+	}, editAll))
 }
 
-export const cleanupCurve = (id, curveName) => ({
+export const cleanupCurve = (id, curveName, editAll) => ({
 	type: ACTION.CLEANUP_CURVE,
-	payload: { id, curveName }
+	payload: { id, curveName, editAll }
 })
 
 export const toggleSaveLocation = (id, property) => ({
