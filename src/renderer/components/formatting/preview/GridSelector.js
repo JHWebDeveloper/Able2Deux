@@ -30,9 +30,9 @@ const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor,
 	), [aspectRatioMarkers])
 
 	const changePreviewQuality = useCallback(() => {
-		let q = previewQuality / 2
+		let q = previewQuality + 0.25
 
-		if (q < 1) q = 4
+		if (q > 1) q = 0.5
 
 		dispatch(updateState({ previewQuality: q }))
 	}, [previewQuality])
@@ -46,7 +46,7 @@ const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor,
 			<button
 				type="button"
 				className="symbol"
-				title={`Preview Quality: ${100 / previewQuality}%`}
+				title={`Preview Quality: ${previewQuality * 100}%`}
 				onClick={changePreviewQuality}>
 				<QualityIcon quality={previewQuality}/>
 			</button>
@@ -83,7 +83,7 @@ const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor,
 
 GridSelector.propTypes = {
 	showGrid: bool.isRequired,
-	previewQuality: oneOf([1, 2, 4]),
+	previewQuality: oneOf([1, 0.75, 0.5]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,
