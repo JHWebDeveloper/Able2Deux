@@ -79,7 +79,7 @@ export const format12hr = d => {
 	return `${h}${zeroize(m)}${meridian}`
 }
 
-// ---- filenames ---- //
+// ---- filenames and titles ---- //
 
 const getRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
 
