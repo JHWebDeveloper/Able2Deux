@@ -23,11 +23,11 @@ export const sortCurvePoints = (a, b) => a.x - b.x
 
 // ---- zero padders ---- //
 
-export const zeroizeAuto = (n, total) => zeroize(n, getIntegerLength(total))
-
 export const zeroize = (n, zeroes = 2) => n
 	.toString()
 	.padStart(zeroes, '0')
+
+export const zeroizeAuto = (n, total) => zeroize(n, getIntegerLength(total))
 
 // ---- timecodes and timestamps ---- //
 
