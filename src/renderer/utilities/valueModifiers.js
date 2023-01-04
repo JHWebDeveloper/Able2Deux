@@ -2,8 +2,6 @@ import { v1 as uuid } from 'uuid'
 
 import { getIntegerLength } from '.'
 
-export const capitalize = str => `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`
-
 // ---- curve arrays ---- //
 
 export const copyCurve = curve => curve.map(pt => ({ ...pt, id: uuid() }))
@@ -103,3 +101,5 @@ export const replaceTokens = (filename, i = 0, l = 0) => {
 		.replace(/\$t/g, format12hr(d))
 		.replace(/\$T/g, `${d.getHours()}${d.getMinutes()}`)
 }
+
+export const capitalize = str => `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`
