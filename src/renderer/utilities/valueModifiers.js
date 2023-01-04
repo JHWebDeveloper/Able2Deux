@@ -10,6 +10,21 @@ export const cleanFilename = (fileName, asperaSafe) => fileName
 	.slice(0, 252)
 	.trimEnd()
 
+export const copyCurve = curve => curve.map(pt => ({ ...pt, id: uuid() }))
+
+export const copyCurveSet = curves => {
+	const [ rgb, r, g, b ] = [
+		curves.rgb,
+		curves.r,
+		curves.g,
+		curves.b
+	].map(c => copyCurve(c))
+
+	return { ...curves, rgb, r, g, b }
+}
+
+export const sortCurvePoints = (a, b) => a.x - b.x
+
 export const zeroizeAuto = (n, total) => zeroize(n, getIntegerLength(total))
 
 export const zeroize = (n, zeroes = 2) => n

@@ -30,21 +30,6 @@ export const compareProps = (prevProps, nextProps) => {
 	return true
 }
 
-export const copyCurve = curve => curve.map(pt => ({ ...pt, id: uuid() }))
-
-export const copyCurveSet = curves => {
-	const [ rgb, r, g, b ] = [
-		curves.rgb,
-		curves.r,
-		curves.g,
-		curves.b
-	].map(c => copyCurve(c))
-
-	return { ...curves, rgb, r, g, b }
-}
-
-export const sortCurvePoints = (a, b) => a.x - b.x
-
 export const createSettingsMenu = actions => [
 	{
 		label: 'Copy Setting',
