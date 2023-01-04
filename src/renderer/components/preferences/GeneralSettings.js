@@ -23,7 +23,7 @@ const themeButtons = [
 	}
 ]
 
-const Warnings = () => {
+const GeneralSettings = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
 	const { warnings } = preferences
 
@@ -91,4 +91,4 @@ const Warnings = () => {
 	)
 }
 
-export default Warnings
+export default GeneralSettings
