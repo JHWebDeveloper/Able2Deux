@@ -5,7 +5,42 @@ export * from './drawAble2Logo'
 export * from './factories'
 export * from './valueModifiers'
 
+// ---- contants ---- //
+
 export const TAU = Math.PI * 2
+
+export const toastrOpts = {
+	closeButton: true,
+	positionClass: 'toast-bottom-right',
+	hideDuration: 150,
+	timeOut: 0,
+	extendedTimeOut: 0
+}
+
+// ---- calculators ---- //
+
+export const clamp = (val, min, max) => Math.max(min, Math.min(max, val))
+
+export const pythagorean = (a, b) => a ** 2 + b ** 2 // omitting square root for performance
+
+export const getIntegerLength = n => {
+	if (n < 0) n *= -1
+
+	let count = 1
+
+	while (n / 10 >= 1) {
+		n /= 10
+		count++
+	}
+
+	return count
+}
+
+// ---- converters ---- //
+
+export const errorToString = err => err.toString().replace(/^.*Error: /, '')
+
+// ---- array utilities ---- //
 
 export const arrayCount = (arr, exp) => {
 	let i = arr.length
@@ -18,7 +53,14 @@ export const arrayCount = (arr, exp) => {
 	return count
 }
 
-export const clamp = (val, min, max) => Math.max(min, Math.min(max, val))
+// ---- object utilities ---- //
+
+export const objectExtract = (obj, props) => props.reduce((extract, prop) => ({
+	...extract,
+	[prop]: obj[prop]
+}), {})
+
+// ---- function utilities ---- //
 
 export const debounce = (callback, wait) => {
 	let timeout = false
@@ -49,20 +91,7 @@ export const throttle = (callback, duration) => {
 	}
 }
 
-export const errorToString = err => err.toString().replace(/^.*Error: /, '')
-
-export const getIntegerLength = n => {
-	if (n < 0) n *= -1
-
-	let count = 1
-
-	while (n / 10 >= 1) {
-		n /= 10
-		count++
-	}
-
-	return count
-}
+// ---- acessibility ---- //
 
 export const initTabbedBrowsing = () => {
 	function onKeyDown(e) {
@@ -74,18 +103,3 @@ export const initTabbedBrowsing = () => {
 
 	document.body.addEventListener('keydown', onKeyDown)
 }
-
-export const objectExtract = (obj, props) => props.reduce((extract, prop) => ({
-	...extract,
-	[prop]: obj[prop]
-}), {})
-
-export const toastrOpts = {
-	closeButton: true,
-	positionClass: 'toast-bottom-right',
-	hideDuration: 150,
-	timeOut: 0,
-	extendedTimeOut: 0
-}
-
-export const pythagorean = (a, b) => a ** 2 + b ** 2 // omitting square root for performance
