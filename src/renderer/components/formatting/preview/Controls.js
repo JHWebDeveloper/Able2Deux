@@ -65,7 +65,7 @@ const Controls = props => {
 Controls.propTypes = {
 	selected: object.isRequired,
 	showGrid: bool.isRequired,
-	previewQuality: oneOf([1, 2, 4]),
+	previewQuality: oneOf([1, 0.75, 0.5]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,
