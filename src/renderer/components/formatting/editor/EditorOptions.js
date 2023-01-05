@@ -26,7 +26,7 @@ const extractCommonProps = (() => {
 const EditorOptions = props => {
 	if (!props.id) return false
 
-	const { mediaType, aspectRatio, arc, audio, scale, crop } = props
+	const { background, mediaType, aspectRatio, arc, audio, scale, crop } = props
 	const common = extractCommonProps(props)
 
 	const ref = useRef()
@@ -52,40 +52,29 @@ const EditorOptions = props => {
 				split={props.split}
 				{...common} />
 			{props.hasAudio ? (
-				<Audio
-					audio={audio}
-					{...common} />
+				<Audio audio={audio} {...common} />
 			) : <></>}
 			{mediaType !== 'audio' && !(mediaType === 'video' && audio.exportAs === 'audio') ? <>
 				<Formatting 
 					arc={arc}
-					background={props.background}
+					background={background}
 					backgroundMotion={props.backgroundMotion}
 					bgColor={props.bgColor}
 					overlay={props.overlay}
-					backgroundDisabled={props.backgroundDisabled}
 					{...common} />
 				{!(arc === 'none' && aspectRatio !== '16:9') ? (
 					<Source
 						source={props.source}
+						background={background}
 						{...common} />
 				) : <></>}
 				{arc === 'fill' && aspectRatio !== '16:9' ? (
-					<Centering
-						centering={props.centering}
-						{...common} />
+					<Centering centering={props.centering} {...common} />
 				) : <></>}
 				{arc === 'transform' ? <>
-					<Position
-						position={props.position}
-						{...common} />
-					<Scale
-						scale={scale}
-						crop={crop}
-						{...common} />
-					<Crop
-						crop={crop}
-						{...common} />
+					<Position position={props.position} {...common} />
+					<Scale scale={scale} crop={crop} {...common} />
+					<Crop crop={crop} {...common} />
 				</> : <></>}
 				<Rotation
 					rotation={props.rotation}
@@ -93,10 +82,8 @@ const EditorOptions = props => {
 					crop={crop}
 					arc={arc}
 					{...common} />
-				{arc === 'fit' || arc === 'transform' ? (
-					<Keying
-						keying={props.keying}
-						{...common} />
+				{arc !== 'none' ? (
+					<Keying keying={props.keying} {...common} />
 				) : <></>}
 				<ColorCorrection
 					colorCurves={props.colorCurves}
@@ -132,7 +119,6 @@ EditorOptions.propTypes = {
 	backgroundMotion: string,
 	bgColor: string,
 	overlay: string,
-	backgroundDisabled: bool.isRequired,
 	source: object,
 	centering: oneOfType([oneOf(['']), number]),
 	position: object,
