@@ -72,6 +72,7 @@ const RenderQueue = props => {
 		detail: startOverDetail,
 		enabled: warnings.startOver,
 		callback() {
+			closeRenderQueue()
 			dispatch(startOver())
 			navigate('/')
 		},
