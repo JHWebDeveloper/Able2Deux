@@ -93,7 +93,7 @@ const Grid = ({ showGrid, gridColor, aspectRatioMarkers, previewSize }) => {
 	useEffect(() => {
 		cnv.current.width = previewSize.width
 		cnv.current.height = previewSize.height
-		ctx.current.lineWidth = 3
+		ctx.current.lineWidth = 1.25
 	}, [previewSize])
 
 	useEffect(() => {
