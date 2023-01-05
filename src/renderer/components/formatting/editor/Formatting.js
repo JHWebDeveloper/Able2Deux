@@ -183,7 +183,7 @@ Formatting.propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
-	background: oneOf(['blue', 'grey', 'light_blue', 'dar_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
+	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
 	backgroundMotion: oneOf(['animated', 'still', 'auto']).isRequired,
 	bgColor: string.isRequired,
 	overlay: oneOf(['none', 'tv', 'laptop']),
