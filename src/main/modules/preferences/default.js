@@ -9,24 +9,32 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 const defaultPrefs = {
 	version: 9,
 	theme: 'system',
-	renderOutput: '1280x720',
-	renderFrameRate: 'auto',
-	customFrameRate: 23.98,
-	autoPNG: true,
-	asperaSafe: true,
-	concurrent: 2,
 	scratchDisk: {
 		imports: tempDirectory,
 		exports: tempDirectory,
 		previews: tempDirectory
 	},
+	warnings: {
+		remove: true,
+		removeAll: true,
+		applyToAll: true,
+		sourceOnTop: true,
+		startOver: true
+	},
 	optimize: 'quality',
 	screenshot: false,
 	timerEnabled: false,
-	timer: 60,
 	screenRecorderFrameRate: 60,
+	timer: 60,
+	editorSettings: {
+		arc: 'none',
+		backgroundMotion: 'animated'
+	},
 	editAll: false,
+	enable11pmBackgrounds: false,
 	sliderSnapPoints: true,
+	split: 270,
+	scaleSliderMax: 400,
 	previewQuality: 1,
 	gridColor: '#ff00ff',
 	aspectRatioMarkers: [
@@ -73,20 +81,12 @@ const defaultPrefs = {
 			ratio: [2.39, 1]
 		}
 	],
-	split: 270,
-	enable11pmBackgrounds: false,
-	scaleSliderMax: 400,
-	editorSettings: {
-		arc: 'none',
-		backgroundMotion: 'animated'
-	},
-	warnings: {
-		remove: true,
-		removeAll: true,
-		applyToAll: true,
-		sourceOnTop: true,
-		startOver: true
-	},
+	renderOutput: '1280x720',
+	renderFrameRate: 'auto',
+	customFrameRate: 23.98,
+	autoPNG: true,
+	asperaSafe: true,
+	concurrent: 2,
 	saveLocations: [
 		{
 			id: uuid(),

@@ -9,36 +9,13 @@ import { toastrOpts } from 'utilities'
 const { interop } = window.ABLE2
 
 const initState = {
-	renderOutput: '1280x720',
-	renderFrameRate: 'auto',
-	customFrameRate: 23.98,
-	autoPNG: true,
-	asperaSafe: true,
-	concurrent: 2,
-	theme: 'light',
+	version: 9,
+	theme: 'system',
 	scratchDisk: {
 		imports: '',
 		exports: '',
 		previews: ''
 	},
-	optimize: 'quality',
-	screenRecorderFrameRate: 60,
-	screenshot: false,
-	timerEnabled: false,
-	timer: 60,
-	editAll: false,
-	sliderSnapPoints: true,
-	enable11pmBackgrounds: false,
-	editorSettings: {
-		arc: 'none',
-		backgroundMotion: 'animated'
-	},
-	split: 270,
-	aspectRatioMarkers: [],
-	previewQuality: 1,
-	gridColor: '#ff00ff',
-	scaleSliderMax: 400,
-	disableRateLimit: false,
 	warnings: {
 		remove: true,
 		removeAll: true,
@@ -46,7 +23,31 @@ const initState = {
 		sourceOnTop: true,
 		startOver: true
 	},
-	saveLocations: []
+	optimize: 'quality',
+	screenshot: false,
+	timerEnabled: false,
+	screenRecorderFrameRate: 60,
+	timer: 60,
+	editorSettings: {
+		arc: 'none',
+		backgroundMotion: 'animated'
+	},
+	editAll: false,
+	enable11pmBackgrounds: false,
+	sliderSnapPoints: true,
+	split: 270,
+	scaleSliderMax: 400,
+	previewQuality: 1,
+	gridColor: '#ff00ff',
+	aspectRatioMarkers: [],
+	renderOutput: '1280x720',
+	renderFrameRate: 'auto',
+	customFrameRate: 23.98,
+	autoPNG: true,
+	asperaSafe: true,
+	concurrent: 2,
+	saveLocations: [],
+	disableRateLimit: false
 }
 
 export const PrefsContext = createContext()
