@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { arrayOf, bool, exact, func, number, object, oneOf, string } from 'prop-types'
 
 import PreviewContainer from './preview/PreviewContainer'
@@ -6,11 +6,6 @@ import EditorOptions from './editor/EditorOptions'
 
 const PreviewEditorContainer = ({ selected, aspectRatioMarkers, previewQuality, editAll, batch, split, isBatch, dispatch }) => {
 	const [ eyedropper, setEyedropper ] = useState({ active: false, pixelData: false })
-	const { arc, overlay, hasAlpha } = selected
-
-	const backgroundDisabled = useMemo(() => ( // eslint-disable-line no-extra-parens
-		arc === 'none' || arc === 'fill' && !hasAlpha && overlay === 'none'
-	), [arc, overlay, hasAlpha])
 
 	return (
 		<div id="editor">
@@ -28,7 +23,6 @@ const PreviewEditorContainer = ({ selected, aspectRatioMarkers, previewQuality, 
 				editAll={editAll}
 				split={split}
 				isBatch={isBatch}
-				backgroundDisabled={backgroundDisabled}
 				dispatch={dispatch}
 				{...selected} />
 		</div>
