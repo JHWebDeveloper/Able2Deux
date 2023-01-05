@@ -292,7 +292,8 @@ ColorCorrection.propTypes = {
 		})])
 	}).isRequired,
 	setEyedropper: func.isRequired,
-	editAll: bool,
+	isBatch: bool.isRequired,
+	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
 

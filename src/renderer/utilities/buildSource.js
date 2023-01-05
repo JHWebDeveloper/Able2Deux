@@ -1,5 +1,6 @@
 import { has11pmBackground } from '.'
 
+// eslint-disable-next-line no-extra-parens
 const buildSourceName = (src, prefix, maxLength) => (
 	`${prefix ? 'Source: ' : ''}${src.replace(/^(source|courtesy):/ig, '').trim()}`.slice(0, maxLength)
 )

@@ -52,7 +52,9 @@ const EditorOptions = props => {
 				split={props.split}
 				{...common} />
 			{props.hasAudio ? (
-				<Audio audio={audio} {...common} />
+				<Audio
+					audio={audio}
+					{...common} />
 			) : <></>}
 			{mediaType !== 'audio' && !(mediaType === 'video' && audio.exportAs === 'audio') ? <>
 				<Formatting 
@@ -69,12 +71,21 @@ const EditorOptions = props => {
 						{...common} />
 				) : <></>}
 				{arc === 'fill' && aspectRatio !== '16:9' ? (
-					<Centering centering={props.centering} {...common} />
+					<Centering
+						centering={props.centering}
+						{...common} />
 				) : <></>}
 				{arc === 'transform' ? <>
-					<Position position={props.position} {...common} />
-					<Scale scale={scale} crop={crop} {...common} />
-					<Crop crop={crop} {...common} />
+					<Position
+						position={props.position}
+						{...common} />
+					<Scale
+						scale={scale}
+						crop={crop}
+						{...common} />
+					<Crop
+						crop={crop}
+						{...common} />
 				</> : <></>}
 				<Rotation
 					rotation={props.rotation}
@@ -83,7 +94,9 @@ const EditorOptions = props => {
 					arc={arc}
 					{...common} />
 				{arc !== 'none' ? (
-					<Keying keying={props.keying} {...common} />
+					<Keying
+						keying={props.keying}
+						{...common} />
 				) : <></>}
 				<ColorCorrection
 					colorCurves={props.colorCurves}
