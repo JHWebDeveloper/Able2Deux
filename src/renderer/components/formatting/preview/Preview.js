@@ -35,11 +35,11 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 
 	const sourceData = useMemo(() => {
 		if (source?.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
-			return buildSource(source, renderOutput)
+			return buildSource(source, renderOutput, background)
 		}
 
 		return false
-	}, [source, arc, rotation, renderOutput])
+	}, [source, arc, rotation, renderOutput, background])
 
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
 
