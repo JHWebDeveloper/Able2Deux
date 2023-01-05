@@ -340,6 +340,26 @@ button[name^="link"] > svg { pointer-events: none; }
 	align-self: flex-end;
 }
 
+@media screen and (min-width: 830px) {
+	.formatting-panel {
+		grid-template-columns: repeat(4, min-content);
+	}
+
+	.formatting-panel > fieldset:nth-of-type(2) { /* background column */
+		grid-column: 3;
+	}
+
+	.formatting-panel > fieldset:nth-of-type(3) { /* overlay column */
+		grid-column: 4;
+	}
+
+	.formatting-panel > fieldset:nth-of-type(4) { /* motion column */
+		grid-column: 2;
+		grid-row: 1;
+		align-self: flex-start;
+	}
+}
+
 /* -- Position Panel -- */
 
 .position-panel {
