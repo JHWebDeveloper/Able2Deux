@@ -34,20 +34,23 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 
 	if (sourceData) {
 		const sourcePng = path.join(scratchDisk.previews.path, `${id}.src-overlay.png`)
-		fs.writeFileSync(sourcePng, sourceData, 'base64')		
+
+		fs.writeFileSync(sourcePng, sourceData.base64, 'base64')
+
 		command.input(sourcePng)
 	}
 
-	if (arc !== 'none' && !(arc === 'fill' && overlay === 'none' && !hasAlpha)) {
-		if (background !== 'alpha' && background !== 'color') {
-			command.input(path.join(assetsPath, renderHeight, `${background}.jpg`))
-		} else if (background === 'alpha') {
-			command.input(path.join(assetsPath, renderHeight, 'alpha.jpg'))
-		} else {
-			command
-				.input(`color=c=${exportData.bgColor}:s=${renderWidth}x${renderHeight}`)
-				.inputOption('-f lavfi')
-		}
+	const fillNeedsBg = arc === 'fill' && (hasAlpha || overlay !== 'none' || exportData.keying.enabled || (sourceData && sourceData.is11pm))
+	const addBgLayer = arc === 'fit' || arc === 'transform' || fillNeedsBg
+
+	if (addBgLayer && background === 'alpha') {
+		command.input(path.join(assetsPath, renderHeight, 'alpha.jpg'))
+	} else if (addBgLayer && background === 'color') {
+		command
+			.input(`color=c=${exportData.bgColor}:s=${renderWidth}x${renderHeight}`)
+			.inputOption('-f lavfi')
+	} else if (addBgLayer) {
+		command.input(path.join(assetsPath, renderHeight, `${background}.jpg`))
 	}
 
 	if (arc !== 'none' && overlay !== 'none') {
@@ -66,7 +69,7 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 			renderWidth,
 			overlayDim,
 			hasAlpha,
-			sourceData: !!sourceData,
+			sourceData,
 			centering: exportData.centering,
 			position: exportData.position,
 			scale: exportData.scale,

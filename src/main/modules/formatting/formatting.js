@@ -231,7 +231,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			const sourcePng = path.join(scratchDisk.imports.path, `${id}.src-overlay.png`)
 
 			try {
-				fs.writeFileSync(sourcePng, sourceData, { encoding: 'base64' })		
+				fs.writeFileSync(sourcePng, sourceData.base64, { encoding: 'base64' })		
 			} catch (err) {
 				console.error(err)
 				reject(new Error('An error occurred when attempting to create source overlay.'))
@@ -240,16 +240,17 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			renderCmd.input(sourcePng)
 		}
 
-		if (arc !== 'none' && !(arc === 'fill' && overlay === 'none' && !hasAlpha)) {
-			if (background !== 'alpha' && background !== 'color') {
-				renderCmd
-					.input(path.join(assetsPath, renderHeight, `${background}.${backgroundMotion === 'still' ? 'png' : 'mov'}`))
-					.inputOption('-stream_loop -1')
-			} else {
-				renderCmd
-					.input(`color=c=${exportData.bgColor}@${needsAlpha ? 0 : 1}.0:s=${renderWidth}x${renderHeight}:rate=59.94${needsAlpha ? ',format=rgba' : ''}`)
-					.inputOption('-f lavfi')
-			}
+		const fillNeedsBg = arc === 'fill' && (hasAlpha || overlay !== 'none' || exportData.keying.enabled || (sourceData && sourceData.is11pm))
+		const addBgLayer = arc === 'fit' || arc === 'transform' || fillNeedsBg
+
+		if (addBgLayer && (background === 'alpha' || background === 'color')) {
+			renderCmd
+				.input(`color=c=${exportData.bgColor}@${needsAlpha ? 0 : 1}.0:s=${renderWidth}x${renderHeight}:rate=59.94${needsAlpha ? ',format=rgba' : ''}`)
+				.inputOption('-f lavfi')
+		} else if (addBgLayer) {
+			renderCmd
+				.input(path.join(assetsPath, renderHeight, `${background}.${backgroundMotion === 'still' ? 'png' : 'mp4'}`))
+				.inputOption('-stream_loop -1')
 		}
 
 		if (arc !== 'none' && overlay !== 'none') {
@@ -267,7 +268,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			renderWidth,
 			overlayDim,
 			hasAlpha,
-			sourceData: !!sourceData,
+			sourceData,
 			centering: exportData.centering,
 			position: exportData.position,
 			scale: exportData.scale,
