@@ -1,9 +1,9 @@
 const getBGLayerNumber = (sourceData, overlayDim) => {
-	if (sourceData) {
-		return overlayDim ? 4 : 2
-	} else {
-		return overlayDim ? 3 : 1
-	}
+	let bgNo = overlayDim ? 3 : 1
+
+	if (sourceData) bgNo++
+
+	return bgNo
 }
 
 /**
@@ -13,9 +13,22 @@ const getBGLayerNumber = (sourceData, overlayDim) => {
  */
 
 const shortestAndFormat = ':shortest=1:format=auto'
-const sourceDataCmd = '[tosrc];[tosrc][1:v]overlay'
 const previewResize = ({ width, height }) => `scale=w=${width}:h=${height}:force_original_aspect_ratio=decrease`
 const previewMixdown = size => `[final];[final]${previewResize(size)}`
+
+const buildSrcLayer = sourceData => {
+	let filter = '[tosrc];'
+
+	if (sourceData.is11pm) {
+		const { x, y, width, height } = sourceData
+
+		filter = `${filter}[2:v]crop=${width}:${height}:${x}:${y}[srcbg];[tosrc][srcbg]overlay=${x}:${y}:shortest=1:format=auto[tosrc2];[tosrc2]`
+	} else {
+		filter = `${filter}[tosrc]`
+	}
+
+	return `${filter}[1:v]overlay`
+}
 
 const overlayDimCmdChunks = [
 	'[tooverlay];[tooverlay]scale=w=',
@@ -25,7 +38,7 @@ const overlayDimCmdChunks = [
 ]
 
 const finalize = ({ filter, sourceData, overlayDim, isPreview, previewSize }) => {
-	if (sourceData) filter = `${filter}${sourceDataCmd}`
+	if (sourceData) filter = `${filter}${buildSrcLayer(sourceData)}`
 	if (overlayDim) filter = `${filter}${overlayDimCmdChunks[0]}${overlayDim.width}:h=${overlayDim.height}${overlayDimCmdChunks[1]}${sourceData ? 2 : 1}${overlayDimCmdChunks[2]}${overlayDim.y}${overlayDimCmdChunks[3]}${sourceData ? 3 : 2}:v]overlay`
 	if (isPreview) filter = `${filter}${previewMixdown(previewSize)}`
 
@@ -53,7 +66,7 @@ const buildCommonFilter = (isPreview, reflect, angle, curves) => {
 		filter = angle
 	}
 
-	if (!curves.disabled && !(isPreview && curves.hidden)) filter = `${buildCurvesFilter(curves)}${filter}`
+	if (curves.enabled && !(isPreview && curves.hidden)) filter = `${buildCurvesFilter(curves)}${filter}`
 
 	return filter
 }
@@ -83,27 +96,27 @@ const fillCmdChunks = [
 	':v][fg]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2'
 ]
 
+const buildKeyFilter = (isPreview, keying) => {
+	const { enabled, hidden, type, color, similarity, blend } = keying
+
+	if (!enabled || isPreview && hidden) return ''
+
+	return `${type}=${color}:${similarity / 100}:${blend / 100}[ky];[ky]`
+}
+
 export const fill = (filterData, isPreview, previewSize) => {
-	let { reflect, angle, colorCurves, centering, sourceData, overlayDim, renderWidth, renderHeight, hasAlpha } = filterData
+	const { keying, reflect, angle, colorCurves, sourceData, overlayDim, renderWidth, renderHeight, hasAlpha } = filterData
+	let { centering } = filterData
 
 	centering /= -100
 
-	let filter = `[0:v]${buildCommonFilter(isPreview, reflect, angle, colorCurves)},scale=w=${renderWidth}:h=${renderHeight}${fillCmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdChunks[1]}${centering}*(ih-oh)/2`
+	let filter = `[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, reflect, angle, colorCurves)},scale=w=${renderWidth}:h=${renderHeight}${fillCmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${fillCmdChunks[1]}${centering}*(ih-oh)/2`
 
-	if (hasAlpha) {
+	if (hasAlpha || keying.enabled) {
 		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${fillCmdChunks[2]}${shortestAndFormat}`
 	}
 
 	return finalize({ filter, sourceData, overlayDim, isPreview, previewSize })
-}
-
-const buildKeyFilter = (isPreview, keying) => {
-	const { disabled, hidden, type, color, similarity, blend } = keying
-
-	if (isPreview && hidden) return ''
-	if (disabled) return ''
-
-	return `${type}=${color}:${similarity / 100}:${blend / 100}[ky];[ky]`
 }
 
 const fitCmdChunks = [
