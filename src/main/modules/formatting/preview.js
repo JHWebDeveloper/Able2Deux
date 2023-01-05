@@ -40,7 +40,7 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 		command.input(sourcePng)
 	}
 
-	const fillNeedsBg = arc === 'fill' && (hasAlpha || overlay !== 'none' || exportData.keying.enabled || (sourceData && sourceData.is11pm))
+	const fillNeedsBg = arc === 'fill' && (hasAlpha || overlay !== 'none' || exportData.keying.enabled || sourceData.is11pm)
 	const addBgLayer = arc === 'fit' || arc === 'transform' || fillNeedsBg
 
 	if (addBgLayer && background === 'alpha') {
