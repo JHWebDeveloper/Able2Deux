@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useMemo } from 'react'
-import { arrayOf, bool, exact, func, number, oneOf, string } from 'prop-types'
+import { arrayOf, bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	toggleMediaNestedCheckbox,
@@ -285,7 +285,7 @@ ColorCorrection.propTypes = {
 	}).isRequired,
 	eyedropper: exact({
 		active: oneOf([false, 'white', 'black']),
-		pixelData: oneOf([false, exact({
+		pixelData: oneOfType([bool, exact({
 			r: string,
 			g: string,
 			b: string
