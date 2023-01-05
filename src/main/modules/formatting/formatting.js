@@ -44,6 +44,20 @@ const checkIsStill = exportData => {
 	)
 }
 
+const getBgDuration = background => {
+	switch (background) {
+		case 'light_blue':
+		case 'dark_blue':
+		case 'teal':
+		case 'tan':
+			return 6.967
+		case 'blue':
+			return 7.033
+		default:
+			return 7
+	}
+}
+
 const getIntegerLength = n => {
 	let count = 1
 
@@ -216,7 +230,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	if (!isAudio) {
 		if (!isStill) {
 			if (mediaType === 'video' && audio.exportAs === 'video') renderCmd.noAudio()
-			if (mediaType === 'image') renderCmd.loop(7)
+			if (mediaType === 'image') renderCmd.loop(getBgDuration(background))
 	
 			if (renderFrameRate === 'custom') {
 				renderCmd.outputOption(`-r ${exportData.customFrameRate}`)
