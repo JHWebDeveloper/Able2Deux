@@ -24,8 +24,8 @@ const { interop } = window.ABLE2
 const startOverMessage = 'Start Over?'
 const startOverDetail = 'All entries will be cleared and media deleted. This cannot be undone. Proceed?'
 
-const RenderQueue = params => {
-	const { media, batch, saveLocations, closeRenderQueue, dispatch } = params
+const RenderQueue = props => {
+	const { media, batch, saveLocations, closeRenderQueue, dispatch } = props
 	const prefsContext = useContext(PrefsContext)
 	const navigate = useNavigate()
 	const prefsDispatch = prefsContext.dispatch
