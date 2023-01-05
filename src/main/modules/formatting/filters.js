@@ -16,13 +16,18 @@ const shortestAndFormat = ':shortest=1:format=auto'
 const previewResize = ({ width, height }) => `scale=w=${width}:h=${height}:force_original_aspect_ratio=decrease`
 const previewMixdown = size => `[final];[final]${previewResize(size)}`
 
+const buildSrcLayerChunks = [
+	'[srcbg];[tosrc][srcbg]overlay=',
+	':shortest=1:format=auto[tosrc2];[tosrc2]'
+]
+
 const buildSrcLayer = sourceData => {
 	let filter = '[tosrc];'
 
 	if (sourceData.is11pm) {
 		const { x, y, width, height } = sourceData
 
-		filter = `${filter}[2:v]crop=${width}:${height}:${x}:${y}[srcbg];[tosrc][srcbg]overlay=${x}:${y}:shortest=1:format=auto[tosrc2];[tosrc2]`
+		filter = `${filter}[2:v]crop=${width}:${height}:${x}:${y}${buildSrcLayerChunks[0]}${x}:${y}${buildSrcLayerChunks[1]}`
 	} else {
 		filter = `${filter}[tosrc]`
 	}
