@@ -15,6 +15,7 @@ const initState = {
 	autoPNG: true,
 	asperaSafe: true,
 	concurrent: 2,
+	theme: 'light',
 	scratchDisk: {
 		imports: '',
 		exports: '',
@@ -28,9 +29,13 @@ const initState = {
 	editAll: false,
 	sliderSnapPoints: true,
 	enable11pmBackgrounds: false,
-	backgroundMotion: 'animated',
+	editorSettings: {
+		arc: 'none',
+		backgroundMotion: 'animated'
+	},
 	split: 270,
 	aspectRatioMarkers: [],
+	previewQuality: 1,
 	gridColor: '#ff00ff',
 	scaleSliderMax: 400,
 	disableRateLimit: false,

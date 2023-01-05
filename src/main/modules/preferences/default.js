@@ -27,7 +27,6 @@ const defaultPrefs = {
 	screenRecorderFrameRate: 60,
 	editAll: false,
 	sliderSnapPoints: true,
-	enableWidescreenGrids: false,
 	previewQuality: 1,
 	gridColor: '#ff00ff',
 	aspectRatioMarkers: [
