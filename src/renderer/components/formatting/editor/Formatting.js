@@ -55,7 +55,7 @@ const createBackgroundButtons = enable11pmBackgrounds => [
 		},
 		{
 			label: '11pm Teal',
-			value: 'Teal'
+			value: 'teal'
 		},
 		{
 			label: '11pm Tan',
@@ -135,7 +135,7 @@ const Formatting = memo(props => {
 			</fieldset>
 			<fieldset
 				className="editor-option-column"
-				disabled={props.backgroundDisabled}>
+				disabled={arc === 'none'}>
 				<legend>Background:</legend>
 				<RadioSet
 					name="background"
@@ -167,7 +167,7 @@ const Formatting = memo(props => {
 			</fieldset>
 			<fieldset
 				className="editor-option-column"
-				disabled={background === 'alpha' || background === 'color' || props.backgroundDisabled}>
+				disabled={arc === 'none' || background === 'alpha' || background === 'color'}>
 				<legend>BG Motion:</legend>
 				<RadioSet
 					name="backgroundMotion"
@@ -183,7 +183,7 @@ Formatting.propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
-	background: oneOf(['blue', 'grey', 'alpha', 'color']).isRequired,
+	background: oneOf(['blue', 'grey', 'light_blue', 'dar_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
 	backgroundMotion: oneOf(['animated', 'still', 'auto']).isRequired,
 	bgColor: string.isRequired,
 	overlay: oneOf(['none', 'tv', 'laptop']),
