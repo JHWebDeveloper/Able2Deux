@@ -1,5 +1,5 @@
-import React, { memo, useCallback, useContext } from 'react'
-import { bool, func, exact, string } from 'prop-types'
+import React, { memo, useCallback, useContext, useMemo } from 'react'
+import { bool, func, exact, string, oneOf } from 'prop-types'
 
 import { PrefsContext } from 'store/preferences'
 
@@ -11,7 +11,7 @@ import {
 	disableWarningAndSave
 } from 'actions'
 
-import { compareProps, createSettingsMenu, warn } from 'utilities'
+import { compareProps, createSettingsMenu, has11pmBackground, warn } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import Checkbox from '../../form_elements/Checkbox'
@@ -19,10 +19,19 @@ import Checkbox from '../../form_elements/Checkbox'
 const message = 'A source on top is not for aesthetics!'
 const detail = 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.'
 
-const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
+const Source = memo(({ id, isBatch, source, background, editAll, dispatch }) => {
 	const prefsCtx = useContext(PrefsContext)
 	const prefsDispatch = prefsCtx.dispatch
 	const { warnings } = prefsCtx.preferences
+	const { prefix, onTop } = source
+
+	const maxLength = useMemo(() => {
+		let len = has11pmBackground(background) ? onTop ? 44 : 38 : 51
+
+		if (!prefix) len += 8
+		
+		return len
+	}, [background, prefix, onTop])
 
 	const updateSourceName = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'source', e, editAll))
@@ -60,11 +69,11 @@ const Source = memo(({ id, isBatch, source, editAll, dispatch }) => {
 					name="sourceName"
 					title="Source Name"
 					className="underline"
+					placeholder="If none, leave blank"
+					list="source-suggestions"
 					value={source.sourceName}
 					onChange={updateSourceName}
-					list="source-suggestions"
-					maxLength="51"
-					placeholder="If none, leave blank" />
+					maxLength={maxLength} />
 			</fieldset>
 			<Checkbox
 				label={'Add "Source: " to beginning'}
@@ -89,6 +98,7 @@ Source.propTypes = {
 		onTop: bool.isRequired,
 		data: string
 	}),
+	background: oneOf(['blue', 'grey', 'light_blue', 'dar_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
