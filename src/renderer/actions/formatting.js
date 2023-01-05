@@ -342,7 +342,7 @@ const renderItem = (params, dispatch) => {
 		const { id, arc, aspectRatio, source } = item
 
 		if (item.source.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
-			item.sourceData = buildSource(source, renderOutput)
+			item.sourceData = buildSource(source, renderOutput, item.background)
 		}
 	
 		try {
