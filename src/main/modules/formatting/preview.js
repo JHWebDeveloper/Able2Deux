@@ -80,7 +80,7 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 		.run()
 })
 
-const createPreviewSource = ({ id, mediaType, hasAlpha, isAudio, audio, tempFilePath, previewSize, tc = 0 }) => new Promise((resolve, reject) => {
+const createPreviewSource = ({ id, mediaType, hasAlpha, isAudio, audio, timecode, fps, tempFilePath, previewSize, tc = 0 }) => new Promise((resolve, reject) => {
 	const command = ffmpeg()
 		.on('end', resolve)
 		.on('error', reject)
@@ -99,7 +99,11 @@ const createPreviewSource = ({ id, mediaType, hasAlpha, isAudio, audio, tempFile
 		command.input(tempFilePath)
 
 		if (isAudio) {
+			const tcInSeconds = timecode / fps
+
 			command
+				.seekInput(tcInSeconds)
+				.inputOption(`-to ${tcInSeconds + 1 / fps}`)
 				.complexFilter(`showwavespic=size=${previewSize.width}x${previewSize.height}:colors=#EEEEEE:split_channels=1`)
 				.output(outputPath)
 				.outputOption('-frames:v 1')
