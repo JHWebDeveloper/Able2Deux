@@ -4,7 +4,7 @@ import log from 'electron-log'
 import { pathToFileURL } from 'url'
 import path from 'path'
 
-import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs, loadTheme, saveWindowSize } from './modules/preferences/preferences'
+import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs, loadTheme } from './modules/preferences/preferences'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -560,9 +560,14 @@ const savePrefsIPC = async (evt, prefs) => {
 	}
 }
 
-const saveWindowSizeIPC = async (evt, data) => {
+const saveWindowSizeIPC = async (evt, windowSize) => {
 	try {
-		await saveWindowSize(data)
+		const prefs = await loadPrefs()
+	
+		await savePrefs({
+			...prefs,
+			...windowSize
+		})
 	} catch (err) {
 		console.error(err)
 	}
