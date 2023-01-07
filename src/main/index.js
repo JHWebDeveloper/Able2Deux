@@ -4,7 +4,7 @@ import log from 'electron-log'
 import { pathToFileURL } from 'url'
 import path from 'path'
 
-import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs, loadTheme } from './modules/preferences/preferences'
+import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs, loadTheme, saveWindowSize } from './modules/preferences/preferences'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -121,10 +121,12 @@ const createUpdateWindow = version => {
 	updateWin.loadURL(createURL('update'))
 }
 
-const createMainWindow = () => {
+const createMainWindow = async () => {
+	const { windowWidth, windowHeight } = await loadPrefs()
+
 	mainWin = openWindow({
-		width: mac ? 746 : 762,
-		height: 800,
+		width: windowWidth,
+		height: windowHeight,
 		minWidth: mac ? 746 : 762,
 		minHeight: 620
 	})
@@ -558,6 +560,14 @@ const savePrefsIPC = async (evt, prefs) => {
 	}
 }
 
+const saveWindowSizeIPC = async (evt, data) => {
+	try {
+		await saveWindowSize(data)
+	} catch (err) {
+		console.error(err)
+	}
+}
+
 const retryUpdate = async () => {
 	autoUpdater.autoDownload = true
 	autoUpdater.checkForUpdatesAndNotify()
@@ -596,6 +606,7 @@ ipcMain.on('clearTempFiles', clearTempFilesIPC)
 ipcMain.on('requestPrefs', requestPrefsIPC)
 ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
 ipcMain.on('savePrefs', savePrefsIPC)
+ipcMain.on('saveWindowSize', saveWindowSizeIPC)
 ipcMain.on('retryUpdate', retryUpdate)
 ipcMain.on('checkForUpdateBackup', checkForUpdateBackup)
 
