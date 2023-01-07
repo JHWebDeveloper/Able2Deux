@@ -7,7 +7,7 @@ import FrameSelector from './FrameSelector'
 import GridSelector from './GridSelector'
 
 const Controls = props => {
-	const { selected, dispatch } = props
+	const { selected, isAudio, dispatch } = props
 	const { id, timecode, start, end, totalFrames } = selected
 
 	const onKeyDown = useCallback(e => {
@@ -46,18 +46,21 @@ const Controls = props => {
 
 	return (
 		<div id="preview-controls" onKeyDown={onKeyDown}>
-			{selected.mediaType === 'video' ? (
+			{selected.mediaType === 'video' || isAudio ? (
 				<FrameSelector
 					selected={selected}
+					isAudio={isAudio}
 					dispatch={dispatch} />
 			) : <></>}
-			<GridSelector
-				previewQuality={props.previewQuality}
-				showGrid={props.showGrid}
-				aspectRatioMarkers={props.aspectRatioMarkers}
-				gridColor={props.gridColor}
-				toggleGrid={props.toggleGrid}
-				dispatch={dispatch} />
+			{isAudio ? <></> : (
+				<GridSelector
+					previewQuality={props.previewQuality}
+					showGrid={props.showGrid}
+					aspectRatioMarkers={props.aspectRatioMarkers}
+					gridColor={props.gridColor}
+					toggleGrid={props.toggleGrid}
+					dispatch={dispatch} />
+			)}
 		</div>
 	)
 }
