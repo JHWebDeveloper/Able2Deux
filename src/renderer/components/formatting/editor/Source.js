@@ -98,7 +98,7 @@ Source.propTypes = {
 		onTop: bool.isRequired,
 		data: string
 	}),
-	background: oneOf(['blue', 'grey', 'light_blue', 'dar_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
+	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
