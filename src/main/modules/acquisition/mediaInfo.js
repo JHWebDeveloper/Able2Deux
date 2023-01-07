@@ -135,8 +135,9 @@ export const checkFileType = async (file, preGeneratedMetadata) => {
 
 	const videoStream = metadata.streams.find(stream => stream.codec_type === 'video')
 	const audioStream = metadata.streams.find(stream => stream.codec_type === 'audio')
-	const videoSupport = !!codecs[videoStream?.codec_name]
-	const audioSupport = !!codecs[audioStream?.codec_name]
+
+	const videoSupport = !!codecs[videoStream?.codec_name]?.canDecode || videoStream?.codec_name === 'prores'
+	const audioSupport = !!codecs[audioStream?.codec_name]?.canDecode
 	const streamData = { hasAudio: !!audioStream }
 
 	if (audioSupport && (!videoStream || supportedImageCodecs.includes(videoStream?.codec_name))) { // audio only or audio with album artwork
