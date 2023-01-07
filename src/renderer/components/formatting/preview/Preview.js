@@ -22,9 +22,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	const {
 		id,
 		mediaType,
-		duration,
 		aspectRatio,
-		fps,
 		audio,
 		arc,
 		background,
