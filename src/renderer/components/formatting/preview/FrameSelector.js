@@ -8,7 +8,7 @@ import TimecodeInputFrames from '../../form_elements/TimecodeInputFrames'
 
 const timecodeStaticProps = { name: 'timecode', min: 0 }
 
-const FrameSelector = ({ selected, dispatch }) => {
+const FrameSelector = ({ selected, isAudio, dispatch }) => {
 	const { id, timecode, start, end, fps, totalFrames } = selected
 
 	const [ snapPoints, className ] = useMemo(() => {
@@ -79,11 +79,13 @@ const FrameSelector = ({ selected, dispatch }) => {
 					className="symbol"
 					title="Increment 1 Frame Forward (Shift+Click for 10 Frames)"
 					onClick={incrementFrameForward}>chevron_right</button>
-				<button
-					type="button"
-					className="symbol"
-					title="Create Screengrab"
-					onClick={dispatchExtractStill}>camera_alt</button>
+				{isAudio ? <></> : (
+					<button
+						type="button"
+						className="symbol"
+						title="Create Screengrab"
+						onClick={dispatchExtractStill}>camera_alt</button>
+				)}
 			</div>
 		</>
 	)
