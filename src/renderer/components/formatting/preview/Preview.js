@@ -14,7 +14,7 @@ const { interop } = window.ABLE2
 
 const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, previewQuality, dispatch }) => {
 	const { renderOutput, gridColor } = useContext(PrefsContext).preferences
-	const [ previewSize, setPreviewSize ] = useState(false)
+	const [ previewSize, setPreviewSize ] = useState({})
 	const [ previewStill, loadPreviewStill ] = useState('')
 	const [ showGrid, toggleGrid ] = useState(false)
 	const container = useRef()
@@ -90,7 +90,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	// ---- Update preview on attribute changes
 
 	useEffect(() => {
-		if (previewSize) interop.requestPreviewStill({
+		interop.requestPreviewStill({
 			...selected,
 			isAudio,
 			renderOutput,
@@ -100,7 +100,6 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	}, [
 		previewSize,
 		renderOutput,
-		audio,
 		arc,
 		background,
 		source,
@@ -133,16 +132,15 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 						gridColor={gridColor} />
 				</div>
 			</div>
-			{!isAudio ? (
-				<Controls
-					selected={selected}
-					showGrid={showGrid}
-					aspectRatioMarkers={aspectRatioMarkers}
-					previewQuality={previewQuality}
-					gridColor={gridColor}
-					toggleGrid={toggleGrid}
-					dispatch={dispatch} />
-			) : <></>}
+			<Controls
+				selected={selected}
+				isAudio={isAudio}
+				showGrid={showGrid}
+				aspectRatioMarkers={aspectRatioMarkers}
+				previewQuality={previewQuality}
+				gridColor={gridColor}
+				toggleGrid={toggleGrid}
+				dispatch={dispatch} />
 		</div>
 	)
 }
