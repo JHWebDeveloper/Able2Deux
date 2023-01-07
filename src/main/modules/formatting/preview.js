@@ -80,7 +80,7 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 		.run()
 })
 
-const createPreviewSource = ({ id, mediaType, hasAlpha, isAudio, audio, timecode, fps, tempFilePath, previewSize, tc = 0 }) => new Promise((resolve, reject) => {
+const createPreviewSource = ({ id, mediaType, hasAlpha, isAudio, audio, timecode, fps, duration, tempFilePath, previewSize }) => new Promise((resolve, reject) => {
 	const command = ffmpeg()
 		.on('end', resolve)
 		.on('error', reject)
@@ -110,7 +110,7 @@ const createPreviewSource = ({ id, mediaType, hasAlpha, isAudio, audio, timecode
 				.run()
 		} else if (mediaType === 'video') {
 			command.screenshot({
-				timemarks: [`${tc}%`],
+				timemarks: [`${timecode / fps / duration * 100}%`],
 				folder: scratchDisk.previews.path,
 				filename: `${id}.preview-source.${extension}`
 			})
