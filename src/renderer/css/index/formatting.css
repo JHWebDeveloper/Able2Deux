@@ -680,17 +680,20 @@ button[title="Reset Curves"]:active { color: #fff; }
 
 .cc-panel .slider-track.double > span:first-child {
 	background-color: #000;
-	border-color: #fff;
+	border-color: transparent;
 }
 
 .cc-panel .slider-track.double > span:last-child {
 	background-color: #fff;
-	border-color: #000;
+	border-color: var(--primary);
 }
 
-.cc-panel .slider-track.double > span:nth-child(2) {
-	visibility: hidden;
+@media (prefers-color-scheme: dark) {
+	.cc-panel .slider-track.double > span:first-child { border-color: var(--primary);; }
+	.cc-panel .slider-track.double > span:last-child { border-color: transparent; }
 }
+
+.cc-panel .slider-track.double > span:nth-child(2) { visibility: hidden; }
 
 
 /* ---- RENDER QUEUE -------- */
