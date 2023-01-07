@@ -82,7 +82,6 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 			isAudio,
 			renderOutput,
 			sourceData,
-			tc: timecode / fps / duration * 100,
 			previewSize: calcPreviewSize()
 		})
 	}, [id, mediaType, isAudio, audio?.format, timecode])
