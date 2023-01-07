@@ -104,6 +104,10 @@ interop.clearTempFiles = () => {
 	ipcRenderer.send('clearTempFiles')
 }
 
+interop.saveWindowSize = (windowWidth, windowHeight) => {
+	ipcRenderer.send('saveWindowSize', { windowWidth, windowHeight })
+}
+
 
 // ---- ATTACH ALL TO RENDERER --------
 
