@@ -4,7 +4,7 @@ import 'css/index/index.css'
 
 import { PrefsProvider, PrefsContext } from 'store/preferences'
 import { MainProvider } from 'store'
-import { objectExtract } from 'utilities'
+import { debounce, objectExtract } from 'utilities'
 
 import Header from './Header'
 import Acquisition from '../acquisition/Acquisition'
@@ -20,14 +20,22 @@ const extractDefaults = (() => {
 	return obj => objectExtract(obj, defaults)
 })()
 
+const saveWindowSize = debounce(() => {
+	interop.saveWindowSize(window.outerWidth, window.outerHeight)
+}, 500)
+
 const Main = () => {
 	const { preferences } = useContext(PrefsContext)
 
 	useEffect(() => {
 		interop.addOpenImportCacheListener(preferences.scratchDisk.imports)
+		window.addEventListener('resize', saveWindowSize)
 
-		return interop.removeOpenImportCacheListener
-	})
+		return () => {
+			interop.removeOpenImportCacheListener()
+			window.removeEventListener('resize', saveWindowSize)
+		}
+	}, [preferences.scratchDisk.imports])
 
 	return (
 		<main>
