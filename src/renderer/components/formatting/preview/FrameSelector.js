@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { func, number, shape, string } from 'prop-types'
+import { bool, func, number, shape, string } from 'prop-types'
 
 import { updateMediaState, extractStill } from 'actions'
 
@@ -100,6 +100,7 @@ FrameSelector.propTypes = {
 		fps: number.isRequired,
 		totalFrames: number.isRequired
 	}).isRequired,
+	isAudio: bool.isRequired,
 	dispatch: func.isRequired
 }
 
