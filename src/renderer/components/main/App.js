@@ -27,16 +27,6 @@ const saveWindowSize = debounce(() => {
 const Main = () => {
 	const { preferences } = useContext(PrefsContext)
 
-	useEffect(() => {
-		interop.addOpenImportCacheListener(preferences.scratchDisk.imports)
-		window.addEventListener('resize', saveWindowSize)
-
-		return () => {
-			interop.removeOpenImportCacheListener()
-			window.removeEventListener('resize', saveWindowSize)
-		}
-	}, [preferences.scratchDisk.imports])
-
 	return (
 		<main>
 			<MainProvider prefs={extractDefaults(preferences)}>

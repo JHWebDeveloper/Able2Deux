@@ -13,6 +13,16 @@ const GlobalListeners = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
+		interop.addOpenImportCacheListener(preferences.scratchDisk.imports)
+		window.addEventListener('resize', saveWindowSize)
+
+		return () => {
+			interop.removeOpenImportCacheListener()
+			window.removeEventListener('resize', saveWindowSize)
+		}
+	}, [preferences.scratchDisk.imports])
+
+	useEffect(() => {
 		interop.setOpenWithListener(files => {
 			if (rendering) return toastr.error('Files cannot be opened while Able2 is rendering.', false, toastrOpts)
 
