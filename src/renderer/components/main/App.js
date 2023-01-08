@@ -12,17 +12,11 @@ import Formatting from '../formatting/Formatting'
 import SourceSuggestionList from './SourceSuggestionList'
 import GlobalListeners from './GlobalListeners'
 
-const { interop } = window.ABLE2
-
 const extractDefaults = (() => {
 	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot', 'previewQuality', 'aspectRatioMarkers']
 
 	return obj => objectExtract(obj, defaults)
 })()
-
-const saveWindowSize = debounce(() => {
-	interop.saveWindowSize(window.outerWidth, window.outerHeight)
-}, 500)
 
 const Main = () => {
 	const { preferences } = useContext(PrefsContext)

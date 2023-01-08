@@ -8,6 +8,10 @@ import { toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
 
+const saveWindowSize = debounce(() => {
+	interop.saveWindowSize(window.outerWidth, window.outerHeight)
+}, 500)
+
 const GlobalListeners = ({ imports }) => {
 	const { rendering, dispatch } = useContext(MainContext)
 	const navigate = useNavigate()
