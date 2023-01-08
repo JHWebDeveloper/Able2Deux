@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import 'css/index/index.css'
 
 import { PrefsProvider, PrefsContext } from 'store/preferences'
 import { MainProvider } from 'store'
-import { debounce, objectExtract } from 'utilities'
+import { objectExtract } from 'utilities'
 
 import Header from './Header'
 import Acquisition from '../acquisition/Acquisition'
