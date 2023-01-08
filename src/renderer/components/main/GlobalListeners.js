@@ -8,19 +8,19 @@ import { toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
 
-const GlobalListeners = () => {
+const GlobalListeners = ({ imports }) => {
 	const { rendering, dispatch } = useContext(MainContext)
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		interop.addOpenImportCacheListener(preferences.scratchDisk.imports)
+		interop.addOpenImportCacheListener(imports)
 		window.addEventListener('resize', saveWindowSize)
 
 		return () => {
 			interop.removeOpenImportCacheListener()
 			window.removeEventListener('resize', saveWindowSize)
 		}
-	}, [preferences.scratchDisk.imports])
+	}, [imports])
 
 	useEffect(() => {
 		interop.setOpenWithListener(files => {

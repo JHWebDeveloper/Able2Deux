@@ -31,7 +31,7 @@ const Main = () => {
 		<main>
 			<MainProvider prefs={extractDefaults(preferences)}>
 				<HashRouter>
-					<GlobalListeners />
+					<GlobalListeners imports={preferences.scratchDisk.imports} />
 					<Routes>
 						<Route path="/" element={<Acquisition />}/>
 						<Route path="/formatting" element={<Formatting />}/>
