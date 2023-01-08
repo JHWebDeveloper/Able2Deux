@@ -4,7 +4,7 @@ import toastr from 'toastr'
 
 import { MainContext } from 'store'
 import { upload } from 'actions'
-import { toastrOpts } from 'utilities'
+import { debounce, toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -18,12 +18,8 @@ const GlobalListeners = ({ imports }) => {
 
 	useEffect(() => {
 		interop.addOpenImportCacheListener(imports)
-		window.addEventListener('resize', saveWindowSize)
 
-		return () => {
-			interop.removeOpenImportCacheListener()
-			window.removeEventListener('resize', saveWindowSize)
-		}
+		return interop.removeOpenImportCacheListener
 	}, [imports])
 
 	useEffect(() => {
@@ -37,6 +33,14 @@ const GlobalListeners = ({ imports }) => {
 
 		return interop.removeOpenWithListener
 	}, [rendering])
+
+	useEffect(() => {
+		window.addEventListener('resize', saveWindowSize)
+
+		return () => {
+			window.removeEventListener('resize', saveWindowSize)
+		}
+	}, [])
 
 	return <></>
 }
