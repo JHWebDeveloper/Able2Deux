@@ -8,7 +8,7 @@ import { toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
 
-const FileOpenListener = () => {
+const GlobalListeners = () => {
 	const { rendering, dispatch } = useContext(MainContext)
 	const navigate = useNavigate()
 
@@ -27,4 +27,4 @@ const FileOpenListener = () => {
 	return <></>
 }
 
-export default FileOpenListener
+export default GlobalListeners

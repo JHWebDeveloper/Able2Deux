@@ -10,7 +10,7 @@ import Header from './Header'
 import Acquisition from '../acquisition/Acquisition'
 import Formatting from '../formatting/Formatting'
 import SourceSuggestionList from './SourceSuggestionList'
-import FileOpenListener from './FileOpenListener'
+import GlobalListeners from './GlobalListeners'
 
 const { interop } = window.ABLE2
 
@@ -41,7 +41,7 @@ const Main = () => {
 		<main>
 			<MainProvider prefs={extractDefaults(preferences)}>
 				<HashRouter>
-					<FileOpenListener />
+					<GlobalListeners />
 					<Routes>
 						<Route path="/" element={<Acquisition />}/>
 						<Route path="/formatting" element={<Formatting />}/>
