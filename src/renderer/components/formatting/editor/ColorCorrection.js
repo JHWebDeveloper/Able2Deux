@@ -67,18 +67,19 @@ const getCurveColor = curveName => {
 
 const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBatch, editAll, dispatch }) => {
 	const { enabled, selectedCurve, rgb, r, g, b } = colorCurves
+	const { active, pixelData } = eyedropper
 
 	const toggleCCCheckbox = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'colorCurves', e, editAll))
 	}, [id, editAll])
 
 	const toggleColorCorrection = useCallback(e => {
-		if (eyedropper.active) {
+		if (active === 'black' || active === 'white') {
 			setEyedropper({ active: false, pixelData: false })
 		}
 
 		toggleCCCheckbox(e)
-	}, [id, editAll, eyedropper.active])
+	}, [id, editAll, active])
 
 	const selectCurve = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'colorCurves', e))
@@ -157,23 +158,21 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBa
 	/* ---- Eye Droppers ---- */
 
 	const selectWhitePt = useCallback(() => {
-		if (eyedropper.active === 'white') {
-			setEyedropper({ active: false, pixelData: false })
-		} else {
-			setEyedropper({ active: 'white', pixelData: false })
-		}
-	}, [eyedropper.active])
+		setEyedropper({
+			active: active === 'white' ? false : 'white',
+			pixelData: false
+		})
+	}, [active])
 
 	const selectBlackPt = useCallback(() => {
-		if (eyedropper.active === 'black') {
-			setEyedropper({ active: false, pixelData: false })
-		} else {
-			setEyedropper({ active: 'black', pixelData: false })
-		}
-	}, [eyedropper.active])
+		setEyedropper({
+			active: active === 'black' ? false : 'black',
+			pixelData: false
+		})
+	}, [active])
 
 	useEffect(() => {
-		if (eyedropper.active && eyedropper.pixelData) {
+		if ((active === 'black' || active === 'white') && pixelData) {
 			dispatch(colorBalance(id, eyedropper, { r, g, b }, editAll))
 			setEyedropper({ active: false, pixelData: false })
 		}
@@ -195,22 +194,22 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBa
 				<button
 					type="button"
 					title="Select Black Point"
-					className={eyedropper.active === 'black' ? 'eyedropper-active' : ''}
+					className={`eyedropper-btn${active === 'black' ? ' eyedropper-active' : ''}`}
 					onClick={selectBlackPt}
 					disabled={!enabled}>
 					<EyedropperIcon
 						contentColor="#000"
-						disabled={!enabled} />
+						hideContents={!enabled} />
 				</button>
 				<button
 					type="button"
 					title="Select White Point"
-					className={eyedropper.active === 'white' ? 'eyedropper-active' : ''}
+					className={`eyedropper-btn${active === 'white' ? ' eyedropper-active' : ''}`}
 					onClick={selectWhitePt}
 					disabled={!enabled}>
 					<EyedropperIcon
 						contentColor="#fff"
-						disabled={!enabled} />
+						hideContents={!enabled} />
 				</button>
 				<Checkbox
 					name="hidden"
@@ -284,7 +283,7 @@ ColorCorrection.propTypes = {
 		b: arrayOf(pointPropType)
 	}).isRequired,
 	eyedropper: exact({
-		active: oneOf([false, 'white', 'black']),
+		active: oneOf([false, 'white', 'black', 'key', 'background']),
 		pixelData: oneOfType([bool, exact({
 			r: string,
 			g: string,
