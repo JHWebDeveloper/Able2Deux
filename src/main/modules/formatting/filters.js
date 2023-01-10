@@ -18,11 +18,16 @@ const overlayDimCmdChunks = [
 // ---- SHARED COMMAND GENERATING FUNCTIONS --------
 
 const buildKeyFilter = (isPreview, keying) => {
-	const { enabled, hidden, type, color, similarity, blend } = keying
+	const { enabled, hidden, type } = keying
+	let filter = ''
 
-	if (!enabled || isPreview && hidden) return ''
+	if (enabled && type === 'lumakey') {
+		filter = `${type}=${keying.threshold / 100}:${keying.tolerance / 100}:${keying.softness / 100}[ky];[ky]`
+	} else if (enabled && !(isPreview && hidden)) {
+		filter = `${type}=${keying.color}:${keying.similarity / 100}:${keying.blend / 100}[ky];[ky]`
+	}
 
-	return `${type}=${color}:${similarity / 100}:${blend / 100}[ky];[ky]`
+	return filter
 }
 
 const normalizeCurve = pts => pts
