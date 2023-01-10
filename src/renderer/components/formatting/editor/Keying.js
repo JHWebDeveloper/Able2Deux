@@ -1,5 +1,5 @@
-import React, { memo, useCallback } from 'react'
-import { bool, exact, func, number, oneOf, string } from 'prop-types'
+import React, { memo, useCallback, useEffect } from 'react'
+import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	toggleMediaNestedCheckbox,
@@ -9,7 +9,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, createSettingsMenu } from 'utilities'
+import { compareProps, createSettingsMenu, rgbToHex } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
@@ -17,6 +17,7 @@ import ColorInput from '../../form_elements/ColorInput'
 import NumberInput from '../../form_elements/NumberInput'
 import SingleSlider from '../../form_elements/SliderSingle'
 import Checkbox from '../../form_elements/Checkbox'
+import EyedropperIcon from '../../svg/EyedropperIcon'
 
 const thresholdStaticProps = { name: 'threshold', title: 'Threshold', min: 0, max: 100 }
 const toleranceStaticProps = { name: 'tolerance', title: 'Tolerance', min: 0, max: 100 }
@@ -103,12 +104,21 @@ const ColorKeySliders = ({ similarity, blend, onChange, disabled }) => {
 	)
 }
 
-const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
+const Keying = memo(({ id, keying, eyedropper, setEyedropper, editAll, isBatch, dispatch }) => {
 	const { enabled, hidden, type } = keying
+	const { active, pixelData } = eyedropper
 
 	const toggleKeyingCheckbox = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'keying', e, editAll))
 	}, [id, editAll])
+
+	const toggleKeying = useCallback(e => {
+		if (active === 'key') {
+			setEyedropper({ active: false, pixelData: false })
+		}
+
+		toggleKeyingCheckbox(e)
+	}, [id, editAll, active])
 
 	const updateKeying = useCallback(({ name, value }) => {
 		dispatch(updateMediaNestedState(id, 'keying', {
@@ -119,6 +129,24 @@ const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
 	const updateKeyingFromEvent = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'keying', e, editAll))
 	}, [id, editAll])
+
+	const selectKeyColor = useCallback(() => {
+		setEyedropper({
+			active: active === 'key' ? false : 'key',
+			pixelData: false
+		})
+	}, [active])
+
+	useEffect(() => {
+		if (active === 'key' && pixelData) {
+			dispatch(updateMediaNestedState(id, 'keying', {
+				color: rgbToHex(pixelData),
+				hidden: false
+			}, editAll))
+
+			setEyedropper({ active: false, pixelData: false })
+		}
+	}, [id, eyedropper, editAll])
 
 	return (
 		<DetailsWrapper
@@ -133,7 +161,7 @@ const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
 					name="enabled"
 					title={`Turn keying ${enabled ? 'off' : 'on'}`}
 					checked={enabled}
-					onChange={toggleKeyingCheckbox}
+					onChange={toggleKeying}
 					switchIcon />
 			</div>
 			<fieldset
@@ -147,21 +175,31 @@ const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
 					buttons={keyTypeButtons}/>
 			</fieldset>
 			{type === 'lumakey' ? <></> : (
-				<div className={`color-picker-with-toggle ${enabled ? '' : 'disabled'}`}>
+				<div className={enabled ? '' : 'disabled'}>
 					<label id="key-color">Color:</label>
-					<ColorInput
-						name="color"
-						value={keying.color}
-						onChange={updateKeying}
-						disabled={!enabled}
-						ariaLabelledby="key-color" />
-					<Checkbox
-						name="hidden"
-						title={`Show ${hidden ? 'effect' : 'original'}`}
-						checked={hidden}
-						onChange={toggleKeyingCheckbox}
-						disabled={!enabled}
-						visibleIcon />
+					<div className="color-picker">
+						<ColorInput
+							name="color"
+							value={keying.color}
+							onChange={updateKeying}
+							disabled={!enabled}
+							ariaLabelledby="key-color" />
+						<button
+							type="button"
+							title="Select Key Color"
+							className={`eyedropper-btn${active === 'key' ? ' eyedropper-active' : ''}`}
+							onClick={selectKeyColor}
+							disabled={!enabled}>
+							<EyedropperIcon hideContents />
+						</button>
+						<Checkbox
+							name="hidden"
+							title={`Show ${hidden ? 'effect' : 'original'}`}
+							checked={hidden}
+							onChange={toggleKeyingCheckbox}
+							disabled={!enabled}
+							visibleIcon />
+					</div>
 				</div>
 			)}
 			<div className={`color-sliders-panel${enabled ? '' : ' disabled'}`}>
@@ -212,6 +250,15 @@ Keying.propTypes = {
 		tolerance: number,
 		type: oneOf(['colorkey', 'chromakey', 'lumakey'])
 	}).isRequired,
+	eyedropper: exact({
+		active: oneOf([false, 'white', 'black', 'key', 'background']),
+		pixelData: oneOfType([bool, exact({
+			r: string,
+			g: string,
+			b: string
+		})])
+	}).isRequired,
+	setEyedropper: func.isRequired,
 	editAll: bool.isRequired,
 	isBatch: bool.isRequired,
 	dispatch: func.isRequired
