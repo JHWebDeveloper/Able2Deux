@@ -225,7 +225,7 @@ const Keying = memo(({ id, keying, eyedropper, setEyedropper, editAll, isBatch, 
 LumaKeySliders.propTypes = {
 	threshold: number.isRequired,
 	tolerance: number.isRequired,
-	similarity: number.isRequired,
+	softness: number.isRequired,
 	onChange: func.isRequired,
 	disabled: bool.isRequired
 }
