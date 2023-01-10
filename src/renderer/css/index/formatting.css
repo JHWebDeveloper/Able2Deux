@@ -420,20 +420,12 @@ button[name="link"] {
 	transform: rotate(270deg);
 }
 
-.color-picker-with-toggle {
-  display: inherit;
-  grid-template-columns: repeat(2, min-content);
-  grid-template-rows: repeat(2, min-content);
-  grid-gap: 3px 6px;
-}
-
-.color-picker-with-toggle > label {
-  grid-column: 1 / -1;
-  font-size: 14px;
+#key-color {
+	display: block;
+	font-size: 14px;
   font-weight: 500;
+	margin-bottom: 3px;
 }
-
-.color-picker-with-toggle > input[type="color"] { margin-left: 3px; }
 
 .color-sliders-panel,
 .color-sliders-panel > label {
@@ -481,10 +473,6 @@ button[name="link"] {
 
 .cc-panel button:disabled { color: var(--disabled); }
 
-.cc-panel button.eyedropper-active {
-	background-color: var(--background-alt-2);
-}
-
 button[title="Reset Curves"] { font-size: 20px; }
 
 button[title="Reset Curves"]:active { color: #fff; }
@@ -500,7 +488,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 .cc-panel > fieldset > legend { font-size: 0; }
 
 
-/* ---- CURVES STYLES ---- */
+/* ---- CURVES STYLES -------- */
 
 .curves {
 	display: grid;
@@ -534,6 +522,35 @@ button[title="Reset Curves"]:active { color: #fff; }
 	display: block;
 	border: 1px solid var(--primary);
 	background-color: #fff;
+}
+
+/* ---- COLOR PICKER -------- */
+
+.eyedropper-btn:disabled { color: var(--disabled); }
+
+.eyedropper-btn.eyedropper-active {
+	background-color: var(--background-alt-2);
+}
+
+.color-picker {
+  display: inline-grid;
+  grid-auto-columns: min-content;
+	grid-auto-flow: column;
+  grid-gap: 0 6px;
+	vertical-align: middle;
+}
+
+.color-picker > input[type="color"] { margin-left: 3px; }
+
+.color-picker > button {
+	width: 18px;
+	height: 18px;
+	border-radius: 3px;
+}
+
+.color-picker > button > svg {
+	width: inherit;
+	height: inherit;
 }
 
 
