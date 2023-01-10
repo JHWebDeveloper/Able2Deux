@@ -1,5 +1,5 @@
-import React, { memo, useCallback, useContext, useMemo } from 'react'
-import { bool, func, oneOf, string } from 'prop-types'
+import React, { memo, useCallback, useContext, useEffect, useMemo } from 'react'
+import { bool, exact, func, oneOf, oneOfType, string } from 'prop-types'
 
 import { PrefsContext } from 'store/preferences'
 
@@ -10,11 +10,12 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, createSettingsMenu } from 'utilities'
+import { compareProps, createSettingsMenu, rgbToHex } from 'utilities'
 
 import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import RadioSet from '../../form_elements/RadioSet'
 import ColorInput from '../../form_elements/ColorInput'
+import EyedropperIcon from '../../svg/EyedropperIcon'
 
 const arcButtons = [
 	{
@@ -94,21 +95,57 @@ const backgroundMotionButtons = [
 	}
 ]
 
+const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropperActive }) => (
+	<div className="color-picker">
+		<ColorInput
+			name="bgColor"
+			title="Select Background Color"
+			value={bgColor}
+			onChange={updateBgColor} />
+		<button
+			type="button"
+			title="Select Background Color"
+			className={`eyedropper-btn${eyedropperActive ? ' eyedropper-active' : ''}`}
+			onClick={selectBgColor}>
+			<EyedropperIcon hideContents />
+		</button>
+	</div>
+)
+
 const Formatting = memo(props => {
-	const { id, arc, background, bgColor, overlay, editAll, dispatch } = props
 	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
+	const { id, arc, background, bgColor, overlay, eyedropper, setEyedropper, editAll, dispatch } = props
+	const { active, pixelData } = eyedropper
+
+	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
 
 	const updateMediaStateDispatch = useCallback(e => {
 		dispatch(updateMediaStateFromEvent(id, e, editAll))
 	}, [id, editAll])
-
-	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
 
 	const updateBgColor = useCallback(({ name, value }) => {
 		dispatch(updateMediaState(id, {
 			[name]: value
 		}, editAll))
 	}, [id, editAll])
+
+	const selectBgColor = useCallback(() => {
+		setEyedropper({
+			active: active === 'background' ? false : 'background',
+			pixelData: false
+		})
+	}, [active])
+
+	useEffect(() => {
+		if (active === 'background' && pixelData) {
+			dispatch(updateMediaState(id, {
+				bgColor: rgbToHex(pixelData),
+				background: 'color'
+			}, editAll))
+
+			setEyedropper({ active: false, pixelData: false })
+		}
+	}, [id, eyedropper, editAll])
 
 	return (
 		<DetailsWrapper
@@ -140,11 +177,11 @@ const Formatting = memo(props => {
 						{
 							label: 'Color',
 							value: 'color',
-							component: <ColorInput
-								name="bgColor"
-								title="Select background color"
-								value={bgColor}
-								onChange={updateBgColor} />
+							component: <BackgroundColorPicker
+								bgColor={bgColor}
+								updateBgColor={updateBgColor}
+								selectBgColor={selectBgColor}
+								eyedropperActive={active === 'background'} />
 						}
 					]}/>
 			</fieldset>
@@ -172,6 +209,13 @@ const Formatting = memo(props => {
 	)
 }, compareProps)
 
+BackgroundColorPicker.propTypes = {
+	bgColor: string.isRequired,
+	updateBgColor: func.isRequired,
+	selectBgColor: func.isRequired,
+	eyedropperActive: bool.isRequired
+}
+
 Formatting.propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
@@ -180,6 +224,15 @@ Formatting.propTypes = {
 	backgroundMotion: oneOf(['animated', 'still', 'auto']).isRequired,
 	bgColor: string.isRequired,
 	overlay: oneOf(['none', 'tv', 'laptop']),
+	eyedropper: exact({
+		active: oneOf([false, 'white', 'black', 'key', 'background']),
+		pixelData: oneOfType([bool, exact({
+			r: string,
+			g: string,
+			b: string
+		})])
+	}).isRequired,
+	setEyedropper: func.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
