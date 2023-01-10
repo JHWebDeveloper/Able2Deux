@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
 import { createScrollbarPadder, objectExtract } from 'utilities'
@@ -26,7 +26,7 @@ const extractCommonProps = (() => {
 const EditorOptions = props => {
 	if (!props.id) return false
 
-	const { background, mediaType, aspectRatio, arc, audio, scale, crop } = props
+	const { background, mediaType, aspectRatio, arc, audio, scale, crop, eyedropper, setEyedropper } = props
 	const common = extractCommonProps(props)
 
 	const ref = useRef()
@@ -63,6 +63,8 @@ const EditorOptions = props => {
 					backgroundMotion={props.backgroundMotion}
 					bgColor={props.bgColor}
 					overlay={props.overlay}
+					eyedropper={eyedropper}
+					setEyedropper={setEyedropper}
 					{...common} />
 				{!(arc === 'none' && aspectRatio !== '16:9') ? (
 					<Source
@@ -96,12 +98,14 @@ const EditorOptions = props => {
 				{arc !== 'none' ? (
 					<Keying
 						keying={props.keying}
+						eyedropper={eyedropper}
+						setEyedropper={setEyedropper}
 						{...common} />
 				) : <></>}
 				<ColorCorrection
 					colorCurves={props.colorCurves}
-					eyedropper={props.eyedropper}
-					setEyedropper={props.setEyedropper}
+					eyedropper={eyedropper}
+					setEyedropper={setEyedropper}
 					{...common} />
 			</> : <></>}
 		</div>
