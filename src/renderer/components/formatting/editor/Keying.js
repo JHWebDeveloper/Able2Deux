@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react'
-import { bool, exact, func, number, string } from 'prop-types'
+import { bool, exact, func, number, oneOf, string } from 'prop-types'
 
 import {
 	toggleMediaNestedCheckbox,
@@ -18,6 +18,9 @@ import NumberInput from '../../form_elements/NumberInput'
 import SingleSlider from '../../form_elements/SliderSingle'
 import Checkbox from '../../form_elements/Checkbox'
 
+const thresholdStaticProps = { name: 'threshold', title: 'Threshold', min: 0, max: 100 }
+const toleranceStaticProps = { name: 'tolerance', title: 'Tolerance', min: 0, max: 100 }
+const softnessStaticProps = { name: 'softness', title: 'Softness', min: 0, max: 100 }
 const similarityStaticProps = { name: 'similarity', title: 'Similarity', min: 1, max: 100 }
 const blendStaticProps = { name: 'blend', title: 'Blend', min: 0, max: 100 }
 
@@ -29,11 +32,79 @@ const keyTypeButtons = [
 	{
 		label: 'Chroma Key',
 		value: 'chromakey'
+	},
+	{
+		label: 'Luma Key',
+		value: 'lumakey'
 	}
 ]
 
+const LumaKeySliders = ({ threshold, tolerance, softness, onChange, disabled }) => {
+	const thresholdProps = {
+		...thresholdStaticProps,
+		value: threshold,
+		onChange,
+		disabled
+	}
+
+	const toleranceProps = {
+		...toleranceStaticProps,
+		value: tolerance,
+		onChange,
+		disabled
+	}
+
+	const softnessProps = {
+		...softnessStaticProps,
+		value: softness,
+		onChange,
+		disabled
+	}
+
+	return (
+		<>
+			<label>Threshold</label>
+			<SingleSlider {...thresholdProps} />
+			<NumberInput {...thresholdProps} />
+			<label>Tolerance</label>
+			<SingleSlider {...toleranceProps} />
+			<NumberInput {...toleranceProps} />
+			<label>Softness</label>
+			<SingleSlider {...softnessProps} />
+			<NumberInput {...softnessProps} />
+		</>
+	)
+}
+
+const ColorKeySliders = ({ similarity, blend, onChange, disabled }) => {
+	const similarityProps = {
+		...similarityStaticProps,
+		value: similarity,
+		onChange,
+		disabled
+	}
+
+	const blendProps = {
+		...blendStaticProps,
+		value: blend,
+		onChange,
+		disabled
+	}
+
+	return (
+		<>
+			<label>Similarity</label>
+			<SingleSlider {...similarityProps} />
+			<NumberInput {...similarityProps} />
+			<label>Blend</label>
+			<SingleSlider {...blendProps} />
+			<NumberInput {...blendProps} />
+		</>
+	)
+}
+
 const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
-	const { enabled, hidden } = keying
+	const { enabled, hidden, type } = keying
 
 	const toggleKeyingCheckbox = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'keying', e, editAll))
@@ -48,20 +119,6 @@ const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
 	const updateKeyingFromEvent = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'keying', e, editAll))
 	}, [id, editAll])
-
-	const similarityProps = {
-		...similarityStaticProps,
-		value: keying.similarity,
-		onChange: updateKeying,
-		disabled: !enabled
-	}
-
-	const blendProps = {
-		...blendStaticProps,
-		value: keying.blend,
-		onChange: updateKeying,
-		disabled: !enabled
-	}
 
 	return (
 		<DetailsWrapper
@@ -85,37 +142,62 @@ const Keying = memo(({ id, keying, editAll, isBatch, dispatch }) => {
 				<legend>Type:</legend>
 				<RadioSet
 					name="type"
-					state={keying.type}
+					state={type}
 					onChange={updateKeyingFromEvent}
 					buttons={keyTypeButtons}/>
 			</fieldset>
-			<div className={`color-picker-with-toggle ${enabled ? '' : 'disabled'}`}>
-				<label id="key-color">Color:</label>
-				<ColorInput
-					name="color"
-					value={keying.color}
-					onChange={updateKeying}
-					disabled={!enabled}
-					ariaLabelledby="key-color" />
-				<Checkbox
-					name="hidden"
-					title={`Show ${hidden ? 'effect' : 'original'}`}
-					checked={hidden}
-					onChange={toggleKeyingCheckbox}
-					disabled={!enabled}
-					visibleIcon />
-			</div>
+			{type === 'lumakey' ? <></> : (
+				<div className={`color-picker-with-toggle ${enabled ? '' : 'disabled'}`}>
+					<label id="key-color">Color:</label>
+					<ColorInput
+						name="color"
+						value={keying.color}
+						onChange={updateKeying}
+						disabled={!enabled}
+						ariaLabelledby="key-color" />
+					<Checkbox
+						name="hidden"
+						title={`Show ${hidden ? 'effect' : 'original'}`}
+						checked={hidden}
+						onChange={toggleKeyingCheckbox}
+						disabled={!enabled}
+						visibleIcon />
+				</div>
+			)}
 			<div className={`color-sliders-panel${enabled ? '' : ' disabled'}`}>
-				<label>Similarity</label>
-				<SingleSlider {...similarityProps} />
-				<NumberInput {...similarityProps} />
-				<label>Blend</label>
-				<SingleSlider {...blendProps} />
-				<NumberInput {...blendProps} />
+				{type === 'lumakey' ? (
+					<LumaKeySliders
+						threshold={keying.threshold}
+						tolerance={keying.tolerance}
+						softness={keying.softness}
+						onChange={updateKeying}
+						disabled={!enabled} />
+ 				) : (
+					<ColorKeySliders
+						similarity={keying.similarity}
+						blend={keying.blend}
+						onChange={updateKeying}
+						disabled={!enabled} />
+				)}
 			</div>
 		</DetailsWrapper>
 	)
 }, compareProps)
+
+LumaKeySliders.propTypes = {
+	threshold: number.isRequired,
+	tolerance: number.isRequired,
+	similarity: number.isRequired,
+	onChange: func.isRequired,
+	disabled: bool.isRequired
+}
+
+ColorKeySliders.propTypes = {
+	similarity: number.isRequired,
+	blend: number.isRequired,
+	onChange: func.isRequired,
+	disabled: bool.isRequired
+}
 
 Keying.propTypes = {
 	id: string.isRequired,
@@ -125,7 +207,10 @@ Keying.propTypes = {
 		enabled: bool,
 		hidden: bool,
 		similarity: number,
-		type: string
+		softness: number,
+		threshold: number,
+		tolerance: number,
+		type: oneOf(['colorkey', 'chromakey', 'lumakey'])
 	}).isRequired,
 	editAll: bool.isRequired,
 	isBatch: bool.isRequired,
