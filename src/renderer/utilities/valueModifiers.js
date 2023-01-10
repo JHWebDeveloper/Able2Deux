@@ -79,7 +79,7 @@ export const format12hr = d => {
 	return `${h}${zeroize(m)}${meridian}`
 }
 
-// ---- filenames and titles ---- //
+// ---- file names ---- //
 
 const getRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
 
@@ -102,4 +102,8 @@ export const replaceTokens = (filename, i = 0, l = 0) => {
 		.replace(/\$T/g, `${d.getHours()}${d.getMinutes()}`)
 }
 
+// ---- misc. ---- //
+
 export const capitalize = str => `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`
+
+export const rgbToHex = ({ r, g, b }) => `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`
