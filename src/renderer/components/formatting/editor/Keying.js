@@ -210,7 +210,7 @@ const Keying = memo(({ id, keying, eyedropper, setEyedropper, editAll, isBatch, 
 						softness={keying.softness}
 						onChange={updateKeying}
 						disabled={!enabled} />
- 				) : (
+				) : (
 					<ColorKeySliders
 						similarity={keying.similarity}
 						blend={keying.blend}

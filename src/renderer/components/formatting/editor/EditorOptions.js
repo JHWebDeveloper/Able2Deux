@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
 import { createScrollbarPadder, objectExtract } from 'utilities'

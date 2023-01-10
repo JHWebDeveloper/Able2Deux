@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { string } from 'prop-types'
 import toastr from 'toastr'
 
 import { MainContext } from 'store'
@@ -43,6 +44,10 @@ const GlobalListeners = ({ imports }) => {
 	}, [])
 
 	return <></>
+}
+
+GlobalListeners.propTypes = {
+	imports: string.isRequired
 }
 
 export default GlobalListeners

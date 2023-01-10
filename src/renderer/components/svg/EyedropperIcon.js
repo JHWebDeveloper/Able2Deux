@@ -24,7 +24,7 @@ const EyedropperIcon = ({ contentColor, hideContents }) => (
 
 EyedropperIcon.propTypes = {
 	contentColor: string,
-	disabled: bool
+	hideContents: bool
 }
 
 export default EyedropperIcon
