@@ -110,12 +110,6 @@ const Formatting = memo(props => {
 		}, editAll))
 	}, [id, editAll])
 
-	const setRadioToColor = useCallback(() => {
-		dispatch(updateMediaState(id, {
-			background: 'color'
-		}, editAll))
-	}, [id, editAll])
-
 	return (
 		<DetailsWrapper
 			summary="Formatting"
@@ -150,8 +144,7 @@ const Formatting = memo(props => {
 								name="bgColor"
 								title="Select background color"
 								value={bgColor}
-								onChange={updateBgColor}
-								onFocus={setRadioToColor} />
+								onChange={updateBgColor} />
 						}
 					]}/>
 			</fieldset>
