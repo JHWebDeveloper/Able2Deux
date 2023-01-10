@@ -98,7 +98,10 @@ const defaultMediaData = {
 		type: 'colorkey',
 		color: '#04f404',
 		similarity: 1,
-		blend: 0
+		blend: 0,
+		threshold: 0,
+		tolerance: 0,
+		softness: 0
 	},
 	colorCurves: {
 		enabled: false,
