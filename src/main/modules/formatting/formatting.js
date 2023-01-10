@@ -10,14 +10,18 @@ const renderJobs = new Map()
 
 export const cancelRender = id => renderJobs.get(id)?.kill()
 
-const removeJob = id => {
+const removeJob = async id => {
 	if (id) {
 		renderJobs.delete(id)
 	} else {
 		renderJobs.clear()
 	}
 
-	return scratchDisk.exports.clear(id)
+	try {		
+		await scratchDisk.exports.clear(id)
+	} catch (err) {
+		console.error(err)
+	}
 }
 
 // eslint-disable-next-line no-extra-parens
@@ -194,7 +198,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 					return arr
 				}, [])
 
-				if (failed.length === saveLocations.length) {
+				if (saveLocations.length === failed.length) {
 					throw new Error(`An error occurred when attempting to save ${saveName} to each selected dir.`)
 				} else if (failed.length) {
 					throw new Error(`An error occurred when attempting to save ${saveName} to the following selected directories: ${failed.join(', ')}.`)
@@ -209,6 +213,8 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			}
 		})
 		.on('error', err => {
+			removeJob(id)
+
 			if (err.toString() === 'Error: ffmpeg was killed with signal SIGKILL') {
 				// Means error is from manual cancellation. Expected behavior. Do not log.
 				reject(new Error('CANCELLED'))
