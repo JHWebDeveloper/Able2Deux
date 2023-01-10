@@ -20,7 +20,7 @@ const PreviewCanvas = ({ previewStill, previewSize, eyedropper, setEyedropper })
 
 	const eyedropperProps = useMemo(() => eyedropper.active ? {
 		className: 'eyedropper',
-		onClick: getColorAtClickPos
+		onMouseDown: getColorAtClickPos
 	} : {}, [eyedropper.active, cnv, ctx])
 
 	useEffect(() => {
@@ -58,7 +58,7 @@ PreviewCanvas.propTypes = {
 		height: number
 	}),
 	eyedropper: exact({
-		active: oneOf([false, 'white', 'black']),
+		active: oneOf([false, 'white', 'black', 'key', 'background']),
 		pixelData: oneOfType([bool, exact({
 			r: string,
 			g: string,
