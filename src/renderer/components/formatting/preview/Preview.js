@@ -43,7 +43,9 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 
 	const calcPreviewSize = useCallback(() => ({
 		width: container.current.clientWidth * previewQuality,
-		height: container.current.clientHeight * previewQuality
+		height: container.current.clientHeight * previewQuality,
+		frameWidth: container.current.clientWidth,
+		frameHeight: container.current.clientHeight
 	}), [previewQuality])
 
 	// ---- Listen for preview still updates and rerender
@@ -126,6 +128,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 						showGrid={showGrid}
 						aspectRatioMarkers={aspectRatioMarkers}
 						previewSize={previewSize}
+						previewQuality={previewQuality}
 						gridColor={gridColor} />
 				</div>
 			</div>
