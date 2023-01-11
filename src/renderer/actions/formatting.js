@@ -144,7 +144,7 @@ export const resetCurve = (id, curveName, editAll) => ({
 })
 
 const createWhiteBalancedCurve = (b, w) => {
-	w.x = clamp(w.x, 6, 255)
+	w.x = clamp(w.x, 6, 256)
 
 	if (w.x < b.x) b.x = w.x - 6
 
@@ -152,8 +152,8 @@ const createWhiteBalancedCurve = (b, w) => {
 }
 
 const createBlackBalancedCurve = (b, w) => {
-	b.x = clamp(b.x, 0, 249)
-	
+	b.x = clamp(b.x, 0, 250)
+
 	if (b.x > w.x) w.x = b.x + 6
 
 	return [b, w]
@@ -170,9 +170,9 @@ export const colorBalance = (id, eyedropper, colorCurves, editAll) => dispatch =
 		g = createWhiteBalancedCurve(colorCurves.g[0], createCurvePoint(pixelData.g, 0, true))
 		b = createWhiteBalancedCurve(colorCurves.b[0], createCurvePoint(pixelData.b, 0, true))
 	} else {
-		r = createBlackBalancedCurve(createCurvePoint(pixelData.r, 255, true), colorCurves.r.at(-1))
-		g = createBlackBalancedCurve(createCurvePoint(pixelData.g, 255, true), colorCurves.g.at(-1))
-		b = createBlackBalancedCurve(createCurvePoint(pixelData.b, 255, true), colorCurves.b.at(-1))
+		r = createBlackBalancedCurve(createCurvePoint(pixelData.r, 256, true), colorCurves.r.at(-1))
+		g = createBlackBalancedCurve(createCurvePoint(pixelData.g, 256, true), colorCurves.g.at(-1))
+		b = createBlackBalancedCurve(createCurvePoint(pixelData.b, 256, true), colorCurves.b.at(-1))
 	}
 
 	dispatch(updateMediaNestedState(id, 'colorCurves', {
