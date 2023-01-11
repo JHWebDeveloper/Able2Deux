@@ -125,7 +125,7 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBa
 		['b', 'g', 'r'].reduce((acc, ch) => {
 			const chCurve = colorCurves[ch]
 
-			if (chCurve.length > 2 || chCurve[0].x > 0 || chCurve[0].y < 255 || chCurve[1].x < 255 || chCurve[1].y > 0) {
+			if (chCurve.length > 2 || chCurve[0].x > 0 || chCurve[0].y < 256 || chCurve[1].x < 256 || chCurve[1].y > 0) {
 				acc.push({
 					color: getCurveColor(ch),
 					data: chCurve
@@ -256,7 +256,7 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBa
 					onChange: setWhitePoint
 				}}
 				min={0}
-				max={255}
+				max={256}
 				fineTuneStep={1}
 				disabled={!enabled} />
 		</DetailsWrapper>
