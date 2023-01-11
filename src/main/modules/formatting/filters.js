@@ -32,7 +32,7 @@ const buildKeyFilter = (isPreview, keying) => {
 
 const normalizeCurve = pts => pts
 	.filter(pt => !pt.hidden)
-	.map(pt => `${pt.x / 255}/${(255 - pt.y) / 255}`)
+	.map(pt => `${pt.x / 256}/${(256 - pt.y) / 256}`)
 	.join(' ')
 
 // eslint-disable-next-line no-extra-parens
