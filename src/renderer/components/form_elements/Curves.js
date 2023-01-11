@@ -29,7 +29,7 @@ const drawCurve = (ctx, pts, curveColor) => {
 		}
 	}
 
-	ctx.lineTo(255, ys[len])
+	ctx.lineTo(256, ys[len])
 
 	ctx.save()
 	ctx.strokeStyle = curveColor
@@ -83,8 +83,8 @@ const drawGridLines = (ctx, width, height, rows, cols = rows) => {
 const drawCrossHairs = (ctx, x, y) => {
 	ctx.save()
 	ctx.lineWidth = 0.125
-	drawGridLine(ctx, x, 0, x, 255)
-	drawGridLine(ctx, 0, y, 255, y)
+	drawGridLine(ctx, x, 0, x, 256)
+	drawGridLine(ctx, 0, y, 256, y)
 	ctx.restore()
 }
 
@@ -145,11 +145,11 @@ const Curves = ({
 			limit
 		}
 
-		const outOfBounds = newPos.x < boundL || newPos.x > boundR || newPos.y < 0 || newPos.y > 255
+		const outOfBounds = newPos.x < boundL || newPos.x > boundR || newPos.y < 0 || newPos.y > 256
 
 		if (limit && outOfBounds) {
 			newPos.x = clamp(newPos.x, boundL, boundR)
-			newPos.y = clamp(newPos.y, 0, 255)
+			newPos.y = clamp(newPos.y, 0, 256)
 		} else if (outOfBounds) {
 			newPos.hidden = true
 		}
@@ -168,7 +168,7 @@ const Curves = ({
 	const selectPointAndGetData = useCallback((pointData, points, offsets = {}) => {		
 		pointData = {
 			...pointData,
-			boundR: (points.find(pt => pt.id !== pointData.id && pt.x >= pointData.x)?.x ?? 259) - 4,
+			boundR: (points.find(pt => pt.id !== pointData.id && pt.x >= pointData.x)?.x ?? 260) - 4,
 			boundL: (points.findLast(pt => pt.id !== pointData.id && pt.x <= pointData.x)?.x ?? -4) + 4,
 			offsetX: offsets.x ? pointData.x - offsets.x : 0,
 			offsetY: offsets.y ? pointData.y - offsets.y : 0
@@ -244,15 +244,15 @@ const Curves = ({
 	}, 60), [curve])
 
 	useEffect(() => {
-		cnv.current.width = 255
-		cnv.current.height = 255
+		cnv.current.width = 256
+		cnv.current.height = 256
 		ctx.current = cnv.current.getContext('2d')
 	}, [])
 
 	useEffect(() => {
-		ctx.current.clearRect(0, 0, 255, 255)
+		ctx.current.clearRect(0, 0, 256, 256)
 
-		drawGridLines(ctx.current, 255, 255, 4)
+		drawGridLines(ctx.current, 256, 256, 4)
 
 		if (disabled) return () => false
 
