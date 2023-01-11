@@ -26,8 +26,8 @@ const Grid = ({ showGrid, gridColor, aspectRatioMarkers, previewSize }) => {
 	}, [ctx.current])
 
 	const drawAspectRatioMarkers = useMemo(() => {
-		const frameWidth = previewSize.width
-		const frameHeight = previewSize.height
+		const { frameWidth, frameHeight } = previewSize
+
 		const frameRatio = frameWidth / frameHeight
 		const frameRatioInv = frameHeight / frameWidth
 
@@ -56,22 +56,22 @@ const Grid = ({ showGrid, gridColor, aspectRatioMarkers, previewSize }) => {
 	}, [previewSize])
 
 	const drawGrid = useMemo(() => {
-		const { width, height } = previewSize
+		const { frameWidth, frameHeight } = previewSize
 
-		const titleSafePadX = width / 20
-		const titleSafePadY = height / 20
-		const actionSafe = [titleSafePadX / 2, titleSafePadY / 2, width - titleSafePadX, height - titleSafePadY]
-		const titleSafe = [titleSafePadX, titleSafePadY, width - titleSafePadX * 2, height - titleSafePadY * 2]
+		const titleSafePadX = frameWidth / 20
+		const titleSafePadY = frameHeight / 20
+		const actionSafe = [titleSafePadX / 2, titleSafePadY / 2, frameWidth - titleSafePadX, frameHeight - titleSafePadY]
+		const titleSafe = [titleSafePadX, titleSafePadY, frameWidth - titleSafePadX * 2, frameHeight - titleSafePadY * 2]
 
-		const halfX = width / 2
-		const halfY = height / 2
-		const thirdX = width / 3
-		const thirdY = height / 3
-		const thirdRadius = width / 48
+		const halfX = frameWidth / 2
+		const halfY = frameHeight / 2
+		const thirdX = frameWidth / 3
+		const thirdY = frameHeight / 3
+		const thirdRadius = frameWidth / 48
 
 		const halvesAndThirds = [
-			[0, halfY, width, halfY],
-			[halfX, 0, halfX, height],
+			[0, halfY, frameWidth, halfY],
+			[halfX, 0, halfX, frameHeight],
 			...createThirdMarkerCoords(thirdX, thirdY, thirdRadius),
 			...createThirdMarkerCoords(thirdX * 2, thirdY, thirdRadius),
 			...createThirdMarkerCoords(thirdX, thirdY * 2, thirdRadius),
@@ -91,13 +91,13 @@ const Grid = ({ showGrid, gridColor, aspectRatioMarkers, previewSize }) => {
 	}, [])
 	
 	useEffect(() => {
-		cnv.current.width = previewSize.width
-		cnv.current.height = previewSize.height
+		cnv.current.width = previewSize.frameWidth
+		cnv.current.height = previewSize.frameHeight
 		ctx.current.lineWidth = 1.25
 	}, [previewSize])
 
 	useEffect(() => {
-		ctx.current.clearRect(0, 0, previewSize.width, previewSize.height)
+		ctx.current.clearRect(0, 0, previewSize.frameWidth, previewSize.frameHeight)
 		ctx.current.strokeStyle = gridColor
 		
 		if (showGrid) drawGrid()
