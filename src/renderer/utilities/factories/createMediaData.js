@@ -12,8 +12,8 @@ export const createCurvePoint = (x, y, limit = false) => ({
 })
 
 export const createDefaultCurvePoints = () => [
-	createCurvePoint(0, 255, true),
-	createCurvePoint(255, 0, true)
+	createCurvePoint(0, 256, true),
+	createCurvePoint(256, 0, true)
 ]
 
 const defaultMediaData = {
