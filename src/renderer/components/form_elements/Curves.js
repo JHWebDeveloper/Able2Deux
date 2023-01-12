@@ -25,7 +25,7 @@ const drawCurve = (ctx, pts, curveColor) => {
 		const next = xs[i + 1]
 
 		for (let x = xs[i]; x < next; x += 0.1) {
-			ctx.lineTo(x, clamp(f(x), 1, 254))
+			ctx.lineTo(x, clamp(f(x), 0, 256))
 		}
 	}
 
