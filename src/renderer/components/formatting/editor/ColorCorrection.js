@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { arrayOf, bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -66,6 +66,7 @@ const getCurveColor = curveName => {
 }
 
 const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBatch, editAll, dispatch }) => {
+	const [ selectedPoint, setSelectedPoint ] = useState({})
 	const { enabled, selectedCurve, rgb, r, g, b } = colorCurves
 	const { active, pixelData } = eyedropper
 
@@ -235,8 +236,10 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBa
 			<Curves
 				curve={colorCurves[selectedCurve]}
 				selectedCurve={selectedCurve}
+				selectedPoint={selectedPoint}
 				curveColor={curveColor}
 				backgroundCurves={channelCurves}
+				setSelectedPoint={setSelectedPoint}
 				addCurvePoint={dispatchAddCurvePoint}
 				addOrUpdateCurvePoint={dispatchAddOrUpdateCurvePoint}
 				deleteCurvePoint={dispatchDeleteCurvePoint}
@@ -247,13 +250,19 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBa
 					...propsBlackPtStatic,
 					value: blackPt.x,
 					max: colorCurves[selectedCurve][1].x - 6,
-					onChange: setBlackPoint
+					onChange: setBlackPoint,
+					onClick() {
+						setSelectedPoint(blackPt)
+					}
 				}}
 				rightThumb={{
 					...propsWhitePtStatic,
 					value: whitePt.x,
 					min: colorCurves[selectedCurve].at(-2).x + 6,
-					onChange: setWhitePoint
+					onChange: setWhitePoint,
+					onClick() {
+						setSelectedPoint(whitePt)
+					}
 				}}
 				min={0}
 				max={256}
