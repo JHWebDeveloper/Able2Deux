@@ -15,16 +15,20 @@ const drawCurve = (ctx, pts, curveColor) => {
 
 	CSPL.getNaturalKs(xs, ys, ks)
 
-	const f = x => CSPL.evalSpline(x, xs, ys, ks)
-	const len = xs.length - 1
-
 	ctx.beginPath()
 	ctx.moveTo(0, ys[0])
+	ctx.lineTo(xs[0], ys[0])
+
+	const f = x => CSPL.evalSpline(x, xs, ys, ks)
+	const len = xs.length - 1
+	const step = 0.1
+ 
+	xs[0] += step
 	
 	for (let i = 0; i < len; i++) {
 		const next = xs[i + 1]
 
-		for (let x = xs[i]; x < next; x += 0.1) {
+		for (let x = xs[i]; x < next; x += step) {
 			ctx.lineTo(x, clamp(f(x), 0, 256))
 		}
 	}
