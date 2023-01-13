@@ -18,7 +18,9 @@ const SingleSlider = ({
 	snapPoints = [],
 	sensitivity = 4,
 	disabled = false,
-	onChange = () => {}
+	onChange = () => {},
+	onClick,
+	onDoubleClick
 }) => {
 	const { sliderSnapPoints } = useContext(PrefsContext).preferences
 
@@ -74,7 +76,9 @@ const SingleSlider = ({
 					fineTuneStep={fineTuneStep}
 					thresholds={thresholds}
 					setValue={setValue}
-					getTrack={getTrack} />
+					getTrack={getTrack}
+					onClick={onClick}
+					onDoubleClick={onDoubleClick} />
 			</span>
 			{snapPoints.length ? (
 				<SliderSnapMarkers
@@ -91,13 +95,15 @@ SingleSlider.propTypes = {
 	name: string,
 	title: string,
 	value: oneOfType([oneOf(['']), number]),
-	onChange: func,
 	min: number,
 	max: number,
 	step: number,
 	fineTuneStep: number,
 	snapPoints: arrayOf(number),
 	sensitivity: number,
+	onChange: func,
+	onClick: oneOfType([oneOf([false]), func]),
+	onDoubleClick: oneOfType([oneOf([false]), func]),
 	disabled: bool
 }
 

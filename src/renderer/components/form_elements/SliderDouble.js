@@ -21,14 +21,18 @@ const SliderDouble = ({
 		title: '',
 		value: 0,
 		max,
-		onChange() {}
+		onChange() {},
+		onClick: false,
+		onDoubleClick: false
 	},
 	rightThumb = {
 		name: '',
 		title: '',
 		value: 100,
 		min,
-		onChange() {}
+		onChange() {},
+		onClick: false,
+		onDoubleClick: false
 	},
 	min = 0,
 	max = 100,
@@ -114,6 +118,7 @@ const SliderDouble = ({
 					thresholds={sliderSnapPoints && thresholds}
 					setValue={setLeft}
 					getClickPos={getClickPosLeft}
+					onClick={leftThumb.onClick}
 					{...common} />
 				<SliderThumb
 					sliderId={middleId}
@@ -137,6 +142,7 @@ const SliderDouble = ({
 					thresholds={sliderSnapPoints && thresholds}
 					setValue={setRight}
 					getClickPos={getClickPosRight}
+					onClick={rightThumb.onClick}
 					{...common} />
 			</span>
 			{snapPoints.length ? (
@@ -156,7 +162,9 @@ const thumbPropType = shape({
 	value: oneOfType([oneOf(['']), number]).isRequired,
 	min: number,
 	max: number,
-	onChange: func.isRequired
+	onChange: func.isRequired,
+	onClick: oneOfType([oneOf([false]), func]),
+	onDoubleClick: oneOfType([oneOf([false]), func])
 })
 
 SliderDouble.propTypes = {

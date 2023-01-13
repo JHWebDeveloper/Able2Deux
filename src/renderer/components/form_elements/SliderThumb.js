@@ -34,6 +34,7 @@ const SliderThumb = forwardRef(({
 	setValue,
 	getTrack,
 	getClickPos,
+	onClick,
 	onDoubleClick,
 	absoluteMin
 }, thumbRef) => {
@@ -118,6 +119,7 @@ const SliderThumb = forwardRef(({
 			onMouseDown={startDrag}
 			onKeyDown={keyIncrement}
 			{...process.env.NODE_ENV === 'production' ? { onContextMenu: e => e.stopPropagation() } : {}}
+			{...onClick ? { onClick } : {}}
 			{...onDoubleClick ? { onDoubleClick } : {}}
 			style={{
 				left: `${clamp((value - absoluteMin) / diff * 100, 0, 100)}%`,
@@ -145,6 +147,7 @@ SliderThumb.propTypes = {
 	setValue: func.isRequired,
 	getTrack: func.isRequired,
 	getClickPos: func,
+	onClick: oneOfType([oneOf([false]), func]),
 	onDoubleClick: oneOfType([oneOf([false]), func]),
 	absoluteMin: number
 }
