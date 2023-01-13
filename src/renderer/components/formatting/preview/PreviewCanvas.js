@@ -55,11 +55,13 @@ PreviewCanvas.propTypes = {
 	previewStill: string.isRequired,
 	previewSize: shape({
 		width: number,
-		height: number
+		height: number,
+		frameWidth: number,
+		frameHeight: number
 	}),
 	eyedropper: exact({
 		active: oneOf([false, 'white', 'black', 'key', 'background']),
-		pixelData: oneOfType([bool, exact({
+		pixelData: oneOfType([oneOf([false]), exact({
 			r: string,
 			g: string,
 			b: string
