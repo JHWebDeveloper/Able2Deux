@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { arrayOf, bool, exact, func, number, string } from 'prop-types'
 
 import { clamp, createCurvePoint, CSPL, pythagorean, throttle } from 'utilities'
@@ -127,15 +127,16 @@ const detectCollisions = (pts, r = 144) => (x, y) => {
 
 const Curves = ({
 	curve,
+	selectedPoint,
 	curveColor,
 	backgroundCurves = [],
+	setSelectedPoint,
 	addCurvePoint,
 	addOrUpdateCurvePoint,
 	deleteCurvePoint,
 	cleanupCurve,
 	disabled
 }) => {
-	const [ selectedPoint, setSelectedPoint ] = useState({})
 	const cnv = useRef()
 	const ctx = useRef()
 
