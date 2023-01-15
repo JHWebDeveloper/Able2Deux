@@ -6,14 +6,15 @@
 	padding: 18px;
 }
 
-header {
-	position: relative;
+header { position: relative; }
+
+#root > header {
 	width: 308px;
 	padding-left: 10px;
 	border-left: 12px solid var(--primary);
 }
 
-header::after {
+#root > header::after {
 	content: 'DEUX';
 	display: block;
 	position: absolute;
