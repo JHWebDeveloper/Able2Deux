@@ -1,24 +1,47 @@
-import React from 'react'
+import React, { cloneElement, useCallback, useEffect, useState } from 'react'
 import { arrayOf, element, func, bool, oneOfType, shape, string } from 'prop-types'
 
 import DropdownMenu from './DropdownMenu'
 import MediaOptionButtons from './MediaOptionButtons'
 
-const DetailsWrapper = ({ summary, id = '', className = '', open, buttons = [], children }) => (
-	<details open={open}>
-		<summary>
-			{summary}
-		</summary>
-		{buttons.length ? (
-			<DropdownMenu>
-				<MediaOptionButtons buttons={buttons} />
-			</DropdownMenu>
-		) : <></>}
-		<div id={id} className={className}>
-			{children}
-		</div>
-	</details>
-)
+const DetailsWrapper = ({ summary, id = '', className = '', initOpen, buttons = [], children }) => {
+	const [ open, setOpen ] = useState(false)
+
+	const toggleOpen = useCallback(() => {
+		setOpen(!open)
+	}, [open])
+
+	useEffect(() => {
+		if (initOpen) setOpen(true)
+	}, [])
+
+	return (
+		<section className={`panel-wrapper${open ? ' open' : ''}`}>
+			<header>
+				<h2>
+					<span aria-hidden="true">keyboard_arrow_{open ? 'down' : 'right'}</span>
+					{summary}
+				</h2>
+				<button
+					type="button"
+					title={`${open ? 'Close' : 'Open'} ${summary}`}
+					onClick={toggleOpen}
+					aria-expanded={open}
+					aria-controls={id}></button>
+				{open && buttons.length ? (
+					<DropdownMenu>
+						<MediaOptionButtons buttons={buttons} />
+					</DropdownMenu>
+				) : <></>}
+			</header>
+			{open ? (
+				<div id={id} className={className}>
+					{open ? cloneElement(children) : <></>}
+				</div>
+			) : <></>}
+		</section>
+	)
+}
 
 DetailsWrapper.propTypes = {
 	summary: string.isRequired,
