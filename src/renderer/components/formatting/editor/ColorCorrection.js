@@ -65,7 +65,7 @@ const getCurveColor = curveName => {
 	}
 }
 
-const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBatch, editAll, dispatch }) => {
+const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, editAll, dispatch }) => {
 	const [ selectedPoint, setSelectedPoint ] = useState({})
 	const { enabled, selectedCurve, rgb, r, g, b } = colorCurves
 	const { active, pixelData } = eyedropper
@@ -85,15 +85,6 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBa
 	const selectCurve = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'colorCurves', e))
 	}, [id])
-
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
-		() => dispatch(copySettings({
-			colorCurves: copyCurveSet(colorCurves)
-		})),
-		() => dispatch(applySettingsToAll(id, {
-			colorCurves: copyCurveSet(colorCurves)
-		}))
-	]) : [], [isBatch, id, colorCurves])
 
 	// ---- Curves ----
 
@@ -180,10 +171,7 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBa
 	}, [id, eyedropper, r, g, b, editAll])
 
 	return (
-		<DetailsWrapper
-			summary="Color Correction"
-			className="editor-panel cc-panel"
-			buttons={settingsMenu}>
+		<>
 			<div>
 				<div className="on-off-switch">
 					<Checkbox
@@ -268,9 +256,31 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, isBa
 				max={256}
 				fineTuneStep={1}
 				disabled={!enabled} />
-		</DetailsWrapper>
+		</>
 	)
 }, compareProps)
+
+const ColorCorrectionPanel = props => {
+	const { isBatch, colorCurves, id, dispatch } = props
+
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+		() => dispatch(copySettings({
+			colorCurves: copyCurveSet(colorCurves)
+		})),
+		() => dispatch(applySettingsToAll(id, {
+			colorCurves: copyCurveSet(colorCurves)
+		}))
+	]) : [], [isBatch, id, colorCurves])
+
+	return (
+		<DetailsWrapper
+			summary="Color Correction"
+			className="editor-panel cc-panel"
+			buttons={settingsMenu}>
+			<ColorCorrection {...props} />
+		</DetailsWrapper>
+	)
+}
 
 const pointPropType = exact({
 	id: string,
@@ -280,7 +290,7 @@ const pointPropType = exact({
 	y: number
 })
 
-ColorCorrection.propTypes = {
+const propTypes = {
 	id: string.isRequired,
 	colorCurves: exact({
 		enabled: bool,
@@ -305,4 +315,7 @@ ColorCorrection.propTypes = {
 	dispatch: func.isRequired
 }
 
-export default ColorCorrection
+ColorCorrection.propTypes = propTypes
+ColorCorrectionPanel.propTypes = propTypes
+
+export default ColorCorrectionPanel

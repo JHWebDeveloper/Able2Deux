@@ -19,7 +19,7 @@ import Checkbox from '../../form_elements/Checkbox'
 const message = 'A source on top is not for aesthetics!'
 const detail = 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.'
 
-const Source = memo(({ id, isBatch, source, background, editAll, dispatch }) => {
+const Source = memo(({ id, source, background, editAll, dispatch }) => {
 	const prefsCtx = useContext(PrefsContext)
 	const prefsDispatch = prefsCtx.dispatch
 	const { warnings } = prefsCtx.preferences
@@ -54,14 +54,7 @@ const Source = memo(({ id, isBatch, source, background, editAll, dispatch }) => 
 	}), [id, editAll, warnings.sourceOnTop, source.onTop])
 
 	return (
-		<DetailsWrapper
-			summary="Source"
-			className="editor-panel"
-			buttons={isBatch ? createSettingsMenu([
-				() => dispatch(copySettings({ source })),
-				() => dispatch(applySettingsToAll(id, { source }))
-			]) : []}
-			initOpen>
+		<>
 			<fieldset>
 				<legend>Source Name:</legend>
 				<input
@@ -85,11 +78,30 @@ const Source = memo(({ id, isBatch, source, background, editAll, dispatch }) => 
 				name="onTop"
 				checked={source.onTop}
 				onChange={sourceOnTopWarning} />
-		</DetailsWrapper>
+		</>
 	)
 }, compareProps)
 
-Source.propTypes = {
+const SourcePanel = props => {
+	const { isBatch, source, id, dispatch } = props
+
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+		() => dispatch(copySettings({ source })),
+		() => dispatch(applySettingsToAll(id, { source }))
+	]) : [], [isBatch, id, source])
+
+	return (
+		<DetailsWrapper
+			summary="Source"
+			className="editor-panel"
+			buttons={settingsMenu}
+			initOpen>
+			<Source {...props} />
+		</DetailsWrapper>
+	)
+}
+
+const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	source: exact({
@@ -103,4 +115,7 @@ Source.propTypes = {
 	dispatch: func.isRequired
 }
 
-export default Source
+Source.propTypes = propTypes
+SourcePanel.propTypes = propTypes
+
+export default SourcePanel

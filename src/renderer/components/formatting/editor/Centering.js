@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -19,7 +19,7 @@ const commonStatic = {
 	min: -100
 }
 
-const Centering = memo(({ id, isBatch, centering, editAll, dispatch }) => {
+const Centering = memo(({ id, centering, editAll, dispatch }) => {
 	const updateCentering = useCallback(({ name, value }) => {
 		dispatch(updateMediaState(id, {
 			[name]: value
@@ -33,21 +33,33 @@ const Centering = memo(({ id, isBatch, centering, editAll, dispatch }) => {
 	}
 
 	return (
-		<DetailsWrapper
-			summary="Position"
-			className="editor-panel auto-rows position-panel"
-			buttons={isBatch ? createSettingsMenu([
-				() => dispatch(copySettings({ centering })),
-				() => dispatch(applySettingsToAll(id, { centering }))
-			]) : []}
-			initOpen>
+		<>
 			<SliderSingle snapPoints={[0]} {...common} />
 			<NumberInput {...common} />
-		</DetailsWrapper>
+		</>
 	)
 }, compareProps)
 
-Centering.propTypes = {
+const CenteringPanel = props => {
+	const { isBatch, centering, id, dispatch } = props
+
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+		() => dispatch(copySettings({ centering })),
+		() => dispatch(applySettingsToAll(id, { centering }))
+	]) : [], [isBatch, id, centering])
+
+	return (
+		<DetailsWrapper
+			summary="Position"
+			className="editor-panel auto-rows position-panel"
+			buttons={settingsMenu}
+			initOpen>
+			<Centering {...props} />
+		</DetailsWrapper>
+	)
+}
+
+const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	centering: oneOfType([oneOf(['']), number]).isRequired,
@@ -55,4 +67,7 @@ Centering.propTypes = {
 	dispatch: func.isRequired
 }
 
-export default Centering
+Centering.propTypes = propTypes
+CenteringPanel.propTypes = propTypes
+
+export default CenteringPanel

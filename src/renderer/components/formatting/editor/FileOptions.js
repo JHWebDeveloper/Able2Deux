@@ -17,11 +17,7 @@ const FileOptions = memo(props => {
 	}, [id])
 
 	return (
-		<DetailsWrapper
-			summary="File"
-			id="file"
-			className="editor-panel auto-rows"
-			initOpen>
+		<>
 			<fieldset disabled={props.isBatch && batch.name && batch.position === 'replace'}>
 				<legend>Filename:</legend>
 				<input
@@ -50,11 +46,21 @@ const FileOptions = memo(props => {
 					duration={props.duration}
 					dispatch={dispatch} />
 			</> : <></>}
-		</DetailsWrapper>
+		</>
 	)
 }, compareProps)
 
-FileOptions.propTypes = {
+const FileOptionsPanel = props => (
+	<DetailsWrapper
+		summary="File"
+		id="file"
+		className="editor-panel auto-rows"
+		initOpen>
+		<FileOptions {...props} />
+	</DetailsWrapper>
+)
+
+const propTypes = {
 	id: string.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	isBatch: bool.isRequired,
@@ -73,4 +79,7 @@ FileOptions.propTypes = {
 	dispatch: func.isRequired
 }
 
-export default FileOptions
+FileOptions.propTypes = propTypes
+FileOptionsPanel.propTypes = propTypes
+
+export default FileOptionsPanel

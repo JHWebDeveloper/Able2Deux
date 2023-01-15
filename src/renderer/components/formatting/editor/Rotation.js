@@ -142,10 +142,7 @@ const Rotation = memo(props => {
 	}, [id, rotation, crop, editAll])
 
 	return (
-		<DetailsWrapper
-			summary="Rotation"
-			className="editor-panel auto-columns"
-			buttons={settingsMenu}>
+		<>
 			<fieldset className="editor-option-column">
 				<legend>Reflect:</legend>
 				<RadioSet
@@ -169,11 +166,29 @@ const Rotation = memo(props => {
 					offset={rotation.offset}
 					dispatch={dispatch} />
 			) : <></>}
-		</DetailsWrapper>
+		</>
 	)
 }, compareProps)
 
-Rotation.propTypes = {
+const RotationPanel = props => {
+	const { isBatch, id, rotation, dispatch } = props
+
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+		() => dispatch(copySettings({ rotation })),
+		() => dispatch(applySettingsToAll(id, { rotation }))
+	]) : [], [isBatch, id, rotation])
+
+	return (
+		<DetailsWrapper
+			summary="Rotation"
+			className="editor-panel auto-columns"
+			buttons={settingsMenu}>
+			<Rotation {...props} />
+		</DetailsWrapper>
+	)
+}
+
+const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	rotation: exact({
@@ -191,4 +206,7 @@ Rotation.propTypes = {
 	dispatch: func.isRequired
 }
 
-export default Rotation
+Rotation.propTypes = propTypes
+RotationPanel.propTypes = propTypes
+
+export default RotationPanel

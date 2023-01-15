@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { bool, exact, func, oneOf, string } from 'prop-types'
 
 import {
@@ -42,20 +42,13 @@ const formatButtons = [
 	}
 ]
 
-const Audio = memo(({ id, isBatch, mediaType, audio, editAll, dispatch }) => {
+const Audio = memo(({ id, mediaType, audio, editAll, dispatch }) => {
 	const updateAudio = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'audio', e, editAll))
 	}, [id, editAll])
 
 	return (
-		<DetailsWrapper
-			summary="Audio"
-			className="editor-panel auto-columns"
-			buttons={isBatch ? createSettingsMenu([
-				() => dispatch(copySettings({ audio })),
-				() => dispatch(applySettingsToAll(id, { audio }))
-			]) : []}
-			initOpen={mediaType === 'audio'}>
+		<>
 			{mediaType === 'video' ? (
 				<fieldset className="editor-option-column">
 					<legend>Export As:</legend>
@@ -76,11 +69,30 @@ const Audio = memo(({ id, isBatch, mediaType, audio, editAll, dispatch }) => {
 					onChange={updateAudio}
 					buttons={formatButtons} />
 			</fieldset>
-		</DetailsWrapper>
+		</>
 	)
 }, compareProps)
 
-Audio.propTypes = {
+const AudioPanel = props => {
+	const { isBatch, audio, id, mediaType, dispatch } = props
+
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+		() => dispatch(copySettings({ audio })),
+		() => dispatch(applySettingsToAll(id, { audio }))
+	]) : [], [isBatch, id, audio])
+
+	return (
+		<DetailsWrapper
+			summary="Audio"
+			className="editor-panel auto-columns"
+			buttons={settingsMenu}
+			initOpen={mediaType === 'audio'}>
+			<Audio {...props} />
+		</DetailsWrapper>
+	)
+}
+
+const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
@@ -92,4 +104,7 @@ Audio.propTypes = {
 	dispatch: func.isRequired
 }
 
-export default Audio
+Audio.propTypes = propTypes
+AudioPanel.propTypes = propTypes
+
+export default AudioPanel

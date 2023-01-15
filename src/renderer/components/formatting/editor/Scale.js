@@ -44,13 +44,8 @@ const calculateFitPercent = (renderOutput, width, height, t, b, l, r) => {
 	]
 }
 
-const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch }) => {
+const Scale = memo(({ id, scale, crop, width, height, editAll, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
-
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
-		() => dispatch(copySettings({ scale })),
-		() => dispatch(applySettingsToAll(id, { scale }))
-	]) : [], [isBatch, id, scale])
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
 	const distortion = useMemo(() => scale.y / scale.x || 1, [scale.x, scale.y])
@@ -132,10 +127,7 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 	}
 
 	return (
-		<DetailsWrapper
-			summary="Scale"
-			className="editor-panel auto-rows scale-panel"
-			buttons={settingsMenu}>
+		<>
 			<label>X</label>
 			<SliderSingle
 				snapPoints={snapPointsX}
@@ -165,11 +157,34 @@ const Scale = memo(({ id, isBatch, scale, crop, width, height, editAll, dispatch
 				title={`${scale.link ? 'Unl' : 'L'}ink X and Y`}>
 				<LinkIcon linked={scale.link} />
 			</button>
-		</DetailsWrapper>
+		</>
 	)
 }, compareProps)
 
-Scale.propTypes = {
+const ScalePanel = props => {
+	const { isBatch, id, scale, dispatch } = props
+
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+		() => dispatch(copySettings({ scale })),
+		() => dispatch(applySettingsToAll(id, { scale }))
+	]) : [], [isBatch, id, scale])
+
+	return (
+		<DetailsWrapper
+			summary="Scale"
+			className="editor-panel auto-rows scale-panel"
+			buttons={settingsMenu}>
+			<Scale {...props} />
+		</DetailsWrapper>
+	)
+}
+
+FitButton.propTypes = {
+	title: string.isRequired,
+	onClick: func.isRequired
+}
+
+const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	width: number.isRequired,
@@ -184,9 +199,7 @@ Scale.propTypes = {
 	dispatch: func.isRequired
 }
 
-FitButton.propTypes = {
-	title: string.isRequired,
-	onClick: func.isRequired
-}
+Scale.propTypes = propTypes
+ScalePanel.propTypes = propTypes
 
-export default Scale
+export default ScalePanel

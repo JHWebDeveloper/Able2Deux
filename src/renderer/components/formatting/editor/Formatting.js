@@ -148,14 +148,7 @@ const Formatting = memo(props => {
 	}, [id, eyedropper, editAll])
 
 	return (
-		<DetailsWrapper
-			summary="Formatting"
-			className="editor-panel formatting-panel"
-			buttons={props.isBatch ? createSettingsMenu([
-				() => dispatch(copySettings({ arc, background, overlay })),
-				() => dispatch(applySettingsToAll(id, { arc, background, overlay }))
-			]) : []}
-			initOpen>
+		<>
 			<fieldset className="editor-option-column">
 				<legend>AR Correction:</legend>
 				<RadioSet
@@ -205,9 +198,28 @@ const Formatting = memo(props => {
 					onChange={updateMediaStateDispatch}
 					buttons={backgroundMotionButtons}/>
 			</fieldset>
-		</DetailsWrapper>
+		</>
 	)
 }, compareProps)
+
+const FormattingPanel = props => {
+	const { isBatch, id, arc, background, overlay, dispatch } = props
+
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+		() => dispatch(copySettings({ arc, background, overlay })),
+		() => dispatch(applySettingsToAll(id, { arc, background, overlay }))
+	]) : [], [isBatch, id, arc, background, overlay])
+
+	return (
+		<DetailsWrapper
+			summary="Formatting"
+			className="editor-panel formatting-panel"
+			buttons={settingsMenu}
+			initOpen>
+			<Formatting {...props} />
+		</DetailsWrapper>
+	)
+}
 
 BackgroundColorPicker.propTypes = {
 	bgColor: string.isRequired,
@@ -216,7 +228,7 @@ BackgroundColorPicker.propTypes = {
 	eyedropperActive: bool.isRequired
 }
 
-Formatting.propTypes = {
+const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
@@ -238,5 +250,7 @@ Formatting.propTypes = {
 	dispatch: func.isRequired
 }
 
+Formatting.propTypes = propTypes
+FormattingPanel.propTypes = propTypes
 
-export default Formatting
+export default FormattingPanel

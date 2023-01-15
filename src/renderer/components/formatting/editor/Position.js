@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -16,7 +16,7 @@ import NumberInput from '../../form_elements/NumberInput'
 const propsXStatic = { name: 'x', title: 'Position X', min: -100 }
 const propsYStatic = { name: 'y', title: 'Position Y', min: -100 }
 
-const Position = memo(({ id, isBatch, position, editAll, dispatch }) => {
+const Position = memo(({ id, position, editAll, dispatch }) => {
 	const updatePosition = useCallback(({ name, value }) => {
 		dispatch(updateMediaNestedState(id, 'position', {
 			[name]: value
@@ -36,24 +36,36 @@ const Position = memo(({ id, isBatch, position, editAll, dispatch }) => {
 	}
 
 	return (
-		<DetailsWrapper
-			summary="Position"
-			className="editor-panel auto-rows position-panel"
-			buttons={isBatch ? createSettingsMenu([
-				() => dispatch(copySettings({ position })),
-				() => dispatch(applySettingsToAll(id, { position }))
-			]) : []}>
+		<>
 			<label>X</label>
 			<SliderSingle snapPoints={[0]} {...propsX} />
 			<NumberInput {...propsX} />
 			<label>Y</label>
 			<SliderSingle snapPoints={[0]} {...propsY} />
 			<NumberInput {...propsY} />
-		</DetailsWrapper>
+		</>
 	)
 }, compareProps)
 
-Position.propTypes = {
+const PositionPanel = props => {
+	const { isBatch, id, position, dispatch } = props
+
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+		() => dispatch(copySettings({ position })),
+		() => dispatch(applySettingsToAll(id, { position }))
+	]) : [], [isBatch, id, position])
+
+	return (
+		<DetailsWrapper
+			summary="Position"
+			className="editor-panel auto-rows position-panel"
+			buttons={settingsMenu}>
+			<Position {...props} />
+		</DetailsWrapper>
+	)
+}
+
+const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	position: exact({
@@ -64,4 +76,7 @@ Position.propTypes = {
 	dispatch: func.isRequired
 }
 
-export default Position
+Position.propTypes = propTypes
+PositionPanel.propTypes = propTypes
+
+export default PositionPanel

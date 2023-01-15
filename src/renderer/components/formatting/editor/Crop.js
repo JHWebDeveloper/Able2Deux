@@ -26,7 +26,7 @@ const sliderProps = {
 	enableAutoCenter: true
 }
 
-const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
+const Crop = memo(({ id, crop, editAll, dispatch }) => {
 	const updateCrop = useCallback(({ name, value }) => {
 		dispatch(updateMediaNestedState(id, 'crop', {
 			[name]: value
@@ -95,13 +95,7 @@ const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 	}
 
 	return (
-		<DetailsWrapper
-			summary="Crop"
-			className="editor-panel auto-rows crop-panel"
-			buttons={isBatch ? createSettingsMenu([
-				() => dispatch(copySettings({ crop })),
-				() => dispatch(applySettingsToAll(id, { crop }))
-			]) : []}>
+		<>
 			<label>T</label>
 			<NumberInput
 				max={crop.b - 0.05}
@@ -148,11 +142,29 @@ const Crop = memo(({ id, isBatch, crop, editAll, dispatch }) => {
 				onClick={toggleCropLink}>
 				<LinkIcon linked={crop.linkLR} single />
 			</button>
-		</DetailsWrapper>
+		</>
 	)
 }, compareProps)
 
-Crop.propTypes = {
+const CropPanel = props => {
+	const { isBatch, id, crop, dispatch } = props
+
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+		() => dispatch(copySettings({ crop })),
+		() => dispatch(applySettingsToAll(id, { crop }))
+	]) : [], [isBatch, id, crop])
+
+	return (
+		<DetailsWrapper
+			summary="Crop"
+			className="editor-panel auto-rows crop-panel"
+			buttons={settingsMenu}>
+			<Crop {...props} />
+		</DetailsWrapper>
+	)
+}
+
+const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	crop: exact({
@@ -167,4 +179,7 @@ Crop.propTypes = {
 	dispatch: func.isRequired
 }
 
-export default Crop
+Crop.propTypes = propTypes
+CropPanel.propTypes = propTypes
+
+export default CropPanel

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -104,7 +104,7 @@ const ColorKeySliders = ({ similarity, blend, onChange, disabled }) => {
 	)
 }
 
-const Keying = memo(({ id, keying, eyedropper, setEyedropper, editAll, isBatch, dispatch }) => {
+const Keying = memo(({ id, keying, eyedropper, setEyedropper, editAll, dispatch }) => {
 	const { enabled, hidden, type } = keying
 	const { active, pixelData } = eyedropper
 
@@ -149,13 +149,7 @@ const Keying = memo(({ id, keying, eyedropper, setEyedropper, editAll, isBatch, 
 	}, [id, eyedropper, editAll])
 
 	return (
-		<DetailsWrapper
-			summary="Key"
-			className="editor-panel auto-rows keying-panel"
-			buttons={isBatch ? createSettingsMenu([
-				() => dispatch(copySettings({ keying })),
-				() => dispatch(applySettingsToAll(id, { keying }))
-			]) : []}>
+		<>
 			<div className="on-off-switch">
 				<Checkbox
 					name="enabled"
@@ -218,9 +212,27 @@ const Keying = memo(({ id, keying, eyedropper, setEyedropper, editAll, isBatch, 
 						disabled={!enabled} />
 				)}
 			</div>
-		</DetailsWrapper>
+		</>
 	)
 }, compareProps)
+
+const KeyingPanel = props => {
+	const { isBatch, keying, id, dispatch } = props
+
+	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+		() => dispatch(copySettings({ keying })),
+		() => dispatch(applySettingsToAll(id, { keying }))
+	]) : [], [isBatch, id, keying])
+
+	return (
+		<DetailsWrapper
+			summary="Key"
+			className="editor-panel auto-rows keying-panel"
+			buttons={settingsMenu}>
+			<Keying {...props} />
+		</DetailsWrapper>
+	)
+}
 
 LumaKeySliders.propTypes = {
 	threshold: number.isRequired,
@@ -237,7 +249,7 @@ ColorKeySliders.propTypes = {
 	disabled: bool.isRequired
 }
 
-Keying.propTypes = {
+const propTypes = {
 	id: string.isRequired,
 	keying: exact({
 		blend: number,
@@ -264,4 +276,7 @@ Keying.propTypes = {
 	dispatch: func.isRequired
 }
 
-export default Keying
+Keying.propTypes = propTypes
+KeyingPanel.propTypes = propTypes
+
+export default KeyingPanel
