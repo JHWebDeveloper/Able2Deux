@@ -12,7 +12,7 @@
 #media-manager > div { overflow-y: hidden; }
 
 #media-manager > div:nth-last-of-type(n+2),
-details {
+.panel-wrapper {
 	position: relative;
 	border-radius: 5px;
 	background-color: var(--background-alt-1);
@@ -88,6 +88,7 @@ details {
 
 .dropdown {
 	z-index: 998;
+	height: inherit;
 	font-size: 12px;
 	vertical-align: middle;
 }
@@ -96,11 +97,7 @@ details {
 	z-index: 999;
 }
 
-details > .dropdown {
-	position: absolute;
-	top: 0;
-	right: 0;
-}
+.dropdown > button { height: inherit; }
 
 .dropdown > span {
 	display: block;
@@ -114,7 +111,7 @@ details > .dropdown {
 	font-weight: 500;
 }
 
-details .dropdown > span {
+.panel-wrapper .dropdown > span {
 	transform: translateX(calc(-100% + 24px));
 }
 
@@ -123,10 +120,7 @@ details .dropdown > span {
 	color: var(--preview-text);
 }
 
-details > .dropdown > button {
-	padding: 13px;
-	padding-bottom: 0;
-}
+.panel-wrapper .dropdown > button { padding: 0 13px; }
 
 .dropdown > span > button {
 	display: inherit;
@@ -198,53 +192,45 @@ details > .dropdown > button {
 	height: 100%;
 }
 
-details:focus-within,
-details.pinned {
-	z-index: 999;
+.panel-wrapper:focus-within { z-index: 999; }
+
+.panel-wrapper > header {
+	display: flex;
+	height: 37px;
 }
 
-details.pinned {
+.panel-wrapper h2 {
+	pointer-events: none;
 	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
+	top: 9px;
+	left: 9px;
 }
 
-summary {
-	list-style: none;
-	padding: 9px;
+.panel-wrapper > header > button {
+	flex: 1;
+	height: inherit;
 }
 
-details[open] > summary { padding-bottom: 0; }
-
-summary::-webkit-details-marker { display: none; }
-
-summary::before {
-  content: 'keyboard_arrow_right';
+.panel-wrapper h2 > span {
   font: 600 1.25rem 'Material Icons';
   vertical-align: -5px;
 }
-
-details[open] > summary::before { content: 'keyboard_arrow_down'; }
-
-details[open] > div { padding-top: 9px; }
 
 #editor-options {
 	overflow-y: auto;
 	position: relative;
 }
 
-#editor-options > details:nth-last-child(n+2) { margin-bottom: 9px; }
+#editor-options > .panel-wrapper:nth-last-child(n+2) { margin-bottom: 9px; }
 
 /* -- All Editor Panels -- */
 
 .editor-panel {
 	display: grid;
 	margin: 0 18px 0 27px;
+	padding-bottom: 12px;
 	font-size: 12px;
 }
-
-details[open] > .editor-panel { padding-bottom: 12px; }
 
 .editor-panel legend {
 	white-space: nowrap;

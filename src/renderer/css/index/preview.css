@@ -1,4 +1,4 @@
-#editor > details {
+#editor > .panel-wrapper {
 	margin-bottom: 9px;
 	background-color: var(--preview-background);
 	color: var(--preview-text);
