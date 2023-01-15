@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { arrayOf, bool, exact, func, number, object, oneOf, string } from 'prop-types'
 
-import PreviewContainer from './preview/PreviewContainer'
+import Preview from './preview/Preview'
 import EditorOptions from './editor/EditorOptions'
 
 const eyeDropperInit = { active: false, pixelData: false }
@@ -24,7 +24,7 @@ const PreviewEditorContainer = props => {
 
 	return (
 		<div id="editor">
-			<PreviewContainer
+			<Preview
 				eyedropper={eyedropper}
 				setEyedropper={setEyedropper}
 				selected={selected}
