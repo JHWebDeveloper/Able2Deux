@@ -5,6 +5,7 @@ import 'css/index/preview.css'
 import { PrefsContext } from 'store/preferences'
 import { buildSource, debounce } from 'utilities'
 
+import DetailsWrapper from '../../form_elements/DetailsWrapper'
 import PreviewCanvas from './PreviewCanvas'
 import Spinner from '../../svg/Spinner'
 import Grid from './Grid'
@@ -114,7 +115,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	])
 
 	return (
-		<div id="preview">
+		<>
 			<div>
 				<div id="preview-container" ref={container}>
 					{previewStill ? (
@@ -141,11 +142,20 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 				gridColor={gridColor}
 				toggleGrid={toggleGrid}
 				dispatch={dispatch} />
-		</div>
+		</>
 	)
 }
 
-Preview.propTypes = {
+const PreviewPanel = props => (
+	<DetailsWrapper
+		summary="Preview"
+		id="preview"
+		initOpen>
+		{!!props.selected.id ? <Preview {...props} /> : <></>}
+	</DetailsWrapper>
+)
+
+const propTypes = {
 	selected: object.isRequired,
 	previewQuality: oneOf([1, 0.75, 0.5]),
 	aspectRatioMarkers: arrayOf(exact({
@@ -160,4 +170,7 @@ Preview.propTypes = {
 	dispatch: func.isRequired
 }
 
-export default Preview
+Preview.propTypes = propTypes
+PreviewPanel.propTypes = propTypes
+
+export default PreviewPanel
