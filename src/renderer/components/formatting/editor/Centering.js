@@ -40,7 +40,7 @@ const Centering = memo(({ id, isBatch, centering, editAll, dispatch }) => {
 				() => dispatch(copySettings({ centering })),
 				() => dispatch(applySettingsToAll(id, { centering }))
 			]) : []}
-			open>
+			initOpen>
 			<SliderSingle snapPoints={[0]} {...common} />
 			<NumberInput {...common} />
 		</DetailsWrapper>

@@ -155,7 +155,7 @@ const Formatting = memo(props => {
 				() => dispatch(copySettings({ arc, background, overlay })),
 				() => dispatch(applySettingsToAll(id, { arc, background, overlay }))
 			]) : []}
-			open>
+			initOpen>
 			<fieldset className="editor-option-column">
 				<legend>AR Correction:</legend>
 				<RadioSet

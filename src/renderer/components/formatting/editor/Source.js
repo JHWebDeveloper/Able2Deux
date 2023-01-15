@@ -61,7 +61,7 @@ const Source = memo(({ id, isBatch, source, background, editAll, dispatch }) => 
 				() => dispatch(copySettings({ source })),
 				() => dispatch(applySettingsToAll(id, { source }))
 			]) : []}
-			open>
+			initOpen>
 			<fieldset>
 				<legend>Source Name:</legend>
 				<input

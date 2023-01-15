@@ -55,7 +55,7 @@ const Audio = memo(({ id, isBatch, mediaType, audio, editAll, dispatch }) => {
 				() => dispatch(copySettings({ audio })),
 				() => dispatch(applySettingsToAll(id, { audio }))
 			]) : []}
-			open={mediaType === 'audio'}>
+			initOpen={mediaType === 'audio'}>
 			{mediaType === 'video' ? (
 				<fieldset className="editor-option-column">
 					<legend>Export As:</legend>

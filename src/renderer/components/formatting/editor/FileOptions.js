@@ -21,7 +21,7 @@ const FileOptions = memo(props => {
 			summary="File"
 			id="file"
 			className="editor-panel auto-rows"
-			open>
+			initOpen>
 			<fieldset disabled={props.isBatch && batch.name && batch.position === 'replace'}>
 				<legend>Filename:</legend>
 				<input
