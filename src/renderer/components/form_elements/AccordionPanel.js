@@ -16,7 +16,7 @@ const DetailsWrapper = ({ summary, id = '', className = '', initOpen, buttons = 
 	}, [])
 
 	return (
-		<section className={`panel-wrapper${open ? ' open' : ''}`}>
+		<section className={`accordion-panel${open ? ' open' : ''}`}>
 			<header>
 				<h2>
 					<span aria-hidden="true">keyboard_arrow_{open ? 'down' : 'right'}</span>

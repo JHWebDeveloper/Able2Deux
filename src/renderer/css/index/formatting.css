@@ -12,7 +12,7 @@
 #media-manager > div { overflow-y: hidden; }
 
 #media-manager > div:nth-last-of-type(n+2),
-.panel-wrapper {
+.accordion-panel {
 	position: relative;
 	border-radius: 5px;
 	background-color: var(--background-alt-1);
@@ -111,7 +111,7 @@
 	font-weight: 500;
 }
 
-.panel-wrapper .dropdown > span {
+.accordion-panel .dropdown > span {
 	transform: translateX(calc(-100% + 24px));
 }
 
@@ -120,7 +120,7 @@
 	color: var(--preview-text);
 }
 
-.panel-wrapper .dropdown > button { padding: 0 13px; }
+.accordion-panel .dropdown > button { padding: 0 13px; }
 
 .dropdown > span > button {
 	display: inherit;
@@ -192,26 +192,26 @@
 	height: 100%;
 }
 
-.panel-wrapper:focus-within { z-index: 999; }
+.accordion-panel:focus-within { z-index: 999; }
 
-.panel-wrapper > header {
+.accordion-panel > header {
 	display: flex;
 	height: 37px;
 }
 
-.panel-wrapper h2 {
+.accordion-panel h2 {
 	pointer-events: none;
 	position: absolute;
 	top: 9px;
 	left: 9px;
 }
 
-.panel-wrapper > header > button {
+.accordion-panel > header > button {
 	flex: 1;
 	height: inherit;
 }
 
-.panel-wrapper h2 > span {
+.accordion-panel h2 > span {
   font: 600 1.25rem 'Material Icons';
   vertical-align: -5px;
 }
@@ -221,7 +221,7 @@
 	position: relative;
 }
 
-#editor-options > .panel-wrapper:nth-last-child(n+2) { margin-bottom: 9px; }
+#editor-options > .accordion-panel:nth-last-child(n+2) { margin-bottom: 9px; }
 
 /* -- All Editor Panels -- */
 
