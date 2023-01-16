@@ -1,11 +1,14 @@
-import React, { cloneElement, useCallback, useState } from 'react'
+import React, { cloneElement, useCallback, useMemo, useState } from 'react'
 import { arrayOf, element, oneOfType, string } from 'prop-types'
+import { v1 as uuid } from 'uuid'
 
 import { detectTabExit } from 'utilities'
 
 const DropdownMenu = ({ icon = 'more_vert', children }) => {
 	const [ revealMenu, toggleRevealMenu ] = useState(false)
 	const [ position, setPosition ] = useState({ top: 0, left: 0 })
+
+	const menuRefId = useMemo(uuid, [])
 
 	const getPositionRelativeToWindow = useCallback(e => {
 		const { bottom, left } = e.target.getBoundingClientRect()
@@ -29,9 +32,14 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 					toggleRevealMenu(!revealMenu)
 				}}
 				aria-haspopup="true"
-				aria-expanded={revealMenu}>{icon}</button>
+				aria-expanded={revealMenu}
+				aria-controls={menuRefId}>{icon}</button>
 			{revealMenu ? (
-				<span role="menu" style={position}>
+				<span
+					role="menu"
+					aria-label="Options"
+					id={menuRefId}
+					style={position}>
 					{cloneElement(children, { toggleRevealMenu })}
 				</span>
 			) : <></>}

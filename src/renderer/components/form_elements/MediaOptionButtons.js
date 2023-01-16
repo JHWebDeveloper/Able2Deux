@@ -15,6 +15,7 @@ const MediaOptionButtons = ({ buttons, toggleRevealMenu }) => {
 		<button
 			key={`${menuId}_${i}`}
 			type="button"
+			role="menuitem"
 			autoFocus={i === 0}
 			onClick={() => {
 				action()
