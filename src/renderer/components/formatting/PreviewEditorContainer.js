@@ -4,10 +4,10 @@ import { arrayOf, bool, exact, func, number, object, oneOf, string } from 'prop-
 import Preview from './preview/Preview'
 import EditorOptions from './editor/EditorOptions'
 
-const eyeDropperInit = { active: false, pixelData: false }
+const eyedropperInit = { active: false, pixelData: false }
 
 const PreviewEditorContainer = props => {
-	const [ eyedropper, setEyedropper ] = useState(eyeDropperInit)
+	const [ eyedropper, setEyedropper ] = useState(eyedropperInit)
 	const { selected, dispatch } = props
 
 	const resetEyedropperOnEscape = useCallback(e => {
