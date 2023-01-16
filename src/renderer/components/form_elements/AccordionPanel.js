@@ -28,7 +28,7 @@ const DetailsWrapper = ({ heading, id, className = '', initOpen, buttons = [], c
 					onClick={toggleOpen}
 					aria-expanded={open}
 					aria-controls={id}></button>
-				{open && buttons.length ? (
+				{buttons.length && open ? (
 					<DropdownMenu>
 						<MediaOptionButtons buttons={buttons} />
 					</DropdownMenu>
