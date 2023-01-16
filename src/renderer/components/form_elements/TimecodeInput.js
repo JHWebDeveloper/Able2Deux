@@ -14,6 +14,7 @@ const TimecodeInput = ({
 	onChange,
 	tcStringToNumber,
 	numberToTCString,
+	numberToAudibleTC,
 	limitChars,
 	disabled
 }) => {
@@ -74,7 +75,9 @@ const TimecodeInput = ({
 			id={id}
 			name={name}
 			title={title}
+			aria-label={title}
 			value={display}
+			aria-valuetext={numberToAudibleTC(value, fps)}
 			onKeyDown={onKeyDown}
 			onChange={e => updateDisplay(e.target.value)}
 			onBlur={e => syncTimecode(e.target.value)}
@@ -94,6 +97,7 @@ TimecodeInput.propTypes = {
 	onChange: func.isRequired,
 	tcStringToNumber: func.isRequired,
 	numberToTCString: func.isRequired,
+	numberToAudibleTC: func,
 	limitChars: func.isRequired,
 	disabled: bool
 }
