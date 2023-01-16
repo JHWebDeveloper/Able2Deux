@@ -13,7 +13,7 @@ import {
 
 import { compareProps, createSettingsMenu, has11pmBackground, warn } from 'utilities'
 
-import DetailsWrapper from '../../form_elements/DetailsWrapper'
+import AccordionPanel from '../../form_elements/AccordionPanel'
 import Checkbox from '../../form_elements/Checkbox'
 
 const message = 'A source on top is not for aesthetics!'
@@ -91,13 +91,13 @@ const SourcePanel = props => {
 	]) : [], [isBatch, id, source])
 
 	return (
-		<DetailsWrapper
+		<AccordionPanel
 			summary="Source"
 			className="editor-panel"
 			buttons={settingsMenu}
 			initOpen>
 			<Source {...props} />
-		</DetailsWrapper>
+		</AccordionPanel>
 	)
 }
 

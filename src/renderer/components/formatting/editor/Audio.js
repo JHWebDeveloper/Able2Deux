@@ -9,7 +9,7 @@ import {
 
 import { compareProps, createSettingsMenu } from 'utilities'
 
-import DetailsWrapper from '../../form_elements/DetailsWrapper'
+import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
 
 const exportAsButtons = [
@@ -82,13 +82,13 @@ const AudioPanel = props => {
 	]) : [], [isBatch, id, audio])
 
 	return (
-		<DetailsWrapper
+		<AccordionPanel
 			summary="Audio"
 			className="editor-panel auto-columns"
 			buttons={settingsMenu}
 			initOpen={mediaType === 'audio'}>
 			<Audio {...props} />
-		</DetailsWrapper>
+		</AccordionPanel>
 	)
 }
 

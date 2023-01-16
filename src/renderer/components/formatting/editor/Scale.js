@@ -12,7 +12,7 @@ import {
 
 import { compareProps, createSettingsMenu } from 'utilities'
 
-import DetailsWrapper from '../../form_elements/DetailsWrapper'
+import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 import LinkIcon from '../../svg/LinkIcon'
@@ -170,12 +170,12 @@ const ScalePanel = props => {
 	]) : [], [isBatch, id, scale])
 
 	return (
-		<DetailsWrapper
+		<AccordionPanel
 			summary="Scale"
 			className="editor-panel auto-rows scale-panel"
 			buttons={settingsMenu}>
 			<Scale {...props} />
-		</DetailsWrapper>
+		</AccordionPanel>
 	)
 }
 

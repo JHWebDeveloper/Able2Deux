@@ -16,7 +16,7 @@ import {
 
 import { compareProps, copyCurveSet, createSettingsMenu } from 'utilities'
 
-import DetailsWrapper from '../../form_elements/DetailsWrapper'
+import AccordionPanel from '../../form_elements/AccordionPanel'
 import Checkbox from '../../form_elements/Checkbox'
 import EyedropperIcon from '../../svg/EyedropperIcon'
 import RadioSet from '../../form_elements/RadioSet'
@@ -273,12 +273,12 @@ const ColorCorrectionPanel = props => {
 	]) : [], [isBatch, id, colorCurves])
 
 	return (
-		<DetailsWrapper
+		<AccordionPanel
 			summary="Color Correction"
 			className="editor-panel cc-panel"
 			buttons={settingsMenu}>
 			<ColorCorrection {...props} />
-		</DetailsWrapper>
+		</AccordionPanel>
 	)
 }
 

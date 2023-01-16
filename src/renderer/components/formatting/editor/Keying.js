@@ -11,7 +11,7 @@ import {
 
 import { compareProps, createSettingsMenu, rgbToHex } from 'utilities'
 
-import DetailsWrapper from '../../form_elements/DetailsWrapper'
+import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
 import ColorInput from '../../form_elements/ColorInput'
 import NumberInput from '../../form_elements/NumberInput'
@@ -225,12 +225,12 @@ const KeyingPanel = props => {
 	]) : [], [isBatch, id, keying])
 
 	return (
-		<DetailsWrapper
+		<AccordionPanel
 			summary="Key"
 			className="editor-panel auto-rows keying-panel"
 			buttons={settingsMenu}>
 			<Keying {...props} />
-		</DetailsWrapper>
+		</AccordionPanel>
 	)
 }
 

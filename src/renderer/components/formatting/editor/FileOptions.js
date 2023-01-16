@@ -5,9 +5,9 @@ import { updateMediaStateFromEvent } from 'actions'
 
 import { compareProps } from 'utilities'
 
+import AccordionPanel from '../../form_elements/AccordionPanel'
 import StartEnd from './StartEnd'
 import Split from './Split'
-import DetailsWrapper from '../../form_elements/DetailsWrapper'
 
 const FileOptions = memo(props => {
 	const { id, batch, mediaType, start, end, totalFrames, fps, split, dispatch } = props
@@ -51,13 +51,13 @@ const FileOptions = memo(props => {
 }, compareProps)
 
 const FileOptionsPanel = props => (
-	<DetailsWrapper
+	<AccordionPanel
 		summary="File"
 		id="file"
 		className="editor-panel auto-rows"
 		initOpen>
 		<FileOptions {...props} />
-	</DetailsWrapper>
+	</AccordionPanel>
 )
 
 const propTypes = {

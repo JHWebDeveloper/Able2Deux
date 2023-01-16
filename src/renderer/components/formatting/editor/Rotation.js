@@ -9,7 +9,7 @@ import {
 
 import { compareProps, createSettingsMenu } from 'utilities'
 
-import DetailsWrapper from '../../form_elements/DetailsWrapper'
+import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
 import RotationOffset from './RotationOffset'
 
@@ -179,12 +179,12 @@ const RotationPanel = props => {
 	]) : [], [isBatch, id, rotation])
 
 	return (
-		<DetailsWrapper
+		<AccordionPanel
 			summary="Rotation"
 			className="editor-panel auto-columns"
 			buttons={settingsMenu}>
 			<Rotation {...props} />
-		</DetailsWrapper>
+		</AccordionPanel>
 	)
 }
 

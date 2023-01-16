@@ -12,7 +12,7 @@ import {
 
 import { compareProps, createSettingsMenu, rgbToHex } from 'utilities'
 
-import DetailsWrapper from '../../form_elements/DetailsWrapper'
+import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
 import ColorInput from '../../form_elements/ColorInput'
 import EyedropperIcon from '../../svg/EyedropperIcon'
@@ -211,13 +211,13 @@ const FormattingPanel = props => {
 	]) : [], [isBatch, id, arc, background, overlay])
 
 	return (
-		<DetailsWrapper
+		<AccordionPanel
 			summary="Formatting"
 			className="editor-panel formatting-panel"
 			buttons={settingsMenu}
 			initOpen>
 			<Formatting {...props} />
-		</DetailsWrapper>
+		</AccordionPanel>
 	)
 }
 

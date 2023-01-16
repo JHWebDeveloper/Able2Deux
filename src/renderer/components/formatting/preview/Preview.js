@@ -5,7 +5,7 @@ import 'css/index/preview.css'
 import { PrefsContext } from 'store/preferences'
 import { buildSource, debounce } from 'utilities'
 
-import DetailsWrapper from '../../form_elements/DetailsWrapper'
+import AccordionPanel from '../../form_elements/AccordionPanel'
 import PreviewCanvas from './PreviewCanvas'
 import Spinner from '../../svg/Spinner'
 import Grid from './Grid'
@@ -147,12 +147,12 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 }
 
 const PreviewPanel = props => (
-	<DetailsWrapper
+	<AccordionPanel
 		summary="Preview"
 		id="preview"
 		initOpen>
 		{!!props.selected.id ? <Preview {...props} /> : <></>}
-	</DetailsWrapper>
+	</AccordionPanel>
 )
 
 const propTypes = {

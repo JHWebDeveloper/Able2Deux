@@ -9,7 +9,7 @@ import {
 
 import { compareProps, createSettingsMenu } from 'utilities'
 
-import DetailsWrapper from '../../form_elements/DetailsWrapper'
+import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
@@ -49,13 +49,13 @@ const CenteringPanel = props => {
 	]) : [], [isBatch, id, centering])
 
 	return (
-		<DetailsWrapper
+		<AccordionPanel
 			summary="Position"
 			className="editor-panel auto-rows position-panel"
 			buttons={settingsMenu}
 			initOpen>
 			<Centering {...props} />
-		</DetailsWrapper>
+		</AccordionPanel>
 	)
 }
 

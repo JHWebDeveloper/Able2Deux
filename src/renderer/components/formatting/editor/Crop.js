@@ -10,7 +10,7 @@ import {
 
 import { clamp, compareProps, createSettingsMenu } from 'utilities'
 
-import DetailsWrapper from '../../form_elements/DetailsWrapper'
+import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderDouble from '../../form_elements/SliderDouble'
 import NumberInput from '../../form_elements/NumberInput'
 import LinkIcon from '../../svg/LinkIcon'
@@ -155,12 +155,12 @@ const CropPanel = props => {
 	]) : [], [isBatch, id, crop])
 
 	return (
-		<DetailsWrapper
+		<AccordionPanel
 			summary="Crop"
 			className="editor-panel auto-rows crop-panel"
 			buttons={settingsMenu}>
 			<Crop {...props} />
-		</DetailsWrapper>
+		</AccordionPanel>
 	)
 }
 
