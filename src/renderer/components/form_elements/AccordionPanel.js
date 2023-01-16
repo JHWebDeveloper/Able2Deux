@@ -47,7 +47,7 @@ DetailsWrapper.propTypes = {
 	heading: string.isRequired,
 	id: string.isRequired,
 	className: string,
-	open: bool,
+	initOpen: bool,
 	buttons: arrayOf(shape({
 		role: string,
 		label: string,

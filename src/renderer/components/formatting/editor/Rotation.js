@@ -77,13 +77,8 @@ const flipButtons = isSideways => [
 ]
 
 const Rotation = memo(props => {
-	const { id, isBatch, rotation, scale, crop, editAll, dispatch } = props
+	const { id, rotation, scale, crop, editAll, dispatch } = props
 	const isSideways = detectSideways(rotation.angle)
-
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
-		() => dispatch(copySettings({ rotation })),
-		() => dispatch(applySettingsToAll(id, { rotation }))
-	]) : [], [isBatch, id, rotation])
 
 	const updateAngle = useCallback(e => {
 		let invertedProps = {}

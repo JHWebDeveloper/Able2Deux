@@ -295,11 +295,16 @@ const pointPropType = exact({
 
 Curves.propTypes = {
 	curve: arrayOf(pointPropType),
+	selectedPoint: exact({
+		id: string,
+		limit: bool
+	}),
 	curveColor: string.isRequired,
 	backgroundCurves: arrayOf(exact({
 		color: string,
 		data: arrayOf(pointPropType)
 	})),
+	setSelectedPoint: func.isRequired,
 	addCurvePoint: func.isRequired,
 	addOrUpdateCurvePoint: func.isRequired,
 	deleteCurvePoint: func.isRequired,

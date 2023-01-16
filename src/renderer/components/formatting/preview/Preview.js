@@ -151,7 +151,7 @@ const PreviewPanel = props => (
 		heading="Preview"
 		id="preview"
 		initOpen>
-		{!!props.selected.id ? <Preview {...props} /> : <></>}
+		{props.selected.id ? <Preview {...props} /> : <></>}
 	</AccordionPanel>
 )
 
