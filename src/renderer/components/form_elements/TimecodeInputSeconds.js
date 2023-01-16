@@ -1,7 +1,7 @@
 import React from 'react'
 import { bool, func, number, string } from 'prop-types'
 
-import { tcToSeconds, secondsToTC, limitTCChars } from 'utilities'
+import { tcToSeconds, secondsToTC, secondsToAudibleTC, limitTCChars } from 'utilities'
 
 import TimecodeInput from './TimecodeInput'
 
@@ -11,6 +11,7 @@ const TimecodeInputSeconds = props => (
 	<TimecodeInput
 		tcStringToNumber={tcToSeconds}
 		numberToTCString={secondsToTC}
+		numberToAudibleTC={secondsToAudibleTC}
 		limitChars={limitChars}
 		{...props} />
 )
