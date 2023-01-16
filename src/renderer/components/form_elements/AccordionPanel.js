@@ -24,7 +24,7 @@ const DetailsWrapper = ({ heading, id, className = '', initOpen, buttons = [], c
 				</h2>
 				<button
 					type="button"
-					title={`${open ? 'Close' : 'Open'} ${summary}`}
+					title={`${open ? 'Close' : 'Open'} ${heading}`}
 					onClick={toggleOpen}
 					aria-expanded={open}
 					aria-controls={id}></button>
@@ -44,7 +44,7 @@ const DetailsWrapper = ({ heading, id, className = '', initOpen, buttons = [], c
 }
 
 DetailsWrapper.propTypes = {
-	summary: string.isRequired,
+	heading: string.isRequired,
 	id: string.isRequired,
 	className: string,
 	open: bool,
