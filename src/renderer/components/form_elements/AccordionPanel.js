@@ -4,7 +4,7 @@ import { arrayOf, element, func, bool, oneOfType, shape, string } from 'prop-typ
 import DropdownMenu from './DropdownMenu'
 import MediaOptionButtons from './MediaOptionButtons'
 
-const DetailsWrapper = ({ summary, id = '', className = '', initOpen, buttons = [], children }) => {
+const DetailsWrapper = ({ heading, id, className = '', initOpen, buttons = [], children }) => {
 	const [ open, setOpen ] = useState(false)
 
 	const toggleOpen = useCallback(() => {
@@ -20,7 +20,7 @@ const DetailsWrapper = ({ summary, id = '', className = '', initOpen, buttons = 
 			<header>
 				<h2>
 					<span aria-hidden="true">keyboard_arrow_{open ? 'down' : 'right'}</span>
-					{summary}
+					{heading}
 				</h2>
 				<button
 					type="button"

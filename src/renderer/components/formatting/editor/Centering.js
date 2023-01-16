@@ -50,7 +50,7 @@ const CenteringPanel = props => {
 
 	return (
 		<AccordionPanel
-			summary="Position"
+			heading="Position"
 			id="centering"
 			className="editor-panel auto-rows position-panel"
 			buttons={settingsMenu}

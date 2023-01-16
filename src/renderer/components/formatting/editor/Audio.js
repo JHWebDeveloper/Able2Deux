@@ -83,7 +83,7 @@ const AudioPanel = props => {
 
 	return (
 		<AccordionPanel
-			summary="Audio"
+			heading="Audio"
 			id="audio"
 			className="editor-panel auto-columns"
 			buttons={settingsMenu}

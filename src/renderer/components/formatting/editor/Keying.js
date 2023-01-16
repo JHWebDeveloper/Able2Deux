@@ -226,7 +226,7 @@ const KeyingPanel = props => {
 
 	return (
 		<AccordionPanel
-			summary="Key"
+			heading="Key"
 			id="keying"
 			className="editor-panel auto-rows keying-panel"
 			buttons={settingsMenu}>

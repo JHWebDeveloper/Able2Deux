@@ -148,7 +148,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 
 const PreviewPanel = props => (
 	<AccordionPanel
-		summary="Preview"
+		heading="Preview"
 		id="preview"
 		initOpen>
 		{!!props.selected.id ? <Preview {...props} /> : <></>}

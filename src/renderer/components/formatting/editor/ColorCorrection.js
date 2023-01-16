@@ -274,7 +274,7 @@ const ColorCorrectionPanel = props => {
 
 	return (
 		<AccordionPanel
-			summary="Color Correction"
+			heading="Color Correction"
 			id="color-correction"
 			className="editor-panel cc-panel"
 			buttons={settingsMenu}>
