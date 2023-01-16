@@ -154,7 +154,7 @@ const Rotation = memo(props => {
 					onChange={updateAngle}
 					buttons={angleButtons}/>
 			</fieldset>
-			{props.arc === 'transform' ? (
+			{props.showOffset ? (
 				<RotationOffset
 					id={id}
 					editAll={editAll}
@@ -198,7 +198,7 @@ const propTypes = {
 	width: number.isRequired,
 	height: number.isRequired,
 	editAll: bool.isRequired,
-	arc: oneOf(['none', 'fill', 'fit', 'transform']),
+	showOffset: bool.isRequired,
 	dispatch: func.isRequired
 }
 

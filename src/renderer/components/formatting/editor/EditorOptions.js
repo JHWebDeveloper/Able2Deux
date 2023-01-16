@@ -93,7 +93,7 @@ const EditorOptions = props => {
 					rotation={props.rotation}
 					scale={scale}
 					crop={crop}
-					arc={arc}
+					showOffset={arc === 'transform'}
 					{...common} />
 				{arc === 'none' ? <></> : (
 					<Keying
