@@ -18,7 +18,7 @@ import ColorCorrection from './ColorCorrection'
 const scrollbarPadder = createScrollbarPadder()
 
 const extractCommonProps = (() => {
-	const common = ['id', 'mediaType', 'editAll', 'isBatch', 'width', 'height', 'aspectRatio', 'dispatch', 'arc']
+	const common = ['id', 'mediaType', 'editAll', 'isBatch', 'width', 'height', 'aspectRatio', 'dispatch']
 
 	return obj => objectExtract(obj, common)
 })()
