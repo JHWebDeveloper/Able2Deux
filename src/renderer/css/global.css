@@ -36,7 +36,7 @@
 }
 
 html, body, div, header, nav, main, section,
-form, fieldset, legend, details, summary, label, input,
+form, fieldset, legend, label, input,
 table, thead, tbody, tr, th, td,
 h1, h2, h3, h4, h5, img, p, ol, ul, li, button, a, address, span, q, i {
 	margin: 0;
