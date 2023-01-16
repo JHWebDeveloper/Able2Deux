@@ -29,17 +29,11 @@ export const zeroizeAuto = (n, total) => zeroize(n, getIntegerLength(total))
 
 // ---- timecodes and timestamps ---- //
 
-export const secondsToTC = s => {
-	let h = 0
-	let m = 0
-
-	while (s / 3600 > 1) h++, s /= 3600
-	while (s / 60 > 1) m++, s /= 60
-
-	return [h, m, s]
-		.map(n => zeroize(n | 0, 2))
-		.join(':')
-}
+export const secondsToTC = sec => [
+	sec / 3600,
+	sec / 60 % 60,
+	sec % 60
+].map(n => zeroize(n | 0, 2)).join(':')
 
 export const framesToTC = (frms, fps) => {
 	const frmsPrec = frms * 1e4
