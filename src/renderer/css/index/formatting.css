@@ -194,24 +194,20 @@
 
 .accordion-panel:focus-within { z-index: 999; }
 
-.accordion-panel > header {
+.accordion-panel > h2 {
+	position: inherit;
 	display: flex;
 	height: 37px;
 }
 
-.accordion-panel h2 {
-	pointer-events: none;
-	position: absolute;
-	top: 9px;
-	left: 9px;
-}
-
-.accordion-panel > header > button {
+.accordion-panel > h2 > button {
 	flex: 1;
 	height: inherit;
+	padding: 9px;
+	text-align: left;
 }
 
-.accordion-panel h2 > span {
+.accordion-panel > h2 > button > span {
   font: 600 1.25rem 'Material Icons';
   vertical-align: -5px;
 }
