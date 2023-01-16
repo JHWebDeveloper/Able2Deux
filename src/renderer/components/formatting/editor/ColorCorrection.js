@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react'
 import { arrayOf, bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -66,9 +66,9 @@ const getCurveColor = curveName => {
 }
 
 const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, editAll, dispatch }) => {
-	const [ selectedPoint, setSelectedPoint ] = useState({})
 	const { enabled, selectedCurve, rgb, r, g, b } = colorCurves
 	const { active, pixelData } = eyedropper
+	const curvesRef = useRef()
 
 	const toggleCCCheckbox = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'colorCurves', e, editAll))
@@ -222,12 +222,11 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 					onChange={selectCurve} />
 			</fieldset>
 			<Curves
+				ref={curvesRef}
 				curve={colorCurves[selectedCurve]}
 				selectedCurve={selectedCurve}
-				selectedPoint={selectedPoint}
 				curveColor={curveColor}
 				backgroundCurves={channelCurves}
-				setSelectedPoint={setSelectedPoint}
 				addCurvePoint={dispatchAddCurvePoint}
 				addOrUpdateCurvePoint={dispatchAddOrUpdateCurvePoint}
 				deleteCurvePoint={dispatchDeleteCurvePoint}
@@ -240,7 +239,7 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 					max: colorCurves[selectedCurve][1].x - 6,
 					onChange: setBlackPoint,
 					onClick() {
-						setSelectedPoint(blackPt)
+						curvesRef.current?.setSelectedPoint(blackPt)
 					}
 				}}
 				rightThumb={{
@@ -249,7 +248,7 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 					min: colorCurves[selectedCurve].at(-2).x + 6,
 					onChange: setWhitePoint,
 					onClick() {
-						setSelectedPoint(whitePt)
+						curvesRef.current?.setSelectedPoint(whitePt)
 					}
 				}}
 				min={0}

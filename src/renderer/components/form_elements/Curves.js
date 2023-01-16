@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { arrayOf, bool, exact, func, number, string } from 'prop-types'
 
 import { clamp, createCurvePoint, CSPL, pythagorean, throttle } from 'utilities'
@@ -125,18 +125,17 @@ const detectCollisions = (pts, r = 144) => (x, y) => {
 	return false
 }
 
-const Curves = ({
+const Curves = forwardRef(({
 	curve,
-	selectedPoint,
 	curveColor,
 	backgroundCurves = [],
-	setSelectedPoint,
 	addCurvePoint,
 	addOrUpdateCurvePoint,
 	deleteCurvePoint,
 	cleanupCurve,
 	disabled
-}) => {
+}, curvesRef) => {
+	const [ selectedPoint, setSelectedPoint ] = useState({})
 	const cnv = useRef()
 	const ctx = useRef()
 
@@ -248,6 +247,8 @@ const Curves = ({
 		}
 	}, 60), [curve])
 
+	useImperativeHandle(curvesRef, () => ({ setSelectedPoint }), [])
+
 	useEffect(() => {
 		cnv.current.width = 256
 		cnv.current.height = 256
@@ -283,7 +284,7 @@ const Curves = ({
 			<span aria-hidden="true"></span>
 		</div>
 	)
-}
+})
 
 const pointPropType = exact({
 	id: string,
@@ -295,16 +296,11 @@ const pointPropType = exact({
 
 Curves.propTypes = {
 	curve: arrayOf(pointPropType),
-	selectedPoint: exact({
-		id: string,
-		limit: bool
-	}),
 	curveColor: string.isRequired,
 	backgroundCurves: arrayOf(exact({
 		color: string,
 		data: arrayOf(pointPropType)
 	})),
-	setSelectedPoint: func.isRequired,
 	addCurvePoint: func.isRequired,
 	addOrUpdateCurvePoint: func.isRequired,
 	deleteCurvePoint: func.isRequired,
