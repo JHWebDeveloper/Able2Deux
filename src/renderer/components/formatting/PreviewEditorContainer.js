@@ -11,7 +11,7 @@ const PreviewEditorContainer = props => {
 	const { selected, dispatch } = props
 
 	const resetEyedropperOnEscape = useCallback(e => {
-		if (e.key === 'Escape') setEyedropper(eyeDropperInit)
+		if (e.key === 'Escape') setEyedropper(eyedropperInit)
 	}, [])
 
 	useEffect(() => {
