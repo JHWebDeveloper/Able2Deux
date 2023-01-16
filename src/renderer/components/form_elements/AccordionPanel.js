@@ -45,7 +45,7 @@ const DetailsWrapper = ({ summary, id = '', className = '', initOpen, buttons = 
 
 DetailsWrapper.propTypes = {
 	summary: string.isRequired,
-	id: string,
+	id: string.isRequired,
 	className: string,
 	open: bool,
 	buttons: arrayOf(shape({
