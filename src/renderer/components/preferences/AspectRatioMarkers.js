@@ -74,7 +74,7 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 				name="label"
 				title="Label"
 				className="panel-input"
-				maxLength="6"
+				maxLength="7"
 				aria-labelledby="ar-markers-label"
 				value={label}
 				onChange={updateLabel} />
