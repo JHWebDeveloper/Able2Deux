@@ -66,12 +66,12 @@ const EditorOptions = props => {
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
 					{...common} />
-				{!(arc === 'none' && aspectRatio !== '16:9') ? (
+				{arc === 'none' && aspectRatio !== '16:9' ? <></> : (
 					<Source
 						source={props.source}
 						background={background}
 						{...common} />
-				) : <></>}
+				)}
 				{arc === 'fill' && aspectRatio !== '16:9' ? (
 					<Centering
 						centering={props.centering}
@@ -95,13 +95,13 @@ const EditorOptions = props => {
 					crop={crop}
 					arc={arc}
 					{...common} />
-				{arc !== 'none' ? (
+				{arc === 'none' ? <></> : (
 					<Keying
 						keying={props.keying}
 						eyedropper={eyedropper}
 						setEyedropper={setEyedropper}
 						{...common} />
-				) : <></>}
+				)}
 				<ColorCorrection
 					colorCurves={props.colorCurves}
 					eyedropper={eyedropper}
