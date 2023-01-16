@@ -93,6 +93,7 @@ const SourcePanel = props => {
 	return (
 		<AccordionPanel
 			summary="Source"
+			id="source"
 			className="editor-panel"
 			buttons={settingsMenu}
 			initOpen>
