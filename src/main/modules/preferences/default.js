@@ -9,7 +9,7 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 const defaultPrefs = {
 	version: 9,
 	theme: 'system',
-	windowWidth: 762,
+	windowWidth: 830,
 	windowHeight: 800,
 	scratchDisk: {
 		imports: tempDirectory,
