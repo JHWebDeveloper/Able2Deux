@@ -56,7 +56,7 @@ const EditorOptions = props => {
 					audio={audio}
 					{...common} />
 			) : <></>}
-			{mediaType === 'audio' || (mediaType === 'video' && audio.exportAs === 'audio') ? <></> : <>
+			{mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio' ? <></> : <>
 				<Formatting 
 					arc={arc}
 					background={background}
