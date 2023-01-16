@@ -317,12 +317,15 @@ button[name^="link"] > svg { pointer-events: none; }
 	grid-gap: 9px;
 }
 
+
 .formatting-panel > fieldset:nth-of-type(2) { /* background column */
 	grid-column: 2;
 	grid-row: 1 / span 2;
 }
 
-.formatting-panel > fieldset:nth-of-type(4) { /* motion column */
+.formatting-panel > fieldset:nth-of-type(3) { /* motion column */
+	grid-column: 1;
+	grid-row: 2;
 	align-self: flex-end;
 }
 
@@ -332,17 +335,17 @@ button[name^="link"] > svg { pointer-events: none; }
 	}
 
 	.formatting-panel > fieldset:nth-of-type(2) { /* background column */
-		grid-column: 3;
-	}
-
-	.formatting-panel > fieldset:nth-of-type(3) { /* overlay column */
-		grid-column: 4;
-	}
-
-	.formatting-panel > fieldset:nth-of-type(4) { /* motion column */
 		grid-column: 2;
+	}
+
+	.formatting-panel > fieldset:nth-of-type(3) { /* motion column */
+		grid-column: 3;
 		grid-row: 1;
 		align-self: flex-start;
+	}
+
+	.formatting-panel > fieldset:nth-of-type(4) { /* overlay column */
+		grid-column: 4;
 	}
 }
 

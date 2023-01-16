@@ -180,16 +180,6 @@ const Formatting = memo(props => {
 			</fieldset>
 			<fieldset
 				className="editor-option-column"
-				disabled={arc === 'none'}>
-				<legend>Box Overlay:</legend>
-				<RadioSet
-					name="overlay"
-					state={overlay}
-					onChange={updateMediaStateDispatch}
-					buttons={overlayButtons}/>
-			</fieldset>
-			<fieldset
-				className="editor-option-column"
 				disabled={arc === 'none' || background === 'alpha' || background === 'color'}>
 				<legend>BG Motion:</legend>
 				<RadioSet
@@ -197,6 +187,16 @@ const Formatting = memo(props => {
 					state={props.backgroundMotion}
 					onChange={updateMediaStateDispatch}
 					buttons={backgroundMotionButtons}/>
+			</fieldset>
+			<fieldset
+				className="editor-option-column"
+				disabled={arc === 'none'}>
+				<legend>Box Overlay:</legend>
+				<RadioSet
+					name="overlay"
+					state={overlay}
+					onChange={updateMediaStateDispatch}
+					buttons={overlayButtons}/>
 			</fieldset>
 		</>
 	)
