@@ -29,20 +29,38 @@ export const zeroizeAuto = (n, total) => zeroize(n, getIntegerLength(total))
 
 // ---- timecodes and timestamps ---- //
 
-export const secondsToTC = sec => [
+const secondsToTCLiterals = sec => [
 	sec / 3600,
 	sec / 60 % 60,
 	sec % 60
-].map(n => zeroize(n | 0, 2)).join(':')
+].map(lit => lit | 0)
 
-export const framesToTC = (frms, fps) => {
+const framesToTCLiterals = (frms, fps) => {
 	const frmsPrec = frms * 1e4
 	const fpsPrec = fps * 1e4
 	const sec = Math.floor(frmsPrec / fpsPrec)
 	const rmd = Math.floor(frmsPrec % fpsPrec / 1e4)
 
-	return `${secondsToTC(sec)}:${zeroizeAuto(rmd, fps)}`
+	return [...secondsToTCLiterals(sec), rmd]
 }
+
+export const secondsToTC = sec => secondsToTCLiterals(sec)
+	.map(n => zeroize(n, 2))
+	.join(':')
+
+export const framesToTC = (frms, fps) => framesToTCLiterals(frms, fps)
+	.map((n, i) => i === 3 ? zeroizeAuto(n, fps) : zeroize(n))
+	.join(':')
+
+const timeUnit = ['hour', 'minute', 'second', 'frame']
+
+export const secondsToAudibleTC = sec => secondsToTCLiterals(sec)
+	.reduce((tc, n, i) => [...tc, n, `${timeUnit[i]}${n === 1 ? '' : 's'},`], [])
+	.join(' ')
+
+export const framesToAudibleTC = (frms, fps) => framesToTCLiterals(frms, fps)
+	.reduce((tc, n, i) => [...tc, n, `${timeUnit[i]}${n === 1 ? '' : 's'},`], [])
+	.join(' ')
 
 export const tcToSeconds = hms => hms
 	.split(/:|;/)
@@ -65,7 +83,17 @@ export const tcToFrames = (hmsf, fps) => {
 	return frms
 }
 
-export const format12hr = d => {
+// ---- file names ---- //
+
+const getRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
+
+export const cleanFilename = (fileName, asperaSafe) => fileName
+	.replace(getRegex(asperaSafe), '_')
+	.trim()
+	.slice(0, 252)
+	.trimEnd()
+
+const format12hr = d => {
 	let h = d.getHours()
 	const m = d.getMinutes()
 	const meridian = h < 12 ? 'am' : 'pm'
@@ -78,16 +106,6 @@ export const format12hr = d => {
 
 	return `${h}${zeroize(m)}${meridian}`
 }
-
-// ---- file names ---- //
-
-const getRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
-
-export const cleanFilename = (fileName, asperaSafe) => fileName
-	.replace(getRegex(asperaSafe), '_')
-	.trim()
-	.slice(0, 252)
-	.trimEnd()
 
 export const replaceTokens = (filename, i = 0, l = 0) => {
 	const d = new Date()
