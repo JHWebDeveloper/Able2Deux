@@ -6,6 +6,7 @@ import MediaOptionButtons from './MediaOptionButtons'
 
 const DetailsWrapper = ({ heading, id, className = '', initOpen, buttons = [], children }) => {
 	const [ open, setOpen ] = useState(false)
+	const headingId = `${id}-heading`
 
 	const toggleOpen = useCallback(() => {
 		setOpen(!open)
@@ -17,25 +18,29 @@ const DetailsWrapper = ({ heading, id, className = '', initOpen, buttons = [], c
 
 	return (
 		<section className={`accordion-panel${open ? ' open' : ''}`}>
-			<header>
-				<h2>
-					<span aria-hidden="true">keyboard_arrow_{open ? 'down' : 'right'}</span>
-					{heading}
-				</h2>
+			<h2>
 				<button
 					type="button"
 					title={`${open ? 'Close' : 'Open'} ${heading}`}
+					id={headingId}
 					onClick={toggleOpen}
 					aria-expanded={open}
-					aria-controls={id}></button>
+					aria-controls={id}>
+					<span aria-hidden="true">keyboard_arrow_{open ? 'down' : 'right'}</span>
+					{heading}
+				</button>
 				{buttons.length && open ? (
 					<DropdownMenu>
 						<MediaOptionButtons buttons={buttons} />
 					</DropdownMenu>
 				) : <></>}
-			</header>
+			</h2>
 			{open ? (
-				<div id={id} className={className}>
+				<div
+					id={id}
+					className={className}
+					role="region"
+					aria-labeledby={headingId}>
 					{open ? cloneElement(children) : <></>}
 				</div>
 			) : <></>}
