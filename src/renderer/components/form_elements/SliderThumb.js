@@ -116,6 +116,7 @@ const SliderThumb = forwardRef(({
 		<span
 			id={sliderId}
 			title={title}
+			aria-label={title}
 			onMouseDown={startDrag}
 			onKeyDown={keyIncrement}
 			{...process.env.NODE_ENV === 'production' ? { onContextMenu: e => e.stopPropagation() } : {}}
