@@ -1,7 +1,7 @@
 import React from 'react'
 import { func, number, string } from 'prop-types'
 
-import { framesToTC, tcToFrames, limitTCChars } from 'utilities'
+import { framesToTC, tcToFrames, framesToAudibleTC, limitTCChars } from 'utilities'
 
 import TimecodeInput from './TimecodeInput'
 
@@ -11,6 +11,7 @@ const TimecodeInputFrames = props => (
 	<TimecodeInput
 		tcStringToNumber={tcToFrames}
 		numberToTCString={framesToTC}
+		numberToAudibleTC={framesToAudibleTC}
 		limitChars={limitChars}
 		{...props} />
 )
