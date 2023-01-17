@@ -20,6 +20,7 @@ const ScreenRecorderTimer = ({ timer, timerEnabled, screenshot, recording, recor
 		<div className="screen-recorder-timer">
 			<Checkbox
 				name="timerEnabled"
+				title={`${timerEnabled ? 'Dis' : 'En'}able screen record timer`}
 				checked={timerEnabled}
 				onChange={toggleTimer}
 				disabled={screenshot || recording}
