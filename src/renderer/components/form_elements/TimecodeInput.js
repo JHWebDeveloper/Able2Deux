@@ -75,14 +75,16 @@ const TimecodeInput = ({
 			id={id}
 			name={name}
 			title={title}
-			aria-label={title}
 			value={display}
-			aria-valuetext={numberToAudibleTC(value, fps)}
 			onKeyDown={onKeyDown}
 			onChange={e => updateDisplay(e.target.value)}
 			onBlur={e => syncTimecode(e.target.value)}
 			onPaste={pasteTimecode}
-			disabled={disabled} />
+			disabled={disabled}
+			aria-label={title}
+			aria-valuetext={numberToAudibleTC(value, fps)}
+			aria-valuemin={numberToAudibleTC(min, fps)}
+			aria-valuemax={numberToAudibleTC(max, fps)} />
 	)
 }
 
