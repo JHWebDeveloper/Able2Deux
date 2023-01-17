@@ -41,7 +41,7 @@ const convertNumericString = (str, def) => /^[0-9]+$/.test(str) ? parseFloat(str
 
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
 	const { id, url, optimize, output, disableRateLimit } = formData
-	const cmdPrefixRegex = new RegExp(`^\r\\[${id}\\]`)
+	const cmdPrefixRegex = new RegExp(`^\r\\[${id}\\](_[0-9]+){3}$`)
 
 	const downloadCmd = ytdl([
 		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
@@ -72,7 +72,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 
 		win.webContents.send(`downloadProgress_${id}`, {
 			percent: progress.downloaded / progress.total,
-			eta,
+			eta: progress.eta,
 			id
 		})
 	})
