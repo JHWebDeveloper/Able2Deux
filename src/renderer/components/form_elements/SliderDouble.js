@@ -44,7 +44,8 @@ const SliderDouble = ({
 	middleThumbTitle = '',
 	onPan = () => {},
 	enableAutoCenter = false,
-	disabled = false
+	disabled = false,
+	transformValueForAria
 }) => {
 	const { sliderSnapPoints } = useContext(PrefsContext).preferences
 
@@ -58,6 +59,14 @@ const SliderDouble = ({
 	const diff = useMemo(() => max - min, [min, max])
 	const diffLR = useMemo(() => rightThumb.value - leftThumb.value, [leftThumb.value, rightThumb.value])
 	const width = useMemo(() => diffLR / diff * 100, [diff, diffLR])
+
+	const leftAriaVal = useMemo(() => transformValueForAria(leftThumb.value), [leftThumb.value])
+	const rightAriaVal = useMemo(() => transformValueForAria(rightThumb.value), [rightThumb.value])
+	const leftAriaMin = useMemo(() => transformValueForAria(min), [min])
+	const leftAriaMax = useMemo(() => (leftThumb.max && transformValueForAria(leftThumb.max)) ?? rightAriaVal, [leftThumb.max, rightAriaVal])
+	const rightAriaMax = useMemo(() => transformValueForAria(max), [max])
+	const rightAriaMin = useMemo(() => (rightThumb.min && transformValueForAria(rightThumb.min)) ?? leftAriaVal, [rightThumb.min, leftAriaVal])
+	const midAriaVal = useMemo(() => `${leftAriaVal} to ${rightAriaVal}`, [leftAriaVal, rightAriaVal])
 
 	const thresholds = useMemo(() => {
 		if (sliderSnapPoints) {
@@ -119,6 +128,9 @@ const SliderDouble = ({
 					setValue={setLeft}
 					getClickPos={getClickPosLeft}
 					onClick={leftThumb.onClick}
+					ariaVal={leftAriaVal}
+					ariaMin={leftAriaMin}
+					ariaMax={leftAriaMax}
 					{...common} />
 				<SliderThumb
 					sliderId={middleId}
@@ -130,6 +142,9 @@ const SliderDouble = ({
 					setValue={setBoth}
 					getClickPos={getClickPosRight}
 					onDoubleClick={enableAutoCenter && autoCenter}
+					ariaVal={midAriaVal}
+					ariaMin={leftAriaMin}
+					ariaMax={rightAriaMax}
 					{...common} />
 				<SliderThumb
 					sliderId={rightId}
@@ -143,6 +158,9 @@ const SliderDouble = ({
 					setValue={setRight}
 					getClickPos={getClickPosRight}
 					onClick={rightThumb.onClick}
+					ariaVal={rightAriaVal}
+					ariaMin={rightAriaMin}
+					ariaMax={rightAriaMax}
 					{...common} />
 			</span>
 			{snapPoints.length ? (
@@ -180,7 +198,8 @@ SliderDouble.propTypes = {
 	middleThumbTitle: string,
 	onPan: func,
 	enableAutoCenter: bool,
-	disabled: bool
+	disabled: bool,
+	transformValueForAria: func
 }
 
 export default SliderDouble

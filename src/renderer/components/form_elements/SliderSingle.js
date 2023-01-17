@@ -20,7 +20,8 @@ const SingleSlider = ({
 	disabled = false,
 	onChange = () => {},
 	onClick,
-	onDoubleClick
+	onDoubleClick,
+	transformValueForAria = val => val
 }) => {
 	const { sliderSnapPoints } = useContext(PrefsContext).preferences
 
@@ -37,6 +38,10 @@ const SingleSlider = ({
 			return []
 		}
 	}, [sliderSnapPoints, snapPoints])
+
+	const ariaVal = useMemo(() => transformValueForAria(value), [value])
+	const ariaMin = useMemo(() => transformValueForAria(min), [min])
+	const ariaMax = useMemo(() => transformValueForAria(max), [max])
 
 	const getTrack = useCallback(() => trackRef.current.getBoundingClientRect(), [])
 
@@ -78,7 +83,10 @@ const SingleSlider = ({
 					setValue={setValue}
 					getTrack={getTrack}
 					onClick={onClick}
-					onDoubleClick={onDoubleClick} />
+					onDoubleClick={onDoubleClick}
+					ariaVal={ariaVal}
+					ariaMin={ariaMin}
+					ariaMax={ariaMax} />
 			</span>
 			{snapPoints.length ? (
 				<SliderSnapMarkers
