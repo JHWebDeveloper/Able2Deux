@@ -4,7 +4,7 @@ import { arrayOf, element, func, bool, oneOfType, shape, string } from 'prop-typ
 import DropdownMenu from './DropdownMenu'
 import MediaOptionButtons from './MediaOptionButtons'
 
-const DetailsWrapper = ({ heading, id, className = '', initOpen, buttons = [], children }) => {
+const AccordionPanel = ({ heading, id, className = '', initOpen, buttons = [], children }) => {
 	const [ open, setOpen ] = useState(false)
 	const headingId = `${id}-heading`
 
@@ -40,7 +40,7 @@ const DetailsWrapper = ({ heading, id, className = '', initOpen, buttons = [], c
 					id={id}
 					className={className}
 					role="region"
-					aria-labeledby={headingId}>
+					aria-labelledby={headingId}>
 					{open ? cloneElement(children) : <></>}
 				</div>
 			) : <></>}
@@ -48,7 +48,7 @@ const DetailsWrapper = ({ heading, id, className = '', initOpen, buttons = [], c
 	)
 }
 
-DetailsWrapper.propTypes = {
+AccordionPanel.propTypes = {
 	heading: string.isRequired,
 	id: string.isRequired,
 	className: string,
@@ -62,4 +62,4 @@ DetailsWrapper.propTypes = {
 	children: oneOfType([element, arrayOf(element)])
 }
 
-export default DetailsWrapper
+export default AccordionPanel
