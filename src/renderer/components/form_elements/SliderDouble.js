@@ -45,7 +45,7 @@ const SliderDouble = ({
 	onPan = () => {},
 	enableAutoCenter = false,
 	disabled = false,
-	transformValueForAria
+	transformValueForAria = val => val
 }) => {
 	const { sliderSnapPoints } = useContext(PrefsContext).preferences
 
