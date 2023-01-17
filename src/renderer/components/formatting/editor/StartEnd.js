@@ -3,6 +3,8 @@ import { func, number, string } from 'prop-types'
 
 import { updateMediaState } from 'actions'
 
+import { framesToAudibleTC } from 'utilities'
+
 import TimecodeInputFrames from '../../form_elements/TimecodeInputFrames'
 import SliderDouble from '../../form_elements/SliderDouble'
 
@@ -75,12 +77,13 @@ const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 				{...endProps} />
 			<label htmlFor="end">End</label>
 			<SliderDouble
+				middleThumbTitle="Move Subclip"
 				leftThumb={startProps}
 				rightThumb={endProps}
 				max={totalFrames}
 				fineTuneStep={1}
 				onPan={shiftTimecodes}
-				middleThumbTitle="Move Subclip" />
+				transformValueForAria={val => framesToAudibleTC(val, fps)} />
 		</div>
 	)
 }
