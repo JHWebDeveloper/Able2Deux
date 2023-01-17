@@ -3,6 +3,8 @@ import { bool, func, number, shape, string } from 'prop-types'
 
 import { updateMediaState, extractStill } from 'actions'
 
+import { framesToAudibleTC } from 'utilities'
+
 import SliderSingle from '../../form_elements/SliderSingle'
 import TimecodeInputFrames from '../../form_elements/TimecodeInputFrames'
 
@@ -63,6 +65,7 @@ const FrameSelector = ({ selected, isAudio, dispatch }) => {
 					fineTuneStep={1}
 					snapPoints={snapPoints}
 					sensitivity={0}
+					transformValueForAria={val => framesToAudibleTC(val, fps)}
 					{...timecodeProps} />
 			</div>
 			<div>
