@@ -112,7 +112,8 @@ SingleSlider.propTypes = {
 	onChange: func,
 	onClick: oneOfType([oneOf([false]), func]),
 	onDoubleClick: oneOfType([oneOf([false]), func]),
-	disabled: bool
+	disabled: bool,
+	transformValueForAria: func
 }
 
 export default SingleSlider
