@@ -36,7 +36,10 @@ const SliderThumb = forwardRef(({
 	getClickPos,
 	onClick,
 	onDoubleClick,
-	absoluteMin
+	absoluteMin,
+	ariaVal = value,
+	ariaMin = min,
+	ariaMax = max
 }, thumbRef) => {
 	absoluteMin = absoluteMin ?? min
 	
@@ -116,7 +119,6 @@ const SliderThumb = forwardRef(({
 		<span
 			id={sliderId}
 			title={title}
-			aria-label={title}
 			onMouseDown={startDrag}
 			onKeyDown={keyIncrement}
 			{...process.env.NODE_ENV === 'production' ? { onContextMenu: e => e.stopPropagation() } : {}}
@@ -128,9 +130,10 @@ const SliderThumb = forwardRef(({
 			}}
 			tabIndex="0"
 			role="slider"
-			aria-valuemin={min}
-			aria-valuemax={max}
-			aria-valuenow={value}></span>
+			aria-label={title}
+			aria-valuemin={ariaMin}
+			aria-valuemax={ariaMax}
+			aria-valuenow={ariaVal}></span>
 	)
 })
 
@@ -150,7 +153,10 @@ SliderThumb.propTypes = {
 	getClickPos: func,
 	onClick: oneOfType([oneOf([false]), func]),
 	onDoubleClick: oneOfType([oneOf([false]), func]),
-	absoluteMin: number
+	absoluteMin: number,
+	ariaVal: oneOfType([number, string]),
+	ariaMin: oneOfType([number, string]),
+	ariaMax: oneOfType([number, string])
 }
 
 SliderThumb.displayName = 'SliderThumb'
