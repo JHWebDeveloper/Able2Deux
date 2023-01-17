@@ -88,10 +88,12 @@ const SliderThumb = forwardRef(({
 		const onMouseUp = () => {
 			window.removeEventListener('mousemove', onMouseMove)
 			window.removeEventListener('mouseup', onMouseUp)
+			window.removeEventListener('contextmenu', onMouseUp)
 		}
 	
 		window.addEventListener('mousemove', onMouseMove)
 		window.addEventListener('mouseup', onMouseUp)
+		window.addEventListener('contextmenu', onMouseUp)
 	}, triggers)
 
 	useImperativeHandle(thumbRef, () => ({ startDrag }), triggers)
