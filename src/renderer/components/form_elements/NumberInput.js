@@ -67,7 +67,7 @@ const NumberInput = ({
 			onKeyUp={onKeyUp} 
 			onKeyDown={onKeyDown}
 			disabled={disabled}
-			aria-labelledby={ariaLabelledby} />
+			{...ariaLabelledby ? { ariaLabelledby: ariaLabelledby } : { ariaLabel: title }} />
 	)
 }
 
