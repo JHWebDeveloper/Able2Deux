@@ -44,6 +44,9 @@ export const initPreferences = async () => {
 		}
 
 		if (prefs.version < 7 && prefs.enableWidescreenGrids) {
+			defaultPrefs.aspectRatioMarkers[0].disabled = !prefs.enableWidescreenGrids
+			defaultPrefs.aspectRatioMarkers[1].disabled = !prefs.enableWidescreenGrids
+
 			delete prefs.enableWidescreenGrids
 		}
 
