@@ -8,7 +8,7 @@ This repo is intended for portfolio viewing purposes only. For official releases
 https://github.com/JHWebDeveloper/Able2-public-resources
 
 
-## [Unreleased][2.3.0] - TBD
+## [2.3.0] - 1.18.2023
 
 ### Added
 - New panel added: Color Correction. Able2 can now color correct photos and video. Panel contains a Photoshop-style curve adjustment grid along with white and black point eyedropper tools.
