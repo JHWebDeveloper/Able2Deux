@@ -29,27 +29,29 @@ export const initPreferences = async () => {
 		if (!prefs.version) {
 			await fsp.writeFile(prefsPath, JSON.stringify({
 				...defaultPrefs,
-				renderOutput: prefs.renderOutput,
-				saveLocations: prefs.directories,
+				renderOutput: prefs?.renderOutput ?? defaultPrefs.renderOutput,
+				saveLocations: prefs?.directories ?? defaultPrefs.saveLocations,
 				warnings: {
 					...defaultPrefs.warnings,
-					sourceOnTop: prefs.sourceOnTopWarning
+					sourceOnTop: prefs?.sourceOnTopWarning ?? defaultPrefs.directories
 				}
 			})) 
 		}
 
 		// fix type error from prefs 5 and earlier
-		if (prefs.version < 6) {
+		if (prefs.version < 6 && prefs.scaleSliderMax && typeof prefs.scaleSliderMax === 'string') {
 			prefs.scaleSliderMax = parseFloat(prefs.scaleSliderMax)
 		}
 
-		if (prefs.version < 7) {
-			prefs.renderFrameRate = prefs.renderFrameRate.replace(/fps$/, '')
-
+		if (prefs.version < 7 && prefs.enableWidescreenGrids) {
 			delete prefs.enableWidescreenGrids
 		}
 
-		if (prefs.version < 8) {
+		if (prefs.version < 7 && prefs.renderFrameRate) {
+			prefs.renderFrameRate = prefs.renderFrameRate.replace(/fps$/, '')
+		}
+
+		if (prefs.version < 8 && prefs.gridButtons) {
 			defaultPrefs.aspectRatioMarkers[0].disabled = !prefs.gridButtons._239
 			defaultPrefs.aspectRatioMarkers[1].disabled = !prefs.gridButtons._185
 			defaultPrefs.aspectRatioMarkers[2].disabled = !prefs.gridButtons._166
@@ -60,11 +62,14 @@ export const initPreferences = async () => {
 			delete prefs.gridButtons
 		}
 
-		if (prefs.version < 9) {
+		if (prefs.version < 9 && prefs.saveLocations) {
+			prefs.saveLocations = prefs.saveLocations.map(loc => ({ ...loc, hidden: false }))
+		}
+
+		if (prefs.version < 9) {			
 			const v9Prefs = {
 				...defaultPrefs,
 				...prefs,
-				saveLocations: prefs.saveLocations.map(loc => ({ ...loc, hidden: false })),
 				version: 9
 			}
 
