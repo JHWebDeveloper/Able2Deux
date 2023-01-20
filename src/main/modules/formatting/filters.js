@@ -37,7 +37,7 @@ const normalizeCurve = pts => pts
 
 // eslint-disable-next-line no-extra-parens
 const buildCurvesFilter = ({ rgb, r, g, b }) => (
-	`curves=m='${normalizeCurve(rgb)}':r='${normalizeCurve(r)}':g='${normalizeCurve(g)}':b='${normalizeCurve(b)}',format=yuv420p[cc];[cc]`
+	`curves=m='${normalizeCurve(rgb)}':r='${normalizeCurve(r)}':g='${normalizeCurve(g)}':b='${normalizeCurve(b)}'[cc];[cc]`
 )
 
 const buildCommonFilter = (isPreview, reflect, angle, curves) => {
