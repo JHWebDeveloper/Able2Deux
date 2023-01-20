@@ -120,7 +120,9 @@
 	color: var(--preview-text);
 }
 
-.accordion-panel .dropdown > button { padding: 0 13px; }
+#editor-options .accordion-panel .dropdown > button {
+	padding: 0 13px;
+}
 
 .dropdown > span > button {
 	display: inherit;
