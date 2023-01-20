@@ -152,6 +152,10 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 
 		extension = audio.format
 	} else if (isStill) {
+		outputOptions = [
+			'-pix_fmt rgb24'
+		]
+
 		extension = 'png'
 	} else if (needsAlpha) {
 		outputOptions = [
@@ -167,6 +171,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		outputOptions = [
 			'-c:v libx264',
 			'-crf 18',
+			'-pix_fmt yuv420p',
 			'-f mp4',
 			...sharedVideoOptions
 		]
