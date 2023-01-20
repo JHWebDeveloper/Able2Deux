@@ -312,6 +312,7 @@ const mainMenuTemplate = [
 		submenu: [
 			{
 				label: 'Open',
+				accelerator: 'CmdOrCtrl+O',
 				async click() {
 					const files = await openFiles()
 					if (files.length) mainWin.webContents.send('openWith', files)
