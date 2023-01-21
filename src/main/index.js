@@ -561,13 +561,13 @@ const savePrefsIPC = async (evt, prefs) => {
 	}
 }
 
-const saveWindowSizeIPC = async (evt, windowSize) => {
+const savePrefsSilentlyIPC  = async (evt, newPrefs) => {
 	try {
-		const prefs = await loadPrefs()
+		const oldPrefs = await loadPrefs()
 	
 		await savePrefs({
-			...prefs,
-			...windowSize
+			...oldPrefs,
+			...newPrefs
 		})
 	} catch (err) {
 		console.error(err)
@@ -612,7 +612,7 @@ ipcMain.on('clearTempFiles', clearTempFilesIPC)
 ipcMain.on('requestPrefs', requestPrefsIPC)
 ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
 ipcMain.on('savePrefs', savePrefsIPC)
-ipcMain.on('saveWindowSize', saveWindowSizeIPC)
+ipcMain.on('savePrefsSilently', savePrefsSilentlyIPC)
 ipcMain.on('retryUpdate', retryUpdate)
 ipcMain.on('checkForUpdateBackup', checkForUpdateBackup)
 
