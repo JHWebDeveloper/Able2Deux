@@ -6,6 +6,7 @@ import { PrefsContext } from 'store/preferences'
 import { buildSource, debounce } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
+import PreviewViewport from './PreviewViewport'
 import PreviewCanvas from './PreviewCanvas'
 import Spinner from '../../svg/Spinner'
 import Grid from './Grid'
@@ -13,7 +14,7 @@ import Controls from './Controls'
 
 const { interop } = window.ABLE2
 
-const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, previewQuality, dispatch }) => {
+const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, previewQuality, previewHeight, dispatch }) => {
 	const { renderOutput, gridColor } = useContext(PrefsContext).preferences
 	const [ previewSize, setPreviewSize ] = useState({})
 	const [ previewStill, loadPreviewStill ] = useState('')
@@ -49,6 +50,10 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 		frameHeight: container.current.clientHeight
 	}), [previewQuality])
 
+	const applyDimensions = useCallback(() => {
+		setPreviewSize(calcPreviewSize())
+	}, [previewQuality])
+
 	// ---- Listen for preview still updates and rerender
 
 	useEffect(() => {
@@ -62,16 +67,14 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	// ---- Initialize preview size based on window dimensions and update on resize
 
 	useEffect(() => {
-		const applyDimenions = () => setPreviewSize(calcPreviewSize())
-
-		applyDimenions()
+		applyDimensions()
 		
-		const applyDimenionsOnResize = debounce(applyDimenions, 500)
+		const renderPreviewOnResize = debounce(applyDimensions, 500)
 
-		window.addEventListener('resize', applyDimenionsOnResize)
+		window.addEventListener('resize', renderPreviewOnResize)
 
 		return () => {
-			window.removeEventListener('resize', applyDimenionsOnResize)
+			window.removeEventListener('resize', renderPreviewOnResize)
 		}
 	}, [previewQuality])
 
@@ -116,7 +119,10 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 
 	return (
 		<>
-			<div>
+			<PreviewViewport
+				applyDimensions={applyDimensions}
+				previewHeight={previewHeight}
+				dispatch={dispatch}>
 				<div id="preview-container" ref={container}>
 					{previewStill ? (
 						<PreviewCanvas
@@ -132,7 +138,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 						previewQuality={previewQuality}
 						gridColor={gridColor} />
 				</div>
-			</div>
+			</PreviewViewport>
 			<Controls
 				selected={selected}
 				isAudio={isAudio}
