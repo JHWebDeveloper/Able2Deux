@@ -30,6 +30,7 @@ const PreviewEditorContainer = props => {
 				selected={selected}
 				aspectRatioMarkers={props.aspectRatioMarkers}
 				previewQuality={props.previewQuality}
+				previewHeight={props.previewHeight}
 				dispatch={dispatch} />
 			<EditorOptions
 				eyedropper={eyedropper}
