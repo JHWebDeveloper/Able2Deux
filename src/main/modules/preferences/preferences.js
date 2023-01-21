@@ -69,16 +69,16 @@ export const initPreferences = async () => {
 			prefs.saveLocations = prefs.saveLocations.map(loc => ({ ...loc, hidden: false }))
 		}
 
-		if (prefs.version < 9) {			
-			const v9Prefs = {
+		if (prefs.version < 9 && prefs.aspectRatioMarkers) {			
+			prefs.aspectRatioMarkers.reverse()
+		}
+
+		if (prefs.version < 10) {
+			await fsp.writeFile(prefsPath, JSON.stringify({
 				...defaultPrefs,
 				...prefs,
-				version: 9
-			}
-
-			v9Prefs.aspectRatioMarkers.reverse()
-
-			await fsp.writeFile(prefsPath, JSON.stringify(v9Prefs))
+				version: 10
+			}))
 		}
 	}
 }
