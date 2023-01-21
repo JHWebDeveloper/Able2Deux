@@ -37,6 +37,7 @@ const defaultPrefs = {
 	sliderSnapPoints: true,
 	split: 270,
 	scaleSliderMax: 400,
+	previewHeight: 540,
 	previewQuality: 1,
 	gridColor: '#ff00ff',
 	aspectRatioMarkers: [
