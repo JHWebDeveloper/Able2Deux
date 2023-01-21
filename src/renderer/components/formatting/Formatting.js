@@ -22,6 +22,7 @@ const Formatting = () => {
 		saveLocations,
 		aspectRatioMarkers,
 		previewQuality,
+		previewHeight,
 		rendering,
 		dispatch
 	} = useContext(MainContext)
@@ -69,6 +70,7 @@ const Formatting = () => {
 				editAll={editAll}
 				aspectRatioMarkers={aspectRatioMarkers}
 				previewQuality={previewQuality}
+				previewHeight={previewHeight}
 				batch={batch}
 				isBatch={isBatch}
 				split={split}
