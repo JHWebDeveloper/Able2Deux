@@ -13,7 +13,7 @@ import SourceSuggestionList from './SourceSuggestionList'
 import GlobalListeners from './GlobalListeners'
 
 const extractDefaults = (() => {
-	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot', 'previewQuality', 'aspectRatioMarkers']
+	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot', 'previewQuality', 'previewHeight', 'aspectRatioMarkers']
 
 	return obj => objectExtract(obj, defaults)
 })()
