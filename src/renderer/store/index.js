@@ -19,6 +19,7 @@ const initState = {
 	editAll: false,
 	copiedSettings: {},
 	previewQuality: 1,
+	previewHeight: 540,
 	rendering: false
 }
 
