@@ -313,6 +313,7 @@ button[name^="link"] > svg { pointer-events: none; }
 	grid-template-columns: repeat(3, min-content);
 	grid-template-rows: repeat(2, min-content);
 	grid-gap: 9px;
+	container: formatting-panel / inline-size;
 }
 
 
@@ -327,7 +328,7 @@ button[name^="link"] > svg { pointer-events: none; }
 	align-self: flex-end;
 }
 
-@media screen and (min-width: 830px) {
+@container formatting-panel (min-width: 400px) {
 	.formatting-panel {
 		grid-template-columns: repeat(4, min-content);
 	}
