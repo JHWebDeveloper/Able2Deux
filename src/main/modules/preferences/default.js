@@ -7,7 +7,7 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 	: app.getPath('temp')
 
 const defaultPrefs = {
-	version: 9,
+	version: 10,
 	theme: 'system',
 	windowWidth: 830,
 	windowHeight: 800,
