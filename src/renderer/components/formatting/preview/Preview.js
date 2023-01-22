@@ -163,7 +163,8 @@ const PreviewPanel = props => (
 
 const propTypes = {
 	selected: object.isRequired,
-	previewQuality: oneOf([1, 0.75, 0.5]),
+	previewQuality: oneOf([1, 0.75, 0.5]).isRequired,
+	previewHeight: number.isRequired,
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,

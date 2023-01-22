@@ -561,7 +561,7 @@ const savePrefsIPC = async (evt, prefs) => {
 	}
 }
 
-const savePrefsSilentlyIPC  = async (evt, newPrefs) => {
+const savePrefsSilentlyIPC = async (evt, newPrefs) => {
 	try {
 		const oldPrefs = await loadPrefs()
 	

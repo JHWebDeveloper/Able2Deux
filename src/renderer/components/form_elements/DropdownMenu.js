@@ -31,7 +31,7 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 					getPositionRelativeToWindow(e)
 					toggleRevealMenu(!revealMenu)
 				}}
-				aira-label="Options"
+				aria-label="Options"
 				aria-haspopup="true"
 				aria-expanded={revealMenu}
 				aria-controls={menuRefId}>{icon}</button>
