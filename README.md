@@ -12,6 +12,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Added
 - The Preview Panel can now be resized vertically and its new height will be retained on closing Able2. This will allow for more layout flexibility with wider window sizes.
+- Keyboard shortcut for File > Open (Ctrl|Cmd + O).
 
 ### Changed
 - All .mp4 and .png exports will now have the pixel format of yuv420p and rgb24 respectively. This will allow for better compatibility with common media software. All .mov alpha channel containing exports will continue to have a yuva444p101e pixel format.
