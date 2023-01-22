@@ -38,6 +38,7 @@ const initState = {
 	split: 270,
 	scaleSliderMax: 400,
 	previewQuality: 1,
+	previewHeight: 540,
 	gridColor: '#ff00ff',
 	aspectRatioMarkers: [],
 	renderOutput: '1280x720',
