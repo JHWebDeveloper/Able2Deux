@@ -459,7 +459,10 @@ button[name="link"] {
 
 .cc-panel button:disabled { color: var(--disabled); }
 
-button[title="Reset Curves"] { font-size: 20px; }
+button[title="Reset Curves"] {
+	font-size: 20px;
+	transform: rotateY(180deg); /* so the crossout line in icon matches curve direction */
+}
 
 button[title="Reset Curves"]:active { color: #fff; }
 
