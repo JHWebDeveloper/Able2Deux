@@ -9,7 +9,7 @@ const MediaOptionButtons = ({ buttons, toggleRevealMenu }) => {
 		<span
 			key={`${menuId}_${i}`}
 			className="spacer"
-			aria-hidden="true"
+			aria-hidden
 			data-no-drag></span>
 	) : (
 		<button

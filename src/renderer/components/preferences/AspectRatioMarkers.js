@@ -88,7 +88,7 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 				defaultValue={1}
 				decimalPlaces={4}
 				onChange={e => updateRatio(0, e)} />
-			<span aria-hidden="true">:</span>
+			<span aria-hidden>:</span>
 			<NumberInput
 				name="ratio"
 				title="Consequent"

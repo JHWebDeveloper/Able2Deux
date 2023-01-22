@@ -272,7 +272,7 @@ const Curves = forwardRef(({
 
 	return (
 		<div className={`curves${disabled ? ' disabled' : ''}`}>
-			<span aria-hidden="true"></span>
+			<span aria-hidden></span>
 			<canvas
 				tabIndex="0"
 				ref={cnv}
@@ -281,7 +281,7 @@ const Curves = forwardRef(({
 				onMouseMove={setCursorIcon}
 				onMouseOut={revertCursorIcon}
 				onBlur={() => setSelectedPoint({})}></canvas>
-			<span aria-hidden="true"></span>
+			<span aria-hidden></span>
 		</div>
 	)
 })

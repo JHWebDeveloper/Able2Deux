@@ -26,7 +26,7 @@ const AccordionPanel = ({ heading, id, className = '', initOpen, buttons = [], c
 					onClick={toggleOpen}
 					aria-expanded={open}
 					aria-controls={id}>
-					<span aria-hidden="true">keyboard_arrow_{open ? 'down' : 'right'}</span>
+					<span aria-hidden>keyboard_arrow_{open ? 'down' : 'right'}</span>
 					{heading}
 				</button>
 				{buttons.length && open ? (
