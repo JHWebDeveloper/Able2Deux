@@ -54,7 +54,8 @@ MainProvider.propTypes = {
 		screenshot: bool,
 		timerEnabled: bool,
 		timer: number,
-		previewQuality: number,
-		aspectRatioMarkers: arrayOf(object).isRequired
+		previewQuality: oneOf([1, 0.75, 0.5]),
+		previewHeight: number,
+		aspectRatioMarkers: arrayOf(object)
 	})
 }
