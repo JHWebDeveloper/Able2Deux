@@ -21,7 +21,7 @@ const ColorInput = ({ name, value, title, onChange, onFocus, disabled, ariaLabel
 			onChange={e => setColor(e.target.value)}
 			onFocus={onFocus}
 			disabled={disabled}
-			aria-labelledby={ariaLabelledby} />
+			{...ariaLabelledby ? { 'aria-labelledby': ariaLabelledby } : { 'aria-label': title }} />
 	)
 }
 

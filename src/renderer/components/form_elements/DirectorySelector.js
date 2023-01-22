@@ -16,6 +16,7 @@ const DirectorySelector = ({ directory, onChange, ariaLabelledby }) => {
 				type="button"
 				className="app-button symbol"
 				title="Choose directory"
+				aria-label="Choose directory"
 				onClick={selectDirectory}>folder</button>
 			<input
 				type="text"
@@ -23,7 +24,7 @@ const DirectorySelector = ({ directory, onChange, ariaLabelledby }) => {
 				title="Directory"
 				className="panel-input"
 				value={directory}
-				aria-labelledby={ariaLabelledby}
+				{...ariaLabelledby ? { 'aria-labelledby': ariaLabelledby } : { 'aria-label': 'Directory' }}
 				readOnly />
 		</span>
 	)
