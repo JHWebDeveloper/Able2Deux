@@ -43,7 +43,7 @@
 #media-selector img {
 	grid-row: 1 / span 2;
 	width: 140px;
-	height: 79px;
+	aspect-ratio: 16 / 9;
 	border-radius: 5px;
 	background-color: var(--thumbnail-background);
 	object-fit: contain;
