@@ -159,8 +159,6 @@
 	padding: 9px 12px;
 }
 
-:is(#batch-name, #save-options) > h2::after { content: ':' }
-
 #batch-name input[type="text"] { margin-bottom: 6px; }
 #batch-name label { font-size: 12px;  }
 #batch-name label:nth-last-of-type(n+2) { margin-right: 12px; }
