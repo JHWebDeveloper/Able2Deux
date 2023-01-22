@@ -139,7 +139,7 @@ const Rotation = memo(props => {
 	return (
 		<>
 			<fieldset className="editor-option-column">
-				<legend>Reflect:</legend>
+				<legend>Reflect<span aria-hidden>:</span></legend>
 				<RadioSet
 					name="reflect"
 					state={rotation.reflect}
@@ -147,7 +147,7 @@ const Rotation = memo(props => {
 					buttons={flipButtons(isSideways)} />
 			</fieldset>
 			<fieldset className="editor-option-column">
-				<legend>Rotate:</legend>
+				<legend>Rotate<span aria-hidden>:</span></legend>
 				<RadioSet 
 					name="angle"
 					state={rotation.angle}

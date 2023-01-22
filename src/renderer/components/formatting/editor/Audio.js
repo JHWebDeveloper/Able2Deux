@@ -51,7 +51,7 @@ const Audio = memo(({ id, mediaType, audio, editAll, dispatch }) => {
 		<>
 			{mediaType === 'video' ? (
 				<fieldset className="editor-option-column">
-					<legend>Export As:</legend>
+					<legend>Export As<span aria-hidden>:</span></legend>
 					<RadioSet
 						name="exportAs"
 						state={audio.exportAs}
@@ -62,7 +62,7 @@ const Audio = memo(({ id, mediaType, audio, editAll, dispatch }) => {
 			<fieldset
 				className="editor-option-column"
 				disabled={audio.exportAs !== 'audio' && mediaType !== 'audio'}>
-				<legend>Format:</legend>
+				<legend>Format<span aria-hidden>:</span></legend>
 				<RadioSet
 					name="format"
 					state={audio.format}

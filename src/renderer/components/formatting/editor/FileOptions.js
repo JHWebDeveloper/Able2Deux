@@ -19,7 +19,7 @@ const FileOptions = memo(props => {
 	return (
 		<>
 			<fieldset disabled={props.isBatch && batch.name && batch.position === 'replace'}>
-				<legend>Filename:</legend>
+				<legend>Filename<span aria-hidden>:</span></legend>
 				<input
 					type="text"
 					name="filename"

@@ -56,7 +56,7 @@ const Source = memo(({ id, source, background, editAll, dispatch }) => {
 	return (
 		<>
 			<fieldset>
-				<legend>Source Name:</legend>
+				<legend>Source Name<span aria-hidden>:</span></legend>
 				<input
 					type="text"
 					name="sourceName"

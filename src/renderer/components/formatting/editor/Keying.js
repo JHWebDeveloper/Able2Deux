@@ -161,7 +161,7 @@ const Keying = memo(({ id, keying, eyedropper, setEyedropper, editAll, dispatch 
 			<fieldset
 				className="editor-option-column"
 				disabled={!enabled}>
-				<legend>Type:</legend>
+				<legend>Type<span aria-hidden>:</span></legend>
 				<RadioSet
 					name="type"
 					state={type}
@@ -170,7 +170,7 @@ const Keying = memo(({ id, keying, eyedropper, setEyedropper, editAll, dispatch 
 			</fieldset>
 			{type === 'lumakey' ? <></> : (
 				<div className={enabled ? '' : 'disabled'}>
-					<label id="key-color">Color:</label>
+					<label id="key-color">Color<span aria-hidden>:</span></label>
 					<div className="color-picker">
 						<ColorInput
 							name="color"

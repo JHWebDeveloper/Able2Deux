@@ -150,7 +150,7 @@ const Formatting = memo(props => {
 	return (
 		<>
 			<fieldset className="editor-option-column">
-				<legend>AR Correction:</legend>
+				<legend>AR Correction<span aria-hidden>:</span></legend>
 				<RadioSet
 					name="arc"
 					state={arc}
@@ -160,7 +160,7 @@ const Formatting = memo(props => {
 			<fieldset
 				className="editor-option-column"
 				disabled={arc === 'none'}>
-				<legend>Background:</legend>
+				<legend>Background<span aria-hidden>:</span></legend>
 				<RadioSet
 					name="background"
 					state={background}
@@ -181,7 +181,7 @@ const Formatting = memo(props => {
 			<fieldset
 				className="editor-option-column"
 				disabled={arc === 'none' || background === 'alpha' || background === 'color'}>
-				<legend>BG Motion:</legend>
+				<legend>BG Motion<span aria-hidden>:</span></legend>
 				<RadioSet
 					name="backgroundMotion"
 					state={props.backgroundMotion}
@@ -191,7 +191,7 @@ const Formatting = memo(props => {
 			<fieldset
 				className="editor-option-column"
 				disabled={arc === 'none'}>
-				<legend>Box Overlay:</legend>
+				<legend>Box Overlay<span aria-hidden>:</span></legend>
 				<RadioSet
 					name="overlay"
 					state={overlay}
