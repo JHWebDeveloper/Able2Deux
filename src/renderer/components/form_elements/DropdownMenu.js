@@ -32,7 +32,7 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 					toggleRevealMenu(!revealMenu)
 				}}
 				aria-label="Options"
-				aria-haspopup="true"
+				aria-haspopup
 				aria-expanded={revealMenu}
 				aria-controls={menuRefId}>{icon}</button>
 			{revealMenu ? (
