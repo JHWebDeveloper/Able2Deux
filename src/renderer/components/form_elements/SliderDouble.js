@@ -89,14 +89,17 @@ const SliderDouble = ({
 	}, val), [onPan, diffLR])
 
 	const jumpToPosition = useCallback(e => {
+		if (e.target !== e.currentTarget) return false
+
 		const track = getTrack()
 		const mousePos = (e.clientX - track.left) / track.width * diff + min
+		const halfPoint = (rightThumb.value - leftThumb.value) / 2 + leftThumb.value
 
-		if (mousePos < leftThumb.value) {
+		if (mousePos <= halfPoint) {
 			setLeft(mousePos)
 			e.target = document.getElementById(leftId)
 			leftRef.current?.startDrag(e, 0)
-		} else if (mousePos > rightThumb.value) {
+		} else if (mousePos > halfPoint) {
 			setRight(mousePos)
 			e.target = document.getElementById(rightId)
 			rightRef.current?.startDrag(e, 0)
