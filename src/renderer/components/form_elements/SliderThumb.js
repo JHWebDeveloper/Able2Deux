@@ -1,12 +1,21 @@
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react'
 import { arrayOf, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import { clamp, throttle } from 'utilities'
 
-const getClickPosDefault = e => {
-	const { width, right } = e.target.getBoundingClientRect()
+const createClickPositionGetter = alignment => {
+	switch (alignment) {
+		case 'left':
+			return e => e.clientX - e.target.getBoundingClientRect().left
+		case 'right':
+			return e => e.clientX - e.target.getBoundingClientRect().right
+		default:
+			return e => {
+				const { width, right } = e.target.getBoundingClientRect()
 
-	return width / 2 - (right - e.clientX)
+				return width / 2 - (right - e.clientX)
+			}
+	}
 }
 
 const snapToPoint = (thresholds, val) => {
@@ -25,6 +34,7 @@ const SliderThumb = forwardRef(({
 	title,
 	value = 0,
 	width = false,
+	alignment = 'center',
 	diff = 0,
 	min = 0,
 	max = 100,
@@ -33,7 +43,6 @@ const SliderThumb = forwardRef(({
 	thresholds = [],
 	setValue,
 	getTrack,
-	getClickPos,
 	onClick,
 	onDoubleClick,
 	absoluteMin,
@@ -46,6 +55,8 @@ const SliderThumb = forwardRef(({
 	const thumbPos = useRef(0)
 	const mousePos = useRef(0)
 	const triggers = [min, max, width, setValue, thresholds]
+
+	const getClickPos = useMemo(() => createClickPositionGetter(alignment), [alignment])
 
 	const drag = useCallback((clickPos, track) => e => {
 		e.preventDefault()
@@ -80,7 +91,7 @@ const SliderThumb = forwardRef(({
 		e.stopPropagation()
 		e.target.focus()
 	
-		clickPos = clickPos ?? getClickPos?.(e) ?? getClickPosDefault(e)
+		clickPos = clickPos ?? getClickPos(e)
 	
 		const track = getTrack()
 		const onMouseMove = throttle(drag(clickPos, track), 60)
@@ -144,6 +155,7 @@ SliderThumb.propTypes = {
 	title: string,
 	value: oneOfType([oneOf(['']), number]),
 	width: oneOfType([oneOf([false]), number]),
+	alignment: oneOf(['left', 'center', 'right']).isRequired,
 	diff: number,
 	min: number,
 	max: number,
@@ -152,7 +164,6 @@ SliderThumb.propTypes = {
 	thresholds: arrayOf(arrayOf(number)),
 	setValue: func.isRequired,
 	getTrack: func.isRequired,
-	getClickPos: func,
 	onClick: oneOfType([oneOf([false]), func]),
 	onDoubleClick: oneOfType([oneOf([false]), func]),
 	absoluteMin: number,
