@@ -33,7 +33,7 @@ const secondsToTCLiterals = sec => [
 	sec / 3600,
 	sec / 60 % 60,
 	sec % 60
-].map(lit => lit | 0)
+].map(lit => lit | 0) // using bitwise or to floor values
 
 const framesToTCLiterals = (frms, fps) => {
 	const frmsPrec = frms * 1e4

@@ -24,7 +24,7 @@ const Clock = ({ start, decrement, recordIndicator }) => {
 				recordIndicator.className = blink
 			}
 
-			tick &= 1
+			tick &= 1 // tracks whether tick is even (at the half-second) or odd (at the second)
 
 			if (decrement && seconds < 1) clearInterval(interval)
 		}, 500)
