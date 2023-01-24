@@ -306,7 +306,7 @@ button[name^="link"] > svg { pointer-events: none; }
 
 /* -- Formatting Panel -- */
 
-.formatting-panel {
+#formatting {
 	grid-template-columns: repeat(3, min-content);
 	grid-template-rows: repeat(2, min-content);
 	grid-gap: 9px;
@@ -314,33 +314,33 @@ button[name^="link"] > svg { pointer-events: none; }
 }
 
 
-.formatting-panel > fieldset:nth-of-type(2) { /* background column */
+#formatting > fieldset:nth-of-type(2) { /* background column */
 	grid-column: 2;
 	grid-row: 1 / span 2;
 }
 
-.formatting-panel > fieldset:nth-of-type(3) { /* motion column */
+#formatting > fieldset:nth-of-type(3) { /* motion column */
 	grid-column: 1;
 	grid-row: 2;
 	align-self: flex-end;
 }
 
 @container formatting-panel (min-width: 400px) {
-	.formatting-panel {
+	#formatting {
 		grid-template-columns: repeat(4, min-content);
 	}
 
-	.formatting-panel > fieldset:nth-of-type(2) { /* background column */
+	#formatting > fieldset:nth-of-type(2) { /* background column */
 		grid-column: 2;
 	}
 
-	.formatting-panel > fieldset:nth-of-type(3) { /* motion column */
+	#formatting > fieldset:nth-of-type(3) { /* motion column */
 		grid-column: 3;
 		grid-row: 1;
 		align-self: flex-start;
 	}
 
-	.formatting-panel > fieldset:nth-of-type(4) { /* overlay column */
+	#formatting > fieldset:nth-of-type(4) { /* overlay column */
 		grid-column: 4;
 	}
 }
