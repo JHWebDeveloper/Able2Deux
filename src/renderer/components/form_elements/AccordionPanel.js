@@ -7,6 +7,7 @@ import MediaOptionButtons from './MediaOptionButtons'
 const AccordionPanel = ({ heading, id, className = '', initOpen, buttons = [], children }) => {
 	const [ open, setOpen ] = useState(false)
 	const headingId = `${id}-heading`
+	const title = `${open ? 'Close' : 'Open'} ${heading}`
 
 	const toggleOpen = useCallback(() => {
 		setOpen(!open)
@@ -21,9 +22,10 @@ const AccordionPanel = ({ heading, id, className = '', initOpen, buttons = [], c
 			<h2>
 				<button
 					type="button"
-					title={`${open ? 'Close' : 'Open'} ${heading}`}
+					title={title}
 					id={headingId}
 					onClick={toggleOpen}
+					aria-label={title}
 					aria-expanded={open}
 					aria-controls={id}>
 					<span aria-hidden>keyboard_arrow_{open ? 'down' : 'right'}</span>
