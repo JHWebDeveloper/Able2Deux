@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { arrayOf, bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -14,7 +14,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, copyCurveSet, createSettingsMenu } from 'utilities'
+import { copyCurveSet, createSettingsMenu } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import Checkbox from '../../form_elements/Checkbox'
@@ -67,7 +67,7 @@ const getCurveColor = curveName => {
 	}
 }
 
-const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, editAll, dispatch }) => {
+const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, dispatch }) => {
 	const { enabled, selectedCurve, rgb, r, g, b } = colorCurves
 	const { active, pixelData } = eyedropper
 	const curvesRef = useRef()
@@ -260,7 +260,7 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 				disabled={!enabled} />
 		</>
 	)
-}, compareProps)
+}
 
 const ColorCorrectionPanel = props => {
 	const { isBatch, colorCurves, id, dispatch } = props
