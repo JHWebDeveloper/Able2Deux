@@ -214,7 +214,7 @@ const FormattingPanel = props => {
 		<AccordionPanel
 			heading="Formatting"
 			id="formatting"
-			className="editor-panel formatting-panel"
+			className="editor-options formatting-panel"
 			buttons={settingsMenu}
 			initOpen>
 			<Formatting {...props} />

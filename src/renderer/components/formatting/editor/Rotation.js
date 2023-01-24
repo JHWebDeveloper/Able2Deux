@@ -177,7 +177,7 @@ const RotationPanel = props => {
 		<AccordionPanel
 			heading="Rotation"
 			id="rotation"
-			className="editor-panel auto-columns"
+			className="editor-options auto-columns"
 			buttons={settingsMenu}>
 			<Rotation {...props} />
 		</AccordionPanel>

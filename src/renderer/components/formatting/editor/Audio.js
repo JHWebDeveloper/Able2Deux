@@ -85,7 +85,7 @@ const AudioPanel = props => {
 		<AccordionPanel
 			heading="Audio"
 			id="audio"
-			className="editor-panel auto-columns"
+			className="editor-options auto-columns"
 			buttons={settingsMenu}
 			initOpen={mediaType === 'audio'}>
 			<Audio {...props} />

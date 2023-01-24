@@ -59,7 +59,7 @@ const PositionPanel = props => {
 		<AccordionPanel
 			heading="Position"
 			id="position"
-			className="editor-panel auto-rows position-panel"
+			className="editor-options auto-rows position-panel"
 			buttons={settingsMenu}>
 			<Position {...props} />
 		</AccordionPanel>

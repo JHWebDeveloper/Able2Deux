@@ -54,7 +54,7 @@ const FileOptionsPanel = props => (
 	<AccordionPanel
 		heading="File"
 		id="file"
-		className="editor-panel auto-rows"
+		className="editor-options auto-rows"
 		initOpen>
 		<FileOptions {...props} />
 	</AccordionPanel>

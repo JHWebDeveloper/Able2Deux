@@ -220,14 +220,14 @@
 
 /* -- All Editor Panels -- */
 
-.editor-panel {
+.editor-options {
 	display: grid;
 	margin: 0 18px 0 27px;
 	padding-bottom: 12px;
 	font-size: 12px;
 }
 
-.editor-panel legend {
+.editor-options legend {
 	white-space: nowrap;
 	font-size: 14px;
 }
@@ -237,13 +237,13 @@
 	margin: 3px;
 }
 
-.editor-panel input[type="text"] {
+.editor-options input[type="text"] {
 	font-size: 16px;
 	margin-bottom: 9px;
 }
 
-.editor-panel input[type="number"],
-.editor-panel input[type="color"] {
+.editor-options input[type="number"],
+.editor-options input[type="color"] {
 	height: 18px;
 	width: 42px;
 }
