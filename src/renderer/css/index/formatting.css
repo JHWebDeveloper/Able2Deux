@@ -263,7 +263,7 @@ button[name^="link"] > svg { pointer-events: none; }
 
 .auto-columns {
 	display: flex;
-	gap: 0 9px;
+	column-gap: 9px;
 }
 
 .auto-columns > :last-child { flex: 1; }
@@ -273,7 +273,7 @@ button[name^="link"] > svg { pointer-events: none; }
 .timecode-slider-grid,
 .split-grid {
 	display: inherit;
-	gap: 0 6px;
+	column-gap: 6px;
 	align-items: center;
 	margin-top: 6px;
 }
@@ -287,7 +287,7 @@ button[name^="link"] > svg { pointer-events: none; }
 
 .timecode-slider-grid {
 	grid-template-columns: 35px min-content auto min-content 35px;
-	gap: 0 6px;
+	column-gap: 6px;
 }
 
 .timecode-slider-grid > input[type="text"] { width: 112px; }
@@ -524,7 +524,7 @@ button[title="Reset Curves"]:active { color: #fff; }
   display: inline-grid;
   grid-auto-columns: min-content;
 	grid-auto-flow: column;
-  gap: 0 6px;
+  column-gap: 6px;
 	vertical-align: middle;
 }
 

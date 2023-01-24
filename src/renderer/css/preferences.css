@@ -140,7 +140,7 @@ button[name="marker-down"] { grid-column: 9; }
 
 .save-locations-grid {
 	grid-template-columns: repeat(4, 24px) auto 287px repeat(3, 24px);
-	gap: 0 6px;
+	column-gap: 6px;
 }
 
 #save-locations-default { grid-column: 2; }

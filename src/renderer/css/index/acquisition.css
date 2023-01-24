@@ -136,7 +136,7 @@ button[name="screenshot"] { height: 26px; }
 
 .screen-recorder-timer {
 	display: inherit;
-	gap: 0 1px;
+	column-gap: 1px;
 	align-items: center;
 	white-space: nowrap;
 }
