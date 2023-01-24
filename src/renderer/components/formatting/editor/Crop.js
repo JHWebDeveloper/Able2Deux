@@ -158,7 +158,7 @@ const CropPanel = props => {
 		<AccordionPanel
 			heading="Crop"
 			id="crop"
-			className="editor-options auto-rows crop-panel"
+			className="editor-options auto-rows"
 			buttons={settingsMenu}>
 			<Crop {...props} />
 		</AccordionPanel>

@@ -373,14 +373,14 @@ button[name="link"] {
 
 /* -- Crop Panel -- */
 
-.crop-panel {
+#crop {
 	grid-template-columns: repeat(2, min-content) auto repeat(3, min-content);
 }
 
-.crop-panel > .slider { grid-column: 3; }
+#crop > .slider { grid-column: 3; }
 
-.crop-panel > label:nth-of-type(odd) { margin-right: 5px; }
-.crop-panel > label:nth-of-type(even) { margin-left: 5px; }
+#crop > label:nth-of-type(odd) { margin-right: 5px; }
+#crop > label:nth-of-type(even) { margin-left: 5px; }
 
 /* -- Rotation Panel -- */
 
