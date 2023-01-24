@@ -347,11 +347,11 @@ button[name^="link"] > svg { pointer-events: none; }
 
 /* -- Position Panel -- */
 
-.position-panel {
+#position, #centering {
 	grid-template-columns: min-content auto min-content;
 }
 
-.position-panel > .slider { grid-column: 2; }
+:is(#position, #centering) > .slider { grid-column: 2; }
 
 /* -- Scale Panel -- */
 
