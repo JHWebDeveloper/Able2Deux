@@ -589,13 +589,15 @@ button[title="Reset Curves"]:active { color: #fff; }
 	transform: translate(-50%, -50%);
 }
 
-.slider-track.double > span:nth-child(odd) {
+.slider-track.double > span:is(:first-child, :last-child) {
 	z-index: 2;
 	width: 12px;
 	border: 6px solid var(--secondary);
 	border-radius: 2px;
 	background-color: transparent;
 }
+
+.slider-track.double > span:is(:first-child, :last-child):focus { z-index: 3; }
 
 .slider-track.double > span:first-child {
 	border-left-color: transparent;
@@ -608,7 +610,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 	transform: translateY(-50%);
 }
 
-.slider-track.double > span:nth-child(2) {
+.slider-track.double > span:not(:first-child):not(:last-child) {
 	top: 0;
 	height: inherit;
 /* create 2px underlap with slider heads to avoid gaps */
@@ -674,32 +676,41 @@ button[title="Reset Curves"]:active { color: #fff; }
 	transform: none;
 }
 
-.cc-panel .slider-track.double > span:nth-child(odd) {
+.cc-panel .slider-track.double > span {
 	top: inherit;
+	width: 14px;
+	height: 14px;
+	border: 0;
+	transform: translateX(-50%);
+}
+
+.cc-panel .slider-track.double > span::after {
+	content: '';
+	pointer-events: none;
+	display: block;
+	position: absolute;
+	top: 2px;
+	left: 2px;
 	width: 10px;
 	height: 10px;
 	border: 1px solid;
-	transform: translate(-50%, 2px) rotate(45deg);
+	transform: rotate(45deg);
 }
 
-.cc-panel .slider-track.double > span:nth-child(odd):focus { z-index: 3; }
-
-.cc-panel .slider-track.double > span:first-child {
+.cc-panel .slider-track.double > span:first-child::after {
 	background-color: #000;
 	border-color: transparent;
 }
 
-.cc-panel .slider-track.double > span:last-child {
+.cc-panel .slider-track.double > span:last-child::after {
 	background-color: #fff;
 	border-color: var(--primary);
 }
 
 @media (prefers-color-scheme: dark) {
-	.cc-panel .slider-track.double > span:first-child { border-color: var(--primary);; }
-	.cc-panel .slider-track.double > span:last-child { border-color: transparent; }
+	.cc-panel .slider-track.double > span:first-child::after { border-color: var(--primary);; }
+	.cc-panel .slider-track.double > span:last-child::after { border-color: transparent; }
 }
-
-.cc-panel .slider-track.double > span:nth-child(2) { visibility: hidden; }
 
 
 /* ---- RENDER QUEUE -------- */
