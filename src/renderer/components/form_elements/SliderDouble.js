@@ -7,9 +7,6 @@ import { PrefsContext } from 'store/preferences.js'
 import SliderThumb from './SliderThumb'
 import SliderSnapMarkers from './SliderSnapMarkers'
 
-const getClickPosLeft = e => e.clientX - e.target.getBoundingClientRect().right
-const getClickPosRight = e => e.clientX - e.target.getBoundingClientRect().left
-
 const setValue = ({ name, onChange }, val) => onChange({
 	name,
 	value: parseFloat(val.toFixed(2))
