@@ -22,6 +22,7 @@ const FitButton = ({ title, onClick }) => (
 		type="button"
 		className="app-button small symbol"
 		title={title}
+		aria-label={title}
 		onClick={onClick}>unfold_more</button>
 )
 
@@ -126,6 +127,8 @@ const Scale = memo(({ id, scale, crop, width, height, editAll, dispatch }) => {
 		sensitivity
 	}
 
+	const linkTitle = `${scale.link ? 'Unl' : 'L'}ink X and Y`
+
 	return (
 		<>
 			<label>X</label>
@@ -154,7 +157,8 @@ const Scale = memo(({ id, scale, crop, width, height, editAll, dispatch }) => {
 				type="button"
 				name="link"
 				onClick={toggleScaleLink}
-				title={`${scale.link ? 'Unl' : 'L'}ink X and Y`}>
+				title={linkTitle}
+				aira-label={linkTitle}>
 				<LinkIcon linked={scale.link} />
 			</button>
 		</>

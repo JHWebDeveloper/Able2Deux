@@ -94,6 +94,9 @@ const Crop = memo(({ id, crop, editAll, dispatch }) => {
 		value: crop.r
 	}
 
+	const linkTBTitle = `${crop.linkTB ? 'Unl' : 'L'}ink top and bottom`
+	const linkLRTitle = `${crop.linkLR ? 'Unl' : 'L'}ink left and right`
+
 	return (
 		<>
 			<label>T</label>
@@ -115,7 +118,8 @@ const Crop = memo(({ id, crop, editAll, dispatch }) => {
 			<button
 				type="button"
 				name="linkTB"
-				title={`${crop.linkTB ? 'Unl' : 'L'}ink Top and Bottom`}
+				title={linkTBTitle}
+				aria-label={linkTBTitle}
 				onClick={toggleCropLink}>
 				<LinkIcon linked={crop.linkTB} single />
 			</button>
@@ -138,7 +142,8 @@ const Crop = memo(({ id, crop, editAll, dispatch }) => {
 			<button
 				type="button"
 				name="linkLR"
-				title={`${crop.linkLR ? 'Unl' : 'L'}ink Left and Right`}
+				title={linkLRTitle}
+				aria-label={linkLRTitle}
 				onClick={toggleCropLink}>
 				<LinkIcon linked={crop.linkLR} single />
 			</button>
