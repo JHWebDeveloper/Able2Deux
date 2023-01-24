@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { bool, func, exact, string, oneOf } from 'prop-types'
 
 import { PrefsContext } from 'store/preferences'
@@ -11,7 +11,7 @@ import {
 	disableWarningAndSave
 } from 'actions'
 
-import { compareProps, createSettingsMenu, has11pmBackground, warn } from 'utilities'
+import { createSettingsMenu, has11pmBackground, warn } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import Checkbox from '../../form_elements/Checkbox'
@@ -19,7 +19,7 @@ import Checkbox from '../../form_elements/Checkbox'
 const message = 'A source on top is not for aesthetics!'
 const detail = 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.'
 
-const Source = memo(({ id, source, background, editAll, dispatch }) => {
+const Source = ({ id, source, background, editAll, dispatch }) => {
 	const prefsCtx = useContext(PrefsContext)
 	const prefsDispatch = prefsCtx.dispatch
 	const { warnings } = prefsCtx.preferences
@@ -80,7 +80,7 @@ const Source = memo(({ id, source, background, editAll, dispatch }) => {
 				onChange={sourceOnTopWarning} />
 		</>
 	)
-}, compareProps)
+}
 
 const SourcePanel = props => {
 	const { isBatch, source, id, dispatch } = props

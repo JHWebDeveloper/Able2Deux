@@ -1,14 +1,9 @@
-import React, { memo, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { number, oneOf, oneOfType, string } from 'prop-types'
 
-import {
-	compareProps,
-	framesToTC,
-	scrollText,
-	capitalize
-} from 'utilities'
+import { framesToTC, scrollText, capitalize } from 'utilities'
 
-const MediaInfo = memo(props => {
+const MediaInfo = props => {
 	const {
 		thumbnail,
 		title,
@@ -43,7 +38,7 @@ const MediaInfo = memo(props => {
 			</ul>
 		</div>
 	)
-}, compareProps)
+}
 
 MediaInfo.propTypes = {
 	thumbnail: string,

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -9,7 +9,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, createSettingsMenu, rgbToHex } from 'utilities'
+import { createSettingsMenu, rgbToHex } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
@@ -104,7 +104,7 @@ const ColorKeySliders = ({ similarity, blend, onChange, disabled }) => {
 	)
 }
 
-const Keying = memo(({ id, keying, eyedropper, setEyedropper, editAll, dispatch }) => {
+const Keying = ({ id, keying, eyedropper, setEyedropper, editAll, dispatch }) => {
 	const { enabled, hidden, type } = keying
 	const { active, pixelData } = eyedropper
 
@@ -214,7 +214,7 @@ const Keying = memo(({ id, keying, eyedropper, setEyedropper, editAll, dispatch 
 			</div>
 		</>
 	)
-}, compareProps)
+}
 
 const KeyingPanel = props => {
 	const { isBatch, keying, id, dispatch } = props

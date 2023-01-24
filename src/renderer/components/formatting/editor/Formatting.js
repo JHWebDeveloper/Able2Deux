@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useEffect, useMemo } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo } from 'react'
 import { bool, exact, func, oneOf, oneOfType, string } from 'prop-types'
 
 import { PrefsContext } from 'store/preferences'
@@ -10,7 +10,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, createSettingsMenu, rgbToHex } from 'utilities'
+import { createSettingsMenu, rgbToHex } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
@@ -112,7 +112,7 @@ const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropp
 	</div>
 )
 
-const Formatting = memo(props => {
+const Formatting = props => {
 	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
 	const { id, arc, background, bgColor, overlay, eyedropper, setEyedropper, editAll, dispatch } = props
 	const { active, pixelData } = eyedropper
@@ -200,7 +200,7 @@ const Formatting = memo(props => {
 			</fieldset>
 		</>
 	)
-}, compareProps)
+}
 
 const FormattingPanel = props => {
 	const { isBatch, id, arc, background, overlay, dispatch } = props

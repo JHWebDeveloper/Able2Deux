@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -8,7 +8,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { clamp, compareProps, createSettingsMenu } from 'utilities'
+import { clamp, createSettingsMenu } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderDouble from '../../form_elements/SliderDouble'
@@ -26,7 +26,7 @@ const sliderProps = {
 	enableAutoCenter: true
 }
 
-const Crop = memo(({ id, crop, editAll, dispatch }) => {
+const Crop = ({ id, crop, editAll, dispatch }) => {
 	const updateCrop = useCallback(({ name, value }) => {
 		dispatch(updateMediaNestedState(id, 'crop', {
 			[name]: value
@@ -149,7 +149,7 @@ const Crop = memo(({ id, crop, editAll, dispatch }) => {
 			</button>
 		</>
 	)
-}, compareProps)
+}
 
 const CropPanel = props => {
 	const { isBatch, id, crop, dispatch } = props

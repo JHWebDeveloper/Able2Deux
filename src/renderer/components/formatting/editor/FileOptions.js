@@ -1,15 +1,13 @@
-import React, { memo, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { bool, exact, func, number, oneOf, string } from 'prop-types'
 
 import { updateMediaStateFromEvent } from 'actions'
-
-import { compareProps } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import StartEnd from './StartEnd'
 import Split from './Split'
 
-const FileOptions = memo(props => {
+const FileOptions = props => {
 	const { id, batch, mediaType, start, end, totalFrames, fps, split, dispatch } = props
 
 	const updateFilename = useCallback(e => {
@@ -48,7 +46,7 @@ const FileOptions = memo(props => {
 			</> : <></>}
 		</>
 	)
-}, compareProps)
+}
 
 const FileOptionsPanel = props => (
 	<AccordionPanel

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { bool, exact, func, oneOf, object, number, string } from 'prop-types'
 
 import {
@@ -7,7 +7,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, createSettingsMenu } from 'utilities'
+import { createSettingsMenu } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
@@ -76,7 +76,7 @@ const flipButtons = isSideways => [
 	}
 ]
 
-const Rotation = memo(props => {
+const Rotation = props => {
 	const { id, rotation, scale, crop, editAll, dispatch } = props
 	const isSideways = detectSideways(rotation.angle)
 
@@ -163,7 +163,7 @@ const Rotation = memo(props => {
 			) : <></>}
 		</>
 	)
-}, compareProps)
+}
 
 const RotationPanel = props => {
 	const { isBatch, id, rotation, dispatch } = props

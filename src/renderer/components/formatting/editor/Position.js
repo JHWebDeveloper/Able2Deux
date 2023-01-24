@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -7,7 +7,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, createSettingsMenu } from 'utilities'
+import { createSettingsMenu } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
@@ -16,7 +16,7 @@ import NumberInput from '../../form_elements/NumberInput'
 const propsXStatic = { name: 'x', title: 'Position X', min: -100 }
 const propsYStatic = { name: 'y', title: 'Position Y', min: -100 }
 
-const Position = memo(({ id, position, editAll, dispatch }) => {
+const Position = ({ id, position, editAll, dispatch }) => {
 	const updatePosition = useCallback(({ name, value }) => {
 		dispatch(updateMediaNestedState(id, 'position', {
 			[name]: value
@@ -45,7 +45,7 @@ const Position = memo(({ id, position, editAll, dispatch }) => {
 			<NumberInput {...propsY} />
 		</>
 	)
-}, compareProps)
+}
 
 const PositionPanel = props => {
 	const { isBatch, id, position, dispatch } = props

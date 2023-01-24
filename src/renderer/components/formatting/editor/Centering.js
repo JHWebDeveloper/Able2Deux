@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -7,7 +7,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, createSettingsMenu } from 'utilities'
+import { createSettingsMenu } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
@@ -19,7 +19,7 @@ const commonStatic = {
 	min: -100
 }
 
-const Centering = memo(({ id, centering, editAll, dispatch }) => {
+const Centering = ({ id, centering, editAll, dispatch }) => {
 	const updateCentering = useCallback(({ name, value }) => {
 		dispatch(updateMediaState(id, {
 			[name]: value
@@ -38,7 +38,7 @@ const Centering = memo(({ id, centering, editAll, dispatch }) => {
 			<NumberInput {...common} />
 		</>
 	)
-}, compareProps)
+}
 
 const CenteringPanel = props => {
 	const { isBatch, centering, id, dispatch } = props

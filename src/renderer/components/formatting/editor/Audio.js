@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { bool, exact, func, oneOf, string } from 'prop-types'
 
 import {
@@ -7,7 +7,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, createSettingsMenu } from 'utilities'
+import { createSettingsMenu } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
@@ -42,7 +42,7 @@ const formatButtons = [
 	}
 ]
 
-const Audio = memo(({ id, mediaType, audio, editAll, dispatch }) => {
+const Audio = ({ id, mediaType, audio, editAll, dispatch }) => {
 	const updateAudio = useCallback(e => {
 		dispatch(updateMediaNestedStateFromEvent(id, 'audio', e, editAll))
 	}, [id, editAll])
@@ -71,7 +71,7 @@ const Audio = memo(({ id, mediaType, audio, editAll, dispatch }) => {
 			</fieldset>
 		</>
 	)
-}, compareProps)
+}
 
 const AudioPanel = props => {
 	const { isBatch, audio, id, mediaType, dispatch } = props

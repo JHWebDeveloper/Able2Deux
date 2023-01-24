@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { bool, exact, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
 import { PrefsContext } from 'store/preferences'
@@ -10,7 +10,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { compareProps, createSettingsMenu } from 'utilities'
+import { createSettingsMenu } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
@@ -45,7 +45,7 @@ const calculateFitPercent = (renderOutput, width, height, t, b, l, r) => {
 	]
 }
 
-const Scale = memo(({ id, scale, crop, width, height, editAll, dispatch }) => {
+const Scale = ({ id, scale, crop, width, height, editAll, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
@@ -163,7 +163,7 @@ const Scale = memo(({ id, scale, crop, width, height, editAll, dispatch }) => {
 			</button>
 		</>
 	)
-}, compareProps)
+}
 
 const ScalePanel = props => {
 	const { isBatch, id, scale, dispatch } = props
