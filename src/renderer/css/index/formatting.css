@@ -425,23 +425,23 @@ button[name="link"] {
 
 /* -- Color Correction Panel -- */
 
-.cc-panel {
+#color-correction {
 	grid-template-columns: repeat(2, min-content);
 	grid-template-rows: repeat(3, min-content);
 	grid-gap: 6px;
   align-items: flex-start;
 }
 
-.cc-panel > .on-off-switch { grid-row: 2; }
+#color-correction > .on-off-switch { grid-row: 2; }
 
-.cc-panel > :is(div:first-of-type, fieldset) {
+#color-correction > :is(div:first-of-type, fieldset) {
 	display: inherit;
 	justify-items: center;
 }
 
-.cc-panel > div { grid-row: 2; }
+#color-correction > div { grid-row: 2; }
 
-.cc-panel > div:first-of-type {
+#color-correction > div:first-of-type {
 	grid-auto-rows: 36px;
 	grid-gap: 6px;
 	align-items: center;
@@ -449,14 +449,14 @@ button[name="link"] {
 	height: 100%;
 }
 
-.cc-panel button {
+#color-correction button {
 	width: 36px;
 	height: 36px;
 	padding: 6px;
 	border-radius: 5px;
 }
 
-.cc-panel button:disabled { color: var(--disabled); }
+#color-correction button:disabled { color: var(--disabled); }
 
 button[title="Reset Curves"] {
 	font-size: 20px;
@@ -465,15 +465,15 @@ button[title="Reset Curves"] {
 
 button[title="Reset Curves"]:active { color: #fff; }
 
-.cc-panel > :is(fieldset, .curves, .slider) { grid-column: 2; }
+#color-correction > :is(fieldset, .curves, .slider) { grid-column: 2; }
 
-.cc-panel > fieldset {
+#color-correction > fieldset {
 	grid-template-columns: repeat(4, 1fr);
 	font-weight: 500;
 }
 
 /* hide legend but keep for screen readers */
-.cc-panel > fieldset > legend { font-size: 0; }
+#color-correction > fieldset > legend { font-size: 0; }
 
 
 /* ---- CURVES STYLES -------- */
@@ -661,21 +661,21 @@ button[title="Reset Curves"]:active { color: #fff; }
 
 /* -- curves double slider overrides -- */
 
-.cc-panel > .slider {
+#color-correction > .slider {
 	width: 256px;
 	height: 14px;
 	margin-left: 7px;
 	padding: 0;
 }
 
-.cc-panel .slider-track.double {
+#color-correction .slider-track.double {
 	top: 0; 
 	height: inherit;
 	background-color: transparent;
 	transform: none;
 }
 
-.cc-panel .slider-track.double > span {
+#color-correction .slider-track.double > span {
 	top: inherit;
 	width: 14px;
 	height: 14px;
@@ -683,7 +683,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 	transform: translateX(-50%);
 }
 
-.cc-panel .slider-track.double > span::after {
+#color-correction .slider-track.double > span::after {
 	content: '';
 	pointer-events: none;
 	display: block;
@@ -696,19 +696,19 @@ button[title="Reset Curves"]:active { color: #fff; }
 	transform: rotate(45deg);
 }
 
-.cc-panel .slider-track.double > span:first-child::after {
+#color-correction .slider-track.double > span:first-child::after {
 	background-color: #000;
 	border-color: transparent;
 }
 
-.cc-panel .slider-track.double > span:last-child::after {
+#color-correction .slider-track.double > span:last-child::after {
 	background-color: #fff;
 	border-color: var(--primary);
 }
 
 @media (prefers-color-scheme: dark) {
-	.cc-panel .slider-track.double > span:first-child::after { border-color: var(--primary);; }
-	.cc-panel .slider-track.double > span:last-child::after { border-color: transparent; }
+	#color-correction .slider-track.double > span:first-child::after { border-color: var(--primary);; }
+	#color-correction .slider-track.double > span:last-child::after { border-color: transparent; }
 }
 
 
