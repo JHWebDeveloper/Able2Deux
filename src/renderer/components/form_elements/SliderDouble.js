@@ -19,6 +19,7 @@ const SliderDouble = ({
 	leftThumb = {
 		name: '',
 		title: '',
+		alignment: 'right',
 		value: 0,
 		max,
 		onChange() {},
@@ -28,6 +29,7 @@ const SliderDouble = ({
 	rightThumb = {
 		name: '',
 		title: '',
+		alignment: 'left',
 		value: 100,
 		min,
 		onChange() {},
@@ -41,6 +43,7 @@ const SliderDouble = ({
 	snapPoints = [],
 	sensitivity = 4,
 	sliderTitle = '',
+	hasMiddleThumb = true,
 	middleThumbTitle = '',
 	onPan = () => {},
 	enableAutoCenter = false,
@@ -55,10 +58,10 @@ const SliderDouble = ({
 	
 	const leftId = useMemo(uuid, [])
 	const rightId = useMemo(uuid, [])
-	const middleId = useMemo(uuid, [])
+	const middleId = useMemo(() => hasMiddleThumb && uuid(), [])
 	const diff = useMemo(() => max - min, [min, max])
 	const diffLR = useMemo(() => rightThumb.value - leftThumb.value, [leftThumb.value, rightThumb.value])
-	const width = useMemo(() => diffLR / diff * 100, [diff, diffLR])
+	const width = useMemo(() => hasMiddleThumb && diffLR / diff * 100, [diff, diffLR])
 
 	const leftAriaVal = useMemo(() => transformValueForAria(leftThumb.value), [leftThumb.value])
 	const rightAriaVal = useMemo(() => transformValueForAria(rightThumb.value), [rightThumb.value])
@@ -66,7 +69,7 @@ const SliderDouble = ({
 	const leftAriaMax = useMemo(() => (leftThumb.max && transformValueForAria(leftThumb.max)) ?? rightAriaVal, [leftThumb.max, rightAriaVal])
 	const rightAriaMax = useMemo(() => transformValueForAria(max), [max])
 	const rightAriaMin = useMemo(() => (rightThumb.min && transformValueForAria(rightThumb.min)) ?? leftAriaVal, [rightThumb.min, leftAriaVal])
-	const midAriaVal = useMemo(() => `${leftAriaVal} to ${rightAriaVal}`, [leftAriaVal, rightAriaVal])
+	const midAriaVal = useMemo(() => hasMiddleThumb && `${leftAriaVal} to ${rightAriaVal}`, [leftAriaVal, rightAriaVal])
 
 	const thresholds = useMemo(() => {
 		if (sliderSnapPoints) {
@@ -106,8 +109,8 @@ const SliderDouble = ({
 		}
 	}, [leftThumb.onChange, rightThumb.onChange, diff, diffLR, min])
 
-	const autoCenter = enableAutoCenter && useCallback(() => {
-		setBoth(50 - diffLR / 2)
+	const autoCenter = useCallback(() => {
+		if (enableAutoCenter) setBoth(50 - diffLR / 2)
 	}, [onPan, diffLR])
 
 	const common = { diff, step, fineTuneStep, getTrack }
@@ -124,42 +127,44 @@ const SliderDouble = ({
 					sliderId={leftId}
 					ref={leftRef}
 					title={leftThumb.title}
+					alignment={leftThumb.alignment || 'right'}
 					value={leftThumb.value}
 					min={min}
 					max={leftThumb.max ?? rightThumb.value - fineTuneStep}
 					thresholds={sliderSnapPoints && thresholds}
 					setValue={setLeft}
-					getClickPos={getClickPosLeft}
 					onClick={leftThumb.onClick}
 					ariaVal={leftAriaVal}
 					ariaMin={leftAriaMin}
 					ariaMax={leftAriaMax}
 					{...common} />
-				<SliderThumb
-					sliderId={middleId}
-					title={middleThumbTitle}
-					value={leftThumb.value}
-					width={leftThumb.value <= rightThumb.value && width}
-					min={min}
-					max={max - diffLR}
-					setValue={setBoth}
-					getClickPos={getClickPosRight}
-					onDoubleClick={enableAutoCenter && autoCenter}
-					ariaVal={midAriaVal}
-					ariaMin={leftAriaMin}
-					ariaMax={rightAriaMax}
-					{...common} />
+				{hasMiddleThumb ? (
+					<SliderThumb
+						sliderId={middleId}
+						title={middleThumbTitle}
+						value={leftThumb.value}
+						width={width}
+						alignment="left"
+						min={min}
+						max={max - diffLR}
+						setValue={setBoth}
+						onDoubleClick={enableAutoCenter && autoCenter}
+						ariaVal={midAriaVal}
+						ariaMin={leftAriaMin}
+						ariaMax={rightAriaMax}
+						{...common} />
+				) : <></>}
 				<SliderThumb
 					sliderId={rightId}
 					ref={rightRef}
 					title={rightThumb.title}
+					alignment={rightThumb.alignment || 'left'}
 					value={rightThumb.value}
 					min={rightThumb.min ?? leftThumb.value + fineTuneStep}
 					max={max}
 					absoluteMin={min}
 					thresholds={sliderSnapPoints && thresholds}
 					setValue={setRight}
-					getClickPos={getClickPosRight}
 					onClick={rightThumb.onClick}
 					ariaVal={rightAriaVal}
 					ariaMin={rightAriaMin}
@@ -180,6 +185,7 @@ const SliderDouble = ({
 const thumbPropType = shape({
 	name: string.isRequired,
 	title: string,
+	alignment: oneOf(['left', 'center', 'right']),
 	value: oneOfType([oneOf(['']), number]).isRequired,
 	min: number,
 	max: number,
@@ -189,15 +195,16 @@ const thumbPropType = shape({
 })
 
 SliderDouble.propTypes = {
-	leftThumb: thumbPropType,
-	rightThumb: thumbPropType,
-	min: number,
-	max: number,
+	leftThumb: thumbPropType.isRequired,
+	rightThumb: thumbPropType.isRequired,
+	min: number.isRequired,
+	max: number.isRequired,
 	step: number,
 	fineTuneStep: number,
 	snapPoints: arrayOf(number),
 	sensitivity: number,
 	sliderTitle: string,
+	hasMiddleThumb: bool.isRequired,
 	middleThumbTitle: string,
 	onPan: func,
 	enableAutoCenter: bool,
