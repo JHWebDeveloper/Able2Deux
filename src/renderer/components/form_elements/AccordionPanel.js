@@ -17,7 +17,7 @@ const AccordionPanel = ({ heading, id, className = '', initOpen, buttons = [], c
 	}, [])
 
 	return (
-		<section className={`accordion-panel${open ? ' open' : ''}`}>
+		<section className={`formatting-options-panel accordion-panel${open ? ' open' : ''}`}>
 			<h2>
 				<button
 					type="button"

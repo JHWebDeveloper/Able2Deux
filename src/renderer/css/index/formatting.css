@@ -11,8 +11,7 @@
 
 #media-manager > div { overflow-y: hidden; }
 
-#media-manager > div:nth-last-of-type(n+2),
-.accordion-panel {
+.formatting-options-panel {
 	position: relative;
 	border-radius: 5px;
 	background-color: var(--background-alt-1);
