@@ -11,7 +11,7 @@
 
 #media-manager > div { overflow-y: hidden; }
 
-.formatting-options-panel {
+.formatting-panel {
 	position: relative;
 	border-radius: 5px;
 	background-color: var(--background-alt-1);

@@ -8,7 +8,7 @@ import EditAll from './EditAll'
 const MediaSelector = ({ media, selected, isBatch, editAll, dispatch }) => (
 	<div
 		id="media-selector"
-		className="formatting-options-panel">
+		className="formatting-panel">
 		<MediaInfo
 			thumbnail={selected.thumbnail}
 			title={selected.title}

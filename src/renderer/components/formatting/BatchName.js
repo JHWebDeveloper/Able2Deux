@@ -28,7 +28,7 @@ const BatchName = ({ batch, dispatch }) => {
 	return (
 		<div
 			id="batch-name"
-			className="formatting-options-panel">
+			className="formatting-panel">
 			<h2>Batch Name</h2>
 			<div>
 				<input
