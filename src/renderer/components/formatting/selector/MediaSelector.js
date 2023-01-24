@@ -6,9 +6,7 @@ import BatchList from './BatchList'
 import EditAll from './EditAll'
 
 const MediaSelector = ({ media, selected, isBatch, editAll, dispatch }) => (
-	<div
-		id="media-selector"
-		class="accordion-panel">
+	<div id="media-selector">
 		<MediaInfo
 			thumbnail={selected.thumbnail}
 			title={selected.title}

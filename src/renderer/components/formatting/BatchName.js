@@ -26,9 +26,7 @@ const BatchName = ({ batch, dispatch }) => {
 	}, [])
 
 	return (
-		<div
-			id="batch-name"
-			class="accordion-panel">
+		<div id="batch-name" accordion-panel>
 			<h2>Batch Name</h2>
 			<div>
 				<input
