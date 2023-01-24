@@ -44,12 +44,14 @@ const colorChannelButtons = [
 
 const propsWhitePtStatic = {
 	name: 'whitePt',
-	title: 'White Point'
+	title: 'White Point',
+	alignment: 'center',
 }
 
 const propsBlackPtStatic = {
 	name: 'blackPt',
-	title: 'Black Point'
+	title: 'Black Point',
+	alignment: 'center',
 }
 
 const getCurveColor = curveName => {
@@ -254,6 +256,7 @@ const ColorCorrection = memo(({ id, colorCurves, eyedropper, setEyedropper, edit
 				min={0}
 				max={256}
 				fineTuneStep={1}
+				hasMiddleThumb={false}
 				disabled={!enabled} />
 		</>
 	)
