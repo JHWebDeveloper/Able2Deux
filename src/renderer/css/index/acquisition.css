@@ -15,7 +15,7 @@
 #downloader {
 	grid-template-rows: min-content min-content;
 	grid-template-rows: min-content min-content;
-	grid-gap: 12px 6px;
+	gap: 12px 6px;
 	grid-row: 2;
 }
 
@@ -136,7 +136,7 @@ button[name="screenshot"] { height: 26px; }
 
 .screen-recorder-timer {
 	display: inherit;
-	grid-gap: 0 1px;
+	gap: 0 1px;
 	align-items: center;
 	white-space: nowrap;
 }
@@ -274,7 +274,7 @@ button[name="screenshot"] { height: 26px; }
 #ready-queue {
 	grid-template-rows: auto min-content;
 	grid-column: 2;
-	grid-gap: 18px;
+	gap: 18px;
 	grid-row: span 4;
 	height: 100%;
 }

@@ -2,7 +2,7 @@
 	display: grid;
 	grid-template-columns: 308px minmax(384px, auto);
 	grid-template-rows: min-content repeat(3, 1fr);
-	grid-gap: 18px;
+	gap: 18px;
 	padding: 18px;
 }
 
@@ -75,7 +75,7 @@ button:is([title="Format Media"], [title="Back"]) {
 .media-element > span:nth-of-type(2) {
 	grid-template-columns: auto min-content;
 	grid-auto-rows: auto auto;
-	grid-gap: 3px 6px;
+	gap: 3px 6px;
 	align-content: center;
 	padding-right: 6px;
 	color: var(--primary);

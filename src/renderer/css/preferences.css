@@ -101,7 +101,7 @@ input[name="customFrameRate"] { width: 50px; }
 .sortable-grid > div {
 	display: inherit;
 	grid-template-columns: inherit;
-	grid-gap: inherit;
+	gap: inherit;
 	background-color: var(--background-alt-1);
 }
 
@@ -120,7 +120,7 @@ input[name="customFrameRate"] { width: 50px; }
 
 .aspect-ratio-markers-grid {
 	grid-template-columns: repeat(3, 24px) 75px 62px 4px 62px repeat(3, 24px);
-	grid-gap: 3px;
+	gap: 3px;
 }
 
 #ar-markers-label { grid-column: 4; }
@@ -140,7 +140,7 @@ button[name="marker-down"] { grid-column: 9; }
 
 .save-locations-grid {
 	grid-template-columns: repeat(4, 24px) auto 287px repeat(3, 24px);
-	grid-gap: 0 6px;
+	gap: 0 6px;
 }
 
 #save-locations-default { grid-column: 2; }

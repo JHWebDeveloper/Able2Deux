@@ -5,7 +5,7 @@
 	grid-column: 1;
 	grid-row: 2 / span 3;
 	grid-template-rows: minmax(auto, min-content) min-content auto min-content;
-	grid-gap: 9px;
+	gap: 9px;
 	height: 100%;
 }
 
@@ -29,7 +29,7 @@
 	display: inherit;
 	grid-template-columns: min-content auto;
 	grid-template-rows: 14px auto;
-	grid-gap: 3px 9px;
+	gap: 3px 9px;
 }
 
 #media-selector h2,
@@ -154,7 +154,7 @@
 #batch-name,
 #save-options {
 	display: inherit;
-	grid-gap: 6px;
+	gap: 6px;
 	padding: 9px 12px;
 }
 
@@ -263,7 +263,7 @@ button[name^="link"] > svg { pointer-events: none; }
 
 .auto-columns {
 	display: flex;
-	grid-gap: 0 9px;
+	gap: 0 9px;
 }
 
 .auto-columns > :last-child { flex: 1; }
@@ -273,7 +273,7 @@ button[name^="link"] > svg { pointer-events: none; }
 .timecode-slider-grid,
 .split-grid {
 	display: inherit;
-	grid-gap: 0 6px;
+	gap: 0 6px;
 	align-items: center;
 	margin-top: 6px;
 }
@@ -287,7 +287,7 @@ button[name^="link"] > svg { pointer-events: none; }
 
 .timecode-slider-grid {
 	grid-template-columns: 35px min-content auto min-content 35px;
-	grid-gap: 0 6px;
+	gap: 0 6px;
 }
 
 .timecode-slider-grid > input[type="text"] { width: 112px; }
@@ -309,7 +309,7 @@ button[name^="link"] > svg { pointer-events: none; }
 #formatting {
 	grid-template-columns: repeat(3, min-content);
 	grid-template-rows: repeat(2, min-content);
-	grid-gap: 9px;
+	gap: 9px;
 	container: formatting-panel / inline-size;
 }
 
@@ -394,7 +394,7 @@ button[name="link"] {
 
 #keying {
   grid-template-columns: repeat(2, min-content) auto;
-  grid-gap: 9px 18px;
+  gap: 9px 18px;
   align-items: flex-start;
 }
 
@@ -428,7 +428,7 @@ button[name="link"] {
 #color-correction {
 	grid-template-columns: repeat(2, min-content);
 	grid-template-rows: repeat(3, min-content);
-	grid-gap: 6px;
+	gap: 6px;
   align-items: flex-start;
 }
 
@@ -443,7 +443,7 @@ button[name="link"] {
 
 #color-correction > div:first-of-type {
 	grid-auto-rows: 36px;
-	grid-gap: 6px;
+	gap: 6px;
 	align-items: center;
 	align-content: center;
 	height: 100%;
@@ -524,7 +524,7 @@ button[title="Reset Curves"]:active { color: #fff; }
   display: inline-grid;
   grid-auto-columns: min-content;
 	grid-auto-flow: column;
-  grid-gap: 0 6px;
+  gap: 0 6px;
 	vertical-align: middle;
 }
 
@@ -747,7 +747,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 	overflow-y: auto;
 	display: inherit;
 	grid-auto-rows: min-content;
-	grid-gap: 9px;
+	gap: 9px;
 	padding-bottom: 0;
 }
 
