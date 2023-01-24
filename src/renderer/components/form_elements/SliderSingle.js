@@ -10,6 +10,7 @@ import SliderSnapMarkers from './SliderSnapMarkers'
 const SingleSlider = ({
 	name,
 	title,
+	alignment,
 	value = 0,
 	min = 0,
 	max = 100,
@@ -73,6 +74,7 @@ const SingleSlider = ({
 					sliderId={sliderId}
 					ref={thumbRef}
 					title={title}
+					alignment={alignment}
 					value={value}
 					diff={diff}
 					min={min}
