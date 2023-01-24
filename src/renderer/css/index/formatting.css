@@ -355,15 +355,15 @@ button[name^="link"] > svg { pointer-events: none; }
 
 /* -- Scale Panel -- */
 
-.scale-panel {
+#scale {
 	grid-template-columns: min-content auto repeat(3, min-content);
 }
 
-.scale-panel > .slider { grid-column: 2; }
+#scale > .slider { grid-column: 2; }
 
-.scale-panel > .app-button { margin-right: 5px; }
+#scale > .app-button { margin-right: 5px; }
 
-.scale-panel > .app-button:first-of-type { transform: rotate(90deg); }
+#scale > .app-button:first-of-type { transform: rotate(90deg); }
 
 button[name="link"] {
 	grid-column: 5;
