@@ -110,7 +110,7 @@
 	font-weight: 500;
 }
 
-.accordion-panel .dropdown > span {
+.accordion .dropdown > span {
 	transform: translateX(calc(-100% + 24px));
 }
 
@@ -119,7 +119,7 @@
 	color: var(--preview-text);
 }
 
-#editor-options .accordion-panel .dropdown > button {
+#editor-options .accordion .dropdown > button {
 	padding: 0 13px;
 }
 
@@ -191,22 +191,22 @@
 	height: 100%;
 }
 
-.accordion-panel:focus-within { z-index: 999; }
+.accordion:focus-within { z-index: 999; }
 
-.accordion-panel > h2 {
+.accordion > h2 {
 	position: inherit;
 	display: flex;
 	height: 37px;
 }
 
-.accordion-panel > h2 > button {
+.accordion > h2 > button {
 	flex: 1;
 	height: inherit;
 	padding: 9px;
 	text-align: left;
 }
 
-.accordion-panel > h2 > button > span {
+.accordion > h2 > button > span {
   font: 600 1.25rem 'Material Icons';
   vertical-align: -5px;
 }
@@ -216,7 +216,7 @@
 	position: relative;
 }
 
-#editor-options > .accordion-panel:nth-last-child(n+2) { margin-bottom: 9px; }
+#editor-options > .accordion:nth-last-child(n+2) { margin-bottom: 9px; }
 
 /* -- All Editor Panels -- */
 

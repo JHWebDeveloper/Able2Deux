@@ -1,4 +1,4 @@
-#editor > .accordion-panel {
+#editor > .accordion {
 	margin-bottom: 9px;
 	background-color: var(--preview-background);
 	color: var(--preview-text);
