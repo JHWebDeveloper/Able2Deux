@@ -93,7 +93,7 @@ const SliderDouble = ({
 
 		const track = getTrack()
 		const mousePos = (e.clientX - track.left) / track.width * diff + min
-		const halfPoint = (rightThumb.value - leftThumb.value) / 2 + leftThumb.value
+		const halfPoint = diffLR / 2 + leftThumb.value
 
 		if (mousePos <= halfPoint) {
 			setLeft(mousePos)
@@ -104,7 +104,7 @@ const SliderDouble = ({
 			e.target = document.getElementById(rightId)
 			rightRef.current?.startDrag(e, 0)
 		}
-	}, [leftThumb.value, rightThumb.value, leftThumb.onChange, rightThumb.onChange, diff, min])
+	}, [leftThumb.onChange, rightThumb.onChange, diff, diffLR, min])
 
 	const autoCenter = enableAutoCenter && useCallback(() => {
 		setBoth(50 - diffLR / 2)
