@@ -29,8 +29,7 @@
 		"electron-log": "^4.3.3",
 		"electron-updater": "^5.0.1",
 		"electron-util": "^0.17.0",
-		"ffmpeg-static-electron": "^2.0.3",
-		"ffprobe-static-electron": "^2.0.2",
+		"ffmpeg-ffprobe-yt-dlp-static-electron": "^1.0.0",
 		"fix-webm-duration": "^1.0.5",
 		"fluent-ffmpeg": "^2.1.2",
 		"get-pixels": "^3.3.2",
@@ -40,8 +39,7 @@
 		"react-dom": "^18.2.0",
 		"react-router-dom": "^6.0.2",
 		"toastr": "^2.1.4",
-		"uuid": "^9.0.0",
-		"youtube-dl-ffmpeg-ffprobe-static": "^1.2.1"
+		"uuid": "^9.0.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.16.0",
