@@ -158,7 +158,7 @@ const Scale = ({ id, scale, crop, width, height, editAll, dispatch }) => {
 				name="link"
 				onClick={toggleScaleLink}
 				title={linkTitle}
-				aira-label={linkTitle}>
+				aria-label={linkTitle}>
 				<LinkIcon linked={scale.link} />
 			</button>
 		</>

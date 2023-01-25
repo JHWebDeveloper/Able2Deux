@@ -104,6 +104,7 @@ const SingleSlider = ({
 SingleSlider.propTypes = {
 	name: string,
 	title: string,
+	alignment: oneOf(['left', 'center', 'right']),
 	value: oneOfType([oneOf(['']), number]),
 	min: number,
 	max: number,

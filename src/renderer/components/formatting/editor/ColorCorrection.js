@@ -45,13 +45,13 @@ const colorChannelButtons = [
 const propsWhitePtStatic = {
 	name: 'whitePt',
 	title: 'White Point',
-	alignment: 'center',
+	alignment: 'center'
 }
 
 const propsBlackPtStatic = {
 	name: 'blackPt',
 	title: 'Black Point',
-	alignment: 'center',
+	alignment: 'center'
 }
 
 const getCurveColor = curveName => {
