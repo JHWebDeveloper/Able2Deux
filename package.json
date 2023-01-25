@@ -63,7 +63,7 @@
 		"mini-css-extract-plugin": "^2.4.5",
 		"postcss": "^8.3.11",
 		"postcss-loader": "^7.0.0",
-		"postcss-preset-env": "^7.0.0",
+		"postcss-preset-env": "^8.0.0",
 		"postcss-pseudo-is": "^0.3.0",
 		"regenerator-runtime": "^0.13.7",
 		"rimraf": "^4.0.7",
