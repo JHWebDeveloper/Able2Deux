@@ -1,7 +1,7 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
 
-import { ytdl } from '../binaries'
+import { ytdlp } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 
 const downloads = new Map()
@@ -43,7 +43,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 	const { id, url, optimize, output, disableRateLimit } = formData
 	const cmdPrefixRegex = new RegExp(`^\r\\[${id}\\](_[0-9]+){3}$`)
 
-	const downloadCmd = ytdl([
+	const downloadCmd = ytdlp([
 		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
 		'--output', `${scratchDisk.imports.path}/${id}.%(ext)s`,
 		'--format', `${optimize === 'quality' ? `bestvideo[height<=${output}][fps<=60]+bestaudio/` : ''}best[height<=${output}][fps<=60]/best`,
@@ -109,7 +109,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 const createURLError = url => new Error(`Error finding video at ${truncateURL(url)}. The url may not be a supported service.`)
 
 export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolve, reject) => {
-	const infoCmd = ytdl([
+	const infoCmd = ytdlp([
 		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
 		'--dump-json',
 		url
