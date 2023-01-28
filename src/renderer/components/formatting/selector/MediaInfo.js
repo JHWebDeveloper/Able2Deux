@@ -25,7 +25,10 @@ const MediaInfo = props => {
 
 	return (
 		<div>
-			<img src={thumbnail} alt={title} />
+			<img
+				src={thumbnail}
+				alt={title}
+				draggable="false" />
 			<h2 ref={ref}>{title}</h2>
 			<ul>
 				{!!totalFrames && fps ? <li>{framesToTC(totalFrames, fps)}</li> : <></>}
