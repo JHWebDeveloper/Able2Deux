@@ -34,10 +34,12 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 			<input
 				type="text"
 				name="url"
+				title="Paste URL"
+				aria-label="Paste URL"
 				className="underline"
+				placeholder="Paste URL here..."
 				value={url}
-				onChange={dispatchWithEvent}
-				placeholder="Paste URL here..." />
+				onChange={dispatchWithEvent} />
 			<button
 				type="button"
 				className="app-button"

@@ -43,7 +43,8 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 						<button
 							type="button"
 							className="symbol"
-							title="close"
+							title="Close"
+							aria-label="Close"
 							onClick={() => close(false)}
 							autoFocus>close</button>
 					</h2>
@@ -51,6 +52,8 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 						<button
 							key={id}
 							type="button"
+							title={name}
+							aria-label={`Record ${name}`}
 							onClick={() => close(id)}>
 							<img src={thumbnail} />
 							<span>{name}</span>

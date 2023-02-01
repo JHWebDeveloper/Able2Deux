@@ -22,6 +22,10 @@ const { interop } = window.ABLE2
 
 const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer, timerEnabled, dispatch }) => {
 	const [ recordSources, setRecordSources ] = useState([])
+	const recordButton = useRef()
+
+	const recordButtonTitle =  `${recording ? 'Stop' : 'Start'} Record`
+	const recordModeTitle = `Switch to Screen${screenshot ? ' Record' : 'shot'} Mode`
 
 	const modeMessage = useMemo(() => {
 		if (recording) {
@@ -102,8 +106,6 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 	const toggleScreenshot = useCallback(e => {
 		dispatch(toggleCheckbox(e))
 	}, [])
-
-	const ref = useRef()
 	
 	return (
 		<div id="screen-recorder">
@@ -113,13 +115,15 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 				<button
 					type="button"
 					name="record"
-					ref={ref}
-					title={`${recording ? 'Stop' : 'Start'} Record`}
+					ref={recordButton}
+					title={recordButtonTitle}
+					aria-label={recordButtonTitle}
 					onClick={toggleRecording}></button>
 				<button
 					type="button"
 					name="screenshot"
-					title={`Switch to Screen${screenshot ? ' Record' : 'shot'} Mode`}
+					title={recordModeTitle}
+					aria-label={recordModeTitle}
 					onClick={toggleScreenshot}
 					disabled={recording}>
 					<CaptureModeSwitch
