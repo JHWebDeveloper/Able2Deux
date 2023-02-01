@@ -134,7 +134,6 @@ const SliderThumb = forwardRef(({
 			title={title}
 			onMouseDown={startDrag}
 			onKeyDown={keyIncrement}
-			{...process.env.NODE_ENV === 'production' ? { onContextMenu: e => e.stopPropagation() } : {}}
 			{...onClick ? { onClick } : {}}
 			{...onDoubleClick ? { onDoubleClick } : {}}
 			style={{
