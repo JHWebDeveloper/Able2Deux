@@ -133,7 +133,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 			</div>
 			{recordSources.length ? (
 				<RecordSourceSelector
-					recordButton={ref.current}
+					recordButton={recordButton.current}
 					closeRecordSources={() => setRecordSources([])}
 					recordSources={recordSources}
 					captureScreen={captureScreen} />
@@ -142,7 +142,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 				timer={timer}
 				timerEnabled={timerEnabled}
 				recording={recording}
-				recordButton={ref.current}
+				recordButton={recordButton.current}
 				screenshot={screenshot}
 				dispatch={dispatch} />
 			{interop.isMac ? <BlackHoleMessage /> : <></>}
