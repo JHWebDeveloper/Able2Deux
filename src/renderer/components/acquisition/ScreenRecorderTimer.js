@@ -16,14 +16,11 @@ const ScreenRecorderTimer = ({ timer, timerEnabled, screenshot, recording, recor
 		dispatch(toggleCheckbox(e))
 	}, [])
 
-	const title = `${timerEnabled ? 'Dis' : 'En'}able screen record timer`
-
 	return (
 		<div className="screen-recorder-timer">
 			<Checkbox
 				name="timerEnabled"
-				title={title}
-				aria-label={title}
+				title={`${timerEnabled ? 'Dis' : 'En'}able screen record timer`}
 				checked={timerEnabled}
 				onChange={toggleTimer}
 				disabled={screenshot || recording}
