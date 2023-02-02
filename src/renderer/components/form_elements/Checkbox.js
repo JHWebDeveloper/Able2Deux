@@ -20,7 +20,7 @@ const Checkbox = ({ label, name, title, checked, visibleIcon, switchIcon, disabl
 			checked={checked}
 			onChange={onChange}
 			disabled={disabled}
-			aria-labelledby={ariaLabelledby} />
+			{...label ? {} : ariaLabelledby ? { 'aria-labelledby': ariaLabelledby } : { 'aria-label': title }} />
 		{switchIcon ? <ToggleSwitch toggle={checked} disabled={disabled} /> : <></>}
 	</CheckboxWrapper>
 )
