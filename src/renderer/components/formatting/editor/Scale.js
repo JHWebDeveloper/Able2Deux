@@ -34,10 +34,10 @@ const numberProps = {
 	defaultValue: 100
 }
 
-const calculateFitPercent = (renderOutput, width, height, t, b, l, r) => {
+const calculateFitPercent = (renderOutput, width, height, crop) => {
 	const [ frameW, frameH ] = renderOutput.split('x')
-	const cropW = width * (r - l) / 100
-	const cropH = height * (b - t) / 100
+	const cropW = width * (crop.r - crop.l) / 100
+	const cropH = height * (crop.b - crop.t) / 100
 
 	return [
 		frameW / cropW * 100,
@@ -72,11 +72,10 @@ const Scale = ({ id, scale, crop, width, height, editAll, dispatch }) => {
 		dispatch(updateMediaNestedState(id, 'scale', axis, editAll))
 	}, [distortion, id, editAll])
 
-	const { t, b, r, l } = crop
-	const triggers = [renderOutput, width, height, t, b, r, l, id, scale.link, distortion, editAll]
+	const triggers = [renderOutput, width, height, crop.t, crop.b, crop.r, crop.l, id, scale.link, distortion, editAll]
 
 	const fitToFrameWidth = useCallback(() => {
-		const frameWidthPrc = calculateFitPercent(renderOutput, width, height, t, b, l, r)[0]
+		const frameWidthPrc = calculateFitPercent(renderOutput, width, height, crop)[0]
 
 		dispatch(updateMediaNestedState(id, 'scale', {
 			x: frameWidthPrc,
@@ -85,7 +84,7 @@ const Scale = ({ id, scale, crop, width, height, editAll, dispatch }) => {
 	}, [...triggers, scale.y])
 	
 	const fitToFrameHeight = useCallback(() => {
-		const frameHeightPrc = calculateFitPercent(renderOutput, width, height, t, b, l, r)[1]
+		const frameHeightPrc = calculateFitPercent(renderOutput, width, height, crop)[1]
 		
 		dispatch(updateMediaNestedState(id, 'scale', {
 			x: scale.link ? frameHeightPrc / distortion : scale.x,
