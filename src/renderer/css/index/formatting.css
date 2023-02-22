@@ -384,6 +384,24 @@ button[name="link"] {
 
 /* -- Rotation Panel -- */
 
+#rotation {
+	grid-template-columns: repeat(2, min-content) auto;
+	grid-auto-rows: min-content;
+	gap: 9px;
+}
+
+#rotation > div {
+	display: inherit;
+	grid-template-columns: auto min-content;
+	grid-template-rows: inherit;
+	grid-column: 1 / -1;
+	align-items: center;
+}
+
+#rotation > div > label {
+	grid-column: 1 / -1;
+}
+
 .offset-grid {
 	display: grid;
 	grid-template-columns: auto min-content;
