@@ -14,7 +14,7 @@ import {
 } from '../utilities'
 
 export const createPreviewStill = exportData => new Promise((resolve, reject) => {
-	const { id, renderOutput, hasAlpha, isAudio, arc, background, overlay, sourceData, rotation } = exportData
+	const { id, renderOutput, hasAlpha, isAudio, arc, background, overlay, sourceData } = exportData
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
 	const outputExtension = isAudio ? 'png' : 'jpg'
@@ -64,16 +64,18 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 
 	command
 		.complexFilter(filter[arc]({
-			...rotation,
 			renderHeight,
 			renderWidth,
 			overlayDim,
 			hasAlpha,
 			sourceData,
+			width: exportData.width,
+			height: exportData.height,
 			centering: exportData.centering,
 			position: exportData.position,
 			scale: exportData.scale,
 			crop: exportData.crop,
+			rotation: exportData.rotation,
 			keying: exportData.keying,
 			colorCurves: exportData.colorCurves
 		}, true, exportData.previewSize))

@@ -122,7 +122,6 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		backgroundMotion,
 		overlay,
 		sourceData,
-		rotation,
 		renderOutput,
 		renderFrameRate,
 		saveLocations
@@ -204,9 +203,9 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				}, [])
 
 				if (saveLocations.length === failed.length) {
-					throw new Error(`An error occurred when attempting to save ${saveName} to each selected dir.`)
+					throw new Error(`An error occurred while attempting to save ${saveName} to each selected dir.`)
 				} else if (failed.length) {
-					throw new Error(`An error occurred when attempting to save ${saveName} to the following selected directories: ${failed.join(', ')}.`)
+					throw new Error(`An error occurred while attempting to save ${saveName} to the following selected directories: ${failed.join(', ')}.`)
 				}
 
 				win.webContents.send(`renderComplete_${id}`)
@@ -259,7 +258,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				fs.writeFileSync(sourcePng, sourceData.base64, { encoding: 'base64' })		
 			} catch (err) {
 				console.error(err)
-				reject(new Error('An error occurred when attempting to create source overlay.'))
+				reject(new Error('An error occurred while attempting to create source overlay.'))
 			}
 
 			renderCmd.input(sourcePng)
@@ -288,16 +287,18 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		}
 
 		renderCmd.complexFilter(filter[arc]({
-			...rotation,
 			renderHeight,
 			renderWidth,
 			overlayDim,
 			hasAlpha,
 			sourceData,
+			width: exportData.width,
+			height: exportData.height,
 			centering: exportData.centering,
 			position: exportData.position,
 			scale: exportData.scale,
 			crop: exportData.crop,
+			rotation: exportData.rotation,
 			keying: exportData.keying,
 			colorCurves: exportData.colorCurves
 		}))
