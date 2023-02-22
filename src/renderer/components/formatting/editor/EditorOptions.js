@@ -84,6 +84,7 @@ const EditorOptions = props => {
 					<Scale
 						scale={scale}
 						crop={crop}
+						rotation={props.rotation}
 						{...common} />
 					<Crop
 						crop={crop}
