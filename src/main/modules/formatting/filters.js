@@ -40,7 +40,8 @@ const buildCurvesFilter = ({ rgb, r, g, b }) => (
 	`curves=m='${normalizeCurve(rgb)}':r='${normalizeCurve(r)}':g='${normalizeCurve(g)}':b='${normalizeCurve(b)}'[cc];[cc]`
 )
 
-const buildCommonFilter = (isPreview, reflect, angle, curves) => {
+const buildCommonFilter = (isPreview, rotation, curves) => {
+	const { reflect, angle } = rotation
 	let filter = 'null'
 
 	if (reflect && angle) {
@@ -107,9 +108,9 @@ export const none = (() => {
 	const cmdChunks = '[vid];[vid][1:v]overlay'
 
 	return (filterData, isPreview, previewSize) => {
-		const { reflect, angle, colorCurves, sourceData, renderWidth, renderHeight } = filterData
+		const { rotation, colorCurves, sourceData, renderWidth, renderHeight } = filterData
 
-		let filter = buildCommonFilter(isPreview, reflect, angle, colorCurves)
+		let filter = buildCommonFilter(isPreview, rotation, colorCurves)
 
 		if (sourceData || isPreview) filter = `[0:v]${filter}`
 		if (sourceData) filter = `${filter},scale=w=${renderWidth}:h=${renderHeight}${cmdChunks}`
@@ -132,12 +133,12 @@ export const fill = (() => {
 	]
 
 	return (filterData, isPreview, previewSize) => {
-		const { keying, reflect, angle, colorCurves, sourceData, overlayDim, renderWidth, renderHeight, hasAlpha } = filterData
+		const { keying, rotation, colorCurves, sourceData, overlayDim, renderWidth, renderHeight, hasAlpha } = filterData
 		let { centering } = filterData
 
 		centering /= -100
 
-		let filter = `[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, reflect, angle, colorCurves)},scale=w=${renderWidth}:h=${renderHeight}${cmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${cmdChunks[1]}${centering}*(ih-oh)/2`
+		let filter = `[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, rotation, colorCurves)},scale=w=${renderWidth}:h=${renderHeight}${cmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${cmdChunks[1]}${centering}*(ih-oh)/2`
 
 		if (hasAlpha || keying.enabled) {
 			filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${cmdChunks[2]}${shortestAndFormat}`
@@ -154,10 +155,10 @@ export const fit = (() => {
 	]
 
 	return (filterData, isPreview, previewSize) => {
-		const { keying, reflect, colorCurves, angle, sourceData, overlayDim, renderWidth, renderHeight } = filterData
+		const { keying, rotation, colorCurves, sourceData, overlayDim, renderWidth, renderHeight } = filterData
 
 		const filter = [
-			`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, reflect, angle, colorCurves)},scale=w=${renderWidth}:h=${renderHeight}${cmdChunks[0]}`,
+			`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, rotation, colorCurves)},scale=w=${renderWidth}:h=${renderHeight}${cmdChunks[0]}`,
 			`[${getBGLayerNumber(sourceData, overlayDim)}${cmdChunks[1]}${shortestAndFormat}`
 		].join('')
 
@@ -165,21 +166,65 @@ export const fit = (() => {
 	}
 })()
 
+const buildOffsetFilter = (() => {
+	const halfPI = Math.PI / 2
+	let rads = 0
+
+	const inscribe = (w, h) => {
+		const abs = Math.abs(rads)
+		const thetaA = Math.atan(w > h ? w / h : h / w)
+		const thetaB = thetaA + (abs < halfPI ? -abs : abs)
+		const hypA = w / Math.cos(thetaA)
+		const hypB = w / Math.cos(thetaB)
+
+		return Math.abs(hypA / hypB)
+	}
+
+	const availableSpace = (w, h, scale, prc) => {
+		const sin = Math.abs(Math.sin(rads))
+		const cos = Math.abs(Math.cos(rads))
+		const distance = w > h
+			? (w * scale - (w * cos + h * sin)) / 2
+			: (h * scale - (w * sin + h * cos)) / 2
+			
+		return [
+			distance * Math.cos(rads) * prc,
+			distance * Math.sin(rads) * prc,
+		]
+	}
+
+	return (rotation, width, height) => {
+		rads = rotation.offset * Math.PI / 180
+
+		if (rotation.offsetMode === 'cover') {
+			const { axis } = rotation
+			const scale = inscribe(width, height) 
+			let shiftX = 0
+			let shiftY = 0
+
+			if (axis !== 0) [ shiftX, shiftY ] = availableSpace(width, height, scale, axis / 100)
+
+			return `,scale=iw*${scale}:ih*${scale},rotate='${rads}:ow=hypot(iw,ih):oh=ow:c=none',crop=${width}:${height}:(iw-${width})/2+${shiftX}:(ih-${height})/2+${shiftY}`
+		}
+		
+		return `,rotate='${rads}:ow=hypot(iw,ih):oh=ow:c=none'`
+	}
+})()
+
 export const transform = (() => {
 	const cmdChunks = [
-		'*ih:exact=1,scale=w=',
-		',rotate=\'',
-		'*PI/180:ow=hypot(iw,ih):oh=ow:oh=ow:c=none\'',
+		'*ih:exact=1',
 		':v][fg]overlay=(main_w-overlay_w)/2+',
 		'*(main_w/2+overlay_w/2):(main_h-overlay_h)/2+',
 		'*(main_h/2+overlay_h/2)'
 	]
 
 	return (filterData, isPreview, previewSize) => {
-		const { crop, scale, position, keying, reflect, angle, colorCurves, offset, sourceData, overlayDim } = filterData
+		const { crop, scale, position, keying, rotation, colorCurves, width, height, sourceData, overlayDim } = filterData
+		const { offset } = rotation
 
-		const cropH = (crop.b - crop.t) / 100
 		const cropW = (crop.r - crop.l) / 100
+		const cropH = (crop.b - crop.t) / 100
 
 		crop.t /= 100
 		crop.l /= 100
@@ -189,8 +234,8 @@ export const transform = (() => {
 		position.y /= 100
 
 		const filter = [
-			`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, reflect, angle, colorCurves)},crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}${cmdChunks[0]}${scale.x || 0.005}*iw:h=${scale.y || 0.005}*ih${offset === 0 ? '' : `${cmdChunks[1]}${offset}${cmdChunks[2]}`}[fg];`,
-			`[${getBGLayerNumber(sourceData, overlayDim)}${cmdChunks[3]}${position.x}${cmdChunks[4]}${position.y}${cmdChunks[5]}${shortestAndFormat}`
+			`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, rotation, colorCurves)},scale=${scale.x || 0.005}*iw:${scale.y || 0.005}*ih,crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}${cmdChunks[0]}${offset === 0 ? '' : buildOffsetFilter(rotation, width * scale.x * cropW, height * scale.y * cropH)}[fg];`,
+			`[${getBGLayerNumber(sourceData, overlayDim)}${cmdChunks[1]}${position.x}${cmdChunks[2]}${position.y}${cmdChunks[3]}${shortestAndFormat}`
 		].join('')
 
 		return finalize({ filter, sourceData, overlayDim, isPreview, previewSize })
