@@ -94,9 +94,12 @@ const SliderThumb = forwardRef(({
 		clickPos = clickPos ?? getClickPos(e)
 	
 		const track = getTrack()
-		const onMouseMove = throttle(drag(clickPos, track), 60)
+		const updateSliderValue = drag(clickPos, track)
+		const onMouseMove = throttle(updateSliderValue, 60)
 	
-		const onMouseUp = () => {
+		const onMouseUp = e => {
+			updateSliderValue(e)
+			
 			window.removeEventListener('mousemove', onMouseMove)
 			window.removeEventListener('mouseup', onMouseUp)
 			window.removeEventListener('contextmenu', onMouseUp)
