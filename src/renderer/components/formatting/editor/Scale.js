@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import { bool, exact, func, number, object, oneOf, oneOfType, string } from 'prop-types'
+import { bool, exact, func, number, oneOf, oneOfType, shape, string } from 'prop-types'
 
 import { PrefsContext } from 'store/preferences'
 
@@ -34,22 +34,23 @@ const numberProps = {
 	defaultValue: 100
 }
 
-const calculateFitPercent = (renderOutput, width, height, crop) => {
-	const [ frameW, frameH ] = renderOutput.split('x')
-	const cropW = width * (crop.r - crop.l) / 100
-	const cropH = height * (crop.b - crop.t) / 100
+const calculateRotatedBoundingBox = (width, height, deg) => {
+	const rad = deg * Math.PI / 180
+	const sin = Math.abs(Math.sin(rad))
+	const cos = Math.abs(Math.cos(rad))
 
 	return [
-		frameW / cropW * 100,
-		frameH / cropH * 100
+		width * cos + height * sin,
+		width * sin + height * cos
 	]
 }
 
-const Scale = ({ id, scale, crop, width, height, editAll, dispatch }) => {
+const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
 	const distortion = useMemo(() => scale.y / scale.x || 1, [scale.x, scale.y])
+	const [ frameW, frameH ] = useMemo(() => renderOutput.split('x').map(n => parseInt(n)), [renderOutput])
 
 	const updateAxis = useCallback(({ name, value }) => {
 		dispatch(updateMediaNestedState(id, 'scale', {
@@ -72,23 +73,43 @@ const Scale = ({ id, scale, crop, width, height, editAll, dispatch }) => {
 		dispatch(updateMediaNestedState(id, 'scale', axis, editAll))
 	}, [distortion, id, editAll])
 
-	const triggers = [renderOutput, width, height, crop.t, crop.b, crop.r, crop.l, id, scale.link, distortion, editAll]
+	const triggers = [renderOutput, width, height, crop, rotation, id, scale.link, distortion, editAll]
 
 	const fitToFrameWidth = useCallback(() => {
-		const frameWidthPrc = calculateFitPercent(renderOutput, width, height, crop)[0]
+		const cropW = width * (crop.r - crop.l) / 100
+		let fitToWPrc = frameW / cropW
+
+		if (scale.link && rotation.offsetMode === 'preserve' && rotation.offset !== 0) {
+			const cropH = height * (crop.b - crop.t) / 100 * distortion
+			const rotW = calculateRotatedBoundingBox(cropW, cropH, rotation.offset)[0]
+
+			fitToWPrc *= cropW / rotW
+		}
+
+		fitToWPrc *= 100
 
 		dispatch(updateMediaNestedState(id, 'scale', {
-			x: frameWidthPrc,
-			y: scale.link ? frameWidthPrc * distortion : scale.y
+			x: fitToWPrc,
+			y: scale.link ? fitToWPrc * distortion : scale.y
 		}, editAll))
 	}, [...triggers, scale.y])
 	
 	const fitToFrameHeight = useCallback(() => {
-		const frameHeightPrc = calculateFitPercent(renderOutput, width, height, crop)[1]
-		
+		const cropH = height * (crop.b - crop.t) / 100
+		let fitToHPrc = frameH / cropH
+
+		if (scale.link && rotation.offsetMode === 'preserve' && rotation.offset !== 0) {
+			const cropW = width * (crop.r - crop.l) / 100 / distortion
+			const rotH = calculateRotatedBoundingBox(cropW, cropH, rotation.offset)[1]
+
+			fitToHPrc *= cropH / rotH
+		}
+
+		fitToHPrc *= 100
+
 		dispatch(updateMediaNestedState(id, 'scale', {
-			x: scale.link ? frameHeightPrc / distortion : scale.x,
-			y: frameHeightPrc
+			x: scale.link ? fitToHPrc / distortion : scale.x,
+			y: fitToHPrc
 		}, editAll))
 	}, [...triggers, scale.x])
 
@@ -166,6 +187,8 @@ const Scale = ({ id, scale, crop, width, height, editAll, dispatch }) => {
 
 const ScalePanel = props => {
 	const { isBatch, id, scale, dispatch } = props
+	const { t, r, b, l } = props.crop
+	const { offsetMode, offset } = props.rotation
 
 	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
 		() => dispatch(copySettings({ scale })),
@@ -178,7 +201,10 @@ const ScalePanel = props => {
 			id="scale"
 			className="editor-options auto-rows"
 			buttons={settingsMenu}>
-			<Scale {...props} />
+			<Scale
+				{...props}
+				crop={{ t, r, b, l }}
+				rotation={{ offsetMode, offset }} />
 		</AccordionPanel>
 	)
 }
@@ -198,7 +224,16 @@ const propTypes = {
 		y: oneOfType([oneOf(['']), number]),
 		link: bool
 	}).isRequired,
-	crop: object.isRequired,
+	crop: shape({
+		t: oneOfType([oneOf(['']), number]),
+		r: oneOfType([oneOf(['']), number]),
+		b: oneOfType([oneOf(['']), number]),
+		l: oneOfType([oneOf(['']), number])
+	}).isRequired,
+	rotation: shape({
+		offsetMode: oneOf(['contain', 'cover', 'preserve']),
+		offset: number
+	}).isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
