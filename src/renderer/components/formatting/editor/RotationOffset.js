@@ -6,28 +6,47 @@ import { updateMediaNestedState } from 'actions'
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
-const RotationOffset = ({ id, editAll, offset, dispatch }) => {
-	const updateOffset = useCallback(({ value }) => {
+const RotationOffset = ({ id, editAll, offset, axis, disableAxis, dispatch }) => {
+	const updateFreeRotate = useCallback(({ value }) => {
 		dispatch(updateMediaNestedState(id, 'rotation', {
 			offset: value
 		}, editAll))
 	}, [id, editAll])
 
+	const updateAxis= useCallback(({ value }) => {
+		dispatch(updateMediaNestedState(id, 'rotation', {
+			axis: value
+		}, editAll))
+	}, [id, editAll])
+
 	const offsetProps = {
 		value: offset,
-		min: -45,
-		max: 45,
-		onChange: updateOffset
+		min: -180,
+		max: 180,
+		onChange: updateFreeRotate
+	}
+
+	const axisProps = {
+		value: axis,
+		min: -100,
+		max: 100,
+		disabled: disableAxis,
+		onChange: updateAxis
 	}
 
 	return (
-		<fieldset>
-			<legend>Offset<span aria-hidden>:</span></legend>
-			<div className="offset-grid">
+		<>
+			<div>
+				<label>Free Rotate</label>
 				<SliderSingle {...offsetProps} snapPoints={[0]} />
 				<NumberInput {...offsetProps} />
 			</div>
-		</fieldset>
+			<div className={disableAxis ? 'disabled' : ''}>
+				<label>Axis</label>
+				<SliderSingle {...axisProps} snapPoints={[0]} />
+				<NumberInput {...axisProps} />
+			</div>
+		</>
 	)
 }
 
