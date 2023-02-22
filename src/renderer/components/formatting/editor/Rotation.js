@@ -3,6 +3,7 @@ import { bool, exact, func, oneOf, object, number, string } from 'prop-types'
 
 import {
 	updateMediaState,
+	updateMediaNestedStateFromEvent,
 	copySettings,
 	applySettingsToAll
 } from 'actions'
@@ -76,14 +77,26 @@ const flipButtons = isSideways => [
 	}
 ]
 
+const offsetModeButtons = [
+	{
+		label: 'Cover Bounds',
+		value: 'cover'
+	},
+	{
+		label: 'Preserve',
+		value: 'preserve'
+	}
+]
+
 const Rotation = props => {
 	const { id, rotation, scale, crop, editAll, dispatch } = props
-	const isSideways = detectSideways(rotation.angle)
+	const { reflect, angle } = rotation
+	const isSideways = detectSideways(angle)
 
 	const updateAngle = useCallback(e => {
 		let invertedProps = {}
 
-		if (detectOrientationChange(rotation.angle, e.target.value)) {
+		if (detectOrientationChange(angle, e.target.value)) {
 			const { width, height, aspectRatio } = props
 
 			invertedProps = {
@@ -102,7 +115,7 @@ const Rotation = props => {
 			...invertedProps,
 			crop: {
 				...crop,
-				...rotateCropValues(rotation.angle, e.target.value, crop)
+				...rotateCropValues(angle, e.target.value, crop)
 			},
 			rotation: {
 				...rotation,
@@ -114,12 +127,12 @@ const Rotation = props => {
 	const updateReflect = useCallback(e => {
 		const invertedCrop = {}
 
-		if (detectReflection(rotation.reflect, e.target.value, flip[1])) {
+		if (detectReflection(reflect, e.target.value, flip[1])) {
 			invertedCrop.l = 100 - crop.r
 			invertedCrop.r = 100 - crop.l
 		}
 
-		if (detectReflection(rotation.reflect, e.target.value, flip[2])) {
+		if (detectReflection(reflect, e.target.value, flip[2])) {
 			invertedCrop.t = 100 - crop.b
 			invertedCrop.b = 100 - crop.t
 		}
@@ -136,13 +149,17 @@ const Rotation = props => {
 		}, editAll))
 	}, [id, rotation, crop, editAll])
 
+	const updateOffsetMode = useCallback(e => {
+		dispatch(updateMediaNestedStateFromEvent(id, 'rotation', e, editAll))
+	}, [id, editAll])
+
 	return (
 		<>
 			<fieldset className="editor-option-column">
 				<legend>Reflect<span aria-hidden>:</span></legend>
 				<RadioSet
 					name="reflect"
-					state={rotation.reflect}
+					state={reflect}
 					onChange={updateReflect}
 					buttons={flipButtons(isSideways)} />
 			</fieldset>
@@ -150,17 +167,27 @@ const Rotation = props => {
 				<legend>Rotate<span aria-hidden>:</span></legend>
 				<RadioSet 
 					name="angle"
-					state={rotation.angle}
+					state={angle}
 					onChange={updateAngle}
 					buttons={angleButtons}/>
 			</fieldset>
-			{props.showOffset ? (
+			{props.showOffset ? <>
+				<fieldset className="editor-option-column">
+					<legend>Free Mode<span aria-hidden>:</span></legend>
+					<RadioSet
+						name="offsetMode"
+						state={rotation.offsetMode}
+						onChange={updateOffsetMode}
+						buttons={offsetModeButtons} />
+				</fieldset>
 				<RotationOffset
 					id={id}
 					editAll={editAll}
 					offset={rotation.offset}
+					axis={rotation.axis}
+					disableAxis={rotation.offsetMode !== 'cover'}
 					dispatch={dispatch} />
-			) : <></>}
+			</> : <></>}
 		</>
 	)
 }
@@ -177,7 +204,7 @@ const RotationPanel = props => {
 		<AccordionPanel
 			heading="Rotation"
 			id="rotation"
-			className="editor-options auto-columns"
+			className="editor-options"
 			buttons={settingsMenu}>
 			<Rotation {...props} />
 		</AccordionPanel>
@@ -190,6 +217,7 @@ const propTypes = {
 	rotation: exact({
 		angle: oneOf(transpose),
 		reflect: oneOf(flip),
+		offsetMode: oneOf(['contain', 'cover', 'preserve']),
 		offset: number
 	}).isRequired,
 	scale: object.isRequired,
