@@ -90,7 +90,9 @@ const defaultMediaData = {
 	rotation: {
 		angle: '',
 		reflect: '',
-		offset: 0
+		offsetMode: 'cover',
+		offset: 0,
+		axis: 0
 	},
 	keying: {
 		enabled: false,
