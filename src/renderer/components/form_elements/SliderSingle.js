@@ -10,7 +10,7 @@ import SliderSnapMarkers from './SliderSnapMarkers'
 const SingleSlider = ({
 	name,
 	title,
-	alignment,
+	alignment = 'center',
 	value = 0,
 	min = 0,
 	max = 100,
