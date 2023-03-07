@@ -49,6 +49,7 @@
 		"@babel/preset-env": "^7.16.0",
 		"@babel/preset-react": "^7.16.0",
 		"babel-loader": "^9.1.0",
+		"babel-plugin-add-react-displayname": "^0.0.5",
 		"copy-webpack-plugin": "^11.0.0",
 		"core-js": "^3.19.0",
 		"css-loader": "^6.5.0",
