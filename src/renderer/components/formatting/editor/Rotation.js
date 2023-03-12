@@ -12,7 +12,7 @@ import { createSettingsMenu } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
-import RotationOffset from './RotationOffset'
+import FreeRotate from './FreeRotate'
 
 const directions = Object.freeze(['t', 'l', 'b', 'r'])
 const transpose = Object.freeze(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2'])
@@ -180,7 +180,7 @@ const Rotation = props => {
 						onChange={updateOffsetMode}
 						buttons={offsetModeButtons} />
 				</fieldset>
-				<RotationOffset
+				<FreeRotate
 					id={id}
 					editAll={editAll}
 					offset={rotation.offset}
