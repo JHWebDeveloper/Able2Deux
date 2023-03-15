@@ -88,11 +88,11 @@ const defaultMediaData = {
 		linkLR: true
 	},
 	rotation: {
-		angle: '',
+		transpose: '',
 		reflect: '',
-		offsetMode: 'cover',
-		offset: 0,
-		axis: 0
+		freeRotateMode: 'cover',
+		angle: 0,
+		center: 0
 	},
 	keying: {
 		enabled: false,

@@ -6,28 +6,28 @@ import { updateMediaNestedState } from 'actions'
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
-const FreeRotate  = ({ id, editAll, offset, axis, disableAxis, dispatch }) => {
+const FreeRotate  = ({ id, editAll, angle, center, disableAxis, dispatch }) => {
 	const updateFreeRotate = useCallback(({ value }) => {
 		dispatch(updateMediaNestedState(id, 'rotation', {
-			offset: value
+			angle: value
 		}, editAll))
 	}, [id, editAll])
 
 	const updateAxis= useCallback(({ value }) => {
 		dispatch(updateMediaNestedState(id, 'rotation', {
-			axis: value
+			center: value
 		}, editAll))
 	}, [id, editAll])
 
-	const offsetProps = {
-		value: offset,
+	const angleProps = {
+		value: angle,
 		min: -180,
 		max: 180,
 		onChange: updateFreeRotate
 	}
 
-	const axisProps = {
-		value: axis,
+	const centerProps = {
+		value: center,
 		min: -100,
 		max: 100,
 		disabled: disableAxis,
@@ -38,13 +38,13 @@ const FreeRotate  = ({ id, editAll, offset, axis, disableAxis, dispatch }) => {
 		<>
 			<div>
 				<label>Free Rotate</label>
-				<SliderSingle {...offsetProps} snapPoints={[0]} />
-				<NumberInput {...offsetProps} />
+				<SliderSingle {...angleProps} snapPoints={[0]} />
+				<NumberInput {...angleProps} />
 			</div>
 			<div className={disableAxis ? 'disabled' : ''}>
-				<label>Axis</label>
-				<SliderSingle {...axisProps} snapPoints={[0]} />
-				<NumberInput {...axisProps} />
+				<label>Centering</label>
+				<SliderSingle {...centerProps} snapPoints={[0]} />
+				<NumberInput {...centerProps} />
 			</div>
 		</>
 	)
@@ -53,7 +53,8 @@ const FreeRotate  = ({ id, editAll, offset, axis, disableAxis, dispatch }) => {
 FreeRotate.propTypes = {
 	id: string.isRequired,
 	editAll: bool.isRequired,
-	offset: number.isRequired,
+	angle: number.isRequired,
+	center: number.isRequired,
 	dispatch: func.isRequired
 }
 
