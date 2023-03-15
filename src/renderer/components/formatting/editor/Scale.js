@@ -10,7 +10,7 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { createSettingsMenu } from 'utilities'
+import { calculateRotatedBoundingBox, createSettingsMenu, degToRad } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
@@ -32,17 +32,6 @@ const propsYStatic = { name: 'y', title: 'Scale Y', min: 0 }
 const numberProps = {
 	max: 4500,
 	defaultValue: 100
-}
-
-const calculateRotatedBoundingBox = (width, height, deg) => {
-	const rad = deg * Math.PI / 180
-	const sin = Math.abs(Math.sin(rad))
-	const cos = Math.abs(Math.cos(rad))
-
-	return [
-		width * cos + height * sin,
-		width * sin + height * cos
-	]
 }
 
 const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) => {
@@ -79,9 +68,9 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 		const cropW = width * (crop.r - crop.l) / 100
 		let fitToWPrc = frameW / cropW
 
-		if (scale.link && rotation.offsetMode === 'preserve' && rotation.offset !== 0) {
+		if (scale.link && rotation.freeRotateMode === 'preserve' && rotation.angle !== 0) {
 			const cropH = height * (crop.b - crop.t) / 100 * distortion
-			const rotW = calculateRotatedBoundingBox(cropW, cropH, rotation.offset)[0]
+			const [ rotW ] = calculateRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'w')
 
 			fitToWPrc *= cropW / rotW
 		}
@@ -98,9 +87,9 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 		const cropH = height * (crop.b - crop.t) / 100
 		let fitToHPrc = frameH / cropH
 
-		if (scale.link && rotation.offsetMode === 'preserve' && rotation.offset !== 0) {
+		if (scale.link && rotation.freeRotateMode === 'preserve' && rotation.angle !== 0) {
 			const cropW = width * (crop.r - crop.l) / 100 / distortion
-			const rotH = calculateRotatedBoundingBox(cropW, cropH, rotation.offset)[1]
+			const [ rotH ] = calculateRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'h')
 
 			fitToHPrc *= cropH / rotH
 		}
@@ -188,7 +177,7 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 const ScalePanel = props => {
 	const { isBatch, id, scale, dispatch } = props
 	const { t, r, b, l } = props.crop
-	const { offsetMode, offset } = props.rotation
+	const { freeRotateMode, angle } = props.rotation
 
 	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
 		() => dispatch(copySettings({ scale })),
@@ -204,7 +193,7 @@ const ScalePanel = props => {
 			<Scale
 				{...props}
 				crop={{ t, r, b, l }}
-				rotation={{ offsetMode, offset }} />
+				rotation={{ freeRotateMode, angle }} />
 		</AccordionPanel>
 	)
 }
@@ -231,8 +220,8 @@ const propTypes = {
 		l: oneOfType([oneOf(['']), number])
 	}).isRequired,
 	rotation: shape({
-		offsetMode: oneOf(['contain', 'cover', 'preserve']),
-		offset: number
+		freeRotateMode: oneOf(['cover', 'preserve']),
+		angle: number
 	}).isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
