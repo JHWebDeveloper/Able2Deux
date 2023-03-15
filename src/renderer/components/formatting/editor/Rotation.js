@@ -15,17 +15,17 @@ import RadioSet from '../../form_elements/RadioSet'
 import FreeRotate from './FreeRotate'
 
 const directions = Object.freeze(['t', 'l', 'b', 'r'])
-const transpose = Object.freeze(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2'])
+const transpositions = Object.freeze(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2'])
 const flip = Object.freeze(['', 'hflip', 'vflip', 'hflip,vflip'])
 
-const detectSideways = angle => angle === transpose[1] || angle === transpose[3]
+const detectSideways = transpose => transpose === transpositions[1] || transpose === transpositions[3]
 const detectOrientationChange = (prev, next) => !!(detectSideways(prev) ^ detectSideways(next))
 const detectReflection = (prev, next, query) => !(!prev.includes(query) ^ next.includes(query))
 
 const rotateCropValues = (prev, next, crop) => {
 	if (prev === next) return crop
 	
-	const rotations = transpose.indexOf(next) - transpose.indexOf(prev) + 4
+	const rotations = transpositions.indexOf(next) - transpositions.indexOf(prev) + 4
 	const cropVals = [crop.t, crop.l, 100 - crop.b, 100 - crop.r]
 
 	const rotated = directions.reduce((obj, dir, i) => {
@@ -39,22 +39,22 @@ const rotateCropValues = (prev, next, crop) => {
 	return rotated
 }
 
-const angleButtons = [
+const transposeButtons = [
 	{
 		label: '0°',
-		value: transpose[0]
+		value: transpositions[0]
 	},
 	{
 		label: '90°cw',
-		value: transpose[1]
+		value: transpositions[1]
 	},
 	{
 		label: '90°ccw',
-		value: transpose[3]
+		value: transpositions[3]
 	},
 	{
 		label: '180°',
-		value: transpose[2]
+		value: transpositions[2]
 	}
 ]
 
@@ -77,7 +77,7 @@ const flipButtons = isSideways => [
 	}
 ]
 
-const offsetModeButtons = [
+const freeRotateModeButtons = [
 	{
 		label: 'Cover Bounds',
 		value: 'cover'
@@ -90,13 +90,13 @@ const offsetModeButtons = [
 
 const Rotation = props => {
 	const { id, rotation, scale, crop, editAll, dispatch } = props
-	const { reflect, angle } = rotation
-	const isSideways = detectSideways(angle)
+	const { reflect, transpose } = rotation
+	const isSideways = detectSideways(transpose)
 
 	const updateAngle = useCallback(e => {
 		let invertedProps = {}
 
-		if (detectOrientationChange(angle, e.target.value)) {
+		if (detectOrientationChange(transpose, e.target.value)) {
 			const { width, height, aspectRatio } = props
 
 			invertedProps = {
@@ -115,11 +115,11 @@ const Rotation = props => {
 			...invertedProps,
 			crop: {
 				...crop,
-				...rotateCropValues(angle, e.target.value, crop)
+				...rotateCropValues(transpose, e.target.value, crop)
 			},
 			rotation: {
 				...rotation,
-				angle: e.target.value
+				transpose: e.target.value
 			}
 		}, editAll))
 	}, [id, rotation, scale, crop, editAll])
@@ -166,26 +166,26 @@ const Rotation = props => {
 			<fieldset className="editor-option-column">
 				<legend>Rotate<span aria-hidden>:</span></legend>
 				<RadioSet 
-					name="angle"
-					state={angle}
+					name="transpose"
+					state={transpose}
 					onChange={updateAngle}
-					buttons={angleButtons}/>
+					buttons={transposeButtons}/>
 			</fieldset>
 			{props.showOffset ? <>
 				<fieldset className="editor-option-column">
-					<legend>Free Mode<span aria-hidden>:</span></legend>
+					<legend>Free Rotate Mode<span aria-hidden>:</span></legend>
 					<RadioSet
-						name="offsetMode"
-						state={rotation.offsetMode}
+						name="freeRotateMode"
+						state={rotation.freeRotateMode}
 						onChange={updateOffsetMode}
-						buttons={offsetModeButtons} />
+						buttons={freeRotateModeButtons} />
 				</fieldset>
 				<FreeRotate
 					id={id}
 					editAll={editAll}
-					offset={rotation.offset}
-					axis={rotation.axis}
-					disableAxis={rotation.offsetMode !== 'cover'}
+					angle={rotation.angle}
+					center={rotation.center}
+					disableAxis={rotation.freeRotateMode !== 'cover'}
 					dispatch={dispatch} />
 			</> : <></>}
 		</>
@@ -215,10 +215,11 @@ const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	rotation: exact({
-		angle: oneOf(transpose),
+		transpose: oneOf(transpositions),
 		reflect: oneOf(flip),
-		offsetMode: oneOf(['contain', 'cover', 'preserve']),
-		offset: number
+		freeRotateMode: oneOf(['cover', 'preserve']),
+		angle: number,
+		center: number
 	}).isRequired,
 	scale: object.isRequired,
 	crop: object.isRequired,
