@@ -21,7 +21,26 @@ export const toastrOpts = {
 
 export const clamp = (val, min, max) => Math.max(min, Math.min(max, val))
 
-export const pythagorean = (a, b) => a ** 2 + b ** 2 // omitting square root for performance
+export const degToRad = deg => deg * Math.PI / 180
+
+export const calculateRotatedBoundingBox = (width, height, rad, dimension) => {
+	const sin = Math.abs(Math.sin(rad))
+	const cos = Math.abs(Math.cos(rad))
+
+  switch (dimension) {
+    case 'w':
+      return [width * cos + height * sin]
+    case 'h':
+      return [width * sin + height * cos]
+    default:
+      return [
+        width * cos + height * sin,
+        width * sin + height * cos
+      ]
+  }
+}
+
+export const errorToString = err => err.toString().replace(/^.*Error: /, '')
 
 export const getIntegerLength = n => {
 	if (n < 0) n *= -1
@@ -36,7 +55,8 @@ export const getIntegerLength = n => {
 	return count
 }
 
-export const errorToString = err => err.toString().replace(/^.*Error: /, '')
+export const pythagorean = (a, b) => a ** 2 + b ** 2 // omitting square root for performance
+
 
 // ---- array utilities ---- //
 
