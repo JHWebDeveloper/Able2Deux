@@ -9,6 +9,15 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ## [Unreleased][2.3.2] - TBD
 
+### Added
+- Free Rotate Mode options With Bounds and Inside Bounds. Content can now be rotated with its bounding box (as it previously has) or inside of its bounding bix while being auto scaled to cover said bounding box. This can be used to correct crooked photos.
+- Centering slider. Enabled when Free Roatate Mode: With Bounds is selected. This can shift the bounding box along the available rotated space.
+
+### Changed
+- Offset has been renamed to Free Rotate.
+- Offset angle range has been expanded from ±45° to ±180°
+- For non-orthogonal angles, fit buttons in the Scale panel now snap the content's rotated width or height to the frame edges instead of original dimensions.
+
 ### Updated
 - Video service compatibility
 - Electron 23
