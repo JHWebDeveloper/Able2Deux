@@ -7,8 +7,13 @@ Able2 is an all-in-one News Editor's video acquisition tool. Able2 is able to do
 This repo is intended for portfolio viewing purposes only. For official releases please download from the following repo:
 https://github.com/JHWebDeveloper/Able2-public-resources
 
+## [Unreleased][2.3.2] - TBD
 
-## [Unreleased][2.3.1] - TBD
+### Updated
+- Video service compatibility
+- Electron 23
+
+## [2.3.1] - 2.22.23
 
 ### Added
 - The Preview Panel can now be resized vertically and its new height will be retained on closing Able2. This will allow for more layout flexibility with wider window sizes.
@@ -16,6 +21,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Changed
 - All .mp4 and .png exports will now have the pixel format of yuv420p and rgb24 respectively. This will allow for better compatibility with common media software. All .mov alpha channel containing exports will continue to have a yuva444p101e pixel format.
+
+### Updated
+- Video service compatibility.
 
 ### Fixed
 - In Color Correction panel, clicking between white and black point slider heads will snap nearest head to this clicked spot. This was previously only working for the outer regions of the white balance slider.
