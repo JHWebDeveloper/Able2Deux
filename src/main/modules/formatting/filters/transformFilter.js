@@ -6,7 +6,7 @@ import {
   shortestAndFormat
 } from './shared'
 
-import { freeRotateFilter } from '../freeRotateFilter'
+import { freeRotateFilter } from './freeRotateFilter'
 
 const cmdChunks = [
   '*ih:exact=1',
