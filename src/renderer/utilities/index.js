@@ -23,21 +23,21 @@ export const clamp = (val, min, max) => Math.max(min, Math.min(max, val))
 
 export const degToRad = deg => deg * Math.PI / 180
 
-const calculateRotatedDimension = (w, h, trig1, trig2) => w * trig1 + h * trig2
+const calcRotatedDimension = (w, h, trig1, trig2) => w * trig1 + h * trig2
 
-export const calculateRotatedBoundingBox = (w, h, rad, dimension) => {
+export const calcRotatedBoundingBox = (w, h, rad, dimension) => {
 	const sin = Math.abs(Math.sin(rad))
 	const cos = Math.abs(Math.cos(rad))
 
   switch (dimension) {
     case 'w':
-      return calculateRotatedDimension(w, h, cos, sin)
+      return calcRotatedDimension(w, h, cos, sin)
     case 'h':
-      return calculateRotatedDimension(w, h, sin, cos)
+      return calcRotatedDimension(w, h, sin, cos)
     default:
       return [
-        calculateRotatedDimension(w, h, cos, sin),
-        calculateRotatedDimension(w, h, sin, cos)
+        calcRotatedDimension(w, h, cos, sin),
+        calcRotatedDimension(w, h, sin, cos)
       ]
   }
 }

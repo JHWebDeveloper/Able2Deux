@@ -11,7 +11,7 @@ import {
 } from 'actions'
 
 import {
-	calculateRotatedBoundingBox,
+	calcRotatedBoundingBox,
 	createSettingsMenu,
 	degToRad
 } from 'utilities'
@@ -74,7 +74,7 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 
 		if (scale.link && rotation.freeRotateMode === 'preserve' && rotation.angle !== 0) {
 			const cropH = height * (crop.b - crop.t) / 100 * distortion
-			const rotW = calculateRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'w')
+			const rotW = calcRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'w')
 
 			fitToWPrc *= cropW / rotW
 		}
@@ -93,7 +93,7 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 
 		if (scale.link && rotation.freeRotateMode === 'preserve' && rotation.angle !== 0) {
 			const cropW = width * (crop.r - crop.l) / 100 / distortion
-			const rotH = calculateRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'h')
+			const rotH = calcRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'h')
 
 			fitToHPrc *= cropH / rotH
 		}

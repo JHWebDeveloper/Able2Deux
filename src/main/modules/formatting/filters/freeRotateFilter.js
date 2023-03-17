@@ -1,20 +1,20 @@
 const degToRad = deg => deg * Math.PI / 180
 
-const calculateRotatedDimension = (w, h, trig1, trig2) => w * trig1 + h * trig2
+const calcRotatedDimension = (w, h, trig1, trig2) => w * trig1 + h * trig2
 
-const calculateRotatedBoundingBox = (w, h, rad, dimension) => {
+const calcRotatedBoundingBox = (w, h, rad, dimension) => {
 	const sin = Math.abs(Math.sin(rad))
 	const cos = Math.abs(Math.cos(rad))
 
   switch (dimension) {
     case 'w':
-      return calculateRotatedDimension(w, h, cos, sin)
+      return calcRotatedDimension(w, h, cos, sin)
     case 'h':
-      return calculateRotatedDimension(w, h, sin, cos)
+      return calcRotatedDimension(w, h, sin, cos)
     default:
       return [
-        calculateRotatedDimension(w, h, cos, sin),
-        calculateRotatedDimension(w, h, sin, cos)
+        calcRotatedDimension(w, h, cos, sin),
+        calcRotatedDimension(w, h, sin, cos)
       ]
   }
 }
@@ -49,7 +49,7 @@ export const freeRotateFilter = (rotation, w, h) => {
   let shiftY = 0
 
   if (isTall && isNotCentered) {
-    const [ rotW, rotH ] = calculateRotatedBoundingBox(w, h, rad)
+    const [ rotW, rotH ] = calcRotatedBoundingBox(w, h, rad)
 
     scale = rotW / w
 
@@ -59,9 +59,9 @@ export const freeRotateFilter = (rotation, w, h) => {
     shiftX = shift[0]
     shiftY = shift[1]
   } else if (isTall) {
-    scale = calculateRotatedBoundingBox(w, h, rad, 'w') / w
+    scale = calcRotatedBoundingBox(w, h, rad, 'w') / w
   } else if (isNotCentered) {
-    const [ rotW, rotH ] = calculateRotatedBoundingBox(w, h, rad)
+    const [ rotW, rotH ] = calcRotatedBoundingBox(w, h, rad)
     
     scale = rotH / h
 
@@ -71,7 +71,7 @@ export const freeRotateFilter = (rotation, w, h) => {
     shiftX = shift[1]
     shiftY = shift[0]
   } else {
-    scale = calculateRotatedBoundingBox(w, h, rad, 'h') / h
+    scale = calcRotatedBoundingBox(w, h, rad, 'h') / h
   }
 
   return `${cmdChunks[0]}${scale}:ih*${scale}${cmdChunks[1]}${rad}${cmdChunks[2]},crop=${w}:${h}:(iw-${w})/2+${shiftX}:(ih-${h})/2+${shiftY}`
