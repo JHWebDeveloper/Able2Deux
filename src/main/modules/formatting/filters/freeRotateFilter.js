@@ -1,7 +1,6 @@
 const degToRad = deg => deg * Math.PI / 180
 
-const calcRotW = (w, h, sin, cos) => w * cos + h * sin
-const calcRotH = (w, h, sin, cos) => w * sin + h * cos
+const calculateRotatedDimension = (w, h, trig1, trig2) => w * trig1 + h * trig2
 
 const calculateRotatedBoundingBox = (w, h, rad, dimension) => {
 	const sin = Math.abs(Math.sin(rad))
@@ -9,13 +8,13 @@ const calculateRotatedBoundingBox = (w, h, rad, dimension) => {
 
   switch (dimension) {
     case 'w':
-      return calcRotW(w, h, sin, cos)
+      return calculateRotatedDimension(w, h, sin, cos)
     case 'h':
-      return calcRotH(w, h, sin, cos)
+      return calculateRotatedDimension(w, h, cos, sin)
     default:
       return [
-        calcRotW(w, h, sin, cos),
-        calcRotH(w, h, sin, cos)
+        calculateRotatedDimension(w, h, sin, cos),
+        calculateRotatedDimension(w, h, cos, sin)
       ]
   }
 }
