@@ -37,7 +37,7 @@ export const calculateRotatedBoundingBox = (w, h, rad, dimension) => {
     default:
       return [
         calculateRotatedDimension(w, h, sin, cos),
-        calculateRotatedDimension(w, h, cox, sin)
+        calculateRotatedDimension(w, h, cos, sin)
       ]
   }
 }
