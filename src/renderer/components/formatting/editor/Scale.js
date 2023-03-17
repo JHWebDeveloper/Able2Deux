@@ -10,7 +10,11 @@ import {
 	applySettingsToAll
 } from 'actions'
 
-import { calculateRotatedBoundingBox, createSettingsMenu, degToRad } from 'utilities'
+import {
+	calculateRotatedBoundingBox,
+	createSettingsMenu,
+	degToRad
+} from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
