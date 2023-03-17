@@ -1,3 +1,5 @@
+import { freeRotateFilter } from './freeRotateFilter'
+
 /**
  * Storing larger static chunks of command strings in variables in the
  * IIFE scope of the respective filter. Dev acknowledges the readability hit,
@@ -41,15 +43,15 @@ const buildCurvesFilter = ({ rgb, r, g, b }) => (
 )
 
 const buildCommonFilter = (isPreview, rotation, curves) => {
-	const { reflect, angle } = rotation
+	const { reflect, transpose } = rotation
 	let filter = 'null'
 
-	if (reflect && angle) {
-		filter = `${reflect},${angle}`
+	if (reflect && transpose) {
+		filter = `${reflect},${transpose}`
 	} else if (reflect) {
 		filter = reflect
-	} else if (angle) {
-		filter = angle
+	} else if (transpose) {
+		filter = transpose
 	}
 
 	if (curves.enabled && !(isPreview && curves.hidden)) filter = `${buildCurvesFilter(curves)}${filter}`
@@ -166,51 +168,6 @@ export const fit = (() => {
 	}
 })()
 
-const buildOffsetFilter = (() => {
-	const halfPI = Math.PI / 2
-	let rads = 0
-
-	const inscribe = (w, h) => {
-		const abs = Math.abs(rads)
-		const thetaA = Math.atan(w > h ? w / h : h / w)
-		const thetaB = thetaA + (abs < halfPI ? -abs : abs)
-		const hypA = w / Math.cos(thetaA)
-		const hypB = w / Math.cos(thetaB)
-
-		return Math.abs(hypA / hypB)
-	}
-
-	const availableSpace = (w, h, scale, prc) => {
-		const sin = Math.abs(Math.sin(rads))
-		const cos = Math.abs(Math.cos(rads))
-		const distance = w > h
-			? (w * scale - (w * cos + h * sin)) / 2
-			: (h * scale - (w * sin + h * cos)) / 2
-			
-		return [
-			distance * Math.cos(rads) * prc,
-			distance * Math.sin(rads) * prc,
-		]
-	}
-
-	return (rotation, width, height) => {
-		rads = rotation.offset * Math.PI / 180
-
-		if (rotation.offsetMode === 'cover') {
-			const { axis } = rotation
-			const scale = inscribe(width, height) 
-			let shiftX = 0
-			let shiftY = 0
-
-			if (axis !== 0) [ shiftX, shiftY ] = availableSpace(width, height, scale, axis / 100)
-
-			return `,scale=iw*${scale}:ih*${scale},rotate='${rads}:ow=hypot(iw,ih):oh=ow:c=none',crop=${width}:${height}:(iw-${width})/2+${shiftX}:(ih-${height})/2+${shiftY}`
-		}
-		
-		return `,rotate='${rads}:ow=hypot(iw,ih):oh=ow:c=none'`
-	}
-})()
-
 export const transform = (() => {
 	const cmdChunks = [
 		'*ih:exact=1',
@@ -221,7 +178,7 @@ export const transform = (() => {
 
 	return (filterData, isPreview, previewSize) => {
 		const { crop, scale, position, keying, rotation, colorCurves, width, height, sourceData, overlayDim } = filterData
-		const { offset } = rotation
+		const { angle } = rotation
 
 		const cropW = (crop.r - crop.l) / 100
 		const cropH = (crop.b - crop.t) / 100
@@ -234,7 +191,7 @@ export const transform = (() => {
 		position.y /= 100
 
 		const filter = [
-			`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, rotation, colorCurves)},scale=${scale.x || 0.005}*iw:${scale.y || 0.005}*ih,crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}${cmdChunks[0]}${offset === 0 ? '' : buildOffsetFilter(rotation, width * scale.x * cropW, height * scale.y * cropH)}[fg];`,
+			`[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, rotation, colorCurves)},scale=${scale.x || 0.005}*iw:${scale.y || 0.005}*ih,crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}${cmdChunks[0]}${angle === 0 ? '' : freeRotateFilter(rotation, width * scale.x * cropW, height * scale.y * cropH)}[fg];`,
 			`[${getBGLayerNumber(sourceData, overlayDim)}${cmdChunks[1]}${position.x}${cmdChunks[2]}${position.y}${cmdChunks[3]}${shortestAndFormat}`
 		].join('')
 
