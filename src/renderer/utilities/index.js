@@ -31,13 +31,13 @@ export const calculateRotatedBoundingBox = (w, h, rad, dimension) => {
 
   switch (dimension) {
     case 'w':
-      return calculateRotatedDimension(w, h, sin, cos)
+      return calculateRotatedDimension(w, h, cos, sin)
     case 'h':
-      return calculateRotatedDimension(w, h, cox, sin)
+      return calculateRotatedDimension(w, h, sin, cos)
     default:
       return [
-        calculateRotatedDimension(w, h, sin, cos),
-        calculateRotatedDimension(w, h, cos, sin)
+        calculateRotatedDimension(w, h, cos, sin),
+        calculateRotatedDimension(w, h, sin, cos)
       ]
   }
 }
