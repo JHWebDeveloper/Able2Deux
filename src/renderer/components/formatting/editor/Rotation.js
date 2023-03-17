@@ -79,12 +79,12 @@ const flipButtons = isSideways => [
 
 const freeRotateModeButtons = [
 	{
-		label: 'Cover Bounds',
-		value: 'cover'
+		label: 'Inside Bounds',
+		value: 'inside_bounds'
 	},
 	{
-		label: 'Preserve',
-		value: 'preserve'
+		label: 'With Bounds',
+		value: 'with_bounds'
 	}
 ]
 
@@ -185,7 +185,7 @@ const Rotation = props => {
 					editAll={editAll}
 					angle={rotation.angle}
 					center={rotation.center}
-					disableAxis={rotation.freeRotateMode !== 'cover'}
+					disableAxis={rotation.freeRotateMode === 'with_bounds'}
 					dispatch={dispatch} />
 			</> : <></>}
 		</>
@@ -217,7 +217,7 @@ const propTypes = {
 	rotation: exact({
 		transpose: oneOf(transpositions),
 		reflect: oneOf(flip),
-		freeRotateMode: oneOf(['cover', 'preserve']),
+		freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
 		angle: number,
 		center: number
 	}).isRequired,

@@ -90,7 +90,7 @@ const defaultMediaData = {
 	rotation: {
 		transpose: '',
 		reflect: '',
-		freeRotateMode: 'cover',
+		freeRotateMode: 'inside_bounds',
 		angle: 0,
 		center: 0
 	},

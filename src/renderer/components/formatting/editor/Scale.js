@@ -72,7 +72,7 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 		const cropW = width * (crop.r - crop.l) / 100
 		let fitToWPrc = frameW / cropW
 
-		if (scale.link && rotation.freeRotateMode === 'preserve' && rotation.angle !== 0) {
+		if (scale.link && rotation.freeRotateMode === 'with_bounds' && rotation.angle !== 0) {
 			const cropH = height * (crop.b - crop.t) / 100 * distortion
 			const rotW = calcRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'w')
 
@@ -91,7 +91,7 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 		const cropH = height * (crop.b - crop.t) / 100
 		let fitToHPrc = frameH / cropH
 
-		if (scale.link && rotation.freeRotateMode === 'preserve' && rotation.angle !== 0) {
+		if (scale.link && rotation.freeRotateMode === 'with_bounds' && rotation.angle !== 0) {
 			const cropW = width * (crop.r - crop.l) / 100 / distortion
 			const rotH = calcRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'h')
 
@@ -224,7 +224,7 @@ const propTypes = {
 		l: oneOfType([oneOf(['']), number])
 	}).isRequired,
 	rotation: shape({
-		freeRotateMode: oneOf(['cover', 'preserve']),
+		freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
 		angle: number
 	}).isRequired,
 	editAll: bool.isRequired,
