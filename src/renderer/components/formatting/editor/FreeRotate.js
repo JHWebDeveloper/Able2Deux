@@ -38,7 +38,7 @@ const FreeRotate  = ({ id, editAll, angle, center, disableAxis, dispatch }) => {
 		<>
 			<div>
 				<label>Free Rotate</label>
-				<SliderSingle {...angleProps} snapPoints={[0]} />
+				<SliderSingle {...angleProps} snapPoints={[-90, 0, 90]} />
 				<NumberInput {...angleProps} />
 			</div>
 			<div className={disableAxis ? 'disabled' : ''}>
