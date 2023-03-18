@@ -3,8 +3,7 @@ import path from 'path'
 
 import { scratchDisk } from '../scratchDisk'
 
-export const upload = async data => {
-	const { id, sourceFilePath } = data
+export const upload = async ({ id, sourceFilePath }) => {
 	const tempFilePath = path.join(scratchDisk.imports.path, `${id}${path.extname(sourceFilePath)}`)
 
 	try {
