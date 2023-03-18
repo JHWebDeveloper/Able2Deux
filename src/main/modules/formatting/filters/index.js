@@ -2,7 +2,6 @@ export * from './fillFilter'
 export * from './fitFilter'
 export * from './noneFilter'
 export * from './transformFilter'
-export * from './videoToBarsFilter'
 
 export const shortestAndFormat = ':shortest=1:format=auto'
 
@@ -97,5 +96,18 @@ export const finalize = (() => {
 		if (isPreview) filter = `${filter}${previewMixdown(previewSize)}`
 
 		return filter
+	}
+})()
+
+export const videoToBars = (() => {
+	const cmdChunks = [
+		':force_original_aspect_ratio=decrease,pad=',
+		'[vid];[vid][1:v]overlay'
+	]
+
+	return filterData => {
+		const { renderWidth, renderHeight } = filterData
+
+		return `[0:v]scale=${renderWidth}:${renderHeight}${cmdChunks[0]}${renderWidth}:${renderHeight}${cmdChunks[1]}`
 	}
 })()
