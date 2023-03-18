@@ -2,7 +2,7 @@ import {
   buildCommonFilter,
   previewMixdown,
   previewResize
-} from './shared'
+} from './'
 
 const cmdChunks = '[vid];[vid][1:v]overlay'
 

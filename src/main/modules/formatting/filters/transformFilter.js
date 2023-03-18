@@ -4,7 +4,7 @@ import {
   finalize,
   getBGLayerNumber,
   shortestAndFormat
-} from './shared'
+} from './'
 
 import { freeRotateFilter } from './freeRotateFilter'
 

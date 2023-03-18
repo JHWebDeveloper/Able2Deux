@@ -4,7 +4,7 @@ import {
   finalize,
   getBGLayerNumber,
   shortestAndFormat
-} from './shared'
+} from './'
 
 const cmdChunks = [
   ':force_original_aspect_ratio=increase,crop=',
