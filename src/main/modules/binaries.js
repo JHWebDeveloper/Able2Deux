@@ -9,15 +9,14 @@ const asar = {
 	ffprobe: fixPathForAsarUnpack(ffprobe.path)
 }
 
-const ytdlOpts = [
+const ytdlpSpawn = opts => spawn(asar.ytdl, [
 	'--ffmpeg-location', asar.ffmpeg,
 	'--retries', '3',
 	'--socket-timeout', '30',
 	'--no-warnings',
-	'--no-playlist'
-]
-
-const ytdlpSpawn = opts => spawn(asar.ytdl, [...ytdlOpts, ...opts])
+	'--no-playlist',
+	...opts
+])
 
 fluentFfmpeg.setFfmpegPath(asar.ffmpeg)
 fluentFfmpeg.setFfprobePath(asar.ffprobe)
