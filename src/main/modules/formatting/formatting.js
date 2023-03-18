@@ -3,7 +3,7 @@ import fs, { promises as fsp } from 'fs'
 
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
-import { assetsPath, getOverlayInnerDimensions } from '../utilities'
+import { assetsPath, getIntegerLength, getOverlayInnerDimensions } from '../utilities'
 import * as filter from './filters'
 
 const renderJobs = new Map()
@@ -60,17 +60,6 @@ const getBgDuration = background => {
 		default:
 			return 7
 	}
-}
-
-const getIntegerLength = n => {
-	let count = 1
-
-	while (n / 10 >= 1) {
-		n /= 10
-		count++
-	}
-
-	return count
 }
 
 const copyFileNoOverwrite = async (src, dest, n = 0) => {

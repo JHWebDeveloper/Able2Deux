@@ -4,6 +4,7 @@ export * from './CSPL'
 export * from './drawAble2Logo'
 export * from './factories'
 export * from './valueModifiers'
+export * from '../../shared/utilities'
 
 // ---- constants ---- //
 
@@ -21,41 +22,7 @@ export const toastrOpts = {
 
 export const clamp = (val, min, max) => Math.max(min, Math.min(max, val))
 
-export const degToRad = deg => deg * Math.PI / 180
-
-const calcRotatedDimension = (w, h, trig1, trig2) => w * trig1 + h * trig2
-
-export const calcRotatedBoundingBox = (w, h, rad, dimension) => {
-	const sin = Math.abs(Math.sin(rad))
-	const cos = Math.abs(Math.cos(rad))
-
-  switch (dimension) {
-    case 'w':
-      return calcRotatedDimension(w, h, cos, sin)
-    case 'h':
-      return calcRotatedDimension(w, h, sin, cos)
-    default:
-      return [
-        calcRotatedDimension(w, h, cos, sin),
-        calcRotatedDimension(w, h, sin, cos)
-      ]
-  }
-}
-
 export const errorToString = err => err.toString().replace(/^.*Error: /, '')
-
-export const getIntegerLength = n => {
-	if (n < 0) n *= -1
-
-	let count = 1
-
-	while (n / 10 >= 1) {
-		n /= 10
-		count++
-	}
-
-	return count
-}
 
 export const pythagorean = (a, b) => a ** 2 + b ** 2 // omitting square root for performance
 
