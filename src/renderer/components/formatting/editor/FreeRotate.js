@@ -6,14 +6,14 @@ import { updateMediaNestedState } from 'actions'
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
-const FreeRotate  = ({ id, editAll, angle, center, disableAxis, dispatch }) => {
+const FreeRotate = ({ id, editAll, angle, center, disableAxis, dispatch }) => {
 	const updateFreeRotate = useCallback(({ value }) => {
 		dispatch(updateMediaNestedState(id, 'rotation', {
 			angle: value
 		}, editAll))
 	}, [id, editAll])
 
-	const updateAxis= useCallback(({ value }) => {
+	const updateAxis = useCallback(({ value }) => {
 		dispatch(updateMediaNestedState(id, 'rotation', {
 			center: value
 		}, editAll))
@@ -55,6 +55,7 @@ FreeRotate.propTypes = {
 	editAll: bool.isRequired,
 	angle: number.isRequired,
 	center: number.isRequired,
+	disableAxis: bool.isRequired,
 	dispatch: func.isRequired
 }
 

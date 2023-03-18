@@ -6,17 +6,17 @@ const calcRotatedBoundingBox = (w, h, rad, dimension) => {
 	const sin = Math.abs(Math.sin(rad))
 	const cos = Math.abs(Math.cos(rad))
 
-  switch (dimension) {
-    case 'w':
-      return calcRotatedDimension(w, h, cos, sin)
-    case 'h':
-      return calcRotatedDimension(w, h, sin, cos)
-    default:
-      return [
-        calcRotatedDimension(w, h, cos, sin),
-        calcRotatedDimension(w, h, sin, cos)
-      ]
-  }
+	switch (dimension) {
+		case 'w':
+			return calcRotatedDimension(w, h, cos, sin)
+		case 'h':
+			return calcRotatedDimension(w, h, sin, cos)
+		default:
+			return [
+				calcRotatedDimension(w, h, cos, sin),
+				calcRotatedDimension(w, h, sin, cos)
+			]
+	}
 }
 
 const getIntegerLength = n => {
@@ -33,7 +33,7 @@ const getIntegerLength = n => {
 }
 
 module.exports = {
-  calcRotatedBoundingBox,
-  degToRad,
-  getIntegerLength
+	calcRotatedBoundingBox,
+	degToRad,
+	getIntegerLength
 }

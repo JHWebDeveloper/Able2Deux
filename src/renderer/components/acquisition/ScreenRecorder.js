@@ -24,7 +24,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 	const [ recordSources, setRecordSources ] = useState([])
 	const recordButton = useRef()
 
-	const recordButtonTitle =  `${recording ? 'Stop' : 'Start'} Record`
+	const recordButtonTitle = `${recording ? 'Stop' : 'Start'} Record`
 	const recordModeTitle = `Switch to Screen${screenshot ? ' Record' : 'shot'} Mode`
 
 	const modeMessage = useMemo(() => {

@@ -84,18 +84,18 @@ export const previewResize = (() => {
 export const previewMixdown = size => `[final];[final]${previewResize(size)}`
 
 export const finalize = (() => {
-  const cmdChunks = [
-    '[tooverlay];[tooverlay]scale=w=',
-    ':force_original_aspect_ratio=increase[scaled];[',
-    ':v][scaled]overlay=(main_w-overlay_w)/2:',
-    ':shortest=1[positioned];[positioned]['
-  ]
+	const cmdChunks = [
+		'[tooverlay];[tooverlay]scale=w=',
+		':force_original_aspect_ratio=increase[scaled];[',
+		':v][scaled]overlay=(main_w-overlay_w)/2:',
+		':shortest=1[positioned];[positioned]['
+	]
 
-  return ({ filter, sourceData, overlayDim, isPreview, previewSize }) => {
-    if (sourceData) filter = `${filter}${buildSrcLayer(sourceData)}`
-    if (overlayDim) filter = `${filter}${cmdChunks[0]}${overlayDim.width}:h=${overlayDim.height}${cmdChunks[1]}${sourceData ? 2 : 1}${cmdChunks[2]}${overlayDim.y}${cmdChunks[3]}${sourceData ? 3 : 2}:v]overlay`
-    if (isPreview) filter = `${filter}${previewMixdown(previewSize)}`
+	return ({ filter, sourceData, overlayDim, isPreview, previewSize }) => {
+		if (sourceData) filter = `${filter}${buildSrcLayer(sourceData)}`
+		if (overlayDim) filter = `${filter}${cmdChunks[0]}${overlayDim.width}:h=${overlayDim.height}${cmdChunks[1]}${sourceData ? 2 : 1}${cmdChunks[2]}${overlayDim.y}${cmdChunks[3]}${sourceData ? 3 : 2}:v]overlay`
+		if (isPreview) filter = `${filter}${previewMixdown(previewSize)}`
 
-    return filter
-  }
+		return filter
+	}
 })()
