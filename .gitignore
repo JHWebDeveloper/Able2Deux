@@ -2,6 +2,7 @@ node_modules/
 build/
 dist/
 .vscode/
+.VSCodeCounter/
 src/main/temp/
 src/main/data/
 /electron-builder.yml
