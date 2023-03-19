@@ -37,11 +37,11 @@ const getTempFilePath = async id => {
 
 const createDownloadError = url => new Error(`An error occured while downloading from ${truncateURL(url)}.`)
 
-const convertNumericString = (str, def) => /^[0-9\.]+$/.test(str) ? parseFloat(str) : def
+const convertNumericString = (str, def) => /^[0-9.]+$/.test(str) ? parseFloat(str) : def
 
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
 	const { id, url, optimize, output, disableRateLimit } = formData
-	const cmdPrefixRegex = new RegExp(`^\r\\[${id}\\](_[0-9\\.]+){3}$`)
+	const cmdPrefixRegex = new RegExp(`^\r\\[${id}\\](_[0-9.]+){3}$`)
 
 	const downloadCmd = ytdlp([
 		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
