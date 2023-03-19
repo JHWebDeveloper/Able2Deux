@@ -37,18 +37,18 @@ const getTempFilePath = async id => {
 
 const createDownloadError = url => new Error(`An error occured while downloading from ${truncateURL(url)}.`)
 
-const convertNumericString = (str, def) => /^[0-9]+$/.test(str) ? parseFloat(str) : def
+const convertNumericString = (str, def) => /^[0-9\.]+$/.test(str) ? parseFloat(str) : def
 
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
 	const { id, url, optimize, output, disableRateLimit } = formData
-	const cmdPrefixRegex = new RegExp(`^\r\\[${id}\\](_[0-9]+){3}$`)
+	const cmdPrefixRegex = new RegExp(`^\r\\[${id}\\](_[0-9\\.]+){3}$`)
 
 	const downloadCmd = ytdlp([
 		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
 		'--output', `${scratchDisk.imports.path}/${id}.%(ext)s`,
 		'--format', `${optimize === 'quality' ? `bestvideo[height<=${output}][fps<=60]+bestaudio/` : ''}best[height<=${output}][fps<=60]/best`,
 		'--merge-output-format', 'mkv',
-		'--progress-template', `[${id}]_%(progress.downloaded_bytes)s_%(progress.total_bytes)s_%(progress.eta)s`,
+		'--progress-template', `[${id}]_%(progress.downloaded_bytes)s_%(progress.total_bytes_estimate)s_%(progress.eta)s`,
 		url
 	])
 
