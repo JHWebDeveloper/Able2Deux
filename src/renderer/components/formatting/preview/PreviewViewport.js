@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import { arrayOf, element, func, number, oneOfType } from 'prop-types'
 
 import { updateState } from 'actions'
-
 import { clamp, debounce, throttle } from 'utilities'
 
 const { interop } = window.ABLE2
