@@ -21,65 +21,65 @@ export const initPreferences = async () => {
 	const prefsExists = await fileExistsPromise(prefsPath)
 
 	if (!prefsExists) {
-		await fsp.writeFile(prefsPath, JSON.stringify(defaultPrefs))
-	} else {
-		const prefs = JSON.parse(await fsp.readFile(prefsPath))
+		return fsp.writeFile(prefsPath, JSON.stringify(defaultPrefs))
+	}
 
-		// legacy convert Able2 v1 prefs to v2
-		if (!prefs.version) {
-			await fsp.writeFile(prefsPath, JSON.stringify({
-				...defaultPrefs,
-				renderOutput: prefs?.renderOutput ?? defaultPrefs.renderOutput,
-				saveLocations: prefs?.directories ?? defaultPrefs.saveLocations,
-				warnings: {
-					...defaultPrefs.warnings,
-					sourceOnTop: prefs?.sourceOnTopWarning ?? defaultPrefs.directories
-				}
-			})) 
-		}
+	const prefs = JSON.parse(await fsp.readFile(prefsPath))
 
-		// fix type error from prefs 5 and earlier
-		if (prefs.version < 6 && prefs.scaleSliderMax && typeof prefs.scaleSliderMax === 'string') {
-			prefs.scaleSliderMax = parseFloat(prefs.scaleSliderMax)
-		}
+	// legacy convert Able2 v1 prefs to v2
+	if (!prefs.version) {
+		return fsp.writeFile(prefsPath, JSON.stringify({
+			...defaultPrefs,
+			renderOutput: prefs?.renderOutput ?? defaultPrefs.renderOutput,
+			saveLocations: prefs?.directories ?? defaultPrefs.saveLocations,
+			warnings: {
+				...defaultPrefs.warnings,
+				sourceOnTop: prefs?.sourceOnTopWarning ?? defaultPrefs.directories
+			}
+		})) 
+	}
 
-		if (prefs.version < 7 && prefs.enableWidescreenGrids) {
-			defaultPrefs.aspectRatioMarkers[0].disabled = !prefs.enableWidescreenGrids
-			defaultPrefs.aspectRatioMarkers[1].disabled = !prefs.enableWidescreenGrids
+	// fix type error from prefs 5 and earlier
+	if (prefs.version < 6 && prefs.scaleSliderMax && typeof prefs.scaleSliderMax === 'string') {
+		prefs.scaleSliderMax = parseFloat(prefs.scaleSliderMax)
+	}
 
-			delete prefs.enableWidescreenGrids
-		}
+	if (prefs.version < 7 && prefs.enableWidescreenGrids) {
+		defaultPrefs.aspectRatioMarkers[0].disabled = !prefs.enableWidescreenGrids
+		defaultPrefs.aspectRatioMarkers[1].disabled = !prefs.enableWidescreenGrids
 
-		if (prefs.version < 7 && prefs.renderFrameRate) {
-			prefs.renderFrameRate = prefs.renderFrameRate.replace(/fps$/, '')
-		}
+		delete prefs.enableWidescreenGrids
+	}
 
-		if (prefs.version < 8 && prefs.gridButtons) {
-			defaultPrefs.aspectRatioMarkers[0].disabled = !prefs.gridButtons._239
-			defaultPrefs.aspectRatioMarkers[1].disabled = !prefs.gridButtons._185
-			defaultPrefs.aspectRatioMarkers[2].disabled = !prefs.gridButtons._166
-			defaultPrefs.aspectRatioMarkers[3].disabled = !prefs.gridButtons._43
-			defaultPrefs.aspectRatioMarkers[4].disabled = !prefs.gridButtons._11
-			defaultPrefs.aspectRatioMarkers[5].disabled = !prefs.gridButtons._916
+	if (prefs.version < 7 && prefs.renderFrameRate) {
+		prefs.renderFrameRate = prefs.renderFrameRate.replace(/fps$/, '')
+	}
 
-			delete prefs.gridButtons
-		}
+	if (prefs.version < 8 && prefs.gridButtons) {
+		defaultPrefs.aspectRatioMarkers[0].disabled = !prefs.gridButtons._239
+		defaultPrefs.aspectRatioMarkers[1].disabled = !prefs.gridButtons._185
+		defaultPrefs.aspectRatioMarkers[2].disabled = !prefs.gridButtons._166
+		defaultPrefs.aspectRatioMarkers[3].disabled = !prefs.gridButtons._43
+		defaultPrefs.aspectRatioMarkers[4].disabled = !prefs.gridButtons._11
+		defaultPrefs.aspectRatioMarkers[5].disabled = !prefs.gridButtons._916
 
-		if (prefs.version < 9 && prefs.saveLocations) {
-			prefs.saveLocations = prefs.saveLocations.map(loc => ({ ...loc, hidden: false }))
-		}
+		delete prefs.gridButtons
+	}
 
-		if (prefs.version < 9 && prefs.aspectRatioMarkers) {			
-			prefs.aspectRatioMarkers.reverse()
-		}
+	if (prefs.version < 9 && prefs.saveLocations) {
+		prefs.saveLocations = prefs.saveLocations.map(loc => ({ ...loc, hidden: false }))
+	}
 
-		if (prefs.version < 10) {
-			await fsp.writeFile(prefsPath, JSON.stringify({
-				...defaultPrefs,
-				...prefs,
-				version: 10
-			}))
-		}
+	if (prefs.version < 9 && prefs.aspectRatioMarkers) {			
+		prefs.aspectRatioMarkers.reverse()
+	}
+
+	if (prefs.version < 10) {
+		return fsp.writeFile(prefsPath, JSON.stringify({
+			...defaultPrefs,
+			...prefs,
+			version: 10
+		}))
 	}
 }
 
