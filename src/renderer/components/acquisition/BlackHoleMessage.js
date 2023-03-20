@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 const { interop } = window.ABLE2
 
-const SoundflowerMessage = () => {
+const BlackHoleMessage = () => {
 	const [ show, setShow ] = useState(false)
 
 	useEffect(() => {
@@ -18,4 +18,4 @@ const SoundflowerMessage = () => {
 	) : <></>
 }
 
-export default SoundflowerMessage
+export default BlackHoleMessage
