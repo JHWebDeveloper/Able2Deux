@@ -37,18 +37,18 @@ const getTempFilePath = async id => {
 
 const createDownloadError = url => new Error(`An error occured while downloading from ${truncateURL(url)}.`)
 
-const convertNumericString = (str, def) => /^[0-9.]+$/.test(str) ? parseFloat(str) : def
+const convertNumericString = (str, fb) => isNaN(str) ? fb : parseFloat(str)
 
 export const downloadVideo = (formData, win) => new Promise((resolve, reject) => {
 	const { id, url, optimize, output, disableRateLimit } = formData
-	const cmdPrefixRegex = new RegExp(`^\r\\[${id}\\](_[0-9.]+){3}$`)
+	const cmdPrefixRegex = new RegExp(`^\r\\[${id}\\]_`)
 
 	const downloadCmd = ytdlp([
 		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
 		'--output', `${scratchDisk.imports.path}/${id}.%(ext)s`,
 		'--format', `${optimize === 'quality' ? `bestvideo[height<=${output}][fps<=60]+bestaudio/` : ''}best[height<=${output}][fps<=60]/best`,
 		'--merge-output-format', 'mkv',
-		'--progress-template', `[${id}]_%(progress.downloaded_bytes)s_%(progress.total_bytes_estimate)s_%(progress.eta)s`,
+		'--progress-template', `[${id}]_{"downloaded":"%(progress.downloaded_bytes)s","total":"%(progress.total_bytes)s","totalEst":"%(progress.total_bytes_estimate)s","eta":"%(progress.eta)s"}`,
 		url
 	])
 
@@ -64,12 +64,13 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 
 		if (!cmdPrefixRegex.test(info)) return false
 
-		const [ downloaded, total, eta ] = info.split('_').slice(1)
-		
-		progress.downloaded = convertNumericString(downloaded, progress.downloaded)
-		progress.total = convertNumericString(total, progress.total)
-		progress.eta = convertNumericString(eta, progress.eta)
+		const [ json ] = info.match(/{.*}/)
 
+		const { downloaded, total, totalEst, eta } = JSON.parse(json)
+		progress.downloaded = convertNumericString(downloaded, progress.downloaded)
+		progress.total = convertNumericString(total, convertNumericString(totalEst, progress.total))
+		progress.eta = convertNumericString(eta, progress.eta)
+		
 		win.webContents.send(`downloadProgress_${id}`, {
 			percent: progress.downloaded / progress.total,
 			eta: progress.eta,
