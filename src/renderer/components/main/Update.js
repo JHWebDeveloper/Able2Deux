@@ -7,8 +7,8 @@ const { interop } = window.ABLE2
 const arcStart = Math.PI / 2
 
 const Update = () => {
-	const [ version, onStarted ] = useState(false)
-	const [ percent, onProgress ] = useState(0)
+	const [ version, setVersion ] = useState(false)
+	const [ percent, setPercent ] = useState(0)
 	const [ error, setError ] = useState(false)
 	const cnv = useRef()
 	const ctx = useRef()
@@ -19,11 +19,11 @@ const Update = () => {
 		ctx.current = cnv.current.getContext('2d')
 
 		interop.addUpdateListeners({
-			onStarted,
-			onProgress,
+			onStarted: setVersion,
+			onProgress: setPercent,
 			onError() {
 				setError(true)
-				onProgress(0)
+				setPercent(0)
 			}
 		})
 

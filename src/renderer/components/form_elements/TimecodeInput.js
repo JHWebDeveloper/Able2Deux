@@ -18,7 +18,7 @@ const TimecodeInput = ({
 	limitChars,
 	disabled
 }) => {
-	const [ display, updateDisplay ] = useState(numberToTCString(value, fps))
+	const [ display, setDisplay ] = useState(numberToTCString(value, fps))
 
 	const updateTimecode = useCallback(value => onChange({
 		name,
@@ -29,7 +29,7 @@ const TimecodeInput = ({
 		value = tcStringToNumber(value, fps)
 		value = clamp(value, min, max)
 
-		updateDisplay(numberToTCString(value, fps))
+		setDisplay(numberToTCString(value, fps))
 		updateTimecode(value)
 	}, [min, max])
 
@@ -65,7 +65,7 @@ const TimecodeInput = ({
 	}, [value, min, max])
 
 	useEffect(() => {
-		updateDisplay(numberToTCString(value, fps))
+		setDisplay(numberToTCString(value, fps))
 	}, [value])
 
 	return (
@@ -77,7 +77,7 @@ const TimecodeInput = ({
 			title={title}
 			value={display}
 			onKeyDown={onKeyDown}
-			onChange={e => updateDisplay(e.target.value)}
+			onChange={e => setDisplay(e.target.value)}
 			onBlur={e => syncTimecode(e.target.value)}
 			onPaste={pasteTimecode}
 			disabled={disabled}

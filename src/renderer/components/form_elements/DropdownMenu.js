@@ -5,7 +5,7 @@ import { v1 as uuid } from 'uuid'
 import { detectTabExit } from 'utilities'
 
 const DropdownMenu = ({ icon = 'more_vert', children }) => {
-	const [ revealMenu, toggleRevealMenu ] = useState(false)
+	const [ menu, setMenu ] = useState(false)
 	const [ position, setPosition ] = useState({ top: 0, left: 0 })
 
 	const menuRefId = useMemo(uuid, [])
@@ -19,7 +19,7 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 		})
 	}, [])
 
-	const closeMenuOnBlur = useCallback(detectTabExit(toggleRevealMenu), [])
+	const closeMenuOnBlur = useCallback(detectTabExit(setMenu), [])
 
 	return (
 		<span className="dropdown" onBlur={closeMenuOnBlur}>
@@ -29,19 +29,19 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 				className="symbol"
 				onClick={e => {
 					getPositionRelativeToWindow(e)
-					toggleRevealMenu(!revealMenu)
+					setMenu(!menu)
 				}}
 				aria-label="Options"
 				aria-haspopup
-				aria-expanded={revealMenu}
+				aria-expanded={menu}
 				aria-controls={menuRefId}>{icon}</button>
-			{revealMenu ? (
+			{menu ? (
 				<span
 					role="menu"
 					aria-label="Options"
 					id={menuRefId}
 					style={position}>
-					{cloneElement(children, { toggleRevealMenu })}
+					{cloneElement(children, { setMenu })}
 				</span>
 			) : <></>}
 		</span>

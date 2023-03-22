@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 const SourceSuggestionList = () => {
-	const [ suggestions, loadSuggestions ] = useState([])
+	const [ suggestions, setSuggestions ] = useState([])
 
 	useEffect(() => {
 		(async () => {
 			try {
 				const { data } = await axios.get('https://jhwebdeveloper.github.io/Able2-public-resources/source-suggestions.min.json')
 
-				loadSuggestions(data)
+				setSuggestions(data)
 			} catch (err) {
 				return false
 			}

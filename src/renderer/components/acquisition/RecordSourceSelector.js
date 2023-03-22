@@ -4,12 +4,12 @@ import { array, func, object } from 'prop-types'
 import { detectTabExit } from 'utilities'
 
 const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources, captureScreen }) => {
-	const [ visible, reveal ] = useState(false)
+	const [ visible, setVisible ] = useState(false)
 
 	const ref = useRef()
 
 	const close = useCallback(recordSrcId => {
-		reveal(false)
+		setVisible(false)
 
 		ref.current.className = 'close'
 
@@ -24,7 +24,7 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 	const closeSelectorOnBlur = useCallback(detectTabExit(close), [])
 
 	useEffect(() => {
-		setTimeout(() => reveal(true), 500)
+		setTimeout(() => setVisible(true), 500)
 	}, [])
 
 	const getRecordButtonPos = useCallback(() => ({

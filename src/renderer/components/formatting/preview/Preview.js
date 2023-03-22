@@ -17,8 +17,8 @@ const { interop } = window.ABLE2
 const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, previewQuality, previewHeight, dispatch }) => {
 	const { renderOutput, gridColor } = useContext(PrefsContext).preferences
 	const [ previewSize, setPreviewSize ] = useState({})
-	const [ previewStill, loadPreviewStill ] = useState('')
-	const [ showGrid, toggleGrid ] = useState(false)
+	const [ previewStill, setPreviewStill ] = useState('')
+	const [ grid, setGrid ] = useState(false)
 	const container = useRef()
 
 	const {
@@ -57,7 +57,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	// ---- Listen for preview still updates and rerender
 
 	useEffect(() => {
-		interop.setPreviewListeners(loadPreviewStill)
+		interop.setPreviewListeners(setPreviewStill)
 
 		return () => {
 			interop.removePreviewListeners()
@@ -132,7 +132,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 							setEyedropper={setEyedropper} />
 					)	: <Spinner />}
 					<Grid
-						showGrid={showGrid}
+						grid={grid}
 						aspectRatioMarkers={aspectRatioMarkers}
 						previewSize={previewSize}
 						previewQuality={previewQuality}
@@ -142,11 +142,11 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 			<Controls
 				selected={selected}
 				isAudio={isAudio}
-				showGrid={showGrid}
+				grid={grid}
 				aspectRatioMarkers={aspectRatioMarkers}
 				previewQuality={previewQuality}
 				gridColor={gridColor}
-				toggleGrid={toggleGrid}
+				setGrid={setGrid}
 				dispatch={dispatch} />
 		</>
 	)
