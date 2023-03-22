@@ -4,7 +4,7 @@ import getPixels from 'get-pixels'
 
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
-import { supportedImageCodecs, base64EncodeOrPlaceholder } from '../utilities'
+import { base64EncodeOrPlaceholder, supportedImageCodecs } from '../utilities'
 
 const createScreenshot = (id, tempFilePath) => new Promise(resolve => {
 	const screenshot = `${id}.thumbnail.png`

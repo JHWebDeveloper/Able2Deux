@@ -11,7 +11,11 @@ import {
 	updateMediaNestedStateFromEvent
 } from 'actions'
 
-import { createSettingsMenu, has11pmBackground, warn } from 'utilities'
+import {
+	createSettingsMenu,
+	has11pmBackground,
+	warn
+} from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import Checkbox from '../../form_elements/Checkbox'

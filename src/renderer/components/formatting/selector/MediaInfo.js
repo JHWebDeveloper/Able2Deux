@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 import { number, oneOf, oneOfType, string } from 'prop-types'
 
-import { framesToTC, scrollText, capitalize } from 'utilities'
+import {
+	capitalize,
+	framesToTC,
+	scrollText
+} from 'utilities'
 
 const MediaInfo = props => {
 	const {

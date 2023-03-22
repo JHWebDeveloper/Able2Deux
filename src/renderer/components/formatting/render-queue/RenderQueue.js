@@ -15,7 +15,11 @@ import {
 	updateMediaState
 } from 'actions'
 
-import { toastrOpts, detectTabExit, warn } from 'utilities'
+import {
+	detectTabExit,
+	toastrOpts,
+	warn
+} from 'utilities'
 
 import RenderElement from './RenderElement'
 

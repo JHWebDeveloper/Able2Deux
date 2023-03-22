@@ -3,7 +3,13 @@ import fs, { promises as fsp } from 'fs'
 
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
-import { assetsPath, getIntegerLength, getOverlayInnerDimensions } from '../utilities'
+
+import {
+	assetsPath,
+	getIntegerLength,
+	getOverlayInnerDimensions
+} from '../utilities'
+
 import * as filter from './filters'
 
 const renderJobs = new Map()

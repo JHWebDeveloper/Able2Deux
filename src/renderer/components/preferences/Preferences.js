@@ -5,7 +5,7 @@ import 'css/preferences.css'
 
 import { PrefsProvider, PrefsContext } from 'store/preferences'
 import { updateState } from 'actions'
-import { toastrOpts, createKonamiListener } from 'utilities'
+import { createKonamiListener, toastrOpts } from 'utilities'
 
 import GeneralSettings from './GeneralSettings'
 import AcquisitionSettings from './AcquisitionSettings'

@@ -1,4 +1,4 @@
-import { degToRad, calcRotatedBoundingBox } from '../../utilities'
+import { calcRotatedBoundingBox, degToRad } from '../../utilities'
 
 const shiftBounds = (rotDim, scaledDim, rad, prc, inverter) => {
 	const dist = (scaledDim - rotDim) / 2 * prc * inverter / 100

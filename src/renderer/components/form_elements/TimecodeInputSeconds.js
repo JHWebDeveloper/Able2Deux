@@ -1,7 +1,12 @@
 import React from 'react'
 import { bool, func, number, string } from 'prop-types'
 
-import { tcToSeconds, secondsToTC, secondsToAudibleTC, limitTCChars } from 'utilities'
+import {
+	tcToSeconds,
+	limitTCChars,
+	secondsToAudibleTC,
+	secondsToTC
+} from 'utilities'
 
 import TimecodeInput from './TimecodeInput'
 

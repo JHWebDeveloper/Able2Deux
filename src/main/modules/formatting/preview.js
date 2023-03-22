@@ -7,9 +7,9 @@ import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 
 import {
-	base64EncodeOrPlaceholder, 
 	assetsPath,
 	base64Encode,
+	base64EncodeOrPlaceholder, 
 	getOverlayInnerDimensions
 } from '../utilities'
 

@@ -11,18 +11,18 @@ import {
 } from '.'
 
 import {
+	buildSource,
 	clamp,
+	cleanFilename,
 	createMediaData,
 	createCurvePoint,
 	createDefaultCurvePoints,
 	createPromiseQueue,
-	buildSource,
+	errorToString,
 	getIntegerLength,
-	zeroize,
-	cleanFilename,
 	replaceTokens,
 	toastrOpts,
-	errorToString
+	zeroize
 } from 'utilities'
 
 const { interop } = window.ABLE2

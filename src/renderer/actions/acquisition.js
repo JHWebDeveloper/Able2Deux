@@ -3,7 +3,13 @@ import toastr from 'toastr'
 import * as ACTION from './types'
 import * as STATUS from 'status'
 import { updateMediaState, removeSortableElement } from '.'
-import { createMediaData, errorToString, replaceTokens, toastrOpts } from 'utilities'
+
+import {
+	createMediaData,
+	errorToString,
+	replaceTokens,
+	toastrOpts
+} from 'utilities'
 
 const { interop } = window.ABLE2
 

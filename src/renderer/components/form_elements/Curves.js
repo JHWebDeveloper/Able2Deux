@@ -1,7 +1,13 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { arrayOf, bool, exact, func, number, string } from 'prop-types'
 
-import { clamp, createCurvePoint, CSPL, pythagorean, throttle } from 'utilities'
+import {
+	clamp,
+	createCurvePoint,
+	CSPL,
+	pythagorean,
+	throttle
+} from 'utilities'
 
 const drawCurve = (ctx, pts, curveColor) => {
 	const [ xs, ys, ks ] = pts.reduce((acc, pt) => {
