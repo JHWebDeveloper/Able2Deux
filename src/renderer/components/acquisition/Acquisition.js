@@ -25,8 +25,7 @@ const Acquisition = () => {
 				output={output}
 				disableRateLimit={disableRateLimit}
 				dispatch={dispatch} />
-			<Uploader
-				dispatch={dispatch} />
+			<Uploader dispatch={dispatch} />
 			<ScreenRecorder
 				recording={recording}
 				setRecording={setRecording}
