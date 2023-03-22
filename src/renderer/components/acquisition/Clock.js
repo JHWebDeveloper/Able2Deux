@@ -6,7 +6,7 @@ import { secondsToTC } from 'utilities'
 const blink = 'blink'
 
 const Clock = ({ start, decrement, recordIndicator }) => {
-	const ref = useRef()
+	const clock = useRef()
 	let seconds = 0
 	let tick = 0
 	let interval = false
@@ -20,7 +20,7 @@ const Clock = ({ start, decrement, recordIndicator }) => {
 			if (tick++) {
 				recordIndicator.className = ''
 			} else {
-				ref.current.value = secondsToTC(seconds += dir)
+				clock.current.value = secondsToTC(seconds += dir)
 				recordIndicator.className = blink
 			}
 
@@ -39,7 +39,7 @@ const Clock = ({ start, decrement, recordIndicator }) => {
 		<input
 			type="text"
 			className="timecode monospace"
-			ref={ref}
+			ref={clock}
 			value={secondsToTC(decrement ? start : 0)}
 			title={`Time ${decrement ? 'remaining' : 'ellapsed'}`}
 			style={{ cursor: 'default' }}

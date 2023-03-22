@@ -85,10 +85,10 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		dispatch(moveSortableElement('media', oldPos, newPos))
 	}, [])
 
-	const ref = useRef()
+	const batchList = useRef()
 
 	useEffect(() => {
-		scrollbarPadder.observe(ref.current, 3)
+		scrollbarPadder.observe(batchList.current, 3)
 
 		return () => {
 			scrollbarPadder.disconnect()
@@ -96,7 +96,7 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 	}, [])
 
 	return (
-		<div ref={ref}>
+		<div ref={batchList}>
 			<DraggableList sortingAction={sortingAction}>
 				{media.map(({ id, refId, title, tempFilePath }, i) => (
 					<BatchItem

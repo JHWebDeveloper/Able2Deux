@@ -101,6 +101,8 @@ const BatchItem = props => {
 		}
 	], triggers)
 
+	const selectMedia = useRef()
+
 	const onKeyDown = useCallback(e => {
 		const ctrl = e[ctrlOrCmdKey]
 
@@ -123,10 +125,8 @@ const BatchItem = props => {
 		}
 	}, triggers)
 
-	const ref = useRef()
-
 	useEffect(() => {
-		if (selected) ref.current.focus()
+		if (selected) selectMedia.current.focus()
 	}, [selected])
 
 	return (
@@ -138,7 +138,7 @@ const BatchItem = props => {
 			</DropdownMenu>
 			<button
 				type="button"
-				ref={ref}
+				ref={selectMedia}
 				title={selected ? title : 'Select Media'}
 				onClick={() => dispatch(selectMedia(id))}>{title}</button>
 			<button

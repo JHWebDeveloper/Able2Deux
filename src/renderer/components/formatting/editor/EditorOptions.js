@@ -29,10 +29,10 @@ const EditorOptions = props => {
 	const { background, mediaType, aspectRatio, arc, audio, scale, crop, eyedropper, setEyedropper } = props
 	const common = extractCommonProps(props)
 
-	const ref = useRef()
+	const editorOptions = useRef()
 
 	useEffect(() => {
-		scrollbarPadder.observe(ref.current, 6)
+		scrollbarPadder.observe(editorOptions.current, 6)
 
 		return () => {
 			scrollbarPadder.disconnect()
@@ -40,7 +40,7 @@ const EditorOptions = props => {
 	}, [])
 
 	return (
-		<div ref={ref} id="editor-options">
+		<div ref={editorOptions} id="editor-options">
 			<FileOptions
 				batch={props.batch}
 				filename={props.filename}

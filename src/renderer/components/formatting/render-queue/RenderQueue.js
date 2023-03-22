@@ -30,6 +30,7 @@ const RenderQueue = props => {
 	const navigate = useNavigate()
 	const prefsDispatch = prefsContext.dispatch
 	const { warnings } = prefsContext.preferences
+	const backOrCancelBtn = useRef()
 
 	const {
 		renderOutput,
@@ -81,11 +82,9 @@ const RenderQueue = props => {
 		}
 	}), [warnings.startOver])
 
-	const ref = useRef()
-
 	const containFocus = useCallback(detectTabExit(() => {
-		ref.current.focus()
-	}), [ref])
+		backOrCancelBtn.current.focus()
+	}), [backOrCancelBtn])
 
 	const removeLocation = useCallback(id => {
 		prefsDispatch(removeLocationAndSave(id))
@@ -141,7 +140,7 @@ const RenderQueue = props => {
 								type="button"
 								className="app-button"
 								title="Back"
-								ref={ref}
+								ref={backOrCancelBtn}
 								onClick={goBack}>Back</button>
 							<button
 								type="button"
@@ -154,7 +153,7 @@ const RenderQueue = props => {
 							type="button"
 							className="app-button"
 							title="Cancell All"
-							ref={ref}
+							ref={backOrCancelBtn}
 							onClick={cancelAll}
 							autoFocus>Cancel All</button>
 					)}

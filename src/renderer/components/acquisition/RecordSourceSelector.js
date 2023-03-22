@@ -6,12 +6,12 @@ import { detectTabExit } from 'utilities'
 const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources, captureScreen }) => {
 	const [ visible, setVisible ] = useState(false)
 
-	const ref = useRef()
+	const recordSourceSelector = useRef()
 
 	const close = useCallback(recordSrcId => {
 		setVisible(false)
 
-		ref.current.className = 'close'
+		recordSourceSelector.current.className = 'close'
 
 		recordButton.focus()
 
@@ -34,7 +34,7 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 	return (
 		<div
 			id="record-source-selector"
-			ref={ref}
+			ref={recordSourceSelector}
 			onBlur={closeSelectorOnBlur}>
 			<div style={getRecordButtonPos()}>
 				{visible ? <>

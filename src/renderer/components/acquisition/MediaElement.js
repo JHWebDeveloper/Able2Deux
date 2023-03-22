@@ -10,7 +10,7 @@ const MediaElement = props => {
 	const { id, refId, status, title, isLive, download, removeMediaWarning } = props
 	const downloading = status === STATUS.DOWNLOADING
 	const color = useMemo(() => getStatusColor(status), [status])
-	const ref = useRef()
+	const progress = useRef()
 
 	const removeElement = useCallback(() => {
 		props.removeMediaWarning({ id, refId, status, title })
@@ -24,7 +24,7 @@ const MediaElement = props => {
 		if (downloading) {
 			const { percent } = download
 
-			if (percent > 0 && percent <= 1) ref.current.value = percent
+			if (percent > 0 && percent <= 1) progress.current.value = percent
 		}
 	}, [download, status])
 
@@ -38,7 +38,7 @@ const MediaElement = props => {
 				{downloading ? <>
 					{!isLive ? <span className="monospace">{secondsToTC(download.eta)}</span> : <></>}
 					<progress
-						ref={ref}
+						ref={progress}
 						data-status={status}></progress>
 				</> : <></>}
 			</span>

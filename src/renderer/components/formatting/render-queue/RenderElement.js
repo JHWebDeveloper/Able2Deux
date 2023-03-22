@@ -7,7 +7,7 @@ import { capitalize, getStatusColor } from 'utilities'
 
 const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispatch }) => {
 	const color = useMemo(() => getStatusColor(render.status), [render.status])
-	const ref = useRef()
+	const progress = useRef()
 
 	const cancelCurrentRender = useCallback(() => {
 		dispatch(cancelRender(id, render.status))
@@ -15,10 +15,10 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispat
 
 	useEffect(() => {
 		if (mediaType !== 'image' && render.percent > 0 && render.percent < 101) {
-			ref.current.value = render.percent / 100
+			progress.current.value = render.percent / 100
 		}
 
-		if (render.status === COMPLETE) ref.current.value = 1
+		if (render.status === COMPLETE) progress.current.value = 1
 	}, [render])
 	
 	return (
@@ -30,7 +30,7 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispat
 				<input type="text" value={exportFilename || filename} readOnly />
 				<span></span>
 				<progress
-					ref={ref}
+					ref={progress}
 					data-status={render.status}></progress>
 			</span>
 			<button

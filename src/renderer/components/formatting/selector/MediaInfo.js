@@ -17,10 +17,10 @@ const MediaInfo = props => {
 		bitRate
 	} = props
 
-	const ref = useRef()
+	const h2 = useRef()
 
 	useEffect(() => {
-		scrollText(ref.current)
+		scrollText(h2.current)
 	}, [])
 
 	return (
@@ -29,7 +29,7 @@ const MediaInfo = props => {
 				src={thumbnail}
 				alt={title}
 				draggable="false" />
-			<h2 ref={ref}>{title}</h2>
+			<h2 ref={h2}>{title}</h2>
 			<ul>
 				{!!totalFrames && fps ? <li>{framesToTC(totalFrames, fps)}</li> : <></>}
 				{!!width && !!height ? <li>{width}x{height}</li> : <></>}
