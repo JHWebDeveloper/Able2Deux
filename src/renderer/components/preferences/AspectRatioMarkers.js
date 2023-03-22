@@ -2,12 +2,12 @@ import React, { useEffect, useCallback } from 'react'
 import { arrayOf, bool, exact, func, number, object, string } from 'prop-types'
 
 import {
-	enableAspectRatioMarker,
-	updateAspectRatioMarker,
-	updateAspectRatioMarkerFromEvent,
 	addNewAspectRatioMarker,
+	enableAspectRatioMarker,
+	moveSortableElement,
 	removeSortableElement,
-	moveSortableElement
+	updateAspectRatioMarker,
+	updateAspectRatioMarkerFromEvent
 } from 'actions'
 
 import DraggableList from '../form_elements/DraggableList'

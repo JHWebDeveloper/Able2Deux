@@ -4,11 +4,11 @@ import { bool, func, exact, string, oneOf } from 'prop-types'
 import { PrefsContext } from 'store/preferences'
 
 import {
-	updateMediaNestedStateFromEvent,
-	toggleMediaNestedCheckbox,
-	copySettings,
 	applySettingsToAll,
-	disableWarningAndSave
+	copySettings,
+	disableWarningAndSave,
+	toggleMediaNestedCheckbox,
+	updateMediaNestedStateFromEvent
 } from 'actions'
 
 import { createSettingsMenu, has11pmBackground, warn } from 'utilities'

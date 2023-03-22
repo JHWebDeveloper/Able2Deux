@@ -2,12 +2,12 @@ import React, { useCallback } from 'react'
 import { bool, func, number, exact, string } from 'prop-types'
 
 import {
-	toggleSaveLocation,
-	updateSaveLocationFromEvent,
-	updateSaveLocation,
 	addNewLocation,
+	moveSortableElement,
 	removeSortableElement,
-	moveSortableElement
+	toggleSaveLocation,
+	updateSaveLocation,
+	updateSaveLocationFromEvent
 } from 'actions'
 
 import Checkbox from '../form_elements/Checkbox'

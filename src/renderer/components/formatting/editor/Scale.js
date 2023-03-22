@@ -4,10 +4,10 @@ import { bool, exact, func, number, oneOf, oneOfType, shape, string } from 'prop
 import { PrefsContext } from 'store/preferences'
 
 import {
-	updateMediaNestedState,
-	toggleMediaNestedCheckbox,
+	applySettingsToAll,
 	copySettings,
-	applySettingsToAll
+	toggleMediaNestedCheckbox,
+	updateMediaNestedState
 } from 'actions'
 
 import {

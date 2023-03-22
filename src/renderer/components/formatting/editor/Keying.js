@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useMemo } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
+	applySettingsToAll,
+	copySettings,
 	toggleMediaNestedCheckbox,
 	updateMediaNestedState,
-	updateMediaNestedStateFromEvent,
-	copySettings,
-	applySettingsToAll
+	updateMediaNestedStateFromEvent
 } from 'actions'
 
 import { createSettingsMenu, rgbToHex } from 'utilities'

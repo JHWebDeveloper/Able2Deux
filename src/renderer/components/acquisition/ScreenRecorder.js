@@ -6,8 +6,8 @@ import * as STATUS from 'status'
 
 import {
 	loadRecording,
-	updateMediaStatus,
-	toggleCheckbox
+	toggleCheckbox,
+	updateMediaStatus
 } from 'actions'
 
 import { errorToString, toastrOpts } from 'utilities'

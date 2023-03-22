@@ -2,7 +2,11 @@ import React, { useCallback, useContext } from 'react'
 
 import { PrefsContext } from 'store/preferences'
 
-import { updateState, updateStateFromEvent, toggleCheckbox } from 'actions'
+import {
+	toggleCheckbox,
+	updateState,
+	updateStateFromEvent
+} from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'

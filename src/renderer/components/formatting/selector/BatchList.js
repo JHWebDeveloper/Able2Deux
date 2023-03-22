@@ -4,11 +4,11 @@ import { arrayOf, func, object, string } from 'prop-types'
 import { PrefsContext } from 'store/preferences'
 
 import {
-	moveSortableElement,
-	removeMedia,
-	copySettings,
 	applySettingsToAll,
-	disableWarningAndSave
+	copySettings,
+	disableWarningAndSave,
+	moveSortableElement,
+	removeMedia
 } from 'actions'
 
 import {

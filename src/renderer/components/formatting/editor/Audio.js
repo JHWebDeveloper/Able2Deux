@@ -2,9 +2,9 @@ import React, { useCallback, useMemo } from 'react'
 import { bool, exact, func, oneOf, string } from 'prop-types'
 
 import {
-	updateMediaNestedStateFromEvent,
+	applySettingsToAll,
 	copySettings,
-	applySettingsToAll
+	updateMediaNestedStateFromEvent
 } from 'actions'
 
 import { createSettingsMenu } from 'utilities'

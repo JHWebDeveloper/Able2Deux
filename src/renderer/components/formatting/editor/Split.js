@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { func, number, string } from 'prop-types'
 
-import { updateState, splitMedia } from 'actions'
+import { splitMedia, updateState } from 'actions'
 
 import TimecodeInputSeconds from '../../form_elements/TimecodeInputSeconds'
 

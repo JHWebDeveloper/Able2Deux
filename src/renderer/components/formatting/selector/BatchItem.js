@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { bool, func, string, number } from 'prop-types'
 
 import {
-	selectMedia,
-	pasteSettings,
+	duplicateMedia,
 	moveSortableElement,
-	duplicateMedia
+	pasteSettings,
+	selectMedia
 } from 'actions'
 
 import DropdownMenu from '../../form_elements/DropdownMenu'
@@ -101,7 +101,7 @@ const BatchItem = props => {
 		}
 	], triggers)
 
-	const selectMedia = useRef()
+	const selectMediaBtn = useRef()
 
 	const onKeyDown = useCallback(e => {
 		const ctrl = e[ctrlOrCmdKey]
@@ -126,7 +126,7 @@ const BatchItem = props => {
 	}, triggers)
 
 	useEffect(() => {
-		if (selected) selectMedia.current.focus()
+		if (selected) selectMediaBtn.current.focus()
 	}, [selected])
 
 	return (
@@ -138,7 +138,7 @@ const BatchItem = props => {
 			</DropdownMenu>
 			<button
 				type="button"
-				ref={selectMedia}
+				ref={selectMediaBtn}
 				title={selected ? title : 'Select Media'}
 				onClick={() => dispatch(selectMedia(id))}>{title}</button>
 			<button

@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router'
 import { arrayOf, bool, func, object, shape } from 'prop-types'
 
 import {
+	disableWarningAndSave,
+	prepareMediaForFormat,
 	moveSortableElement,
 	removeMedia,
-	removeAllMedia,
-	prepareMediaForFormat,
-	disableWarningAndSave
+	removeAllMedia
 } from 'actions'
 
 import { warn, arrayCount } from 'utilities'

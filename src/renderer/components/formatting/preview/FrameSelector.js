@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { bool, func, number, shape, string } from 'prop-types'
 
-import { updateMediaState, extractStill } from 'actions'
+import { extractStill, updateMediaState } from 'actions'
 
 import { framesToAudibleTC } from 'utilities'
 

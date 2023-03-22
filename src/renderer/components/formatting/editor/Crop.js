@@ -2,10 +2,10 @@ import React, { useCallback, useMemo } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
-	updateMediaNestedState,
-	toggleMediaNestedCheckbox,
+	applySettingsToAll,
 	copySettings,
-	applySettingsToAll
+	toggleMediaNestedCheckbox,
+	updateMediaNestedState
 } from 'actions'
 
 import { clamp, createSettingsMenu } from 'utilities'

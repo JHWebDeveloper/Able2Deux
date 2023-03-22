@@ -7,12 +7,12 @@ import { PrefsContext } from 'store/preferences'
 import * as STATUS from 'status'
 
 import {
-	updateMediaState,
-	render,
 	cancelRender,
-	startOver,
+	disableWarningAndSave,
 	removeLocationAndSave,
-	disableWarningAndSave
+	render,
+	startOver,
+	updateMediaState
 } from 'actions'
 
 import { toastrOpts, detectTabExit, warn } from 'utilities'

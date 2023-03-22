@@ -4,10 +4,10 @@ import { bool, exact, func, oneOf, oneOfType, string } from 'prop-types'
 import { PrefsContext } from 'store/preferences'
 
 import {
-	updateMediaState,
-	updateMediaStateFromEvent,
+	applySettingsToAll,
 	copySettings,
-	applySettingsToAll
+	updateMediaState,
+	updateMediaStateFromEvent
 } from 'actions'
 
 import { createSettingsMenu, rgbToHex } from 'utilities'

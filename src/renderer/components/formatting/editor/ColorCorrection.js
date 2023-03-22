@@ -2,16 +2,16 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { arrayOf, bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
-	toggleMediaNestedCheckbox,
-	updateMediaNestedStateFromEvent,
 	addCurvePoint,
 	addOrUpdateCurvePoint,
+	applySettingsToAll,
+	cleanupCurve,
+	colorBalance,
+	copySettings,
 	deleteCurvePoint,
 	resetCurve,
-	colorBalance,
-	cleanupCurve,
-	copySettings,
-	applySettingsToAll
+	toggleMediaNestedCheckbox,
+	updateMediaNestedStateFromEvent
 } from 'actions'
 
 import { copyCurveSet, createSettingsMenu } from 'utilities'

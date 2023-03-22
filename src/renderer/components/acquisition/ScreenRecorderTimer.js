@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { bool, func, number, object } from 'prop-types'
 
-import { updateState, toggleCheckbox } from 'actions'
+import { toggleCheckbox, updateState } from 'actions'
 
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'

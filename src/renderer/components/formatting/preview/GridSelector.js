@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { arrayOf, bool, exact, func, number, oneOf, string } from 'prop-types'
 
-import { updateState, toggleAspectRatioMarker } from 'actions'
+import {toggleAspectRatioMarker, updateState } from 'actions'
 
 import QualityIcon from '../../svg/QualityIcon.js'
 import DropdownMenu from '../../form_elements/DropdownMenu'
