@@ -1,5 +1,5 @@
-import { bool, string } from 'prop-types'
 import React from 'react'
+import { bool, string } from 'prop-types'
 
 const EyedropperIcon = ({ contentColor, hideContents }) => (
 	<svg width="24" height="24" viewBox="0 0 24 24">
