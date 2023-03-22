@@ -3,6 +3,7 @@ build/
 dist/
 .vscode/
 .VSCodeCounter/
+.DS_Store
 src/main/temp/
 src/main/data/
 /electron-builder.yml
