@@ -1,6 +1,7 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
 import { fixPathForAsarUnpack } from 'electron-util'
+import placeholder from './placeholder'
 
 export * from './fileSupportLists'
 export * from '../../../shared/utilities'
@@ -11,21 +12,15 @@ export const assetsPath = fixPathForAsarUnpack(process.env.NODE_ENV === 'develop
 
 export const base64Encode = async file => `data:image/png;base64,${await fsp.readFile(file, 'base64')}`
 
-export const base64EncodeOrPlaceholder = (() => {
-	let placeholder = false
-
-	return async file => {
-		if (file) try {
-			return base64Encode(file)
-		} catch (err) {
-			console.error(err)
-		}
-
-		placeholder ||= (await import('./placeholder')).default
-
-		return placeholder
+export const base64EncodeOrPlaceholder = async file => {
+	if (file) try {
+		return base64Encode(file)
+	} catch (err) {
+		console.error(err)
 	}
-})()
+
+	return placeholder
+}
 
 export const fileExistsPromise = async fileOrDir => {
 	try {
