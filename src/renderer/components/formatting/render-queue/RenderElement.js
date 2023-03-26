@@ -39,7 +39,7 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispat
 				type="button"
 				className="symbol"
 				title="Cancel Render"
-				aira-label="Cancel Render"
+				aria-label="Cancel Render"
 				onClick={cancelCurrentRender}
 				disabled={render.status === COMPLETE}>close</button>
 		</div>

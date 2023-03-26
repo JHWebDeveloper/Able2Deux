@@ -151,7 +151,7 @@ const RenderQueue = props => {
 								type="button"
 								className="app-button"
 								title="Start Over"
-								aira-label="Start Over"
+								aria-label="Start Over"
 								onClick={backToMain}>Start Over</button>
 						</>
 					) : (

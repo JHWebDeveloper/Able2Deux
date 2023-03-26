@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { arrayOf, bool, exact, func, number, oneOf, string } from 'prop-types'
 
-import {toggleAspectRatioMarker, updateState } from 'actions'
+import { toggleAspectRatioMarker, updateState } from 'actions'
 
 import QualityIcon from '../../svg/QualityIcon.js'
 import DropdownMenu from '../../form_elements/DropdownMenu'
@@ -30,7 +30,7 @@ const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
 
 const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, setGrid, dispatch }) => {
 	const previewQualityBtnTitle = `Preview Quality: ${previewQuality * 100}%`
-	const gridBtnTitle =  `${toggleTitle(grid)} Grid`
+	const gridBtnTitle = `${toggleTitle(grid)} Grid`
 
 	// eslint-disable-next-line no-extra-parens
 	const enabledAspectRatioMarkers = useMemo(() => (

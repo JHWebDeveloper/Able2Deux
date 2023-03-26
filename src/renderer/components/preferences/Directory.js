@@ -108,7 +108,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 						name="directory-down"
 						className="app-button symbol"
 						title={`Move ${label} up`}
-						aira-label={`Move ${label} up`}
+						aria-label={`Move ${label} up`}
 						onClick={moveDown}>keyboard_arrow_down</button>
 				) : <></>}
 				<DragIndicator />

@@ -146,7 +146,7 @@ const BatchItem = props => {
 			<button
 				type="button"
 				title="Remove Media"
-				aira-label="Remove Media"
+				aria-label="Remove Media"
 				className="symbol"
 				onClick={() => {
 					removeMediaWarning({ id, refId, title })}
