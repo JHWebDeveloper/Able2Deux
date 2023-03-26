@@ -12,7 +12,7 @@ const toggleTitle = state => state ? 'Hide' : 'Show'
 const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
 	buttons.map(({ id, label, selected }) => {
 		const title = `${toggleTitle(selected)} ${label} Markers`
-		
+
 		return (
 			<button
 				key={id}
@@ -28,7 +28,7 @@ const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
 	})
 )
 
-const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor, toggleGrid, dispatch }) => {
+const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor, setGrid, dispatch }) => {
 	const previewQualityBtnTitle = `Preview Quality: ${previewQuality * 100}%`
 	const gridBtnTitle =  `${toggleTitle(showGrid)} Grid`
 
@@ -65,7 +65,7 @@ const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor,
 				title={gridBtnTitle}
 				aria-label={gridBtnTitle}
 				style={toggleColor(showGrid)}
-				onClick={() => toggleGrid(!showGrid)}>grid_on</button>
+				onClick={() => setGrid(!showGrid)}>grid_on</button>
 			{enabledAspectRatioMarkers.length > 3 ? (
 				<>
 					<AspectRatioMarkerButtons
@@ -102,7 +102,7 @@ GridSelector.propTypes = {
 		ratio: arrayOf(number)
 	})).isRequired,
 	gridColor: string.isRequired,
-	toggleGrid: func.isRequired,
+	setGrid: func.isRequired,
 	dispatch: func.isRequired
 }
 
