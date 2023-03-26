@@ -45,6 +45,7 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				className="app-button"
 				name="download"
 				title="Download Video"
+				aira-label="Download Video"
 				disabled={badURL}
 				onClick={downloadWithSettings}>
 				Download

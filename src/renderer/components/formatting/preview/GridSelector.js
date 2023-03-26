@@ -10,20 +10,28 @@ const toggleTitle = state => state ? 'Hide' : 'Show'
 
 // eslint-disable-next-line no-extra-parens
 const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
-	buttons.map(({ id, label, selected }) => (
-		<button
-			key={id}
-			type="button"
-			className="ar-marker monospace"
-			title={`${toggleTitle(selected)} ${label} Markers`}
-			style={toggleColor(selected)}
-			onClick={() => dispatch(toggleAspectRatioMarker(id))}>
-			<span>{label}</span>
-		</button>
-	))
+	buttons.map(({ id, label, selected }) => {
+		const title = `${toggleTitle(selected)} ${label} Markers`
+		
+		return (
+			<button
+				key={id}
+				type="button"
+				className="ar-marker monospace"
+				title={title}
+				aria-label={title}
+				style={toggleColor(selected)}
+				onClick={() => dispatch(toggleAspectRatioMarker(id))}>
+				<span>{label}</span>
+			</button>
+		)
+	})
 )
 
 const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor, toggleGrid, dispatch }) => {
+	const previewQualityBtnTitle = `Preview Quality: ${previewQuality * 100}%`
+	const gridBtnTitle =  `${toggleTitle(showGrid)} Grid`
+
 	// eslint-disable-next-line no-extra-parens
 	const enabledAspectRatioMarkers = useMemo(() => (
 		aspectRatioMarkers.filter(({ disabled }) => !disabled)
@@ -46,14 +54,16 @@ const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor,
 			<button
 				type="button"
 				className="symbol"
-				title={`Preview Quality: ${previewQuality * 100}%`}
+				title={previewQualityBtnTitle}
+				aria-label={previewQualityBtnTitle}
 				onClick={changePreviewQuality}>
 				<QualityIcon quality={previewQuality}/>
 			</button>
 			<button
 				type="button"
 				className="symbol"
-				title={`${toggleTitle(showGrid)} Grid`}
+				title={gridBtnTitle}
+				aria-label={gridBtnTitle}
 				style={toggleColor(showGrid)}
 				onClick={() => toggleGrid(!showGrid)}>grid_on</button>
 			{enabledAspectRatioMarkers.length > 3 ? (

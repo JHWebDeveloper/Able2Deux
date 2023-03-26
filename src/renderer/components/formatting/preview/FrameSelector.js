@@ -76,17 +76,20 @@ const FrameSelector = ({ selected, isAudio, dispatch }) => {
 					type="button"
 					className="symbol"
 					title="Increment 1 Frame Backward (Shift+Click for 10 Frames)"
+					aira-label="Increment 1 Frame Backward (Shift+Click for 10 Frames)"
 					onClick={incrementFrameBackward}>chevron_left</button>
 				<button
 					type="button"
 					className="symbol"
 					title="Increment 1 Frame Forward (Shift+Click for 10 Frames)"
+					aira-label="Increment 1 Frame Forward (Shift+Click for 10 Frames)"
 					onClick={incrementFrameForward}>chevron_right</button>
 				{isAudio ? <></> : (
 					<button
 						type="button"
 						className="symbol"
 						title="Create Screengrab"
+						aria-label="Create Screengrab"
 						onClick={dispatchExtractStill}>camera_alt</button>
 				)}
 			</div>

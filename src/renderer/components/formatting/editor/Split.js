@@ -27,6 +27,7 @@ const Split = ({ id, split, start, end, fps, dispatch }) => {
 			<button
 				type="button"
 				title="Split into subclips"
+				aria-label="Split into subclips"
 				className="app-button small symbol"
 				onClick={splitIntoSubclips}>content_cut</button>
 		</div>

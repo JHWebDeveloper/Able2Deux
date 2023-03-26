@@ -39,8 +39,11 @@ const BatchItem = props => {
 		applyToAllWarning,
 		removeMediaWarning
 	]
-	
+
 	const isOnly = !prevId && !nextId
+	const selectBtnTitle = selected ? title : 'Select Media'
+
+	const selectMediaBtn = useRef()
 
 	const dropdown = useMemo(() => [
 		{
@@ -101,8 +104,6 @@ const BatchItem = props => {
 		}
 	], triggers)
 
-	const selectMediaBtn = useRef()
-
 	const onKeyDown = useCallback(e => {
 		const ctrl = e[ctrlOrCmdKey]
 
@@ -139,11 +140,13 @@ const BatchItem = props => {
 			<button
 				type="button"
 				ref={selectMediaBtn}
-				title={selected ? title : 'Select Media'}
+				title={selectBtnTitle}
+				aria-label={selectBtnTitle}
 				onClick={() => dispatch(selectMedia(id))}>{title}</button>
 			<button
 				type="button"
 				title="Remove Media"
+				aira-label="Remove Media"
 				className="symbol"
 				onClick={() => {
 					removeMediaWarning({ id, refId, title })}

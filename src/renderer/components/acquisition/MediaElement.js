@@ -16,6 +16,8 @@ const MediaElement = props => {
 	const downloading = status === STATUS.DOWNLOADING
 	const color = useMemo(() => getStatusColor(status), [status])
 	const progress = useRef()
+	const mediaElementTitle = capitalize(status).replace('_', ' ')
+	const downloadBtnTitle = downloading ? isLive ? 'Stop Stream' : 'Cancel Download' : 'Remove'
 
 	const removeElement = useCallback(() => {
 		props.removeMediaWarning({ id, refId, status, title })
@@ -36,7 +38,7 @@ const MediaElement = props => {
 	return (
 		<div className="media-element">
 			<span
-				title={capitalize(status).replace('_', ' ')}
+				title={mediaElementTitle}
 				style={{ color }}>lens</span>
 			<span>
 				<span>{title}</span>
@@ -50,7 +52,8 @@ const MediaElement = props => {
 			<button
 				type="button"
 				className="symbol"
-				title={downloading ? isLive ? 'Stop Stream' : 'Cancel Download' : 'Remove'}
+				title={downloadBtnTitle}
+				aria-label={downloadBtnTitle}
 				onClick={isLive ? stopLiveDownload : removeElement}>
 				{downloading && isLive ? 'stop' : 'close'}
 			</button>

@@ -17,6 +17,8 @@ import DragIndicator from '../svg/DragIndicator'
 const Directory = ({ dir, index, total, dispatch }) => {
 	const { id, hidden, checked, label, directory } = dir
 
+	const title = `Delete ${label}`
+
 	const toggleVisibility = useCallback(() => {
 		dispatch(toggleSaveLocation(id, 'hidden'))
 	}, [id])
@@ -69,12 +71,14 @@ const Directory = ({ dir, index, total, dispatch }) => {
 				name="add"
 				className="app-button symbol"
 				title="Add new directory"
+				aria-label="Add new directory"
 				onClick={add}>add</button>
 			<button
 				type="button"
 				name="delete"
 				className="app-button symbol"
-				title={`Delete ${label}`}
+				title={title}
+				aria-label={title}
 				onClick={remove}>remove</button>
 			<input
 				type="text"
@@ -95,6 +99,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 						name="directory-up"
 						className="app-button symbol"
 						title={`Move ${label} up`}
+						aria-label={`Move ${label} up`}
 						onClick={moveUp}>keyboard_arrow_up</button>
 				) : <></>}
 				{index < total - 1 ? (
@@ -103,6 +108,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 						name="directory-down"
 						className="app-button symbol"
 						title={`Move ${label} up`}
+						aira-label={`Move ${label} up`}
 						onClick={moveDown}>keyboard_arrow_down</button>
 				) : <></>}
 				<DragIndicator />

@@ -8,6 +8,7 @@ import { capitalize, getStatusColor } from 'utilities'
 const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispatch }) => {
 	const color = useMemo(() => getStatusColor(render.status), [render.status])
 	const progress = useRef()
+	const title = capitalize(render.status)
 
 	const cancelCurrentRender = useCallback(() => {
 		dispatch(cancelRender(id, render.status))
@@ -24,7 +25,8 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispat
 	return (
 		<div className="media-element">
 			<span
-				title={capitalize(render.status)}
+				title={title}
+				aria-label={title}
 				style={{ color }}>lens</span>
 			<span>
 				<input type="text" value={exportFilename || filename} readOnly />
@@ -37,6 +39,7 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispat
 				type="button"
 				className="symbol"
 				title="Cancel Render"
+				aira-label="Cancel Render"
 				onClick={cancelCurrentRender}
 				disabled={render.status === COMPLETE}>close</button>
 		</div>

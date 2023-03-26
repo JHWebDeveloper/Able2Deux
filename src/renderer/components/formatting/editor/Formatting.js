@@ -105,6 +105,7 @@ const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropp
 		<button
 			type="button"
 			title="Select Background Color"
+			aira-label="Select Background Color"
 			className={`eyedropper-btn${eyedropperActive ? ' eyedropper-active' : ''}`}
 			onClick={selectBgColor}>
 			<EyedropperIcon hideContents />

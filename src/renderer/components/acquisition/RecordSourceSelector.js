@@ -52,7 +52,7 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 						<button
 							key={id}
 							type="button"
-							title={name}
+							title={`Record ${name}`}
 							aria-label={`Record ${name}`}
 							onClick={() => close(id)}>
 							<img src={thumbnail} />

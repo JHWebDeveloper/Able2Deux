@@ -10,6 +10,8 @@ const RadioSet = ({ name, state, onChange, buttons = [] }) => {
 			<input
 				type="radio"
 				name={name}
+				title={label}
+				aria-label={label}
 				value={value}
 				checked={state === value}
 				onChange={onChange} />

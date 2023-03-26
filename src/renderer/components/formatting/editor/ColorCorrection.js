@@ -185,6 +185,7 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 				<button
 					type="button"
 					title="Select Black Point"
+					aria-label="Select Black Point"
 					className={`eyedropper-btn${active === 'black' ? ' eyedropper-active' : ''}`}
 					onClick={selectBlackPt}
 					disabled={!enabled}>
@@ -195,6 +196,7 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 				<button
 					type="button"
 					title="Select White Point"
+					aria-label="Select White Point"
 					className={`eyedropper-btn${active === 'white' ? ' eyedropper-active' : ''}`}
 					onClick={selectWhitePt}
 					disabled={!enabled}>
@@ -211,6 +213,7 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 				<button
 					type="button"
 					title="Reset Curves"
+					aria-label="Reset Curves"
 					className="symbol"
 					onClick={dispatchResetCurve}
 					disabled={!enabled}>format_color_reset</button>

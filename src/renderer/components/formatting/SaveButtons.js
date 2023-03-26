@@ -11,11 +11,13 @@ const SaveButtons = ({ setRendering }) => {
 				type="button"
 				className="app-button"
 				title="Back"
+				aria-label="Back"
 				onClick={() => navigate('/')}>Back</button>
 			<button
 				type="button"
 				className="app-button"
 				title="Save"
+				aria-label="Save"
 				onClick={() => setRendering(true)}>Save</button>
 		</div>
 	)

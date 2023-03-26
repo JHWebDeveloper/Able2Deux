@@ -86,6 +86,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch }) => 
 				<button
 					type="button"
 					title="Format Media"
+					aria-label="Format Media"
 					className="app-button"
 					disabled={notReady}
 					onClick={prepareMediaAndRedirect}>Format</button>
@@ -93,6 +94,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch }) => 
 					type="button"
 					className="app-button"
 					title="Remove All Media"
+					aria-label="Remove All Media"
 					onClick={removeAllMediaWarning}
 					disabled={!media.length}>Remove All</button>
 			</div>

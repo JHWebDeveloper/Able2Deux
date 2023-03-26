@@ -18,6 +18,8 @@ import DragIndicator from '../svg/DragIndicator'
 const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 	const { id, label, ratio, disabled } = marker
 
+	const title = `Delete ${label} marker`
+
 	const toggleVisibility = useCallback(() => {
 		dispatch(enableAspectRatioMarker(id))
 	}, [])
@@ -62,12 +64,14 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 				name="add"
 				className="app-button symbol"
 				title="Add new aspect ratio marker"
+				aria-label="Add new aspect ratio marker"
 				onClick={add}>add</button>
 			<button
 				type="button"
 				name="delete"
 				className="app-button symbol"
-				title={`Delete ${label} marker`}
+				title={title}
+				aria-label={title}
 				onClick={remove}>remove</button>
 			<input
 				type="text"
@@ -106,6 +110,7 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 						name="marker-up"
 						className="app-button symbol"
 						title={`Move ${label} marker up`}
+						aria-label={`Move ${label} marker up`}
 						onClick={moveUp}>keyboard_arrow_up</button>
 				) : <></>}
 				{index < total - 1 ? (
@@ -114,6 +119,7 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 						name="marker-down"
 						className="app-button symbol"
 						title={`Move ${label} marker down`}
+						aria-label={`Move ${label} marker down`}
 						onClick={moveDown}>keyboard_arrow_down</button>
 				) : <></>}
 				<DragIndicator />

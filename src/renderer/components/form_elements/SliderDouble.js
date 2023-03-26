@@ -115,7 +115,8 @@ const SliderDouble = ({
 	return (
 		<span
 			className={`slider${disabled ? ' disabled' : ''}`}
-			title={sliderTitle}>
+			title={sliderTitle}
+			aria-label={sliderTitle}>
 			<span
 				className="slider-track double"
 				ref={trackRef}

@@ -12,7 +12,10 @@ const BlackHoleMessage = () => {
 	}, [])
 
 	return show ? (
-		<a title="Get BlackHole" onClick={interop.getBlackHole}>
+		<a
+			title="Get BlackHole"
+			aria-lable="Get Blackhole"
+			onClick={interop.getBlackHole}>
 			(BlackHole is required for audio on Mac)
 		</a>
 	) : <></>

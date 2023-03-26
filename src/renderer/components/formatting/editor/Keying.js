@@ -181,6 +181,7 @@ const Keying = ({ id, keying, eyedropper, setEyedropper, editAll, dispatch }) =>
 						<button
 							type="button"
 							title="Select Key Color"
+							aria-label="Select Key Color"
 							className={`eyedropper-btn${active === 'key' ? ' eyedropper-active' : ''}`}
 							onClick={selectKeyColor}
 							disabled={!enabled}>

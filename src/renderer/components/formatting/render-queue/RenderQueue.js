@@ -144,19 +144,22 @@ const RenderQueue = props => {
 								type="button"
 								className="app-button"
 								title="Back"
+								aria-label="Back"
 								ref={backOrCancelBtn}
 								onClick={goBack}>Back</button>
 							<button
 								type="button"
 								className="app-button"
 								title="Start Over"
+								aira-label="Start Over"
 								onClick={backToMain}>Start Over</button>
 						</>
 					) : (
 						<button
 							type="button"
 							className="app-button"
-							title="Cancell All"
+							title="Cancel All"
+							aria-label="Cancel All"
 							ref={backOrCancelBtn}
 							onClick={cancelAll}
 							autoFocus>Cancel All</button>

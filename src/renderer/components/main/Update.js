@@ -55,6 +55,7 @@ const Update = () => {
 						type="button"
 						className="app-button"
 						title="Retry"
+						aria-label="Retry"
 						onClick={() => {
 							setError(false)
 							interop.retryUpdate()
@@ -63,6 +64,7 @@ const Update = () => {
 						type="button"
 						className="app-button"
 						title="Quit"
+						aria-label="Quit"
 						onClick={() => interop.quit()}>Quit</button>
 				</span>
 			</> : <>

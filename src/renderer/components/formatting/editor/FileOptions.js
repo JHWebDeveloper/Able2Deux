@@ -22,6 +22,7 @@ const FileOptions = props => {
 					type="text"
 					name="filename"
 					title="Filename"
+					aria-label="Filename"
 					className="underline"
 					value={props.filename}
 					maxLength={251}

@@ -32,6 +32,7 @@ const BackToTop = () => {
 		<button
 			type="button"
 			title="Back to Top"
+			aria-label="Back to Top"
 			onClick={throttle(scrollToTop, 1000)}>first_page</button>
 	) : <></>
 }

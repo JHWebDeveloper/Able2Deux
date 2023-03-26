@@ -65,6 +65,7 @@ const Source = ({ id, source, background, editAll, dispatch }) => {
 					type="text"
 					name="sourceName"
 					title="Source Name"
+					aria-label="Source Name"
 					className="underline"
 					placeholder="If none, leave blank"
 					list="source-suggestions"

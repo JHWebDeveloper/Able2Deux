@@ -136,7 +136,7 @@ const Formatting = () => (
 		<p>Provides options for the exported file. This is the only section unaffected by the Edit All and Apply to All features.</p>
 		<h5 id="filename">Filename</h5>
 		<p>This is where you enter the title of the file to export. Able2 will attempt to auto fill this with the original filename or media title from a URL.</p>
-		<p>The filename field accepts tokens. Please see the <a href="#tokens" title="Go to Tokens">Batch Naming section</a> for details.</p>
+		<p>The filename field accepts tokens. Please see the <a href="#tokens" title="Go to Tokens" aria-label="Go to Tokens">Batch Naming section</a> for details.</p>
 		<p>Able2 will automatically append numbering to duplicate filenames in <q>&lt;#&gt; of &lt;total&gt;</q> format.</p>
 		<h5 id="start-and-end">Start &amp; End</h5>
 		<p>The Start and End input fields and slider allow you to export a section of video or audio. The input fields accept a HH:MM:SS:FF timecode format.</p>

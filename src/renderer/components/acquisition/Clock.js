@@ -7,6 +7,7 @@ const blink = 'blink'
 
 const Clock = ({ start, decrement, recordIndicator }) => {
 	const clock = useRef()
+	const title = `Time ${decrement ? 'remaining' : 'ellapsed'}`
 	let seconds = 0
 	let tick = 0
 	let interval = false
@@ -41,7 +42,8 @@ const Clock = ({ start, decrement, recordIndicator }) => {
 			className="timecode monospace"
 			ref={clock}
 			value={secondsToTC(decrement ? start : 0)}
-			title={`Time ${decrement ? 'remaining' : 'ellapsed'}`}
+			title={title}
+			aria-label={title}
 			style={{ cursor: 'default' }}
 			readOnly />
 	)

@@ -65,7 +65,8 @@ const SingleSlider = ({
 	return (
 		<span
 			className={`slider${disabled ? ' disabled' : ''}`}
-			title={title}>
+			title={title}
+			aria-label={title}>
 			<span
 				className="slider-track single"
 				ref={trackRef}
