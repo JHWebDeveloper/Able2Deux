@@ -2,7 +2,7 @@ import { v1 as uuid } from 'uuid'
 
 import { getIntegerLength } from '.'
 
-// ---- curve arrays ---- //
+// ---- CURVE ARRYS --------
 
 export const copyCurve = curve => curve.map(pt => ({ ...pt, id: uuid() }))
 
@@ -19,7 +19,7 @@ export const copyCurveSet = curves => {
 
 export const sortCurvePoints = (a, b) => a.x - b.x
 
-// ---- zero padders ---- //
+// ---- ZERO PADDERS --------
 
 export const zeroize = (n, zeroes = 2) => n
 	.toString()
@@ -27,7 +27,7 @@ export const zeroize = (n, zeroes = 2) => n
 
 export const zeroizeAuto = (n, total) => zeroize(n, getIntegerLength(total))
 
-// ---- timecodes and timestamps ---- //
+// ---- TIMECODES AND TIMESTAMPS --------
 
 const secondsToTCLiterals = sec => [
 	sec / 3600,
@@ -83,7 +83,7 @@ export const tcToFrames = (hmsf, fps) => {
 	return frms
 }
 
-// ---- file names ---- //
+// ---- FILE NAMES --------
 
 const getRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
 
@@ -120,7 +120,7 @@ export const replaceTokens = (filename, i = 0, l = 0) => {
 		.replace(/\$T/g, `${d.getHours()}${d.getMinutes()}`)
 }
 
-// ---- misc. ---- //
+// ---- MISC. --------
 
 export const capitalize = str => `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`
 

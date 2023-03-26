@@ -29,7 +29,6 @@ export const updateMediaStatus = (id, status, mediaData) => ({
 	}
 })
 
-
 // ---- ADD/REMOVE MEDIA ------------
 
 export const addMedia = newMedia => ({

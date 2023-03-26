@@ -203,7 +203,6 @@ export const toggleSaveLocation = (id, property) => ({
 	}
 })
 
-
 // ---- EXTRACT STILL --------
 
 export const extractStill = (sourceMediaData, e) => async dispatch => {
@@ -240,7 +239,6 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 
 	dispatch(addMedia(mediaData))
 }
-
 
 // ---- RENDER --------
 

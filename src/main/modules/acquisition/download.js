@@ -8,7 +8,7 @@ const downloads = new Map()
 
 const truncateURL = (url, limit = 100) => url.length > limit ? `${url.slice(0, 96)}...` : url
 
-/* --- CANCEL DOWNLOAD --- */
+// ---- CANCEL DOWNLOAD --------
 
 export const cancelDownload = id => downloads.get(id)?.kill('SIGTERM')
 
@@ -24,8 +24,7 @@ const removeDownload = id => {
 	return scratchDisk.imports.clear(id)
 }
 
-
-/* --- DOWNLOAD --- */
+// ---- DOWNLOAD --------
 
 const getTempFilePath = async id => {
 	const regex = new RegExp(`^${id}`)
@@ -104,8 +103,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 	win.webContents.send(`downloadStarted_${id}`)
 })
 
-
-/* --- GET TITLE --- */
+// ---- GET TITLE --------
 
 const createURLError = url => new Error(`Error finding video at ${truncateURL(url)}. The url may not be a supported service.`)
 

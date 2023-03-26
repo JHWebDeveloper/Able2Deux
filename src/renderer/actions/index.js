@@ -76,7 +76,6 @@ export const moveSortableElement = (nest, oldPos, newPos) => ({
 	payload: { nest, oldPos, newPos }
 })
 
-
 // ---- 3RD LEVEL STATE --------
 
 export const updateMediaState = (id, properties, editAll) => ({
@@ -98,7 +97,6 @@ export const updateMediaStateFromEvent = (id, e, editAll) => ({
 		}
 	}
 })
-
 
 // ---- 4TH LEVEL STATE --------
 

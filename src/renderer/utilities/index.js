@@ -6,7 +6,7 @@ export * from './factories'
 export * from './valueModifiers'
 export * from '../../shared/utilities'
 
-// ---- constants ---- //
+// ---- CONSTANTS --------
 
 export const TAU = Math.PI * 2
 
@@ -18,7 +18,7 @@ export const toastrOpts = {
 	extendedTimeOut: 0
 }
 
-// ---- calculators and converters ---- //
+// ---- CALCULATORS/CONVERTERS --------
 
 export const clamp = (val, min, max) => Math.max(min, Math.min(max, val))
 
@@ -26,8 +26,7 @@ export const errorToString = err => err.toString().replace(/^.*Error: /, '')
 
 export const pythagorean = (a, b) => a ** 2 + b ** 2 // omitting square root for performance
 
-
-// ---- array utilities ---- //
+// ---- ARRAY UTIL. --------
 
 export const arrayCount = (arr, exp) => {
 	let i = arr.length
@@ -40,14 +39,14 @@ export const arrayCount = (arr, exp) => {
 	return count
 }
 
-// ---- object utilities ---- //
+// ---- OBJECT UTIL. --------
 
 export const objectExtract = (obj, props) => props.reduce((extract, prop) => ({
 	...extract,
 	[prop]: obj[prop]
 }), {})
 
-// ---- function utilities ---- //
+// ---- FUNCTION UTIL. --------
 
 export const debounce = (callback, wait) => {
 	let timeout = false
@@ -78,7 +77,7 @@ export const throttle = (callback, duration) => {
 	}
 }
 
-// ---- acessibility ---- //
+// ---- ACCESSIBILITY --------
 
 export const initTabbedBrowsing = () => {
 	function onKeyDown(e) {
