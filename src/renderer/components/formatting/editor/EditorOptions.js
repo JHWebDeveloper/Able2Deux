@@ -24,7 +24,7 @@ const extractCommonProps = (() => {
 })()
 
 const EditorOptions = props => {
-	if (!props.id) return false
+	if (!props.id) return <></>
 
 	const { background, mediaType, aspectRatio, arc, audio, scale, crop, eyedropper, setEyedropper } = props
 	const common = extractCommonProps(props)
