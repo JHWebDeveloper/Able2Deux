@@ -1,10 +1,10 @@
-node_modules/
 build/
 dist/
-.vscode/
-.VSCodeCounter/
-.DS_Store
+electron-builder.yml
+node_modules/
 src/main/temp/
 src/main/data/
-/electron-builder.yml
-/.env
+.DS_Store
+.env
+.vscode/
+.VSCodeCounter/
