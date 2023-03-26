@@ -42,7 +42,7 @@ const createPNGCopy = (id, tempFilePath, mediaType) => new Promise(resolve => {
 
 const gcd = (a, b) => b === 0 ? a : gcd(b, a % b)
 
-const calculateAspectRatio = (a, b) => {
+const calcAspectRatio = (a, b) => {
 	const ratio = a / b
 
 	if (ratio === 1.89) return '1.89:1'
@@ -211,7 +211,7 @@ export const getMediaInfo = async (id, tempFilePath, streamData, forcedFPS) => {
 		Object.assign(mediaData, {
 			width: hasW ? width : 0,
 			height: hasH ? height : 0,
-			aspectRatio: hasW && hasH ? calculateAspectRatio(width, height) : '',
+			aspectRatio: hasW && hasH ? calcAspectRatio(width, height) : '',
 			hasAlpha
 		})
 
