@@ -6,7 +6,7 @@ const createThirdMarkerCoords = (x, y, r) => [
 	[x, y - r, x, y + r]
 ]
 
-const Grid = ({ showGrid, gridColor, aspectRatioMarkers, previewSize }) => {
+const Grid = ({ grid, gridColor, aspectRatioMarkers, previewSize }) => {
 	const cnv = useRef()
 	const ctx = useRef()
 
@@ -100,18 +100,18 @@ const Grid = ({ showGrid, gridColor, aspectRatioMarkers, previewSize }) => {
 		ctx.current.clearRect(0, 0, previewSize.frameWidth, previewSize.frameHeight)
 		ctx.current.strokeStyle = gridColor
 		
-		if (showGrid) drawGrid()
+		if (grid) drawGrid()
 
 		for (const { disabled, selected, ratio } of aspectRatioMarkers) {
 			if (!disabled && selected) drawAspectRatioMarkers(...ratio)
 		}
-	}, [showGrid, gridColor, aspectRatioMarkers, previewSize])
+	}, [grid, gridColor, aspectRatioMarkers, previewSize])
 
 	return <canvas ref={cnv}></canvas>
 }
 
 Grid.propTypes = {
-	showGrid: bool.isRequired,
+	grid: bool.isRequired,
 	previewSize: oneOfType([oneOf([false]), exact({
 		width: number,
 		height: number,

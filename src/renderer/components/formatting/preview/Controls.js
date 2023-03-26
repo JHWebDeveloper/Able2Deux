@@ -55,7 +55,7 @@ const Controls = props => {
 			{isAudio ? <></> : (
 				<GridSelector
 					previewQuality={props.previewQuality}
-					showGrid={props.showGrid}
+					grid={props.grid}
 					aspectRatioMarkers={props.aspectRatioMarkers}
 					gridColor={props.gridColor}
 					setGrid={props.setGrid}
@@ -68,7 +68,7 @@ const Controls = props => {
 Controls.propTypes = {
 	selected: object.isRequired,
 	isAudio: bool.isRequired,
-	showGrid: bool.isRequired,
+	grid: bool.isRequired,
 	previewQuality: oneOf([1, 0.75, 0.5]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,

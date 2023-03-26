@@ -28,9 +28,9 @@ const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
 	})
 )
 
-const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor, setGrid, dispatch }) => {
+const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, setGrid, dispatch }) => {
 	const previewQualityBtnTitle = `Preview Quality: ${previewQuality * 100}%`
-	const gridBtnTitle =  `${toggleTitle(showGrid)} Grid`
+	const gridBtnTitle =  `${toggleTitle(grid)} Grid`
 
 	// eslint-disable-next-line no-extra-parens
 	const enabledAspectRatioMarkers = useMemo(() => (
@@ -64,8 +64,8 @@ const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor,
 				className="symbol"
 				title={gridBtnTitle}
 				aria-label={gridBtnTitle}
-				style={toggleColor(showGrid)}
-				onClick={() => setGrid(!showGrid)}>grid_on</button>
+				style={toggleColor(grid)}
+				onClick={() => setGrid(!grid)}>grid_on</button>
 			{enabledAspectRatioMarkers.length > 3 ? (
 				<>
 					<AspectRatioMarkerButtons
@@ -92,7 +92,7 @@ const GridSelector = ({ previewQuality, showGrid, aspectRatioMarkers, gridColor,
 }
 
 GridSelector.propTypes = {
-	showGrid: bool.isRequired,
+	grid: bool.isRequired,
 	previewQuality: oneOf([1, 0.75, 0.5]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
