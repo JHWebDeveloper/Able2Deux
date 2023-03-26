@@ -70,7 +70,7 @@ const getCurveColor = curveName => {
 const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, dispatch }) => {
 	const { enabled, selectedCurve, rgb, r, g, b } = colorCurves
 	const { active, pixelData } = eyedropper
-	const curvesRef = useRef()
+	const curvesRef = useRef(null)
 
 	const toggleCCCheckbox = useCallback(e => {
 		dispatch(toggleMediaNestedCheckbox(id, 'colorCurves', e, editAll))

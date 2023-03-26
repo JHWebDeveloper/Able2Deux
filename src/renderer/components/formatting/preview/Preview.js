@@ -19,7 +19,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	const [ previewSize, setPreviewSize ] = useState({})
 	const [ previewStill, setPreviewStill ] = useState('')
 	const [ grid, setGrid ] = useState(false)
-	const container = useRef()
+	const container = useRef(null)
 
 	const {
 		id,

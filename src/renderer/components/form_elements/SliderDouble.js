@@ -49,9 +49,9 @@ const SliderDouble = ({
 }) => {
 	const { sliderSnapPoints } = useContext(PrefsContext).preferences
 
-	const leftRef = createRef()
-	const rightRef = createRef()
-	const trackRef = useRef()
+	const leftRef = createRef(null)
+	const rightRef = createRef(null)
+	const trackRef = useRef(null)
 	
 	const leftId = useMemo(uuid, [])
 	const rightId = useMemo(uuid, [])

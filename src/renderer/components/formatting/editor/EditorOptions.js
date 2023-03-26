@@ -29,7 +29,7 @@ const EditorOptions = props => {
 	const { background, mediaType, aspectRatio, arc, audio, scale, crop, eyedropper, setEyedropper } = props
 	const common = extractCommonProps(props)
 
-	const editorOptions = useRef()
+	const editorOptions = useRef(null)
 
 	useEffect(() => {
 		scrollbarPadder.observe(editorOptions.current, 6)

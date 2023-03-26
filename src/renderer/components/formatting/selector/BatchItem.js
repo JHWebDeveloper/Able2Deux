@@ -43,7 +43,7 @@ const BatchItem = props => {
 	const isOnly = !prevId && !nextId
 	const selectBtnTitle = selected ? title : 'Select Media'
 
-	const selectMediaBtn = useRef()
+	const selectMediaBtn = useRef(null)
 
 	const dropdown = useMemo(() => [
 		{

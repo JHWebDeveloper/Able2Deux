@@ -7,8 +7,8 @@ const createThirdMarkerCoords = (x, y, r) => [
 ]
 
 const Grid = ({ grid, gridColor, aspectRatioMarkers, previewSize }) => {
-	const cnv = useRef()
-	const ctx = useRef()
+	const cnv = useRef(null)
+	const ctx = useRef(null)
 
 	const drawGridMarkers = useCallback(coords => {
 		let i = coords.length

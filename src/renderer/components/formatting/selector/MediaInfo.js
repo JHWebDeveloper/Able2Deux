@@ -21,7 +21,7 @@ const MediaInfo = props => {
 		bitRate
 	} = props
 
-	const h2 = useRef()
+	const h2 = useRef(null)
 
 	useEffect(() => {
 		scrollText(h2.current)

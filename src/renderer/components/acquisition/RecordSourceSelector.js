@@ -6,7 +6,7 @@ import { detectTabExit } from 'utilities'
 const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources, captureScreen }) => {
 	const [ visible, setVisible ] = useState(false)
 
-	const recordSourceSelector = useRef()
+	const recordSourceSelector = useRef(null)
 
 	const close = useCallback(recordSrcId => {
 		setVisible(false)

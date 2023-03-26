@@ -15,7 +15,7 @@ const MediaElement = props => {
 	const { id, refId, status, title, isLive, download, removeMediaWarning } = props
 	const downloading = status === STATUS.DOWNLOADING
 	const color = useMemo(() => getStatusColor(status), [status])
-	const progress = useRef()
+	const progress = useRef(null)
 	const mediaElementTitle = capitalize(status).replace('_', ' ')
 	const downloadBtnTitle = downloading ? isLive ? 'Stop Stream' : 'Cancel Download' : 'Remove'
 

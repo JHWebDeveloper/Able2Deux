@@ -7,7 +7,7 @@ const { interop } = window.ABLE2
 
 const Splash = () => {
 	const [ version, setVersion ] = useState(false)
-	const cnv = useRef()
+	const cnv = useRef(null)
 
 	useEffect(() => {
 		(async () => {

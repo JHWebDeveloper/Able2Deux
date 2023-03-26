@@ -142,8 +142,8 @@ const Curves = forwardRef(({
 	disabled
 }, curvesRef) => {
 	const [ selectedPoint, setSelectedPoint ] = useState({})
-	const cnv = useRef()
-	const ctx = useRef()
+	const cnv = useRef(null)
+	const ctx = useRef(null)
 
 	const moveSelectedPoint = useCallback((pointData, offsetTop, offsetLeft) => e => {		
 		const { id, offsetX, offsetY, boundL, boundR, limit } = pointData

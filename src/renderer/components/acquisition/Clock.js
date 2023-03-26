@@ -6,7 +6,7 @@ import { secondsToTC } from 'utilities'
 const blink = 'blink'
 
 const Clock = ({ start, decrement, recordIndicator }) => {
-	const clock = useRef()
+	const clock = useRef(null)
 	const title = `Time ${decrement ? 'remaining' : 'ellapsed'}`
 	let seconds = 0
 	let tick = 0

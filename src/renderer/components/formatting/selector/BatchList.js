@@ -85,7 +85,7 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		dispatch(moveSortableElement('media', oldPos, newPos))
 	}, [])
 
-	const batchList = useRef()
+	const batchList = useRef(null)
 
 	useEffect(() => {
 		scrollbarPadder.observe(batchList.current, 3)

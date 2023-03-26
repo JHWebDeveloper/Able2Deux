@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { exact, func, number, oneOf, oneOfType, shape, string } from 'prop-types'
 
 const PreviewCanvas = ({ previewStill, previewSize, eyedropper, setEyedropper }) => {
-	const cnv = useRef()
-	const ctx = useRef()
+	const cnv = useRef(null)
+	const ctx = useRef(null)
 	const img = useMemo(() => new Image(), [])
 
 	const getColorAtClickPos = useCallback(e => {

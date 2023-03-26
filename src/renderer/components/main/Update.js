@@ -10,8 +10,8 @@ const Update = () => {
 	const [ version, setVersion ] = useState(false)
 	const [ percent, setPercent ] = useState(0)
 	const [ error, setError ] = useState(false)
-	const cnv = useRef()
-	const ctx = useRef()
+	const cnv = useRef(null)
+	const ctx = useRef(null)
 
 	useEffect(() => {
 		cnv.current.width = 424

@@ -26,8 +26,8 @@ const SingleSlider = ({
 }) => {
 	const { sliderSnapPoints } = useContext(PrefsContext).preferences
 
-	const thumbRef = useRef()
-	const trackRef = useRef()
+	const thumbRef = useRef(null)
+	const trackRef = useRef(null)
 	
 	const sliderId = useMemo(uuid, [])
 	const diff = useMemo(() => max - min, [max, min])

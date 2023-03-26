@@ -22,7 +22,7 @@ const { interop } = window.ABLE2
 
 const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer, timerEnabled, dispatch }) => {
 	const [ recordSources, setRecordSources ] = useState([])
-	const recordButton = useRef()
+	const recordButton = useRef(null)
 
 	const recordButtonTitle = `${recording ? 'Stop' : 'Start'} Record`
 	const recordModeTitle = `Switch to Screen${screenshot ? ' Record' : 'shot'} Mode`

@@ -34,7 +34,7 @@ const RenderQueue = props => {
 	const navigate = useNavigate()
 	const prefsDispatch = prefsContext.dispatch
 	const { warnings } = prefsContext.preferences
-	const backOrCancelBtn = useRef()
+	const backOrCancelBtn = useRef(null)
 
 	const {
 		renderOutput,

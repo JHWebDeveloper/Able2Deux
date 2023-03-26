@@ -7,7 +7,7 @@ import { capitalize, getStatusColor } from 'utilities'
 
 const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispatch }) => {
 	const color = useMemo(() => getStatusColor(render.status), [render.status])
-	const progress = useRef()
+	const progress = useRef(null)
 	const title = capitalize(render.status)
 
 	const cancelCurrentRender = useCallback(() => {
