@@ -6,7 +6,7 @@ import { prefsPath } from './preferences/preferences'
 const clearFiles = async (dir, id) => {
 	const files = await fsp.readdir(dir)
 
-	if (!files.length) return false
+	if (!files.length) return Promise.resolve()
 
 	if (id) {
 		const regex = new RegExp(`^${id}`)
