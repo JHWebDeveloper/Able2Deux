@@ -61,6 +61,8 @@ export const removeAllMedia = media => async dispatch => {
 		}
 	}
 
+	media[len].references = 1
+
 	return Promise.all(media.map(item => removeMedia(item)(dispatch)))
 }
 
