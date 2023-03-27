@@ -28,7 +28,7 @@ export const compareProps = (prevProps, nextProps) => {
 	return true
 }
 
-export const createSettingsMenu = actions => [
+export const createSettingsMenu = (isBatch, actions) => isBatch ? [
 	{
 		label: 'Copy Setting',
 		action() { actions[0]() }
@@ -37,7 +37,7 @@ export const createSettingsMenu = actions => [
 		label: 'Apply to All',
 		action() { actions[1]() }
 	}
-]
+] : []
 
 export const getStatusColor = status => {
 	switch (status) {
