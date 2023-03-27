@@ -50,10 +50,19 @@ export const removeMedia = ({ status, id, refId, references = 0 }) => async disp
 	dispatch(removeSortableElement(id, 'media'))
 }
 
-// eslint-disable-next-line no-extra-parens
-export const removeAllMedia = media => async dispatch => (
-	Promise.all(media.map(item => removeMedia(item)(dispatch)))
-)
+export const removeAllMedia = media => async dispatch => {
+	const len = media.length - 1
+
+	for (let i = 0; i < len; i++) {
+		media[i].references = 1
+
+		for (let j = i + 1; j <= len; j++) {
+			if (media[i].refId === media[j].refId) media[i].references++
+		}
+	}
+
+	return Promise.all(media.map(item => removeMedia(item)(dispatch)))
+}
 
 export const prepareMediaForFormat = () => ({
 	type: ACTION.PREPARE_MEDIA_FOR_FORMAT
