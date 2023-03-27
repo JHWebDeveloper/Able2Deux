@@ -206,10 +206,10 @@ const Formatting = props => {
 const FormattingPanel = props => {
 	const { isBatch, id, arc, background, overlay, dispatch } = props
 
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => dispatch(copySettings({ arc, background, overlay })),
 		() => dispatch(applySettingsToAll(id, { arc, background, overlay }))
-	]) : [], [isBatch, id, arc, background, overlay])
+	]), [isBatch, id, arc, background, overlay])
 
 	return (
 		<AccordionPanel

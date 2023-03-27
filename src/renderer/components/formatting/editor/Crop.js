@@ -154,10 +154,10 @@ const Crop = ({ id, crop, editAll, dispatch }) => {
 const CropPanel = props => {
 	const { isBatch, id, crop, dispatch } = props
 
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => dispatch(copySettings({ crop })),
 		() => dispatch(applySettingsToAll(id, { crop }))
-	]) : [], [isBatch, id, crop])
+	]), [isBatch, id, crop])
 
 	return (
 		<AccordionPanel

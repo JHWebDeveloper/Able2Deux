@@ -183,10 +183,10 @@ const ScalePanel = props => {
 	const { t, r, b, l } = props.crop
 	const { freeRotateMode, angle } = props.rotation
 
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => dispatch(copySettings({ scale })),
 		() => dispatch(applySettingsToAll(id, { scale }))
-	]) : [], [isBatch, id, scale])
+	]), [isBatch, id, scale])
 
 	return (
 		<AccordionPanel

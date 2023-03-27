@@ -268,14 +268,14 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 const ColorCorrectionPanel = props => {
 	const { isBatch, colorCurves, id, dispatch } = props
 
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => dispatch(copySettings({
 			colorCurves: copyCurveSet(colorCurves)
 		})),
 		() => dispatch(applySettingsToAll(id, {
 			colorCurves: copyCurveSet(colorCurves)
 		}))
-	]) : [], [isBatch, id, colorCurves])
+	]), [isBatch, id, colorCurves])
 
 	return (
 		<AccordionPanel

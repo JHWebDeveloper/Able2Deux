@@ -76,10 +76,10 @@ const Audio = ({ id, mediaType, audio, editAll, dispatch }) => {
 const AudioPanel = props => {
 	const { isBatch, audio, id, mediaType, dispatch } = props
 
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => dispatch(copySettings({ audio })),
 		() => dispatch(applySettingsToAll(id, { audio }))
-	]) : [], [isBatch, id, audio])
+	]), [isBatch, id, audio])
 
 	return (
 		<AccordionPanel

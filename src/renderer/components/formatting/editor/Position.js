@@ -50,10 +50,10 @@ const Position = ({ id, position, editAll, dispatch }) => {
 const PositionPanel = props => {
 	const { isBatch, id, position, dispatch } = props
 
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => dispatch(copySettings({ position })),
 		() => dispatch(applySettingsToAll(id, { position }))
-	]) : [], [isBatch, id, position])
+	]), [isBatch, id, position])
 
 	return (
 		<AccordionPanel

@@ -90,10 +90,10 @@ const Source = ({ id, source, background, editAll, dispatch }) => {
 const SourcePanel = props => {
 	const { isBatch, source, id, dispatch } = props
 
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => dispatch(copySettings({ source })),
 		() => dispatch(applySettingsToAll(id, { source }))
-	]) : [], [isBatch, id, source])
+	]), [isBatch, id, source])
 
 	return (
 		<AccordionPanel

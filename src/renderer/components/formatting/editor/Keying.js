@@ -220,10 +220,10 @@ const Keying = ({ id, keying, eyedropper, setEyedropper, editAll, dispatch }) =>
 const KeyingPanel = props => {
 	const { isBatch, keying, id, dispatch } = props
 
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => dispatch(copySettings({ keying })),
 		() => dispatch(applySettingsToAll(id, { keying }))
-	]) : [], [isBatch, id, keying])
+	]), [isBatch, id, keying])
 
 	return (
 		<AccordionPanel

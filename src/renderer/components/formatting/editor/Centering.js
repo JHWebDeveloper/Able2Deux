@@ -43,10 +43,10 @@ const Centering = ({ id, centering, editAll, dispatch }) => {
 const CenteringPanel = props => {
 	const { isBatch, centering, id, dispatch } = props
 
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => dispatch(copySettings({ centering })),
 		() => dispatch(applySettingsToAll(id, { centering }))
-	]) : [], [isBatch, id, centering])
+	]), [isBatch, id, centering])
 
 	return (
 		<AccordionPanel

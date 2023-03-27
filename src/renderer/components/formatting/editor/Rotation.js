@@ -195,10 +195,10 @@ const Rotation = props => {
 const RotationPanel = props => {
 	const { isBatch, id, rotation, dispatch } = props
 
-	const settingsMenu = useMemo(() => isBatch ? createSettingsMenu([
+	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => dispatch(copySettings({ rotation })),
 		() => dispatch(applySettingsToAll(id, { rotation }))
-	]) : [], [isBatch, id, rotation])
+	]), [isBatch, id, rotation])
 
 	return (
 		<AccordionPanel
