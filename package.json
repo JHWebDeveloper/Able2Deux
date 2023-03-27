@@ -16,8 +16,8 @@
 		"deploy:win": "rimraf dist && npm run build && electron-builder build -w --publish always",
 		"postinstall": "electron-builder install-app-deps",
 		"start": "electron .",
-		"update-ytdl:mac": "node_modules/ffmpeg-ffprobe-yt-dlp-static-electron/bin/mac/yt-dlp --update-to stable",
-		"update-ytdl:win": "cd node_modules/ffmpeg-ffprobe-yt-dlp-static-electron/bin/win && yt-dlp.exe --update-to stable"
+		"update-ytdlp:mac": "node_modules/ffmpeg-ffprobe-yt-dlp-static-electron/bin/mac/yt-dlp --update-to stable",
+		"update-ytdlp:win": "cd node_modules/ffmpeg-ffprobe-yt-dlp-static-electron/bin/win && yt-dlp.exe --update-to stable"
 	},
 	"author": "Jonathan Hamilton",
 	"license": "CC-BY-NC-4.0",
