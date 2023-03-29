@@ -233,7 +233,7 @@ const openFiles = async () => {
 }
 
 
-// ---- MENU CONFIG --------
+// ---- MENU CONFIG ------------
 
 const appleSubmenu = (prefs = []) => [
 	{
@@ -393,9 +393,9 @@ if (devtools) {
 	})
 }
 
-// ---- MODULE IPC ROUTES ----
+// ---- IPC ROUTES: DOWNLOAD ------------
 
-const getURLInfoIPC = async (evt, data) => {
+ipcMain.on('getURLInfo', async (evt, data) => {
 	const { id } = data
 
 	try {
@@ -403,9 +403,9 @@ const getURLInfoIPC = async (evt, data) => {
 	} catch (err) {
 		evt.reply(`URLInfoErr_${id}`, err)
 	}
-}
+})
 
-const requestDownloadIPC = async (evt, data) => {
+ipcMain.on('requestDownload', async (evt, data) => {
 	const { id } = data
 
 	try {
@@ -416,21 +416,25 @@ const requestDownloadIPC = async (evt, data) => {
 	} catch (err) {
 		evt.reply(`downloadErr_${id}`, err)
 	}
-}
+})
 
-const cancelDownloadIPC = (evt, id) => cancelDownload(id)
+ipcMain.on('cancelDownload', (evt, id) => cancelDownload(id))
 
-const stopLiveDownloadIPC = (evt, id) => stopLiveDownload(id)
+ipcMain.on('stopLiveDownload', (evt, id) => stopLiveDownload(id))
 
-const checkFileTypeIPC = async (evt, data) => {
+// ---- IPC ROUTES: UPLOAD ------------
+
+ipcMain.handle('openFiles', openFiles)
+
+ipcMain.on('checkFileType', async (evt, data) => {
 	try {
 		evt.reply(`fileTypeFound_${data.id}`, await checkFileType(data.file))
 	} catch (err) {
 		evt.reply(`fileTypeErr_${data.id}`, err)
 	}
-}
+})
 
-const requestUploadIPC = async (evt, data) => {
+ipcMain.on('requestUpload', async (evt, data) => {
 	const { id, mediaType, hasAudio } = data
 
 	try {
@@ -441,18 +445,20 @@ const requestUploadIPC = async (evt, data) => {
 	} catch (err) {
 		evt.reply(`uploadErr_${id}`, err)
 	}
-}
+})
 
-const requestRecordSourcesIPC = async evt => {
+// ---- IPC ROUTES: SCREEN RECORD ------------
+
+ipcMain.on('requestRecordSources', async evt => {
 	try {
 		evt.reply('recordSourcesFound', await getRecordSources())
 	} catch (err) {
 		console.error(err)
 		evt.reply('requestRecordSourcesErr', new Error('An error occurred while attempting to load recordable sources.'))
 	}
-}
+})
 
-const saveScreenRecordingIPC = async (evt, data) => {
+ipcMain.on('saveScreenRecording', async (evt, data) => {
 	const { id, screenshot, fps } = data
 
 	try {
@@ -465,25 +471,19 @@ const saveScreenRecordingIPC = async (evt, data) => {
 		console.error(err)
 		evt.reply(`saveScreenRecordingErr_${id}`, new Error(`An error occurred while attempting to save screen${screenshot ? 'shot' : ' recording'}.`))
 	}
-}
+})
 
-const removeMediaFileIPC = async (evt, id) => {
-	try {
-		await scratchDisk.imports.clear(id)
-	} catch (err) {
-		console.error(err)
-	}
-}
+// ---- IPC ROUTES: PREVIEW ------------
 
-const initPreviewIPC = async (evt, data) => {
+ipcMain.on('initPreview', async (evt, data) => {
 	try {
 		await changePreviewSource(data, mainWin)
 	} catch (err) {
 		console.error(err)
 	}
-}
+})
 
-const requestPreviewStillIPC = async (evt, data) => {
+ipcMain.on('requestPreviewStill', async (evt, data) => {
 	try {
 		evt.reply('previewStillCreated', await createPreviewStill(data))
 	} catch (err) {
@@ -491,27 +491,20 @@ const requestPreviewStillIPC = async (evt, data) => {
 			console.error(err)
 		}
 	}
-}
+})
 
-const copyPreviewToImportsIPC = async (evt, data) => {
+ipcMain.on('copyPreviewToImports', async (evt, data) => {
 	try {
 		evt.reply('previewCopied', await copyPreviewToImports(data))
 	} catch (err) {
 		console.error(err)
 		evt.reply('previewCopiedFailed', new Error('An error occurred while attempting to load screengrab.'))
 	}
-}
+})
 
-const checkDirectoryExistsIPC = async (evt, dir) => {
-	try {
-		return fileExistsPromise(dir)
-	} catch (err) {
-		console.error(err)
-		return false
-	}
-}
+// ---- IPC ROUTES: RENDER ------------
 
-const requestRenderIPC = async (evt, data) => {
+ipcMain.on('requestRender', async (evt, data) => {
 	try {
 		await render(data, mainWin)
 
@@ -519,28 +512,24 @@ const requestRenderIPC = async (evt, data) => {
 	} catch (err) {
 		evt.reply(`renderFailed_${data.id}`, err)
 	}
-}
+})
 
-const cancelRenderIPC = (evt, id) => cancelRender(id)
+ipcMain.on('cancelRender', (evt, id) => cancelRender(id))
 
-const clearTempFilesIPC = async () => {
-	try {
-		return scratchDisk.clearAll()
-	} catch (err) {
-		console.error(err)
-	}
-}
+// ---- IPC ROUTES: PREFERENCES ------------
 
-const requestPrefsIPC = async evt => {
+ipcMain.on('requestPrefs', async evt => {
 	try {
 		evt.reply('prefsRecieved', await loadPrefs())
 	} catch (err) {
 		console.error(err)
 		evt.reply('prefsErr', new Error('An error occurred while attempting to load preferences.'))
 	}
-}
+})
 
-const savePrefsIPC = async (evt, prefs) => {
+ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
+
+ipcMain.on('savePrefs', async (evt, prefs) => {
 	try {
 		await savePrefs(prefs)
 
@@ -559,9 +548,9 @@ const savePrefsIPC = async (evt, prefs) => {
 		console.error(err)
 		evt.reply('savePrefsErr', new Error('An error occurred while attempting to save preferences.'))
 	}
-}
+})
 
-const savePrefsSilentlyIPC = async (evt, newPrefs) => {
+ipcMain.on('savePrefsSilently', async (evt, newPrefs) => {
 	try {
 		const oldPrefs = await loadPrefs()
 	
@@ -572,14 +561,16 @@ const savePrefsSilentlyIPC = async (evt, newPrefs) => {
 	} catch (err) {
 		console.error(err)
 	}
-}
+})
 
-const retryUpdate = async () => {
+// ---- IPC ROUTES: UPDATE ------------
+
+ipcMain.on('retryUpdate', async () => {
 	autoUpdater.autoDownload = true
 	autoUpdater.checkForUpdatesAndNotify()
-}
+})
 
-const checkForUpdateBackup = async () => {
+ipcMain.on('checkForUpdateBackup', async () => {
 	try {
 		const version = await checkForUpdate()
 	
@@ -590,34 +581,36 @@ const checkForUpdateBackup = async () => {
 	} catch (err) {
 		console.error(err)
 	}
-}
+})
 
-ipcMain.on('getURLInfo', getURLInfoIPC)
-ipcMain.on('requestDownload', requestDownloadIPC)
-ipcMain.on('cancelDownload', cancelDownloadIPC)
-ipcMain.on('stopLiveDownload', stopLiveDownloadIPC)
-ipcMain.handle('openFiles', openFiles)
-ipcMain.on('checkFileType', checkFileTypeIPC)
-ipcMain.on('requestUpload', requestUploadIPC)
-ipcMain.on('requestRecordSources', requestRecordSourcesIPC)
-ipcMain.on('saveScreenRecording', saveScreenRecordingIPC)
-ipcMain.on('removeMediaFile', removeMediaFileIPC)
-ipcMain.on('initPreview', initPreviewIPC)
-ipcMain.on('requestPreviewStill', requestPreviewStillIPC)
-ipcMain.on('copyPreviewToImports', copyPreviewToImportsIPC)
-ipcMain.handle('checkDirectoryExists', checkDirectoryExistsIPC)
-ipcMain.on('requestRender', requestRenderIPC)
-ipcMain.on('cancelRender', cancelRenderIPC)
-ipcMain.on('clearTempFiles', clearTempFilesIPC)
-ipcMain.on('requestPrefs', requestPrefsIPC)
-ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
-ipcMain.on('savePrefs', savePrefsIPC)
-ipcMain.on('savePrefsSilently', savePrefsSilentlyIPC)
-ipcMain.on('retryUpdate', retryUpdate)
-ipcMain.on('checkForUpdateBackup', checkForUpdateBackup)
+// ---- IPC ROUTES: UTILITY ------------
 
+ipcMain.on('removeMediaFile', async (evt, id) => {
+	try {
+		await scratchDisk.imports.clear(id)
+	} catch (err) {
+		console.error(err)
+	}
+})
 
-// ---- ELECTRON IPC ROUTES ----
+ipcMain.handle('checkDirectoryExists', async (evt, dir) => {
+	try {
+		return fileExistsPromise(dir)
+	} catch (err) {
+		console.error(err)
+		return false
+	}
+})
+
+ipcMain.on('clearTempFiles', async () => {
+	try {
+		return scratchDisk.clearAll()
+	} catch (err) {
+		console.error(err)
+	}
+})
+
+// ---- IPC ROUTES: APP ------------
 
 ipcMain.handle('getVersion', () => app.getVersion())
 
@@ -637,10 +630,6 @@ ipcMain.on('quit', () => {
 	app.exit(0)
 })
 
-ipcMain.handle('showOpenDialog', (evt, opts) => dialog.showOpenDialog(opts))
-
-ipcMain.handle('showMessageBox', (evt, opts) => dialog.showMessageBox(opts))
-
 const sleep = (() => {
 	let _blockId = 0
 
@@ -656,6 +645,14 @@ const sleep = (() => {
 
 ipcMain.on('disableSleep', sleep.disable)
 ipcMain.on('enableSleep', sleep.enable)
+
+// ---- IPC ROUTES: DIALOG ------------
+
+ipcMain.handle('showOpenDialog', (evt, opts) => dialog.showOpenDialog(opts))
+
+ipcMain.handle('showMessageBox', (evt, opts) => dialog.showMessageBox(opts))
+
+// ---- IPC ROUTES: MENU ------------
 
 const togglePrefsIPC = state => () => {
 	Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = state
