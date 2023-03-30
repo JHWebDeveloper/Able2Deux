@@ -8,15 +8,11 @@ import * as update from './update'
 
 const interop = Object.assign({}, acquisition, formatting, preferences, update)
 
-
 // ---- GET INFO --------
  
 interop.getFileName = file => path.parse(file).name
 
 interop.isMac = process.platform === 'darwin'
-
-interop.getVersion = () => ipcRenderer.invoke('getVersion')
-
 
 // ---- ELECTRON METHODS --------
 
@@ -55,7 +51,6 @@ interop.removeOpenImportCacheListener = () => {
 	ipcRenderer.removeAllListeners('openImportCache')
 }
 
-
 // --- DIALOGS --------
 
 interop.chooseDirectory = async () => {
@@ -83,7 +78,6 @@ interop.warning = ({ message, detail, hasCheckbox }) => ipcRenderer.invoke('show
 	...hasCheckbox ? { checkboxLabel: 'Don\'t show this message again' } : {}
 })
 
-
 // ---- GLOBAL METHODS --------
 
 interop.setContextMenu = () => {
@@ -104,17 +98,21 @@ interop.clearTempFiles = () => {
 	ipcRenderer.send('clearTempFiles')
 }
 
-
 // ---- ATTACH ALL TO RENDERER --------
 
-const nameSpace = 'ABLE2'
+(async () => {
+	interop.version = await ipcRenderer.invoke('getVersion')
+	
+	const freeze = Object.freeze({
+		interop: Object.freeze(interop)
+	})
+	
+	const nameSpace = 'ABLE2'
 
-const freeze = Object.freeze({
-	interop: Object.freeze(interop)
-})
+	if (process.env.NODE_ENV === 'development') {
+		window[nameSpace] = freeze
+	} else {
+		contextBridge.exposeInMainWorld(nameSpace, freeze)
+	}
+})()
 
-if (process.env.NODE_ENV === 'development') {
-	window[nameSpace] = freeze
-} else {
-	contextBridge.exposeInMainWorld(nameSpace, freeze)
-}
