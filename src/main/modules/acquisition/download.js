@@ -79,6 +79,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 
 	downloadCmd.stderr.on('data', err => {
 		console.error(err.toString())
+		downloadCmd.kill()
 
 		if (/^ERROR: Unable to download webpage/.test(err)) {
 			reject(createDownloadError(url))
@@ -93,6 +94,7 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 
 	downloadCmd.on('error', err => {
 		console.error(err)
+		downloadCmd.kill()
 		reject(createDownloadError(url))
 	})
 
@@ -122,6 +124,7 @@ export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolv
 
 	infoCmd.stderr.on('data', err => {
 		console.error(err.toString())
+		infoCmd.kill()
 		reject(createURLError(url))
 	})
 
@@ -145,6 +148,7 @@ export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolv
 
 	infoCmd.on('error', err => {
 		console.error(err)
+		infoCmd.kill()
 		reject(createURLError(url))
 	})
 
