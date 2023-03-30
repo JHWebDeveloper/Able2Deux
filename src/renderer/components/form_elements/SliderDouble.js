@@ -1,6 +1,5 @@
-import React, { createRef, useCallback, useContext, useMemo, useRef } from 'react'
+import React, { createRef, useCallback, useContext, useId, useMemo, useRef } from 'react'
 import { arrayOf, bool, func, number, oneOf, oneOfType, shape, string } from 'prop-types'
-import { v1 as uuid } from 'uuid'
 
 import { PrefsContext } from 'store/preferences.js'
 
@@ -53,9 +52,10 @@ const SliderDouble = ({
 	const rightRef = createRef(null)
 	const trackRef = useRef(null)
 	
-	const leftId = useMemo(uuid, [])
-	const rightId = useMemo(uuid, [])
-	const middleId = useMemo(() => hasMiddleThumb && uuid(), [])
+	const thumbId = useId()
+	const leftId = `${thumbId}_l`
+	const rightId = `${thumbId}_r`
+	const middleId = hasMiddleThumb && `${thumbId}_m`
 	const diff = useMemo(() => max - min, [min, max])
 	const diffLR = useMemo(() => rightThumb.value - leftThumb.value, [leftThumb.value, rightThumb.value])
 	const width = useMemo(() => hasMiddleThumb && diffLR / diff * 100, [diff, diffLR])

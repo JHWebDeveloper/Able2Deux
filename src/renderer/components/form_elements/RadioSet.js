@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react'
+import React, { useId } from 'react'
 import { arrayOf, element, func, shape, string } from 'prop-types'
-import { v1 as uuid } from 'uuid'
 
 const RadioSet = ({ name, state, onChange, buttons = [] }) => {
-	const setKey = useMemo(uuid, [])
+	const setKey = useId
 
 	return buttons.map(({ label, value, component }, i) => (
 		<label key={`${setKey}_${i}`}>

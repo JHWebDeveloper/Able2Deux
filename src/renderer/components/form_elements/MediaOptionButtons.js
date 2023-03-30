@@ -1,8 +1,7 @@
-import React, { useMemo } from 'react'
-import { v1 as uuid } from 'uuid'
+import React, { useId, useMemo } from 'react'
 
 const MediaOptionButtons = ({ buttons, toggleRevealMenu }) => {
-	const menuId = useMemo(uuid, [])
+	const menuId = useId()
 	const enabledButtons = useMemo(() => buttons.filter(({ hide }) => !hide), [buttons])
 
 	return enabledButtons.map(({ type, label, action }, i) => type === 'spacer' ? (

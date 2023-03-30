@@ -1,6 +1,5 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
+import React, { useCallback, useContext, useId, useMemo, useRef } from 'react'
 import { arrayOf, bool, func, number, oneOf, oneOfType, string } from 'prop-types'
-import { v1 as uuid } from 'uuid'
 
 import { PrefsContext } from 'store/preferences.js'
 
@@ -29,7 +28,7 @@ const SingleSlider = ({
 	const thumbRef = useRef(null)
 	const trackRef = useRef(null)
 	
-	const sliderId = useMemo(uuid, [])
+	const sliderId = useId()
 	const diff = useMemo(() => max - min, [max, min])
 	
 	const thresholds = useMemo(() => {

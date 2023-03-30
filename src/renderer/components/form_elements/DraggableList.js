@@ -1,5 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import { v1 as uuid } from 'uuid'
+import React, { useCallback, useId, useState } from 'react'
 import { arrayOf, element, func } from 'prop-types'
 
 const dragLeave = e => {
@@ -17,7 +16,7 @@ const enableDrag = e => {
 const DraggableList = ({ sortingAction, children }) => {
 	const [ dragging, setDragging ] = useState(false)
 	const draggable = children.length > 1
-	const setKey = useMemo(uuid, [])
+	const listKey = useId()
 
 	const dragStart = useCallback((i, e) => {
 		e.dataTransfer.setData('insert', i)
@@ -40,7 +39,7 @@ const DraggableList = ({ sortingAction, children }) => {
 		<>
 			{children.map((child, i) => (
 				<div
-					key={`${setKey}_${i}`}
+					key={`${listKey}_${i}`}
 					className="draggable"
 					onDragStart={e => dragStart(i, e)}
 					onDragOver={dragOver}
