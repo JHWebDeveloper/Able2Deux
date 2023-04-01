@@ -1,11 +1,9 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useState } from 'react'
 import { bool, func, number, oneOfType, string } from 'prop-types'
 
 import { download, updateStateFromEvent } from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
-
-const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
 
 const optimizeButtons = [
 	{
@@ -18,8 +16,16 @@ const optimizeButtons = [
 	}
 ]
 
+const validURLRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
+
+const useValidURL = initState => {
+	const [ url, setURL ] = useState(initState)
+
+	return [ url, validURLRegex.test(url), setURL ]
+}
+
 const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
-	const badURL = useMemo(() => !urlRegex.test(url), [url])
+	const [ url, isValidURL, setURL ] = useValidURL('')
 
 	const downloadWithSettings = useCallback(() => {
 		dispatch(download({ url, optimize, output, disableRateLimit }))
@@ -39,14 +45,14 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				className="underline"
 				placeholder="Paste URL here..."
 				value={url}
-				onChange={dispatchWithEvent} />
+				onChange={e => setURL(e.target.value)} />
 			<button
 				type="button"
 				className="app-button"
 				name="download"
 				title="Download Video"
 				aria-label="Download Video"
-				disabled={badURL}
+				disabled={!isValidURL}
 				onClick={downloadWithSettings}>
 				Download
 			</button>
