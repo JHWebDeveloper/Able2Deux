@@ -9,7 +9,7 @@ import { toastrOpts } from 'utilities'
 const { interop } = window.ABLE2
 
 const initState = {
-	version: 9,
+	version: 10,
 	theme: 'system',
 	scratchDisk: {
 		imports: '',
