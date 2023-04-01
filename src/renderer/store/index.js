@@ -5,7 +5,6 @@ import { updateState } from 'actions'
 import reducer from '../reducer'
 
 const initState = {
-	url: '',
 	optimize: 'quality',
 	screenshot: false,
 	timer: 60,
