@@ -24,7 +24,7 @@ const useValidURL = initState => {
 	return [ url, validURLRegex.test(url), setURL ]
 }
 
-const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
+const Downloader = ({ optimize, output, disableRateLimit, dispatch }) => {
 	const [ url, isValidURL, setURL ] = useValidURL('')
 
 	const downloadWithSettings = useCallback(() => {
@@ -68,7 +68,6 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 }
 
 Downloader.propTypes = {
-	url: string.isRequired,
 	optimize: string.isRequired,
 	output: string.isRequired,
 	disableRateLimit: oneOfType([bool, number]),
