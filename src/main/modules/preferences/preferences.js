@@ -13,6 +13,21 @@ const prefsDir = dev
 
 export const prefsPath = path.join(prefsDir, 'preferences.json')
 
+const innerMergeObjectKeys = (objL, objR) => {
+	const keys = [...new Set([...Object.keys(objL), ...Object.keys(objR)])]
+	const merged = {}
+
+	for (const key of keys) {
+		if (key in objL && key in objR) {
+			merged[key] = objR[key]
+		} else if (key in objL) {
+			merged[key] = objL[key]
+		}
+	}
+
+	return merged
+}
+
 export const initPreferences = async () => {
 	const prefsDirExists = await fileExistsPromise(prefsDir)
 
@@ -47,8 +62,6 @@ export const initPreferences = async () => {
 	if (prefs.version < 7 && prefs.enableWidescreenGrids) {
 		defaultPrefs.aspectRatioMarkers[0].disabled = !prefs.enableWidescreenGrids
 		defaultPrefs.aspectRatioMarkers[1].disabled = !prefs.enableWidescreenGrids
-
-		delete prefs.enableWidescreenGrids
 	}
 
 	if (prefs.version < 7 && prefs.renderFrameRate) {
@@ -62,8 +75,6 @@ export const initPreferences = async () => {
 		defaultPrefs.aspectRatioMarkers[3].disabled = !prefs.gridButtons._43
 		defaultPrefs.aspectRatioMarkers[4].disabled = !prefs.gridButtons._11
 		defaultPrefs.aspectRatioMarkers[5].disabled = !prefs.gridButtons._916
-
-		delete prefs.gridButtons
 	}
 
 	if (prefs.version < 9 && prefs.saveLocations) {
@@ -76,8 +87,7 @@ export const initPreferences = async () => {
 
 	if (prefs.version < 10) {
 		return fsp.writeFile(prefsPath, JSON.stringify({
-			...defaultPrefs,
-			...prefs,
+			...innerMergeObjectKeys(defaultPrefs, prefs),
 			version: 10
 		}))
 	}
