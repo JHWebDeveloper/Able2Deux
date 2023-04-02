@@ -1,10 +1,11 @@
 import React, { cloneElement, useCallback, useId, useState } from 'react'
 import { arrayOf, element, oneOfType, string } from 'prop-types'
 
+import { useToggle } from 'hooks'
 import { detectTabExit } from 'utilities'
 
 const DropdownMenu = ({ icon = 'more_vert', children }) => {
-	const [ menu, setMenu ] = useState(false)
+	const [ menu, toggleMenu ] = useToggle()
 	const [ position, setPosition ] = useState({ top: 0, left: 0 })
 
 	const menuRefId = useId()
@@ -18,7 +19,7 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 		})
 	}, [])
 
-	const closeMenuOnBlur = useCallback(detectTabExit(setMenu), [])
+	const closeMenuOnBlur = useCallback(detectTabExit(toggleMenu), [])
 
 	return (
 		<span className="dropdown" onBlur={closeMenuOnBlur}>
@@ -28,7 +29,7 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 				className="symbol"
 				onClick={e => {
 					getPositionRelativeToWindow(e)
-					setMenu(!menu)
+					toggleMenu()
 				}}
 				aria-label="Options"
 				aria-haspopup
@@ -40,7 +41,7 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 					aria-label="Options"
 					id={menuRefId}
 					style={position}>
-					{cloneElement(children, { setMenu })}
+					{cloneElement(children, { toggleMenu })}
 				</span>
 			) : <></>}
 		</span>

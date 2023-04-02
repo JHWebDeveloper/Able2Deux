@@ -1,20 +1,18 @@
 import React, { cloneElement, useCallback, useEffect, useState } from 'react'
 import { arrayOf, element, func, bool, oneOfType, shape, string } from 'prop-types'
 
+import { useToggle } from 'hooks'
+
 import DropdownMenu from './DropdownMenu'
 import MediaOptionButtons from './MediaOptionButtons'
 
 const AccordionPanel = ({ heading, id, className = '', initOpen, buttons = [], children }) => {
-	const [ open, setOpen ] = useState(false)
+	const [ open, toggleOpen ] = useToggle()
 	const headingId = `${id}-heading`
 	const title = `${open ? 'Close' : 'Open'} ${heading}`
 
-	const toggleOpen = useCallback(() => {
-		setOpen(!open)
-	}, [open])
-
 	useEffect(() => {
-		if (initOpen) setOpen(true)
+		if (initOpen) toggleOpen(true)
 	}, [])
 
 	return (

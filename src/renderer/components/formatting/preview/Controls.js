@@ -58,7 +58,7 @@ const Controls = props => {
 					grid={props.grid}
 					aspectRatioMarkers={props.aspectRatioMarkers}
 					gridColor={props.gridColor}
-					setGrid={props.setGrid}
+					toggleGrid={props.toggleGrid}
 					dispatch={dispatch} />
 			)}
 		</div>
@@ -78,7 +78,7 @@ Controls.propTypes = {
 		ratio: arrayOf(number)
 	})).isRequired,
 	gridColor: string.isRequired,
-	setGrid: func,
+	toggleGrid: func,
 	dispatch: func.isRequired
 }
 

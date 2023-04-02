@@ -28,7 +28,7 @@ const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
 	})
 )
 
-const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, setGrid, dispatch }) => {
+const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, toggleGrid, dispatch }) => {
 	const previewQualityBtnTitle = `Preview Quality: ${previewQuality * 100}%`
 	const gridBtnTitle = `${toggleTitle(grid)} Grid`
 
@@ -65,7 +65,7 @@ const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, set
 				title={gridBtnTitle}
 				aria-label={gridBtnTitle}
 				style={toggleColor(grid)}
-				onClick={() => setGrid(!grid)}>grid_on</button>
+				onClick={() => toggleGrid()}>grid_on</button>
 			{enabledAspectRatioMarkers.length > 3 ? (
 				<>
 					<AspectRatioMarkerButtons
@@ -102,7 +102,7 @@ GridSelector.propTypes = {
 		ratio: arrayOf(number)
 	})).isRequired,
 	gridColor: string.isRequired,
-	setGrid: func.isRequired,
+	toggleGrid: func.isRequired,
 	dispatch: func.isRequired
 }
 

@@ -3,6 +3,7 @@ import { arrayOf, bool, exact, func, number, object, oneOf, string } from 'prop-
 import 'css/index/preview.css'
 
 import { PrefsContext } from 'store/preferences'
+import { useToggle } from 'hooks'
 import { buildSource, debounce } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -18,7 +19,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	const { renderOutput, gridColor } = useContext(PrefsContext).preferences
 	const [ previewSize, setPreviewSize ] = useState({})
 	const [ previewStill, setPreviewStill ] = useState('')
-	const [ grid, setGrid ] = useState(false)
+	const [ grid, toggleGrid ] = useToggle()
 	const container = useRef(null)
 
 	const {
@@ -146,7 +147,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 				aspectRatioMarkers={aspectRatioMarkers}
 				previewQuality={previewQuality}
 				gridColor={gridColor}
-				setGrid={setGrid}
+				toggleGrid={toggleGrid}
 				dispatch={dispatch} />
 		</>
 	)
