@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useReducer } from 'react'
 import toastr from 'toastr'
 import { arrayOf, element, oneOfType } from 'prop-types'
 
-import reducer from '../reducer/preferences'
+import reducer from 'reducer/preferences'
 import { updateState } from 'actions'
 import { toastrOpts } from 'utilities'
 
@@ -63,7 +63,7 @@ export const PrefsProvider = ({ children }) => {
 			try {
 				dispatch(updateState(await interop.requestPrefs()))
 			} catch (err) {
-				toastr.error('Unable to load preferences', false, toastrOpts)
+				toastr.error(err, false, toastrOpts)
 			}
 		})()
 
