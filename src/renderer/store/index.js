@@ -1,8 +1,11 @@
-import React, { createContext, useEffect, useReducer } from 'react'
-import { arrayOf, bool, element, exact, number, oneOf, oneOfType, object } from 'prop-types'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
+import { arrayOf, element, oneOfType } from 'prop-types'
 
+import { PrefsProvider, PrefsContext } from 'store/preferences'
+
+import reducer from 'reducer'
 import { updateState } from 'actions'
-import reducer from '../reducer'
+import { objectExtract } from 'utilities'
 
 const initState = {
 	optimize: 'quality',
@@ -22,16 +25,23 @@ const initState = {
 	rendering: false
 }
 
+const extractPrefsForMainState = (() => {
+	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot', 'previewQuality', 'previewHeight', 'aspectRatioMarkers']
+
+	return obj => objectExtract(obj, defaults)
+})()
+
 export const MainContext = createContext()
 
-export const MainProvider = ({ children, prefs }) => {
+const MainProviderWithPrefs = ({ children }) => {
 	const [ state, dispatch ] = useReducer(reducer, initState)
+	const { preferences } = useContext(PrefsContext)
 
 	const augDispatch = input => input instanceof Function ? input(dispatch, state) : dispatch(input)
 
 	useEffect(() => {
-		dispatch(updateState({ ...prefs }))
-	}, [prefs])
+		dispatch(updateState(extractPrefsForMainState(preferences)))
+	}, [preferences])
 
 	return (
 		<MainContext.Provider value={{
@@ -43,18 +53,17 @@ export const MainProvider = ({ children, prefs }) => {
 	)
 }
 
-MainProvider.propTypes = {
-	children: oneOfType([element, arrayOf(element)]).isRequired,
-	prefs: exact({
-		saveLocations: arrayOf(object),
-		editAll: bool,
-		split: number,
-		optimize: oneOf(['quality', 'download']),
-		screenshot: bool,
-		timerEnabled: bool,
-		timer: number,
-		previewQuality: oneOf([1, 0.75, 0.5]),
-		previewHeight: number,
-		aspectRatioMarkers: arrayOf(object)
-	})
+export const MainProvider = ({ children }) => (
+	<PrefsProvider>
+		<MainProviderWithPrefs>
+			{ children }
+		</MainProviderWithPrefs>
+	</PrefsProvider>
+)
+
+const providerPropTypes = {
+	children: oneOfType([element, arrayOf(element)]).isRequired
 }
+
+MainProviderWithPrefs.propTypes = providerPropTypes
+MainProvider.propTypes = providerPropTypes
