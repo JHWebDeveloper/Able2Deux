@@ -69,6 +69,7 @@ module.exports = {
 		alias: {
 			actions: path.join(rendererPath, 'actions'),
 			css: path.join(rendererPath, 'css'),
+			hooks: path.join(rendererPath, 'hooks'),
 			reducer: path.join(rendererPath, 'reducer'),
 			status: path.join(rendererPath, 'status'),
 			store: path.join(rendererPath, 'store'),
