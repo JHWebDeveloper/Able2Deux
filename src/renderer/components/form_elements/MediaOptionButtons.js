@@ -1,6 +1,6 @@
 import React, { useId, useMemo } from 'react'
 
-const MediaOptionButtons = ({ buttons, toggleRevealMenu }) => {
+const MediaOptionButtons = ({ buttons, setMenu }) => {
 	const menuId = useId()
 	const enabledButtons = useMemo(() => buttons.filter(({ hide }) => !hide), [buttons])
 
@@ -20,7 +20,7 @@ const MediaOptionButtons = ({ buttons, toggleRevealMenu }) => {
 			autoFocus={i === 0}
 			onClick={() => {
 				action()
-				toggleRevealMenu(false)
+				setMenu(false)
 			}}
 			data-no-drag>{label}</button>
 	))
