@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { bool, func, number, oneOfType, string } from 'prop-types'
 
 import { download, updateStateFromEvent } from 'actions'
+import { useValidURL } from 'hooks'
 
 import RadioSet from '../form_elements/RadioSet'
 
@@ -15,14 +16,6 @@ const optimizeButtons = [
 		value: 'download'
 	}
 ]
-
-const validURLRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
-
-const useValidURL = initState => {
-	const [ url, setURL ] = useState(initState)
-
-	return [ url, validURLRegex.test(url), setURL ]
-}
 
 const Downloader = ({ optimize, output, disableRateLimit, dispatch }) => {
 	const [ url, isValidURL, setURL ] = useValidURL('')
