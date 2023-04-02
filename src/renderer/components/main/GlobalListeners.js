@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { string } from 'prop-types'
 import toastr from 'toastr'
 
 import { MainContext } from 'store'
+import { PrefsContext } from 'store/preferences'
 import { upload } from 'actions'
 import { debounce, toastrOpts } from 'utilities'
 
@@ -13,15 +13,16 @@ const saveWindowSize = debounce(() => {
 	interop.saveWindowSize(window.outerWidth, window.outerHeight)
 }, 500)
 
-const GlobalListeners = ({ imports }) => {
+const GlobalListeners = () => {
 	const { rendering, dispatch } = useContext(MainContext)
+	const { scratchDisk } = useContext(PrefsContext).preferences
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		interop.addOpenImportCacheListener(imports)
+		interop.addOpenImportCacheListener(scratchDisk.imports)
 
 		return interop.removeOpenImportCacheListener
-	}, [imports])
+	}, [scratchDisk])
 
 	useEffect(() => {
 		interop.setOpenWithListener(files => {
@@ -44,10 +45,6 @@ const GlobalListeners = ({ imports }) => {
 	}, [])
 
 	return <></>
-}
-
-GlobalListeners.propTypes = {
-	imports: string.isRequired
 }
 
 export default GlobalListeners
