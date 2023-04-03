@@ -1,4 +1,4 @@
-import React, { cloneElement, useCallback, useEffect, useState } from 'react'
+import React, { cloneElement, useEffect } from 'react'
 import { arrayOf, element, func, bool, oneOfType, shape, string } from 'prop-types'
 
 import { useToggle } from 'hooks'
