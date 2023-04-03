@@ -1,9 +1,10 @@
-import React, { createContext, useEffect, useReducer } from 'react'
+import React, { createContext, useEffect } from 'react'
 import toastr from 'toastr'
 import { arrayOf, element, oneOfType } from 'prop-types'
 
 import reducer from 'reducer/preferences'
 import { updateState } from 'actions'
+import { useAugmentedDispatch } from 'hooks'
 import { toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
@@ -54,9 +55,7 @@ const initState = {
 export const PrefsContext = createContext()
 
 export const PrefsProvider = ({ children }) => {
-	const [ state, dispatch ] = useReducer(reducer, initState)
-
-	const augDispatch = input => input instanceof Function ? input(dispatch, state) : dispatch(input)
+	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
 
 	useEffect(() => {
 		(async () => {
@@ -79,7 +78,7 @@ export const PrefsProvider = ({ children }) => {
 	return (
 		<PrefsContext.Provider value={{
 			preferences: state,
-			dispatch: augDispatch
+			dispatch
 		}}>
 			{ children }
 		</PrefsContext.Provider>

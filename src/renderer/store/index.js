@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 import { arrayOf, element, oneOfType } from 'prop-types'
 
 import { PrefsProvider, PrefsContext } from 'store/preferences'
 
 import reducer from 'reducer'
 import { updateState } from 'actions'
+import { useAugmentedDispatch } from 'hooks'
 import { objectExtract } from 'utilities'
 
 const initState = {
@@ -34,10 +35,8 @@ const extractPrefsForMainState = (() => {
 export const MainContext = createContext()
 
 const MainProviderWithPrefs = ({ children }) => {
-	const [ state, dispatch ] = useReducer(reducer, initState)
+	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
 	const { preferences } = useContext(PrefsContext)
-
-	const augDispatch = input => input instanceof Function ? input(dispatch, state) : dispatch(input)
 
 	useEffect(() => {
 		dispatch(updateState(extractPrefsForMainState(preferences)))
@@ -46,7 +45,7 @@ const MainProviderWithPrefs = ({ children }) => {
 	return (
 		<MainContext.Provider value={{
 			...state,
-			dispatch: augDispatch
+			dispatch
 		}}>
 			{ children }
 		</MainContext.Provider>
