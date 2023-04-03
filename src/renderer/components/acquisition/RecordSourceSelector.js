@@ -24,7 +24,9 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 	const closeSelectorOnBlur = useCallback(detectTabExit(close), [])
 
 	useEffect(() => {
-		setVisibleTimeout.current = setTimeout(() => setVisible(true), 500)
+		setVisibleTimeout.current = setTimeout(() => {
+			setVisible(true)
+		}, 500)
 
 		return () => {
 			clearTimeout(setVisibleTimeout.current)
