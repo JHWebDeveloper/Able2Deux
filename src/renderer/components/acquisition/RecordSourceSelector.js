@@ -5,8 +5,8 @@ import { detectTabExit } from 'utilities'
 
 const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources, captureScreen }) => {
 	const [ visible, setVisible ] = useState(false)
-
 	const recordSourceSelector = useRef(null)
+	const setVisibleTimeout = useRef(null)
 
 	const close = useCallback(recordSrcId => {
 		setVisible(false)
@@ -24,7 +24,11 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 	const closeSelectorOnBlur = useCallback(detectTabExit(close), [])
 
 	useEffect(() => {
-		setTimeout(() => setVisible(true), 500)
+		setVisibleTimeout.current = setTimeout(() => setVisible(true), 500)
+
+		return () => {
+			clearTimeout(setVisibleTimeout.current)
+		}
 	}, [])
 
 	const getRecordButtonPos = useCallback(() => ({
