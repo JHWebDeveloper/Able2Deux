@@ -12,11 +12,11 @@ const PreviewCanvas = ({ previewStill, previewSize, eyedropper, setEyedropper })
 		const y = e.clientY - top
 		const [ r, g, b ] = ctx.current.getImageData(x, y, 1, 1).data
 
-		setEyedropper({
-			active: eyedropper.active,
+		setEyedropper(({ active }) => ({
+			active,
 			pixelData: { r, g, b }
-		})
-	}, [previewSize, eyedropper])
+		}))
+	}, [previewSize])
 
 	const eyedropperProps = useMemo(() => eyedropper.active ? {
 		className: 'eyedropper',

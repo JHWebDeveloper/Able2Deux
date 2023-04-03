@@ -152,18 +152,18 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 	/* ---- Eye Droppers ---- */
 
 	const selectWhitePt = useCallback(() => {
-		setEyedropper({
+		setEyedropper(({ active }) => ({
 			active: active === 'white' ? false : 'white',
 			pixelData: false
-		})
-	}, [active])
+		}))
+	}, [])
 
 	const selectBlackPt = useCallback(() => {
-		setEyedropper({
+		setEyedropper(({ active }) => ({
 			active: active === 'black' ? false : 'black',
 			pixelData: false
-		})
-	}, [active])
+		}))
+	}, [])
 
 	useEffect(() => {
 		if ((active === 'black' || active === 'white') && pixelData) {

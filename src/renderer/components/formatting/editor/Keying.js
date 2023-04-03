@@ -131,11 +131,11 @@ const Keying = ({ id, keying, eyedropper, setEyedropper, editAll, dispatch }) =>
 	}, [id, editAll])
 
 	const selectKeyColor = useCallback(() => {
-		setEyedropper({
+		setEyedropper(({ active }) => ({
 			active: active === 'key' ? false : 'key',
 			pixelData: false
-		})
-	}, [active])
+		}))
+	}, [])
 
 	useEffect(() => {
 		if (active === 'key' && pixelData) {

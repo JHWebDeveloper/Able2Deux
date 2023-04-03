@@ -131,11 +131,11 @@ const Formatting = props => {
 	}, [id, editAll])
 
 	const selectBgColor = useCallback(() => {
-		setEyedropper({
+		setEyedropper(({ active }) => ({
 			active: active === 'background' ? false : 'background',
 			pixelData: false
-		})
-	}, [active])
+		}))
+	}, [])
 
 	useEffect(() => {
 		if (active === 'background' && pixelData) {
