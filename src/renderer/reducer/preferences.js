@@ -1,7 +1,7 @@
 import toastr from 'toastr'
 
 import * as ACTION from 'actions/types'
-import * as shared from './shared'
+import * as shared from 'reducer/shared'
 import { errorToString, toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
