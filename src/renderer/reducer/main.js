@@ -1,6 +1,6 @@
+import * as shared from 'reducer/shared'
 import * as ACTION from 'actions/types'
 import * as STATUS from 'status'
-import * as shared from 'reducer/shared'
 
 import { copyCurve, sortCurvePoints } from 'utilities'
 
