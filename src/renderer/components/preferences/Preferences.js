@@ -3,7 +3,7 @@ import { HashRouter, NavLink, Routes, Route } from 'react-router-dom'
 import toastr from 'toastr'
 import 'css/preferences.css'
 
-import { PrefsProvider, PrefsContext } from 'store/preferences'
+import { PrefsProvider, PrefsContext } from 'store'
 import { updateState } from 'actions'
 import { createKonamiListener, toastrOpts } from 'utilities'
 

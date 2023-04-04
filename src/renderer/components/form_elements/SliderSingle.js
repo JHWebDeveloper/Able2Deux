@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useId, useMemo, useRef } from 'react'
 import { arrayOf, bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
-import { PrefsContext } from 'store/preferences.js'
+import { PrefsContext } from 'store'
 
 import SliderThumb from './SliderThumb'
 import SliderSnapMarkers from './SliderSnapMarkers'

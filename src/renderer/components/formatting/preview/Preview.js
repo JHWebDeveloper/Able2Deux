@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } 
 import { arrayOf, bool, exact, func, number, object, oneOf, string } from 'prop-types'
 import 'css/index/preview.css'
 
-import { PrefsContext } from 'store/preferences'
+import { PrefsContext } from 'store'
 import { useToggle } from 'hooks'
 import { buildSource, debounce } from 'utilities'
 

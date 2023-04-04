@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import { arrayOf, func, object } from 'prop-types'
 import toastr from 'toastr'
 
-import { PrefsContext } from 'store/preferences'
+import { PrefsContext } from 'store'
 import * as STATUS from 'status'
 
 import {

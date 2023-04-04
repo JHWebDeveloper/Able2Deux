@@ -2,7 +2,7 @@ import React, { useContext, useMemo, useState } from 'react'
 import 'css/index/acquisition.css'
 
 import { MainContext } from 'store'
-import { PrefsContext } from 'store/preferences'
+import { PrefsContext } from 'store'
 
 import Downloader from './Downloader'
 import Uploader from './Uploader'

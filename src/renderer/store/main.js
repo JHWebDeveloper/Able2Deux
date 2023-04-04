@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect } from 'react'
 import { arrayOf, element, oneOfType } from 'prop-types'
 
-import { PrefsProvider, PrefsContext } from 'store/preferences'
+import { PrefsProvider, PrefsContext } from 'store'
 
 import reducer from 'reducer'
 import { updateState } from 'actions'

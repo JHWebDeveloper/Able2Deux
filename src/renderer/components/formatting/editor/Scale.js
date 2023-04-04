@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, shape, string } from 'prop-types'
 
-import { PrefsContext } from 'store/preferences'
+import { PrefsContext } from 'store'
 
 import {
 	applySettingsToAll,

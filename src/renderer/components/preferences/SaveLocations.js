@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 
-import { PrefsContext } from 'store/preferences'
+import { PrefsContext } from 'store'
 
 import { addNewLocation, moveSortableElement } from 'actions'
 

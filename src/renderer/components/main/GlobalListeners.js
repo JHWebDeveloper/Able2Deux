@@ -2,8 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toastr from 'toastr'
 
-import { MainContext } from 'store'
-import { PrefsContext } from 'store/preferences'
+import { MainContext, PrefsContext } from 'store'
 import { upload } from 'actions'
 import { debounce, toastrOpts } from 'utilities'
 
