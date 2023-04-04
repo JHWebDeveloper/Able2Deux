@@ -2,7 +2,7 @@ import React, { createContext, useEffect } from 'react'
 import toastr from 'toastr'
 import { arrayOf, element, oneOfType } from 'prop-types'
 
-import { prefsReducer as reducer } from 'reducer/preferences'
+import { prefsReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
 import { useAugmentedDispatch } from 'hooks'
 import { toastrOpts } from 'utilities'
