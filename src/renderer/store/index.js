@@ -34,7 +34,7 @@ const extractPrefsForMainState = (() => {
 
 export const MainContext = createContext()
 
-const MainProviderWithPrefs = ({ children }) => {
+const MainProviderWithDefaultPrefs = ({ children }) => {
 	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
 	const { preferences } = useContext(PrefsContext)
 
@@ -54,9 +54,9 @@ const MainProviderWithPrefs = ({ children }) => {
 
 export const MainProvider = ({ children }) => (
 	<PrefsProvider>
-		<MainProviderWithPrefs>
+		<MainProviderWithDefaultPrefs>
 			{ children }
-		</MainProviderWithPrefs>
+		</MainProviderWithDefaultPrefs>
 	</PrefsProvider>
 )
 
