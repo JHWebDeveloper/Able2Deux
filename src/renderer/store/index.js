@@ -64,5 +64,5 @@ const providerPropTypes = {
 	children: oneOfType([element, arrayOf(element)]).isRequired
 }
 
-MainProviderWithPrefs.propTypes = providerPropTypes
+MainProviderWithDefaultPrefs.propTypes = providerPropTypes
 MainProvider.propTypes = providerPropTypes
