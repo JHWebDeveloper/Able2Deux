@@ -1,6 +1,6 @@
 import { v1 as uuid } from 'uuid'
 
-import { getIntegerLength } from '.'
+import { getIntegerLength } from 'utilities'
 
 // ---- CURVE ARRYS --------
 

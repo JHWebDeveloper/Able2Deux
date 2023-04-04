@@ -1,4 +1,4 @@
-import { has11pmBackground } from '.'
+import { has11pmBackground } from 'utilities'
 
 // eslint-disable-next-line no-extra-parens
 const buildSourceName = (src, prefix, maxLength) => (

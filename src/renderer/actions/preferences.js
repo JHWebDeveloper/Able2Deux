@@ -1,8 +1,8 @@
 import toastr from 'toastr'
 import { v1 as uuid } from 'uuid'
 
-import * as ACTION from './types'
-import { addNewSortableElement } from '.'
+import * as ACTION from 'actions/types'
+import { addNewSortableElement } from 'actions'
 import { errorToString, toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2

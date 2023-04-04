@@ -1,5 +1,5 @@
 import * as STATUS from 'status'
-import { createAnimator } from '.'
+import { createAnimator } from 'utilities'
 
 export const detectTabExit = callback => e => {
 	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)

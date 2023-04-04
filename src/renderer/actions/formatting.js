@@ -1,14 +1,14 @@
 import { v1 as uuid } from 'uuid'
 import toastr from 'toastr'
 
-import * as ACTION from './types'
+import * as ACTION from 'actions/types'
 import * as STATUS from 'status'
 
 import {
 	addMedia,
 	updateMediaNestedState,
 	updateMediaState
-} from '.'
+} from 'actions'
 
 import {
 	buildSource,

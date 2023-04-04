@@ -2,7 +2,7 @@ import toastr from 'toastr'
 
 import * as ACTION from './types'
 import * as STATUS from 'status'
-import { updateMediaState, removeSortableElement } from '.'
+import { updateMediaState, removeSortableElement } from 'actions'
 
 import {
 	createMediaData,

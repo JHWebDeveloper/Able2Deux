@@ -1,4 +1,4 @@
-import * as ACTION from './types'
+import * as ACTION from 'actions/types'
 
 export * from './acquisition'
 export * from './preferences'

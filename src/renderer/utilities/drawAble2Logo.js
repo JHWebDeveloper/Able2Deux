@@ -1,4 +1,4 @@
-import { TAU } from '.'
+import { TAU } from 'utilities'
 
 export const drawAble2Logo = ctx => {
 	ctx.strokeStyle = '#4c4c4c'
