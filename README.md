@@ -20,7 +20,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Updated
 - Video service compatibility
-- Electron 23
+- Electron 24
 
 ## [2.3.1] - 2.22.23
 
