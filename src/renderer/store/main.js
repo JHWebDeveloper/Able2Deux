@@ -3,7 +3,7 @@ import { arrayOf, element, oneOfType } from 'prop-types'
 
 import { PrefsProvider, PrefsContext } from 'store'
 
-import reducer from 'reducer'
+import { mainReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
 import { useAugmentedDispatch } from 'hooks'
 import { objectExtract } from 'utilities'

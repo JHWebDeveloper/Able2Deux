@@ -6,7 +6,7 @@ import { copyCurve, sortCurvePoints } from 'utilities'
 
 // ---- REDUCER --------
 
-export default (state, action) => {
+export const mainReducer = (state, action) => {
 	const { type, payload } = action
 
 	switch (type) {

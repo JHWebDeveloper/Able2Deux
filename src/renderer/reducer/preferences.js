@@ -8,7 +8,7 @@ const { interop } = window.ABLE2
 
 // ---- REDUCER --------
 
-export default (state, action) => { 
+export const prefsReducer = (state, action) => { 
 	const { type, payload, callback } = action
 
 	switch (type) {
