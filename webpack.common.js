@@ -6,8 +6,8 @@ const postcssPresetEnv = require('postcss-preset-env')
 const postcssPseudoIs = require('postcss-pseudo-is')
 
 const rendererPath = path.resolve('src', 'renderer')
-
 const pages = ['index', 'splash', 'update', 'preferences', 'help']
+const alias = ['actions', 'css', 'hooks', 'reducer', 'status', 'store', 'utilities']
 
 module.exports = {
 	target: 'web',
@@ -66,15 +66,10 @@ module.exports = {
 		]
 	},
 	resolve: {
-		alias: {
-			actions: path.join(rendererPath, 'actions'),
-			css: path.join(rendererPath, 'css'),
-			hooks: path.join(rendererPath, 'hooks'),
-			reducer: path.join(rendererPath, 'reducer'),
-			status: path.join(rendererPath, 'status'),
-			store: path.join(rendererPath, 'store'),
-			utilities: path.join(rendererPath, 'utilities')
-		}
+		alias: alias.reduce((obj, folder) => {
+			obj[folder] = path.join(rendererPath, folder)
+			return obj
+		}, {})
 	},
 	plugins: [
 		new MiniCssExtractPlugin({
