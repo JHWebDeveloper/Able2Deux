@@ -13,11 +13,6 @@ import {
 
 const { interop } = window.ABLE2
 
-const resetURL = () => ({
-	type: ACTION.UPDATE_STATE,
-	payload: { url: '' }
-})
-
 export const updateMediaStatus = (id, status, mediaData) => ({
 	type: ACTION.UPDATE_MEDIA_STATE,
 	payload: {
@@ -84,8 +79,6 @@ const updateDownloadProgress = ({ id, eta, percent }) => ({
 })
 
 export const download = ({ url, optimize, output, disableRateLimit }) => async dispatch => {
-	dispatch(resetURL())
-
 	let mediaData = {}
 
 	try {
