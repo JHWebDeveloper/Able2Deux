@@ -48,6 +48,8 @@ export const objectExtract = (obj, props) => props.reduce((extract, prop) => ({
 
 // ---- FUNCTION UTIL. --------
 
+export const pipe = (...fns) => val => fns.reduce((acc, fn) => fn(acc), val)
+
 export const debounce = (callback, wait) => {
 	let timeout = false
 
