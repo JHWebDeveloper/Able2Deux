@@ -22,6 +22,7 @@ const Downloader = ({ optimize, output, disableRateLimit, dispatch }) => {
 
 	const downloadWithSettings = useCallback(() => {
 		dispatch(download({ url, optimize, output, disableRateLimit }))
+		setURL('')
 	}, [url, optimize, output, disableRateLimit])
 
 	const dispatchWithEvent = useCallback(e => {
