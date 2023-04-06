@@ -16,6 +16,7 @@ import {
 	copyCurveSet,
 	createScrollbarPadder,
 	objectExtract,
+	pipe,
 	warn
 } from 'utilities'
 
@@ -50,7 +51,11 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 	const copyAllSettings = useCallback(id => {
 		const mediaItem = { ...media.find(item => item.id === id) }
 
-		dispatch(copySettings(extractSettingsToCopy(mediaItem)))
+		pipe(
+			extractSettingsToCopy,
+			copySettings,
+			dispatch
+		)(mediaItem)
 	}, [media])
 
 	const applyToAllWarning = useCallback(id => warn({
