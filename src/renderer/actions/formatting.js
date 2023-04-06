@@ -345,8 +345,8 @@ const preventDuplicateFilenames = media => {
 	return mediaCopy
 }
 
-const renderItem = (params, dispatch) => {
-	const { saveLocations, renderOutput, renderFrameRate, customFrameRate, autoPNG } = params
+const renderItem = (args, dispatch) => {
+	const { saveLocations, renderOutput, renderFrameRate, customFrameRate, autoPNG } = args
 
 	return async item => {
 		const { id, arc, aspectRatio, source } = item
@@ -387,9 +387,9 @@ const renderItem = (params, dispatch) => {
 	}
 }
 
-export const render = params => async dispatch => {
-	const { batch, goBack, removeLocation } = params
-	let { media, saveLocations } = params
+export const render = args => async dispatch => {
+	const { batch, goBack, removeLocation } = args
+	let { media, saveLocations } = args
 
 	saveLocations = saveLocations.filter(({ hidden, checked }) => !hidden && checked)
 
@@ -431,7 +431,7 @@ export const render = params => async dispatch => {
 	media = pipe(
 		fillMissingFilenames,
 		applyBatchName(batch),
-		sanitizeFilenames(params.asperaSafe),
+		sanitizeFilenames(args.asperaSafe),
 		preventDuplicateFilenames
 	)(media)
 
@@ -445,10 +445,10 @@ export const render = params => async dispatch => {
 
 	const renderItemReady = renderItem({
 		saveLocations,
-		renderOutput: params.renderOutput,
-		renderFrameRate: params.renderFrameRate,
-		customFrameRate: params.customFrameRate,
-		autoPNG: params.autoPNG
+		renderOutput: args.renderOutput,
+		renderFrameRate: args.renderFrameRate,
+		customFrameRate: args.customFrameRate,
+		autoPNG: args.autoPNG
 	}, dispatch)
 
 	for (const item of media) {
@@ -456,7 +456,7 @@ export const render = params => async dispatch => {
 	}
 
 	renderQueue
-		.updateConcurrent(params.concurrent)
+		.updateConcurrent(args.concurrent)
 		.start()
 }
 
