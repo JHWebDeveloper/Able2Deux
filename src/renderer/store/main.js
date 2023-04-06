@@ -6,7 +6,7 @@ import { PrefsProvider, PrefsContext } from 'store'
 import { mainReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
 import { useAugmentedDispatch } from 'hooks'
-import { objectExtract } from 'utilities'
+import { objectExtract, pipe } from 'utilities'
 
 const initState = {
 	optimize: 'quality',
@@ -39,7 +39,7 @@ const MainProviderWithDefaultPrefs = ({ children }) => {
 	const { preferences } = useContext(PrefsContext)
 
 	useEffect(() => {
-		dispatch(updateState(extractPrefsForMainState(preferences)))
+		pipe(extractPrefsForMainState, updateState, dispatch)(preferences)
 	}, [preferences])
 
 	return (
