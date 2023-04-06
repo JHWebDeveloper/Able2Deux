@@ -91,7 +91,7 @@ const SliderThumb = forwardRef(({
 		e.stopPropagation()
 		e.target.focus()
 	
-		clickPos = clickPos ?? getClickPos(e)
+		clickPos ??= getClickPos(e)
 	
 		const track = getTrack()
 		const updateSliderValue = drag(clickPos, track)
