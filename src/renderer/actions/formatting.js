@@ -35,11 +35,6 @@ export const selectMedia = id => ({
 	payload: { selectedId: id }
 })
 
-export const mergeSettings = (id, properties) => ({
-	type: ACTION.UPDATE_MEDIA_STATE,
-	payload: { id, properties }
-})
-
 export const copySettings = settings => ({
 	type: ACTION.UPDATE_STATE,
 	payload: {
