@@ -282,10 +282,12 @@ const getBatchNamer = batch => {
 }
 
 const applyBatchName = batch => {
+	if (!batch.name) return val => val
+
 	const batchNamer = getBatchNamer(batch)
 
 	return media => {
-		if (!batch.name || media.length < 2) return media
+		if (media.length < 2) return media
 
 		return media.map(item => ({
 			...item,
