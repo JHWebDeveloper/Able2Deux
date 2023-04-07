@@ -39,13 +39,6 @@ export const arrayCount = (arr, exp) => {
 	return count
 }
 
-// ---- OBJECT UTIL. --------
-
-export const objectExtract = (obj, props) => props.reduce((extract, prop) => ({
-	...extract,
-	[prop]: obj[prop]
-}), {})
-
 // ---- FUNCTION UTIL. --------
 
 export const pipe = (...fns) => val => fns.reduce((acc, fn) => fn(acc), val)
