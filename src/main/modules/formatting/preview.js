@@ -10,7 +10,8 @@ import {
 	assetsPath,
 	base64Encode,
 	base64EncodeOrPlaceholder, 
-	getOverlayInnerDimensions
+	getOverlayInnerDimensions,
+	objectExtract
 } from '../utilities'
 
 export const createPreviewStill = exportData => new Promise((resolve, reject) => {
@@ -26,11 +27,14 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 		.outputOption('-q:v 2')
 		.output(previewPath)
 		.on('end', async () => {
-			resolve(await base64Encode(previewPath))
+			resolve({
+				responseId: exportData.requestId,
+				base64: await base64Encode(previewPath)
+			})
 		})
 		.on('error', reject)
 
-	if (exportData.isAudio) return command.run()
+	if (isAudio) return command.run()
 
 	if (sourceData) {
 		const sourcePng = path.join(scratchDisk.previews.path, `${id}.src-overlay.png`)
@@ -82,7 +86,7 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 		.run()
 })
 
-const createPreviewSource = ({ id, mediaType, hasAlpha, isAudio, audio, timecode, fps, duration, tempFilePath, previewSize }) => new Promise((resolve, reject) => {
+const createPreviewSource = ({ id, mediaType, hasAlpha, isAudio, isBars, timecode, fps, duration, tempFilePath, previewSize }) => new Promise((resolve, reject) => {
 	const command = ffmpeg()
 		.on('end', resolve)
 		.on('error', reject)
@@ -90,50 +94,65 @@ const createPreviewSource = ({ id, mediaType, hasAlpha, isAudio, audio, timecode
 	const extension = hasAlpha ? 'tiff' : isAudio ? 'png' : 'jpg'
 	const outputPath = path.join(scratchDisk.previews.path, `${id}.preview-source.${extension}`)
 
-	if (isAudio && audio.format === 'bars') {
+	if (isAudio && isBars) {
 		command
 			.input(`smptehdbars=size=${previewSize.width}x${previewSize.height}:duration=1`)
 			.inputOption('-f lavfi')
 			.output(outputPath)
 			.outputOption('-frames 1')
 			.run()
-	} else {
-		command.input(tempFilePath)
+	} else if (isAudio) {
+		const tcInSeconds = timecode / fps
 
-		if (isAudio) {
-			const tcInSeconds = timecode / fps
-
-			command
-				.seekInput(tcInSeconds)
-				.inputOption(`-to ${tcInSeconds + 1 / fps}`)
-				.complexFilter(`showwavespic=size=${previewSize.width}x${previewSize.height}:colors=#EEEEEE:split_channels=1`)
-				.output(outputPath)
-				.outputOption('-frames:v 1')
-				.run()
-		} else if (mediaType === 'video') {
-			command.screenshot({
+		command
+			.input(tempFilePath)
+			.seekInput(tcInSeconds)
+			.inputOption(`-to ${tcInSeconds + 1 / fps}`)
+			.complexFilter(`showwavespic=size=${previewSize.width}x${previewSize.height}:colors=#EEEEEE:split_channels=1`)
+			.output(outputPath)
+			.outputOption('-frames:v 1')
+			.run()
+	} else if (mediaType === 'video') {
+		command
+			.input(tempFilePath)
+			.screenshot({
 				timemarks: [`${timecode / fps / duration * 100}%`],
 				folder: scratchDisk.previews.path,
 				filename: `${id}.preview-source.${extension}`
 			})
-		} else {
-			const opts = hasAlpha ? [] : ['-q:v 2']
+	} else {
+		const opts = hasAlpha ? [] : ['-q:v 2']
 
-			if (mediaType === 'gif') opts.push('-frames 1')
-	
-			command
-				.outputOptions(opts)
-				.output(outputPath)
-				.run()
-		}
+		if (mediaType === 'gif') opts.push('-frames 1')
+
+		command
+			.input(tempFilePath)
+			.outputOptions(opts)
+			.output(outputPath)
+			.run()
 	}
 })
 
-export const changePreviewSource = async (exportData, win) => {
-	await createPreviewSource(exportData)
+export const renderPreview = (() => {
+	const previewSourceDynamicKeys = ['timecode', 'id', 'isAudio', 'isBars']
+	let prevExportData = {}
 
-	win.webContents.send('previewStillCreated', await createPreviewStill(exportData))
-}
+	const shouldCreateNewPreviewSource = exportData => {		
+		for (const key of previewSourceDynamicKeys) {
+			if (exportData[key] !== prevExportData[key]) return true
+		}
+
+		return false
+	}
+
+	return async exportData => {
+		if (shouldCreateNewPreviewSource(exportData)) await createPreviewSource(exportData)
+
+		prevExportData = objectExtract(exportData, previewSourceDynamicKeys)
+
+		return createPreviewStill(exportData)
+	}
+})()
 
 export const copyPreviewToImports = async ({ oldId, hasAlpha }) => {
 	const newId = uuid()
