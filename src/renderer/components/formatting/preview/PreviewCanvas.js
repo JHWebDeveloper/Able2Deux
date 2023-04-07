@@ -4,7 +4,7 @@ import { exact, func, number, oneOf, oneOfType, shape, string } from 'prop-types
 const PreviewCanvas = ({ previewStill, previewSize, eyedropper, setEyedropper }) => {
 	const cnv = useRef(null)
 	const ctx = useRef(null)
-	const img = useMemo(() => new Image(), [])
+	const img = useRef(new Image())
 
 	const getColorAtClickPos = useCallback(e => {
 		const { left, top } = cnv.current.getBoundingClientRect()
@@ -31,16 +31,16 @@ const PreviewCanvas = ({ previewStill, previewSize, eyedropper, setEyedropper })
 		cnv.current.width = previewSize.width
 		cnv.current.height = previewSize.height
 
-		img.onload = () => {
+		img.current.onload = () => {
 			ctx.current.clearRect(0, 0, cnv.current.width, cnv.current.height)
-			ctx.current.drawImage(img, 0, 0, cnv.current.width, cnv.current.height)
+			ctx.current.drawImage(img.current, 0, 0, cnv.current.width, cnv.current.height)
 		}
 
-		return () => img.onload = ''
+		return () => img.current.onload = ''
 	}, [previewSize])
 
 	useEffect(() => {
-		img.src = previewStill
+		img.current.src = previewStill
 	}, [previewStill, previewSize])
 
 	return (
