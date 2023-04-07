@@ -2,7 +2,7 @@ import React, { useId } from 'react'
 import { arrayOf, element, func, shape, string } from 'prop-types'
 
 const RadioSet = ({ name, state, onChange, buttons = [] }) => {
-	const setKey = useId
+	const setKey = useId()
 
 	return buttons.map(({ label, value, component }, i) => (
 		<label key={`${setKey}_${i}`}>
