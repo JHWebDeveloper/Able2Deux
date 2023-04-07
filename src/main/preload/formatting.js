@@ -4,8 +4,6 @@ import { requestChannel, sendMessage } from './sendMessage'
 
 // ---- PREVIEW --------
 
-export const initPreview = async data => ipcRenderer.send('initPreview', data)
-
 export const requestPreviewStill = async data => ipcRenderer.send('requestPreviewStill', data)
 
 export const setPreviewListeners = callback => {
