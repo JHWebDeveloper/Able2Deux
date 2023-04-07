@@ -17,10 +17,14 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Offset has been renamed to Free Rotate.
 - Offset angle range has been expanded from ±45° to ±180°
 - For non-orthogonal angles, fit buttons in the Scale panel now snap the content's rotated width or height to the frame edges instead of original dimensions.
+- Improved preview rendering.
 
 ### Updated
 - Video service compatibility
 - Electron 24
+
+### Fixed
+- Added race condition handlers to preview rendering. Older preview stills will no longer overwrite the newest when rendering is delayed.
 
 ## [2.3.1] - 2.22.23
 
