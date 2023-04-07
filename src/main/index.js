@@ -10,7 +10,7 @@ import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './m
 import { upload } from './modules/acquisition/upload'
 import { getRecordSources, saveScreenRecording } from './modules/acquisition/screenRecorder'
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
-import { createPreviewStill, changePreviewSource, copyPreviewToImports } from './modules/formatting/preview'
+import { renderPreview, copyPreviewToImports } from './modules/formatting/preview'
 import { render, cancelRender } from './modules/formatting/formatting'
 import { fileExistsPromise, supportedExtensions } from './modules/utilities'
 
@@ -475,17 +475,9 @@ ipcMain.on('saveScreenRecording', async (evt, data) => {
 
 // ---- IPC ROUTES: PREVIEW ------------
 
-ipcMain.on('initPreview', async (evt, data) => {
-	try {
-		await changePreviewSource(data, mainWin)
-	} catch (err) {
-		console.error(err)
-	}
-})
-
 ipcMain.on('requestPreviewStill', async (evt, data) => {
 	try {
-		evt.reply('previewStillCreated', await createPreviewStill(data))
+		evt.reply('previewStillCreated', await renderPreview(data))
 	} catch (err) {
 		if (!/^Error: ffmpeg (was killed with signal SIGKILL)|(exited with code 1)/.test(err.toString())) {
 			console.error(err)
