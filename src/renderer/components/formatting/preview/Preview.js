@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { arrayOf, bool, exact, func, number, object, oneOf, string } from 'prop-types'
+import { v1 as uuid } from 'uuid'
 import 'css/index/preview.css'
 
 import { PrefsContext } from 'store'
@@ -21,17 +22,16 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	const [ previewStill, setPreviewStill ] = useState('')
 	const [ grid, toggleGrid ] = useToggle()
 	const container = useRef(null)
+	const requestIdQueue = useRef([])
 
 	const {
-		id,
 		mediaType,
 		aspectRatio,
 		audio,
 		arc,
 		background,
 		source,
-		rotation,
-		timecode
+		rotation
 	} = selected
 
 	const sourceData = useMemo(() => {
@@ -43,6 +43,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	}, [source, arc, rotation, renderOutput, background])
 
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
+	const isBars = audio?.format === 'bars'
 
 	const calcPreviewSize = useCallback(() => ({
 		width: container.current.clientWidth * previewQuality,
@@ -57,8 +58,17 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 
 	// ---- Listen for preview still updates and rerender
 
+	const checkResponseId = useCallback(({ responseId, base64 }) => {
+		const queueIndex = requestIdQueue.current.indexOf(responseId)
+
+		if (queueIndex > -1) {
+			requestIdQueue.current.splice(0, queueIndex + 1)
+			setPreviewStill(base64)
+		}
+	}, [])
+
 	useEffect(() => {
-		interop.setPreviewListeners(setPreviewStill)
+		interop.setPreviewListeners(checkResponseId)
 
 		return () => {
 			interop.removePreviewListeners()
@@ -79,43 +89,41 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 		}
 	}, [previewQuality])
 
-	// ---- Create new preview still on source or timecode change
-
-	useEffect(() => {
-		interop.initPreview({
-			...selected,
-			isAudio,
-			renderOutput,
-			sourceData,
-			previewSize: calcPreviewSize()
-		})
-	}, [id, mediaType, isAudio, audio?.format, timecode])
-
 	// ---- Update preview on attribute changes
 
 	useEffect(() => {
+		const requestId = uuid()
+
+		requestIdQueue.current.push(requestId)
+
 		interop.requestPreviewStill({
 			...selected,
 			isAudio,
+			isBars,
 			renderOutput,
 			sourceData,
-			previewSize
+			previewSize,
+			requestId
 		})
 	}, [
-		previewSize,
-		renderOutput,
 		arc,
 		background,
-		source,
+		isAudio,
+		isBars,
+		previewSize,
+		renderOutput,
 		rotation,
 		selected.bgColor,
-		selected.overlay,
 		selected.centering,
+		selected.colorCurves,
+		selected.crop,
+		selected.id,
+		selected.keying,
+		selected.overlay,
 		selected.position,
 		selected.scale,
-		selected.crop,
-		selected.keying,
-		selected.colorCurves
+		selected.timecode,
+		source
 	])
 
 	return (
