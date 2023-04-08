@@ -45,17 +45,6 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
 	const isBars = audio?.format === 'bars'
 
-	const calcPreviewSize = useCallback(() => ({
-		width: container.current.clientWidth * previewQuality,
-		height: container.current.clientHeight * previewQuality,
-		frameWidth: container.current.clientWidth,
-		frameHeight: container.current.clientHeight
-	}), [previewQuality])
-
-	const applyDimensions = useCallback(() => {
-		setPreviewSize(calcPreviewSize())
-	}, [previewQuality])
-
 	// ---- Listen for preview still updates and rerender
 
 	const checkResponseId = useCallback(({ responseId, base64 }) => {
@@ -76,6 +65,15 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 	}, [])
 
 	// ---- Initialize preview size based on window dimensions and update on resize
+
+	const applyDimensions = useCallback(() => {
+		setPreviewSize({
+			width: container.current.clientWidth * previewQuality,
+			height: container.current.clientHeight * previewQuality,
+			frameWidth: container.current.clientWidth,
+			frameHeight: container.current.clientHeight
+		})
+	}, [previewQuality])
 
 	useEffect(() => {
 		applyDimensions()
@@ -125,7 +123,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 		selected.timecode,
 		source
 	])
-
+	
 	return (
 		<>
 			<PreviewViewport
