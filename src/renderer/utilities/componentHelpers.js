@@ -93,11 +93,9 @@ export const scrollText = el => {
 	el.addEventListener('mouseleave', animator.stop)
 }
 
-const { interop } = window.ABLE2
-
 export const warn = async ({ enabled, message, detail, callback, checkboxCallback }) => {
 	if (enabled) {
-		const { response, checkboxChecked } = await interop.warning({
+		const { response, checkboxChecked } = await window.ABLE2.interop.warning({
 			message,
 			detail,
 			hasCheckbox: !!checkboxCallback
