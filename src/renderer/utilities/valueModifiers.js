@@ -85,10 +85,10 @@ export const tcToFrames = (hmsf, fps) => {
 
 // ---- FILE NAMES --------
 
-const getRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
+const getAsperaSafeRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
 
 export const cleanFilename = (fileName, asperaSafe) => fileName
-	.replace(getRegex(asperaSafe), '_')
+	.replace(getAsperaSafeRegex(asperaSafe), '_')
 	.trim()
 	.slice(0, 252)
 	.trimEnd()
