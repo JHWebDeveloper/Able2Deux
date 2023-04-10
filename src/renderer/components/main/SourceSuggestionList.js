@@ -10,7 +10,7 @@ const SourceSuggestionList = () => {
 				const { data } = await axios.get('https://jhwebdeveloper.github.io/Able2-public-resources/source-suggestions.min.json')
 
 				setSuggestions(data)
-			} catch (err) {
+			} catch {
 				return false
 			}
 		})()
