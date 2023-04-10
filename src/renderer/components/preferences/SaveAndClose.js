@@ -4,8 +4,6 @@ import { func } from 'prop-types'
 import { cleanupPrefsAndSave, restoreDefaultPrefs } from 'actions'
 import { warn } from 'utilities'
 
-const { interop } = window.ABLE2
-
 const SaveAndClose = ({ dispatch }) => {
 	const restoreDefaultPrefsWarning = useCallback(() => warn({
 		enabled: true,
@@ -36,7 +34,7 @@ const SaveAndClose = ({ dispatch }) => {
 				type="button"
 				className="app-button"
 				title="Close"
-				onClick={interop.closePreferences}>Close</button>
+				onClick={window.ABLE2.interop.closePreferences}>Close</button>
 			<button
 				type="button"
 				className="app-button"

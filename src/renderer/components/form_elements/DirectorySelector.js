@@ -1,11 +1,9 @@
 import React, { useCallback } from 'react'
 import { func, string } from 'prop-types'
 
-const { interop } = window.ABLE2
-
 const DirectorySelector = ({ directory, onChange, ariaLabelledby }) => {
 	const selectDirectory = useCallback(async () => {
-		const { filePaths, canceled } = await interop.chooseDirectory()
+		const { filePaths, canceled } = await window.ABLE2.interop.chooseDirectory()
 		
 		onChange(canceled ? directory : filePaths[0])
 	}, [directory])

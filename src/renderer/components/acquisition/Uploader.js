@@ -3,8 +3,6 @@ import { func } from 'prop-types'
 
 import { upload } from 'actions'
 
-const { interop } = window.ABLE2
-
 const dragEnter = e => {
 	e.target.parentElement.classList.add('drag-enter')
 }
@@ -19,7 +17,7 @@ const Uploader = ({ dispatch }) => {
 	}, [])
 
 	const openFiles = useCallback(async () => {
-		prepFilesForUpload(await interop.openFiles())
+		prepFilesForUpload(await window.ABLE2.interop.openFiles())
 	}, [])
 
 	const dropFiles = useCallback(e => {

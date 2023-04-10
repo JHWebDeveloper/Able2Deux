@@ -9,8 +9,6 @@ import {
 	secondsToTC
 } from 'utilities'
 
-const { interop } = window.ABLE2
-
 const MediaElement = props => {
 	const { id, refId, status, title, isLive, download, removeMediaWarning } = props
 	const downloading = status === STATUS.DOWNLOADING
@@ -24,7 +22,7 @@ const MediaElement = props => {
 	}, [status, title, removeMediaWarning])
 
 	const stopLiveDownload = useCallback(() => {
-		interop.stopLiveDownload(id)
+		window.ABLE2.interop.stopLiveDownload(id)
 	}, [])
 
 	useEffect(() => {

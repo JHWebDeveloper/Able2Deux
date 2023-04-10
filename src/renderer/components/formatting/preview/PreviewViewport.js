@@ -9,8 +9,6 @@ import {
 	throttle
 } from 'utilities'
 
-const { interop } = window.ABLE2
-
 const PreviewViewport = ({ previewHeight, applyDimensions, dispatch, children }) => {
 	const updatePreviewHeight = useCallback(height => {
 		dispatch(updateState({ previewHeight: height }))
@@ -28,7 +26,7 @@ const PreviewViewport = ({ previewHeight, applyDimensions, dispatch, children })
 		const renderPreviewOnResize = debounce(applyDimensions, 500)
 
 		const onMouseUp = () => {
-			interop.savePreviewHeight(viewPort.clientHeight)
+			window.ABLE2.interop.savePreviewHeight(viewPort.clientHeight)
 
 			document.body.style.removeProperty('cursor')
 

@@ -4,8 +4,6 @@ import * as shared from 'reducer/shared'
 import * as ACTION from 'actions/types'
 import { errorToString, toastrOpts } from 'utilities'
 
-const { interop } = window.ABLE2
-
 // ---- REDUCER --------
 
 export const prefsReducer = (state, action) => { 
@@ -53,7 +51,7 @@ const updateSortableElementField = (state, payload) => ({
 
 const savePrefs = async (prefs, callback) => {
 	try {
-		await interop.savePrefs(prefs)
+		await window.ABLE2.interop.savePrefs(prefs)
 		callback?.()
 	} catch (err) {
 		toastr.error(errorToString(err), false, toastrOpts)
