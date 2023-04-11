@@ -15,6 +15,7 @@ module.exports = {
 		common: [
 			'react',
 			'react-dom',
+			'react-router-dom',
 			'prop-types',
 			'toastr',
 			path.join(rendererPath, 'css', 'global.css'),
