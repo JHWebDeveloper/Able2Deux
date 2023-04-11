@@ -45,7 +45,7 @@ const scrollbarPadder = createScrollbarPadder()
 
 const BatchList = ({ media, selectedId, dispatch }) => {
 	const prefsCtx = useContext(PrefsContext)
-	const prefsDispatch = prefsCtx.dispatch
+	const dispatchPrefs = prefsCtx.dispatch
 	const prefs = prefsCtx.preferences
 
 	const copyAllSettings = useCallback(id => {
@@ -66,7 +66,7 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 			dispatch(applySettingsToAll(id, extractSettingsToCopy(media.find(item => item.id === id))))
 		},
 		checkboxCallback() {
-			prefsDispatch(disableWarningAndSave('applyToAll'))
+			dispatchPrefs(disableWarningAndSave('applyToAll'))
 		}
 	}), [media, prefs.warnings.applyToAll])
 
@@ -82,7 +82,7 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 			}))
 		},
 		checkboxCallback() {
-			prefsDispatch(disableWarningAndSave('remove'))
+			dispatchPrefs(disableWarningAndSave('remove'))
 		}
 	}), [media, prefs.warnings.remove])
 

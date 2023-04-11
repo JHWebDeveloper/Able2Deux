@@ -11,7 +11,7 @@ import ReadyQueue from './ReadyQueue'
 const Acquisition = () => {
 	const [ recording, setRecording ] = useState(false)
 	const { url, optimize, screenshot, timer, timerEnabled, media, dispatch } = useContext(MainContext)
-	const { preferences, dispatch: prefsDispatch } = useContext(PrefsContext)
+	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const { renderOutput, disableRateLimit } = preferences
 
 	const output = useMemo(() => renderOutput.split('x')[1], [renderOutput])
@@ -38,7 +38,7 @@ const Acquisition = () => {
 				recording={recording}
 				warnings={preferences.warnings}
 				dispatch={dispatch}
-				prefsDispatch={prefsDispatch} />
+				dispatchPrefs={dispatchPrefs} />
 		</form>
 	)
 }

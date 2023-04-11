@@ -25,7 +25,7 @@ const detail = 'This option shoud only be selected if the source would obscure i
 
 const Source = ({ id, source, background, editAll, dispatch }) => {
 	const prefsCtx = useContext(PrefsContext)
-	const prefsDispatch = prefsCtx.dispatch
+	const dispatchPrefs = prefsCtx.dispatch
 	const { warnings } = prefsCtx.preferences
 	const { prefix, onTop } = source
 
@@ -53,7 +53,7 @@ const Source = ({ id, source, background, editAll, dispatch }) => {
 			toggleSourceOption(e)
 		},
 		checkboxCallback() {
-			prefsDispatch(disableWarningAndSave('sourceOnTop'))
+			dispatchPrefs(disableWarningAndSave('sourceOnTop'))
 		}
 	}), [id, editAll, warnings.sourceOnTop, source.onTop])
 

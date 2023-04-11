@@ -32,7 +32,7 @@ const RenderQueue = props => {
 	const { media, batch, saveLocations, closeRenderQueue, dispatch } = props
 	const prefsContext = useContext(PrefsContext)
 	const navigate = useNavigate()
-	const prefsDispatch = prefsContext.dispatch
+	const dispatchPrefs = prefsContext.dispatch
 	const { warnings } = prefsContext.preferences
 	const backOrCancelBtn = useRef(null)
 
@@ -82,7 +82,7 @@ const RenderQueue = props => {
 			navigate('/')
 		},
 		checkboxCallback() {
-			prefsDispatch(disableWarningAndSave('startOver'))
+			dispatchPrefs(disableWarningAndSave('startOver'))
 		}
 	}), [warnings.startOver])
 
@@ -91,7 +91,7 @@ const RenderQueue = props => {
 	}), [backOrCancelBtn])
 
 	const removeLocation = useCallback(id => {
-		prefsDispatch(removeLocationAndSave(id))
+		dispatchPrefs(removeLocationAndSave(id))
 	}, [])
 
 	useEffect(() => {

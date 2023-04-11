@@ -24,7 +24,7 @@ const removeMediaDetail = 'This cannot be undone. Proceed?'
 const checkMediaReady = ({ status }) => status === STATUS.READY || status === STATUS.FAILED
 const checkMediaFailed = ({ status }) => status === STATUS.FAILED
 
-const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch }) => {
+const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => {
 	const navigate = useNavigate()
 
 	// eslint-disable-next-line no-extra-parens
@@ -45,7 +45,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch }) => 
 			}))
 		},
 		checkboxCallback() {
-			prefsDispatch(disableWarningAndSave('remove'))
+			dispatchPrefs(disableWarningAndSave('remove'))
 		}
 	}), [media, warnings.remove])
 
@@ -57,7 +57,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, prefsDispatch }) => 
 			dispatch(removeAllMedia(media))
 		},
 		checkboxCallback() {
-			prefsDispatch(disableWarningAndSave('removeAll'))
+			dispatchPrefs(disableWarningAndSave('removeAll'))
 		}
 	}), [media, warnings.removeAll])
 
@@ -110,7 +110,7 @@ ReadyQueue.propTypes = {
 		removeAll: bool.isRequired
 	}).isRequired,
 	dispatch: func.isRequired,
-	prefsDispatch: func.isRequired
+	dispatchPrefs: func.isRequired
 }
 
 export default ReadyQueue
