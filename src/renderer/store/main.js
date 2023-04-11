@@ -26,7 +26,7 @@ const initState = {
 	rendering: false
 }
 
-const extractPrefsForMainState = (() => {
+const extractDefaultPrefsForMainState = (() => {
 	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot', 'previewQuality', 'previewHeight', 'aspectRatioMarkers']
 
 	return obj => objectPick(obj, defaults)
@@ -39,7 +39,7 @@ const MainProviderWithDefaultPrefs = ({ children }) => {
 	const { preferences } = useContext(PrefsContext)
 
 	useEffect(() => {
-		pipe(extractPrefsForMainState, updateState, dispatch)(preferences)
+		pipe(extractDefaultPrefsForMainState, updateState, dispatch)(preferences)
 	}, [preferences])
 
 	return (
