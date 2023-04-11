@@ -11,7 +11,7 @@ import {
 	base64Encode,
 	base64EncodeOrPlaceholder, 
 	getOverlayInnerDimensions,
-	objectExtract
+	objectPick
 } from '../utilities'
 
 export const createPreviewStill = exportData => new Promise((resolve, reject) => {
@@ -148,7 +148,7 @@ export const renderPreview = (() => {
 	return async exportData => {
 		if (shouldCreateNewPreviewSource(exportData)) await createPreviewSource(exportData)
 
-		prevExportData = objectExtract(exportData, previewSourceDynamicKeys)
+		prevExportData = objectPick(exportData, previewSourceDynamicKeys)
 
 		return createPreviewStill(exportData)
 	}

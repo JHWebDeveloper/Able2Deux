@@ -6,7 +6,7 @@ import { PrefsProvider, PrefsContext } from 'store'
 import { mainReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
 import { useAugmentedDispatch } from 'hooks'
-import { objectExtract, pipe } from 'utilities'
+import { objectPick, pipe } from 'utilities'
 
 const initState = {
 	optimize: 'quality',
@@ -29,7 +29,7 @@ const initState = {
 const extractPrefsForMainState = (() => {
 	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot', 'previewQuality', 'previewHeight', 'aspectRatioMarkers']
 
-	return obj => objectExtract(obj, defaults)
+	return obj => objectPick(obj, defaults)
 })()
 
 export const MainContext = createContext()

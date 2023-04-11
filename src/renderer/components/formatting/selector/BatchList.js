@@ -15,7 +15,7 @@ import {
 	arrayCount,
 	copyCurveSet,
 	createScrollbarPadder,
-	objectExtract,
+	objectPick,
 	pipe,
 	warn
 } from 'utilities'
@@ -37,7 +37,7 @@ export const extractSettingsToCopy = (() => {
 			settings.colorCurves = copyCurveSet(settings.colorCurves)
 		}
 
-		return objectExtract(settings, isAudio ? keys.slice(-1) : keys)
+		return objectPick(settings, isAudio ? keys.slice(-1) : keys)
 	}
 })()
 
