@@ -171,7 +171,7 @@ const Rotation = props => {
 					onChange={updateAngle}
 					buttons={transposeButtons}/>
 			</fieldset>
-			{props.showOffset ? <>
+			{props.showFreeRotate ? <>
 				<fieldset className="editor-option-column">
 					<legend>Free Rotate Mode<span aria-hidden>:</span></legend>
 					<RadioSet
@@ -227,7 +227,7 @@ const propTypes = {
 	width: number.isRequired,
 	height: number.isRequired,
 	editAll: bool.isRequired,
-	showOffset: bool.isRequired,
+	showFreeRotate: bool.isRequired,
 	dispatch: func.isRequired
 }
 
