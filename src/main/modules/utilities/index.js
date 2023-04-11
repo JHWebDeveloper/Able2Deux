@@ -26,7 +26,7 @@ export const fileExistsPromise = async fileOrDir => {
 	try {
 		await fsp.access(fileOrDir)
 		return true
-	} catch (err) {
+	} catch {
 		return false
 	}
 }

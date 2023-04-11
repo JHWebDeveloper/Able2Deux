@@ -162,7 +162,7 @@ export const getMediaInfo = async (id, tempFilePath, streamData, forcedFPS) => {
 
 	if (!streamData) try {
 		streamData = await checkFileType(tempFilePath, metadata)
-	} catch (err) {
+	} catch {
 		streamData = { mediaType: 'video', hasAudio: false }
 	}
 
