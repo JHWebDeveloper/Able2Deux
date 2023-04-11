@@ -31,7 +31,6 @@ const startOverDetail = 'All entries will be cleared and media deleted. This can
 const RenderQueue = props => {
 	const { media, batch, saveLocations, closeRenderQueue, dispatch } = props
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
-	const { warnings } = preferences
 	const navigate = useNavigate()
 	const backOrCancelBtn = useRef(null)
 
@@ -41,8 +40,9 @@ const RenderQueue = props => {
 		customFrameRate,
 		autoPNG,
 		asperaSafe,
-		concurrent
-	} = prefsContext.preferences
+		concurrent,
+		warnings
+	} = preferences
 
 	// eslint-disable-next-line no-extra-parens
 	const complete = media.every(({ render }) => (
