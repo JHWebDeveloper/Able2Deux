@@ -44,9 +44,8 @@ export const extractSettingsToCopy = (() => {
 const scrollbarPadder = createScrollbarPadder()
 
 const BatchList = ({ media, selectedId, dispatch }) => {
-	const prefsCtx = useContext(PrefsContext)
-	const dispatchPrefs = prefsCtx.dispatch
-	const prefs = prefsCtx.preferences
+	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
+	const warnings = preferences
 
 	const copyAllSettings = useCallback(id => {
 		const mediaItem = { ...media.find(item => item.id === id) }
@@ -61,19 +60,19 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 	const applyToAllWarning = useCallback(id => warn({
 		message: applyToAllMessage,
 		detail: applyToAllDetail,
-		enabled: prefs.warnings.applyToAll,
+		enabled: warnings.applyToAll,
 		callback() {
 			dispatch(applySettingsToAll(id, extractSettingsToCopy(media.find(item => item.id === id))))
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('applyToAll'))
 		}
-	}), [media, prefs.warnings.applyToAll])
+	}), [media, warnings.applyToAll])
 
 	const removeMediaWarning = useCallback(({ id, refId, title }) => warn({
 		message: `Remove "${title}"?`,
 		detail: removeMediaDetail,
-		enabled: prefs.warnings.remove,
+		enabled: warnings.remove,
 		callback() {
 			dispatch(removeMedia({
 				id,
@@ -84,7 +83,7 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('remove'))
 		}
-	}), [media, prefs.warnings.remove])
+	}), [media, warnings.remove])
 
 	const sortingAction = useCallback((oldPos, newPos) => {
 		dispatch(moveSortableElement('media', oldPos, newPos))

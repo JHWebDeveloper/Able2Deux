@@ -30,10 +30,9 @@ const startOverDetail = 'All entries will be cleared and media deleted. This can
 
 const RenderQueue = props => {
 	const { media, batch, saveLocations, closeRenderQueue, dispatch } = props
-	const prefsContext = useContext(PrefsContext)
+	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
+	const { warnings } = preferences
 	const navigate = useNavigate()
-	const dispatchPrefs = prefsContext.dispatch
-	const { warnings } = prefsContext.preferences
 	const backOrCancelBtn = useRef(null)
 
 	const {

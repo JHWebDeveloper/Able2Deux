@@ -24,9 +24,8 @@ const message = 'A source on top is not for aesthetics!'
 const detail = 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.'
 
 const Source = ({ id, source, background, editAll, dispatch }) => {
-	const prefsCtx = useContext(PrefsContext)
-	const dispatchPrefs = prefsCtx.dispatch
-	const { warnings } = prefsCtx.preferences
+	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
+	const { warnings } = preferences
 	const { prefix, onTop } = source
 
 	const maxLength = useMemo(() => {
