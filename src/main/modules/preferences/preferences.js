@@ -3,7 +3,7 @@ import { promises as fsp } from 'fs'
 import path from 'path'
 
 import defaultPrefs from './default'
-import { fileExistsPromise } from '../utilities'
+import { fileExistsPromise, innerMergeObjectKeys } from '../utilities'
 
 const dev = process.env.NODE_ENV === 'development'
 
@@ -12,28 +12,6 @@ const prefsDir = dev
 	: path.join(app.getPath('appData'), 'able2', 'prefs')
 
 export const prefsPath = path.join(prefsDir, 'preferences.json')
-
-const isObject = val => !!val && typeof val === 'object' && val.constructor === Object
-
-export const innerMergeObjectKeys = (objL, objR) => {
-	const keys = [...new Set([...Object.keys(objL), ...Object.keys(objR)])]
-	const merged = {}
-
-	for (const key of keys) {
-		const inLeft = key in objL
-		const inBoth = inLeft && key in objR
-
-		if (inBoth && isObject(objL[key]) && isObject(objR[key])) {
-			merged[key] = innerMergeObjectKeys(objL[key], objR[key])
-		} else if (inBoth) {
-			merged[key] = objR[key]
-		} else if (inLeft) {
-			merged[key] = objL[key]
-		}
-	}
-
-	return merged
-}
 
 export const initPreferences = async () => {
 	const prefsDirExists = await fileExistsPromise(prefsDir)

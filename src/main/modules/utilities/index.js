@@ -47,3 +47,25 @@ export const getOverlayInnerDimensions = (size, overlay) => {
 		}
 	}[overlay]
 }
+
+const isObject = val => !!val && typeof val === 'object' && val.constructor === Object
+
+export const innerMergeObjectKeys = (objL, objR) => {
+	const keys = [...new Set([...Object.keys(objL), ...Object.keys(objR)])]
+	const merged = {}
+
+	for (const key of keys) {
+		const inLeft = key in objL
+		const inBoth = inLeft && key in objR
+
+		if (inBoth && isObject(objL[key]) && isObject(objR[key])) {
+			merged[key] = innerMergeObjectKeys(objL[key], objR[key])
+		} else if (inBoth) {
+			merged[key] = objR[key]
+		} else if (inLeft) {
+			merged[key] = objL[key]
+		}
+	}
+
+	return merged
+}
