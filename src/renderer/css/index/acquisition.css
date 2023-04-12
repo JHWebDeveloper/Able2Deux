@@ -44,7 +44,8 @@
 	transition: background-color 150ms;
 }
 
-#uploader:is(::before, ::after) {
+#uploader::before,
+#uploader::after {
 	content: '';
 	pointer-events: none;
 	position: absolute;
