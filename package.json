@@ -58,7 +58,6 @@
 		"postcss": "^8.3.11",
 		"postcss-loader": "^7.0.0",
 		"postcss-preset-env": "^8.0.0",
-		"postcss-pseudo-is": "^0.3.0",
 		"regenerator-runtime": "^0.13.7",
 		"rimraf": "^5.0.0",
 		"webpack": "^5.61.0",
