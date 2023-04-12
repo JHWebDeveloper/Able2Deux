@@ -5,21 +5,39 @@ import { arrayOf, bool, func, object, shape } from 'prop-types'
 import {
 	disableWarningAndSave,
 	prepareMediaForFormat,
-	moveSortableElement,
 	removeMedia,
 	removeAllMedia
 } from 'actions'
 
-import { warn, arrayCount } from 'utilities'
+import { warn } from 'utilities'
 import * as STATUS from 'status'
 
-import DraggableList from '../form_elements/DraggableList'
 import MediaElement from './MediaElement'
 
 // ---- store warning strings
 const removeAllMediaMessage = 'Remove all Entries?'
-const removeAllMediaDetail = 'Any current downloads will be canceled. This cannot be undone. Proceed?'
 const removeMediaDetail = 'This cannot be undone. Proceed?'
+const removeAllMediaDetail = `Any current downloads will be canceled. ${removeMediaDetail}`
+const removeReferencedMediaDetail = `This media file has duplicates referencing it. Deleting this file will also delete these references. ${removeMediaDetail}`
+
+const group = (arr, groupKey) => Object.values(arr.reduce((acc, obj) => {
+	if (!groupKey in object) return acc
+
+	const groupKeyValue = obj[groupKey]
+
+	if (groupKeyValue in acc) {
+		acc[groupKeyValue].push(obj)
+	} else {
+		acc[groupKeyValue] = [obj]
+	}
+
+	return acc
+}, {}))
+
+const getUniqueFileRefs = media => group(media, 'refId')
+	.flatMap(arr => arr
+		.map(obj => ({...obj, references: arr.length }))
+		.filter((obj, i , { length }) => obj.refId === obj.id || i === length - 1))
 
 const checkMediaReady = ({ status }) => status === STATUS.READY || status === STATUS.FAILED
 const checkMediaFailed = ({ status }) => status === STATUS.FAILED
@@ -27,12 +45,14 @@ const checkMediaFailed = ({ status }) => status === STATUS.FAILED
 const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => {
 	const navigate = useNavigate()
 
+	const uniqueMedia = useMemo(() => getUniqueFileRefs(media), [media])
+
 	// eslint-disable-next-line no-extra-parens
 	const notReady = useMemo(() => (
 		recording || !media.length || !media.every(checkMediaReady) || media.every(checkMediaFailed)
 	), [recording, media])
 
-	const removeMediaWarning = useCallback(({ id, refId, status, title }) => warn({
+	const removeMediaWarning = useCallback(({ title, id, refId, status, references }) => warn({
 		message: `Remove "${title}"?`,
 		detail: removeMediaDetail,
 		enabled: warnings.remove,
@@ -41,13 +61,25 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 				id,
 				refId,
 				status,
-				references: arrayCount(media, item => item.refId === refId)
+				references
 			}))
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('remove'))
 		}
-	}), [media, warnings.remove])
+	}), [warnings.remove])
+
+	const removeReferencedMediaWarning = useCallback(({ title, refId }) => warn({
+		message: `Remove "${title}"?`,
+		detail: removeReferencedMediaDetail,
+		enabled: warnings.removeReferenced,
+		callback() {
+			dispatch(removeAllMedia(media.filter(mediaElement => mediaElement.refId === refId)))
+		},
+		checkboxCallback() {
+			dispatchPrefs(disableWarningAndSave('removeReferenced'))
+		}
+	}), [media, warnings.removeReferenced])
 
 	const removeAllMediaWarning = useCallback(() => warn({
 		message: removeAllMediaMessage,
@@ -66,21 +98,15 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 		navigate('/formatting')
 	}, [])
 
-	const sortingAction = useCallback((newPos, oldPos) => {
-		dispatch(moveSortableElement('media', newPos, oldPos))
-	}, [])
-
 	return (
 		<div id="ready-queue">
 			<div className={media.length ? 'populated' : ''}>
-				<DraggableList sortingAction={sortingAction}>
-					{media.map(info => (
-						<MediaElement
-							key={info.id}
-							removeMediaWarning={removeMediaWarning}
-							{...info} />
-					))}
-				</DraggableList>
+				{uniqueMedia.map(mediaElement => (
+					<MediaElement
+						key={mediaElement.id}
+						removeMediaWarning={mediaElement.references < 2 ? removeMediaWarning : removeReferencedMediaWarning}
+						{...mediaElement} />
+				))}
 			</div>
 			<div>
 				<button
@@ -96,7 +122,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 					title="Remove All Media"
 					aria-label="Remove All Media"
 					onClick={removeAllMediaWarning}
-					disabled={!media.length}>Remove All</button>
+					disabled={!uniqueMedia.length}>Remove All</button>
 			</div>
 		</div>
 	)
