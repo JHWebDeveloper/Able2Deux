@@ -40,7 +40,7 @@ export const arrayCount = (arr, exp) => {
 }
 
 export const group = (arr, groupKey) => Object.values(arr.reduce((acc, obj) => {
-	if (!groupKey in object) return acc
+	if (!groupKey in obj) return acc
 
 	const groupKeyValue = obj[groupKey]
 
