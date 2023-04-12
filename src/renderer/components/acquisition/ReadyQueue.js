@@ -35,8 +35,8 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 
 	// eslint-disable-next-line no-extra-parens
 	const notReady = useMemo(() => (
-		recording || !media.length || !media.every(checkMediaReady) || media.every(checkMediaFailed)
-	), [recording, media])
+		recording || !uniqueMedia.length || !uniqueMedia.every(checkMediaReady) || uniqueMedia.every(checkMediaFailed)
+	), [recording, uniqueMedia])
 
 	const removeMediaWarning = useCallback(({ title, id, refId, status, references }) => warn({
 		message: `Remove "${title}"?`,
