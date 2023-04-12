@@ -56,7 +56,7 @@ module.exports = {
 						options: {
 							postcssOptions: {
 								plugins: [
-									postcssPseudoIs(),
+									// postcssPseudoIs(),
 									postcssPresetEnv({ stage: 0 })
 								]
 							}
