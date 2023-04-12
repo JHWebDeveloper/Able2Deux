@@ -59,7 +59,7 @@ label { font-weight: 500; }
 
 form > :last-child { margin-bottom: 0; }
 
-form :is(.app-button, input[type="text"], input[type="number"], input[type="color"]) {
+form :is(.app-button, input:is([type="text"], [type="number"], [type="color"])) {
 	height: 24px;
 	vertical-align: middle;
 }
