@@ -22,8 +22,8 @@ const removeReferencedMediaDetail = `This media file has duplicates referencing 
 
 const getUniqueFileRefs = media => group(media, 'refId')
 	.flatMap(arr => arr
-		.map(obj => ({...obj, references: arr.length }))
-		.filter((obj, i , { length }) => obj.refId === obj.id || i === length - 1))
+		.map(obj => ({ ...obj, references: arr.length }))
+		.filter((obj, i, { length }) => obj.refId === obj.id || i === length - 1))
 
 const checkMediaReady = ({ status }) => status === STATUS.READY || status === STATUS.FAILED
 const checkMediaFailed = ({ status }) => status === STATUS.FAILED
