@@ -7,7 +7,7 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 	: app.getPath('temp')
 
 const defaultPrefs = {
-	version: 10,
+	version: 11,
 	theme: 'system',
 	windowWidth: 830,
 	windowHeight: 800,
@@ -18,6 +18,7 @@ const defaultPrefs = {
 	},
 	warnings: {
 		remove: true,
+		removeReferenced: true,
 		removeAll: true,
 		applyToAll: true,
 		sourceOnTop: true,
