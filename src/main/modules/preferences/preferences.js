@@ -13,14 +13,21 @@ const prefsDir = dev
 
 export const prefsPath = path.join(prefsDir, 'preferences.json')
 
-const innerMergeObjectKeys = (objL, objR) => {
+const isObject = val => !!val && typeof val === 'object' && val.constructor === Object
+
+export const innerMergeObjectKeys = (objL, objR) => {
 	const keys = [...new Set([...Object.keys(objL), ...Object.keys(objR)])]
 	const merged = {}
 
 	for (const key of keys) {
-		if (key in objL && key in objR) {
+		const inLeft = key in objL
+		const inBoth = inLeft && key in objR
+
+		if (inBoth && isObject(objL[key]) && isObject(objR[key])) {
+			merged[key] = innerMergeObjectKeys(objL[key], objR[key])
+		} else if (inBoth) {
 			merged[key] = objR[key]
-		} else if (key in objL) {
+		} else if (inLeft) {
 			merged[key] = objL[key]
 		}
 	}
@@ -85,10 +92,10 @@ export const initPreferences = async () => {
 		prefs.aspectRatioMarkers.reverse()
 	}
 
-	if (prefs.version < 10) {
+	if (prefs.version < 11) {
 		return fsp.writeFile(prefsPath, JSON.stringify({
 			...innerMergeObjectKeys(defaultPrefs, prefs),
-			version: 10
+			version: 11
 		}))
 	}
 }
