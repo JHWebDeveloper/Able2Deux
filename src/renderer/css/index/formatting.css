@@ -242,8 +242,7 @@
 	margin-bottom: 9px;
 }
 
-.editor-options input[type="number"],
-.editor-options input[type="color"] {
+.editor-options input:is([type="number"], [type="color"]) {
 	height: 18px;
 	width: 42px;
 }
@@ -430,16 +429,14 @@ button[name="link"] {
 	margin-bottom: 3px;
 }
 
-.color-sliders-panel,
-.color-sliders-panel > label {
-  grid-column: 1 / -1;
-}
-
 .color-sliders-panel {
   display: inherit;
+	grid-column: 1 / -1;
   grid-template-columns: auto min-content;
   align-items: center;
 }
+
+.color-sliders-panel > label { grid-column: inherit; }
 
 /* -- Color Correction Panel -- */
 

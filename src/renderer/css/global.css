@@ -72,8 +72,7 @@ button {
 svg:not([fill]) { fill: var(--primary); }
 
 progress,
-input[type="checkbox"],
-input[type="radio"],
+input:is([type="checkbox"], [type="radio"]),
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
 	appearance: none;
@@ -139,10 +138,9 @@ body {
 	font: 300 16px var(--font-stack);
 }
 
-fieldset:disabled,
-fieldset:disabled > :is(input, input::placeholder, div) {
-	color: var(--disabled);
-}
+fieldset:disabled { color: var(--disabled); }
+
+fieldset:disabled > :is(input, input::placeholder, div) { color: inherit; }
 
 fieldset:disabled > :is(input, div) {
 	border-color: var(--disabled);
