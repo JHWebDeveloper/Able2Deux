@@ -48,7 +48,7 @@ const GeneralSettings = () => {
 				<legend>Warnings:</legend>
 				<span className="input-option">
 					<Checkbox
-						label="Remove"
+						label="Remove Media"
 						name="remove"
 						checked={warnings.remove}
 						onChange={toggleWarning}
@@ -56,7 +56,15 @@ const GeneralSettings = () => {
 				</span>
 				<span className="input-option">
 					<Checkbox
-						label="Remove All"
+						label="Remove Referenced Media"
+						name="removeReferenced"
+						checked={warnings.removeReferenced}
+						onChange={toggleWarning}
+						switchIcon />
+				</span>
+				<span className="input-option">
+					<Checkbox
+						label="Remove All Media"
 						name="removeAll"
 						checked={warnings.removeAll}
 						onChange={toggleWarning}
