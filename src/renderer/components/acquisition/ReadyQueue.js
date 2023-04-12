@@ -9,7 +9,7 @@ import {
 	removeAllMedia
 } from 'actions'
 
-import { warn } from 'utilities'
+import { group, warn } from 'utilities'
 import * as STATUS from 'status'
 
 import MediaElement from './MediaElement'
@@ -19,20 +19,6 @@ const removeAllMediaMessage = 'Remove all Entries?'
 const removeMediaDetail = 'This cannot be undone. Proceed?'
 const removeAllMediaDetail = `Any current downloads will be canceled. ${removeMediaDetail}`
 const removeReferencedMediaDetail = `This media file has duplicates referencing it. Deleting this file will also delete these references. ${removeMediaDetail}`
-
-const group = (arr, groupKey) => Object.values(arr.reduce((acc, obj) => {
-	if (!groupKey in object) return acc
-
-	const groupKeyValue = obj[groupKey]
-
-	if (groupKeyValue in acc) {
-		acc[groupKeyValue].push(obj)
-	} else {
-		acc[groupKeyValue] = [obj]
-	}
-
-	return acc
-}, {}))
 
 const getUniqueFileRefs = media => group(media, 'refId')
 	.flatMap(arr => arr

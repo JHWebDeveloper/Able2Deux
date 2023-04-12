@@ -19,6 +19,7 @@ const initState = {
 	},
 	warnings: {
 		remove: true,
+		removeReferenced: true,
 		removeAll: true,
 		applyToAll: true,
 		sourceOnTop: true,

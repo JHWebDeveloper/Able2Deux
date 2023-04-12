@@ -39,6 +39,20 @@ export const arrayCount = (arr, exp) => {
 	return count
 }
 
+export const group = (arr, groupKey) => Object.values(arr.reduce((acc, obj) => {
+	if (!groupKey in object) return acc
+
+	const groupKeyValue = obj[groupKey]
+
+	if (groupKeyValue in acc) {
+		acc[groupKeyValue].push(obj)
+	} else {
+		acc[groupKeyValue] = [obj]
+	}
+
+	return acc
+}, {}))
+
 // ---- FUNCTION UTIL. --------
 
 export const pipe = (...fns) => val => fns.reduce((acc, fn) => fn(acc), val)
