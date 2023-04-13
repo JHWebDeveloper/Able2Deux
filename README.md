@@ -29,7 +29,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Added race condition handlers to preview rendering. Older preview stills will no longer overwrite the newest when rendering is delayed.
 
 ### Removed
-- Ability to sort media on the acquisition page. Media can only be sorted on the formatting page.
+- Ability to sort media via drag and drop on the acquisition page. Media can only be sorted on the formatting page.
 
 ## [2.3.1] - 2.22.23
 
