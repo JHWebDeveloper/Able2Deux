@@ -4,16 +4,11 @@ import path from 'path'
 import { prefsPath } from './preferences/preferences'
 
 const clearFiles = async (dir, id) => {
-	const files = await fsp.readdir(dir)
+	let files = await fsp.readdir(dir)
 
 	if (!files.length) return Promise.resolve()
 
-	if (id) {
-		const regex = new RegExp(`^${id}`)
-		const matches = files.filter(file => file.match(regex))
-
-		return Promise.all(matches.map(file => fsp.unlink(path.join(dir, file))))
-	}
+	if (id) files = files.filter(file => file.startsWith(id))
 
 	return Promise.all(files.map(file => fsp.unlink(path.join(dir, file))))
 }
