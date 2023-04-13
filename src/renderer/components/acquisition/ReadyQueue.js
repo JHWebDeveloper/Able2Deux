@@ -20,10 +20,13 @@ const removeMediaDetail = 'This cannot be undone. Proceed?'
 const removeAllMediaDetail = `Any current downloads will be canceled. ${removeMediaDetail}`
 const removeReferencedMediaDetail = `This media file has duplicates referencing it. Deleting this file will also delete these references. ${removeMediaDetail}`
 
-const getUniqueFileRefs = media => group(media, 'refId')
-	.flatMap(arr => arr
-		.map(obj => ({ ...obj, references: arr.length }))
-		.filter((obj, i, { length }) => obj.refId === obj.id || i === length - 1))
+const getUniqueFileRefs = media => group(media, 'refId').map(arr => {
+	const sourceMedia = arr.filter((obj, i, { length }) => obj.refId === obj.id || i === length - 1)?.[0]
+
+	if (sourceMedia) sourceMedia.references = arr.length
+
+	return sourceMedia
+})
 
 const checkMediaReady = ({ status }) => status === STATUS.READY || status === STATUS.FAILED
 const checkMediaFailed = ({ status }) => status === STATUS.FAILED
