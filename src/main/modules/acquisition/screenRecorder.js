@@ -28,7 +28,7 @@ export const getRecordSources = async () => {
 			thumbnail: src.thumbnail.toDataURL()
 		}))
 		.reduce((arr, src) => {
-			arr[/^screen/.test(src.id) ? 0 : 1].push(src)
+			arr[src.id.startsWith('screen') ? 0 : 1].push(src)
 			return arr
 		}, [[], []])
 		.flat()

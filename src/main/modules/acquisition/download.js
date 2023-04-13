@@ -77,11 +77,14 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		})
 	})
 
-	downloadCmd.stderr.on('data', err => {
-		console.error(err.toString())
+	downloadCmd.stderr.on('data', data => {
+		const err = data.toString()
+
+		console.error(err)
+
 		downloadCmd.kill()
 
-		if (/^ERROR: Unable to download webpage/.test(err)) {
+		if (err.startsWith('ERROR: Unable to download webpage')) {
 			reject(createDownloadError(url))
 		}
 	})

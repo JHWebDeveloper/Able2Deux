@@ -100,7 +100,7 @@ const detectAlphaChannel = (file, mediaType, id) => new Promise(resolve => {
 			}
 		})
 		.on('error', err => {
-			if (!/^Error: ffmpeg exited with code 1: Error reinitializing filters!/.test(err.toString())) {
+			if (!err.toString().startsWith('Error: ffmpeg exited with code 1: Error reinitializing filters!')) {
 				console.error(err)
 			}
 
