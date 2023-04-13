@@ -12,12 +12,14 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ### Added
 - Free Rotate Mode options 'With Bounds' and 'Inside Bounds'. Content can now be rotated with its bounding box (as it previously has) or inside of its bounding box while being auto scaled to cover said bounding box. This can be used to correct crooked photos.
 - Centering slider. Enabled when Free Rotate Mode: With Bounds is selected. This can shift the bounding box along the available rotated space.
+- New warning: Remove Referenced Media. Warning will fire when attempting remove media on the acqusition page that has duplicates referencing it on the formatting page. Remove Referenced Media warning can be disabled under Preferences.
 
 ### Changed
 - Offset has been renamed to Free Rotate.
 - Offset angle range has been expanded from ±45° to ±180°
 - For non-orthogonal angles, fit buttons in the Scale panel now snap the content's rotated width or height to the frame edges instead of original dimensions.
 - Improved preview rendering.
+- Duplicates no longer display on the acquisition page. Acquisition page now only displays 1 media element per source file.
 
 ### Updated
 - Video service compatibility
@@ -25,6 +27,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Fixed
 - Added race condition handlers to preview rendering. Older preview stills will no longer overwrite the newest when rendering is delayed.
+
+### Removed
+- Ability to sort media on the acquisition page. Media can only be sorted on the formatting page.
 
 ## [2.3.1] - 2.22.23
 
