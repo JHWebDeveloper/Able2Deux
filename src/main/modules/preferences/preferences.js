@@ -5,9 +5,7 @@ import path from 'path'
 import defaultPrefs from './default'
 import { fileExistsPromise, innerMergeObjectKeys } from '../utilities'
 
-const dev = process.env.NODE_ENV === 'development'
-
-const prefsDir = dev
+const prefsDir = process.env.NODE_ENV === 'development'
 	? path.join(__dirname, '..', '..', 'data')
 	: path.join(app.getPath('appData'), 'able2', 'prefs')
 
