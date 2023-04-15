@@ -13,7 +13,6 @@ export const none = (filterData, isPreview, previewSize) => {
 
 	if (sourceData || isPreview) filter = `[0:v]${filter}`
 	if (sourceData) filter = `${filter},scale=w=${renderWidth}:h=${renderHeight}${cmdChunks}`
-
 	if (isPreview) filter = [filter, previewMixdown(previewSize)].join(sourceData ? '' : ',')
 
 	return filter ? filter : 'nullsink'
