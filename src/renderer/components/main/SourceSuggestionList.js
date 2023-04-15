@@ -5,15 +5,23 @@ const SourceSuggestionList = () => {
 	const [ suggestions, setSuggestions ] = useState([])
 
 	useEffect(() => {
+		const controller = new AbortController()
+
 		(async () => {
 			try {
-				const { data } = await axios.get('https://jhwebdeveloper.github.io/Able2-public-resources/source-suggestions.min.json')
+				const { data } = await axios.get('https://jhwebdeveloper.github.io/Able2-public-resources/source-suggestions.min.json', {
+					signal: controller.signal
+				})
 
 				setSuggestions(data)
 			} catch {
 				return false
 			}
 		})()
+
+		return () => {
+			controller.abort()
+		}
 	}, [])
 
 	return (
