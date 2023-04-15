@@ -18,7 +18,9 @@ export const fill = (filterData, isPreview, previewSize) => {
 
 	centering /= -100
 
-	let filter = `[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, rotation, colorCurves)},scale=w=${renderWidth}:h=${renderHeight}${cmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${cmdChunks[1]}${centering}*(ih-oh)/2`
+	const keyFilter = buildKeyFilter(isPreview, keying)
+	const commonFilter = buildCommonFilter(isPreview, rotation, colorCurves)
+	let filter = `[0:v]${keyFilter}${commonFilter},scale=w=${renderWidth}:h=${renderHeight}${cmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${cmdChunks[1]}${centering}*(ih-oh)/2`
 
 	if (hasAlpha || keying.enabled) {
 		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${cmdChunks[2]}${shortestAndFormat}`

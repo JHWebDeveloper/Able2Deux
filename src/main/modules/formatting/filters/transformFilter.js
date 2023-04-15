@@ -29,8 +29,10 @@ export const transform = (filterData, isPreview, previewSize) => {
 	position.x /= 100
 	position.y /= 100
 
+	const keyFilter = buildKeyFilter(isPreview, keying)
+	const commonFilter = buildCommonFilter(isPreview, rotation, colorCurves)
 	const freeRotate = angle === 0 ? '' : freeRotateFilter(rotation, width * scale.x * cropW, height * scale.y * cropH)
-	const filter = `[0:v]${buildKeyFilter(isPreview, keying)}${buildCommonFilter(isPreview, rotation, colorCurves)},scale=${scale.x || 0.005}*iw:${scale.y || 0.005}*ih,crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}${cmdChunks[0]}${freeRotate}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${cmdChunks[1]}${position.x}${cmdChunks[2]}${position.y}${cmdChunks[3]}${shortestAndFormat}`
+	const filter = `[0:v]${keyFilter}${commonFilter},scale=${scale.x || 0.005}*iw:${scale.y || 0.005}*ih,crop=${cropW}*iw:${cropH}*ih:${crop.l}*iw:${crop.t}${cmdChunks[0]}${freeRotate}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${cmdChunks[1]}${position.x}${cmdChunks[2]}${position.y}${cmdChunks[3]}${shortestAndFormat}`
 
 	return finalize({ filter, sourceData, overlayDim, isPreview, previewSize })
 }
