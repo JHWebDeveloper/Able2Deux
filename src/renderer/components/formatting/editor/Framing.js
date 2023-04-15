@@ -113,7 +113,7 @@ const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropp
 	</div>
 )
 
-const Formatting = props => {
+const Framing = props => {
 	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
 	const { id, arc, background, bgColor, overlay, eyedropper, setEyedropper, editAll, dispatch } = props
 	const { active, pixelData } = eyedropper
@@ -203,7 +203,7 @@ const Formatting = props => {
 	)
 }
 
-const FormattingPanel = props => {
+const FramingPanel = props => {
 	const { isBatch, id, arc, background, overlay, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
@@ -213,12 +213,12 @@ const FormattingPanel = props => {
 
 	return (
 		<AccordionPanel
-			heading="Formatting"
+			heading="Framing"
 			id="formatting"
 			className="editor-options"
 			buttons={settingsMenu}
 			initOpen>
-			<Formatting {...props} />
+			<Framing {...props} />
 		</AccordionPanel>
 	)
 }
@@ -252,7 +252,7 @@ const propTypes = {
 	dispatch: func.isRequired
 }
 
-Formatting.propTypes = propTypes
-FormattingPanel.propTypes = propTypes
+Framing.propTypes = propTypes
+FramingPanel.propTypes = propTypes
 
-export default FormattingPanel
+export default FramingPanel

@@ -5,7 +5,7 @@ import { createScrollbarPadder, objectPick } from 'utilities'
 
 import FileOptions from './FileOptions'
 import Audio from './Audio'
-import Formatting from './Formatting'
+import Framing from './Framing'
 import Source from './Source'
 import Centering from './Centering'
 import Position from './Position'
@@ -57,7 +57,7 @@ const EditorOptions = props => {
 					{...common} />
 			) : <></>}
 			{mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio' ? <></> : <>
-				<Formatting 
+				<Framing 
 					arc={arc}
 					background={background}
 					backgroundMotion={props.backgroundMotion}
