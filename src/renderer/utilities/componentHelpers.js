@@ -5,29 +5,6 @@ export const detectTabExit = callback => e => {
 	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)
 }
 
-export const compareProps = (prevProps, nextProps) => {
-	const keys = Object.keys(prevProps)
-
-	for (const key of keys) {
-		const prev = prevProps[key]
-		const next = nextProps[key]
-
-		if (typeof prev === 'function' && typeof next === 'function') continue
-
-		if (prev instanceof Object) {
-			if (next instanceof Object) {
-				if (!compareProps(prev, next)) return false
-			} else {
-				return false
-			}
-		} else {
-			if (prev !== next) return false
-		}
-	}
-
-	return true
-}
-
 export const createSettingsMenu = (isBatch, actions) => isBatch ? [
 	{
 		label: 'Copy Setting',
