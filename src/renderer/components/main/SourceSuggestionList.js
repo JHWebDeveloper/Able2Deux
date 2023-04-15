@@ -7,17 +7,18 @@ const SourceSuggestionList = () => {
 	useEffect(() => {
 		const controller = new AbortController()
 
-		(async () => {
+		const getSourceSuggestions = async () => {
 			try {
-				const { data } = await axios.get('https://jhwebdeveloper.github.io/Able2-public-resources/source-suggestions.min.json', {
-					signal: controller.signal
-				})
+				const { signal } = controller
+				const { data } = await axios.get('https://jhwebdeveloper.github.io/Able2-public-resources/source-suggestions.min.json', { signal })
 
 				setSuggestions(data)
 			} catch {
 				return false
 			}
-		})()
+		}
+
+		getSourceSuggestions()
 
 		return () => {
 			controller.abort()
