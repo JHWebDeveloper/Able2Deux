@@ -22,7 +22,7 @@ export const freeRotateFilter = (rotation, w, h) => {
 
 	if (freeRotateMode === 'with_bounds') return `${cmdChunks[1]}${rad}${cmdChunks[2]}`
 
-	const isTall = w < h
+	const isTall = w <= h
 	const isNotCentered = center !== 0
 
 	let scale = 1
