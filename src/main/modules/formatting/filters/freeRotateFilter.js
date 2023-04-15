@@ -17,7 +17,11 @@ const cmdChunks = [
 ]
 
 export const freeRotateFilter = (rotation, w, h) => {
-	const { center, angle, freeRotateMode } = rotation
+	const { angle } = rotation
+
+	if (angle === 0) return ''
+	
+	const { center, freeRotateMode } = rotation
 	const rad = degToRad(angle)
 
 	if (freeRotateMode === 'with_bounds') return `${cmdChunks[1]}${rad}${cmdChunks[2]}`
