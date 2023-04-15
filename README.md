@@ -13,6 +13,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Free Rotate Mode options 'With Bounds' and 'Inside Bounds'. Content can now be rotated with its bounding box (as it previously has) or inside of its bounding box while being auto scaled to cover said bounding box. This can be used to correct crooked photos.
 - Centering slider. Enabled when Free Rotate Mode: With Bounds is selected. This can shift the bounding box along the available rotated space.
 - New warning: Remove Referenced Media. Warning will fire when attempting remove media on the acqusition page that has duplicates referencing it on the formatting page. Remove Referenced Media warning can be enabled/disabled under Preferences.
+- Formatting panel has been renamed to Framing to avoid confusion with the "Formatting" page. Panel contents are unchanged.
 
 ### Changed
 - Offset has been renamed to Free Rotate.
