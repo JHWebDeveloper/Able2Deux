@@ -26,9 +26,9 @@ const PreferencesRouter = () => {
 			dispatch(updateState({
 				disableRateLimit: !disableRateLimit
 			}))
-
+			
 			toastr.success(
-				`Download Rate Limit is now ${disableRateLimit ? 'En' : 'Dis'}abled`,
+				`Download Rate Limit is now ${disableRateLimit ? 'Dis' : 'En'}abled`,
 				'You entered the Konami Code!',
 				{ ...toastrOpts, timeOut: 2000 })
 		})
@@ -36,7 +36,7 @@ const PreferencesRouter = () => {
 		return () => {
 			konami.remove()
 		}
-	})
+	}, [disableRateLimit])
 
 	return (
 		<HashRouter>
