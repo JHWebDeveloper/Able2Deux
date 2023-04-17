@@ -390,7 +390,7 @@ export const render = args => async dispatch => {
 
 		if (exists) continue
 
-		pipe(location.id)(toggleSaveLocation, dispatch)
+		pipe(toggleSaveLocation, dispatch)(location.id)
 
 		const { response, checkboxChecked } = await interop.directoryNotFoundAlert(location.directory)
 
@@ -418,12 +418,12 @@ export const render = args => async dispatch => {
 
 	// prepare filenames
 
-	media = pipe(media)(
+	media = pipe(
 		fillMissingFilenames,
 		val => applyBatchName(val, batch),
 		val => sanitizeFilenames(val, args.asperaSafe),
 		preventDuplicateFilenames
-	)
+	)(media)
 
 	for (const item of media) {
 		dispatch(updateMediaState(item.id, {

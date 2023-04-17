@@ -207,8 +207,8 @@ const FramingPanel = props => {
 	const { isBatch, id, arc, background, overlay, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe({ arc, background, overlay })(copySettings, dispatch),
-		() => pipe({ arc, background, overlay })(applySettingsToAll(id), dispatch)
+		() => pipe(copySettings, dispatch)({ arc, background, overlay }),
+		() => pipe(applySettingsToAll(id), dispatch)({ arc, background, overlay })
 	]), [isBatch, id, arc, background, overlay])
 
 	return (

@@ -55,9 +55,9 @@ export const group = (arr, groupKey) => Object.values(arr.reduce((acc, obj) => {
 
 // ---- FUNCTION UTIL. --------
 
-export const pipe = val => (...fns) => fns.reduce((acc, fn) => fn(acc), val)
+export const pipe = (...fns) => val => fns.reduce((acc, fn) => fn(acc), val)
 
-export const pipeAsync = val => (...fns) => fns.reduce((chain, fn) => chain.then(fn), Promise.resolve(val))
+export const pipeAsync = (...fns) => val => fns.reduce((chain, fn) => chain.then(fn), Promise.resolve(val))
 
 export const debounce = (callback, wait) => {
 	let timeout = false

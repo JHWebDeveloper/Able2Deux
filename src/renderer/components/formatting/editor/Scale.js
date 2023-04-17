@@ -185,8 +185,8 @@ const ScalePanel = props => {
 	const { freeRotateMode, angle } = props.rotation
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe({ scale })(copySettings, dispatch),
-		() => pipe({ scale })(applySettingsToAll(id), dispatch)
+		() => pipe(copySettings, dispatch)({ scale }),
+		() => pipe(applySettingsToAll(id), dispatch)({ scale })
 	]), [isBatch, id, scale])
 
 	return (

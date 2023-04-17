@@ -196,8 +196,8 @@ const RotationPanel = props => {
 	const { isBatch, id, rotation, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe({ rotation })(copySettings, dispatch),
-		() => pipe({ rotation })(applySettingsToAll(id), dispatch)
+		() => pipe(copySettings, dispatch)({ rotation }),
+		() => pipe(applySettingsToAll(id), dispatch)({ rotation })
 	]), [isBatch, id, rotation])
 
 	return (

@@ -51,8 +51,8 @@ const PositionPanel = props => {
 	const { isBatch, id, position, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe({ position })(copySettings, dispatch),
-		() => pipe({ position })(applySettingsToAll(id), dispatch)
+		() => pipe(copySettings, dispatch)({ position }),
+		() => pipe(applySettingsToAll(id), dispatch)({ position })
 	]), [isBatch, id, position])
 
 	return (

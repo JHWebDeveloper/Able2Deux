@@ -221,8 +221,8 @@ const KeyingPanel = props => {
 	const { isBatch, keying, id, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe({ keying })(copySettings, dispatch),
-		() => pipe({ keying })(applySettingsToAll(id), dispatch)
+		() => pipe(copySettings, dispatch)({ keying }),
+		() => pipe(applySettingsToAll(id), dispatch)({ keying })
 	]), [isBatch, id, keying])
 
 	return (
