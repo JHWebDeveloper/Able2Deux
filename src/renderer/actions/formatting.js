@@ -38,7 +38,7 @@ export const selectMedia = id => ({
 export const copySettings = settings => ({
 	type: ACTION.UPDATE_STATE,
 	payload: {
-		copiedSettings: { ...settings }
+		copiedSettings: settings instanceof Function ? settings : { ...settings }
 	}
 })
 
