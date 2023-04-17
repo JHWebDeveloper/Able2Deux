@@ -147,21 +147,30 @@ const prepareMediaForFormat = state => {
 	}
 }
 
-const pasteSettings = (state, payload) => ({
-	...state,
-	media: state.media.map(item => item.id === payload.id ? {
-		...item,
-		...state.copiedSettings
-	} : item)
-})
+const pasteSettings = (state, payload) => {
+	const { copiedSettings } = state
 
-const applyToAll = (state, payload) => ({
-	...state,
-	media: state.media.map(item => item.id !== payload.id ? {
-		...item,
-		...payload.properties
-	} : item)
-})
+	return {
+		...state,
+		media: state.media.map(item => item.id === payload.id ? {
+			...item,
+			...copiedSettings instanceof Function ? copiedSettings() : copiedSettings
+		} : item)
+	}
+}
+
+const applyToAll = (state, payload) => {
+	const { properties } = payload
+	const _properties = properties instanceof Function ? properties : () => properties
+
+	return {
+		...state,
+		media: state.media.map(item => item.id !== payload.id ? {
+			...item,
+			..._properties()
+		} : item)
+	}
+}
 
 const addCurvePoint = (state, payload) => {
 	const { id, curveName, pointData, editAll } = payload
