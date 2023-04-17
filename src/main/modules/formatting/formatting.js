@@ -84,7 +84,7 @@ const copyFileNoOverwrite = async (src, dest, n = 0) => {
 	try {
 		await fsp.copyFile(src, _dest, fs.constants.COPYFILE_EXCL)
 	} catch (err) {
-		if ((err.toString()).startsWith('Error: EEXIST: file already exists')) {
+		if (err.toString().startsWith('Error: EEXIST: file already exists')) {
 			return copyFileNoOverwrite(src, dest, n + 1)
 		} else {
 			throw err
