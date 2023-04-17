@@ -276,22 +276,18 @@ const getBatchNamer = batch => {
 	}
 }
 
-const applyBatchName = batch => {
-	if (!batch.name) return val => val
+const applyBatchName = (media, batch) => {
+	if (media.length < 2 || !batch.name) return media
 
 	const batchNamer = getBatchNamer(batch)
 
-	return media => {
-		if (media.length < 2) return media
-
-		return media.map(item => ({
-			...item,
-			filename: batchNamer(item.filename)
-		}))
-	}
+	return media.map(item => ({
+		...item,
+		filename: batchNamer(item.filename)
+	}))
 }
 
-const sanitizeFilenames = asperaSafe => media => media.map((item, i) => ({
+const sanitizeFilenames = (media, asperaSafe) => media.map((item, i) => ({
 	...item,
 	filename: cleanFilename(replaceTokens(item.filename, i, media.length), asperaSafe)
 }))
@@ -425,8 +421,8 @@ export const render = args => async dispatch => {
 
 	media = pipe(
 		fillMissingFilenames,
-		applyBatchName(batch),
-		sanitizeFilenames(args.asperaSafe),
+		val => applyBatchName(val, batch),
+		val => sanitizeFilenames(val, args.asperaSafe),
 		preventDuplicateFilenames
 	)(media)
 
