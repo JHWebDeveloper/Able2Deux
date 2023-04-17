@@ -21,6 +21,7 @@ import {
 	errorToString,
 	getIntegerLength,
 	pipe,
+	pipeAsync,
 	replaceTokens,
 	toastrOpts,
 	zeroize
@@ -222,7 +223,7 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 		hasAlpha
 	} : sourceMediaData
 
-	const mediaData = await createMediaData({
+	pipeAsync({
 		...inheritance,
 		...stillData,
 		title: `Screengrab ${sourceMediaData.title}`,
@@ -231,9 +232,7 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 		duration: 0,
 		fps: 0,
 		hasAudio: false
-	})
-
-	dispatch(addMedia(mediaData))
+	})(createMediaData, addMedia, dispatch)
 }
 
 // ---- RENDER --------
@@ -391,7 +390,7 @@ export const render = args => async dispatch => {
 
 		if (exists) continue
 
-		dispatch(toggleSaveLocation(location.id))
+		pipe(location.id)(toggleSaveLocation, dispatch)
 
 		const { response, checkboxChecked } = await interop.directoryNotFoundAlert(location.directory)
 
