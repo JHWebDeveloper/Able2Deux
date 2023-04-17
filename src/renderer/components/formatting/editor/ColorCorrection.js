@@ -14,7 +14,7 @@ import {
 	updateMediaNestedStateFromEvent
 } from 'actions'
 
-import { copyCurveSet, createSettingsMenu } from 'utilities'
+import { createColorCurvesCopier, createSettingsMenu, pipe } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import Checkbox from '../../form_elements/Checkbox'
@@ -269,15 +269,11 @@ const ColorCorrectionPanel = props => {
 	const { isBatch, colorCurves, id, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => dispatch(copySettings({
-			colorCurves: copyCurveSet(colorCurves)
-		})),
-		() => dispatch(applySettingsToAll(id, {
-			colorCurves: copyCurveSet(colorCurves)
-		}))
+		() => pipe({ colorCurves })(createColorCurvesCopier, copySettings, dispatch),
+		() => pipe({ colorCurves })(createColorCurvesCopier, val => applySettingsToAll(id, val), dispatch)
 	]), [isBatch, id, colorCurves])
 
-	return (
+	return ( 
 		<AccordionPanel
 			heading="Color Correction"
 			id="color-correction"
