@@ -17,6 +17,10 @@ export const copyCurveSet = curves => {
 	return { ...curves, rgb, r, g, b }
 }
 
+export const createColorCurvesCopier = ({ colorCurves }) => () => ({
+	colorCurves: copyCurveSet(colorCurves)
+})
+
 export const sortCurvePoints = (a, b) => a.x - b.x
 
 // ---- ZERO PADDERS --------
