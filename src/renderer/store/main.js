@@ -39,7 +39,11 @@ const MainProviderWithDefaultPrefs = ({ children }) => {
 	const { preferences } = useContext(PrefsContext)
 
 	useEffect(() => {
-		pipe(extractDefaultPrefsForMainState, updateState, dispatch)(preferences)
+		pipe(preferences)(
+			extractDefaultPrefsForMainState,
+			updateState,
+			dispatch
+		)
 	}, [preferences])
 
 	return (

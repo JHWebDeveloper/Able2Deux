@@ -50,11 +50,11 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 	const copyAllSettings = useCallback(id => {
 		const mediaItem = { ...media.find(item => item.id === id) }
 
-		pipe(
+		pipe(mediaItem)(
 			extractSettingsToCopy,
 			copySettings,
 			dispatch
-		)(mediaItem)
+		)
 	}, [media])
 
 	const applyToAllWarning = useCallback(id => warn({

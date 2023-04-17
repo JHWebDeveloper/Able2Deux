@@ -419,12 +419,12 @@ export const render = args => async dispatch => {
 
 	// prepare filenames
 
-	media = pipe(
+	media = pipe(media)(
 		fillMissingFilenames,
 		val => applyBatchName(val, batch),
 		val => sanitizeFilenames(val, args.asperaSafe),
 		preventDuplicateFilenames
-	)(media)
+	)
 
 	for (const item of media) {
 		dispatch(updateMediaState(item.id, {
