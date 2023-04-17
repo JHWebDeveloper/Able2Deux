@@ -50,11 +50,7 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 	const copyAllSettings = useCallback(id => {
 		const mediaItem = { ...media.find(item => item.id === id) }
 
-		pipe(mediaItem)(
-			extractSettingsToCopy,
-			copySettings,
-			dispatch
-		)
+		pipe(mediaItem)(extractSettingsToCopy, copySettings, dispatch)
 	}, [media])
 
 	const applyToAllWarning = useCallback(id => warn({
@@ -62,10 +58,10 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		detail: applyToAllDetail,
 		enabled: warnings.applyToAll,
 		callback() {
-			dispatch(applySettingsToAll(id, extractSettingsToCopy(media.find(item => item.id === id))))
+			pipe(media.find(item => item.id === id))(extractSettingsToCopy, applySettingsToAll(id), dispatch)
 		},
 		checkboxCallback() {
-			dispatchPrefs(disableWarningAndSave('applyToAll'))
+			pipe('applyToAll')(disableWarningAndSave, dispatchPrefs)
 		}
 	}), [media, warnings.applyToAll])
 
@@ -74,14 +70,14 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		detail: removeMediaDetail,
 		enabled: warnings.remove,
 		callback() {
-			dispatch(removeMedia({
+			pipe({
 				id,
 				refId,
 				references: arrayCount(media, item => item.refId === refId)
-			}))
+			})(removeMedia, dispatch)
 		},
 		checkboxCallback() {
-			dispatchPrefs(disableWarningAndSave('remove'))
+			pipe('remove')(disableWarningAndSave, dispatchPrefs)
 		}
 	}), [media, warnings.remove])
 
