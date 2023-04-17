@@ -9,7 +9,7 @@ import {
 	updateMediaNestedStateFromEvent
 } from 'actions'
 
-import { createSettingsMenu, rgbToHex } from 'utilities'
+import { createSettingsMenu, pipe, rgbToHex } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
@@ -221,8 +221,8 @@ const KeyingPanel = props => {
 	const { isBatch, keying, id, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => dispatch(copySettings({ keying })),
-		() => dispatch(applySettingsToAll(id, { keying }))
+		() => pipe({ keying })(copySettings, dispatch),
+		() => pipe({ keying })(val => applySettingsToAll(id, val), dispatch)
 	]), [isBatch, id, keying])
 
 	return (

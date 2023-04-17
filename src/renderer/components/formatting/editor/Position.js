@@ -7,7 +7,7 @@ import {
 	updateMediaNestedState
 } from 'actions'
 
-import { createSettingsMenu } from 'utilities'
+import { createSettingsMenu, pipe } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
@@ -51,8 +51,8 @@ const PositionPanel = props => {
 	const { isBatch, id, position, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => dispatch(copySettings({ position })),
-		() => dispatch(applySettingsToAll(id, { position }))
+		() => pipe({ position })(copySettings, dispatch),
+		() => pipe({ position })(val => applySettingsToAll(id, val), dispatch)
 	]), [isBatch, id, position])
 
 	return (

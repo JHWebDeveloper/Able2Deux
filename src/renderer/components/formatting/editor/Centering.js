@@ -7,7 +7,7 @@ import {
 	updateMediaState
 } from 'actions'
 
-import { createSettingsMenu } from 'utilities'
+import { createSettingsMenu, pipe } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
@@ -44,8 +44,8 @@ const CenteringPanel = props => {
 	const { isBatch, centering, id, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => dispatch(copySettings({ centering })),
-		() => dispatch(applySettingsToAll(id, { centering }))
+		() => pipe({ centering })(copySettings, dispatch),
+		() => pipe({ centering })(val => applySettingsToAll(id, val), dispatch)
 	]), [isBatch, id, centering])
 
 	return (

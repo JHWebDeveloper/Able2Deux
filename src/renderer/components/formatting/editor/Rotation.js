@@ -8,7 +8,7 @@ import {
 	updateMediaNestedStateFromEvent
 } from 'actions'
 
-import { createSettingsMenu } from 'utilities'
+import { createSettingsMenu, pipe } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
@@ -196,8 +196,8 @@ const RotationPanel = props => {
 	const { isBatch, id, rotation, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => dispatch(copySettings({ rotation })),
-		() => dispatch(applySettingsToAll(id, { rotation }))
+		() => pipe({ rotation })(copySettings, dispatch),
+		() => pipe({ rotation })(val => applySettingsToAll(id, val), dispatch)
 	]), [isBatch, id, rotation])
 
 	return (

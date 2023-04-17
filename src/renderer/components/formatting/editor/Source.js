@@ -14,6 +14,7 @@ import {
 import {
 	createSettingsMenu,
 	has11pmBackground,
+	pipe,
 	warn
 } from 'utilities'
 
@@ -90,8 +91,8 @@ const SourcePanel = props => {
 	const { isBatch, source, id, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => dispatch(copySettings({ source })),
-		() => dispatch(applySettingsToAll(id, { source }))
+		() => pipe({ source })(copySettings, dispatch),
+		() => pipe({ source })(val => applySettingsToAll(id, val), dispatch)
 	]), [isBatch, id, source])
 
 	return (

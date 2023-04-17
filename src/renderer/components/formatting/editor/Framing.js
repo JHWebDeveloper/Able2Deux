@@ -10,7 +10,7 @@ import {
 	updateMediaStateFromEvent
 } from 'actions'
 
-import { createSettingsMenu, rgbToHex } from 'utilities'
+import { createSettingsMenu, pipe, rgbToHex } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
@@ -207,8 +207,8 @@ const FramingPanel = props => {
 	const { isBatch, id, arc, background, overlay, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => dispatch(copySettings({ arc, background, overlay })),
-		() => dispatch(applySettingsToAll(id, { arc, background, overlay }))
+		() => pipe({ arc, background, overlay })(copySettings, dispatch),
+		() => pipe({ arc, background, overlay })(val => applySettingsToAll(id, val), dispatch)
 	]), [isBatch, id, arc, background, overlay])
 
 	return (

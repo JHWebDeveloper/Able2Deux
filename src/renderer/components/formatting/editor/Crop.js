@@ -8,7 +8,7 @@ import {
 	updateMediaNestedState
 } from 'actions'
 
-import { clamp, createSettingsMenu } from 'utilities'
+import { clamp, createSettingsMenu, pipe } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderDouble from '../../form_elements/SliderDouble'
@@ -155,8 +155,8 @@ const CropPanel = props => {
 	const { isBatch, id, crop, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => dispatch(copySettings({ crop })),
-		() => dispatch(applySettingsToAll(id, { crop }))
+		() => pipe({ crop })(copySettings, dispatch),
+		() => pipe({ crop })(val => applySettingsToAll(id, val), dispatch)
 	]), [isBatch, id, crop])
 
 	return (

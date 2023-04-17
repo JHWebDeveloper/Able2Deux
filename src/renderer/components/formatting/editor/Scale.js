@@ -13,7 +13,8 @@ import {
 import {
 	calcRotatedBoundingBox,
 	createSettingsMenu,
-	degToRad
+	degToRad,
+	pipe
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -184,8 +185,8 @@ const ScalePanel = props => {
 	const { freeRotateMode, angle } = props.rotation
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => dispatch(copySettings({ scale })),
-		() => dispatch(applySettingsToAll(id, { scale }))
+		() => pipe({ scale })(copySettings, dispatch),
+		() => pipe({ scale })(val => applySettingsToAll(id, val), dispatch)
 	]), [isBatch, id, scale])
 
 	return (
