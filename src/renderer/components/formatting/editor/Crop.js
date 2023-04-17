@@ -156,7 +156,7 @@ const CropPanel = props => {
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => pipe({ crop })(copySettings, dispatch),
-		() => pipe({ crop })(val => applySettingsToAll(id, val), dispatch)
+		() => pipe({ crop })(applySettingsToAll(id), dispatch)
 	]), [isBatch, id, crop])
 
 	return (

@@ -78,7 +78,7 @@ const AudioPanel = props => {
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => pipe({ audio })(copySettings, dispatch),
-		() => pipe({ audio })(val => applySettingsToAll(id, val), dispatch)
+		() => pipe({ audio })(applySettingsToAll(id), dispatch)
 	]), [isBatch, id, audio])
 
 	return (

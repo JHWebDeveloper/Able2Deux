@@ -270,7 +270,7 @@ const ColorCorrectionPanel = props => {
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => pipe({ colorCurves })(createColorCurvesCopier, copySettings, dispatch),
-		() => pipe({ colorCurves })(createColorCurvesCopier, val => applySettingsToAll(id, val), dispatch)
+		() => pipe({ colorCurves })(createColorCurvesCopier, applySettingsToAll(id), dispatch)
 	]), [isBatch, id, colorCurves])
 
 	return ( 

@@ -186,7 +186,7 @@ const ScalePanel = props => {
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => pipe({ scale })(copySettings, dispatch),
-		() => pipe({ scale })(val => applySettingsToAll(id, val), dispatch)
+		() => pipe({ scale })(applySettingsToAll(id), dispatch)
 	]), [isBatch, id, scale])
 
 	return (

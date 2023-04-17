@@ -222,7 +222,7 @@ const KeyingPanel = props => {
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => pipe({ keying })(copySettings, dispatch),
-		() => pipe({ keying })(val => applySettingsToAll(id, val), dispatch)
+		() => pipe({ keying })(applySettingsToAll(id), dispatch)
 	]), [isBatch, id, keying])
 
 	return (

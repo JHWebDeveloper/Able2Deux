@@ -92,7 +92,7 @@ const SourcePanel = props => {
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => pipe({ source })(copySettings, dispatch),
-		() => pipe({ source })(val => applySettingsToAll(id, val), dispatch)
+		() => pipe({ source })(applySettingsToAll(id), dispatch)
 	]), [isBatch, id, source])
 
 	return (

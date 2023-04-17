@@ -47,7 +47,7 @@ export const pasteSettings = id => ({
 	payload: { id }
 })
 
-export const applySettingsToAll = (id, properties) => ({
+export const applySettingsToAll = id => properties => ({
 	type: ACTION.APPLY_TO_ALL,
 	payload: { id, properties }
 })

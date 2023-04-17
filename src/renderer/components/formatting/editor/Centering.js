@@ -45,7 +45,7 @@ const CenteringPanel = props => {
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => pipe({ centering })(copySettings, dispatch),
-		() => pipe({ centering })(val => applySettingsToAll(id, val), dispatch)
+		() => pipe({ centering })(applySettingsToAll(id), dispatch)
 	]), [isBatch, id, centering])
 
 	return (
