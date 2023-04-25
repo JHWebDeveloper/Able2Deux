@@ -4,6 +4,7 @@ import { arrayOf, func, object } from 'prop-types'
 import toastr from 'toastr'
 
 import { PrefsContext } from 'store'
+import { pipeAsync } from 'utilities'
 import * as STATUS from 'status'
 
 import {
@@ -96,7 +97,7 @@ const RenderQueue = props => {
 	useEffect(() => {
 		interop.disablePrefs()
 
-		dispatch(render({
+		pipeAsync(render, dispatch)({
 			media,
 			batch,
 			saveLocations,
@@ -108,7 +109,7 @@ const RenderQueue = props => {
 			concurrent,
 			goBack,
 			removeLocation
-		}))
+		})
 	}, [])
 
 	useEffect(() => {
