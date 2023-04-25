@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { func } from 'prop-types'
 
 import { upload } from 'actions'
+import { pipeAsync } from 'utilities'
 
 const dragEnter = e => {
 	e.target.parentElement.classList.add('drag-enter')
@@ -13,7 +14,9 @@ const dragLeave = e => {
 
 const Uploader = ({ dispatch }) => {
 	const prepFilesForUpload = useCallback(files => {
-		for (const file of files) dispatch(upload(file))
+		const _pipe = pipeAsync(upload, dispatch)
+
+		for (const file of files) _pipe(file)
 	}, [])
 
 	const openFiles = useCallback(async () => {
