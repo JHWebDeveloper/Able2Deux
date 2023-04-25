@@ -390,7 +390,7 @@ export const render = args => async dispatch => {
 
 		if (exists) continue
 
-		pipe(toggleSaveLocation, dispatch)(location.id)
+		dispatch(toggleSaveLocation(location.id))
 
 		const { response, checkboxChecked } = await interop.directoryNotFoundAlert(location.directory)
 
