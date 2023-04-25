@@ -4,7 +4,7 @@ import toastr from 'toastr'
 
 import { MainContext, PrefsContext } from 'store'
 import { upload } from 'actions'
-import { debounce, toastrOpts } from 'utilities'
+import { debounce, pipeAsync, toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -29,7 +29,9 @@ const GlobalListeners = () => {
 
 			navigate('/')
 
-			for (const file of files) dispatch(upload(file))
+			const _pipe = pipeAsync(upload, dispatch)
+
+			for (const file of files) _pipe(file)
 		})
 
 		return interop.removeOpenWithListener
