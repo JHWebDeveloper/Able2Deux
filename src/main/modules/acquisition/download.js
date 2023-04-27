@@ -46,7 +46,6 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		...disableRateLimit ? [] : ['--limit-rate',	'12500k'],
 		'--output', `${scratchDisk.imports.path}/${id}.%(ext)s`,
 		'--format', `${optimize === 'quality' ? `bestvideo[height<=${output}][fps<=60]+bestaudio/` : ''}best[height<=${output}][fps<=60]/best`,
-		'--merge-output-format', 'mkv',
 		'--progress-template', `[${id}]_{"downloaded":"%(progress.downloaded_bytes)s","total":"%(progress.total_bytes)s","totalEst":"%(progress.total_bytes_estimate)s","eta":"%(progress.eta)s"}`,
 		url
 	])

@@ -15,6 +15,7 @@ const ytdlpSpawn = opts => spawn(asar.ytdl, [
 	'--socket-timeout', '30',
 	'--no-warnings',
 	'--no-playlist',
+	'--merge-output-format', 'mkv',
 	...opts
 ])
 
