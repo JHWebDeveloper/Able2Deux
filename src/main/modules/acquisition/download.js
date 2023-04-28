@@ -63,9 +63,8 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		if (!cmdPrefixRegex.test(info)) return false
 
 		const [ json ] = info.match(/{.*}/)
-
 		const { downloaded, total, totalEst, eta } = JSON.parse(json)
-		
+
 		progress.downloaded = convertNumericString(downloaded, progress.downloaded)
 		progress.total = convertNumericString(total, convertNumericString(totalEst, progress.total))
 		progress.eta = convertNumericString(eta, progress.eta)
