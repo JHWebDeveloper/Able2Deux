@@ -30,26 +30,19 @@
 
 /* --- RESET --- */
 
+*:where(:not(html, canvas, img, svg):not(svg *)) {
+	all: unset;
+	display: revert;
+}
+
 *, *::before, *::after {
 	box-sizing: border-box;
 	user-select: none;
 }
 
-html, body, div, header, nav, main, section,
-form, fieldset, legend, label, input,
-table, thead, tbody, tr, th, td,
-h1, h2, h3, h4, h5, img, p, ol, ul, li, button, a, address, span, q, i {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-
 body {
-	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
 }
 
 form { display: contents; }
@@ -58,16 +51,9 @@ h1, h2, h3, h4, h5, legend, summary, th { font-weight: 500; }
 
 ul { list-style-type: none; }
 
-a { text-decoration: underline; }
+a, button { cursor: revert; }
 
-a:link, a:visited, button { color: currentColor; }
-
-a:hover { cursor: pointer; }
-
-button {
-	display: inline-block;
-	background-color: transparent;
-}
+button { text-align: center; }
 
 svg:not([fill]) { fill: var(--primary); }
 
