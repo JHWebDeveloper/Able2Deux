@@ -24,7 +24,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Updated
 - Video service compatibility
-- Electron 24
+- Electron 25
 
 ### Fixed
 - Added race condition handlers to preview rendering. Older preview stills will no longer overwrite the newest when rendering is delayed.
