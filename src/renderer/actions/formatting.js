@@ -263,13 +263,15 @@ const fillMissingFilenames = media => media.map(item => ({
 }))
 
 const getBatchNamer = batch => {
+	const batchName = batch.name.trim()
+
 	switch (batch.position) {
 		case 'replace':
-			return () => batch.name
+			return filename => batchName.replace(/\$f/g, filename.trim())
 		case 'prepend':
-			return filename => `${batch.name.trim()} ${filename}`
+			return filename => `${batchName} ${filename.trim()}`
 		case 'append':
-			return filename => `${filename} ${batch.name.trim()}`
+			return filename => `${filename.trim()} ${batchName}`
 		default:
 			return filename => filename
 	}
@@ -288,7 +290,7 @@ const applyBatchName = (media, batch) => {
 
 const sanitizeFilenames = (media, asperaSafe) => media.map((item, i) => ({
 	...item,
-	filename: cleanFilename(replaceTokens(item.filename, i, media.length), asperaSafe)
+	filename: cleanFilename(replaceTokens(item.filename, i, media.length, item), asperaSafe)
 }))
 
 const preventDuplicateFilenames = media => {
