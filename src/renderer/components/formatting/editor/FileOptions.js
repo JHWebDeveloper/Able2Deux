@@ -8,7 +8,7 @@ import StartEnd from './StartEnd'
 import Split from './Split'
 
 const FileOptions = props => {
-	const { id, batch, mediaType, start, end, totalFrames, fps, split, dispatch } = props
+	const { id, mediaType, start, end, totalFrames, fps, split, dispatch } = props
 
 	const updateFilename = useCallback(e => {
 		dispatch(updateMediaStateFromEvent(id, e))
@@ -16,7 +16,7 @@ const FileOptions = props => {
 
 	return (
 		<>
-			<fieldset disabled={props.isBatch && batch.name && batch.position === 'replace'}>
+			<fieldset>
 				<legend>Filename<span aria-hidden>:</span></legend>
 				<input
 					type="text"
@@ -63,10 +63,6 @@ const propTypes = {
 	id: string.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	isBatch: bool.isRequired,
-	batch: exact({
-		name: string,
-		position: string
-	}).isRequired,
 	filename: string.isRequired,
 	start: number.isRequired,
 	end: number.isRequired,
