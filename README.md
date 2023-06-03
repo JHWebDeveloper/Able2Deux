@@ -13,7 +13,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Free Rotate Mode options 'With Bounds' and 'Inside Bounds'. Content can now be rotated with its bounding box (as it previously has) or inside of its bounding box while being auto scaled to cover said bounding box. This can be used to correct crooked photos.
 - Centering slider. Enabled when Free Rotate Mode: With Bounds is selected. This can shift the bounding box along the available rotated space.
 - New warning: Remove Referenced Media. Warning will fire when attempting remove media on the acqusition page that has duplicates referencing it on the formatting page. Remove Referenced Media warning can be enabled/disabled under Preferences.
-- Formatting panel has been renamed to Framing to avoid confusion with the "Formatting" page. Panel contents are unchanged.
+- New batch and filename tokens for timecodes: $s = start timecode, $e = end timecode, $r = media runtime and $c = subclip runtime. All are in the format of HHMMSS with frames rounded. If any of these tokens are used for an on image, they will be replaced with "000000".
 
 ### Changed
 - Offset has been renamed to Free Rotate.
@@ -21,6 +21,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - For non-orthogonal angles, fit buttons in the Scale panel now snap the content's rotated width or height to the frame edges instead of original dimensions.
 - Improved preview rendering.
 - Duplicates of media no longer display on the acquisition page. Acquisition page now only displays 1 media element per source file.
+- Formatting panel has been renamed to Framing to avoid confusion with the "Formatting" page. Panel contents are unchanged.
 
 ### Updated
 - Video service compatibility
@@ -31,6 +32,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Removed
 - Ability to sort media via drag and drop on the acquisition page. Media can only be sorted on the formatting page.
+- $r token for clip numbered reversed. Now using $r for media runtime as stated above with is more useful.
 
 ## [2.3.1] - 2.22.23
 
