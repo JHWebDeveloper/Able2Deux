@@ -1,6 +1,6 @@
 import { v1 as uuid } from 'uuid'
 
-import { getIntegerLength } from 'utilities'
+import { getIntegerLength, has11pmBackground } from 'utilities'
 
 // ---- CURVE ARRYS --------
 
@@ -111,17 +111,39 @@ const format12hr = d => {
 	return `${h}${zeroize(m)}${meridian}`
 }
 
-export const replaceTokens = (filename, i = 0, l = 0) => {
+const replaceBackground = bg => {
+	switch (bg) {
+		case 'blue':
+		case 'grey':
+			return 'EWN'
+		case 'light_blue':
+		case 'dark_blue':
+		case 'teal':
+		case 'tan':
+			return 'TNT'
+		default:
+			return ''
+	}
+}
+
+export const replaceTokens = (filename, i = 0, l = 0, media) => {
+	if (filename.length < 2 || !/\$[a-z9]/i.test(filename)) return filename
+
+	const { start, end, duration, fps, background } = media
 	const d = new Date()
 
 	return filename
-		.replace(/\$n/g, zeroizeAuto(i + 1, l))
-		.replace(/\$r/g, zeroizeAuto(l - i, l))
-		.replace(/\$b/g, l)
-		.replace(/\$d/g, d.toDateString())
-		.replace(/\$D/g, d.toLocaleDateString().replace(/\//g, '-'))
-		.replace(/\$t/g, format12hr(d))
-		.replace(/\$T/g, `${d.getHours()}${d.getMinutes()}`)
+		.replace(/\$d/g, () => d.toDateString())
+		.replace(/\$D/g, () => d.toLocaleDateString().replace(/\//g, '-'))
+		.replace(/\$t/g, () => format12hr(d))
+		.replace(/\$T/g, () => `${d.getHours()}${d.getMinutes()}`)
+		.replace(/\$n/g, () => zeroizeAuto(i + 1, l))
+		.replace(/\$l/g, l)
+		.replace(/\$s/g, () => secondsToTC(Math.round(start / fps)).split(':').join(''))
+		.replace(/\$e/g, () => secondsToTC(Math.round(end / fps)).split(':').join(''))
+		.replace(/\$r/g, () => secondsToTC(Math.round(duration)).split(':').join(''))
+		.replace(/\$c/g, () => secondsToTC(Math.round((end - start) / fps)).split(':').join(''))
+		.replace(/\$9/g, () => replaceBackground(background))
 }
 
 // ---- MISC. --------
