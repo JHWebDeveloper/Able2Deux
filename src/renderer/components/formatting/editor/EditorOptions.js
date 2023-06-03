@@ -42,7 +42,6 @@ const EditorOptions = props => {
 	return (
 		<div ref={editorOptions} id="editor-options">
 			<FileOptions
-				batch={props.batch}
 				filename={props.filename}
 				start={props.start}
 				end={props.end}
