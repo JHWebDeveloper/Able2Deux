@@ -13,7 +13,8 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Free Rotate Mode options 'With Bounds' and 'Inside Bounds'. Content can now be rotated with its bounding box (as it previously has) or inside of its bounding box while being auto scaled to cover said bounding box. This can be used to correct crooked photos.
 - Centering slider. Enabled when Free Rotate Mode: With Bounds is selected. This can shift the bounding box along the available rotated space.
 - New warning: Remove Referenced Media. Warning will fire when attempting remove media on the acqusition page that has duplicates referencing it on the formatting page. Remove Referenced Media warning can be enabled/disabled under Preferences.
-- New batch and filename tokens for timecodes: $s = start timecode, $e = end timecode, $r = media runtime and $c = subclip runtime. All are in the format of HHMMSS with frames rounded. If any of these tokens are used for an image, they will be replaced with "000000".
+- New batch/filename tokens for timecodes: $s = start timecode, $e = end timecode, $r = media runtime and $c = subclip runtime. All are in the format of HHMMSS with frames rounded. If any of these tokens are used for an image, they will be replaced with "000000".
+- New batch name token: $f. Will auto insert the filename into the batchname. Only works in the Batch Name field when batch name is set to "Replace". Can be used for custom batch name templates more complex than the "Prepend" and "Append" aoptions allow.
 
 ### Changed
 - Offset has been renamed to Free Rotate.
@@ -22,6 +23,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Improved preview rendering.
 - Duplicates of media no longer display on the acquisition page. Acquisition page now only displays 1 media element per source file.
 - Formatting panel has been renamed to Framing to avoid confusion with the "Formatting" page. Panel contents are unchanged.
+- Filename no longer disables when a Batch name is typed in while "Replace" is selected. This is to allow use of the new $f token above.
 
 ### Updated
 - Video service compatibility
