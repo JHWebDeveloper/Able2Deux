@@ -17,6 +17,8 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 			top: `${bottom + 3}px`,
 			left: `${left}px`
 		})
+
+		toggleMenu()
 	}, [])
 
 	const closeMenuOnBlur = useCallback(detectTabExit(toggleMenu), [])
@@ -27,10 +29,7 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 				type="button"
 				title="Options"
 				className="symbol"
-				onClick={e => {
-					getPositionRelativeToWindow(e)
-					toggleMenu()
-				}}
+				onClick={getPositionRelativeToWindow}
 				aria-label="Options"
 				aria-haspopup
 				aria-expanded={menu}
