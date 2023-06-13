@@ -264,14 +264,15 @@ const fillMissingFilenames = media => media.map(item => ({
 
 const getBatchNamer = batch => {
 	const batchName = batch.name.trim()
+	const prepareBatchName = filename => batchName.replace(/(?<!\\)\$f/g, filename.trim())
 
 	switch (batch.position) {
 		case 'replace':
-			return filename => batchName.replace(/\$f/g, filename.trim())
+			return prepareBatchName
 		case 'prepend':
-			return filename => `${batchName} ${filename.trim()}`
+			return filename => `${prepareBatchName(filename)} ${filename.trim()}`
 		case 'append':
-			return filename => `${filename.trim()} ${batchName}`
+			return filename => `${filename.trim()} ${prepareBatchName(filename)}`
 		default:
 			return filename => filename
 	}
