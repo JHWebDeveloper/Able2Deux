@@ -136,20 +136,6 @@ export const replaceTokens = (filename, i = 0, l = 0, media) => {
 	const { start, end, duration, fps, background } = media
 	const d = new Date()
 
-	// return filename
-	// 	.replace(/(?<!\\)\$d/g, () => d.toDateString())
-	// 	.replace(/(?<!\\)\$D/g, () => d.toLocaleDateString().replace(/\//g, '-'))
-	// 	.replace(/(?<!\\)\$t/g, () => format12hr(d))
-	// 	.replace(/(?<!\\)\$T/g, () => `${d.getHours()}${d.getMinutes()}`)
-	// 	.replace(/(?<!\\)\$n/g, () => zeroizeAuto(i + 1, l))
-	// 	.replace(/(?<!\\)\$l/g, l)
-	// 	.replace(/(?<!\\)\$s/g, () => secondsToTC(Math.round(start / fps)).split(':').join(''))
-	// 	.replace(/(?<!\\)\$e/g, () => secondsToTC(Math.round(end / fps)).split(':').join(''))
-	// 	.replace(/(?<!\\)\$r/g, () => secondsToTC(Math.round(duration)).split(':').join(''))
-	// 	.replace(/(?<!\\)\$c/g, () => secondsToTC(Math.round((end - start) / fps)).split(':').join(''))
-	// 	.replace(/(?<!\\)\$9/g, () => replaceBackground(background))
-	// 	.replace(/\\(?=\$)/, '')
-
 	const replacements = new Map(Object.entries({
 		'$d': () => d.toDateString(),
 		'$D': () => d.toLocaleDateString().replace(/\//g, '-'),
