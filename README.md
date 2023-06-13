@@ -14,7 +14,8 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Centering slider. Enabled when Free Rotate Mode: With Bounds is selected. This can shift the bounding box along the available rotated space.
 - New warning: Remove Referenced Media. Warning will fire when attempting remove media on the acqusition page that has duplicates referencing it on the formatting page. Remove Referenced Media warning can be enabled/disabled under Preferences.
 - New batch/filename tokens for timecodes: $s = start timecode, $e = end timecode, $r = media runtime and $c = subclip runtime. All are in the format of HHMMSS with frames rounded. If any of these tokens are used for an image, they will be replaced with "000000".
-- New batch name token: $f. Will auto insert the filename into the batchname. Only works in the Batch Name field when batch name is set to "Replace". Can be used for custom batch name templates more complex than the "Prepend" and "Append" aoptions allow.
+- New batch name token: $f. Will auto insert the filename into the batchname. Only works in the Batch Name field. Can be used for custom batch name templates more complex than the "Prepend" and "Append" aoptions allow.
+- Adding a backslash (\) in front of a token will prevent it from being replaced. Can be used if the characters of a media title happen to overlap with a token. The backslash will be automatically removed.
 
 ### Changed
 - Offset has been renamed to Free Rotate.
