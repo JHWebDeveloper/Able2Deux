@@ -126,17 +126,10 @@ const replaceBackground = bg => {
 	}
 }
 
-export const replaceTokens = (filename, i = 0, l = 0, media) => {
-	if (filename.length < 2) return filename
-
-	const matches = [...new Set(filename.match(/(?<!\\)\$(d|t|n|l|s|e|r|c|9)/ig))]
-
-	if (!matches.length) return filename
-
-	const { start, end, duration, fps, background } = media
+const getReplacerFns = (i, l, { start, end, duration, fps, background }) => {
 	const d = new Date()
 
-	const replacements = new Map(Object.entries({
+	return new Map(Object.entries({
 		'$d': () => d.toDateString(),
 		'$D': () => d.toLocaleDateString().replace(/\//g, '-'),
 		'$t': () => format12hr(d),
@@ -149,9 +142,19 @@ export const replaceTokens = (filename, i = 0, l = 0, media) => {
 		'$c': () => secondsToTC(Math.round((end - start) / fps)).split(':').join(''),
 		'$9': () => replaceBackground(background)
 	}))
+}
+
+export const replaceTokens = (filename, i = 0, l = 0, media) => {
+	if (filename.length < 2) return filename
+
+	const matches = [...new Set(filename.match(/(?<!\\)\$(d|t|n|l|s|e|r|c|9)/ig))].sort().reverse()
+
+	if (!matches.length) return filename
+
+	const replacer = getReplacerFns(i, l, media)
 
 	for (const match of matches) {
-		filename = filename.replace(new RegExp(`(?<!\\\\)\\${match}`, 'g'), replacements.get(match)())
+		filename = filename.replace(new RegExp(`(?<!\\\\)\\${match}`, 'g'), replacer.get(match)())
 	}
 
 	return filename.replace(/\\(?=\$)/g, '')
