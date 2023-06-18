@@ -24,7 +24,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Improved preview rendering.
 - Duplicates of media no longer display on the acquisition page. Acquisition page now only displays 1 media element per source file.
 - Formatting panel has been renamed to Framing to avoid confusion with the "Formatting" page. Panel contents are unchanged.
-- Filename no longer disables when a Batch name is typed in while "Replace" is selected. This is to allow use of the new $f token above.
+- Filename no longer disables when a Batch name is typed in while "Replace" is selected. This is to allow use of the new $f token descried above.
 
 ### Updated
 - Video service compatibility
