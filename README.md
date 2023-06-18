@@ -35,7 +35,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Removed
 - Ability to sort media via drag and drop on the acquisition page. Media can only be sorted on the formatting page.
-- $r token for clip numbered reversed. Now using $r for media runtime as stated above with is more useful.
+- $r token for reversed clip numbered. Now using $r for media runtime as stated above which is more useful. Reversed clip number no longer supported.
 
 ## [2.3.1] - 2.22.23
 
