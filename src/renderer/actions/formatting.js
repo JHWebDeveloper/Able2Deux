@@ -223,7 +223,7 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 		hasAlpha
 	} : sourceMediaData
 
-	pipeAsync({
+	pipeAsync(createMediaData, addMedia, dispatch)({
 		...inheritance,
 		...stillData,
 		title: `Screengrab ${sourceMediaData.title}`,
@@ -232,7 +232,7 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 		duration: 0,
 		fps: 0,
 		hasAudio: false
-	})(createMediaData, addMedia, dispatch)
+	})
 }
 
 // ---- RENDER --------
