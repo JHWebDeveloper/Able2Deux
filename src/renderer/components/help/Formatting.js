@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { replaceTokens } from 'utilities'
-
 const { interop } = window.ABLE2
 
 const cmdORCtrl = interop.isMac ? 'Cmd' : 'Ctrl'
@@ -269,19 +267,19 @@ const Formatting = () => (
 			<tbody>
 				<tr>
 					<td>$t</td>
-					<td>Timestamp 12 hour format (e.g. {replaceTokens('$t')})</td>
+					<td>Timestamp 12 hour format</td>
 				</tr>
 				<tr>
 					<td>$T</td>
-					<td>Timestamp 24 hour format (e.g. {replaceTokens('$T')})</td>
+					<td>Timestamp 24 hour format</td>
 				</tr>
 				<tr>
 					<td>$d</td>
-					<td>Long Date (e.g. {replaceTokens('$d')})</td>
+					<td>Long Date</td>
 				</tr>
 				<tr>
 					<td>$D</td>
-					<td>Short Date (e.g. {replaceTokens('$D')})</td>
+					<td>Short Date</td>
 				</tr>
 				<tr>
 					<td>$n</td>
