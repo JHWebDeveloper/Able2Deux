@@ -144,7 +144,7 @@ const getReplacerFns = (i, l, { start, end, duration, fps, background }) => {
 	}))
 }
 
-export const replaceTokens = (filename, i = 0, l = 0, media) => {
+export const replaceTokens = (filename, i = 0, l = 0, media = {}) => {
 	if (filename.length < 2) return filename
 
 	const matches = [...new Set(filename.match(/(?<!\\)\$(d|t|n|l|s|e|r|c|9)/ig))].sort().reverse()
