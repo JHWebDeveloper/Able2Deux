@@ -147,7 +147,7 @@ const getReplacerFns = (i, l, { start, end, duration, fps, background }) => {
 export const replaceTokens = (filename, i = 0, l = 0, media = {}) => {
 	if (filename.length < 2) return filename
 
-	const matches = [...new Set(filename.match(/(?<!\\)\$(d|t|n|l|s|e|r|c|9)/ig))].sort().reverse()
+	const matches = [...new Set(filename.match(/(?<!\\)\$(d|D|t|T|n|l|s|e|r|c|9)/g))].sort().reverse()
 
 	if (matches.length) {
 		const replacer = getReplacerFns(i, l, media)
@@ -157,7 +157,7 @@ export const replaceTokens = (filename, i = 0, l = 0, media = {}) => {
 		}
 	}
 
-	return filename.replace(/\\(?=\$(d|t|n|l|s|e|r|c|9))/ig, '')
+	return filename.replace(/\\(?=\$(d|D|t|T|n|l|s|e|r|c|9))/g, '')
 }
 
 // ---- MISC. --------
