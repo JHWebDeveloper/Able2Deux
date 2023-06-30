@@ -7,7 +7,7 @@ Able2 is an all-in-one News Editor's video acquisition tool. Able2 is able to do
 This repo is intended for portfolio viewing purposes only. For official releases please download from the following repo:
 https://github.com/JHWebDeveloper/Able2-public-resources
 
-## [Unreleased][2.3.2] - TBD
+## [2.3.2] - 6.30.2023
 
 ### Added
 - Free Rotate Mode options "With Bounds" and "Inside Bounds". Content can now be rotated with its bounding box (as it previously has) or inside of its bounding box while being auto scaled to cover said bounding box. This can be used to correct crooked photos.
@@ -24,7 +24,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Improved preview rendering.
 - Duplicates of media no longer display on the acquisition page. Acquisition page now only displays 1 media element per source file.
 - Formatting panel has been renamed to Framing to avoid confusion with the "Formatting" page. Panel contents are unchanged.
-- Filename no longer disables when a Batch name is typed in while "Replace" is selected. This is to allow use of the new $f token described above.
+- Filename no longer disables when a batch name is typed in while "Replace" is selected. This is to allow use of the new $f token described above.
 
 ### Updated
 - Video service compatibility
