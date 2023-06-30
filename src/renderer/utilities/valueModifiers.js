@@ -149,15 +149,15 @@ export const replaceTokens = (filename, i = 0, l = 0, media = {}) => {
 
 	const matches = [...new Set(filename.match(/(?<!\\)\$(d|t|n|l|s|e|r|c|9)/ig))].sort().reverse()
 
-	if (!matches.length) return filename
-
-	const replacer = getReplacerFns(i, l, media)
-
-	for (const match of matches) {
-		filename = filename.replace(new RegExp(`(?<!\\\\)\\${match}`, 'g'), replacer.get(match)())
+	if (matches.length) {
+		const replacer = getReplacerFns(i, l, media)
+	
+		for (const match of matches) {
+			filename = filename.replace(new RegExp(`(?<!\\\\)\\${match}`, 'g'), replacer.get(match)())
+		}
 	}
 
-	return filename.replace(/\\(?=\$)/g, '')
+	return filename.replace(/\\(?=\$(d|t|n|l|s|e|r|c|9))/ig, '')
 }
 
 // ---- MISC. --------
