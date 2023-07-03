@@ -35,7 +35,6 @@ const PreviewEditorContainer = props => {
 			<EditorOptions
 				eyedropper={eyedropper}
 				setEyedropper={setEyedropper}
-				batch={props.batch}
 				editAll={props.editAll}
 				split={props.split}
 				isBatch={props.isBatch}
@@ -57,7 +56,6 @@ PreviewEditorContainer.propTypes = {
 		ratio: arrayOf(number)
 	})).isRequired,
 	editAll: bool.isRequired,
-	batch: object.isRequired,
 	split: number,
 	isBatch: bool.isRequired,
 	dispatch: func.isRequired

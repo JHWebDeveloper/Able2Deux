@@ -71,7 +71,6 @@ const Formatting = () => {
 				aspectRatioMarkers={aspectRatioMarkers}
 				previewQuality={previewQuality}
 				previewHeight={previewHeight}
-				batch={batch}
 				isBatch={isBatch}
 				split={split}
 				dispatch={dispatch} />

@@ -110,7 +110,6 @@ EditorOptions.propTypes = {
 	height: number,
 	aspectRatio: string,
 	hasAlpha: bool,
-	batch: object,
 	filename: string,
 	start: number,
 	end: number,
