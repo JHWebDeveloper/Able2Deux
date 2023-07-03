@@ -1,6 +1,6 @@
 import { v1 as uuid } from 'uuid'
 
-import { getIntegerLength, has11pmBackground } from 'utilities'
+import { getIntegerLength } from 'utilities'
 
 // ---- CURVE ARRYS --------
 

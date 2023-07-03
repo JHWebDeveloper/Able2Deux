@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { bool, exact, func, number, oneOf, string } from 'prop-types'
+import { bool, func, number, oneOf, string } from 'prop-types'
 
 import { updateMediaStateFromEvent } from 'actions'
 
