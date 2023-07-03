@@ -722,7 +722,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 }
 
 @media (prefers-color-scheme: dark) {
-	#color-correction .slider-track.double > span:first-child::after { border-color: var(--primary);; }
+	#color-correction .slider-track.double > span:first-child::after { border-color: var(--primary); }
 	#color-correction .slider-track.double > span:last-child::after { border-color: transparent; }
 }
 
