@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
-import { createScrollbarPadder, objectPick } from 'utilities'
+import { objectPick } from 'utilities'
 
 import FileOptions from './FileOptions'
 import Audio from './Audio'
@@ -15,8 +15,6 @@ import Rotation from './Rotation'
 import Keying from './Keying'
 import ColorCorrection from './ColorCorrection'
 
-const scrollbarPadder = createScrollbarPadder()
-
 const extractCommonProps = (() => {
 	const common = ['id', 'mediaType', 'editAll', 'isBatch', 'width', 'height', 'aspectRatio', 'dispatch']
 
@@ -29,18 +27,8 @@ const EditorOptions = props => {
 	const { background, mediaType, aspectRatio, arc, audio, scale, crop, eyedropper, setEyedropper } = props
 	const common = extractCommonProps(props)
 
-	const editorOptions = useRef(null)
-
-	useEffect(() => {
-		scrollbarPadder.observe(editorOptions.current, 6)
-
-		return () => {
-			scrollbarPadder.disconnect()
-		}
-	}, [])
-
 	return (
-		<div ref={editorOptions} id="editor-options">
+		<div id="editor-options">
 			<FileOptions
 				filename={props.filename}
 				start={props.start}

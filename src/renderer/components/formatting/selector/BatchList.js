@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { arrayOf, func, object, string } from 'prop-types'
 
 import { PrefsContext } from 'store'
@@ -14,7 +14,6 @@ import {
 import {
 	arrayCount,
 	copyCurveSet,
-	createScrollbarPadder,
 	objectPick,
 	pipe,
 	warn
@@ -40,8 +39,6 @@ export const extractSettingsToCopy = (() => {
 		return objectPick(settings, isAudio ? keys.slice(-1) : keys)
 	}
 })()
-
-const scrollbarPadder = createScrollbarPadder()
 
 const BatchList = ({ media, selectedId, dispatch }) => {
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
@@ -83,18 +80,8 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 		dispatch(moveSortableElement('media', oldPos, newPos))
 	}, [])
 
-	const batchList = useRef(null)
-
-	useEffect(() => {
-		scrollbarPadder.observe(batchList.current, 3)
-
-		return () => {
-			scrollbarPadder.disconnect()
-		}
-	}, [])
-
 	return (
-		<div ref={batchList}>
+		<div>
 			<DraggableList sortingAction={sortingAction}>
 				{media.map(({ id, refId, title, tempFilePath }, i) => (
 					<BatchItem
