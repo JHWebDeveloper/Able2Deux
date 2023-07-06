@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import { arrayOf, func, object, string } from 'prop-types'
+import { arrayOf, bool, func, object } from 'prop-types'
 
 import { PrefsContext } from 'store'
 
@@ -40,7 +40,7 @@ export const extractSettingsToCopy = (() => {
 	}
 })()
 
-const BatchList = ({ media, selectedId, dispatch }) => {
+const BatchList = ({ media, dispatch }) => {
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const warnings = preferences
 
@@ -83,14 +83,15 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 	return (
 		<div>
 			<DraggableList sortingAction={sortingAction}>
-				{media.map(({ id, refId, title, tempFilePath }, i) => (
+				{media.map(({ id, refId, focused, selected, title, tempFilePath }, i) => (
 					<BatchItem
 						key={id}
 						id={id}
 						refId={refId}
 						title={title}
 						tempFilePath={tempFilePath}
-						selected={selectedId === id}
+						focused={focused}
+						selected={selected}
 						index={i}
 						prevId={media[i - 1]?.id || ''}
 						nextId={media[i + 1]?.id || ''}
@@ -106,7 +107,6 @@ const BatchList = ({ media, selectedId, dispatch }) => {
 
 BatchList.propTypes = {
 	media: arrayOf(object).isRequired,
-	selectedId: string,
 	dispatch: func.isRequired
 }
 
