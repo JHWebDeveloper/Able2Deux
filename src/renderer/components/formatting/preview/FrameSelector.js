@@ -10,8 +10,8 @@ import TimecodeInputFrames from '../../form_elements/TimecodeInputFrames'
 
 const timecodeStaticProps = { name: 'timecode', min: 0 }
 
-const FrameSelector = ({ selected, isAudio, dispatch }) => {
-	const { id, timecode, start, end, fps, totalFrames } = selected
+const FrameSelector = ({ focused, isAudio, dispatch }) => {
+	const { id, timecode, start, end, fps, totalFrames } = focused
 
 	const [ snapPoints, className ] = useMemo(() => {
 		const points = []
@@ -47,8 +47,8 @@ const FrameSelector = ({ selected, isAudio, dispatch }) => {
 	}, [id, timecode, totalFrames])
 
 	const dispatchExtractStill = useCallback(e => {
-		dispatch(extractStill(selected, e))
-	}, [selected])
+		dispatch(extractStill(focused, e))
+	}, [focused])
 
 	const timecodeProps = {
 		...timecodeStaticProps,
@@ -98,7 +98,7 @@ const FrameSelector = ({ selected, isAudio, dispatch }) => {
 }
 
 FrameSelector.propTypes = {
-	selected: shape({
+	focused: shape({
 		id: string.isRequired,
 		timecode: number.isRequired,
 		start: number.isRequired,

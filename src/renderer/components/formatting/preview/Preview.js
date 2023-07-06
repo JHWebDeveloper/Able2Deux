@@ -16,7 +16,7 @@ import Controls from './Controls'
 
 const { interop } = window.ABLE2
 
-const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, previewQuality, previewHeight, dispatch }) => {
+const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previewQuality, previewHeight, dispatch }) => {
 	const { renderOutput, gridColor } = useContext(PrefsContext).preferences
 	const [ previewSize, setPreviewSize ] = useState({})
 	const [ previewStill, setPreviewStill ] = useState('')
@@ -32,7 +32,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 		background,
 		source,
 		rotation
-	} = selected
+	} = focused
 
 	const sourceData = useMemo(() => {
 		if (source?.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
@@ -95,7 +95,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 		requestIdQueue.current.push(requestId)
 
 		interop.requestPreviewStill({
-			...selected,
+			...focused,
 			isAudio,
 			isBars,
 			renderOutput,
@@ -111,16 +111,16 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 		previewSize,
 		renderOutput,
 		rotation,
-		selected.bgColor,
-		selected.centering,
-		selected.colorCurves,
-		selected.crop,
-		selected.id,
-		selected.keying,
-		selected.overlay,
-		selected.position,
-		selected.scale,
-		selected.timecode,
+		focused.bgColor,
+		focused.centering,
+		focused.colorCurves,
+		focused.crop,
+		focused.id,
+		focused.keying,
+		focused.overlay,
+		focused.position,
+		focused.scale,
+		focused.timecode,
 		source
 	])
 	
@@ -147,7 +147,7 @@ const Preview = ({ selected, eyedropper, setEyedropper, aspectRatioMarkers, prev
 				</div>
 			</PreviewViewport>
 			<Controls
-				selected={selected}
+				focused={focused}
 				isAudio={isAudio}
 				grid={grid}
 				aspectRatioMarkers={aspectRatioMarkers}
@@ -164,12 +164,12 @@ const PreviewPanel = props => (
 		heading="Preview"
 		id="preview"
 		initOpen>
-		{props.selected.id ? <Preview {...props} /> : <></>}
+		{props.focused.id ? <Preview {...props} /> : <></>}
 	</AccordionPanel>
 )
 
 const propTypes = {
-	selected: object.isRequired,
+	focused: object.isRequired,
 	previewQuality: oneOf([1, 0.75, 0.5]).isRequired,
 	previewHeight: number.isRequired,
 	aspectRatioMarkers: arrayOf(exact({
