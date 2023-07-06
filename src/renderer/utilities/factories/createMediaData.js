@@ -17,6 +17,8 @@ export const createDefaultCurvePoints = () => [
 const defaultMediaData = {
 	id: '',
 	refId: '',
+	focused: false,
+	selected: false,
 	status: PENDING,
 	download: {
 		eta: 0,
