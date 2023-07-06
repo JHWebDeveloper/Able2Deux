@@ -2,7 +2,7 @@ import * as shared from 'reducer/shared'
 import * as ACTION from 'actions/types'
 import * as STATUS from 'status'
 
-import { copyCurve, sortCurvePoints } from 'utilities'
+import { copyCurve, findNearestIndex, sortCurvePoints } from 'utilities'
 
 // ---- REDUCER --------
 
@@ -32,6 +32,8 @@ export const mainReducer = (state, action) => {
 			return shared.removeSortableElement(state, payload)
 		case ACTION.MOVE_SORTABLE_ELEMENT:
 			return shared.moveSortableElement(state, payload)
+		case ACTION.SELECT_MEDIA:
+			return selectMedia(state, payload)
 		case ACTION.DUPLICATE_MEDIA: 
 			return duplicateMedia(state, payload)
 		case ACTION.SPLIT_MEDIA: 
@@ -103,6 +105,71 @@ const toggleMediaNestedCheckbox = (state, payload) => {
 	}
 }
 
+const selectMedia = (state, payload) => {
+	const { clickedIndex, clickedInFocus, clickedInSelection, shift, ctrlOrCmd } = payload
+	let media = []
+
+	if (shift) {
+		const focusedIndex = state.media.findIndex(({ focused }) => focused)
+		const start = Math.min(focusedIndex, clickedIndex)
+		const end = Math.max(focusedIndex, clickedIndex)
+
+		media = state.media.map((item, i) => i === clickedIndex ? {
+			...item,
+			focused: true,
+			selected: true
+		} : (i >= start && i <= end) ? {
+			...item,
+			focused: false,
+			selected: true
+		} : item)
+	} else if (ctrlOrCmd && clickedInFocus) {
+		const nearestSelectedIndex = findNearestIndex(state.media, clickedIndex, ({ selected }) => selected, 0)
+
+		media = state.media.map((item, i) => i === nearestSelectedIndex ? {
+			...item,
+			focused: true,
+			selected: true
+		} : i === clickedIndex ? {
+			...item,
+			focused: false,
+			selected: false
+		} : item)
+	} else if (ctrlOrCmd && clickedInSelection) {
+		media = state.media.map((item, i) => i === clickedIndex ? {
+			...item,
+			selected: false
+		} : item)
+	} else if (ctrlOrCmd) {
+		media = state.media.map((item, i) => {
+			const focused = i === clickedIndex
+
+			return {
+				...item,
+				focused,
+				selected: focused || item.selected
+			}
+		})
+	} else if (clickedInSelection) {
+		media = state.media.map((item, i) => ({
+			...item,
+			focused: i === clickedIndex
+		}))
+	} else {
+		media = state.media.map((item, i) => {
+			const focused = i === clickedIndex
+
+			return {
+				...item,
+				focused,
+				selected: focused
+			}
+		})
+	}
+
+	return { ...state, media }
+}
+
 const duplicate = (insert, media) => {
 	media = [...media]
 	
@@ -111,6 +178,8 @@ const duplicate = (insert, media) => {
 	media.splice(index, 0, {
 		...media[index],
 		...insert.changes,
+		focused: false,
+		selected: false,
 		id: insert.newId
 	})
 
