@@ -62,14 +62,17 @@
 	background-color: var(--background);
 }
 
-.batch-item:not(.selected):hover {
+.selected,
+.batch-item:not(.focused):hover {
 	background-color: var(--background-alt-2);
 }
 
-.selected {
-	background-color: var(--primary);
+.selected,
+.focused {
 	color: var(--background);
 }
+
+.focused { background-color: var(--primary); }
 
 .batch-item > button:first-of-type {
 	text-align: left;
