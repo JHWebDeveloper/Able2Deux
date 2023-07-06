@@ -8,7 +8,7 @@ const eyedropperInit = { active: false, pixelData: false }
 
 const PreviewEditorContainer = props => {
 	const [ eyedropper, setEyedropper ] = useState(eyedropperInit)
-	const { selected, dispatch } = props
+	const { focused, dispatch } = props
 
 	const resetEyedropperOnEscape = useCallback(e => {
 		if (e.key === 'Escape') setEyedropper(eyedropperInit)
@@ -27,7 +27,7 @@ const PreviewEditorContainer = props => {
 			<Preview
 				eyedropper={eyedropper}
 				setEyedropper={setEyedropper}
-				selected={selected}
+				focused={focused}
 				aspectRatioMarkers={props.aspectRatioMarkers}
 				previewQuality={props.previewQuality}
 				previewHeight={props.previewHeight}
@@ -39,13 +39,13 @@ const PreviewEditorContainer = props => {
 				split={props.split}
 				isBatch={props.isBatch}
 				dispatch={dispatch}
-				{...selected} />
+				{...focused} />
 		</div>
 	)
 }
 
 PreviewEditorContainer.propTypes = {
-	selected: object.isRequired,
+	focused: object.isRequired,
 	previewQuality: oneOf([1, 0.75, 0.5]).isRequired,
 	previewHeight: number.isRequired,
 	aspectRatioMarkers: arrayOf(exact({

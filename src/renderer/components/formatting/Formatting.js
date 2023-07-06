@@ -15,7 +15,6 @@ import RenderQueue from './render-queue/RenderQueue'
 const Formatting = () => {
 	const {
 		media,
-		selectedId,
 		batch,
 		editAll,
 		split,
@@ -30,27 +29,27 @@ const Formatting = () => {
 	if (!media.length) return <Navigate replace to="/" />
 
 	const prevIndex = useRef(0)
-	const selected = media.find(item => item.id === selectedId) || {}
+	const focused = media.find(item => item.focused) || {}
 	const isBatch = media.length > 1
 
 	const setRendering = useCallback(isRendering => {
 		dispatch(updateState({ rendering: isRendering }))
 	}, [])
 
-	useEffect(() => {
-		if (selected.id) {
-			prevIndex.current = media.findIndex(item => item.id === selectedId)
-		} else {
-			dispatch(selectMedia(media[Math.min(prevIndex.current, media.length - 1)].id))
-		}
-	}, [selected])
+	// useEffect(() => {
+	// 	if (focused.id) {
+	// 		prevIndex.current = media.findIndex(item => item.id === focused.id)
+	// 	} else {
+	// 		dispatch(selectMedia(media[Math.min(prevIndex.current, media.length - 1)].id))
+	// 	}
+	// }, [focused])
 
 	return (
 		<form>
 			<div id="media-manager">			
 				<MediaSelector
 					media={media}
-					selected={selected}
+					focused={focused}
 					isBatch={isBatch}
 					editAll={editAll}
 					dispatch={dispatch} />	
@@ -66,7 +65,7 @@ const Formatting = () => {
 				<SaveButtons setRendering={setRendering} />
 			</div>
 			<PreviewEditorContainer
-				selected={selected}
+				focused={focused}
 				editAll={editAll}
 				aspectRatioMarkers={aspectRatioMarkers}
 				previewQuality={previewQuality}
