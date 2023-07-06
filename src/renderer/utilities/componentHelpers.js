@@ -68,6 +68,13 @@ export const scrollText = el => {
 
 	el.addEventListener('mouseenter', animator.start)
 	el.addEventListener('mouseleave', animator.stop)
+
+	return {
+		disconnect() {
+			el.removeEventListener('mouseenter', animator.start)
+			el.removeEventListener('mouseleave', animator.stop)
+		}
+	}
 }
 
 export const warn = async ({ enabled, message, detail, callback, checkboxCallback }) => {
