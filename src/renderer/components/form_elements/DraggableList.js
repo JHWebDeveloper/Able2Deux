@@ -40,7 +40,6 @@ const DraggableList = ({ sortingAction, children }) => {
 			{children.map((child, i) => (
 				<div
 					key={`${listKey}_${i}`}
-					className="draggable"
 					onDragStart={e => dragStart(i, e)}
 					onDragOver={dragOver}
 					onDragLeave={dragLeave}
