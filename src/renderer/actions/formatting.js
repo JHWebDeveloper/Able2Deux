@@ -31,9 +31,20 @@ const { interop } = window.ABLE2
 
 // ---- MEDIA SELECTOR --------
 
-export const selectMedia = id => ({
-	type: ACTION.UPDATE_STATE,
-	payload: { selectedId: id }
+// export const selectMedia = id => ({
+// 	type: ACTION.UPDATE_STATE,
+// 	payload: { selectedId: id }
+// })
+
+export const selectMedia = (clickedIndex, clickedInFocus, clickedInSelection, e) => ({
+	type: ACTION.SELECT_MEDIA,
+	payload: {
+		clickedIndex,
+		clickedInFocus,
+		clickedInSelection,
+		shift: e.shiftKey,
+		ctrlOrCmd: interop.isMac ? e.metaKey : e.ctrlKey
+	}
 })
 
 export const copySettings = settings => ({
