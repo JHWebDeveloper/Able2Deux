@@ -5,25 +5,24 @@ import MediaInfo from './MediaInfo'
 import BatchList from './BatchList'
 import EditAll from './EditAll'
 
-const MediaSelector = ({ media, selected, isBatch, editAll, dispatch }) => (
+const MediaSelector = ({ media, focused, isBatch, editAll, dispatch }) => (
 	<div
 		id="media-selector"
 		className="formatting-panel">
 		<MediaInfo
-			thumbnail={selected.thumbnail}
-			title={selected.title}
-			width={selected.originalWidth}
-			height={selected.originalHeight}
-			aspectRatio={selected.originalAspectRatio}
-			totalFrames={selected.totalFrames}
-			fps={selected.mediaType === 'video' && selected.fps}
-			channelLayout={selected.channelLayout}
-			sampleRate={selected.sampleRate}
-			bitRate={selected.bitRate}
+			thumbnail={focused.thumbnail}
+			title={focused.title}
+			width={focused.originalWidth}
+			height={focused.originalHeight}
+			aspectRatio={focused.originalAspectRatio}
+			totalFrames={focused.totalFrames}
+			fps={focused.mediaType === 'video' && focused.fps}
+			channelLayout={focused.channelLayout}
+			sampleRate={focused.sampleRate}
+			bitRate={focused.bitRate}
 			dispatch={dispatch} />
 		<BatchList
 			media={media}
-			selectedId={selected.id}
 			dispatch={dispatch} />
 		{isBatch ? <EditAll editAll={editAll} dispatch={dispatch} /> : <></>}
 	</div>
@@ -31,7 +30,7 @@ const MediaSelector = ({ media, selected, isBatch, editAll, dispatch }) => (
 
 MediaSelector.propTypes = {
 	media: arrayOf(object).isRequired,
-	selected: object.isRequired,
+	focused: object.isRequired,
 	isBatch: bool.isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
