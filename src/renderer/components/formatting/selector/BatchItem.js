@@ -13,13 +13,12 @@ import MediaOptionButtons from '../../form_elements/MediaOptionButtons'
 
 const { interop } = window.ABLE2
 
-const ctrlOrCmdKey = interop.isMac ? 'metaKey' : 'ctrlKey'
-
 const BatchItem = props => {
 	const {
 		id,
 		refId,
 		title,
+		focused,
 		selected,
 		index,
 		prevId,
@@ -41,7 +40,7 @@ const BatchItem = props => {
 	]
 
 	const isOnly = !prevId && !nextId
-	const selectBtnTitle = selected ? title : 'Select Media'
+	const selectBtnTitle = focused ? title : 'Select Media'
 
 	const selectMediaBtn = useRef(null)
 
@@ -105,34 +104,38 @@ const BatchItem = props => {
 	], triggers)
 
 	const onKeyDown = useCallback(e => {
-		const ctrl = e[ctrlOrCmdKey]
+		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
 
-		if (ctrl && !isOnly && e.key === 'c') {
+		if (ctrlOrCmd && !isOnly && e.key === 'c') {
 			dropdown[0].action() // Copy All Settings
-		} else if (ctrl && !isOnly && e.key === 'v') {
+		} else if (ctrlOrCmd && !isOnly && e.key === 'v') {
 			dropdown[1].action() // Paste Settings
-		} else if (ctrl && prevId && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
+		} else if (ctrlOrCmd && prevId && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
 			dropdown[4].action() // Move Up
-		} else if (ctrl && nextId && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
+		} else if (ctrlOrCmd && nextId && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
 			dropdown[5].action() // Move Down
 		} else if (prevId && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
 			dispatch(selectMedia(prevId))
 		} else if (nextId && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
 			dispatch(selectMedia(nextId))
-		} else if (ctrl && e.key === 'd') {
+		} else if (ctrlOrCmd && e.key === 'd') {
 			dropdown[7].action() // Duplicate Media
 		} else if (e.key === 'Backspace' || e.key === 'Delete') {
 			dropdown[8].action() // Remove Media
 		}
 	}, triggers)
 
+	const selectMediaDispatch= useCallback(e => {
+		dispatch(selectMedia(index, focused, selected, e))
+	}, [index, focused, selected])
+
 	useEffect(() => {
-		if (selected) selectMediaBtn.current.focus()
-	}, [selected])
+		if (focused) selectMediaBtn.current.focus()
+	}, [focused])
 
 	return (
 		<div
-			className={`batch-item${selected ? ' selected' : ''}`}
+			className={`batch-item${selected ? ' selected' : ''}${focused ? ' focused' : ''}`}
 			onKeyDown={onKeyDown}>
 			<DropdownMenu>				
 				<MediaOptionButtons buttons={dropdown} />
@@ -142,7 +145,7 @@ const BatchItem = props => {
 				ref={selectMediaBtn}
 				title={selectBtnTitle}
 				aria-label={selectBtnTitle}
-				onClick={() => dispatch(selectMedia(id))}>{title}</button>
+				onClick={selectMediaDispatch}>{title}</button>
 			<button
 				type="button"
 				title="Remove Media"
@@ -161,7 +164,7 @@ BatchItem.propTypes = {
 	title: string.isRequired,
 	tempFilePath: string.isRequired,
 	index: number.isRequired,
-	selected: bool.isRequired,
+	focused: bool.isRequired,
 	prevId: string.isRequired,
 	nextId: string.isRequired,
 	copyAllSettings: func.isRequired,
