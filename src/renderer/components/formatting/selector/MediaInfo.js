@@ -24,8 +24,12 @@ const MediaInfo = props => {
 	const h2 = useRef(null)
 
 	useEffect(() => {
-		scrollText(h2.current)
-	}, [])
+		const textAnimation = scrollText(h2.current)
+
+		return () => {
+			textAnimation.disconnect()
+		}
+	}, [title])
 
 	return (
 		<div>
