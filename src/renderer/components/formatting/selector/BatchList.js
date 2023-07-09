@@ -60,7 +60,7 @@ const BatchList = ({ media, dispatch }) => {
 		}
 	}), [media, warnings.applyToAll])
 
-	const removeMediaWarning = useCallback(({ id, refId, title }) => warn({
+	const removeMediaWarning = useCallback(({ id, refId, index, title }) => warn({
 		message: `Remove "${title}"?`,
 		detail: removeMediaDetail,
 		enabled: warnings.remove,
@@ -68,6 +68,7 @@ const BatchList = ({ media, dispatch }) => {
 			dispatch(removeMedia({
 				id,
 				refId,
+				index,
 				references: arrayCount(media, item => item.refId === refId)
 			}))
 		},
@@ -83,7 +84,7 @@ const BatchList = ({ media, dispatch }) => {
 	return (
 		<div>
 			<DraggableList sortingAction={sortingAction}>
-				{media.map(({ id, refId, focused, selected, title, tempFilePath }, i) => (
+				{media.map(({ id, refId, focused, anchored, selected, title, tempFilePath }, i) => (
 					<BatchItem
 						key={id}
 						id={id}
@@ -91,10 +92,11 @@ const BatchList = ({ media, dispatch }) => {
 						title={title}
 						tempFilePath={tempFilePath}
 						focused={focused}
+						anchored={anchored}
 						selected={selected}
 						index={i}
-						prevId={media[i - 1]?.id || ''}
-						nextId={media[i + 1]?.id || ''}
+						isFirst={i === 0}
+						isLast={i === media.length - 1}
 						copyAllSettings={copyAllSettings}
 						applyToAllWarning={applyToAllWarning}
 						removeMediaWarning={removeMediaWarning}
