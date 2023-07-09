@@ -2,9 +2,12 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { bool, func, string, number } from 'prop-types'
 
 import {
+	deselectAllMedia,
 	duplicateMedia,
+	duplicateSelectedMedia,
 	moveSortableElement,
 	pasteSettings,
+	selectAllMedia,
 	selectMedia
 } from 'actions'
 
@@ -18,11 +21,12 @@ const BatchItem = props => {
 		id,
 		refId,
 		title,
-		focused,
-		selected,
 		index,
-		prevId,
-		nextId,
+		focused,
+		anchored,
+		selected,
+		isFirst,
+		isLast,
 		copyAllSettings,
 		applyToAllWarning,
 		removeMediaWarning,
@@ -32,14 +36,12 @@ const BatchItem = props => {
 	const triggers = [
 		title,
 		index,
-		prevId,
-		nextId,
 		copyAllSettings,
 		applyToAllWarning,
 		removeMediaWarning
 	]
 
-	const isOnly = !prevId && !nextId
+	const isOnly = isFirst && isLast
 	const selectBtnTitle = focused ? title : 'Select Media'
 
 	const selectMediaBtn = useRef(null)
@@ -69,14 +71,14 @@ const BatchItem = props => {
 		{ type: 'spacer' },
 		{
 			label: 'Move Up',
-			hide: !prevId,
+			hide: isFirst,
 			action() {
 				dispatch(moveSortableElement('media', index, index - 1))
 			}
 		},
 		{
 			label: 'Move Down',
-			hide: !nextId,
+			hide: isLast,
 			action() {
 				dispatch(moveSortableElement('media', index, index + 2))
 			}
@@ -85,13 +87,13 @@ const BatchItem = props => {
 		{
 			label: 'Duplicate Media',
 			action() {
-				dispatch(duplicateMedia(id))
+				dispatch(duplicateMedia(index))
 			}
 		},
 		{
 			label: 'Remove Media',
 			action() {
-				removeMediaWarning({ id, refId, title })
+				removeMediaWarning({ id, refId, index, title })
 			}
 		},
 		{ type: 'spacer' },
@@ -110,14 +112,20 @@ const BatchItem = props => {
 			dropdown[0].action() // Copy All Settings
 		} else if (ctrlOrCmd && !isOnly && e.key === 'v') {
 			dropdown[1].action() // Paste Settings
-		} else if (ctrlOrCmd && prevId && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
+		} else if (ctrlOrCmd && !isFirst && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
 			dropdown[4].action() // Move Up
-		} else if (ctrlOrCmd && nextId && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
+		} else if (ctrlOrCmd && !isLast && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
 			dropdown[5].action() // Move Down
-		} else if (prevId && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
-			dispatch(selectMedia(prevId))
-		} else if (nextId && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
-			dispatch(selectMedia(nextId))
+		} else if (!isFirst && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
+			dispatch(selectMedia(index - 1, e))
+		} else if (!isLast && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
+			dispatch(selectMedia(index + 1, e))
+		} else if (e.shiftKey && ctrlOrCmd && e.key === 'a') {
+			dispatch(deselectAllMedia())
+		} else if (ctrlOrCmd && e.key === 'a') {
+			dispatch(selectAllMedia())
+		} else if (e.shiftKey && ctrlOrCmd && e.key === 'd') {
+			dispatch(duplicateSelectedMedia())
 		} else if (ctrlOrCmd && e.key === 'd') {
 			dropdown[7].action() // Duplicate Media
 		} else if (e.key === 'Backspace' || e.key === 'Delete') {
@@ -126,8 +134,8 @@ const BatchItem = props => {
 	}, triggers)
 
 	const selectMediaDispatch= useCallback(e => {
-		dispatch(selectMedia(index, focused, selected, e))
-	}, [index, focused, selected])
+		dispatch(selectMedia(index, e, { focused, anchored, selected }))
+	}, [index, focused, anchored, selected])
 
 	useEffect(() => {
 		if (focused) selectMediaBtn.current.focus()
@@ -152,7 +160,7 @@ const BatchItem = props => {
 				aria-label="Remove Media"
 				className="symbol"
 				onClick={() => {
-					removeMediaWarning({ id, refId, title })}
+					removeMediaWarning({ id, refId, index, title })}
 				}>close</button>
 		</div>
 	)
