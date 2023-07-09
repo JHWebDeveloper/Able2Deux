@@ -9,11 +9,7 @@ import {
 	removeAllMedia
 } from 'actions'
 
-import {
-	group,
-	warn
-} from 'utilities'
-
+import { group, warn } from 'utilities'
 import * as STATUS from 'status'
 
 import MediaElement from './MediaElement'
