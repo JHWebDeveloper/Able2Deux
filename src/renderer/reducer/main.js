@@ -1,8 +1,17 @@
-import * as shared from 'reducer/shared'
+import { v1 as uuid } from 'uuid'
+
 import * as ACTION from 'actions/types'
 import * as STATUS from 'status'
+import * as shared from 'reducer/shared'
 
-import { copyCurve, findNearestIndex, sortCurvePoints } from 'utilities'
+import {
+	selectMedia,
+	selectAllMedia,
+	deselectAllMedia,
+	removeMedia
+} from 'reducer/selectMedia'
+
+import { copyCurve, sortCurvePoints } from 'utilities'
 
 // ---- REDUCER --------
 
@@ -32,10 +41,18 @@ export const mainReducer = (state, action) => {
 			return shared.removeSortableElement(state, payload)
 		case ACTION.MOVE_SORTABLE_ELEMENT:
 			return shared.moveSortableElement(state, payload)
+		case ACTION.REMOVE_MEDIA:
+			return removeMedia(state, payload)
 		case ACTION.SELECT_MEDIA:
 			return selectMedia(state, payload)
+		case ACTION.SELECT_ALL_MEDIA:
+			return selectAllMedia(state)
+		case ACTION.DESELECT_ALL_MEDIA:
+			return deselectAllMedia(state)
 		case ACTION.DUPLICATE_MEDIA: 
 			return duplicateMedia(state, payload)
+		case ACTION.DUPLICATE_SELECTED_MEDIA: 
+			return duplicateSelectedMedia(state)
 		case ACTION.SPLIT_MEDIA: 
 			return splitMedia(state, payload)
 		case ACTION.PREPARE_MEDIA_FOR_FORMAT:
@@ -105,102 +122,56 @@ const toggleMediaNestedCheckbox = (state, payload) => {
 	}
 }
 
-const selectMedia = (state, payload) => {
-	const { clickedIndex, clickedInFocus, clickedInSelection, shift, ctrlOrCmd } = payload
-	let media = []
+const getDuplicateProps = () => ({
+	focused: false,
+	anchored: false,
+	selected: false,
+	id: uuid()
+})
 
-	if (shift) {
-		const focusedIndex = state.media.findIndex(({ focused }) => focused)
-		const start = Math.min(focusedIndex, clickedIndex)
-		const end = Math.max(focusedIndex, clickedIndex)
+const duplicateMedia = (state, payload) => {
+	const { index } = payload
+	const media = [...state.media]
 
-		media = state.media.map((item, i) => i === clickedIndex ? {
-			...item,
-			focused: true,
-			selected: true
-		} : (i >= start && i <= end) ? {
-			...item,
-			focused: false,
-			selected: true
-		} : item)
-	} else if (ctrlOrCmd && clickedInFocus) {
-		const nearestSelectedIndex = findNearestIndex(state.media, clickedIndex, ({ selected }) => selected, 0)
+	media.splice(index, 0, {
+		...state.media[index],
+		...getDuplicateProps()
+	})
 
-		media = state.media.map((item, i) => i === nearestSelectedIndex ? {
-			...item,
-			focused: true,
-			selected: true
-		} : i === clickedIndex ? {
-			...item,
-			focused: false,
-			selected: false
-		} : item)
-	} else if (ctrlOrCmd && clickedInSelection) {
-		media = state.media.map((item, i) => i === clickedIndex ? {
-			...item,
-			selected: false
-		} : item)
-	} else if (ctrlOrCmd) {
-		media = state.media.map((item, i) => {
-			const focused = i === clickedIndex
+	return { ...state, media }
+}
 
-			return {
-				...item,
-				focused,
-				selected: focused || item.selected
-			}
-		})
-	} else if (clickedInSelection) {
-		media = state.media.map((item, i) => ({
-			...item,
-			focused: i === clickedIndex
-		}))
-	} else {
-		media = state.media.map((item, i) => {
-			const focused = i === clickedIndex
+const duplicateSelectedMedia = state => {
+	const media = [...state.media]
 
-			return {
-				...item,
-				focused,
-				selected: focused
-			}
+	for (let i = 0; i < media.length; i++) {
+		const originalMedia = media[i]
+
+		if (!originalMedia.selected) continue
+
+		media.splice(i++, 0, {
+			...originalMedia,
+			...getDuplicateProps()
 		})
 	}
 
 	return { ...state, media }
 }
 
-const duplicate = (insert, media) => {
-	media = [...media]
-	
-	const index = media.findIndex(item => item.id === insert.id)
-
-	media.splice(index, 0, {
-		...media[index],
-		...insert.changes,
-		focused: false,
-		selected: false,
-		id: insert.newId
-	})
-
-	return media
-}
-
-const duplicateMedia = (state, payload) => {
-	const media = duplicate(payload, state.media)
-
-	return { ...state, media }
-}
-
 const splitMedia = (state, payload) => {
-	const len = payload.duplicates.length
-	let { media } = state
+	const { id, timecodes } = payload
+	const len = timecodes.length
+	const media = [...state.media]
+	const index = media.findIndex(item => item.id === id)
 
 	for (let i = 0; i < len; i++) {
-		media = duplicate({
-			...payload.duplicates[i],
-			id: payload.id
-		}, media)
+		const insertAt = index + i
+
+		media.splice(insertAt, 0, {
+			...media[insertAt],
+			...timecodes[i],
+			...getDuplicateProps()
+		})
 	}
 
 	return { ...state, media }
