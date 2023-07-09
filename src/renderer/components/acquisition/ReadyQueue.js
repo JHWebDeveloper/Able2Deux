@@ -9,7 +9,11 @@ import {
 	removeAllMedia
 } from 'actions'
 
-import { group, warn } from 'utilities'
+import {
+	group,
+	warn
+} from 'utilities'
+
 import * as STATUS from 'status'
 
 import MediaElement from './MediaElement'
@@ -66,7 +70,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 		detail: removeReferencedMediaDetail,
 		enabled: warnings.removeReferenced,
 		callback() {
-			dispatch(removeAllMedia(media.filter(mediaElement => mediaElement.refId === refId)))
+			dispatch(removeAllMedia(media.filter(item => item.refId === refId)))
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('removeReferenced'))
@@ -78,7 +82,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 		detail: removeAllMediaDetail,
 		enabled: warnings.removeAll,
 		callback() {
-			dispatch(removeAllMedia(media))
+			dispatch(removeAllMedia(media, false))
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('removeAll'))
