@@ -1,4 +1,3 @@
-import { v1 as uuid } from 'uuid'
 import toastr from 'toastr'
 
 import * as ACTION from 'actions/types'
@@ -31,20 +30,24 @@ const { interop } = window.ABLE2
 
 // ---- MEDIA SELECTOR --------
 
-// export const selectMedia = id => ({
-// 	type: ACTION.UPDATE_STATE,
-// 	payload: { selectedId: id }
-// })
-
-export const selectMedia = (clickedIndex, clickedInFocus, clickedInSelection, e) => ({
+export const selectMedia = (clickedIndex, e = {}, selectionData = {}) => ({
 	type: ACTION.SELECT_MEDIA,
 	payload: {
 		clickedIndex,
-		clickedInFocus,
-		clickedInSelection,
+		clickedInFocus: selectionData.focused,
+		clickedIsAnchored: selectionData.anchored,
+		clickedInSelection: selectionData.selected,
 		shift: e.shiftKey,
 		ctrlOrCmd: interop.isMac ? e.metaKey : e.ctrlKey
 	}
+})
+
+export const selectAllMedia = () => ({
+	type: ACTION.SELECT_ALL_MEDIA
+})
+
+export const deselectAllMedia = () => ({
+	type: ACTION.DESELECT_ALL_MEDIA
 })
 
 export const copySettings = settings => ({
@@ -64,12 +67,13 @@ export const applySettingsToAll = id => properties => ({
 	payload: { id, properties }
 })
 
-export const duplicateMedia = id => ({
+export const duplicateMedia = index => ({
 	type: ACTION.DUPLICATE_MEDIA,
-	payload: {
-		id,
-		newId: uuid()
-	}
+	payload: { index }
+})
+
+export const duplicateSelectedMedia = () => ({
+	type: ACTION.DUPLICATE_SELECTED_MEDIA
 })
 
 // ---- EDITOR --------
@@ -95,22 +99,19 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 		if (response) return false  
 	}
 
-	const duplicates = []
+	const timecodes = []
 	const len = end - split
 	let i = start
 
-	while (i < len) duplicates.push({
-		newId: uuid(),
-		changes: {
-			timecode: i,
-			start: i,
-			end: i += split
-		}
+	while (i < len) timecodes.push({
+		timecode: i,
+		start: i,
+		end: i += split
 	})
 
 	dispatch({
 		type: ACTION.SPLIT_MEDIA,
-		payload: { id, duplicates }
+		payload: { id, timecodes }
 	})
 
 	dispatch(updateMediaState(id, { start: i }))
