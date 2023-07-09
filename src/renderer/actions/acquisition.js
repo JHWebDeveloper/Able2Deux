@@ -2,7 +2,7 @@ import toastr from 'toastr'
 
 import * as ACTION from 'actions/types'
 import * as STATUS from 'status'
-import { updateMediaState, removeSortableElement } from 'actions'
+import { updateMediaState } from 'actions'
 
 import {
 	createMediaData,
@@ -35,17 +35,27 @@ export const addMedia = newMedia => ({
 	}
 })
 
-export const removeMedia = ({ status, id, refId, references = 0 }) => async dispatch => {
+export const removeMedia = ({
+	status,
+	id,
+	refId,
+	index,
+	references = 0,
+	updateSelection = true
+}) => async dispatch => {
 	if (status === STATUS.DOWNLOAD_PENDING || status === STATUS.DOWNLOADING) {
 		interop.cancelDownload(id)
 	} else if (references < 2) {
 		await interop.removeMediaFile(refId)
 	}
 
-	dispatch(removeSortableElement(id, 'media'))
+	dispatch({
+		type: ACTION.REMOVE_MEDIA,
+		payload: { index, id, updateSelection }
+	})
 }
 
-export const removeAllMedia = media => async dispatch => {
+export const removeAllMedia = (media, updateSelection = true) => async dispatch => {
 	const len = media.length - 1
 
 	for (let i = 0; i < len; i++) {
@@ -58,7 +68,10 @@ export const removeAllMedia = media => async dispatch => {
 
 	media[len].references = 1
 
-	Promise.all(media.map(item => removeMedia(item)(dispatch)))
+	media.reduce(async (prevPromise, item) => {
+		await prevPromise
+		return removeMedia({ ...item, updateSelection })(dispatch)
+	}, Promise.resolve())
 }
 
 export const prepareMediaForFormat = () => ({
