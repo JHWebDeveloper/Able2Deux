@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import 'css/index/formatting.css'
 
@@ -28,7 +28,6 @@ const Formatting = () => {
 
 	if (!media.length) return <Navigate replace to="/" />
 
-	const prevIndex = useRef(0)
 	const focused = media.find(item => item.focused) || {}
 	const isBatch = media.length > 1
 
@@ -36,13 +35,9 @@ const Formatting = () => {
 		dispatch(updateState({ rendering: isRendering }))
 	}, [])
 
-	// useEffect(() => {
-	// 	if (focused.id) {
-	// 		prevIndex.current = media.findIndex(item => item.id === focused.id)
-	// 	} else {
-	// 		dispatch(selectMedia(media[Math.min(prevIndex.current, media.length - 1)].id))
-	// 	}
-	// }, [focused])
+	useEffect(() => {
+		if (!focused.id) dispatch(selectMedia(0))
+	}, [focused])
 
 	return (
 		<form>
