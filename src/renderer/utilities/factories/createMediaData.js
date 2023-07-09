@@ -18,6 +18,7 @@ const defaultMediaData = {
 	id: '',
 	refId: '',
 	focused: false,
+	anchored: false,
 	selected: false,
 	status: PENDING,
 	download: {
