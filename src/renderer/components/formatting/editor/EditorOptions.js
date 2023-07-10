@@ -16,16 +16,27 @@ import Keying from './Keying'
 import ColorCorrection from './ColorCorrection'
 
 const extractCommonProps = (() => {
-	const common = ['id', 'mediaType', 'editAll', 'isBatch', 'width', 'height', 'aspectRatio', 'dispatch']
+	const props = ['id', 'mediaType', 'editAll', 'isBatch', 'width', 'height', 'aspectRatio', 'dispatch']
+	return obj => objectPick(obj, props)
+})()
 
-	return obj => objectPick(obj, common)
+const extractScaleProps = (() => {
+	const props = ['scaleX', 'scaleY']
+	return obj => objectPick(obj, props)
+})()
+
+const extractCropProps = (() => {
+	const props = ['cropT', 'cropR', 'cropB', 'cropL']
+	return obj => objectPick(obj, props)
 })()
 
 const EditorOptions = props => {
 	if (!props.id) return <></>
 
-	const { background, mediaType, aspectRatio, arc, audioVideoTracks, scale, crop, eyedropper, setEyedropper } = props
+	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper } = props
 	const common = extractCommonProps(props)
+	const scale = extractScaleProps(props)
+	const crop = extractCropProps(props)
 
 	return (
 		<div id="editor-options">
@@ -73,20 +84,23 @@ const EditorOptions = props => {
 						positionY={props.positionY}
 						{...common} />
 					<Scale
-						scale={scale}
-						crop={crop}
+						scaleLink={props.scaleLink}
 						rotation={props.rotation}
+						{...scale}
+						{...crop}
 						{...common} />
 					<Crop
-						crop={crop}
+						cropLinkTB={props.cropLinkTB}
+						cropLinkLR={props.cropLinkLR}
+						{...crop}
 						{...common} />
 				</> : <></>}
-				<Rotation
+				{/* <Rotation
 					rotation={props.rotation}
-					scale={scale}
-					crop={crop}
 					showFreeRotate={arc === 'transform'}
-					{...common} />
+					{...scale}
+					{...crop}
+					{...common} /> */}
 				{arc === 'none' ? <></> : (
 					<Keying
 						keying={props.keying}
