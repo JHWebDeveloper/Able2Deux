@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { func, number, string } from 'prop-types'
 
-import { updateMediaState } from 'actions'
+import { updateMediaStateById } from 'actions'
 
 import { framesToAudibleTC } from 'utilities'
 
@@ -13,11 +13,11 @@ const endStaticProps = { name: 'end', title: 'End' }
 
 const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 	const updateTimecode = useCallback(({ name, value }) => {
-		dispatch(updateMediaState(id, { [name]: value }))
+		dispatch(updateMediaStateById(id, { [name]: value }))
 	}, [id])
 
 	const shiftTimecodes = useCallback(({ valueL, valueR }) => {
-		dispatch(updateMediaState(id, {
+		dispatch(updateMediaStateById(id, {
 			start: valueL,
 			end: valueR
 		}))
@@ -46,7 +46,7 @@ const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 				return true
 		}
 
-		dispatch(updateMediaState(id, props))
+		dispatch(updateMediaStateById(id, props))
 	}, [id, start, end, totalFrames])
 
 	const startProps = {
