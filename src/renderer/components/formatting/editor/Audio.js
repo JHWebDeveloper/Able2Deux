@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from 'react'
-import { bool, exact, func, oneOf, string } from 'prop-types'
+import { bool, func, oneOf, string } from 'prop-types'
 
 import {
 	applySettingsToAll,
 	copySettings,
-	updateMediaNestedStateFromEvent
+	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
 import { createSettingsMenu, pipe } from 'utilities'
@@ -12,7 +12,7 @@ import { createSettingsMenu, pipe } from 'utilities'
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
 
-const exportAsButtons = [
+const audioVideoTracksButtons = [
 	{
 		label: 'Video + Audio',
 		value: 'video_audio'
@@ -27,7 +27,7 @@ const exportAsButtons = [
 	}
 ]
 
-const formatButtons = [
+const audioExportFormatButtons = [
 	{
 		label: '.wav',
 		value: 'wav'
@@ -42,10 +42,10 @@ const formatButtons = [
 	}
 ]
 
-const Audio = ({ id, mediaType, audio, editAll, dispatch }) => {
+const Audio = ({ mediaType, audioVideoTracks, audioExportFormat, dispatch }) => {
 	const updateAudio = useCallback(e => {
-		dispatch(updateMediaNestedStateFromEvent(id, 'audio', e, editAll))
-	}, [id, editAll])
+		dispatch(updateMediaStateBySelectionFromEvent(e))
+	}, [])
 
 	return (
 		<>
@@ -53,33 +53,33 @@ const Audio = ({ id, mediaType, audio, editAll, dispatch }) => {
 				<fieldset className="editor-option-column">
 					<legend>Export As<span aria-hidden>:</span></legend>
 					<RadioSet
-						name="exportAs"
-						state={audio.exportAs}
+						name="audioVideoTracks"
+						state={audioVideoTracks}
 						onChange={updateAudio}
-						buttons={exportAsButtons} />
+						buttons={audioVideoTracksButtons} />
 				</fieldset>
 			) : <></>}
 			<fieldset
 				className="editor-option-column"
-				disabled={audio.exportAs !== 'audio' && mediaType !== 'audio'}>
+				disabled={audioVideoTracks !== 'audio' && mediaType !== 'audio'}>
 				<legend>Format<span aria-hidden>:</span></legend>
 				<RadioSet
-					name="format"
-					state={audio.format}
+					name="audioExportFormat"
+					state={audioExportFormat}
 					onChange={updateAudio}
-					buttons={formatButtons} />
+					buttons={audioExportFormatButtons} />
 			</fieldset>
 		</>
 	)
 }
 
 const AudioPanel = props => {
-	const { isBatch, audio, id, mediaType, dispatch } = props
+	const { isBatch, audioVideoTracks, audioExportFormat, id, mediaType, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)({ audio }),
-		() => pipe(applySettingsToAll(id), dispatch)({ audio })
-	]), [isBatch, id, audio])
+		() => pipe(copySettings, dispatch)({ audioVideoTracks, audioExportFormat }),
+		() => pipe(applySettingsToAll(id), dispatch)({ audioVideoTracks, audioExportFormat })
+	]), [isBatch, id, audioVideoTracks, audioExportFormat])
 
 	return (
 		<AccordionPanel
@@ -97,10 +97,8 @@ const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
-	audio: exact({
-		exportAs: oneOf(['video_audio', 'video', 'audio']),
-		format: oneOf(['wav', 'mp3', 'bars'])
-	}),
+	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']),
+	audioExportFormat: oneOf(['wav', 'mp3', 'bars']),
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
