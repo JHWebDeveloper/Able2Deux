@@ -354,10 +354,10 @@ const renderItem = (args, dispatch) => {
 	const { saveLocations, renderOutput, renderFrameRate, customFrameRate, autoPNG } = args
 
 	return async item => {
-		const { id, arc, aspectRatio, source } = item
+		const { id, arc, aspectRatio, sourceName, sourcePrefix, sourceOnTop, background } = item
 
-		if (item.source.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
-			item.sourceData = buildSource(source, renderOutput, item.background)
+		if (sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
+			item.sourceData = buildSource({ sourceName, sourcePrefix, sourceOnTop, renderOutput, background })
 		}
 	
 		try {
