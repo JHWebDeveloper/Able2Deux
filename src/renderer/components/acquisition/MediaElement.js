@@ -10,7 +10,7 @@ import {
 } from 'utilities'
 
 const MediaElement = props => {
-	const { id, refId, status, title, isLive, download, removeMediaWarning } = props
+	const { id, refId, status, title, isLive, downloadETA, downloadPercent, removeMediaWarning } = props
 	const downloading = status === STATUS.DOWNLOADING
 	const color = useMemo(() => getStatusColor(status), [status])
 	const progress = useRef(null)
@@ -26,12 +26,10 @@ const MediaElement = props => {
 	}, [])
 
 	useEffect(() => {
-		if (downloading) {
-			const { percent } = download
-
-			if (percent > 0 && percent <= 1) progress.current.value = percent
+		if (downloading && downloadPercent > 0 && downloadPercent <= 1) {
+			progress.current.value = downloadPercent
 		}
-	}, [download, status])
+	}, [downloadPercent, status])
 
 	return (
 		<div className="media-element">
@@ -41,7 +39,7 @@ const MediaElement = props => {
 			<span>
 				<span>{title}</span>
 				{downloading ? <>
-					{!isLive ? <span className="monospace">{secondsToTC(download.eta)}</span> : <></>}
+					{!isLive ? <span className="monospace">{secondsToTC(downloadETA)}</span> : <></>}
 					<progress
 						ref={progress}
 						data-status={status}></progress>
@@ -65,10 +63,8 @@ MediaElement.propTypes = {
 	status: string.isRequired,
 	title: string.isRequired,
 	isLive: bool.isRequired,
-	download: exact({
-		eta: number,
-		percent: number
-	}).isRequired,
+	downloadETA: number,
+	downloadPercent: number,
 	removeMediaWarning: func.isRequired
 }
 
