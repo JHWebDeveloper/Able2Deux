@@ -29,6 +29,8 @@ export const mainReducer = (state, action) => {
 			return shared.toggleNestedCheckbox(state, payload)
 		case ACTION.UPDATE_MEDIA_STATE:
 			return updateMediaState(state, payload)
+		case ACTION.UPDATE_MEDIA_STATE_BY_ID:
+			return updateMediaStateById(state, payload)
 		case ACTION.UPDATE_MEDIA_NESTED_STATE:
 			return updateMediaNestedState(state, payload)
 		case ACTION.TOGGLE_MEDIA_NESTED_CHECKBOX: 
@@ -80,17 +82,21 @@ export const mainReducer = (state, action) => {
 
 // ---- "REACTIONS" --------
 
-const updateMediaState = (state, payload) => {
-	const { id, properties, editAll } = payload
+const updateMediaState = (state, payload) => ({
+	...state,
+	media: state.media.map(item => item.selected ? {
+		...item,
+		...payload.properties
+	} : item)
+})
 
-	return {
-		...state,
-		media: state.media.map(item => editAll || item.id === id ? {
-			...item,
-			...properties
-		} : item)
-	}
-}
+const updateMediaStateById = (state, payload) => ({
+	...state,
+	media: state.media.map(item => item.id === payload.id ? {
+		...item,
+		...payload.properties
+	} : item)
+})
 
 const updateMediaNestedState = (state, payload) => {
 	const { id, nest, properties, editAll } = payload
