@@ -55,7 +55,9 @@ const EditorOptions = props => {
 					{...common} />
 				{arc === 'none' && aspectRatio !== '16:9' ? <></> : (
 					<Source
-						source={props.source}
+						sourceName={props.sourceName}
+						sourcePrefix={props.sourcePrefix}
+						sourceOnTop={props.sourceOnTop}
 						background={background}
 						{...common} />
 				)}
@@ -123,7 +125,9 @@ EditorOptions.propTypes = {
 	backgroundMotion: string,
 	bgColor: string,
 	overlay: string,
-	source: object,
+	sourceName: string,
+	sourcePrefix: bool,
+	sourceOnTop: bool,
 	centering: oneOfType([oneOf(['']), number]),
 	position: object,
 	scale: object,
