@@ -4,8 +4,8 @@ import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 import {
 	applySettingsToAll,
 	copySettings,
-	toggleMediaNestedCheckbox,
-	updateMediaNestedState
+	toggleMediaCheckbox,
+	updateMediaStateBySelection
 } from 'actions'
 
 import { clamp, createSettingsMenu, pipe } from 'utilities'
@@ -15,10 +15,10 @@ import SliderDouble from '../../form_elements/SliderDouble'
 import NumberInput from '../../form_elements/NumberInput'
 import LinkIcon from '../../svg/LinkIcon'
 
-const propsTStatic = { name: 't', title: 'Crop Top' }
-const propsBStatic = { name: 'b', title: 'Crop Bottom' }
-const propsLStatic = { name: 'l', title: 'Crop Left' }
-const propsRStatic = { name: 'r', title: 'Crop Right' }
+const propsTStatic = { name: 'cropT', title: 'Crop Top' }
+const propsBStatic = { name: 'cropB', title: 'Crop Bottom' }
+const propsLStatic = { name: 'cropL', title: 'Crop Left' }
+const propsRStatic = { name: 'cropR', title: 'Crop Right' }
 
 const sliderProps = {
 	snapPoints: [50],
@@ -26,82 +26,84 @@ const sliderProps = {
 	enableAutoCenter: true
 }
 
-const Crop = ({ id, crop, editAll, dispatch }) => {
+const Crop = props => {
+	const { id, cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, dispatch } = props
+
 	const updateCrop = useCallback(({ name, value }) => {
-		dispatch(updateMediaNestedState(id, 'crop', {
+		dispatch(updateMediaStateBySelection({
 			[name]: value
-		}, editAll))
-	}, [id, editAll])
+		}))
+	}, [])
 
 	const updateCropBiDirectional = useCallback((d1, d2, { name, value }) => {
 		const isD1 = name === d1
-		const compliment = crop[d2] - value + crop[d1]
-		const bound = crop[d1] + (crop[d2] - crop[d1]) / 2
+		const compliment = props[d2] - value + props[d1]
+		const bound = props[d1] + (props[d2] - props[d1]) / 2
 
-		dispatch(updateMediaNestedState(id, 'crop', {
+		dispatch(updateMediaStateBySelection({
 			[d1]: clamp(isD1 ? value : compliment, 0, bound - 0.025),
 			[d2]: clamp(isD1 ? compliment : value, bound + 0.025, 100)
-		}, editAll))
-	}, [crop, id, editAll])
+		}))
+	}, [cropT, cropR, cropB, cropL])
 
 	const pan = useCallback((d1, d2, { valueL, valueR }) => {
-		dispatch(updateMediaNestedState(id, 'crop', {
+		dispatch(updateMediaStateBySelection({
 			[d1]: valueL,
 			[d2]: valueR
-		}, editAll))
-	}, [id, editAll])
+		}))
+	}, [])
 
-	const panX = useCallback(values => pan('l', 'r', values), [id, editAll])
-	const panY = useCallback(values => pan('t', 'b', values), [id, editAll])
+	const panX = useCallback(values => pan('cropL', 'cropR', values), [])
+	const panY = useCallback(values => pan('cropT', 'cropB', values), [])
 
 	const toggleCropLink = useCallback(e => {
-		dispatch(toggleMediaNestedCheckbox(id, 'crop', e, editAll))
-	}, [id, editAll])
+		dispatch(toggleMediaCheckbox(id, e))
+	}, [id])
 
 	const propsTB = useMemo(() => ({
-		onChange: crop.linkTB
-			? vals => updateCropBiDirectional('t', 'b', vals)
+		onChange: cropLinkTB
+			? vals => updateCropBiDirectional('cropT', 'cropB', vals)
 			: updateCrop
-	}), [crop, id, editAll])
+	}), [cropLinkTB, cropT, cropB])
 
 	const propsLR = useMemo(() => ({
-		onChange: crop.linkLR
-			? vals => updateCropBiDirectional('l', 'r', vals)
+		onChange: cropLinkLR
+			? vals => updateCropBiDirectional('cropL', 'cropR', vals)
 			: updateCrop
-	}), [crop, id, editAll])
+	}), [cropLinkLR, cropL, cropR])
 
 	const propsT = {
 		...propsTStatic,
 		...propsTB,
-		value: crop.t
+		value: cropT
 	}
 
 	const propsB = {
 		...propsBStatic,
 		...propsTB,
-		value: crop.b
+		value: cropB
 	}
 
 	const propsL = {
 		...propsLStatic,
 		...propsLR,
-		value: crop.l
+		value: cropL
 	}
 
 	const propsR = {
 		...propsRStatic,
 		...propsLR,
-		value: crop.r
+		value: cropR
 	}
 
-	const linkTBTitle = `${crop.linkTB ? 'Unl' : 'L'}ink top and bottom`
-	const linkLRTitle = `${crop.linkLR ? 'Unl' : 'L'}ink left and right`
+	const linkTBTitle = `${cropLinkTB ? 'Unl' : 'L'}ink top and bottom`
+	const linkLRTitle = `${cropLinkLR ? 'Unl' : 'L'}ink left and right`
 
 	return (
 		<>
 			<label>T</label>
 			<NumberInput
-				max={crop.b - 0.05}
+				max={cropB - 0.05}
 				defaultValue={0}
 				{...propsT} />
 			<SliderDouble
@@ -111,21 +113,22 @@ const Crop = ({ id, crop, editAll, dispatch }) => {
 				middleThumbTitle="Pan Y"
 				{...sliderProps} />
 			<NumberInput
-				min={crop.t + 0.05}
+				min={cropT + 0.05}
 				defaultValue={100}
 				{...propsB} />
 			<label>B</label>
 			<button
 				type="button"
-				name="linkTB"
+				name="cropLinkTB"
+				className="link-button"
 				title={linkTBTitle}
 				aria-label={linkTBTitle}
 				onClick={toggleCropLink}>
-				<LinkIcon linked={crop.linkTB} single />
+				<LinkIcon linked={cropLinkTB} single />
 			</button>
 			<label>L</label>
 			<NumberInput
-				max={crop.r - 0.05}
+				max={cropR - 0.05}
 				defaultValue={0}
 				{...propsL} />
 			<SliderDouble
@@ -135,29 +138,31 @@ const Crop = ({ id, crop, editAll, dispatch }) => {
 				middleThumbTitle="Pan X"
 				{...sliderProps} />
 			<NumberInput
-				min={crop.l + 0.05}
+				min={cropL + 0.05}
 				defaultValue={100}
 				{...propsR} />
 			<label>R</label>
 			<button
 				type="button"
-				name="linkLR"
+				name="cropLinkLR"
+				className="link-button"
 				title={linkLRTitle}
 				aria-label={linkLRTitle}
 				onClick={toggleCropLink}>
-				<LinkIcon linked={crop.linkLR} single />
+				<LinkIcon linked={cropLinkLR} single />
 			</button>
 		</>
 	)
 }
 
 const CropPanel = props => {
-	const { isBatch, id, crop, dispatch } = props
+	const { isBatch, id, cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, dispatch } = props
+	const cropProps = { cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR }
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)({ crop }),
-		() => pipe(applySettingsToAll(id), dispatch)({ crop })
-	]), [isBatch, id, crop])
+		() => pipe(copySettings, dispatch)(cropProps),
+		() => pipe(applySettingsToAll(id), dispatch)(cropProps)
+	]), [isBatch, id, cropProps])
 
 	return (
 		<AccordionPanel
@@ -173,15 +178,12 @@ const CropPanel = props => {
 const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
-	crop: exact({
-		t: oneOfType([oneOf(['']), number]),
-		b: oneOfType([oneOf(['']), number]),
-		r: oneOfType([oneOf(['']), number]),
-		l: oneOfType([oneOf(['']), number]),
-		linkTB: bool,
-		linkLR: bool
-	}).isRequired,
-	editAll: bool.isRequired,
+	cropT: oneOfType([oneOf(['']), number]),
+	cropB: oneOfType([oneOf(['']), number]),
+	cropR: oneOfType([oneOf(['']), number]),
+	cropL: oneOfType([oneOf(['']), number]),
+	cropLinkTB: bool,
+	cropLinkLR: bool,
 	dispatch: func.isRequired
 }
 
