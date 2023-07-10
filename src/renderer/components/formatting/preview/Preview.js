@@ -117,13 +117,17 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 		focused.bgColor,
 		focused.centering,
 		focused.colorCurves,
-		focused.crop,
+		focused.cropT,
+		focused.cropR,
+		focused.cropB,
+		focused.cropL,
 		focused.id,
 		focused.keying,
 		focused.overlay,
 		focused.positionX,
 		focused.positionY,
-		focused.scale,
+		focused.scaleX,
+		focused.scaleY,
 		focused.timecode
 	])
 	
