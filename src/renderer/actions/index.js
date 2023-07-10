@@ -85,6 +85,13 @@ export const updateMediaState = (id, properties) => ({
 	}
 })
 
+export const updateMediaStateBySelection = properties => ({
+	type: ACTION.UPDATE_MEDIA_STATE,
+	payload: {
+		properties
+	}
+})
+
 export const updateMediaStateById = (id, properties) => ({
 	type: ACTION.UPDATE_MEDIA_STATE_BY_ID,
 	payload: {
