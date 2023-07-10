@@ -6,8 +6,8 @@ import { PrefsContext } from 'store'
 import {
 	applySettingsToAll,
 	copySettings,
-	toggleMediaNestedCheckbox,
-	updateMediaNestedState
+	toggleMediaCheckbox,
+	updateMediaStateBySelection
 } from 'actions'
 
 import {
@@ -31,50 +31,50 @@ const FitButton = ({ title, onClick }) => (
 		onClick={onClick}>unfold_more</button>
 )
 
-const propsXStatic = { name: 'x', title: 'Scale X', min: 0 }
-const propsYStatic = { name: 'y', title: 'Scale Y', min: 0 }
+const propsXStatic = { name: 'scaleX', title: 'Scale X', min: 0 }
+const propsYStatic = { name: 'scaleY', title: 'Scale Y', min: 0 }
 
 const numberProps = {
 	max: 4500,
 	defaultValue: 100
 }
 
-const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) => {
+const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, rotation, width, height, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
-	const distortion = useMemo(() => scale.y / scale.x || 1, [scale.x, scale.y])
+	const distortion = useMemo(() => scaleY / scaleX || 1, [scaleX, scaleY])
 	const [ frameW, frameH ] = useMemo(() => renderOutput.split('x').map(n => parseInt(n)), [renderOutput])
 
 	const updateAxis = useCallback(({ name, value }) => {
-		dispatch(updateMediaNestedState(id, 'scale', {
+		dispatch(updateMediaStateBySelection({
 			[name]: value
-		}, editAll))
-	}, [id, editAll])
+		}))
+	}, [])
 
 	const updateScale = useCallback(({ name, value }) => {
 		const axis = {}
 			
 		if (value === '') {
-			axis.x = value
-			axis.y = value
+			axis.scaleX = value
+			axis.scaleY = value
 		} else {
-			const isX = name === 'x'
-			axis.x = isX ? value : value / distortion
-			axis.y = isX ? value * distortion : value
+			const isX = name === 'scaleX'
+			axis.scaleX = isX ? value : value / distortion
+			axis.scaleY = isX ? value * distortion : value
 		}
 
-		dispatch(updateMediaNestedState(id, 'scale', axis, editAll))
-	}, [distortion, id, editAll])
+		dispatch(updateMediaStateBySelection(axis))
+	}, [distortion])
 
-	const triggers = [renderOutput, width, height, crop, rotation, id, scale.link, distortion, editAll]
+	const triggers = [renderOutput, width, height, cropT, cropR, cropB, cropL, rotation, scaleLink, distortion]
 
 	const fitToFrameWidth = useCallback(() => {
-		const cropW = width * (crop.r - crop.l) / 100
+		const cropW = width * (cropR - cropL) / 100
 		let fitToWPrc = frameW / cropW
 
-		if (scale.link && rotation.freeRotateMode === 'with_bounds' && rotation.angle !== 0) {
-			const cropH = height * (crop.b - crop.t) / 100 * distortion
+		if (scaleLink && rotation.freeRotateMode === 'with_bounds' && rotation.angle !== 0) {
+			const cropH = height * (cropB - cropT) / 100 * distortion
 			const rotW = calcRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'w')
 
 			fitToWPrc *= cropW / rotW
@@ -82,18 +82,18 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 
 		fitToWPrc *= 100
 
-		dispatch(updateMediaNestedState(id, 'scale', {
-			x: fitToWPrc,
-			y: scale.link ? fitToWPrc * distortion : scale.y
-		}, editAll))
-	}, [...triggers, scale.y])
+		dispatch(updateMediaStateBySelection({
+			scaleX: fitToWPrc,
+			scaleY: scaleLink ? fitToWPrc * distortion : scaleY
+		}))
+	}, [...triggers, scaleY])
 	
 	const fitToFrameHeight = useCallback(() => {
-		const cropH = height * (crop.b - crop.t) / 100
+		const cropH = height * (cropB - cropT) / 100
 		let fitToHPrc = frameH / cropH
 
-		if (scale.link && rotation.freeRotateMode === 'with_bounds' && rotation.angle !== 0) {
-			const cropW = width * (crop.r - crop.l) / 100 / distortion
+		if (scaleLink && rotation.freeRotateMode === 'with_bounds' && rotation.angle !== 0) {
+			const cropW = width * (cropR - cropL) / 100 / distortion
 			const rotH = calcRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'h')
 
 			fitToHPrc *= cropH / rotH
@@ -101,39 +101,39 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 
 		fitToHPrc *= 100
 
-		dispatch(updateMediaNestedState(id, 'scale', {
-			x: scale.link ? fitToHPrc / distortion : scale.x,
-			y: fitToHPrc
-		}, editAll))
-	}, [...triggers, scale.x])
+		dispatch(updateMediaStateBySelection({
+			scaleX: scaleLink ? fitToHPrc / distortion : scaleX,
+			scaleY: fitToHPrc
+		}))
+	}, [...triggers, scaleX])
 
 	const toggleScaleLink = useCallback(e => {
-		dispatch(toggleMediaNestedCheckbox(id, 'scale', e, editAll))
-	}, [id, editAll])
+		dispatch(toggleMediaCheckbox(id, e))
+	}, [id])
 
 	const common = useMemo(() => ({
-		onChange: scale.link ? updateScale : updateAxis
-	}), [scale.link, distortion, id, editAll])
+		onChange: scaleLink ? updateScale : updateAxis
+	}), [scaleLink, distortion])
 
 	const [ snapPointsX, snapPointsY ] = useMemo(() => {
 		const pts = [[100], [100]]
 
-		if (!scale.link && scale.y !== 100) pts[0].push(scale.y)
-		if (!scale.link && scale.x !== 100) pts[1].push(scale.x)
+		if (!scaleLink && scaleY !== 100) pts[0].push(scaleY)
+		if (!scaleLink && scaleX !== 100) pts[1].push(scaleX)
 
 		return pts
-	}, [scale])
+	}, [scaleLink, scaleX, scaleY])
 
 	const propsX = {
 		...common,
 		...propsXStatic,
-		value: scale.x
+		value: scaleX
 	}
 
 	const propsY = {
 		...common,
 		...propsYStatic,
-		value: scale.y
+		value: scaleY
 	}
 
 	const sliderProps = {
@@ -141,7 +141,7 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 		sensitivity
 	}
 
-	const linkTitle = `${scale.link ? 'Unl' : 'L'}ink X and Y`
+	const linkTitle = `${scaleLink ? 'Unl' : 'L'}ink X and Y`
 
 	return (
 		<>
@@ -151,7 +151,7 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 				{...propsX}
 				{...sliderProps} />
 			<FitButton
-				title={`${scale.link ? 'Fit' : 'Stretch'} to Width`}
+				title={`${scaleLink ? 'Fit' : 'Stretch'} to Width`}
 				onClick={fitToFrameWidth} />
 			<NumberInput
 				{...propsX}
@@ -162,32 +162,33 @@ const Scale = ({ id, scale, crop, rotation, width, height, editAll, dispatch }) 
 				{...propsY}
 				{...sliderProps} />
 			<FitButton
-				title={`${scale.link ? 'Fit' : 'Stretch'} to Height`}
+				title={`${scaleLink ? 'Fit' : 'Stretch'} to Height`}
 				onClick={fitToFrameHeight} />
 			<NumberInput
 				{...propsY}
 				{...numberProps} />
 			<button
 				type="button"
-				name="link"
+				name="scaleLink"
+				className="link-button"
 				onClick={toggleScaleLink}
 				title={linkTitle}
 				aria-label={linkTitle}>
-				<LinkIcon linked={scale.link} />
+				<LinkIcon linked={scaleLink} />
 			</button>
 		</>
 	)
 }
 
 const ScalePanel = props => {
-	const { isBatch, id, scale, dispatch } = props
-	const { t, r, b, l } = props.crop
+	const { isBatch, id, scaleX, scaleY, scaleLink, dispatch } = props
+	const scaleProps = { scaleX, scaleY, scaleLink }
 	const { freeRotateMode, angle } = props.rotation
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)({ scale }),
-		() => pipe(applySettingsToAll(id), dispatch)({ scale })
-	]), [isBatch, id, scale])
+		() => pipe(copySettings, dispatch)(scaleProps),
+		() => pipe(applySettingsToAll(id), dispatch)(scaleProps)
+	]), [isBatch, id, scaleProps])
 
 	return (
 		<AccordionPanel
@@ -196,9 +197,8 @@ const ScalePanel = props => {
 			className="editor-options auto-rows"
 			buttons={settingsMenu}>
 			<Scale
-				{...props}
-				crop={{ t, r, b, l }}
-				rotation={{ freeRotateMode, angle }} />
+				rotation={{ freeRotateMode, angle }}
+				{...props} />
 		</AccordionPanel>
 	)
 }
@@ -213,22 +213,17 @@ const propTypes = {
 	isBatch: bool.isRequired,
 	width: number.isRequired,
 	height: number.isRequired,
-	scale: exact({
-		x: oneOfType([oneOf(['']), number]),
-		y: oneOfType([oneOf(['']), number]),
-		link: bool
-	}).isRequired,
-	crop: shape({
-		t: oneOfType([oneOf(['']), number]),
-		r: oneOfType([oneOf(['']), number]),
-		b: oneOfType([oneOf(['']), number]),
-		l: oneOfType([oneOf(['']), number])
-	}).isRequired,
+	scaleX: oneOfType([oneOf(['']), number]),
+	scaleY: oneOfType([oneOf(['']), number]),
+	scaleLink: bool,
+	cropT: oneOfType([oneOf(['']), number]),
+	cropR: oneOfType([oneOf(['']), number]),
+	cropB: oneOfType([oneOf(['']), number]),
+	cropL: oneOfType([oneOf(['']), number]),
 	rotation: shape({
 		freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
 		angle: number
 	}).isRequired,
-	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
 
