@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from 'react'
-import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
+import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	applySettingsToAll,
 	copySettings,
-	updateMediaNestedState
+	updateMediaStateBySelection
 } from 'actions'
 
 import { createSettingsMenu, pipe } from 'utilities'
@@ -13,26 +13,24 @@ import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
-const propsXStatic = { name: 'x', title: 'Position X', min: -100 }
-const propsYStatic = { name: 'y', title: 'Position Y', min: -100 }
+const propsXStatic = { name: 'positionX', title: 'Position X', min: -100 }
+const propsYStatic = { name: 'positionY', title: 'Position Y', min: -100 }
 
-const Position = ({ id, position, editAll, dispatch }) => {
+const Position = ({ positionX, positionY, dispatch }) => {
 	const updatePosition = useCallback(({ name, value }) => {
-		dispatch(updateMediaNestedState(id, 'position', {
-			[name]: value
-		}, editAll))
-	}, [id, editAll])
+		dispatch(updateMediaStateBySelection({ [name]: value }))
+	}, [])
 
 	const propsX = {
 		...propsXStatic,
 		onChange: updatePosition,
-		value: position.x
+		value: positionX
 	}
 
 	const propsY = {
 		...propsYStatic,
 		onChange: updatePosition,
-		value: position.y
+		value: positionY
 	}
 
 	return (
@@ -48,12 +46,12 @@ const Position = ({ id, position, editAll, dispatch }) => {
 }
 
 const PositionPanel = props => {
-	const { isBatch, id, position, dispatch } = props
+	const { isBatch, id, positionX, positionY, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)({ position }),
-		() => pipe(applySettingsToAll(id), dispatch)({ position })
-	]), [isBatch, id, position])
+		() => pipe(copySettings, dispatch)({ positionX, positionY }),
+		() => pipe(applySettingsToAll(id), dispatch)({ positionX, positionY })
+	]), [isBatch, id, positionX, positionY])
 
 	return (
 		<AccordionPanel
@@ -69,10 +67,8 @@ const PositionPanel = props => {
 const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
-	position: exact({
-		x: oneOfType([oneOf(['']), number]),
-		y: oneOfType([oneOf(['']), number])
-	}).isRequired,
+	positionX: oneOfType([oneOf(['']), number]),
+	positionY: oneOfType([oneOf(['']), number]),
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
