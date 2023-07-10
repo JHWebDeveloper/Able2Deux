@@ -69,7 +69,8 @@ const EditorOptions = props => {
 				) : <></>}
 				{arc === 'transform' ? <>
 					<Position
-						position={props.position}
+						positionX={props.positionX}
+						positionY={props.positionY}
 						{...common} />
 					<Scale
 						scale={scale}
