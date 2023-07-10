@@ -24,7 +24,7 @@ const extractCommonProps = (() => {
 const EditorOptions = props => {
 	if (!props.id) return <></>
 
-	const { background, mediaType, aspectRatio, arc, audio, scale, crop, eyedropper, setEyedropper } = props
+	const { background, mediaType, aspectRatio, arc, audioVideoTracks, scale, crop, eyedropper, setEyedropper } = props
 	const common = extractCommonProps(props)
 
 	return (
@@ -40,10 +40,11 @@ const EditorOptions = props => {
 				{...common} />
 			{props.hasAudio ? (
 				<Audio
-					audio={audio}
+					audioVideoTracks={audioVideoTracks}
+					audioExportFormat={props.audioExportFormat}
 					{...common} />
 			) : <></>}
-			{mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio' ? <></> : <>
+			{mediaType === 'audio' || mediaType === 'video' && audioVideoTracks === 'audio' ? <></> : <>
 				<Framing 
 					arc={arc}
 					background={background}
@@ -119,7 +120,8 @@ EditorOptions.propTypes = {
 	totalFrames: number,
 	duration: number,
 	split: number,
-	audio: object,
+	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']),
+	audioExportFormat: oneOf(['wav', 'mp3', 'bars']),
 	arc: string,
 	background: string,
 	backgroundMotion: string,
