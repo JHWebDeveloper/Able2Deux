@@ -57,8 +57,8 @@ export const mainReducer = (state, action) => {
 			return duplicateSelectedMedia(state)
 		case ACTION.SPLIT_MEDIA: 
 			return splitMedia(state, payload)
-		case ACTION.PREPARE_MEDIA_FOR_FORMAT:
-			return prepareMediaForFormat(state)
+		case ACTION.REMOVE_FAILED_ACQUISITIONS:
+			return removeFailedAcquisitions(state)
 		case ACTION.PASTE_SETTINGS:
 			return pasteSettings(state, payload)
 		case ACTION.APPLY_TO_ALL:
@@ -183,15 +183,10 @@ const splitMedia = (state, payload) => {
 	return { ...state, media }
 }
 
-const prepareMediaForFormat = state => {
-	const media = state.media.filter(item => item.status !== STATUS.FAILED)
-
-	return {
-		...state,
-		media,
-		selectedId: media[0].id
-	}
-}
+const removeFailedAcquisitions = state => ({
+	...state,
+	media: state.media.filter(item => item.status !== STATUS.FAILED)
+})
 
 const pasteSettings = (state, payload) => {
 	const { copiedSettings } = state

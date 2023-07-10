@@ -4,7 +4,7 @@ import { arrayOf, bool, func, object, shape } from 'prop-types'
 
 import {
 	disableWarningAndSave,
-	prepareMediaForFormat,
+	removeFailedAcquisitions,
 	removeMedia,
 	removeAllMedia
 } from 'actions'
@@ -85,8 +85,8 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 		}
 	}), [media, warnings.removeAll])
 
-	const prepareMediaAndRedirect = useCallback(() => {
-		dispatch(prepareMediaForFormat())
+	const removeFailedAcquisitionsAndRedirect = useCallback(() => {
+		dispatch(removeFailedAcquisitions())
 		navigate('/formatting')
 	}, [])
 
@@ -107,7 +107,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 					aria-label="Format Media"
 					className="app-button"
 					disabled={notReady}
-					onClick={prepareMediaAndRedirect}>Format</button>
+					onClick={removeFailedAcquisitionsAndRedirect}>Format</button>
 				<button
 					type="button"
 					className="app-button"

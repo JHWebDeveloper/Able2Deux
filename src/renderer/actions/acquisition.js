@@ -2,7 +2,7 @@ import toastr from 'toastr'
 
 import * as ACTION from 'actions/types'
 import * as STATUS from 'status'
-import { updateMediaState, updateMediaStateById } from 'actions'
+import { updateMediaStateById } from 'actions'
 
 import {
 	createMediaData,
@@ -74,8 +74,8 @@ export const removeAllMedia = (media, updateSelection = true) => async dispatch 
 	}, Promise.resolve())
 }
 
-export const prepareMediaForFormat = () => ({
-	type: ACTION.PREPARE_MEDIA_FOR_FORMAT
+export const removeFailedAcquisitions = () => ({
+	type: ACTION.REMOVE_FAILED_ACQUISITIONS
 })
 
 
