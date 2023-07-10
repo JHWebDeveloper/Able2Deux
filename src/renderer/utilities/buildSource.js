@@ -91,14 +91,12 @@ const build11pmSource = (() => {
 	}
 })()
 
-export const buildSource = (source, output, background) => {
-	const { sourceName, prefix, onTop } = source
-
+export const buildSource = ({ sourceName, sourcePrefix, sourceOnTop, renderOutput, background }) => {
 	const is11pm = has11pmBackground(background)
 
 	const cnv = document.createElement('canvas')
 	const ctx = cnv.getContext('2d')
-	const [ width, height ] = output.split('x')
+	const [ width, height ] = renderOutput.split('x')
 
 	cnv.width = width
 	cnv.height = height
@@ -106,7 +104,7 @@ export const buildSource = (source, output, background) => {
 	ctx.globalCompositeOperation = 'destination-over'
 	ctx.fillStyle = '#ffffff'
 
-	const srcBoxData = (is11pm ? build11pmSource : buildGenericSource)(ctx, sourceName, prefix, height, onTop)
+	const srcBoxData = (is11pm ? build11pmSource : buildGenericSource)(ctx, sourceName, sourcePrefix, height, sourceOnTop)
 
 	return {
 		base64: cnv.toDataURL().replace(/^data:image\/\w+;base64,/, ''),
