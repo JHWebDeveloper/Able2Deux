@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import { bool, func, exact, string, oneOf } from 'prop-types'
+import { bool, func, string, oneOf } from 'prop-types'
 
 import { PrefsContext } from 'store'
 
@@ -7,8 +7,8 @@ import {
 	applySettingsToAll,
 	copySettings,
 	disableWarningAndSave,
-	toggleMediaNestedCheckbox,
-	updateMediaNestedStateFromEvent
+	toggleMediaCheckbox,
+	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
 import {
@@ -24,38 +24,38 @@ import Checkbox from '../../form_elements/Checkbox'
 const message = 'A source on top is not for aesthetics!'
 const detail = 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.'
 
-const Source = ({ id, source, background, editAll, dispatch }) => {
+const Source = props => {
+	const { id, sourceName, sourcePrefix, sourceOnTop, background, editAll, dispatch } = props
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const { warnings } = preferences
-	const { prefix, onTop } = source
 
 	const maxLength = useMemo(() => {
-		let len = has11pmBackground(background) ? onTop ? 44 : 38 : 51
+		let len = has11pmBackground(background) ? sourceOnTop ? 44 : 38 : 51
 
-		if (!prefix) len += 8
+		if (!sourcePrefix) len += 8
 		
 		return len
-	}, [background, prefix, onTop])
+	}, [background, sourcePrefix, sourceOnTop])
 
 	const updateSourceName = useCallback(e => {
-		dispatch(updateMediaNestedStateFromEvent(id, 'source', e, editAll))
-	}, [id, editAll])
+		dispatch(updateMediaStateBySelectionFromEvent(e))
+	}, [])
 
 	const toggleSourceOption = useCallback(e => {
-		dispatch(toggleMediaNestedCheckbox(id, 'source', e, editAll))
+		dispatch(toggleMediaCheckbox(id, e))
 	}, [id, editAll])
 
 	const sourceOnTopWarning = useCallback(e => warn({
 		message,
 		detail,
-		enabled: warnings.sourceOnTop && !source.onTop,
+		enabled: warnings.sourceOnTop && !sourceOnTop,
 		callback() {
 			toggleSourceOption(e)
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('sourceOnTop'))
 		}
-	}), [id, editAll, warnings.sourceOnTop, source.onTop])
+	}), [id, editAll, warnings.sourceOnTop, sourceOnTop])
 
 	return (
 		<>
@@ -69,19 +69,19 @@ const Source = ({ id, source, background, editAll, dispatch }) => {
 					className="underline"
 					placeholder="If none, leave blank"
 					list="source-suggestions"
-					value={source.sourceName}
+					value={sourceName}
 					onChange={updateSourceName}
 					maxLength={maxLength} />
 			</fieldset>
 			<Checkbox
 				label={'Add "Source: " to beginning'}
-				name="prefix"
-				checked={source.prefix}
+				name="sourcePrefix"
+				checked={sourcePrefix}
 				onChange={toggleSourceOption} />
 			<Checkbox
 				label="Place source at top of video"
-				name="onTop"
-				checked={source.onTop}
+				name="sourceOnTop"
+				checked={sourceOnTop}
 				onChange={sourceOnTopWarning} />
 		</>
 	)
@@ -110,12 +110,9 @@ const SourcePanel = props => {
 const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
-	source: exact({
-		sourceName: string,
-		prefix: bool.isRequired,
-		onTop: bool.isRequired,
-		data: string
-	}),
+	sourceName: string,
+	sourcePrefix: bool,
+	sourceOnTop: bool,
 	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
 	editAll: bool.isRequired,
 	dispatch: func.isRequired
