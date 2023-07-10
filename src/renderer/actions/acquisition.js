@@ -2,7 +2,7 @@ import toastr from 'toastr'
 
 import * as ACTION from 'actions/types'
 import * as STATUS from 'status'
-import { updateMediaState } from 'actions'
+import { updateMediaState, updateMediaStateById } from 'actions'
 
 import {
 	createMediaData,
@@ -14,7 +14,7 @@ import {
 const { interop } = window.ABLE2
 
 export const updateMediaStatus = (id, status, mediaData) => ({
-	type: ACTION.UPDATE_MEDIA_STATE,
+	type: ACTION.UPDATE_MEDIA_STATE_BY_ID,
 	payload: {
 		id,
 		properties: {
@@ -81,12 +81,13 @@ export const prepareMediaForFormat = () => ({
 
 // ---- DOWNLOAD ------------
 
-const updateDownloadProgress = ({ id, eta, percent }) => ({
-	type: ACTION.UPDATE_MEDIA_STATE,
+const updateDownloadProgress = ({ id, downloadETA, downloadPercent }) => ({
+	type: ACTION.UPDATE_MEDIA_STATE_BY_ID,
 	payload: {
 		id,
 		properties: {
-			download: { eta, percent }
+			downloadETA,
+			downloadPercent
 		}
 	}
 })
@@ -113,7 +114,7 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 	try {
 		const urlData = await interop.getURLInfo({ id, url, disableRateLimit })
 
-		dispatch(updateMediaState(id, {
+		dispatch(updateMediaStateById(id, {
 			filename: urlData.title,
 			...urlData
 		}))
