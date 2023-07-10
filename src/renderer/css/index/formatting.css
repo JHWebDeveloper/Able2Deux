@@ -250,13 +250,13 @@
 	width: 42px;
 }
 
-button[name^="link"] {
+button.link-button {
 	display: inherit;
 	align-items: center;
 	margin-left: 3px;
 }
 
-button[name^="link"] > svg { pointer-events: none; }
+button.link-button > svg { pointer-events: none; }
 
 .auto-rows {
 	grid-auto-rows: min-content;
@@ -367,7 +367,7 @@ button[name^="link"] > svg { pointer-events: none; }
 
 #scale > .app-button:first-of-type { transform: rotate(90deg); }
 
-button[name="link"] {
+button[name="scaleLink"] {
 	grid-column: 5;
 	grid-row: 1 / span 2;
 	height: 100%;
