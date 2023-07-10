@@ -121,7 +121,8 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 		focused.id,
 		focused.keying,
 		focused.overlay,
-		focused.position,
+		focused.positionX,
+		focused.positionY,
 		focused.scale,
 		focused.timecode
 	])
