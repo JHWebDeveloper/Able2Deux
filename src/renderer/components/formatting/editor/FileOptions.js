@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { bool, func, number, oneOf, string } from 'prop-types'
 
-import { updateMediaStateFromEvent } from 'actions'
+import { updateMediaStateByIdFromEvent } from 'actions'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import StartEnd from './StartEnd'
@@ -11,7 +11,7 @@ const FileOptions = props => {
 	const { id, mediaType, start, end, totalFrames, fps, split, dispatch } = props
 
 	const updateFilename = useCallback(e => {
-		dispatch(updateMediaStateFromEvent(id, e))
+		dispatch(updateMediaStateByIdFromEvent(id, e))
 	}, [id])
 
 	return (
