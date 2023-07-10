@@ -25,7 +25,7 @@ const message = 'A source on top is not for aesthetics!'
 const detail = 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.'
 
 const Source = props => {
-	const { id, sourceName, sourcePrefix, sourceOnTop, background, editAll, dispatch } = props
+	const { id, sourceName, sourcePrefix, sourceOnTop, background, dispatch } = props
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const { warnings } = preferences
 
@@ -43,7 +43,7 @@ const Source = props => {
 
 	const toggleSourceOption = useCallback(e => {
 		dispatch(toggleMediaCheckbox(id, e))
-	}, [id, editAll])
+	}, [id])
 
 	const sourceOnTopWarning = useCallback(e => warn({
 		message,
@@ -55,7 +55,7 @@ const Source = props => {
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('sourceOnTop'))
 		}
-	}), [id, editAll, warnings.sourceOnTop, sourceOnTop])
+	}), [id, warnings.sourceOnTop, sourceOnTop])
 
 	return (
 		<>
@@ -88,12 +88,12 @@ const Source = props => {
 }
 
 const SourcePanel = props => {
-	const { isBatch, source, id, dispatch } = props
+	const { isBatch, sourceName, sourcePrefix, sourceOnTop, id, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)({ source }),
-		() => pipe(applySettingsToAll(id), dispatch)({ source })
-	]), [isBatch, id, source])
+		() => pipe(copySettings, dispatch)({ sourceName, sourcePrefix, sourceOnTop }),
+		() => pipe(applySettingsToAll(id), dispatch)({ sourceName, sourcePrefix, sourceOnTop })
+	]), [isBatch, id, sourceName, sourcePrefix, sourceOnTop])
 
 	return (
 		<AccordionPanel
