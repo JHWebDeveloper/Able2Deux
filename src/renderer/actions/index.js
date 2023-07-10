@@ -111,6 +111,16 @@ export const updateMediaStateFromEvent = (id, e, editAll) => ({
 	}
 })
 
+export const updateMediaStateByIdFromEvent = (id, e) => ({
+	type: ACTION.UPDATE_MEDIA_STATE_BY_ID,
+	payload: {
+		id,
+		properties: {
+			[e.target.name]: e.target.value
+		}
+	}
+})
+
 // ---- 4TH LEVEL STATE --------
 
 export const updateMediaNestedState = (id, nest, properties, editAll) => ({
