@@ -291,7 +291,10 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			width: exportData.width,
 			height: exportData.height,
 			centering: exportData.centering,
-			position: exportData.position,
+			position: {
+				x: exportData.positionX,
+				y: exportData.positionY
+			},
 			scale: exportData.scale,
 			crop: exportData.crop,
 			rotation: exportData.rotation,
