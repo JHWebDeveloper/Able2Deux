@@ -295,8 +295,16 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				x: exportData.positionX,
 				y: exportData.positionY
 			},
-			scale: exportData.scale,
-			crop: exportData.crop,
+			scale: {
+				x: exportData.scaleX,
+				y: exportData.scaleY
+			},
+			crop: {
+				t: exportData.cropT,
+				r: exportData.cropR,
+				b: exportData.cropB,
+				l: exportData.cropL,
+			},
 			rotation: exportData.rotation,
 			keying: exportData.keying,
 			colorCurves: exportData.colorCurves
