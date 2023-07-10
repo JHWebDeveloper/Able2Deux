@@ -31,6 +31,8 @@ export const mainReducer = (state, action) => {
 			return updateMediaState(state, payload)
 		case ACTION.UPDATE_MEDIA_STATE_BY_ID:
 			return updateMediaStateById(state, payload)
+		case ACTION.TOGGLE_MEDIA_CHECKBOX:
+			return toggleMediaCheckbox(state, payload)
 		case ACTION.UPDATE_MEDIA_NESTED_STATE:
 			return updateMediaNestedState(state, payload)
 		case ACTION.TOGGLE_MEDIA_NESTED_CHECKBOX: 
@@ -97,6 +99,19 @@ const updateMediaStateById = (state, payload) => ({
 		...payload.properties
 	} : item)
 })
+
+const toggleMediaCheckbox = (state, payload) => {
+	const { id, property } = payload
+	const invertedValue = !state.media.find(item => item.id === id)[property]
+
+	return {
+		...state,
+		media: state.media.map(item => item.selected ? ({
+			...item,
+			[property]: invertedValue
+		}) : item)
+	}
+}
 
 const updateMediaNestedState = (state, payload) => {
 	const { id, nest, properties, editAll } = payload
