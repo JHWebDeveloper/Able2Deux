@@ -27,7 +27,6 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 	const {
 		mediaType,
 		aspectRatio,
-		audio,
 		arc,
 		background,
 		sourceName,
@@ -43,8 +42,8 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 		return false
 	}, [sourceName, sourcePrefix, sourceOnTop, arc, renderOutput, background])
 
-	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
-	const isBars = audio?.format === 'bars'
+	const isAudio = mediaType === 'audio' || mediaType === 'video' && focused.audioVideoTracks === 'audio'
+	const isBars = focused.audioExportFormat === 'bars'
 
 	// ---- Listen for preview still updates and rerender
 
