@@ -78,19 +78,18 @@ export const moveSortableElement = (nest, oldPos, newPos) => ({
 
 // ---- 3RD LEVEL STATE --------
 
-export const updateMediaState = (id, properties) => ({
-	type: ACTION.UPDATE_MEDIA_STATE,
-	payload: {
-		properties
-	}
-})
-
 export const updateMediaStateBySelection = properties => ({
 	type: ACTION.UPDATE_MEDIA_STATE,
 	payload: {
 		properties
 	}
 })
+
+export const updateMediaStateBySelectionFromEvent = e => (
+	updateMediaStateBySelection({
+		[e.target.name]: e.target.value
+	})
+)
 
 export const updateMediaStateById = (id, properties) => ({
 	type: ACTION.UPDATE_MEDIA_STATE_BY_ID,
@@ -100,21 +99,34 @@ export const updateMediaStateById = (id, properties) => ({
 	}
 })
 
+export const updateMediaStateByIdFromEvent = (id, e) => (
+	updateMediaStateById(id, {
+		[e.target.name]: e.target.value
+	})
+)
+
+export const toggleMediaCheckbox = (id, e) => ({
+	type: ACTION.TOGGLE_MEDIA_CHECKBOX,
+	payload: {
+		id,
+		property: e.target.name
+	}
+})
+
+// LEGACY DELETE LATER
+export const updateMediaState = (id, properties) => ({
+	type: ACTION.UPDATE_MEDIA_STATE,
+	payload: {
+		properties
+	}
+})
+
+// LEGACY DELETE LATER
 export const updateMediaStateFromEvent = (id, e, editAll) => ({
 	type: ACTION.UPDATE_MEDIA_STATE,
 	payload: {
 		id,
 		editAll,
-		properties: {
-			[e.target.name]: e.target.value
-		}
-	}
-})
-
-export const updateMediaStateByIdFromEvent = (id, e) => ({
-	type: ACTION.UPDATE_MEDIA_STATE_BY_ID,
-	payload: {
-		id,
 		properties: {
 			[e.target.name]: e.target.value
 		}
