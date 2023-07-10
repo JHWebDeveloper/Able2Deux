@@ -30,17 +30,18 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 		audio,
 		arc,
 		background,
-		source,
-		rotation
+		sourceName,
+		sourcePrefix,
+		sourceOnTop
 	} = focused
 
 	const sourceData = useMemo(() => {
-		if (source?.sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
-			return buildSource(source, renderOutput, background)
+		if (sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
+			return buildSource({ sourceName, sourcePrefix, sourceOnTop, renderOutput, background })
 		}
 
 		return false
-	}, [source, arc, rotation, renderOutput, background])
+	}, [sourceName, sourcePrefix, sourceOnTop, arc, renderOutput, background])
 
 	const isAudio = mediaType === 'audio' || mediaType === 'video' && audio?.exportAs === 'audio'
 	const isBars = audio?.format === 'bars'
@@ -110,7 +111,10 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 		isBars,
 		previewSize,
 		renderOutput,
-		rotation,
+		sourceName,
+		sourcePrefix,
+		sourceOnTop,
+		focused.rotation,
 		focused.bgColor,
 		focused.centering,
 		focused.colorCurves,
@@ -120,8 +124,7 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 		focused.overlay,
 		focused.position,
 		focused.scale,
-		focused.timecode,
-		source
+		focused.timecode
 	])
 	
 	return (
