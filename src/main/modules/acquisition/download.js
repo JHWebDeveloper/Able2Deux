@@ -70,8 +70,8 @@ export const downloadVideo = (formData, win) => new Promise((resolve, reject) =>
 		progress.eta = convertNumericString(eta, progress.eta)
 		
 		win.webContents.send(`downloadProgress_${id}`, {
-			percent: progress.downloaded / progress.total,
-			eta: progress.eta,
+			downloadPercent: progress.downloaded / progress.total,
+			downloadETA: progress.eta,
 			id
 		})
 	})
