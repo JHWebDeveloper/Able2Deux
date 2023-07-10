@@ -31,8 +31,8 @@ const removeJob = async id => {
 }
 
 // eslint-disable-next-line no-extra-parens
-const checkIsAudio = ({ mediaType, audio }) => (
-	mediaType === 'audio' || mediaType === 'video' && audio.exportAs === 'audio'
+const checkIsAudio = ({ mediaType, audioVideoTracks }) => (
+	mediaType === 'audio' || mediaType === 'video' && audioVideoTracks === 'audio'
 )
 
 // eslint-disable-next-line no-extra-parens
@@ -111,7 +111,8 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		end,
 		fps,
 		totalFrames,
-		audio,
+		audioVideoTracks,
+		audioExportFormat,
 		arc,
 		background,
 		backgroundMotion,
@@ -132,8 +133,8 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	let extension = ''
 	let overlayDim = false
 
-	if (isAudio && audio.format !== 'bars') {
-		outputOptions = audio.format === 'wav' ? [
+	if (isAudio && audioExportFormat !== 'bars') {
+		outputOptions = audioExportFormat === 'wav' ? [
 			'-c:a pcm_s16le',
 			'-ac 2',
 			'-f wav'
@@ -144,7 +145,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			'-f mp3'
 		]
 
-		extension = audio.format
+		extension = audioExportFormat
 	} else if (isStill) {
 		outputOptions = [
 			'-pix_fmt rgb24'
@@ -234,7 +235,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 
 	if (!isAudio) {
 		if (!isStill) {
-			if (mediaType === 'video' && audio.exportAs === 'video') renderCmd.noAudio()
+			if (mediaType === 'video' && audioVideoTracks === 'video') renderCmd.noAudio()
 			if (mediaType === 'image') renderCmd.loop(getBgDuration(background))
 	
 			if (renderFrameRate === 'custom') {
@@ -297,7 +298,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			keying: exportData.keying,
 			colorCurves: exportData.colorCurves
 		}))
-	} else if (audio.format === 'bars') {
+	} else if (audioExportFormat === 'bars') {
 		renderCmd
 			.input(`smptehdbars=size=${renderWidth}x${renderHeight}:rate=59.94`)
 			.inputOption('-f lavfi')
