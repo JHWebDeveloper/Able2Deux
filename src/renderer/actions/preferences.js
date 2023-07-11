@@ -18,6 +18,15 @@ export const loadPrefs = () => async dispatch => {
 	}
 }
 
+export const updateEditorSettings = e => ({
+	type: ACTION.UPDATE_EDITOR_SETTINGS,
+	payload: {
+		properties: {
+			[e.target.name]: e.target.value
+		}
+	}
+})
+
 export const enableAspectRatioMarker = id => ({
 	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
 	payload: {
