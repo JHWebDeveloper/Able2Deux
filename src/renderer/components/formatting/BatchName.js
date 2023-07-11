@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
-import { exact, func, string, oneOf } from 'prop-types'
+import { func, string, oneOf } from 'prop-types'
 
-import { updateNestedStateFromEvent } from 'actions'
+import { updateStateFromEvent } from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
 
-const positionButtons = [
+const batchNameTypeButtons = [
 	{
 		label: 'Replace',
 		value: 'replace'
@@ -20,9 +20,9 @@ const positionButtons = [
 	}
 ]
 
-const BatchName = ({ batch, dispatch }) => {
+const BatchName = ({ batchName, batchNameType, dispatch }) => {
 	const updateBatch = useCallback(e => {
-		dispatch(updateNestedStateFromEvent('batch', e))
+		dispatch(updateStateFromEvent(e))
 	}, [])
 
 	return (
@@ -33,27 +33,25 @@ const BatchName = ({ batch, dispatch }) => {
 			<div>
 				<input
 					type="text"
-					name="name"
+					name="batchName"
 					className="underline"
-					value={batch.name}
+					value={batchName}
 					maxLength={251}
 					onChange={updateBatch}
 					placeholder="If none, leave blank" />
 				<RadioSet
-					name="position"
-					state={batch.position}
+					name="batchNameType"
+					state={batchNameType}
 					onChange={updateBatch}
-					buttons={positionButtons}/>
+					buttons={batchNameTypeButtons}/>
 			</div>
 		</div>
 	)
 }
 
 BatchName.propTypes = {
-	batch: exact({
-		name: string,
-		position: oneOf(['replace', 'prepend', 'append'])
-	}).isRequired,
+	batchName: string,
+	batchNameType: oneOf(['replace', 'prepend', 'append']),
 	dispatch: func.isRequired
 }
 
