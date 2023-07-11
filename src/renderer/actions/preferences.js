@@ -18,6 +18,11 @@ export const loadPrefs = () => async dispatch => {
 	}
 }
 
+export const updateScratchDisk = properties => ({
+	type: ACTION.UPDATE_SCRATCH_DISK,
+	payload: { properties }
+})
+
 export const toggleWarning = e => ({
 	type: ACTION.TOGGLE_WARNING,
 	payload: {
