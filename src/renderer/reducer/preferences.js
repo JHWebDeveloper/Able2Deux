@@ -14,6 +14,8 @@ export const prefsReducer = (state, action) => {
 			return shared.updateState(state, payload)
 		case ACTION.TOGGLE_CHECKBOX: 
 			return shared.toggleCheckbox(state, payload)
+		case ACTION.UPDATE_SCRATCH_DISK:
+			return updateScratchDisk(state, payload)
 		case ACTION.TOGGLE_WARNING:
 			return toggleWarning(state, payload)
 		case ACTION.UPDATE_EDITOR_SETTINGS:
@@ -52,10 +54,18 @@ const savePrefs = async (prefs, callback) => {
 	}
 }
 
+const updateScratchDisk = (state, { properties }) => ({
+	...state,
+	scratchDisk: {
+		...state.scratchDisk,
+		...properties
+	}
+})
+
 const toggleWarning = (state, payload) => {
 	const { property, save } = payload
 
-	const newState = {
+	const nextState = {
 		...state,
 		warnings: {
 			...state.warnings,
@@ -63,9 +73,9 @@ const toggleWarning = (state, payload) => {
 		}
 	}
 
-	if (save) savePrefs(newState)
+	if (save) savePrefs(nextState)
 
-	return newState
+	return nextState
 }
 
 const updateEditorSettings = (state, { properties }) => ({
@@ -85,7 +95,7 @@ const updateSortableElementField = (state, payload) => ({
 })
 
 const cleanupPrefsAndSave = (state, callback) => {
-	const newPrefs = {
+	const nextState = {
 		...state,
 		aspectRatioMarkers: state.aspectRatioMarkers
 			.filter(mrkr => mrkr.ratio.length === 2)
@@ -101,15 +111,15 @@ const cleanupPrefsAndSave = (state, callback) => {
 			})
 	}
 
-	savePrefs(newPrefs, callback)
+	savePrefs(nextState, callback)
 
-	return newPrefs
+	return nextState
 }
 
 const removeLocationAndSave = (state, payload) => {
-	const newPrefs = shared.removeSortableElement(state, payload)
+	const nextState = shared.removeSortableElement(state, payload)
 
-	savePrefs(newPrefs)
+	savePrefs(nextState)
 
-	return newPrefs
+	return nextState
 }
