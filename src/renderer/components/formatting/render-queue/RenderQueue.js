@@ -13,7 +13,7 @@ import {
 	removeLocationAndSave,
 	render,
 	startOver,
-	updateMediaState
+	updateMediaStateById
 } from 'actions'
 
 import {
@@ -46,26 +46,24 @@ const RenderQueue = props => {
 	} = preferences
 
 	// eslint-disable-next-line no-extra-parens
-	const complete = media.every(({ render }) => (
-		render.status === STATUS.COMPLETE ||
-		render.status === STATUS.CANCELLED ||
-		render.status === STATUS.FAILED
+	const complete = media.every(({ renderStatus }) => (
+		renderStatus === STATUS.COMPLETE ||
+		renderStatus === STATUS.CANCELLED ||
+		renderStatus === STATUS.FAILED
 	))
 
 	const cancelAll = useCallback(() => {
-		media.forEach(async ({ id, render }) => {
-			dispatch(cancelRender(id, render.status))
+		media.forEach(async ({ id, renderStatus }) => {
+			dispatch(cancelRender(id, renderStatus))
 		})
 	}, [media])
 
 	const goBack = useCallback(() => {
-		media.forEach(item => {
-			dispatch(updateMediaState(item.id, {
+		media.forEach(({ id }) => {
+			dispatch(updateMediaStateById(id, {
 				exportFilename: '',
-				render: {
-					status:	STATUS.PENDING,
-					percent: 0
-				}
+				renderStatus:	STATUS.PENDING,
+				renderPercent: 0
 			}))
 		})
 
@@ -113,7 +111,7 @@ const RenderQueue = props => {
 	}, [])
 
 	useEffect(() => {
-		const atleastOneSuccess = media.some(({ render }) => render.status === STATUS.COMPLETE)
+		const atleastOneSuccess = media.some(item => item.renderStatus === STATUS.COMPLETE)
 
 		if (complete && atleastOneSuccess) {
 			toastr.success('Thank you for using Able2.', 'Your Files are Ready!', { ...toastrOpts, timeOut: 4000 })
@@ -126,14 +124,15 @@ const RenderQueue = props => {
 		<div id="render-queue" onBlur={containFocus}>
 			<div>
 				<div>
-					{media.map(({ id, mediaType, filename, exportFilename, render }) => (
+					{media.map(({ id, mediaType, filename, exportFilename, renderPercent, renderStatus }) => (
 						<RenderElement
 							key={id}
 							id={id}
 							mediaType={mediaType}
 							filename={filename}
 							exportFilename={exportFilename}
-							render={render}
+							renderPercent={renderPercent}
+							renderStatus={renderStatus}
 							dispatch={dispatch} />)
 					)}
 				</div>
