@@ -18,6 +18,13 @@ export const loadPrefs = () => async dispatch => {
 	}
 }
 
+export const toggleWarning = e => ({
+	type: ACTION.TOGGLE_WARNING,
+	payload: {
+		property: e.target.name
+	}
+})
+
 export const updateEditorSettings = e => ({
 	type: ACTION.UPDATE_EDITOR_SETTINGS,
 	payload: {
@@ -120,9 +127,12 @@ export const removeLocationAndSave = id => ({
 	payload: { id, nest: 'saveLocations' }
 })
 
-export const disableWarningAndSave = warning => ({
-	type: ACTION.DISABLE_WARNING_AND_SAVE,
-	payload: { warning }
+export const disableWarningAndSave = property => ({
+	type: ACTION.TOGGLE_WARNING,
+	payload: {
+		property,
+		save: true
+	}
 })
 
 export const restoreDefaultPrefs = () => async dispatch => {
