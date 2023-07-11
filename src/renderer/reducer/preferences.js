@@ -14,6 +14,8 @@ export const prefsReducer = (state, action) => {
 			return shared.updateState(state, payload)
 		case ACTION.TOGGLE_CHECKBOX: 
 			return shared.toggleCheckbox(state, payload)
+		case ACTION.TOGGLE_WARNING:
+			return toggleWarning(state, payload)
 		case ACTION.UPDATE_EDITOR_SETTINGS:
 			return updateEditorSettings(state, payload)
 		case ACTION.UPDATE_NESTED_STATE:
@@ -34,8 +36,6 @@ export const prefsReducer = (state, action) => {
 			return cleanupPrefsAndSave(state, callback)
 		case ACTION.REMOVE_LOCATION_AND_SAVE:
 			return removeLocationAndSave(state, payload)
-		case ACTION.DISABLE_WARNING_AND_SAVE:
-			return disableWarningAndSave(state, payload)
 		default:
 			return state
 	}
@@ -43,11 +43,36 @@ export const prefsReducer = (state, action) => {
 
 // ---- "REACTIONS" --------
 
-const updateEditorSettings = (state, payload) => ({
+const savePrefs = async (prefs, callback) => {
+	try {
+		await window.ABLE2.interop.savePrefs(prefs)
+		callback?.()
+	} catch (err) {
+		toastr.error(errorToString(err), false, toastrOpts)
+	}
+}
+
+const toggleWarning = (state, payload) => {
+	const { property, save } = payload
+
+	const newState = {
+		...state,
+		warnings: {
+			...state.warnings,
+			[property]: !state.warnings[property]
+		}
+	}
+
+	if (save) savePrefs(newState)
+
+	return newState
+}
+
+const updateEditorSettings = (state, { properties }) => ({
 	...state,
 	editorSettings: {
 		...state.editorSettings,
-		...payload.properties
+		...properties
 	}
 })
 
@@ -58,15 +83,6 @@ const updateSortableElementField = (state, payload) => ({
 		[payload.name]: payload.value
 	} : obj)
 })
-
-const savePrefs = async (prefs, callback) => {
-	try {
-		await window.ABLE2.interop.savePrefs(prefs)
-		callback?.()
-	} catch (err) {
-		toastr.error(errorToString(err), false, toastrOpts)
-	}
-}
 
 const cleanupPrefsAndSave = (state, callback) => {
 	const newPrefs = {
@@ -92,20 +108,6 @@ const cleanupPrefsAndSave = (state, callback) => {
 
 const removeLocationAndSave = (state, payload) => {
 	const newPrefs = shared.removeSortableElement(state, payload)
-
-	savePrefs(newPrefs)
-
-	return newPrefs
-}
-
-const disableWarningAndSave = (state, payload) => {
-	const newPrefs = {
-		...state,
-		warnings: {
-			...state.warnings,
-			[payload.warning]: false
-		}
-	}
 
 	savePrefs(newPrefs)
 
