@@ -305,7 +305,13 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				b: exportData.cropB,
 				l: exportData.cropL,
 			},
-			rotation: exportData.rotation,
+			rotation: {
+				transpose: exportData.transpose,
+				reflect: exportData.reflect,
+				freeRotateMode: exportData.freeRotateMode,
+				angle: exportData.angle,
+				center: exportData.rotatedCentering
+			},
 			keying: exportData.keying,
 			colorCurves: exportData.colorCurves
 		}))
