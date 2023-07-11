@@ -4,7 +4,7 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 import {
 	applySettingsToAll,
 	copySettings,
-	updateMediaState
+	updateMediaStateBySelection
 } from 'actions'
 
 import { createSettingsMenu, pipe } from 'utilities'
@@ -19,12 +19,12 @@ const commonStatic = {
 	min: -100
 }
 
-const Centering = ({ id, centering, editAll, dispatch }) => {
+const Centering = ({ centering, dispatch }) => {
 	const updateCentering = useCallback(({ name, value }) => {
-		dispatch(updateMediaState(id, {
+		dispatch(updateMediaStateBySelection({
 			[name]: value
-		}, editAll))
-	}, [id, editAll])
+		}))
+	}, [])
 
 	const common = {
 		...commonStatic,
