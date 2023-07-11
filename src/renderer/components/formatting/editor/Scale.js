@@ -39,7 +39,7 @@ const numberProps = {
 	defaultValue: 100
 }
 
-const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, rotation, width, height, dispatch }) => {
+const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, freeRotateMode, angle, width, height, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
@@ -67,15 +67,15 @@ const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, rota
 		dispatch(updateMediaStateBySelection(axis))
 	}, [distortion])
 
-	const triggers = [renderOutput, width, height, cropT, cropR, cropB, cropL, rotation, scaleLink, distortion]
+	const triggers = [renderOutput, width, height, cropT, cropR, cropB, cropL, freeRotateMode, angle, scaleLink, distortion]
 
 	const fitToFrameWidth = useCallback(() => {
 		const cropW = width * (cropR - cropL) / 100
 		let fitToWPrc = frameW / cropW
 
-		if (scaleLink && rotation.freeRotateMode === 'with_bounds' && rotation.angle !== 0) {
+		if (scaleLink && freeRotateMode === 'with_bounds' && angle !== 0) {
 			const cropH = height * (cropB - cropT) / 100 * distortion
-			const rotW = calcRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'w')
+			const rotW = calcRotatedBoundingBox(cropW, cropH, degToRad(angle), 'w')
 
 			fitToWPrc *= cropW / rotW
 		}
@@ -92,9 +92,9 @@ const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, rota
 		const cropH = height * (cropB - cropT) / 100
 		let fitToHPrc = frameH / cropH
 
-		if (scaleLink && rotation.freeRotateMode === 'with_bounds' && rotation.angle !== 0) {
+		if (scaleLink && freeRotateMode === 'with_bounds' && angle !== 0) {
 			const cropW = width * (cropR - cropL) / 100 / distortion
-			const rotH = calcRotatedBoundingBox(cropW, cropH, degToRad(rotation.angle), 'h')
+			const rotH = calcRotatedBoundingBox(cropW, cropH, degToRad(angle), 'h')
 
 			fitToHPrc *= cropH / rotH
 		}
@@ -183,7 +183,6 @@ const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, rota
 const ScalePanel = props => {
 	const { isBatch, id, scaleX, scaleY, scaleLink, dispatch } = props
 	const scaleProps = { scaleX, scaleY, scaleLink }
-	const { freeRotateMode, angle } = props.rotation
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
 		() => pipe(copySettings, dispatch)(scaleProps),
@@ -196,9 +195,7 @@ const ScalePanel = props => {
 			id="scale"
 			className="editor-options auto-rows"
 			buttons={settingsMenu}>
-			<Scale
-				rotation={{ freeRotateMode, angle }}
-				{...props} />
+			<Scale {...props} />
 		</AccordionPanel>
 	)
 }
@@ -220,10 +217,8 @@ const propTypes = {
 	cropR: oneOfType([oneOf(['']), number]),
 	cropB: oneOfType([oneOf(['']), number]),
 	cropL: oneOfType([oneOf(['']), number]),
-	rotation: shape({
-		freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
-		angle: number
-	}).isRequired,
+	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
+	angle: number,
 	dispatch: func.isRequired
 }
 
