@@ -101,7 +101,7 @@ const EditorOptions = props => {
 					reflect={props.reflect}
 					freeRotateMode={props.freeRotateMode}
 					angle={props.angle}
-					center={props.rotatedCentering}
+					rotatedCentering={props.rotatedCentering}
 					showFreeRotate={arc === 'transform'}
 					{...scale}
 					{...crop}
