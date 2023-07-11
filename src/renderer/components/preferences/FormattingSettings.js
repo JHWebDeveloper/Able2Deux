@@ -4,8 +4,8 @@ import { PrefsContext } from 'store'
 
 import {
 	toggleCheckbox,
-	updateState,
-	updateEditorSettings
+	updateEditorSettings,
+	updateState
 } from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
