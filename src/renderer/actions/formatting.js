@@ -6,7 +6,7 @@ import * as STATUS from 'status'
 import {
 	addMedia,
 	updateMediaNestedState,
-	updateMediaState
+	updateMediaStateById
 } from 'actions'
 
 import {
@@ -114,7 +114,7 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 		payload: { id, timecodes }
 	})
 
-	dispatch(updateMediaState(id, { start: i }))
+	dispatch(updateMediaStateById(id, { start: i }))
 }
 
 export const addCurvePoint = (id, curveName, pointData, editAll) => ({
@@ -249,23 +249,9 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 
 // ---- RENDER --------
 
-const updateRenderStatus = (id, status) => ({
-	type: ACTION.UPDATE_MEDIA_NESTED_STATE,
-	payload: {
-		id,
-		nest: 'render',
-		properties: { status }
-	}
-})
+const updateRenderStatus = (id, renderStatus) => updateMediaStateById(id, { renderStatus })
 
-const updateRenderProgress = ({ id, percent }) => ({
-	type: ACTION.UPDATE_MEDIA_NESTED_STATE,
-	payload: {
-		id,
-		nest: 'render',
-		properties: { percent }
-	}
-})
+const updateRenderProgress = ({ id, percent: renderPercent }) => updateMediaStateById(id, { renderPercent })
 
 const renderQueue = createPromiseQueue()
 
@@ -441,7 +427,7 @@ export const render = args => async dispatch => {
 	)(media)
 
 	for (const item of media) {
-		dispatch(updateMediaState(item.id, {
+		dispatch(updateMediaStateById(item.id, {
 			exportFilename: item.filename
 		}))
 	}
@@ -465,11 +451,11 @@ export const render = args => async dispatch => {
 		.start()
 }
 
-export const cancelRender = (id, status) => async dispatch => {
-	if (status === STATUS.COMPLETE) return false
+export const cancelRender = (id, renderStatus) => async dispatch => {
+	if (renderStatus === STATUS.COMPLETE) return false
 
-	if (status === STATUS.RENDERING) return interop.cancelRender(id)
-	if (status === STATUS.PENDING) renderQueue.remove(id)
+	if (renderStatus === STATUS.RENDERING) return interop.cancelRender(id)
+	if (renderStatus === STATUS.PENDING) renderQueue.remove(id)
 
 	dispatch(updateRenderStatus(id, STATUS.CANCELLED))
 }
