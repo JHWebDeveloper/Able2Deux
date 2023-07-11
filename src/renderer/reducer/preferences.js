@@ -14,6 +14,8 @@ export const prefsReducer = (state, action) => {
 			return shared.updateState(state, payload)
 		case ACTION.TOGGLE_CHECKBOX: 
 			return shared.toggleCheckbox(state, payload)
+		case ACTION.UPDATE_EDITOR_SETTINGS:
+			return updateEditorSettings(state, payload)
 		case ACTION.UPDATE_NESTED_STATE:
 			return shared.updateNestedState(state, payload)
 		case ACTION.TOGGLE_NESTED_CHECKBOX: 
@@ -40,6 +42,14 @@ export const prefsReducer = (state, action) => {
 }
 
 // ---- "REACTIONS" --------
+
+const updateEditorSettings = (state, payload) => ({
+	...state,
+	editorSettings: {
+		...state.editorSettings,
+		...payload.properties
+	}
+})
 
 const updateSortableElementField = (state, payload) => ({
 	...state,
