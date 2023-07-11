@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from 'react'
-import { bool, exact, func, oneOf, object, number, string } from 'prop-types'
+import { bool, exact, func, oneOf, oneOfType, number, string } from 'prop-types'
 
 import {
 	applySettingsToAll,
 	copySettings,
-	updateMediaState,
-	updateMediaNestedStateFromEvent
+	updateMediaStateBySelection,
+	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
 import { createSettingsMenu, pipe } from 'utilities'
@@ -14,7 +14,7 @@ import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
 import FreeRotate from './FreeRotate'
 
-const directions = Object.freeze(['t', 'l', 'b', 'r'])
+const directions = Object.freeze(['cropT', 'cropL', 'cropB', 'cropR'])
 const transpositions = Object.freeze(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2'])
 const flip = Object.freeze(['', 'hflip', 'vflip', 'hflip,vflip'])
 
@@ -26,15 +26,15 @@ const rotateCropValues = (prev, next, crop) => {
 	if (prev === next) return crop
 	
 	const rotations = transpositions.indexOf(next) - transpositions.indexOf(prev) + 4
-	const cropVals = [crop.t, crop.l, 100 - crop.b, 100 - crop.r]
+	const cropVals = [crop.cropT, crop.cropL, 100 - crop.cropB, 100 - crop.cropR]
 
 	const rotated = directions.reduce((obj, dir, i) => {
 		obj[dir] = cropVals[(rotations + i) % 4]
 		return obj
 	}, {})
 
-	rotated.b = 100 - rotated.b
-	rotated.r = 100 - rotated.r
+	rotated.cropB = 100 - rotated.cropB
+	rotated.cropR = 100 - rotated.cropR
 
 	return rotated
 }
@@ -89,11 +89,11 @@ const freeRotateModeButtons = [
 ]
 
 const Rotation = props => {
-	const { id, rotation, scale, crop, editAll, dispatch } = props
-	const { reflect, transpose } = rotation
+	const { transpose, reflect, freeRotateMode, scaleX, scaleY, cropT, cropR, cropB, cropL, dispatch } = props
+	const crop = { cropT, cropR, cropB, cropL }
 	const isSideways = detectSideways(transpose)
 
-	const updateAngle = useCallback(e => {
+	const updateTranspose = useCallback(e => {
 		let invertedProps = {}
 
 		if (detectOrientationChange(transpose, e.target.value)) {
@@ -103,55 +103,41 @@ const Rotation = props => {
 				width: height,
 				height: width,
 				aspectRatio: aspectRatio.split(':').reverse().join(':'),
-				scale: {
-					...scale,
-					x: scale.y,
-					y: scale.x
-				}
+				scaleX: scaleY,
+				scaleY: scaleX
 			}
 		}
 
-		dispatch(updateMediaState(id, {
+		dispatch(updateMediaStateBySelection({
 			...invertedProps,
-			crop: {
-				...crop,
-				...rotateCropValues(transpose, e.target.value, crop)
-			},
-			rotation: {
-				...rotation,
-				transpose: e.target.value
-			}
-		}, editAll))
-	}, [id, rotation, scale, crop, editAll])
+			...rotateCropValues(transpose, e.target.value, crop),
+			transpose: e.target.value
+		}))
+	}, [transpose, scaleX, scaleY, crop])
 
 	const updateReflect = useCallback(e => {
 		const invertedCrop = {}
 
 		if (detectReflection(reflect, e.target.value, flip[1])) {
-			invertedCrop.l = 100 - crop.r
-			invertedCrop.r = 100 - crop.l
+			invertedCrop.cropL = 100 - crop.cropR
+			invertedCrop.cropR = 100 - crop.cropL
 		}
 
 		if (detectReflection(reflect, e.target.value, flip[2])) {
-			invertedCrop.t = 100 - crop.b
-			invertedCrop.b = 100 - crop.t
+			invertedCrop.cropT = 100 - crop.cropB
+			invertedCrop.cropB = 100 - crop.cropT
 		}
 
-		dispatch(updateMediaState(id, {
-			crop: {
-				...crop,
-				...invertedCrop
-			},
-			rotation: {
-				...rotation,
-				reflect: e.target.value
-			}
-		}, editAll))
-	}, [id, rotation, crop, editAll])
+		dispatch(updateMediaStateBySelection({
+			...crop,
+			...invertedCrop,
+			reflect: e.target.value
+		}))
+	}, [reflect, crop])
 
 	const updateOffsetMode = useCallback(e => {
-		dispatch(updateMediaNestedStateFromEvent(id, 'rotation', e, editAll))
-	}, [id, editAll])
+		dispatch(updateMediaStateBySelectionFromEvent(e))
+	}, [])
 
 	return (
 		<>
@@ -168,7 +154,7 @@ const Rotation = props => {
 				<RadioSet 
 					name="transpose"
 					state={transpose}
-					onChange={updateAngle}
+					onChange={updateTranspose}
 					buttons={transposeButtons}/>
 			</fieldset>
 			{props.showFreeRotate ? <>
@@ -176,16 +162,14 @@ const Rotation = props => {
 					<legend>Free Rotate Mode<span aria-hidden>:</span></legend>
 					<RadioSet
 						name="freeRotateMode"
-						state={rotation.freeRotateMode}
+						state={freeRotateMode}
 						onChange={updateOffsetMode}
 						buttons={freeRotateModeButtons} />
 				</fieldset>
 				<FreeRotate
-					id={id}
-					editAll={editAll}
-					angle={rotation.angle}
-					center={rotation.center}
-					disableAxis={rotation.freeRotateMode === 'with_bounds'}
+					angle={props.angle}
+					center={props.rotatedCentering}
+					disableCenter={freeRotateMode === 'with_bounds'}
 					dispatch={dispatch} />
 			</> : <></>}
 		</>
@@ -193,12 +177,13 @@ const Rotation = props => {
 }
 
 const RotationPanel = props => {
-	const { isBatch, id, rotation, dispatch } = props
+	const { isBatch, id, transpose, reflect, freeRotateMode, angle, rotatedCentering, dispatch } = props
+	const rotationProps = { transpose, reflect, freeRotateMode, angle, rotatedCentering }
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)({ rotation }),
-		() => pipe(applySettingsToAll(id), dispatch)({ rotation })
-	]), [isBatch, id, rotation])
+		() => pipe(copySettings, dispatch)(rotationProps),
+		() => pipe(applySettingsToAll(id), dispatch)(rotationProps)
+	]), [isBatch, id, rotationProps])
 
 	return (
 		<AccordionPanel
@@ -212,21 +197,21 @@ const RotationPanel = props => {
 }
 
 const propTypes = {
-	id: string.isRequired,
 	isBatch: bool.isRequired,
-	rotation: exact({
-		transpose: oneOf(transpositions),
-		reflect: oneOf(flip),
-		freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
-		angle: number,
-		center: number
-	}).isRequired,
-	scale: object.isRequired,
-	crop: object.isRequired,
+	transpose: oneOf(transpositions),
+	reflect: oneOf(flip),
+	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
+	angle: number,
+	rotatedCentering: number,
+	scaleX: oneOfType([oneOf(['']), number]),
+	scaleY: oneOfType([oneOf(['']), number]),
+	cropT: oneOfType([oneOf(['']), number]),
+	cropR: oneOfType([oneOf(['']), number]),
+	cropB: oneOfType([oneOf(['']), number]),
+	cropL: oneOfType([oneOf(['']), number]),
 	aspectRatio: string.isRequired,
 	width: number.isRequired,
 	height: number.isRequired,
-	editAll: bool.isRequired,
 	showFreeRotate: bool.isRequired,
 	dispatch: func.isRequired
 }
