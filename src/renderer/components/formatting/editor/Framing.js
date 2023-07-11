@@ -6,8 +6,8 @@ import { PrefsContext } from 'store'
 import {
 	applySettingsToAll,
 	copySettings,
-	updateMediaState,
-	updateMediaStateFromEvent
+	updateMediaStateBySelection,
+	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
 import { createSettingsMenu, pipe, rgbToHex } from 'utilities'
@@ -115,20 +115,20 @@ const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropp
 
 const Framing = props => {
 	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
-	const { id, arc, background, bgColor, overlay, eyedropper, setEyedropper, editAll, dispatch } = props
+	const { arc, background, bgColor, overlay, eyedropper, setEyedropper, dispatch } = props
 	const { active, pixelData } = eyedropper
 
 	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
 
 	const updateMediaStateDispatch = useCallback(e => {
-		dispatch(updateMediaStateFromEvent(id, e, editAll))
-	}, [id, editAll])
+		dispatch(updateMediaStateBySelectionFromEvent(e))
+	}, [])
 
 	const updateBgColor = useCallback(({ name, value }) => {
-		dispatch(updateMediaState(id, {
+		dispatch(updateMediaStateBySelection({
 			[name]: value
-		}, editAll))
-	}, [id, editAll])
+		}))
+	}, [])
 
 	const selectBgColor = useCallback(() => {
 		setEyedropper(({ active }) => ({
@@ -139,14 +139,14 @@ const Framing = props => {
 
 	useEffect(() => {
 		if (active === 'background' && pixelData) {
-			dispatch(updateMediaState(id, {
+			dispatch(updateMediaStateBySelection({
 				bgColor: rgbToHex(pixelData),
 				background: 'color'
-			}, editAll))
+			}))
 
 			setEyedropper({ active: false, pixelData: false })
 		}
-	}, [id, eyedropper, editAll])
+	}, [eyedropper])
 
 	return (
 		<>
@@ -205,11 +205,12 @@ const Framing = props => {
 
 const FramingPanel = props => {
 	const { isBatch, id, arc, background, overlay, dispatch } = props
+	const framingProps = { arc, background, overlay }
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)({ arc, background, overlay }),
-		() => pipe(applySettingsToAll(id), dispatch)({ arc, background, overlay })
-	]), [isBatch, id, arc, background, overlay])
+		() => pipe(copySettings, dispatch)(framingProps),
+		() => pipe(applySettingsToAll(id), dispatch)(framingProps)
+	]), [isBatch, id, framingProps])
 
 	return (
 		<AccordionPanel
