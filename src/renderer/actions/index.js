@@ -79,7 +79,7 @@ export const moveSortableElement = (nest, oldPos, newPos) => ({
 // ---- 3RD LEVEL STATE --------
 
 export const updateMediaStateBySelection = properties => ({
-	type: ACTION.UPDATE_MEDIA_STATE,
+	type: ACTION.UPDATE_MEDIA_STATE_BY_SELECTION,
 	payload: {
 		properties
 	}
@@ -115,7 +115,7 @@ export const toggleMediaCheckbox = (id, e) => ({
 
 // LEGACY DELETE LATER
 export const updateMediaState = (id, properties) => ({
-	type: ACTION.UPDATE_MEDIA_STATE,
+	type: ACTION.UPDATE_MEDIA_STATE_BY_SELECTION,
 	payload: {
 		properties
 	}
@@ -123,7 +123,7 @@ export const updateMediaState = (id, properties) => ({
 
 // LEGACY DELETE LATER
 export const updateMediaStateFromEvent = (id, e, editAll) => ({
-	type: ACTION.UPDATE_MEDIA_STATE,
+	type: ACTION.UPDATE_MEDIA_STATE_BY_SELECTION,
 	payload: {
 		id,
 		editAll,
