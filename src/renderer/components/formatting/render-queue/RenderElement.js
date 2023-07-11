@@ -1,26 +1,26 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
-import { func, exact, number, string } from 'prop-types'
+import { func, number, string } from 'prop-types'
 
 import { COMPLETE } from 'status'
 import { cancelRender } from 'actions'
 import { capitalize, getStatusColor } from 'utilities'
 
-const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispatch }) => {
-	const color = useMemo(() => getStatusColor(render.status), [render.status])
+const RenderElement = ({ id, mediaType, filename, exportFilename, renderStatus, renderPercent, dispatch }) => {
+	const color = useMemo(() => getStatusColor(renderStatus), [renderStatus])
 	const progress = useRef(null)
-	const title = capitalize(render.status)
+	const title = capitalize(renderStatus)
 
 	const cancelCurrentRender = useCallback(() => {
-		dispatch(cancelRender(id, render.status))
-	}, [id, render.status])
+		dispatch(cancelRender(id, renderStatus))
+	}, [id, renderStatus])
 
 	useEffect(() => {
-		if (mediaType !== 'image' && render.percent > 0 && render.percent < 101) {
-			progress.current.value = render.percent / 100
+		if (mediaType !== 'image' && renderPercent > 0 && renderPercent < 101) {
+			progress.current.value = renderPercent / 100
 		}
 
-		if (render.status === COMPLETE) progress.current.value = 1
-	}, [render])
+		if (renderStatus === COMPLETE) progress.current.value = 1
+	}, [renderPercent, renderStatus])
 	
 	return (
 		<div className="media-element">
@@ -33,7 +33,7 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispat
 				<span></span>
 				<progress
 					ref={progress}
-					data-status={render.status}></progress>
+					data-status={renderStatus}></progress>
 			</span>
 			<button
 				type="button"
@@ -41,7 +41,7 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, render, dispat
 				title="Cancel Render"
 				aria-label="Cancel Render"
 				onClick={cancelCurrentRender}
-				disabled={render.status === COMPLETE}>close</button>
+				disabled={renderStatus === COMPLETE}>close</button>
 		</div>
 	)
 }
@@ -51,10 +51,8 @@ RenderElement.propTypes = {
 	mediaType: string.isRequired,
 	filename: string.isRequired,
 	exportFilename: string,
-	render: exact({
-		status: string,
-		percent: number
-	}).isRequired,
+	renderStatus: string,
+	renderPercent: number,
 	dispatch: func.isRequired
 }
 
