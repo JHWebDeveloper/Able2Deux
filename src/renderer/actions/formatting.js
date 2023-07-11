@@ -260,11 +260,10 @@ const fillMissingFilenames = media => media.map(item => ({
 	filename: item.filename || 'Able2 Export $t $d'
 }))
 
-const getBatchNamer = batch => {
-	const batchName = batch.name.trim()
-	const prepareBatchName = filename => batchName.replace(/(?<!\\)\$f/g, filename.trim())
+const getBatchNamer = (batchName, batchNameType) => {
+	const prepareBatchName = filename => batchName.trim().replace(/(?<!\\)\$f/g, filename.trim())
 
-	switch (batch.position) {
+	switch (batchNameType) {
 		case 'replace':
 			return prepareBatchName
 		case 'prepend':
@@ -276,10 +275,10 @@ const getBatchNamer = batch => {
 	}
 }
 
-const applyBatchName = (media, batch) => {
-	if (media.length < 2 || !batch.name) return media
+const applyBatchName = (media, batchName, batchNameType) => {
+	if (media.length < 2 || !batchName) return media
 
-	const batchNamer = getBatchNamer(batch)
+	const batchNamer = getBatchNamer(batchName, batchNameType)
 
 	return media.map(item => ({
 		...item,
@@ -379,7 +378,7 @@ const renderItem = (args, dispatch) => {
 }
 
 export const render = args => async dispatch => {
-	const { batch, goBack, removeLocation } = args
+	const { batchName, batchNameType, goBack, removeLocation } = args
 	let { media, saveLocations } = args
 
 	saveLocations = saveLocations.filter(({ hidden, checked }) => !hidden && checked)
@@ -421,7 +420,7 @@ export const render = args => async dispatch => {
 
 	media = pipe(
 		fillMissingFilenames,
-		val => applyBatchName(val, batch),
+		val => applyBatchName(val, batchName, batchNameType),
 		val => sanitizeFilenames(val, args.asperaSafe),
 		preventDuplicateFilenames
 	)(media)
