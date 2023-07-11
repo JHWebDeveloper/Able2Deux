@@ -1,37 +1,37 @@
 import React, { useCallback } from 'react'
 import { bool, func, number, string } from 'prop-types'
 
-import { updateMediaNestedState } from 'actions'
+import { updateMediaStateBySelection } from 'actions'
 
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
-const FreeRotate = ({ id, editAll, angle, center, disableAxis, dispatch }) => {
-	const updateFreeRotate = useCallback(({ value }) => {
-		dispatch(updateMediaNestedState(id, 'rotation', {
+const FreeRotate = ({ angle, center, disableCenter, dispatch }) => {
+	const updateAngle = useCallback(({ value }) => {
+		dispatch(updateMediaStateBySelection({
 			angle: value
-		}, editAll))
-	}, [id, editAll])
+		}))
+	}, [])
 
-	const updateAxis = useCallback(({ value }) => {
-		dispatch(updateMediaNestedState(id, 'rotation', {
-			center: value
-		}, editAll))
-	}, [id, editAll])
+	const updateCentering= useCallback(({ value }) => {
+		dispatch(updateMediaStateBySelection({
+			rotatedCentering: value
+		}))
+	}, [])
 
 	const angleProps = {
 		value: angle,
 		min: -180,
 		max: 180,
-		onChange: updateFreeRotate
+		onChange: updateAngle
 	}
 
 	const centerProps = {
 		value: center,
 		min: -100,
 		max: 100,
-		disabled: disableAxis,
-		onChange: updateAxis
+		disabled: disableCenter,
+		onChange: updateCentering
 	}
 
 	return (
@@ -41,7 +41,7 @@ const FreeRotate = ({ id, editAll, angle, center, disableAxis, dispatch }) => {
 				<SliderSingle {...angleProps} snapPoints={[-90, 0, 90]} />
 				<NumberInput {...angleProps} />
 			</div>
-			<div className={disableAxis ? 'disabled' : ''}>
+			<div className={disableCenter ? 'disabled' : ''}>
 				<label>Centering</label>
 				<SliderSingle {...centerProps} snapPoints={[0]} />
 				<NumberInput {...centerProps} />
@@ -51,11 +51,9 @@ const FreeRotate = ({ id, editAll, angle, center, disableAxis, dispatch }) => {
 }
 
 FreeRotate.propTypes = {
-	id: string.isRequired,
-	editAll: bool.isRequired,
 	angle: number.isRequired,
 	center: number.isRequired,
-	disableAxis: bool.isRequired,
+	disableCenter: bool.isRequired,
 	dispatch: func.isRequired
 }
 
