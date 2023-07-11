@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router'
-import { arrayOf, func, object } from 'prop-types'
+import { arrayOf, func, object, oneOf, string } from 'prop-types'
 import toastr from 'toastr'
 
 import { PrefsContext } from 'store'
@@ -30,7 +30,7 @@ const startOverMessage = 'Start Over?'
 const startOverDetail = 'All entries will be cleared and media deleted. This cannot be undone. Proceed?'
 
 const RenderQueue = props => {
-	const { media, batch, saveLocations, closeRenderQueue, dispatch } = props
+	const { media, batchName, batchNameType, saveLocations, closeRenderQueue, dispatch } = props
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const navigate = useNavigate()
 	const backOrCancelBtn = useRef(null)
@@ -97,7 +97,8 @@ const RenderQueue = props => {
 
 		pipeAsync(render, dispatch)({
 			media,
-			batch,
+			batchName,
+			batchNameType,
 			saveLocations,
 			renderOutput,
 			renderFrameRate,
@@ -171,7 +172,8 @@ const RenderQueue = props => {
 
 RenderQueue.propTypes = {
 	media: arrayOf(object).isRequired,
-	batch: object.isRequired,
+	batchName: string,
+	batchNameType: oneOf(['replace', 'prepend', 'append']),
 	saveLocations: arrayOf(object).isRequired,
 	closeRenderQueue: func.isRequired,
 	dispatch: func.isRequired
