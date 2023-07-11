@@ -4,8 +4,8 @@ import { PrefsContext } from 'store'
 
 import {
 	toggleCheckbox,
-	updateNestedStateFromEvent,
-	updateState
+	updateState,
+	updateEditorSettings
 } from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
@@ -60,7 +60,7 @@ const FormattingSettings = () => {
 	}, [])
 
 	const updateEditorSettingsDispatch = useCallback(e => {
-		dispatch(updateNestedStateFromEvent('editorSettings', e))
+		dispatch(updateEditorSettings(e))
 	}, [])
 
 	return (
