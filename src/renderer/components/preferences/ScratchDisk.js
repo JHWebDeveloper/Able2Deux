@@ -1,20 +1,20 @@
 import React, { useCallback } from 'react'
 import { exact, func, string } from 'prop-types'
 
-import { updateNestedState } from 'actions'
+import { updateScratchDisk } from 'actions'
 
 import DirectorySelector from '../form_elements/DirectorySelector'
 
 const ScratchDisk = ({ scratchDisk, dispatch }) => {
-	const updateScratchDisk = useCallback(property => value => {
-		dispatch(updateNestedState('scratchDisk', {
+	const dispatchUpdateScratchDisk = useCallback(property => value => {
+		dispatch(updateScratchDisk({
 			[property]: value
 		}))
 	}, [])
 
-	const updateImports = useCallback(updateScratchDisk('imports'), [])
-	const updateExports = useCallback(updateScratchDisk('exports'), [])
-	const updatePreview = useCallback(updateScratchDisk('previews'), [])
+	const updateImports = useCallback(dispatchUpdateScratchDisk('imports'), [])
+	const updateExports = useCallback(dispatchUpdateScratchDisk('exports'), [])
+	const updatePreview = useCallback(dispatchUpdateScratchDisk('previews'), [])
 
 	return (
 		<fieldset>
