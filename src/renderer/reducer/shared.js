@@ -8,26 +8,6 @@ export const toggleCheckbox = (state, payload) => ({
 	[payload.property]: !state[payload.property]
 })
 
-export const updateNestedState = (state, payload) => ({
-	...state,
-	[payload.nest]: {
-		...state[payload.nest],
-		...payload.properties
-	}
-})
-
-export const toggleNestedCheckbox = (state, payload) => {
-	const { nest, property } = payload
-
-	return {
-		...state,
-		[nest]: {
-			...state[nest],
-			[property]: !state[nest][property]
-		}
-	}
-}
-
 export const toggleSortableElementCheckbox = (state, payload) => {
 	const { property = 'checked' } = payload
 

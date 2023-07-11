@@ -27,32 +27,6 @@ export const toggleCheckbox = e => ({
 
 // ---- 2ND LEVEL STATE --------
 
-export const updateNestedState = (nest, properties) => ({
-	type: ACTION.UPDATE_NESTED_STATE,
-	payload: {
-		nest,
-		properties
-	}
-})
-
-export const updateNestedStateFromEvent = (nest, e) => ({
-	type: ACTION.UPDATE_NESTED_STATE,
-	payload: {
-		nest,
-		properties: {
-			[e.target.name]: e.target.value
-		}
-	}
-})
-
-export const toggleNestedCheckbox = (nest, e) => ({
-	type: ACTION.TOGGLE_NESTED_CHECKBOX,
-	payload: {
-		nest,
-		property: e.target.name
-	}
-})
-
 export const addNewSortableElement = (nest, element, index, e) => dispatch => {
 	const pos = e.shiftKey ? 1 : 0
 

@@ -20,10 +20,6 @@ export const prefsReducer = (state, action) => {
 			return toggleWarning(state, payload)
 		case ACTION.UPDATE_EDITOR_SETTINGS:
 			return updateEditorSettings(state, payload)
-		case ACTION.UPDATE_NESTED_STATE:
-			return shared.updateNestedState(state, payload)
-		case ACTION.TOGGLE_NESTED_CHECKBOX: 
-			return shared.toggleNestedCheckbox(state, payload)
 		case ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX:
 			return shared.toggleSortableElementCheckbox(state, payload)
 		case ACTION.UPDATE_SORTABLE_ELEMENT_FIELD:
