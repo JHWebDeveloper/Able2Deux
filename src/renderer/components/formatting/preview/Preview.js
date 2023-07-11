@@ -103,33 +103,7 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 			previewSize,
 			requestId
 		})
-	}, [
-		arc,
-		background,
-		isAudio,
-		isBars,
-		previewSize,
-		renderOutput,
-		sourceName,
-		sourcePrefix,
-		sourceOnTop,
-		focused.rotation,
-		focused.bgColor,
-		focused.centering,
-		focused.colorCurves,
-		focused.cropT,
-		focused.cropR,
-		focused.cropB,
-		focused.cropL,
-		focused.id,
-		focused.keying,
-		focused.overlay,
-		focused.positionX,
-		focused.positionY,
-		focused.scaleX,
-		focused.scaleY,
-		focused.timecode
-	])
+	}, [focused, previewSize, renderOutput])
 	
 	return (
 		<>
