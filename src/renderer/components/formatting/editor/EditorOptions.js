@@ -85,7 +85,8 @@ const EditorOptions = props => {
 						{...common} />
 					<Scale
 						scaleLink={props.scaleLink}
-						rotation={props.rotation}
+						freeRotateMode={props.freeRotateMode}
+						angle={props.angle}
 						{...scale}
 						{...crop}
 						{...common} />
@@ -95,12 +96,16 @@ const EditorOptions = props => {
 						{...crop}
 						{...common} />
 				</> : <></>}
-				{/* <Rotation
-					rotation={props.rotation}
+				<Rotation
+					transpose={props.transpose}
+					reflect={props.reflect}
+					freeRotateMode={props.freeRotateMode}
+					angle={props.angle}
+					center={props.rotatedCentering}
 					showFreeRotate={arc === 'transform'}
 					{...scale}
 					{...crop}
-					{...common} /> */}
+					{...common} />
 				{arc === 'none' ? <></> : (
 					<Keying
 						keying={props.keying}
@@ -147,9 +152,20 @@ EditorOptions.propTypes = {
 	sourceOnTop: bool,
 	centering: oneOfType([oneOf(['']), number]),
 	position: object,
-	scale: object,
-	crop: object,
-	rotation: object,
+	scaleX: oneOfType([oneOf(['']), number]),
+	scaleY: oneOfType([oneOf(['']), number]),
+	scaleLink: bool,
+	cropT: oneOfType([oneOf(['']), number]),
+	cropR: oneOfType([oneOf(['']), number]),
+	cropB: oneOfType([oneOf(['']), number]),
+	cropL: oneOfType([oneOf(['']), number]),
+	cropLinkTB: bool,
+	cropLinkLR: bool,
+	transpose: oneOf(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2']),
+	reflect: oneOf(['', 'hflip', 'vflip', 'hflip,vflip']),
+	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
+	angle: number,
+	center: number,
 	keying: object,
 	colorCurves: object,
 	eyedropper: object.isRequired,
