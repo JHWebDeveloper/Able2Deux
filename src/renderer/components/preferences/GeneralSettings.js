@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react'
 
 import { PrefsContext } from 'store'
 
-import { updateStateFromEvent, toggleNestedCheckbox } from 'actions'
+import { updateStateFromEvent, toggleWarning } from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
 import ScratchDisk from './ScratchDisk'
@@ -27,8 +27,8 @@ const GeneralSettings = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
 	const { warnings } = preferences
 
-	const toggleWarning = useCallback(e => {
-		dispatch(toggleNestedCheckbox('warnings', e))
+	const dispatchToggleWarning = useCallback(e => {
+		dispatch(toggleWarning(e))
 	}, [])
 
 	return (
@@ -51,7 +51,7 @@ const GeneralSettings = () => {
 						label="Remove Media"
 						name="remove"
 						checked={warnings.remove}
-						onChange={toggleWarning}
+						onChange={dispatchToggleWarning}
 						switchIcon />
 				</span>
 				<span className="input-option">
@@ -59,7 +59,7 @@ const GeneralSettings = () => {
 						label="Remove Referenced Media"
 						name="removeReferenced"
 						checked={warnings.removeReferenced}
-						onChange={toggleWarning}
+						onChange={dispatchToggleWarning}
 						switchIcon />
 				</span>
 				<span className="input-option">
@@ -67,7 +67,7 @@ const GeneralSettings = () => {
 						label="Remove All Media"
 						name="removeAll"
 						checked={warnings.removeAll}
-						onChange={toggleWarning}
+						onChange={dispatchToggleWarning}
 						switchIcon />
 				</span>
 				<span className="input-option">
@@ -75,7 +75,7 @@ const GeneralSettings = () => {
 						label="Apply to All"
 						name="applyToAll"
 						checked={warnings.applyToAll}
-						onChange={toggleWarning}
+						onChange={dispatchToggleWarning}
 						switchIcon />
 				</span>
 				<span className="input-option">
@@ -83,7 +83,7 @@ const GeneralSettings = () => {
 						label="Source on Top"
 						name="sourceOnTop"
 						checked={warnings.sourceOnTop}
-						onChange={toggleWarning}
+						onChange={dispatchToggleWarning}
 						switchIcon />
 				</span>
 				<span className="input-option">
@@ -91,7 +91,7 @@ const GeneralSettings = () => {
 						label="Start Over"
 						name="startOver"
 						checked={warnings.startOver}
-						onChange={toggleWarning}
+						onChange={dispatchToggleWarning}
 						switchIcon />
 				</span>
 			</fieldset>
