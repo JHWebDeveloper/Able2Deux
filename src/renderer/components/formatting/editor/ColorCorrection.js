@@ -14,7 +14,12 @@ import {
 	updateMediaStateByIdFromEvent
 } from 'actions'
 
-import { createColorCurvesCopier, createSettingsMenu, pipe } from 'utilities'
+import {
+	createColorCurvesCopier,
+	createSettingsMenu,
+	extractColorCorrectionProps,
+	pipe
+} from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import Checkbox from '../../form_elements/Checkbox'
@@ -131,7 +136,7 @@ const ColorCorrection = props => {
 	) : [], [ccSelectedCurve, ccR, ccG, ccB])
 
 	// ---- White Balance Slider ----
-	
+
 	const blackPt = useMemo(() => props[ccSelectedCurve][0], [ccSelectedCurve, ccRGB, ccR, ccG, ccB])
 	const whitePt = useMemo(() => props[ccSelectedCurve].at(-1), [ccSelectedCurve, ccRGB, ccR, ccG, ccB])
 
@@ -268,10 +273,10 @@ const ColorCorrection = props => {
 const ColorCorrectionPanel = props => {
 	const { isBatch, id, dispatch } = props
 
-	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(createColorCurvesCopier, copySettings, dispatch)({}),
-		() => pipe(createColorCurvesCopier, applySettingsToAll(id), dispatch)({})
-	]), [isBatch, id])
+	const settingsMenu = createSettingsMenu(isBatch, [
+		() => pipe(extractColorCorrectionProps, createColorCurvesCopier, copySettings, dispatch)(props),
+		() => pipe(extractColorCorrectionProps, createColorCurvesCopier, applySettingsToAll(id), dispatch)(props)
+	])
 
 	return ( 
 		<AccordionPanel
