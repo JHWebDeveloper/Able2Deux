@@ -14,6 +14,7 @@ import {
 	calcRotatedBoundingBox,
 	createSettingsMenu,
 	degToRad,
+	extractScaleProps,
 	pipe
 } from 'utilities'
 
@@ -181,13 +182,12 @@ const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, free
 }
 
 const ScalePanel = props => {
-	const { isBatch, id, scaleX, scaleY, scaleLink, dispatch } = props
-	const scaleProps = { scaleX, scaleY, scaleLink }
+	const { isBatch, id, dispatch } = props
 
-	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)(scaleProps),
-		() => pipe(applySettingsToAll(id), dispatch)(scaleProps)
-	]), [isBatch, id, scaleProps])
+	const settingsMenu = createSettingsMenu(isBatch, [
+		() => pipe(extractScaleProps, copySettings, dispatch)(props),
+		() => pipe(extractScaleProps, applySettingsToAll(id), dispatch)(props)
+	])
 
 	return (
 		<AccordionPanel
