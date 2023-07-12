@@ -21,8 +21,6 @@ export const createColorCurvesCopier = ({ colorCurves }) => () => ({
 	colorCurves: copyCurveSet(colorCurves)
 })
 
-export const sortCurvePoints = (a, b) => a.x - b.x
-
 // ---- ZERO PADDERS --------
 
 export const zeroize = (n, zeroes = 2) => n
