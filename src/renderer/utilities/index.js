@@ -40,26 +40,26 @@ export const arrayCount = (arr, exp) => {
 }
 
 export const findNearestIndex = (arr, startIndex, condition, fallback = -1) => {
-  const len = arr.length - 1
+	const len = arr.length - 1
 	let next = startIndex
 	let prev = startIndex
 
-  while (next < len && prev) {
-    next++
-    if (condition(arr[next])) return next
-    prev--
-    if (condition(arr[prev])) return prev
-  }
+	while (next < len && prev) {
+		next++
+		if (condition(arr[next])) return next
+		prev--
+		if (condition(arr[prev])) return prev
+	}
 
-  while (next++ < len) {
-    if (condition(arr[next])) return next
-  }
+	while (next++ < len) {
+		if (condition(arr[next])) return next
+	}
 
-  while (prev--) {
-    if (condition(arr[prev])) return prev
-  }
+	while (prev--) {
+		if (condition(arr[prev])) return prev
+	}
 
-  return fallback
+	return fallback
 }
 
 export const group = (arr, groupKey) => Object.values(arr.reduce((acc, obj) => {

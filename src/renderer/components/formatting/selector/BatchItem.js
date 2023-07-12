@@ -133,7 +133,7 @@ const BatchItem = props => {
 		}
 	}, triggers)
 
-	const selectMediaDispatch= useCallback(e => {
+	const selectMediaDispatch = useCallback(e => {
 		dispatch(selectMedia(index, e, { focused, anchored, selected }))
 	}, [index, focused, anchored, selected])
 
@@ -169,12 +169,14 @@ const BatchItem = props => {
 BatchItem.propTypes = {
 	id: string.isRequired,
 	refId: string.isRequired,
+	focused: bool.isRequired,
+	anchored: bool.isRequired,
+	isFirst: bool.isRequired,
+	isLast: bool.isRequired,
 	title: string.isRequired,
 	tempFilePath: string.isRequired,
 	index: number.isRequired,
 	focused: bool.isRequired,
-	prevId: string.isRequired,
-	nextId: string.isRequired,
 	copyAllSettings: func.isRequired,
 	applyToAllWarning: func.isRequired,
 	removeMediaWarning: func.isRequired,

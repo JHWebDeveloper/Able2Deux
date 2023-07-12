@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
+import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	applySettingsToAll,

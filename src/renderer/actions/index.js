@@ -59,11 +59,9 @@ export const updateMediaStateBySelection = properties => ({
 	}
 })
 
-export const updateMediaStateBySelectionFromEvent = e => (
-	updateMediaStateBySelection({
-		[e.target.name]: e.target.value
-	})
-)
+export const updateMediaStateBySelectionFromEvent = e => updateMediaStateBySelection({
+	[e.target.name]: e.target.value
+})
 
 export const updateMediaStateById = (id, properties) => ({
 	type: ACTION.UPDATE_MEDIA_STATE_BY_ID,
@@ -73,11 +71,9 @@ export const updateMediaStateById = (id, properties) => ({
 	}
 })
 
-export const updateMediaStateByIdFromEvent = (id, e) => (
-	updateMediaStateById(id, {
-		[e.target.name]: e.target.value
-	})
-)
+export const updateMediaStateByIdFromEvent = (id, e) => updateMediaStateById(id, {
+	[e.target.name]: e.target.value
+})
 
 export const toggleMediaCheckbox = (id, e) => ({
 	type: ACTION.TOGGLE_MEDIA_CHECKBOX,

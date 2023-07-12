@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import { arrayOf, bool, func, object } from 'prop-types'
+import { arrayOf, func, object } from 'prop-types'
 
 import { PrefsContext } from 'store'
 

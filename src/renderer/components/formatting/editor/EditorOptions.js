@@ -180,7 +180,7 @@ EditorOptions.propTypes = {
 	reflect: oneOf(['', 'hflip', 'vflip', 'hflip,vflip']),
 	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
 	angle: number,
-	center: number,
+	rotatedCentering: number,
 	keyingBlend: number,
 	keyingColor: string,
 	keyingEnabled: bool,

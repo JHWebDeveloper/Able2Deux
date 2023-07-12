@@ -98,10 +98,10 @@ const toggleMediaCheckbox = (state, payload) => {
 
 	return {
 		...state,
-		media: state.media.map(item => item.selected ? ({
+		media: state.media.map(item => item.selected ? {
 			...item,
 			[property]: invertedValue
-		}) : item)
+		} : item)
 	}
 }
 

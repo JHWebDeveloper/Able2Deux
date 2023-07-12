@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { bool, func, number, string } from 'prop-types'
+import { bool, func, number } from 'prop-types'
 
 import { updateMediaStateBySelection } from 'actions'
 
@@ -13,7 +13,7 @@ const FreeRotate = ({ angle, center, disableCenter, dispatch }) => {
 		}))
 	}, [])
 
-	const updateCentering= useCallback(({ value }) => {
+	const updateCentering = useCallback(({ value }) => {
 		dispatch(updateMediaStateBySelection({
 			rotatedCentering: value
 		}))

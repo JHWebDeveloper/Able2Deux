@@ -131,7 +131,7 @@ export const addOrUpdateCurvePoint = (id, curveName, pointData) => ({
 	payload: {
 		id,
 		curveName,
-		pointData,
+		pointData
 	}
 })
 

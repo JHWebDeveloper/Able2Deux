@@ -1,40 +1,40 @@
 import { findNearestIndex } from 'utilities'
 
 const onShiftClick = (media, { clickedIndex }) => {
-  const focusedIndex = media.findIndex(({ focused }) => focused)
-  const anchoredIndex = media.findIndex(({ anchored }) => anchored)
+	const focusedIndex = media.findIndex(({ focused }) => focused)
+	const anchoredIndex = media.findIndex(({ anchored }) => anchored)
 
-  let start = Math.min(focusedIndex, anchoredIndex)
-  let end = Math.max(focusedIndex, anchoredIndex)
+	let start = Math.min(focusedIndex, anchoredIndex)
+	let end = Math.max(focusedIndex, anchoredIndex)
 
-  media = media.map((item, i) => i >= start && i <= end ? {
-    ...item,
-    focused: false,
-    selected: false
-  } : item)
+	media = media.map((item, i) => i >= start && i <= end ? {
+		...item,
+		focused: false,
+		selected: false
+	} : item)
 
-  start = Math.min(clickedIndex, anchoredIndex)
-  end = Math.max(clickedIndex, anchoredIndex)
+	start = Math.min(clickedIndex, anchoredIndex)
+	end = Math.max(clickedIndex, anchoredIndex)
 
-  return media.map((item, i) => i === clickedIndex ? {
-    ...item,
-    focused: true,
-    selected: true
-  } : i >= start && i <= end ? {
-    ...item,
-    focused: false,
-    selected: true
-  } : item)
+	return media.map((item, i) => i === clickedIndex ? {
+		...item,
+		focused: true,
+		selected: true
+	} : i >= start && i <= end ? {
+		...item,
+		focused: false,
+		selected: true
+	} : item)
 }
 
 const onCtrlClick = (media, { clickedIndex, clickedInFocus, clickedIsAnchored, clickedInSelection }) => {
-  let nearestSelectedIndex = 0
+	let nearestSelectedIndex = 0
 
-  if (clickedInFocus || clickedIsAnchored) {
-    nearestSelectedIndex = findNearestIndex(media, clickedIndex, ({ selected }) => selected, 0)
-  }
+	if (clickedInFocus || clickedIsAnchored) {
+		nearestSelectedIndex = findNearestIndex(media, clickedIndex, ({ selected }) => selected, 0)
+	}
 
-  if (clickedInFocus) {
+	if (clickedInFocus) {
 		return media.map((item, i) => i === nearestSelectedIndex ? {
 			...item,
 			focused: true,
@@ -58,7 +58,7 @@ const onCtrlClick = (media, { clickedIndex, clickedInFocus, clickedIsAnchored, c
 			selected: false
 		} : item)
 	} else {
-    return media.map((item, i) => {
+		return media.map((item, i) => {
 			const focused = i === clickedIndex
 
 			return {
@@ -67,13 +67,13 @@ const onCtrlClick = (media, { clickedIndex, clickedInFocus, clickedIsAnchored, c
 				selected: focused || item.selected
 			}
 		})
-  }
+	}
 }
 
 const onClick = (media, { clickedIndex, clickedInFocus, clickedInSelection }) => {
-  if (clickedInFocus) {
-    return [...media]
-  } else if (clickedInSelection) {
+	if (clickedInFocus) {
+		return [...media]
+	} else if (clickedInSelection) {
 		return media.map((item, i) => {
 			const focused = i === clickedIndex
 
@@ -82,7 +82,7 @@ const onClick = (media, { clickedIndex, clickedInFocus, clickedInSelection }) =>
 				focused,
 				anchored: focused
 			}
-    })
+		})
 	} else {
 		return media.map((item, i) => {
 			const focused = i === clickedIndex
@@ -101,39 +101,39 @@ export const selectMedia = (state, payload) => {
 	const { ctrlOrCmd, shift } = payload
 	let media = []
 
-  if (ctrlOrCmd) {
+	if (ctrlOrCmd) {
 		media = onCtrlClick(state.media, payload)
 	} else if (shift) {
 		media = onShiftClick(state.media, payload)
 	} else {
-    media = onClick(state.media, payload)
+		media = onClick(state.media, payload)
 	}
 	
 	return { ...state, media }
 }
 
 export const selectAllMedia = state => ({
-  ...state,
-  media: state.media.map(item => item.focused ? {
-    ...item,
-    anchored: true
-  } : {
-    ...item,
-    anchored: false,
-    selected: true
-  })
+	...state,
+	media: state.media.map(item => item.focused ? {
+		...item,
+		anchored: true
+	} : {
+		...item,
+		anchored: false,
+		selected: true
+	})
 })
 
 export const deselectAllMedia = state => ({
-  ...state,
-  media: state.media.map(item => item.focused ? {
-    ...item,
-    anchored: true
-  } : {
-    ...item,
-    anchored: false,
-    selected: false
-  })
+	...state,
+	media: state.media.map(item => item.focused ? {
+		...item,
+		anchored: true
+	} : {
+		...item,
+		anchored: false,
+		selected: false
+	})
 })
 
 export const removeMedia = (state, payload) => {

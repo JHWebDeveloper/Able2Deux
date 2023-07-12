@@ -119,7 +119,7 @@ const defaultMediaData = {
 	ccRGB: createDefaultCurvePoints(),
 	ccR: createDefaultCurvePoints(),
 	ccG: createDefaultCurvePoints(),
-	ccB: createDefaultCurvePoints(),
+	ccB: createDefaultCurvePoints()
 }
 
 export const createMediaData = async params => {

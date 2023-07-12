@@ -303,7 +303,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				t: exportData.cropT,
 				r: exportData.cropR,
 				b: exportData.cropB,
-				l: exportData.cropL,
+				l: exportData.cropL
 			},
 			rotation: {
 				transpose: exportData.transpose,

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { bool, exact, func, oneOf, oneOfType, number, string } from 'prop-types'
+import { bool, func, oneOf, oneOfType, number, string } from 'prop-types'
 
 import {
 	applySettingsToAll,
@@ -197,6 +197,7 @@ const RotationPanel = props => {
 }
 
 const propTypes = {
+	id: string,
 	isBatch: bool.isRequired,
 	transpose: oneOf(transpositions),
 	reflect: oneOf(flip),

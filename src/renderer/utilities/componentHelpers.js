@@ -54,7 +54,7 @@ export const replaceIds = (() => {
 	
 		const entries = Object.entries(obj)
 	
-		for (const [ key, val ] of entries)  {
+		for (const [ key, val ] of entries) {
 			if (Array.isArray(val)) obj[key] = val.map(_replaceIds)
 		}
 	
