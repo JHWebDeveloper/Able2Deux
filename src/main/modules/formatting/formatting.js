@@ -312,7 +312,17 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				angle: exportData.angle,
 				center: exportData.rotatedCentering
 			},
-			keying: exportData.keying,
+			keying: {
+				blend: exportData.keyingBlend,
+				color: exportData.keyingColor,
+				enabled: exportData.keyingEnabled,
+				hidden: exportData.keyingHidden,
+				similarity: exportData.keyingSimilarity,
+				softness: exportData.keyingSoftness,
+				threshold: exportData.keyingThreshold,
+				tolerance: exportData.keyingTolerance,
+				type: exportData.keyingType
+			},
 			colorCurves: exportData.colorCurves
 		}))
 	} else if (audioExportFormat === 'bars') {
