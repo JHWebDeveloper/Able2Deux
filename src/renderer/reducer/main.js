@@ -1,5 +1,3 @@
-import { v1 as uuid } from 'uuid'
-
 import * as ACTION from 'actions/types'
 import * as STATUS from 'status'
 import * as shared from 'reducer/shared'
@@ -105,20 +103,19 @@ const toggleMediaCheckbox = (state, payload) => {
 	}
 }
 
-const getDuplicateProps = () => ({
+const unselectedProps = {
 	focused: false,
 	anchored: false,
 	selected: false,
-	id: uuid()
-})
+}
 
 const duplicateMedia = (state, payload) => {
 	const { index } = payload
 	const media = [...state.media]
 
 	media.splice(index, 0, {
-		...state.media[index],
-		...getDuplicateProps()
+		...replaceIds(state.media[index]),
+		...unselectedProps
 	})
 
 	return { ...state, media }
@@ -133,8 +130,8 @@ const duplicateSelectedMedia = state => {
 		if (!originalMedia.selected) continue
 
 		media.splice(i++, 0, {
-			...originalMedia,
-			...getDuplicateProps()
+			...replaceIds(originalMedia),
+			...unselectedProps
 		})
 	}
 
@@ -151,9 +148,9 @@ const splitMedia = (state, payload) => {
 		const insertAt = index + i
 
 		media.splice(insertAt, 0, {
-			...media[insertAt],
+			...replaceIds(media[insertAt]),
 			...timecodes[i],
-			...getDuplicateProps()
+			...unselectedProps
 		})
 	}
 
@@ -172,7 +169,7 @@ const pasteSettings = (state, payload) => {
 		...state,
 		media: state.media.map(item => item.id === payload.id ? {
 			...item,
-			...copiedSettings
+			...replaceIds(copiedSettings)
 		} : item)
 	}
 }
@@ -184,7 +181,7 @@ const applyToAll = (state, payload) => {
 		...state,
 		media: state.media.map(item => item.id !== id ? {
 			...item,
-			...properties
+			...replaceIds(properties)
 		} : item)
 	}
 }
