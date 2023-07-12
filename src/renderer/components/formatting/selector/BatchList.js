@@ -13,8 +13,7 @@ import {
 
 import {
 	arrayCount,
-	copyCurveSet,
-	objectPick,
+	extractCopyPasteSettings,
 	pipe,
 	warn
 } from 'utilities'
@@ -26,26 +25,12 @@ const applyToAllMessage = 'Apply current settings to all media items?'
 const applyToAllDetail = 'This will overwrite the settings of all other media items in the batch except for filenames and start and end timecodes. This cannot be undone. Proceed?'
 const removeMediaDetail = 'This cannot be undone. Proceed?'
 
-export const extractSettingsToCopy = (() => {
-	const keys = ['arc', 'background', 'overlay', 'source', 'centering', 'position', 'scale', 'crop', 'rotation', 'keying', 'colorCurves', 'audio']
-
-	return ({ ...settings }) => {
-		const isAudio = settings.mediaType === 'audio' || settings.audio.exportAs === 'audio'
-
-		if (!isAudio) {
-			settings.colorCurves = copyCurveSet(settings.colorCurves)
-		}
-
-		return objectPick(settings, isAudio ? keys.slice(-1) : keys)
-	}
-})()
-
 const BatchList = ({ media, dispatch }) => {
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const warnings = preferences
 
 	const copyAllSettings = useCallback(id => {
-		pipe(extractSettingsToCopy, copySettings, dispatch)(media.find(item => item.id === id))
+		pipe(extractCopyPasteSettings, copySettings, dispatch)(media.find(item => item.id === id))
 	}, [media])
 
 	const applyToAllWarning = useCallback(id => warn({
@@ -53,7 +38,7 @@ const BatchList = ({ media, dispatch }) => {
 		detail: applyToAllDetail,
 		enabled: warnings.applyToAll,
 		callback() {
-			pipe(extractSettingsToCopy, applySettingsToAll(id), dispatch)(media.find(item => item.id === id))
+			pipe(extractCopyPasteSettings, applySettingsToAll(id), dispatch)(media.find(item => item.id === id))
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('applyToAll'))
