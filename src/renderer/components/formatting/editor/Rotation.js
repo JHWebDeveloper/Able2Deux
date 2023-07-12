@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { bool, func, oneOf, oneOfType, number, string } from 'prop-types'
 
 import {
@@ -180,10 +180,10 @@ const RotationPanel = props => {
 	const { isBatch, id, transpose, reflect, freeRotateMode, angle, rotatedCentering, dispatch } = props
 	const rotationProps = { transpose, reflect, freeRotateMode, angle, rotatedCentering }
 
-	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(isBatch, [
 		() => pipe(copySettings, dispatch)(rotationProps),
 		() => pipe(applySettingsToAll(id), dispatch)(rotationProps)
-	]), [isBatch, id, rotationProps])
+	])
 
 	return (
 		<AccordionPanel

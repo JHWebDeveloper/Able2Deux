@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { bool, func, oneOf, string } from 'prop-types'
 
 import {
@@ -76,10 +76,10 @@ const Audio = ({ mediaType, audioVideoTracks, audioExportFormat, dispatch }) => 
 const AudioPanel = props => {
 	const { isBatch, audioVideoTracks, audioExportFormat, id, mediaType, dispatch } = props
 
-	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(isBatch, [
 		() => pipe(copySettings, dispatch)({ audioVideoTracks, audioExportFormat }),
 		() => pipe(applySettingsToAll(id), dispatch)({ audioVideoTracks, audioExportFormat })
-	]), [isBatch, id, audioVideoTracks, audioExportFormat])
+	])
 
 	return (
 		<AccordionPanel

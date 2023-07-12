@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -49,10 +49,10 @@ const PositionPanel = props => {
 	const { isBatch, id, positionX, positionY, dispatch } = props
 	const positionProps = { positionX, positionY }
 
-	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(isBatch, [
 		() => pipe(copySettings, dispatch)(positionProps),
 		() => pipe(applySettingsToAll(id), dispatch)(positionProps)
-	]), [isBatch, id, positionProps])
+	])
 
 	return (
 		<AccordionPanel

@@ -207,10 +207,10 @@ const FramingPanel = props => {
 	const { isBatch, id, arc, background, overlay, dispatch } = props
 	const framingProps = { arc, background, overlay }
 
-	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(isBatch, [
 		() => pipe(copySettings, dispatch)(framingProps),
 		() => pipe(applySettingsToAll(id), dispatch)(framingProps)
-	]), [isBatch, id, framingProps])
+	])
 
 	return (
 		<AccordionPanel

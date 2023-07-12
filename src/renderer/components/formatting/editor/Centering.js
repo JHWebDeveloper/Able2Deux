@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -43,10 +43,10 @@ const Centering = ({ centering, dispatch }) => {
 const CenteringPanel = props => {
 	const { isBatch, centering, id, dispatch } = props
 
-	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(isBatch, [
 		() => pipe(copySettings, dispatch)({ centering }),
 		() => pipe(applySettingsToAll(id), dispatch)({ centering })
-	]), [isBatch, id, centering])
+	])
 
 	return (
 		<AccordionPanel

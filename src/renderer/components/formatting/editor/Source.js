@@ -89,11 +89,12 @@ const Source = props => {
 
 const SourcePanel = props => {
 	const { isBatch, sourceName, sourcePrefix, sourceOnTop, id, dispatch } = props
+	const sourceProps = { sourceName, sourcePrefix, sourceOnTop }
 
-	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)({ sourceName, sourcePrefix, sourceOnTop }),
-		() => pipe(applySettingsToAll(id), dispatch)({ sourceName, sourcePrefix, sourceOnTop })
-	]), [isBatch, id, sourceName, sourcePrefix, sourceOnTop])
+	const settingsMenu = createSettingsMenu(isBatch, [
+		() => pipe(copySettings, dispatch)(sourceProps),
+		() => pipe(applySettingsToAll(id), dispatch)(sourceProps)
+	])
 
 	return (
 		<AccordionPanel
