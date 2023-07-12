@@ -37,7 +37,7 @@ const onCtrlClick = (media, { clickedIndex, clickedInFocus, clickedIsAnchored, c
 	if (clickedInFocus) {
 		return media.map((item, i) => i === nearestSelectedIndex ? {
 			...item,
-			focused: true,
+			focused: true
 		} : i === clickedIndex ? {
 			...item,
 			focused: false,
@@ -46,7 +46,7 @@ const onCtrlClick = (media, { clickedIndex, clickedInFocus, clickedIsAnchored, c
 	} else if (clickedIsAnchored) {
 		return media.map((item, i) => i === nearestSelectedIndex ? {
 			...item,
-			anchored: true,
+			anchored: true
 		} : i === clickedIndex ? {
 			...item,
 			anchored: false,
