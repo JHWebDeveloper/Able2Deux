@@ -1,7 +1,11 @@
 import React from 'react'
 import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
-import { objectPick } from 'utilities'
+import {
+	extractCommonProps,
+	extractCropProps,
+	extractScaleProps
+} from 'utilities'
 
 import FileOptions from './FileOptions'
 import Audio from './Audio'
@@ -14,21 +18,6 @@ import Crop from './Crop'
 import Rotation from './Rotation'
 import Keying from './Keying'
 import ColorCorrection from './ColorCorrection'
-
-const extractCommonProps = (() => {
-	const props = ['id', 'mediaType', 'editAll', 'isBatch', 'width', 'height', 'aspectRatio', 'dispatch']
-	return obj => objectPick(obj, props)
-})()
-
-const extractScaleProps = (() => {
-	const props = ['scaleX', 'scaleY']
-	return obj => objectPick(obj, props)
-})()
-
-const extractCropProps = (() => {
-	const props = ['cropT', 'cropR', 'cropB', 'cropL']
-	return obj => objectPick(obj, props)
-})()
 
 const EditorOptions = props => {
 	if (!props.id) return <></>
@@ -84,15 +73,12 @@ const EditorOptions = props => {
 						positionY={props.positionY}
 						{...common} />
 					<Scale
-						scaleLink={props.scaleLink}
 						freeRotateMode={props.freeRotateMode}
 						angle={props.angle}
 						{...scale}
 						{...crop}
 						{...common} />
 					<Crop
-						cropLinkTB={props.cropLinkTB}
-						cropLinkLR={props.cropLinkLR}
 						{...crop}
 						{...common} />
 				</> : <></>}
