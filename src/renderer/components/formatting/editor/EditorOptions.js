@@ -108,7 +108,15 @@ const EditorOptions = props => {
 					{...common} />
 				{arc === 'none' ? <></> : (
 					<Keying
-						keying={props.keying}
+						keyingEnabled={props.keyingEnabled}
+						keyingHidden={props.keyingHidden}
+						keyingType={props.keyingType}
+						keyingColor={props.keyingColor}
+						keyingSimilarity={props.keyingSimilarity}
+						keyingBlend={props.keyingBlend}
+						keyingThreshold={props.keyingThreshold}
+						keyingTolerance={props.keyingTolerance}
+						keyingSoftness={props.keyingSoftness}
 						eyedropper={eyedropper}
 						setEyedropper={setEyedropper}
 						{...common} />
