@@ -171,7 +171,7 @@ BatchItem.propTypes = {
 	refId: string.isRequired,
 	focused: bool.isRequired,
 	anchored: bool.isRequired,
-	selected: string.isRequired,
+	selected: bool.isRequired,
 	isFirst: bool.isRequired,
 	isLast: bool.isRequired,
 	title: string.isRequired,
