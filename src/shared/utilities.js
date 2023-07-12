@@ -32,8 +32,13 @@ const getIntegerLength = n => {
 	return count
 }
 
-const objectPick = (obj, props) => props.reduce((extract, prop) => {
-	extract[prop] = obj[prop]
+const objectOmit = (obj, props) => Object.keys(obj).reduce((extract, key) => {
+	if (!props.includes(key)) extract[key] = obj[key]
+	return extract
+}, {})
+
+const objectPick = (obj, props) => Object.keys(obj).reduce((extract, key) => {
+	if (props.includes(key)) extract[key] = obj[key]
 	return extract
 }, {})
 
@@ -41,5 +46,6 @@ module.exports = {
 	calcRotatedBoundingBox,
 	degToRad,
 	getIntegerLength,
+	objectOmit,
 	objectPick
 }
