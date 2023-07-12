@@ -11,7 +11,7 @@ import {
 	removeMedia
 } from 'reducer/selectMedia'
 
-import { copyCurve, sortCurvePoints } from 'utilities'
+import { replaceIds, sortCurvePoints } from 'utilities'
 
 // ---- REDUCER --------
 
@@ -206,54 +206,47 @@ const pasteSettings = (state, payload) => {
 		...state,
 		media: state.media.map(item => item.id === payload.id ? {
 			...item,
-			...copiedSettings instanceof Function ? copiedSettings() : copiedSettings
+			...copiedSettings
 		} : item)
 	}
 }
 
 const applyToAll = (state, payload) => {
-	const { properties } = payload
-	const _properties = properties instanceof Function ? properties : () => properties
+	const { id, properties } = payload
 
 	return {
 		...state,
-		media: state.media.map(item => item.id !== payload.id ? {
+		media: state.media.map(item => item.id !== id ? {
 			...item,
-			..._properties()
+			...properties
 		} : item)
 	}
 }
 
 const addCurvePoint = (state, payload) => {
-	const { id, curveName, pointData, editAll } = payload
+	const { id, curveName, pointData } = payload
 
-	const nextCurve = [...state.media.find(obj => obj.id === id).colorCurves[curveName]]
+	const nextCurve = [...state.media.find(item => item.id === id)[curveName]]
 
 	nextCurve.push(pointData)
 	nextCurve.sort(sortCurvePoints)
-
+	
 	return {
 		...state,
-		media: state.media.map(obj => obj.id === id ? {
-			...obj,
-			colorCurves: {
-				...obj.colorCurves,
-				[curveName]: nextCurve
-			}
-		} : editAll ? {
-			...obj,
-			colorCurves: {
-				...obj.colorCurves,
-				[curveName]: copyCurve(nextCurve)
-			}
-		} : obj)
+		media: state.media.map(item => item.id === id ? {
+			...item,
+			[curveName]: nextCurve
+		} : item.selected ? {
+			...item,
+			[curveName]: replaceIds(nextCurve)
+		} : item)
 	}
 }
 
 const addOrUpdateCurvePoint = (state, payload) => {
-	const { id, curveName, pointData, editAll } = payload
+	const { id, curveName, pointData } = payload
 
-	let nextCurve = [...state.media.find(obj => obj.id === id).colorCurves[curveName]]
+	let nextCurve = [...state.media.find(item => item.id === id)[curveName]]
 
 	if (nextCurve.some(pt => pt.id === pointData.id)) {
 		nextCurve = nextCurve.map(pt => pt.id === pointData.id ? pointData : pt)
@@ -264,81 +257,63 @@ const addOrUpdateCurvePoint = (state, payload) => {
 
 	return {
 		...state,
-		media: state.media.map(obj => obj.id === id ? {
-			...obj,
-			colorCurves: {
-				...obj.colorCurves,
-				[curveName]: nextCurve
-			}
-		} : editAll ? {
-			...obj,
-			colorCurves: {
-				...obj.colorCurves,
-				[curveName]: copyCurve(nextCurve)
-			}
-		} : obj)
+		media: state.media.map(item => item.id === id ? {
+			...item,
+			[curveName]: nextCurve
+		} : item.selected ? {
+			...item,
+			[curveName]: replaceIds(nextCurve)
+		} : item)
 	}
 }
 
 const deleteCurvePoint = (state, payload) => {
-	const { id, curveName, pointId, editAll } = payload
+	const { id, curveName, pointId } = payload
 
-	const nextCurve = [...state.media.find(obj => obj.id === id).colorCurves[curveName]].filter(pt => pt.id !== pointId)
+	const nextCurve = [...state.media.find(item => item.id === id)[curveName]].filter(pt => pt.id !== pointId)
 
 	return {
 		...state,
-		media: state.media.map(obj => obj.id === id ? {
-			...obj,
-			colorCurves: {
-				...obj.colorCurves,
-				[curveName]: nextCurve
-			}
-		} : editAll ? {
-			...obj,
-			colorCurves: {
-				...obj.colorCurves,
-				[curveName]: copyCurve(nextCurve)
-			}
-		} : obj)
+		media: state.media.map(item => item.id === id ? {
+			...item,
+			[curveName]: nextCurve
+		} : item.selected ? {
+			...item,
+			[curveName]: replaceIds(nextCurve)
+		} : item)
 	}
 }
 
 const resetCurve = (state, payload) => {
-	const { id, curveName, pointData, editAll } = payload
+	const { curveName, pointData } = payload
 
-	const newCurveData = curveName ? {
+	const newCurves = curveName ? {
 		[curveName]: pointData
 	} : {
-		rgb: [...pointData],
-		r: [...pointData],
-		g: [...pointData],
-		b: [...pointData]
+		ccRGB: [...pointData],
+		ccR: [...pointData],
+		ccG: [...pointData],
+		ccB: [...pointData]
 	}
 
 	return {
 		...state,
-		media: state.media.map(obj => editAll || obj.id === id ? {
-			...obj,
-			colorCurves: {
-				...obj.colorCurves,
-				...newCurveData
-			}
-		} : obj)
+		media: state.media.map(item => item.selected ? {
+			...item,
+			...newCurves
+		} : item)
 	}
 }
 
 const cleanupCurve = (state, payload) => {
-	const { id, curveName, editAll } = payload
+	const { curveName } = payload
 
 	return {
 		...state,
-		media: state.media.map(obj => editAll || obj.id === id ? {
-			...obj,
-			colorCurves: {
-				...obj.colorCurves,
-				[curveName]: obj.colorCurves[curveName].filter(pt => !pt.hidden)
-			}
-		} : obj)
+		media: state.media.map(item => item.selected ? {
+			...item,
+			[curveName]: item[curveName].filter(pt => !pt.hidden)
+		} : item)
 	}
 }
 
