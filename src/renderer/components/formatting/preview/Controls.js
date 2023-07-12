@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { arrayOf, bool, exact, func, object, number, string, oneOf } from 'prop-types'
 
-import { updateMediaState } from 'actions'
+import { updateMediaStateById } from 'actions'
 
 import FrameSelector from './FrameSelector'
 import GridSelector from './GridSelector'
@@ -41,7 +41,7 @@ const Controls = props => {
 				return true
 		}
 
-		dispatch(updateMediaState(id, props))
+		dispatch(updateMediaStateById(id, props))
 	}, [id, timecode, start, end, totalFrames])
 
 	return (

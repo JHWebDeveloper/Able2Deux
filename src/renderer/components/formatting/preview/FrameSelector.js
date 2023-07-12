@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { bool, func, number, shape, string } from 'prop-types'
 
-import { extractStill, updateMediaState } from 'actions'
+import { extractStill, updateMediaStateById } from 'actions'
 
 import { framesToAudibleTC } from 'utilities'
 
@@ -31,17 +31,17 @@ const FrameSelector = ({ focused, isAudio, dispatch }) => {
 	}, [start, end, totalFrames])
 
 	const updateTimecode = useCallback(({ name, value }) => {
-		dispatch(updateMediaState(id, { [name]: value }))
+		dispatch(updateMediaStateById(id, { [name]: value }))
 	}, [id])
 
 	const incrementFrameBackward = useCallback(e => {
-		dispatch(updateMediaState(id, {
+		dispatch(updateMediaStateById(id, {
 			timecode: Math.max(timecode - (e.shiftKey ? 10 : 1), 0)
 		}))
 	}, [id, timecode])
 
 	const incrementFrameForward = useCallback(e => {
-		dispatch(updateMediaState(id, {
+		dispatch(updateMediaStateById(id, {
 			timecode: Math.min(timecode + (e.shiftKey ? 10 : 1), totalFrames)
 		}))
 	}, [id, timecode, totalFrames])
