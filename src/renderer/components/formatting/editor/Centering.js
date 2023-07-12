@@ -64,7 +64,6 @@ const propTypes = {
 	id: string.isRequired,
 	isBatch: bool.isRequired,
 	centering: oneOfType([oneOf(['']), number]).isRequired,
-	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
 

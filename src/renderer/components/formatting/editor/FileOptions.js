@@ -70,7 +70,6 @@ const propTypes = {
 	fps: number.isRequired,
 	duration: number.isRequired,
 	split: number.isRequired,
-	editAll: bool,
 	dispatch: func.isRequired
 }
 

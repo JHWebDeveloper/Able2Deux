@@ -17,7 +17,6 @@ const Formatting = () => {
 		media,
 		batchName,
 		batchNameType,
-		editAll,
 		split,
 		saveLocations,
 		aspectRatioMarkers,
@@ -47,7 +46,6 @@ const Formatting = () => {
 					media={media}
 					focused={focused}
 					isBatch={isBatch}
-					editAll={editAll}
 					dispatch={dispatch} />	
 				{isBatch ? (
 					<BatchName
@@ -63,7 +61,6 @@ const Formatting = () => {
 			</div>
 			<PreviewEditorContainer
 				focused={focused}
-				editAll={editAll}
 				aspectRatioMarkers={aspectRatioMarkers}
 				previewQuality={previewQuality}
 				previewHeight={previewHeight}

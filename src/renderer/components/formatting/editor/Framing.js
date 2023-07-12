@@ -249,7 +249,6 @@ const propTypes = {
 	}).isRequired,
 	setEyedropper: func.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
-	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
 

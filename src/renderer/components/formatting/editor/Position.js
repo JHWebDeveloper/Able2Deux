@@ -70,7 +70,6 @@ const propTypes = {
 	isBatch: bool.isRequired,
 	positionX: oneOfType([oneOf(['']), number]),
 	positionY: oneOfType([oneOf(['']), number]),
-	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
 

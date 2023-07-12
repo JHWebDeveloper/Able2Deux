@@ -24,6 +24,7 @@ const defaultMediaData = {
 	acquisitionType: '',
 	mediaType: 'video',
 	hasAlpha: false,
+	hasAudio: true,
 	url: '',
 	isLive: false,
 	sourceFilePath: '',

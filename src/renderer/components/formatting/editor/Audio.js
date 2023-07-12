@@ -99,7 +99,6 @@ const propTypes = {
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']),
 	audioExportFormat: oneOf(['wav', 'mp3', 'bars']),
-	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
 

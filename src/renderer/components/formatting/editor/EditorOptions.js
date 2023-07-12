@@ -126,7 +126,6 @@ const EditorOptions = props => {
 EditorOptions.propTypes = {
 	id: string,
 	isBatch: bool,
-	editAll: bool,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	hasAudio: bool,
 	width: number,

@@ -17,7 +17,6 @@ const initState = {
 	selectedId: '',
 	batchName: '',
 	batchNameType: 'replace',
-	editAll: false,
 	copiedSettings: {},
 	previewQuality: 1,
 	previewHeight: 540,

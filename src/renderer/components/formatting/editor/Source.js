@@ -115,7 +115,6 @@ const propTypes = {
 	sourcePrefix: bool,
 	sourceOnTop: bool,
 	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
-	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
 
