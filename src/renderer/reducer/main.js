@@ -29,10 +29,6 @@ export const mainReducer = (state, action) => {
 			return updateMediaStateById(state, payload)
 		case ACTION.TOGGLE_MEDIA_CHECKBOX:
 			return toggleMediaCheckbox(state, payload)
-		case ACTION.UPDATE_MEDIA_NESTED_STATE:
-			return updateMediaNestedState(state, payload)
-		case ACTION.TOGGLE_MEDIA_NESTED_CHECKBOX: 
-			return toggleMediaNestedCheckbox(state, payload)
 		case ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX:
 			return shared.toggleSortableElementCheckbox(state, payload)
 		case ACTION.ADD_SORTABLE_ELEMENT:
@@ -106,36 +102,6 @@ const toggleMediaCheckbox = (state, payload) => {
 			...item,
 			[property]: invertedValue
 		}) : item)
-	}
-}
-
-const updateMediaNestedState = (state, payload) => {
-	const { id, nest, properties, editAll } = payload
-
-	return {
-		...state,
-		media: state.media.map(item => editAll || item.id === id ? {
-			...item,
-			[nest]: {
-				...item[nest],
-				...properties
-			}
-		} : item)
-	}
-}
-
-const toggleMediaNestedCheckbox = (state, payload) => {
-	const { id, nest, property, editAll } = payload
-
-	return {
-		...state,
-		media: state.media.map(item => editAll || item.id === id ? {
-			...item,
-			[nest]: {
-				...item[nest],
-				[property]: !item[nest][property]
-			}
-		} : item)
 	}
 }
 
