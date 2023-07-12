@@ -4,12 +4,17 @@ import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 import {
 	applySettingsToAll,
 	copySettings,
-	toggleMediaNestedCheckbox,
-	updateMediaNestedState,
-	updateMediaNestedStateFromEvent
+	toggleMediaCheckbox,
+	updateMediaStateBySelection,
+	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
-import { createSettingsMenu, pipe, rgbToHex } from 'utilities'
+import {
+	createSettingsMenu,
+	objectPick,
+	pipe,
+	rgbToHex
+} from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
@@ -19,11 +24,11 @@ import SingleSlider from '../../form_elements/SliderSingle'
 import Checkbox from '../../form_elements/Checkbox'
 import EyedropperIcon from '../../svg/EyedropperIcon'
 
-const thresholdStaticProps = { name: 'threshold', title: 'Threshold', min: 0, max: 100 }
-const toleranceStaticProps = { name: 'tolerance', title: 'Tolerance', min: 0, max: 100 }
-const softnessStaticProps = { name: 'softness', title: 'Softness', min: 0, max: 100 }
-const similarityStaticProps = { name: 'similarity', title: 'Similarity', min: 1, max: 100 }
-const blendStaticProps = { name: 'blend', title: 'Blend', min: 0, max: 100 }
+const thresholdStaticProps = { name: 'keyingThreshold', title: 'Threshold', min: 0, max: 100 }
+const toleranceStaticProps = { name: 'keyingTolerance', title: 'Tolerance', min: 0, max: 100 }
+const softnessStaticProps = { name: 'keyingSoftness', title: 'Softness', min: 0, max: 100 }
+const similarityStaticProps = { name: 'keyingSimilarity', title: 'Similarity', min: 1, max: 100 }
+const blendStaticProps = { name: 'keyingBlend', title: 'Blend', min: 0, max: 100 }
 
 const keyTypeButtons = [
 	{
@@ -39,6 +44,11 @@ const keyTypeButtons = [
 		value: 'lumakey'
 	}
 ]
+
+const extractKeyingProps = (() => {
+	const props = ['keyingEnabled', 'keyingHidden', 'keyingType', 'keyingColor', 'keyingSimilarity', 'keyingBlend', 'keyingThreshold', 'keyingTolerance', 'keyingSoftness']
+	return obj => objectPick(obj, props)
+})()
 
 const LumaKeySliders = ({ threshold, tolerance, softness, onChange, disabled }) => {
 	const thresholdProps = {
@@ -104,13 +114,13 @@ const ColorKeySliders = ({ similarity, blend, onChange, disabled }) => {
 	)
 }
 
-const Keying = ({ id, keying, eyedropper, setEyedropper, editAll, dispatch }) => {
-	const { enabled, hidden, type } = keying
+const Keying = props => {
+	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, dispatch } = props
 	const { active, pixelData } = eyedropper
 
 	const toggleKeyingCheckbox = useCallback(e => {
-		dispatch(toggleMediaNestedCheckbox(id, 'keying', e, editAll))
-	}, [id, editAll])
+		dispatch(toggleMediaCheckbox(id, e))
+	}, [id])
 
 	const toggleKeying = useCallback(e => {
 		if (active === 'key') {
@@ -118,17 +128,17 @@ const Keying = ({ id, keying, eyedropper, setEyedropper, editAll, dispatch }) =>
 		}
 
 		toggleKeyingCheckbox(e)
-	}, [id, editAll, active])
+	}, [id, active])
 
 	const updateKeying = useCallback(({ name, value }) => {
-		dispatch(updateMediaNestedState(id, 'keying', {
+		dispatch(updateMediaStateBySelection({
 			[name]: value
-		}, editAll))
-	}, [id, editAll])
+		}))
+	}, [])
 
 	const updateKeyingFromEvent = useCallback(e => {
-		dispatch(updateMediaNestedStateFromEvent(id, 'keying', e, editAll))
-	}, [id, editAll])
+		dispatch(updateMediaStateBySelectionFromEvent(e))
+	}, [])
 
 	const selectKeyColor = useCallback(() => {
 		setEyedropper(({ active }) => ({
@@ -139,44 +149,44 @@ const Keying = ({ id, keying, eyedropper, setEyedropper, editAll, dispatch }) =>
 
 	useEffect(() => {
 		if (active === 'key' && pixelData) {
-			dispatch(updateMediaNestedState(id, 'keying', {
-				color: rgbToHex(pixelData),
-				hidden: false
-			}, editAll))
+			dispatch(updateMediaStateBySelection({
+				keyingColor: rgbToHex(pixelData),
+				keyingHidden: false
+			}))
 
 			setEyedropper({ active: false, pixelData: false })
 		}
-	}, [id, eyedropper, editAll])
+	}, [eyedropper])
 
 	return (
 		<>
 			<div className="on-off-switch">
 				<Checkbox
-					name="enabled"
-					title={`Turn keying ${enabled ? 'off' : 'on'}`}
-					checked={enabled}
+					name="keyingEnabled"
+					title={`Turn keying ${keyingEnabled ? 'off' : 'on'}`}
+					checked={keyingEnabled}
 					onChange={toggleKeying}
 					switchIcon />
 			</div>
 			<fieldset
 				className="editor-option-column"
-				disabled={!enabled}>
+				disabled={!keyingEnabled}>
 				<legend>Type<span aria-hidden>:</span></legend>
 				<RadioSet
-					name="type"
-					state={type}
+					name="keyingType"
+					state={keyingType}
 					onChange={updateKeyingFromEvent}
 					buttons={keyTypeButtons}/>
 			</fieldset>
-			{type === 'lumakey' ? <></> : (
-				<div className={enabled ? '' : 'disabled'}>
+			{keyingType === 'lumakey' ? <></> : (
+				<div className={keyingEnabled ? '' : 'disabled'}>
 					<label id="key-color">Color<span aria-hidden>:</span></label>
 					<div className="color-picker">
 						<ColorInput
-							name="color"
-							value={keying.color}
+							name="keyingColor"
+							value={props.keyingColor}
 							onChange={updateKeying}
-							disabled={!enabled}
+							disabled={!keyingEnabled}
 							ariaLabelledby="key-color" />
 						<button
 							type="button"
@@ -184,33 +194,33 @@ const Keying = ({ id, keying, eyedropper, setEyedropper, editAll, dispatch }) =>
 							aria-label="Select Key Color"
 							className={`eyedropper-btn${active === 'key' ? ' eyedropper-active' : ''}`}
 							onClick={selectKeyColor}
-							disabled={!enabled}>
+							disabled={!keyingEnabled}>
 							<EyedropperIcon hideContents />
 						</button>
 						<Checkbox
-							name="hidden"
-							title={`Show ${hidden ? 'effect' : 'original'}`}
-							checked={hidden}
+							name="keyingHidden"
+							title={`Show ${keyingHidden ? 'effect' : 'original'}`}
+							checked={keyingHidden}
 							onChange={toggleKeyingCheckbox}
-							disabled={!enabled}
+							disabled={!keyingEnabled}
 							visibleIcon />
 					</div>
 				</div>
 			)}
-			<div className={`color-sliders-panel${enabled ? '' : ' disabled'}`}>
-				{type === 'lumakey' ? (
+			<div className={`color-sliders-panel${keyingEnabled ? '' : ' disabled'}`}>
+				{keyingType === 'lumakey' ? (
 					<LumaKeySliders
-						threshold={keying.threshold}
-						tolerance={keying.tolerance}
-						softness={keying.softness}
+						threshold={props.keyingThreshold}
+						tolerance={props.keyingTolerance}
+						softness={props.keyingSoftness}
 						onChange={updateKeying}
-						disabled={!enabled} />
+						disabled={!keyingEnabled} />
 				) : (
 					<ColorKeySliders
-						similarity={keying.similarity}
-						blend={keying.blend}
+						similarity={props.keyingSimilarity}
+						blend={props.keyingBlend}
 						onChange={updateKeying}
-						disabled={!enabled} />
+						disabled={!keyingEnabled} />
 				)}
 			</div>
 		</>
@@ -218,12 +228,13 @@ const Keying = ({ id, keying, eyedropper, setEyedropper, editAll, dispatch }) =>
 }
 
 const KeyingPanel = props => {
-	const { isBatch, keying, id, dispatch } = props
+	const { isBatch, id, dispatch } = props
+	const keyingProps = extractKeyingProps(props)
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)({ keying }),
-		() => pipe(applySettingsToAll(id), dispatch)({ keying })
-	]), [isBatch, id, keying])
+		() => pipe(copySettings, dispatch)(keyingProps),
+		() => pipe(applySettingsToAll(id), dispatch)(keyingProps)
+	]), [isBatch, id, keyingProps])
 
 	return (
 		<AccordionPanel
@@ -253,17 +264,15 @@ ColorKeySliders.propTypes = {
 
 const propTypes = {
 	id: string.isRequired,
-	keying: exact({
-		blend: number,
-		color: string,
-		enabled: bool,
-		hidden: bool,
-		similarity: number,
-		softness: number,
-		threshold: number,
-		tolerance: number,
-		type: oneOf(['colorkey', 'chromakey', 'lumakey'])
-	}).isRequired,
+	keyingBlend: number,
+	keyingColor: string,
+	keyingEnabled: bool,
+	keyingHidden: bool,
+	keyingSimilarity: number,
+	keyingSoftness: number,
+	keyingThreshold: number,
+	keyingTolerance: number,
+	keyingType: oneOf(['colorkey', 'chromakey', 'lumakey']),
 	eyedropper: exact({
 		active: oneOf([false, 'white', 'black', 'key', 'background']),
 		pixelData: oneOfType([bool, exact({
@@ -273,7 +282,6 @@ const propTypes = {
 		})])
 	}).isRequired,
 	setEyedropper: func.isRequired,
-	editAll: bool.isRequired,
 	isBatch: bool.isRequired,
 	dispatch: func.isRequired
 }
