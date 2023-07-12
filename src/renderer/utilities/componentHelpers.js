@@ -1,3 +1,5 @@
+import { v1 as uuid } from 'uuid'
+
 import * as STATUS from 'status'
 import { createAnimator } from 'utilities'
 
@@ -43,6 +45,26 @@ export const limitTCChars = colonMax => e => {
 		if (!regex.test(e.key)) e.preventDefault()
 	}
 }
+
+export const replaceIds = (() => {
+	const _replaceIds = obj => {
+		obj = { ...obj }
+
+		if ('id' in obj) obj.id = uuid()
+	
+		const entries = Object.entries(obj)
+	
+		for (const [ key, val ] of entries)  {
+			if (Array.isArray(val)) obj[key] = val.map(_replaceIds)
+		}
+	
+		return obj
+	}
+
+	return arr => Array.isArray(arr) ? arr.map(_replaceIds) : _replaceIds(arr)
+})()
+
+export const sortCurvePoints = (a, b) => a.x - b.x
 
 export const scrollText = el => {
 	const original = el.innerText
