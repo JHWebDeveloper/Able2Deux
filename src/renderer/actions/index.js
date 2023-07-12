@@ -87,18 +87,6 @@ export const toggleMediaCheckbox = (id, e) => ({
 	}
 })
 
-// LEGACY DELETE LATER
-export const updateMediaStateFromEvent = (id, e, editAll) => ({
-	type: ACTION.UPDATE_MEDIA_STATE_BY_SELECTION,
-	payload: {
-		id,
-		editAll,
-		properties: {
-			[e.target.name]: e.target.value
-		}
-	}
-})
-
 // ---- 4TH LEVEL STATE --------
 
 export const updateMediaNestedState = (id, nest, properties, editAll) => ({
