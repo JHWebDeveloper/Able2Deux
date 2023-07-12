@@ -5,8 +5,8 @@ import * as STATUS from 'status'
 
 import {
 	addMedia,
-	updateMediaNestedState,
-	updateMediaStateById
+	updateMediaStateById,
+	updateMediaStateBySelection
 } from 'actions'
 
 import {
@@ -117,43 +117,38 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 	dispatch(updateMediaStateById(id, { start: i }))
 }
 
-export const addCurvePoint = (id, curveName, pointData, editAll) => ({
+export const addCurvePoint = (id, curveName, pointData) => ({
 	type: ACTION.ADD_CURVE_POINT,
 	payload: {
 		id,
 		curveName,
-		pointData,
-		editAll
+		pointData
 	}
 })
 
-export const addOrUpdateCurvePoint = (id, curveName, pointData, editAll) => ({
+export const addOrUpdateCurvePoint = (id, curveName, pointData) => ({
 	type: ACTION.ADD_OR_UPDATE_CURVE_POINT,
 	payload: {
 		id,
 		curveName,
 		pointData,
-		editAll
 	}
 })
 
-export const deleteCurvePoint = (id, curveName, pointId, editAll) => ({
+export const deleteCurvePoint = (id, curveName, pointId) => ({
 	type: ACTION.DELETE_CURVE_POINT,
 	payload: {
 		id,
 		curveName,
-		pointId,
-		editAll
+		pointId
 	}
 })
 
-export const resetCurve = (id, curveName, editAll) => ({
+export const resetCurve = curveName => ({
 	type: ACTION.RESET_CURVE,
 	payload: {
-		id,
 		curveName,
-		pointData: createDefaultCurvePoints(),
-		editAll
+		pointData: createDefaultCurvePoints()
 	}
 })
 
@@ -173,34 +168,34 @@ const createBlackBalancedCurve = (b, w) => {
 	return [b, w]
 }
 
-export const colorBalance = (id, eyedropper, colorCurves, editAll) => dispatch => {
+export const colorBalance = (eyedropper, curves) => dispatch => {
 	const { active, pixelData } = eyedropper
-	let r = []
-	let g = []
-	let b = []
+	let ccR = []
+	let ccG = []
+	let ccB = []
 
 	if (active === 'white') {
-		r = createWhiteBalancedCurve(colorCurves.r[0], createCurvePoint(pixelData.r, 0, true))
-		g = createWhiteBalancedCurve(colorCurves.g[0], createCurvePoint(pixelData.g, 0, true))
-		b = createWhiteBalancedCurve(colorCurves.b[0], createCurvePoint(pixelData.b, 0, true))
+		ccR = createWhiteBalancedCurve(curves.ccR[0], createCurvePoint(pixelData.r, 0, true))
+		ccG = createWhiteBalancedCurve(curves.ccG[0], createCurvePoint(pixelData.g, 0, true))
+		ccB = createWhiteBalancedCurve(curves.ccB[0], createCurvePoint(pixelData.b, 0, true))
 	} else {
-		r = createBlackBalancedCurve(createCurvePoint(pixelData.r, 256, true), colorCurves.r.at(-1))
-		g = createBlackBalancedCurve(createCurvePoint(pixelData.g, 256, true), colorCurves.g.at(-1))
-		b = createBlackBalancedCurve(createCurvePoint(pixelData.b, 256, true), colorCurves.b.at(-1))
+		ccR = createBlackBalancedCurve(createCurvePoint(pixelData.r, 256, true), curves.ccR.at(-1))
+		ccG = createBlackBalancedCurve(createCurvePoint(pixelData.g, 256, true), curves.ccG.at(-1))
+		ccB = createBlackBalancedCurve(createCurvePoint(pixelData.b, 256, true), curves.ccB.at(-1))
 	}
 
-	dispatch(updateMediaNestedState(id, 'colorCurves', {
-		hidden: false,
-		rgb: createDefaultCurvePoints(),
-		r,
-		g,
-		b
-	}, editAll))
+	dispatch(updateMediaStateBySelection({
+		ccHidden: false,
+		ccRGB: createDefaultCurvePoints(),
+		ccR,
+		ccG,
+		ccB
+	}))
 }
 
-export const cleanupCurve = (id, curveName, editAll) => ({
+export const cleanupCurve = curveName => ({
 	type: ACTION.CLEANUP_CURVE,
-	payload: { id, curveName, editAll }
+	payload: { curveName }
 })
 
 export const toggleSaveLocation = (id, property) => ({
