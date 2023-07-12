@@ -10,8 +10,8 @@ import {
 	copySettings,
 	deleteCurvePoint,
 	resetCurve,
-	toggleMediaNestedCheckbox,
-	updateMediaNestedStateFromEvent
+	toggleMediaCheckbox,
+	updateMediaStateByIdFromEvent
 } from 'actions'
 
 import { createColorCurvesCopier, createSettingsMenu, pipe } from 'utilities'
@@ -26,19 +26,19 @@ import SliderDouble from '../../form_elements/SliderDouble'
 const colorChannelButtons = [
 	{
 		label: 'RGB',
-		value: 'rgb'
+		value: 'ccRGB'
 	},
 	{
 		label: 'R',
-		value: 'r'
+		value: 'ccR'
 	},
 	{
 		label: 'G',
-		value: 'g'
+		value: 'ccG'
 	},
 	{
 		label: 'B',
-		value: 'b'
+		value: 'ccB'
 	}
 ]
 
@@ -56,25 +56,25 @@ const propsBlackPtStatic = {
 
 const getCurveColor = curveName => {
 	switch (curveName) {
-		case 'r':
+		case 'ccR':
 			return '#f00'
-		case 'g':
+		case 'ccG':
 			return '#008000'
-		case 'b':
+		case 'ccB':
 			return '#00f'
 		default:
 			return '#000'
 	}
 }
 
-const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, dispatch }) => {
-	const { enabled, selectedCurve, rgb, r, g, b } = colorCurves
+const ColorCorrection = props => {
+	const { id, ccEnabled, ccSelectedCurve, ccRGB, ccR, ccG, ccB, eyedropper, setEyedropper, dispatch } = props
 	const { active, pixelData } = eyedropper
 	const curvesRef = useRef(null)
 
 	const toggleCCCheckbox = useCallback(e => {
-		dispatch(toggleMediaNestedCheckbox(id, 'colorCurves', e, editAll))
-	}, [id, editAll])
+		dispatch(toggleMediaCheckbox(id, e))
+	}, [id])
 
 	const toggleColorCorrection = useCallback(e => {
 		if (active === 'black' || active === 'white') {
@@ -82,42 +82,42 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 		}
 
 		toggleCCCheckbox(e)
-	}, [id, editAll, active])
+	}, [id, active])
 
 	const selectCurve = useCallback(e => {
-		dispatch(updateMediaNestedStateFromEvent(id, 'colorCurves', e))
+		dispatch(updateMediaStateByIdFromEvent(id, e))
 	}, [id])
 
 	// ---- Curves ----
-
+	
 	const dispatchAddCurvePoint = useCallback(pointData => {
-		dispatch(addCurvePoint(id, selectedCurve, pointData, editAll))
-	}, [id, selectedCurve, editAll])
-
+		dispatch(addCurvePoint(id, ccSelectedCurve, pointData))
+	}, [id, ccSelectedCurve])
+	
 	const dispatchAddOrUpdateCurvePoint = useCallback(pointData => {
-		dispatch(addOrUpdateCurvePoint(id, selectedCurve, pointData, editAll))
-	}, [id, selectedCurve, editAll])
+		dispatch(addOrUpdateCurvePoint(id, ccSelectedCurve, pointData))
+	}, [id, ccSelectedCurve])
 
 	const dispatchDeleteCurvePoint = useCallback(pointId => {
-		dispatch(deleteCurvePoint(id, selectedCurve, pointId, editAll))
-	}, [id, selectedCurve, editAll])
-
+		dispatch(deleteCurvePoint(id, ccSelectedCurve, pointId))
+	}, [id, ccSelectedCurve])
+	
 	const dispatchCleanupCurve = useCallback(() => {
-		dispatch(cleanupCurve(id, selectedCurve, editAll))
-	}, [id, selectedCurve, editAll])
+		dispatch(cleanupCurve(ccSelectedCurve))
+	}, [ccSelectedCurve])
 
 	const dispatchResetCurve = useCallback(e => {
-		dispatch(resetCurve(id, e.shiftKey && selectedCurve, editAll))
-	}, [id, selectedCurve, editAll])
+		dispatch(resetCurve(e.shiftKey && ccSelectedCurve))
+	}, [ccSelectedCurve])
 
 	// ---- Curves Channels ----
 
-	const curveColor = useMemo(() => getCurveColor(selectedCurve), [selectedCurve])
+	const curveColor = useMemo(() => getCurveColor(ccSelectedCurve), [ccSelectedCurve])
 
 	// eslint-disable-next-line no-extra-parens
-	const channelCurves = useMemo(() => selectedCurve === 'rgb' ? (
-		['b', 'g', 'r'].reduce((acc, ch) => {
-			const chCurve = colorCurves[ch]
+	const channelCurves = useMemo(() => ccSelectedCurve === 'ccRGB' ? (
+		['ccB', 'ccG', 'ccR'].reduce((acc, ch) => {
+			const chCurve = props[ch]
 
 			if (chCurve.length > 2 || chCurve[0].x > 0 || chCurve[0].y < 256 || chCurve[1].x < 256 || chCurve[1].y > 0) {
 				acc.push({
@@ -128,26 +128,26 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 				
 			return acc
 		}, [])
-	) : [], [selectedCurve, r, g, b])
+	) : [], [ccSelectedCurve, ccR, ccG, ccB])
 
 	// ---- White Balance Slider ----
-
-	const blackPt = useMemo(() => colorCurves[selectedCurve][0], [selectedCurve, rgb, r, g, b])
-	const whitePt = useMemo(() => colorCurves[selectedCurve].at(-1), [selectedCurve, rgb, r, g, b])
+	
+	const blackPt = useMemo(() => props[ccSelectedCurve][0], [ccSelectedCurve, ccRGB, ccR, ccG, ccB])
+	const whitePt = useMemo(() => props[ccSelectedCurve].at(-1), [ccSelectedCurve, ccRGB, ccR, ccG, ccB])
 
 	const setBlackPoint = useCallback(({ value }) => {
-		dispatch(addOrUpdateCurvePoint(id, selectedCurve, {
+		dispatch(addOrUpdateCurvePoint(id, ccSelectedCurve, {
 			...blackPt,
 			x: value
-		}, editAll))
-	}, [id, selectedCurve, blackPt, editAll])
+		}))
+	}, [id, ccSelectedCurve, blackPt])
 
 	const setWhitePoint = useCallback(({ value }) => {
-		dispatch(addOrUpdateCurvePoint(id, selectedCurve, {
+		dispatch(addOrUpdateCurvePoint(id, ccSelectedCurve, {
 			...whitePt,
 			x: value
-		}, editAll))
-	}, [id, selectedCurve, whitePt, editAll])
+		}))
+	}, [id, ccSelectedCurve, whitePt])
 
 	/* ---- Eye Droppers ---- */
 
@@ -167,18 +167,18 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 
 	useEffect(() => {
 		if ((active === 'black' || active === 'white') && pixelData) {
-			dispatch(colorBalance(id, eyedropper, { r, g, b }, editAll))
+			dispatch(colorBalance(eyedropper, { ccR, ccG, ccB }))
 			setEyedropper({ active: false, pixelData: false })
 		}
-	}, [id, eyedropper, r, g, b, editAll])
+	}, [eyedropper, ccR, ccG, ccB])
 
 	return (
 		<>
 			<div>
 				<div className="on-off-switch">
 					<Checkbox
-						name="enabled"
-						checked={enabled}
+						name="ccEnabled"
+						checked={ccEnabled}
 						onChange={toggleColorCorrection}
 						switchIcon />
 				</div>
@@ -188,10 +188,10 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 					aria-label="Select Black Point"
 					className={`eyedropper-btn${active === 'black' ? ' eyedropper-active' : ''}`}
 					onClick={selectBlackPt}
-					disabled={!enabled}>
+					disabled={!ccEnabled}>
 					<EyedropperIcon
 						contentColor="#000"
-						hideContents={!enabled} />
+						hideContents={!ccEnabled} />
 				</button>
 				<button
 					type="button"
@@ -199,16 +199,16 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 					aria-label="Select White Point"
 					className={`eyedropper-btn${active === 'white' ? ' eyedropper-active' : ''}`}
 					onClick={selectWhitePt}
-					disabled={!enabled}>
+					disabled={!ccEnabled}>
 					<EyedropperIcon
 						contentColor="#fff"
-						hideContents={!enabled} />
+						hideContents={!ccEnabled} />
 				</button>
 				<Checkbox
-					name="hidden"
-					checked={colorCurves.hidden}
+					name="ccHidden"
+					checked={props.ccHidden}
 					onChange={toggleCCCheckbox}
-					disabled={!enabled}
+					disabled={!ccEnabled}
 					visibleIcon />
 				<button
 					type="button"
@@ -216,32 +216,32 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 					aria-label="Reset Curves"
 					className="symbol"
 					onClick={dispatchResetCurve}
-					disabled={!enabled}>format_color_reset</button>
+					disabled={!ccEnabled}>format_color_reset</button>
 			</div>
-			<fieldset disabled={!enabled}>
+			<fieldset disabled={!ccEnabled}>
 				<legend>Color Channel</legend>
 				<RadioSet
-					name="selectedCurve"
-					state={selectedCurve}
+					name="ccSelectedCurve"
+					state={ccSelectedCurve}
 					buttons={colorChannelButtons}
 					onChange={selectCurve} />
 			</fieldset>
 			<Curves
 				ref={curvesRef}
-				curve={colorCurves[selectedCurve]}
-				selectedCurve={selectedCurve}
+				curve={props[ccSelectedCurve]}
+				selectedCurve={ccSelectedCurve}
 				curveColor={curveColor}
 				backgroundCurves={channelCurves}
 				addCurvePoint={dispatchAddCurvePoint}
 				addOrUpdateCurvePoint={dispatchAddOrUpdateCurvePoint}
 				deleteCurvePoint={dispatchDeleteCurvePoint}
 				cleanupCurve={dispatchCleanupCurve}
-				disabled={!enabled} />
+				disabled={!ccEnabled} />
 			<SliderDouble
 				leftThumb={{
 					...propsBlackPtStatic,
 					value: blackPt.x,
-					max: colorCurves[selectedCurve][1].x - 6,
+					max: props[ccSelectedCurve][1].x - 6,
 					onChange: setBlackPoint,
 					onClick() {
 						curvesRef.current?.setSelectedPoint(blackPt)
@@ -250,7 +250,7 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 				rightThumb={{
 					...propsWhitePtStatic,
 					value: whitePt.x,
-					min: colorCurves[selectedCurve].at(-2).x + 6,
+					min: props[ccSelectedCurve].at(-2).x + 6,
 					onChange: setWhitePoint,
 					onClick() {
 						curvesRef.current?.setSelectedPoint(whitePt)
@@ -260,18 +260,18 @@ const ColorCorrection = ({ id, colorCurves, eyedropper, setEyedropper, editAll, 
 				max={256}
 				fineTuneStep={1}
 				hasMiddleThumb={false}
-				disabled={!enabled} />
+				disabled={!ccEnabled} />
 		</>
 	)
 }
 
 const ColorCorrectionPanel = props => {
-	const { isBatch, colorCurves, id, dispatch } = props
+	const { isBatch, id, dispatch } = props
 
 	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(createColorCurvesCopier, copySettings, dispatch)({ colorCurves }),
-		() => pipe(createColorCurvesCopier, applySettingsToAll(id), dispatch)({ colorCurves })
-	]), [isBatch, id, colorCurves])
+		() => pipe(createColorCurvesCopier, copySettings, dispatch)({}),
+		() => pipe(createColorCurvesCopier, applySettingsToAll(id), dispatch)({})
+	]), [isBatch, id])
 
 	return ( 
 		<AccordionPanel
@@ -294,15 +294,13 @@ const pointPropType = exact({
 
 const propTypes = {
 	id: string.isRequired,
-	colorCurves: exact({
-		enabled: bool,
-		hidden: bool,
-		selectedCurve: oneOf(['rgb', 'r', 'g', 'b']),
-		rgb: arrayOf(pointPropType),
-		r: arrayOf(pointPropType),
-		g: arrayOf(pointPropType),
-		b: arrayOf(pointPropType)
-	}).isRequired,
+	ccEnabled: bool,
+	ccHidden: bool,
+	ccSelectedCurve: oneOf(['ccRGB', 'ccR', 'ccG', 'ccB']),
+	ccRGB: arrayOf(pointPropType),
+	ccR: arrayOf(pointPropType),
+	ccG: arrayOf(pointPropType),
+	ccB: arrayOf(pointPropType),
 	eyedropper: exact({
 		active: oneOf([false, 'white', 'black', 'key', 'background']),
 		pixelData: oneOfType([bool, exact({
@@ -313,7 +311,6 @@ const propTypes = {
 	}).isRequired,
 	setEyedropper: func.isRequired,
 	isBatch: bool.isRequired,
-	editAll: bool.isRequired,
 	dispatch: func.isRequired
 }
 
