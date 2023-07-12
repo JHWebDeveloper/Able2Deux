@@ -8,7 +8,12 @@ import {
 	updateMediaStateBySelection
 } from 'actions'
 
-import { clamp, createSettingsMenu, pipe } from 'utilities'
+import {
+	clamp,
+	createSettingsMenu,
+	extractCropProps,
+	pipe
+} from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderDouble from '../../form_elements/SliderDouble'
@@ -156,13 +161,12 @@ const Crop = props => {
 }
 
 const CropPanel = props => {
-	const { isBatch, id, cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, dispatch } = props
-	const cropProps = { cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR }
+	const { isBatch, id, dispatch } = props
 
-	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)(cropProps),
-		() => pipe(applySettingsToAll(id), dispatch)(cropProps)
-	]), [isBatch, id, cropProps])
+	const settingsMenu = createSettingsMenu(isBatch, [
+		() => pipe(extractCropProps, copySettings, dispatch)(props),
+		() => pipe(extractCropProps, applySettingsToAll(id), dispatch)(props)
+	])
 
 	return (
 		<AccordionPanel
