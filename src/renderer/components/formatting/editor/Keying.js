@@ -11,7 +11,7 @@ import {
 
 import {
 	createSettingsMenu,
-	objectPick,
+	extractKeyingProps,
 	pipe,
 	rgbToHex
 } from 'utilities'
@@ -44,11 +44,6 @@ const keyTypeButtons = [
 		value: 'lumakey'
 	}
 ]
-
-const extractKeyingProps = (() => {
-	const props = ['keyingEnabled', 'keyingHidden', 'keyingType', 'keyingColor', 'keyingSimilarity', 'keyingBlend', 'keyingThreshold', 'keyingTolerance', 'keyingSoftness']
-	return obj => objectPick(obj, props)
-})()
 
 const LumaKeySliders = ({ threshold, tolerance, softness, onChange, disabled }) => {
 	const thresholdProps = {
@@ -229,12 +224,11 @@ const Keying = props => {
 
 const KeyingPanel = props => {
 	const { isBatch, id, dispatch } = props
-	const keyingProps = extractKeyingProps(props)
 
-	const settingsMenu = useMemo(() => createSettingsMenu(isBatch, [
-		() => pipe(copySettings, dispatch)(keyingProps),
-		() => pipe(applySettingsToAll(id), dispatch)(keyingProps)
-	]), [isBatch, id, keyingProps])
+	const settingsMenu = createSettingsMenu(isBatch, [
+		() => pipe(extractKeyingProps, copySettings, dispatch)(props),
+		() => pipe(extractKeyingProps, applySettingsToAll(id), dispatch)(props)
+	])
 
 	return (
 		<AccordionPanel
