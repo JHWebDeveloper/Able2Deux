@@ -6,7 +6,7 @@ import { PrefsProvider, PrefsContext } from 'store'
 import { mainReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
 import { useAugmentedDispatch } from 'hooks'
-import { objectPick, pipe } from 'utilities'
+import { extractDefaultPrefs, pipe } from 'utilities'
 
 const initState = {
 	optimize: 'quality',
@@ -24,12 +24,6 @@ const initState = {
 	rendering: false
 }
 
-const extractDefaultPrefsForMainState = (() => {
-	const defaults = ['saveLocations', 'editAll', 'split', 'optimize', 'timerEnabled', 'timer', 'screenshot', 'previewQuality', 'previewHeight', 'aspectRatioMarkers']
-
-	return obj => objectPick(obj, defaults)
-})()
-
 export const MainContext = createContext()
 
 const MainProviderWithDefaultPrefs = ({ children }) => {
@@ -37,7 +31,7 @@ const MainProviderWithDefaultPrefs = ({ children }) => {
 	const { preferences } = useContext(PrefsContext)
 
 	useEffect(() => {
-		pipe(extractDefaultPrefsForMainState, updateState, dispatch)(preferences)
+		pipe(extractDefaultPrefs, updateState, dispatch)(preferences)
 	}, [preferences])
 
 	return (
