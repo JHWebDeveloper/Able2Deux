@@ -15,20 +15,12 @@ export const createDefaultCurvePoints = () => [
 ]
 
 const defaultMediaData = {
+	// metadata
 	id: '',
 	refId: '',
 	focused: false,
 	anchored: false,
 	selected: false,
-	status: PENDING,
-	download: {
-		eta: 0,
-		percent: 0
-	},
-	render: {
-		status: PENDING,
-		percent: 0
-	},
 	acquisitionType: '',
 	mediaType: 'video',
 	hasAlpha: false,
@@ -37,6 +29,17 @@ const defaultMediaData = {
 	sourceFilePath: '',
 	tempFilePath: '',
 	thumbnail: '',
+	timecode: 0,
+	exportFilename: '',
+
+	// progress data
+	status: PENDING,
+	downloadETA: 0,
+	downloadPercent: 0,
+	renderStatus: PENDING,
+	renderPercent: 0,
+
+	// media attributes
 	title: '',
 	duration: 0,
 	totalFrames: 0,
@@ -50,71 +53,73 @@ const defaultMediaData = {
 	channelLayout: '',
 	sampleRate: '',
 	bitRate: '',
-	timecode: 0,
+
+	// file
 	filename: '',
-	exportFilename: '',
 	start: 0,
 	end: 0,
-	audio: {
-		exportAs: 'video_audio',
-		format: 'wav'
-	},
+
+	// audio
+	audioVideoTracks: 'video_audio',
+	audioExportFormat: 'wav',
+
+	// framing
 	arc: 'none',
 	background: 'blue',
 	backgroundMotion: 'animated',
 	bgColor: '#000000',
 	overlay: 'none',
-	source: {
-		sourceName: '',
-		prefix: true,
-		onTop: false,
-		data: ''
-	},
+
+	// source panel
+	sourceName: '',
+	sourcePrefix: true,
+	sourceOnTop: false,
+	sourceData: '',
+
+	// position
 	centering: 0,
-	position: {
-		x: 0,
-		y: 0
-	},
-	scale: {
-		x: 100,
-		y: 100,
-		link: true
-	},
-	crop: {
-		t: 0,
-		r: 100,
-		b: 100,
-		l: 0,
-		linkTB: true,
-		linkLR: true
-	},
-	rotation: {
-		transpose: '',
-		reflect: '',
-		freeRotateMode: 'inside_bounds',
-		angle: 0,
-		center: 0
-	},
-	keying: {
-		enabled: false,
-		hidden: false,
-		type: 'colorkey',
-		color: '#04f404',
-		similarity: 1,
-		blend: 0,
-		threshold: 0,
-		tolerance: 0,
-		softness: 0
-	},
-	colorCurves: {
-		enabled: false,
-		hidden: false,
-		selectedCurve: 'rgb',
-		rgb: createDefaultCurvePoints(),
-		r: createDefaultCurvePoints(),
-		g: createDefaultCurvePoints(),
-		b: createDefaultCurvePoints()
-	}
+	positionX: 0,
+	positionY: 0,
+
+	// scale
+	scaleX: 100,
+	scaleY: 100,
+	scaleLink: true,
+
+	// crop
+	cropT: 0,
+	cropR: 100,
+	cropB: 100,
+	cropL: 0,
+	cropLinkTB: true,
+	cropLinkLR: true,
+
+	// rotation
+	transpose: '',
+	reflect: '',
+	freeRotateMode: 'inside_bounds',
+	angle: 0,
+	rotatedCentering: 0,
+
+	// keying
+	keyingEnabled: false,
+	keyingHidden: false,
+	keyingType: 'colorkey',
+	keyingColor: '#04f404',
+	keyingSimilarity: 1,
+	keyingBlend: 0,
+	keyingThreshold: 0,
+	keyingTolerance: 0,
+	keyingSoftness: 0,
+	
+	// color correction
+	ccEnabled: false,
+	ccHidden: false,
+	ccSelectedCurve: 'ccRGB',
+	ccRGB: createDefaultCurvePoints(),
+	ccR: createDefaultCurvePoints(),
+	ccG: createDefaultCurvePoints(),
+	ccB: createDefaultCurvePoints(),
 }
 
 export const createMediaData = async params => {
