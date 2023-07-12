@@ -1,5 +1,5 @@
 import React from 'react'
-import { bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
+import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
 import { objectPick } from 'utilities'
 
@@ -122,7 +122,13 @@ const EditorOptions = props => {
 						{...common} />
 				)}
 				<ColorCorrection
-					colorCurves={props.colorCurves}
+					ccEnabled={props.ccEnabled}
+					ccHidden={props.ccHidden}
+					ccSelectedCurve={props.ccSelectedCurve}
+					ccRGB={props.ccRGB}
+					ccR={props.ccR}
+					ccG={props.ccG}
+					ccB={props.ccB}
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
 					{...common} />
@@ -148,34 +154,49 @@ EditorOptions.propTypes = {
 	totalFrames: number,
 	duration: number,
 	split: number,
-	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']),
-	audioExportFormat: oneOf(['wav', 'mp3', 'bars']),
-	arc: string,
-	background: string,
-	backgroundMotion: string,
-	bgColor: string,
-	overlay: string,
+	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']).isRequired,
+	audioExportFormat: oneOf(['wav', 'mp3', 'bars']).isRequired,
+	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
+	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
+	backgroundMotion: oneOf(['animated', 'still', 'auto']).isRequired,
+	bgColor: string.isRequired,
+	overlay: oneOf(['none', 'tv', 'laptop']).isRequired,
 	sourceName: string,
 	sourcePrefix: bool,
 	sourceOnTop: bool,
-	centering: oneOfType([oneOf(['']), number]),
-	position: object,
-	scaleX: oneOfType([oneOf(['']), number]),
-	scaleY: oneOfType([oneOf(['']), number]),
-	scaleLink: bool,
-	cropT: oneOfType([oneOf(['']), number]),
-	cropR: oneOfType([oneOf(['']), number]),
-	cropB: oneOfType([oneOf(['']), number]),
-	cropL: oneOfType([oneOf(['']), number]),
-	cropLinkTB: bool,
-	cropLinkLR: bool,
+	centering: oneOfType([oneOf(['']), number]).isRequired,
+	positionX: oneOfType([oneOf(['']), number]).isRequired,
+	positionY: oneOfType([oneOf(['']), number]).isRequired,
+	scaleX: oneOfType([oneOf(['']), number]).isRequired,
+	scaleY: oneOfType([oneOf(['']), number]).isRequired,
+	scaleLink: bool.isRequired,
+	cropT: oneOfType([oneOf(['']), number]).isRequired,
+	cropR: oneOfType([oneOf(['']), number]).isRequired,
+	cropB: oneOfType([oneOf(['']), number]).isRequired,
+	cropL: oneOfType([oneOf(['']), number]).isRequired,
+	cropLinkTB: bool.isRequired,
+	cropLinkLR: bool.isRequired,
 	transpose: oneOf(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2']),
 	reflect: oneOf(['', 'hflip', 'vflip', 'hflip,vflip']),
 	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
 	angle: number,
 	center: number,
-	keying: object,
-	colorCurves: object,
+	keyingBlend: number,
+	keyingColor: string,
+	keyingEnabled: bool,
+	keyingHidden: bool,
+	keyingSimilarity: number,
+	keyingSoftness: number,
+	keyingThreshold: number,
+	keyingTolerance: number,
+	keyingType: oneOf(['colorkey', 'chromakey', 'lumakey']),
+	ccEnabled: bool,
+	ccHidden: bool,
+	ccSelectedCurve: oneOf(['ccRGB', 'ccR', 'ccG', 'ccB']),
+	ccRGB: arrayOf(object),
+	ccR: arrayOf(object),
+	ccG: arrayOf(object),
+	ccB: arrayOf(object),
 	eyedropper: object.isRequired,
 	setEyedropper: func.isRequired,
 	dispatch: func.isRequired
