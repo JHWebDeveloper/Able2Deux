@@ -3,6 +3,7 @@ export * from './componentHelpers'
 export * from './CSPL'
 export * from './drawAble2Logo'
 export * from './factories'
+export * from './objectPickers'
 export * from './valueModifiers'
 export * from '../../shared/utilities'
 
