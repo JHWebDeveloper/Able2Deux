@@ -108,7 +108,15 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 				tolerance: exportData.keyingTolerance,
 				type: exportData.keyingType
 			},
-			colorCurves: exportData.colorCurves
+			colorCurves: {
+				enabled: exportData.ccEnabled,
+				hidden: exportData.ccHidden,
+				selectedCurve: exportData.ccSelectedCurve,
+				rgb: exportData.ccRGB,
+				r: exportData.ccR,
+				g: exportData.ccG,
+				b: exportData.ccB
+			}
 		}, true, exportData.previewSize))
 		.run()
 })

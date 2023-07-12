@@ -323,7 +323,15 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				tolerance: exportData.keyingTolerance,
 				type: exportData.keyingType
 			},
-			colorCurves: exportData.colorCurves
+			colorCurves: {
+				enabled: exportData.ccEnabled,
+				hidden: exportData.ccHidden,
+				selectedCurve: exportData.ccSelectedCurve,
+				rgb: exportData.ccRGB,
+				r: exportData.ccR,
+				g: exportData.ccG,
+				b: exportData.ccB
+			}
 		}))
 	} else if (audioExportFormat === 'bars') {
 		renderCmd
