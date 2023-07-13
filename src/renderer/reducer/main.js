@@ -55,6 +55,8 @@ export const mainReducer = (state, action) => {
 			return pasteSettings(state, payload)
 		case ACTION.APPLY_TO_ALL:
 			return applyToAll(state, payload)
+		case ACTION.APPLY_TO_SELECTION:
+			return applyToSelection(state, payload)
 		case ACTION.ADD_CURVE_POINT:
 			return addCurvePoint(state, payload)
 		case ACTION.ADD_OR_UPDATE_CURVE_POINT:
@@ -174,17 +176,21 @@ const pasteSettings = (state, payload) => {
 	}
 }
 
-const applyToAll = (state, payload) => {
-	const { id, properties } = payload
+const applyToAll = (state, { id, properties }) => ({
+	...state,
+	media: state.media.map(item => item.id !== id ? {
+		...item,
+		...replaceIds(properties)
+	} : item)
+})
 
-	return {
-		...state,
-		media: state.media.map(item => item.id !== id ? {
-			...item,
-			...replaceIds(properties)
-		} : item)
-	}
-}
+const applyToSelection = (state, { id, properties }) => ({
+	...state,
+	media: state.media.map(item => item.selected && item.id !== id ? {
+		...item,
+		...replaceIds(properties)
+	} : item)
+})
 
 const addCurvePoint = (state, payload) => {
 	const { id, curveName, pointData } = payload
