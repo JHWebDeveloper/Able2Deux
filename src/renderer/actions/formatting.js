@@ -67,6 +67,11 @@ export const applySettingsToAll = id => properties => ({
 	payload: { id, properties }
 })
 
+export const applySettingsToSelection = id => properties => ({
+	type: ACTION.APPLY_TO_SELECTION,
+	payload: { id, properties }
+})
+
 export const duplicateMedia = index => ({
 	type: ACTION.DUPLICATE_MEDIA,
 	payload: { index }
