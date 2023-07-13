@@ -1,13 +1,11 @@
 import React from 'react'
 import { arrayOf, bool, func, object } from 'prop-types'
 
-import { selectAllMedia } from 'actions'
-
 import MediaInfo from './MediaInfo'
 import BatchList from './BatchList'
 import MediaSelectorOptions from './MediaSelectorOptions'
 
-const MediaSelector = ({ media, focused, isBatch, dispatch }) => (
+const MediaSelector = ({ media, focused, isBatch, multipleItemsSelected, allItemsSelected, dispatch }) => (
 	<div
 		id="media-selector"
 		className="formatting-panel">
@@ -28,6 +26,9 @@ const MediaSelector = ({ media, focused, isBatch, dispatch }) => (
 			dispatch={dispatch} />
 		{isBatch ? (
 			<MediaSelectorOptions
+				media={media}
+				multipleItemsSelected={multipleItemsSelected}
+				allItemsSelected={allItemsSelected}
 				dispatch={dispatch} />
 		): <></>}
 	</div>
@@ -37,7 +38,8 @@ MediaSelector.propTypes = {
 	media: arrayOf(object).isRequired,
 	focused: object.isRequired,
 	isBatch: bool.isRequired,
-	editAll: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
+	allItemsSelected: bool.isRequired,
 	dispatch: func.isRequired
 }
 
