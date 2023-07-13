@@ -15,7 +15,6 @@ import * as STATUS from 'status'
 import MediaElement from './MediaElement'
 
 // ---- store warning strings
-const removeAllMediaMessage = 'Remove all Entries?'
 const removeMediaDetail = 'This cannot be undone. Proceed?'
 const removeAllMediaDetail = `Any current downloads will be canceled. ${removeMediaDetail}`
 const removeReferencedMediaDetail = `This media file has duplicates referencing it. Deleting this file will also delete these references. ${removeMediaDetail}`
@@ -64,17 +63,17 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 	const removeReferencedMediaWarning = useCallback(({ title, refId }) => warn({
 		message: `Remove "${title}"?`,
 		detail: removeReferencedMediaDetail,
-		enabled: warnings.removeReferenced,
+		enabled: true, // we don't need to pass the warning here boolean because we already checked it prior to executing
 		callback() {
 			dispatch(removeAllMedia(media.filter(item => item.refId === refId)))
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('removeReferenced'))
 		}
-	}), [media, warnings.removeReferenced])
+	}), [media])
 
 	const removeAllMediaWarning = useCallback(() => warn({
-		message: removeAllMediaMessage,
+		message: 'Remove all entries?',
 		detail: removeAllMediaDetail,
 		enabled: warnings.removeAll,
 		callback() {
@@ -96,7 +95,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 				{uniqueMedia.map(mediaElement => (
 					<MediaElement
 						key={mediaElement.id}
-						removeMediaWarning={mediaElement.references < 2 ? removeMediaWarning : removeReferencedMediaWarning}
+						removeMediaWarning={mediaElement.references > 1 && warnings.removeReferenced ? removeReferencedMediaWarning : removeMediaWarning}
 						{...mediaElement} />
 				))}
 			</div>
