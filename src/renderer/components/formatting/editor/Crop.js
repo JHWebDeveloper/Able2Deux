@@ -161,9 +161,9 @@ const Crop = props => {
 }
 
 const CropPanel = props => {
-	const { isBatch, id, dispatch } = props
+	const { multipleItems, id, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(multipleItems, [
 		() => pipe(extractCropProps, copySettings, dispatch)(props),
 		() => pipe(extractCropProps, applySettingsToAll(id), dispatch)(props)
 	])
@@ -181,7 +181,7 @@ const CropPanel = props => {
 
 const propTypes = {
 	id: string.isRequired,
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	cropT: oneOfType([oneOf(['']), number]),
 	cropB: oneOfType([oneOf(['']), number]),
 	cropR: oneOfType([oneOf(['']), number]),

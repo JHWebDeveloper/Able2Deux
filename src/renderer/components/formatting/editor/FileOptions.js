@@ -62,7 +62,7 @@ const FileOptionsPanel = props => (
 const propTypes = {
 	id: string.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	filename: string.isRequired,
 	start: number.isRequired,
 	end: number.isRequired,

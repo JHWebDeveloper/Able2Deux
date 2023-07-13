@@ -74,9 +74,9 @@ const Audio = ({ mediaType, audioVideoTracks, audioExportFormat, dispatch }) => 
 }
 
 const AudioPanel = props => {
-	const { isBatch, audioVideoTracks, audioExportFormat, id, mediaType, dispatch } = props
+	const { multipleItems, audioVideoTracks, audioExportFormat, id, mediaType, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(multipleItems, [
 		() => pipe(copySettings, dispatch)({ audioVideoTracks, audioExportFormat }),
 		() => pipe(applySettingsToAll(id), dispatch)({ audioVideoTracks, audioExportFormat })
 	])
@@ -95,7 +95,7 @@ const AudioPanel = props => {
 
 const propTypes = {
 	id: string.isRequired,
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']),
 	audioExportFormat: oneOf(['wav', 'mp3', 'bars']),

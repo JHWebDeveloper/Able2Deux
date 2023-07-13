@@ -223,9 +223,9 @@ const Keying = props => {
 }
 
 const KeyingPanel = props => {
-	const { isBatch, id, dispatch } = props
+	const { multipleItems, id, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(multipleItems, [
 		() => pipe(extractKeyingProps, copySettings, dispatch)(props),
 		() => pipe(extractKeyingProps, applySettingsToAll(id), dispatch)(props)
 	])
@@ -276,7 +276,7 @@ const propTypes = {
 		})])
 	}).isRequired,
 	setEyedropper: func.isRequired,
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	dispatch: func.isRequired
 }
 

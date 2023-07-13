@@ -7,7 +7,7 @@ export const detectTabExit = callback => e => {
 	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)
 }
 
-export const createSettingsMenu = (isBatch, actions) => isBatch ? [
+export const createSettingsMenu = (multipleItems, actions) => multipleItems ? [
 	{
 		label: 'Copy Setting',
 		action() { actions[0]() }

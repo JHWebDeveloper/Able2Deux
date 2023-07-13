@@ -5,7 +5,7 @@ import MediaInfo from './MediaInfo'
 import BatchList from './BatchList'
 import MediaSelectorOptions from './MediaSelectorOptions'
 
-const MediaSelector = ({ media, focused, isBatch, multipleItemsSelected, allItemsSelected, dispatch }) => (
+const MediaSelector = ({ media, focused, multipleItems, multipleItemsSelected, allItemsSelected, dispatch }) => (
 	<div
 		id="media-selector"
 		className="formatting-panel">
@@ -24,7 +24,7 @@ const MediaSelector = ({ media, focused, isBatch, multipleItemsSelected, allItem
 		<BatchList
 			media={media}
 			dispatch={dispatch} />
-		{isBatch ? (
+		{multipleItems ? (
 			<MediaSelectorOptions
 				media={media}
 				multipleItemsSelected={multipleItemsSelected}
@@ -37,7 +37,7 @@ const MediaSelector = ({ media, focused, isBatch, multipleItemsSelected, allItem
 MediaSelector.propTypes = {
 	media: arrayOf(object).isRequired,
 	focused: object.isRequired,
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
 	allItemsSelected: bool.isRequired,
 	dispatch: func.isRequired

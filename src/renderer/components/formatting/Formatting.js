@@ -30,7 +30,7 @@ const Formatting = () => {
 	if (!media.length) return <Navigate replace to="/" />
 
 	const focused = media.find(item => item.focused) || {}
-	const isBatch = media.length > 1
+	const multipleItems = media.length > 1
 	const selectionCount = arrayCount(media, item => item.selected)
 	const multipleItemsSelected = selectionCount > 1
 	const allItemsSelected = selectionCount === media.length
@@ -49,18 +49,18 @@ const Formatting = () => {
 				<MediaSelector
 					media={media}
 					focused={focused}
-					isBatch={isBatch}
+					multipleItems={multipleItems}
 					multipleItemsSelected={multipleItemsSelected}
 					allItemsSelected={allItemsSelected}
 					dispatch={dispatch} />	
-				{isBatch ? (
+				{multipleItems ? (
 					<BatchName
 						batchName={batchName}
 						batchNameType={batchNameType}
 						dispatch={dispatch} />
 				) : <></>}
 				<SaveOptions
-					isBatch={isBatch}
+					multipleItems={multipleItems}
 					saveLocations={saveLocations}
 					dispatch={dispatch} />
 				<SaveButtons setRendering={setRendering} />
@@ -70,7 +70,7 @@ const Formatting = () => {
 				aspectRatioMarkers={aspectRatioMarkers}
 				previewQuality={previewQuality}
 				previewHeight={previewHeight}
-				isBatch={isBatch}
+				multipleItems={multipleItems}
 				split={split}
 				dispatch={dispatch} />
 			{rendering ? (

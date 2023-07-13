@@ -204,10 +204,10 @@ const Framing = props => {
 }
 
 const FramingPanel = props => {
-	const { isBatch, id, arc, background, overlay, dispatch } = props
+	const { multipleItems, id, arc, background, overlay, dispatch } = props
 	const framingProps = { arc, background, overlay }
 
-	const settingsMenu = createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(multipleItems, [
 		() => pipe(copySettings, dispatch)(framingProps),
 		() => pipe(applySettingsToAll(id), dispatch)(framingProps)
 	])
@@ -233,7 +233,7 @@ BackgroundColorPicker.propTypes = {
 
 const propTypes = {
 	id: string.isRequired,
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
 	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
 	backgroundMotion: oneOf(['animated', 'still', 'auto']).isRequired,

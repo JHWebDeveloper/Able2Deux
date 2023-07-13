@@ -271,9 +271,9 @@ const ColorCorrection = props => {
 }
 
 const ColorCorrectionPanel = props => {
-	const { isBatch, id, dispatch } = props
+	const { multipleItems, id, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(multipleItems, [
 		() => pipe(extractColorCorrectionProps, createColorCurvesCopier, copySettings, dispatch)(props),
 		() => pipe(extractColorCorrectionProps, createColorCurvesCopier, applySettingsToAll(id), dispatch)(props)
 	])
@@ -315,7 +315,7 @@ const propTypes = {
 		})])
 	}).isRequired,
 	setEyedropper: func.isRequired,
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	dispatch: func.isRequired
 }
 

@@ -182,9 +182,9 @@ const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, free
 }
 
 const ScalePanel = props => {
-	const { isBatch, id, dispatch } = props
+	const { multipleItems, id, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(multipleItems, [
 		() => pipe(extractScaleProps, copySettings, dispatch)(props),
 		() => pipe(extractScaleProps, applySettingsToAll(id), dispatch)(props)
 	])
@@ -207,7 +207,7 @@ FitButton.propTypes = {
 
 const propTypes = {
 	id: string.isRequired,
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	width: number.isRequired,
 	height: number.isRequired,
 	scaleX: oneOfType([oneOf(['']), number]),

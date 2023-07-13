@@ -5,11 +5,11 @@ import { toggleSaveLocation } from 'actions'
 
 import Checkbox from '../form_elements/Checkbox'
 
-const SaveOptions = ({ isBatch, saveLocations, dispatch }) => (
+const SaveOptions = ({ multipleItems, saveLocations, dispatch }) => (
 	<div
 		id="save-options"
 		className="formatting-panel"
-		style={{ gridRow: isBatch ? 3 : '2 / span 2' }}>
+		style={{ gridRow: multipleItems ? 3 : '2 / span 2' }}>
 		<h2>Save Locations</h2>
 		<div>
 			{saveLocations.map(({ id, label, hidden, checked }) => hidden ? <></> : (
@@ -24,7 +24,7 @@ const SaveOptions = ({ isBatch, saveLocations, dispatch }) => (
 )
 
 SaveOptions.propTypes = {
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	saveLocations: arrayOf(exact({
 		checked: bool,
 		directory: string,

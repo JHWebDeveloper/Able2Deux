@@ -55,7 +55,7 @@ export const extractDefaultPrefs = createObjectPicker(
   'aspectRatioMarkers'
 )
 
-export const extractCommonProps = createObjectPicker('id', 'mediaType', 'isBatch', 'width', 'height', 'aspectRatio', 'dispatch')
+export const extractCommonProps = createObjectPicker('id', 'mediaType', 'multipleItems', 'width', 'height', 'aspectRatio', 'dispatch')
 
 export const extractScaleProps = createObjectPicker('scaleX', 'scaleY', 'scaleLink')
 

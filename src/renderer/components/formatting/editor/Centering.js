@@ -41,9 +41,9 @@ const Centering = ({ centering, dispatch }) => {
 }
 
 const CenteringPanel = props => {
-	const { isBatch, centering, id, dispatch } = props
+	const { multipleItems, centering, id, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(multipleItems, [
 		() => pipe(copySettings, dispatch)({ centering }),
 		() => pipe(applySettingsToAll(id), dispatch)({ centering })
 	])
@@ -62,7 +62,7 @@ const CenteringPanel = props => {
 
 const propTypes = {
 	id: string.isRequired,
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	centering: oneOfType([oneOf(['']), number]).isRequired,
 	dispatch: func.isRequired
 }

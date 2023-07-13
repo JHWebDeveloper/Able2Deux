@@ -177,10 +177,10 @@ const Rotation = props => {
 }
 
 const RotationPanel = props => {
-	const { isBatch, id, transpose, reflect, freeRotateMode, angle, rotatedCentering, dispatch } = props
+	const { multipleItems, id, transpose, reflect, freeRotateMode, angle, rotatedCentering, dispatch } = props
 	const rotationProps = { transpose, reflect, freeRotateMode, angle, rotatedCentering }
 
-	const settingsMenu = createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(multipleItems, [
 		() => pipe(copySettings, dispatch)(rotationProps),
 		() => pipe(applySettingsToAll(id), dispatch)(rotationProps)
 	])
@@ -198,7 +198,7 @@ const RotationPanel = props => {
 
 const propTypes = {
 	id: string,
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	transpose: oneOf(transpositions),
 	reflect: oneOf(flip),
 	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),

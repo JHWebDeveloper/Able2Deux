@@ -88,10 +88,10 @@ const Source = props => {
 }
 
 const SourcePanel = props => {
-	const { isBatch, sourceName, sourcePrefix, sourceOnTop, id, dispatch } = props
+	const { multipleItems, sourceName, sourcePrefix, sourceOnTop, id, dispatch } = props
 	const sourceProps = { sourceName, sourcePrefix, sourceOnTop }
 
-	const settingsMenu = createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(multipleItems, [
 		() => pipe(copySettings, dispatch)(sourceProps),
 		() => pipe(applySettingsToAll(id), dispatch)(sourceProps)
 	])
@@ -110,7 +110,7 @@ const SourcePanel = props => {
 
 const propTypes = {
 	id: string.isRequired,
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	sourceName: string,
 	sourcePrefix: bool,
 	sourceOnTop: bool,

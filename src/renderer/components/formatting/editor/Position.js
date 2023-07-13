@@ -46,10 +46,10 @@ const Position = ({ positionX, positionY, dispatch }) => {
 }
 
 const PositionPanel = props => {
-	const { isBatch, id, positionX, positionY, dispatch } = props
+	const { multipleItems, id, positionX, positionY, dispatch } = props
 	const positionProps = { positionX, positionY }
 
-	const settingsMenu = createSettingsMenu(isBatch, [
+	const settingsMenu = createSettingsMenu(multipleItems, [
 		() => pipe(copySettings, dispatch)(positionProps),
 		() => pipe(applySettingsToAll(id), dispatch)(positionProps)
 	])
@@ -67,7 +67,7 @@ const PositionPanel = props => {
 
 const propTypes = {
 	id: string.isRequired,
-	isBatch: bool.isRequired,
+	multipleItems: bool.isRequired,
 	positionX: oneOfType([oneOf(['']), number]),
 	positionY: oneOfType([oneOf(['']), number]),
 	dispatch: func.isRequired
