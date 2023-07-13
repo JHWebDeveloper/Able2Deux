@@ -4,6 +4,7 @@ import 'css/index/formatting.css'
 
 import { MainContext } from 'store'
 import { selectMedia, updateState } from 'actions'
+import { arrayCount } from 'utilities'
 
 import MediaSelector from './selector/MediaSelector'
 import BatchName from './BatchName'
@@ -30,6 +31,9 @@ const Formatting = () => {
 
 	const focused = media.find(item => item.focused) || {}
 	const isBatch = media.length > 1
+	const selectionCount = arrayCount(media, item => item.selected)
+	const multipleItemsSelected = selectionCount > 1
+	const allItemsSelected = selectionCount === media.length
 
 	const setRendering = useCallback(isRendering => {
 		dispatch(updateState({ rendering: isRendering }))
@@ -46,6 +50,8 @@ const Formatting = () => {
 					media={media}
 					focused={focused}
 					isBatch={isBatch}
+					multipleItemsSelected={multipleItemsSelected}
+					allItemsSelected={allItemsSelected}
 					dispatch={dispatch} />	
 				{isBatch ? (
 					<BatchName
