@@ -7,15 +7,25 @@ export const detectTabExit = callback => e => {
 	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)
 }
 
-export const createSettingsMenu = (multipleItems, actions) => multipleItems ? [
+export const createSettingsMenu = ({
+	multipleItems,
+	multipleItemsSelected,
+	allItemsSelected
+}, actions, additionalOptions = []) => multipleItems ? [
 	{
 		label: 'Copy Setting',
 		action() { actions[0]() }
 	},
 	{
-		label: 'Apply to All',
+		label: 'Apply to Selected',
+		hide: !multipleItemsSelected || allItemsSelected || actions.length < 3,
 		action() { actions[1]() }
-	}
+	},
+	{
+		label: 'Apply to All',
+		action() { actions.at(-1)() }
+	},
+	...additionalOptions
 ] : []
 
 export const getStatusColor = status => {
