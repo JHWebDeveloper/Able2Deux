@@ -71,6 +71,8 @@ const Formatting = () => {
 				previewQuality={previewQuality}
 				previewHeight={previewHeight}
 				multipleItems={multipleItems}
+				multipleItemsSelected={multipleItemsSelected}
+				allItemsSelected={allItemsSelected}
 				split={split}
 				dispatch={dispatch} />
 			{rendering ? (
