@@ -13,7 +13,7 @@ import {
 
 import {
 	arrayCount,
-	extractCopyPasteSettings,
+	extractCopyPasteProps,
 	pipe,
 	warn
 } from 'utilities'
@@ -30,7 +30,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch })
 	const warnings = preferences
 
 	const copyAllSettings = useCallback(id => {
-		pipe(extractCopyPasteSettings, copySettings, dispatch)(media.find(item => item.id === id))
+		pipe(extractCopyPasteProps, copySettings, dispatch)(media.find(item => item.id === id))
 	}, [media])
 
 	const applyToAllWarning = useCallback(id => warn({
@@ -38,7 +38,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch })
 		detail: applyToAllDetail,
 		enabled: warnings.applyToAll,
 		callback() {
-			pipe(extractCopyPasteSettings, applySettingsToAll(id), dispatch)(media.find(item => item.id === id))
+			pipe(extractCopyPasteProps, applySettingsToAll(id), dispatch)(media.find(item => item.id === id))
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('applyToAll'))
