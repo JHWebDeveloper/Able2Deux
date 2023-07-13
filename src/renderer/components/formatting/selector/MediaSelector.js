@@ -1,11 +1,13 @@
 import React from 'react'
 import { arrayOf, bool, func, object } from 'prop-types'
 
+import { selectAllMedia } from 'actions'
+
 import MediaInfo from './MediaInfo'
 import BatchList from './BatchList'
-import EditAll from './EditAll'
+import MediaSelectorOptions from './MediaSelectorOptions'
 
-const MediaSelector = ({ media, focused, isBatch, editAll, dispatch }) => (
+const MediaSelector = ({ media, focused, isBatch, dispatch }) => (
 	<div
 		id="media-selector"
 		className="formatting-panel">
@@ -24,7 +26,10 @@ const MediaSelector = ({ media, focused, isBatch, editAll, dispatch }) => (
 		<BatchList
 			media={media}
 			dispatch={dispatch} />
-		{isBatch ? <EditAll editAll={editAll} dispatch={dispatch} /> : <></>}
+		{isBatch ? (
+			<MediaSelectorOptions
+				dispatch={dispatch} />
+		): <></>}
 	</div>
 )
 
