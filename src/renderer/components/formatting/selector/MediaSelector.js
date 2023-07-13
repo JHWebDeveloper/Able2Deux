@@ -23,6 +23,8 @@ const MediaSelector = ({ media, focused, multipleItems, multipleItemsSelected, a
 			dispatch={dispatch} />
 		<BatchList
 			media={media}
+			multipleItemsSelected={multipleItemsSelected}
+			allItemsSelected={allItemsSelected}
 			dispatch={dispatch} />
 		{multipleItems ? (
 			<MediaSelectorOptions
