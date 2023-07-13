@@ -25,7 +25,7 @@ const applyToAllMessage = 'Apply current settings to all media items?'
 const applyToAllDetail = 'This will overwrite the settings of all other media items in the batch except for filenames and start and end timecodes. This cannot be undone. Proceed?'
 const removeMediaDetail = 'This cannot be undone. Proceed?'
 
-const BatchList = ({ media, dispatch }) => {
+const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch }) => {
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const warnings = preferences
 
@@ -85,6 +85,8 @@ const BatchList = ({ media, dispatch }) => {
 						copyAllSettings={copyAllSettings}
 						applyToAllWarning={applyToAllWarning}
 						removeMediaWarning={removeMediaWarning}
+						multipleItemsSelected={multipleItemsSelected}
+						allItemsSelected={allItemsSelected}
 						dispatch={dispatch} />
 				))}
 			</DraggableList>
