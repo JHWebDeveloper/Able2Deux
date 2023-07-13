@@ -40,24 +40,27 @@ const MediaSelectorOptions = ({ media, allItemsSelected, multipleItemsSelected, 
 	}), [media, warnings.removeAll])
 
   const settingsMenu = useMemo(() => [
-    ...allItemsSelected ? [] : [{
+    {
       label: 'Select All',
+      hide: allItemsSelected,
       action: dispatchSelectAllMedia
-    }],
-    ...multipleItemsSelected ? [{
+    },
+    {
       label: 'Deselect All',
+      hide: !multipleItemsSelected,
       action: dispatchDeselectAllMedia
-    }] : [],
+    },
     { type: 'spacer' },
-    ...allItemsSelected ? [] : [{
+    {
       label: 'Remove Selected',
+      hide: allItemsSelected,
       action() {
         dispatch(removeMediaWarning({
           message: 'Remove Selected Media?',
           media: media.filter(item => item.selected)
         }))
       }
-    }],
+    },
     {
       label: 'Remove All',
       action() {
