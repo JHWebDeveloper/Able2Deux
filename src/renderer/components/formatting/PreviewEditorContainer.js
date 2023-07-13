@@ -37,6 +37,8 @@ const PreviewEditorContainer = props => {
 				setEyedropper={setEyedropper}
 				split={props.split}
 				multipleItems={props.multipleItems}
+				multipleItemsSelected={props.multipleItemsSelected}
+				allItemsSelected={props.allItemsSelected}
 				dispatch={dispatch}
 				{...focused} />
 		</div>
