@@ -5,6 +5,7 @@ import { PrefsContext } from 'store'
 
 import {
 	applySettingsToAll,
+	applySettingsToSelection,
 	copySettings,
 	disableWarningAndSave,
 	toggleMediaCheckbox,
@@ -88,11 +89,12 @@ const Source = props => {
 }
 
 const SourcePanel = props => {
-	const { multipleItems, sourceName, sourcePrefix, sourceOnTop, id, dispatch } = props
+	const { sourceName, sourcePrefix, sourceOnTop, id, dispatch } = props
 	const sourceProps = { sourceName, sourcePrefix, sourceOnTop }
 
-	const settingsMenu = createSettingsMenu(multipleItems, [
+	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(copySettings, dispatch)(sourceProps),
+		() => pipe(applySettingsToSelection(id), dispatch)(sourceProps),
 		() => pipe(applySettingsToAll(id), dispatch)(sourceProps)
 	])
 

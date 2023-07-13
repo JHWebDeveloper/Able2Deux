@@ -5,6 +5,7 @@ import {
 	addCurvePoint,
 	addOrUpdateCurvePoint,
 	applySettingsToAll,
+	applySettingsToSelection,
 	cleanupCurve,
 	colorBalance,
 	copySettings,
@@ -271,10 +272,11 @@ const ColorCorrection = props => {
 }
 
 const ColorCorrectionPanel = props => {
-	const { multipleItems, id, dispatch } = props
+	const { id, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(multipleItems, [
+	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(extractColorCorrectionProps, createColorCurvesCopier, copySettings, dispatch)(props),
+		() => pipe(applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractColorCorrectionProps, createColorCurvesCopier, applySettingsToAll(id), dispatch)(props)
 	])
 

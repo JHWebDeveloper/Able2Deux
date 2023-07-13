@@ -3,6 +3,7 @@ import { bool, func, oneOf, string } from 'prop-types'
 
 import {
 	applySettingsToAll,
+	applySettingsToSelection,
 	copySettings,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
@@ -74,11 +75,13 @@ const Audio = ({ mediaType, audioVideoTracks, audioExportFormat, dispatch }) => 
 }
 
 const AudioPanel = props => {
-	const { multipleItems, audioVideoTracks, audioExportFormat, id, mediaType, dispatch } = props
+	const { audioVideoTracks, audioExportFormat, id, mediaType, dispatch } = props
+	const audioProps = { audioVideoTracks, audioExportFormat }
 
-	const settingsMenu = createSettingsMenu(multipleItems, [
-		() => pipe(copySettings, dispatch)({ audioVideoTracks, audioExportFormat }),
-		() => pipe(applySettingsToAll(id), dispatch)({ audioVideoTracks, audioExportFormat })
+	const settingsMenu = createSettingsMenu(props, [
+		() => pipe(copySettings, dispatch)(audioProps),
+		() => pipe(applySettingsToSelection(id), dispatch)(audioProps),
+		() => pipe(applySettingsToAll(id), dispatch)(audioProps)
 	])
 
 	return (

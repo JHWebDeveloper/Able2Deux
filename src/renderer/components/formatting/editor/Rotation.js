@@ -3,6 +3,7 @@ import { bool, func, oneOf, oneOfType, number, string } from 'prop-types'
 
 import {
 	applySettingsToAll,
+	applySettingsToSelection,
 	copySettings,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
@@ -177,11 +178,12 @@ const Rotation = props => {
 }
 
 const RotationPanel = props => {
-	const { multipleItems, id, transpose, reflect, freeRotateMode, angle, rotatedCentering, dispatch } = props
+	const { id, transpose, reflect, freeRotateMode, angle, rotatedCentering, dispatch } = props
 	const rotationProps = { transpose, reflect, freeRotateMode, angle, rotatedCentering }
 
-	const settingsMenu = createSettingsMenu(multipleItems, [
+	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(copySettings, dispatch)(rotationProps),
+		() => pipe(applySettingsToSelection(id), dispatch)(rotationProps),
 		() => pipe(applySettingsToAll(id), dispatch)(rotationProps)
 	])
 

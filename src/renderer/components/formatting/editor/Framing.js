@@ -5,6 +5,7 @@ import { PrefsContext } from 'store'
 
 import {
 	applySettingsToAll,
+	applySettingsToSelection,
 	copySettings,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
@@ -204,11 +205,12 @@ const Framing = props => {
 }
 
 const FramingPanel = props => {
-	const { multipleItems, id, arc, background, overlay, dispatch } = props
+	const { id, arc, background, overlay, dispatch } = props
 	const framingProps = { arc, background, overlay }
 
-	const settingsMenu = createSettingsMenu(multipleItems, [
+	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(copySettings, dispatch)(framingProps),
+		() => pipe(applySettingsToSelection(id), dispatch)(framingProps),
 		() => pipe(applySettingsToAll(id), dispatch)(framingProps)
 	])
 

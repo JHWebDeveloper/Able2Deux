@@ -5,6 +5,7 @@ import { PrefsContext } from 'store'
 
 import {
 	applySettingsToAll,
+	applySettingsToSelection,
 	copySettings,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection
@@ -182,10 +183,11 @@ const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, free
 }
 
 const ScalePanel = props => {
-	const { multipleItems, id, dispatch } = props
+	const { id, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(multipleItems, [
+	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(extractScaleProps, copySettings, dispatch)(props),
+		() => pipe(applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractScaleProps, applySettingsToAll(id), dispatch)(props)
 	])
 

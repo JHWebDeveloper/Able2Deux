@@ -3,6 +3,7 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	applySettingsToAll,
+	applySettingsToSelection,
 	copySettings,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection
@@ -161,10 +162,11 @@ const Crop = props => {
 }
 
 const CropPanel = props => {
-	const { multipleItems, id, dispatch } = props
+	const { id, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(multipleItems, [
+	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(extractCropProps, copySettings, dispatch)(props),
+		() => pipe(applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractCropProps, applySettingsToAll(id), dispatch)(props)
 	])
 

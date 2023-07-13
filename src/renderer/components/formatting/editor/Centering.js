@@ -3,6 +3,7 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	applySettingsToAll,
+	applySettingsToSelection,
 	copySettings,
 	updateMediaStateBySelection
 } from 'actions'
@@ -41,10 +42,11 @@ const Centering = ({ centering, dispatch }) => {
 }
 
 const CenteringPanel = props => {
-	const { multipleItems, centering, id, dispatch } = props
+	const { centering, id, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(multipleItems, [
+	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(copySettings, dispatch)({ centering }),
+		() => pipe(applySettingsToSelection(id), dispatch)({ centering }),
 		() => pipe(applySettingsToAll(id), dispatch)({ centering })
 	])
 

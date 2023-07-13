@@ -3,6 +3,7 @@ import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	applySettingsToAll,
+	applySettingsToSelection,
 	copySettings,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection,
@@ -223,10 +224,11 @@ const Keying = props => {
 }
 
 const KeyingPanel = props => {
-	const { multipleItems, id, dispatch } = props
+	const { id, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(multipleItems, [
+	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(extractKeyingProps, copySettings, dispatch)(props),
+		() => pipe(applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractKeyingProps, applySettingsToAll(id), dispatch)(props)
 	])
 

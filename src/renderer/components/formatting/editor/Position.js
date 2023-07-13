@@ -3,6 +3,7 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	applySettingsToAll,
+	applySettingsToSelection,
 	copySettings,
 	updateMediaStateBySelection
 } from 'actions'
@@ -46,11 +47,12 @@ const Position = ({ positionX, positionY, dispatch }) => {
 }
 
 const PositionPanel = props => {
-	const { multipleItems, id, positionX, positionY, dispatch } = props
+	const { id, positionX, positionY, dispatch } = props
 	const positionProps = { positionX, positionY }
 
-	const settingsMenu = createSettingsMenu(multipleItems, [
+	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(copySettings, dispatch)(positionProps),
+		() => pipe(applySettingsToSelection(id), dispatch)(positionProps),
 		() => pipe(applySettingsToAll(id), dispatch)(positionProps)
 	])
 
