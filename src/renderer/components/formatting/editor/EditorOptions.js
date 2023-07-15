@@ -1,11 +1,7 @@
 import React from 'react'
 import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
-import {
-	extractCommonProps,
-	extractCropProps,
-	extractScaleProps
-} from 'utilities'
+import { extractCommonEditPanelProps } from 'utilities'
 
 import FileOptions from './FileOptions'
 import Audio from './Audio'
@@ -22,10 +18,10 @@ import ColorCorrection from './ColorCorrection'
 const EditorOptions = props => {
 	if (!props.id) return <></>
 
-	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper } = props
-	const common = extractCommonProps(props)
-	const scale = extractScaleProps(props)
-	const crop = extractCropProps(props)
+	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper, scaleX, scaleY, cropT, cropR, cropB, cropL } = props
+	const common = extractCommonEditPanelProps(props)
+	const scale = { scaleX, scaleY }
+	const crop = { cropT, cropR, cropB, cropL }
 
 	return (
 		<div id="editor-options">
@@ -73,12 +69,15 @@ const EditorOptions = props => {
 						positionY={props.positionY}
 						{...common} />
 					<Scale
+						scaleLink={props.scaleLink}
 						freeRotateMode={props.freeRotateMode}
 						angle={props.angle}
 						{...scale}
 						{...crop}
 						{...common} />
 					<Crop
+						cropLinkTB={props.cropLnkTB}
+						cropLinkLR={props.cropLinkLR}
 						{...crop}
 						{...common} />
 				</> : <></>}
