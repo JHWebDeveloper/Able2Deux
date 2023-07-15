@@ -42,8 +42,9 @@ export const selectMedia = (clickedIndex, e = {}, selectionData = {}) => ({
 	}
 })
 
-export const selectAllMedia = () => ({
-	type: ACTION.SELECT_ALL_MEDIA
+export const selectAllMedia = focusIndex => ({
+	type: ACTION.SELECT_ALL_MEDIA,
+	payload: { focusIndex }
 })
 
 export const deselectAllMedia = () => ({
