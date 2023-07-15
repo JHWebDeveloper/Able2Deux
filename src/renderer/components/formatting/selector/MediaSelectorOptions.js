@@ -6,6 +6,7 @@ import { PrefsContext } from 'store'
 import {
 	disableWarningAndSave,
 	deselectAllMedia,
+	duplicateSelectedMedia,
 	selectAllMedia,
 	removeAllMedia
 } from 'actions'
@@ -49,6 +50,13 @@ const MediaSelectorOptions = ({ media, allItemsSelected, multipleItemsSelected, 
 			label: 'Deselect All',
 			hide: !multipleItemsSelected,
 			action: dispatchDeselectAllMedia
+		},
+		{ type: 'spacer' },
+		{
+			label: 'Duplicate Selected',
+			action() {
+				dispatch(duplicateSelectedMedia())
+			}
 		},
 		{ type: 'spacer' },
 		{
