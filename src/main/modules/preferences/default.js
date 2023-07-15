@@ -7,7 +7,7 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 	: app.getPath('temp')
 
 const defaultPrefs = {
-	version: 11,
+	version: 12,
 	theme: 'system',
 	windowWidth: 830,
 	windowHeight: 800,
@@ -33,7 +33,7 @@ const defaultPrefs = {
 		arc: 'none',
 		backgroundMotion: 'animated'
 	},
-	editAll: false,
+	selectAllByDefault: false,
 	enable11pmBackgrounds: false,
 	sliderSnapPoints: true,
 	split: 270,
