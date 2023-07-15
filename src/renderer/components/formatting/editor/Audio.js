@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { bool, func, oneOf, string } from 'prop-types'
 
 import {
@@ -103,9 +103,9 @@ const AudioPanel = memo(props => {
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
-	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
-	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']),
-	audioExportFormat: oneOf(['wav', 'mp3', 'bars']),
+	mediaType: oneOf(['video', 'image', 'gif', 'audio']).isRequired,
+	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']).isRequired,
+	audioExportFormat: oneOf(['wav', 'mp3', 'bars']).isRequired,
 	dispatch: func.isRequired
 }
 

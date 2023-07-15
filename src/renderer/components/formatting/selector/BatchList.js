@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import { arrayOf, func, object } from 'prop-types'
+import { arrayOf, bool, func, object } from 'prop-types'
 
 import { PrefsContext } from 'store'
 
@@ -22,7 +22,6 @@ import {
 import DraggableList from '../../form_elements/DraggableList'
 import BatchItem from './BatchItem'
 
-const applyToAllMessage = 'Apply current settings to all media items?'
 const applyToAllDetail = 'This will overwrite the settings except for filenames and start and end timecodes. This cannot be undone. Proceed?'
 const removeMediaDetail = 'This cannot be undone. Proceed?'
 
@@ -110,6 +109,8 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch })
 
 BatchList.propTypes = {
 	media: arrayOf(object).isRequired,
+	multipleItemsSelected: bool.isRequired,
+	allItemsSelected: bool.isRequired,
 	dispatch: func.isRequired
 }
 

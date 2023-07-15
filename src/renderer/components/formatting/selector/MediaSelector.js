@@ -32,7 +32,7 @@ const MediaSelector = ({ media, focused, multipleItems, multipleItemsSelected, a
 				multipleItemsSelected={multipleItemsSelected}
 				allItemsSelected={allItemsSelected}
 				dispatch={dispatch} />
-		): <></>}
+		) : <></>}
 	</div>
 )
 

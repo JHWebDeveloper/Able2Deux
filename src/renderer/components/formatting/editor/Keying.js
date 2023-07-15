@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo } from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -261,14 +261,14 @@ ColorKeySliders.propTypes = {
 
 const propTypes = {
 	id: string.isRequired,
-	keyingBlend: number,
-	keyingColor: string,
-	keyingEnabled: bool,
-	keyingHidden: bool,
-	keyingSimilarity: number,
-	keyingSoftness: number,
-	keyingThreshold: number,
-	keyingTolerance: number,
+	keyingBlend: number.isRequired,
+	keyingColor: string.isRequired,
+	keyingEnabled: bool.isRequired,
+	keyingHidden: bool.isRequired,
+	keyingSimilarity: number.isRequired,
+	keyingSoftness: number.isRequired,
+	keyingThreshold: number.isRequired,
+	keyingTolerance: number.isRequired,
 	keyingType: oneOf(['colorkey', 'chromakey', 'lumakey']),
 	eyedropper: exact({
 		active: oneOf([false, 'white', 'black', 'key', 'background']),

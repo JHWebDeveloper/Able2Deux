@@ -66,7 +66,7 @@ const BatchItem = props => {
 		},
 		{
 			label: 'Apply Settings to Selected',
-			hide: isOnly || (!multipleItemsSelected && focused) || allItemsSelected,
+			hide: isOnly || !multipleItemsSelected && focused || allItemsSelected,
 			action() {
 				dispatch(applyToSelectionWarning(id))
 			}
@@ -182,6 +182,8 @@ BatchItem.propTypes = {
 	focused: bool.isRequired,
 	anchored: bool.isRequired,
 	selected: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
+	allItemsSelected: bool.isRequired,
 	isFirst: bool.isRequired,
 	isLast: bool.isRequired,
 	title: string.isRequired,
@@ -189,6 +191,7 @@ BatchItem.propTypes = {
 	index: number.isRequired,
 	copyAllSettings: func.isRequired,
 	applyToAllWarning: func.isRequired,
+	applyToSelectionWarning: func.isRequired,
 	removeMediaWarning: func.isRequired,
 	dispatch: func.isRequired
 }

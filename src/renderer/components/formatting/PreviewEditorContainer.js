@@ -58,6 +58,8 @@ PreviewEditorContainer.propTypes = {
 	})).isRequired,
 	split: number,
 	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
+	allItemsSelected: bool.isRequired,
 	dispatch: func.isRequired
 }
 

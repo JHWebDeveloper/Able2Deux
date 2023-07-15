@@ -76,7 +76,7 @@ const EditorOptions = props => {
 						{...crop}
 						{...common} />
 					<Crop
-						cropLinkTB={props.cropLnkTB}
+						cropLinkTB={props.cropLinkTB}
 						cropLinkLR={props.cropLinkLR}
 						{...crop}
 						{...common} />

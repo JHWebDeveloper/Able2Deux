@@ -185,12 +185,12 @@ const CropPanel = memo(props => {
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
-	cropT: oneOfType([oneOf(['']), number]),
-	cropB: oneOfType([oneOf(['']), number]),
-	cropR: oneOfType([oneOf(['']), number]),
-	cropL: oneOfType([oneOf(['']), number]),
-	cropLinkTB: bool,
-	cropLinkLR: bool,
+	cropT: oneOfType([oneOf(['']), number]).isRequired,
+	cropB: oneOfType([oneOf(['']), number]).isRequired,
+	cropR: oneOfType([oneOf(['']), number]).isRequired,
+	cropL: oneOfType([oneOf(['']), number]).isRequired,
+	cropLinkTB: bool.isRequired,
+	cropLinkLR: bool.isRequired,
 	dispatch: func.isRequired
 }
 

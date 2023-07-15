@@ -62,7 +62,7 @@ const FileOptionsPanel = memo(props => (
 
 const propTypes = {
 	id: string.isRequired,
-	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
+	mediaType: oneOf(['video', 'image', 'gif', 'audio']).isRequired,
 	multipleItems: bool.isRequired,
 	filename: string.isRequired,
 	start: number.isRequired,

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { bool, func, oneOf, oneOfType, number, string } from 'prop-types'
 
 import {
@@ -208,14 +208,14 @@ const propTypes = {
 	transpose: oneOf(transpositions),
 	reflect: oneOf(flip),
 	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
-	angle: number,
-	rotatedCentering: number,
-	scaleX: oneOfType([oneOf(['']), number]),
-	scaleY: oneOfType([oneOf(['']), number]),
-	cropT: oneOfType([oneOf(['']), number]),
-	cropR: oneOfType([oneOf(['']), number]),
-	cropB: oneOfType([oneOf(['']), number]),
-	cropL: oneOfType([oneOf(['']), number]),
+	angle: number.isRequired,
+	rotatedCentering: number.isRequired,
+	scaleX: oneOfType([oneOf(['']), number]).isRequired,
+	scaleY: oneOfType([oneOf(['']), number]).isRequired,
+	cropT: oneOfType([oneOf(['']), number]).isRequired,
+	cropR: oneOfType([oneOf(['']), number]).isRequired,
+	cropB: oneOfType([oneOf(['']), number]).isRequired,
+	cropL: oneOfType([oneOf(['']), number]).isRequired,
 	aspectRatio: string.isRequired,
 	width: number.isRequired,
 	height: number.isRequired,

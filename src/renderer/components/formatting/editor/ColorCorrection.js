@@ -302,13 +302,13 @@ const pointPropType = exact({
 
 const propTypes = {
 	id: string.isRequired,
-	ccEnabled: bool,
-	ccHidden: bool,
-	ccSelectedCurve: oneOf(['ccRGB', 'ccR', 'ccG', 'ccB']),
-	ccRGB: arrayOf(pointPropType),
-	ccR: arrayOf(pointPropType),
-	ccG: arrayOf(pointPropType),
-	ccB: arrayOf(pointPropType),
+	ccEnabled: bool.isRequired,
+	ccHidden: bool.isRequired,
+	ccSelectedCurve: oneOf(['ccRGB', 'ccR', 'ccG', 'ccB']).isRequired,
+	ccRGB: arrayOf(pointPropType).isRequired,
+	ccR: arrayOf(pointPropType).isRequired,
+	ccG: arrayOf(pointPropType).isRequired,
+	ccB: arrayOf(pointPropType).isRequired,
 	eyedropper: exact({
 		active: oneOf([false, 'white', 'black', 'key', 'background']),
 		pixelData: oneOfType([bool, exact({

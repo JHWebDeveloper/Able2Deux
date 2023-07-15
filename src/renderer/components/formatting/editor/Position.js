@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -74,8 +74,8 @@ const PositionPanel = memo(props => {
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
-	positionX: oneOfType([oneOf(['']), number]),
-	positionY: oneOfType([oneOf(['']), number]),
+	positionX: oneOfType([oneOf(['']), number]).isRequired,
+	positionY: oneOfType([oneOf(['']), number]).isRequired,
 	dispatch: func.isRequired
 }
 

@@ -114,9 +114,9 @@ const SourcePanel = memo(props => {
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
-	sourceName: string,
-	sourcePrefix: bool,
-	sourceOnTop: bool,
+	sourceName: string.isRequired,
+	sourcePrefix: bool.isRequired,
+	sourceOnTop: bool.isRequired,
 	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
 	dispatch: func.isRequired
 }

@@ -108,7 +108,7 @@ const toggleMediaCheckbox = (state, payload) => {
 const unselectedProps = {
 	focused: false,
 	anchored: false,
-	selected: false,
+	selected: false
 }
 
 const duplicateMedia = (state, payload) => {
