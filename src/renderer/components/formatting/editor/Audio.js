@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { bool, func, oneOf, string } from 'prop-types'
 
 import {
@@ -8,7 +8,11 @@ import {
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
-import { createSettingsMenu, pipe } from 'utilities'
+import {
+	createSettingsMenu,
+	objectsAreEqual,
+	pipe
+} from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
@@ -74,7 +78,7 @@ const Audio = ({ mediaType, audioVideoTracks, audioExportFormat, dispatch }) => 
 	)
 }
 
-const AudioPanel = props => {
+const AudioPanel = memo(props => {
 	const { audioVideoTracks, audioExportFormat, id, mediaType, dispatch } = props
 	const audioProps = { audioVideoTracks, audioExportFormat }
 
@@ -94,7 +98,7 @@ const AudioPanel = props => {
 			<Audio {...props} />
 		</AccordionPanel>
 	)
-}
+}, objectsAreEqual)
 
 const propTypes = {
 	id: string.isRequired,
