@@ -29,7 +29,10 @@ const BatchItem = props => {
 		isLast,
 		copyAllSettings,
 		applyToAllWarning,
+		applyToSelectionWarning,
 		removeMediaWarning,
+		multipleItemsSelected,
+		allItemsSelected,
 		dispatch
 	} = props
 
@@ -59,6 +62,13 @@ const BatchItem = props => {
 			hide: isOnly,
 			action() {
 				dispatch(pasteSettings(id))
+			}
+		},
+		{
+			label: 'Apply Settings to Selected',
+			hide: isOnly || (!multipleItemsSelected && focused) || allItemsSelected,
+			action() {
+				dispatch(applyToSelectionWarning(id))
 			}
 		},
 		{
@@ -113,9 +123,9 @@ const BatchItem = props => {
 		} else if (ctrlOrCmd && !isOnly && e.key === 'v') {
 			dropdown[1].action() // Paste Settings
 		} else if (ctrlOrCmd && !isFirst && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
-			dropdown[4].action() // Move Up
+			dropdown[5].action() // Move Up
 		} else if (ctrlOrCmd && !isLast && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
-			dropdown[5].action() // Move Down
+			dropdown[6].action() // Move Down
 		} else if (!isFirst && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
 			dispatch(selectMedia(index - 1, e))
 		} else if (!isLast && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
@@ -127,9 +137,9 @@ const BatchItem = props => {
 		} else if (e.shiftKey && ctrlOrCmd && e.key === 'd') {
 			dispatch(duplicateSelectedMedia())
 		} else if (ctrlOrCmd && e.key === 'd') {
-			dropdown[7].action() // Duplicate Media
+			dropdown[8].action() // Duplicate Media
 		} else if (e.key === 'Backspace' || e.key === 'Delete') {
-			dropdown[8].action() // Remove Media
+			dropdown[9].action() // Remove Media
 		}
 	}, triggers)
 
