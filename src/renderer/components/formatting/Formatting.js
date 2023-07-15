@@ -2,8 +2,14 @@ import React, { useCallback, useContext, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import 'css/index/formatting.css'
 
-import { MainContext } from 'store'
-import { selectMedia, updateState } from 'actions'
+import { MainContext, PrefsContext } from 'store'
+
+import {
+	selectAllMedia,
+	selectMedia,
+	updateState
+} from 'actions'
+
 import { arrayCount } from 'utilities'
 
 import MediaSelector from './selector/MediaSelector'
@@ -27,6 +33,8 @@ const Formatting = () => {
 		dispatch
 	} = useContext(MainContext)
 
+	const { selectAllByDefault } = useContext(PrefsContext).preferences
+
 	if (!media.length) return <Navigate replace to="/" />
 
 	const focused = media.find(item => item.focused) || {}
@@ -40,7 +48,7 @@ const Formatting = () => {
 	}, [])
 
 	useEffect(() => {
-		if (!focused.id) dispatch(selectMedia(0))
+		if (!focused.id) dispatch((selectAllByDefault ? selectAllMedia : selectMedia)(0))
 	}, [focused])
 
 	return (
