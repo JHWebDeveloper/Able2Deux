@@ -31,7 +31,7 @@ const onCtrlClick = (media, { clickedIndex, clickedInFocus, clickedIsAnchored, c
 	let nearestSelectedIndex = 0
 
 	if (clickedInFocus || clickedIsAnchored) {
-		nearestSelectedIndex = findNearestIndex(media, clickedIndex, ({ selected }) => selected, 0)
+		nearestSelectedIndex = findNearestIndex(media, clickedIndex, ({ selected }) => selected)
 	}
 
 	if (clickedInFocus) {
@@ -112,17 +112,23 @@ export const selectMedia = (state, payload) => {
 	return { ...state, media }
 }
 
-export const selectAllMedia = state => ({
-	...state,
-	media: state.media.map(item => item.focused ? {
-		...item,
-		anchored: true
-	} : {
-		...item,
-		anchored: false,
-		selected: true
-	})
-})
+export const selectAllMedia = (state, { focusIndex }) => {
+	const updateFocus = !!focusIndex || focusIndex === 0
+
+	return {
+		...state,
+		media: state.media.map((item, i) => item.focused ? {
+			...item,
+			focused: updateFocus ? focusIndex === i : true,
+			anchored: true
+		} : {
+			...item,
+			focused: updateFocus && focusIndex === i,
+			anchored: false,
+			selected: true
+		})
+	}
+}
 
 export const deselectAllMedia = state => ({
 	...state,

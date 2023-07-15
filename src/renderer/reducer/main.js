@@ -40,7 +40,7 @@ export const mainReducer = (state, action) => {
 		case ACTION.SELECT_MEDIA:
 			return selectMedia(state, payload)
 		case ACTION.SELECT_ALL_MEDIA:
-			return selectAllMedia(state)
+			return selectAllMedia(state, payload)
 		case ACTION.DESELECT_ALL_MEDIA:
 			return deselectAllMedia(state)
 		case ACTION.DUPLICATE_MEDIA: 
