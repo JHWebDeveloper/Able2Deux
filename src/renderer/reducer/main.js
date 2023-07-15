@@ -3,10 +3,10 @@ import * as STATUS from 'status'
 import * as shared from 'reducer/shared'
 
 import {
-	selectMedia,
-	selectAllMedia,
 	deselectAllMedia,
-	removeMedia
+	removeMedia,
+	selectAllMedia,
+	selectMedia
 } from 'reducer/selectMedia'
 
 import { replaceIds, sortCurvePoints } from 'utilities'
