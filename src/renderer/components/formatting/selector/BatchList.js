@@ -5,6 +5,7 @@ import { PrefsContext } from 'store'
 
 import {
 	applySettingsToAll,
+	applySettingsToSelection,
 	copySettings,
 	disableWarningAndSave,
 	moveSortableElement,
@@ -22,7 +23,7 @@ import DraggableList from '../../form_elements/DraggableList'
 import BatchItem from './BatchItem'
 
 const applyToAllMessage = 'Apply current settings to all media items?'
-const applyToAllDetail = 'This will overwrite the settings of all other media items in the batch except for filenames and start and end timecodes. This cannot be undone. Proceed?'
+const applyToAllDetail = 'This will overwrite the settings except for filenames and start and end timecodes. This cannot be undone. Proceed?'
 const removeMediaDetail = 'This cannot be undone. Proceed?'
 
 const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch }) => {
@@ -33,16 +34,28 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch })
 		pipe(extractCopyPasteProps, copySettings, dispatch)(media.find(item => item.id === id))
 	}, [media])
 
-	const applyToAllWarning = useCallback(id => warn({
-		message: applyToAllMessage,
+	const applyToMultipleWarning = useCallback(({ id, message, action }) => warn({
+		message,
 		detail: applyToAllDetail,
 		enabled: warnings.applyToAll,
 		callback() {
-			pipe(extractCopyPasteProps, applySettingsToAll(id), dispatch)(media.find(item => item.id === id))
+			pipe(extractCopyPasteProps, action, dispatch)(media.find(item => item.id === id))
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('applyToAll'))
 		}
+	}), [media, warnings.applyToAll])
+
+	const applyToAllWarning = useCallback(id => applyToMultipleWarning({
+		id,
+		message: 'Apply current settings to all media items?',
+		action: applySettingsToAll(id)
+	}), [media, warnings.applyToAll])
+
+	const applyToSelectionWarning = useCallback(id => applyToMultipleWarning({
+		id,
+		message: 'Apply current settings to the selected media items?',
+		action: applySettingsToSelection(id)
 	}), [media, warnings.applyToAll])
 
 	const removeMediaWarning = useCallback(({ id, refId, index, title }) => warn({
@@ -84,6 +97,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch })
 						isLast={i === media.length - 1}
 						copyAllSettings={copyAllSettings}
 						applyToAllWarning={applyToAllWarning}
+						applyToSelectionWarning={applyToSelectionWarning}
 						removeMediaWarning={removeMediaWarning}
 						multipleItemsSelected={multipleItemsSelected}
 						allItemsSelected={allItemsSelected}
