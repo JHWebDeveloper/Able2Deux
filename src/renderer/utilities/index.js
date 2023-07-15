@@ -112,6 +112,31 @@ export const throttle = (callback, duration) => {
 	}
 }
 
+// ---- OBJECT UTIL --------
+
+const isFunction = obj => typeof obj === 'function'
+const isObject = obj => obj !== null && typeof obj === 'object'
+
+export const objectsAreEqual = (objL, objR) => {
+  const keysL = Object.keys(objL)
+  const keysR = Object.keys(objR)
+  
+  if (keysL.length !== keysR.length) return false
+
+  for (const key of keysL) {
+    const valL = objL[key]
+    const valR = objR[key]
+
+		if (isFunction(valL) && isFunction(valR)) continue
+
+		const bothObjects = isObject(valL) && isObject(valR)
+
+    if ((!bothObjects && valL !== valR) || (bothObjects && !objectsAreEqual(valL, valR))) return false
+  }
+
+  return true
+}
+
 // ---- ACCESSIBILITY --------
 
 export const initTabbedBrowsing = () => {
