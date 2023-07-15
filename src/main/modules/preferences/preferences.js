@@ -68,10 +68,14 @@ export const initPreferences = async () => {
 		prefs.aspectRatioMarkers.reverse()
 	}
 
-	if (prefs.version < 11) {
+	if (prefs.version < 12 && prefs.editAll) {
+		defaultPrefs.selectAllByDefault = true
+	}
+
+	if (prefs.version < 12) {
 		return fsp.writeFile(prefsPath, JSON.stringify({
 			...innerMergeObjectKeys(defaultPrefs, prefs),
-			version: 11
+			version: 12
 		}))
 	}
 }
