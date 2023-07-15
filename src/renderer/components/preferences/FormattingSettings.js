@@ -83,9 +83,9 @@ const FormattingSettings = () => {
 			</fieldset>
 			<span className="input-option">
 				<Checkbox
-					label="Edit All Enabled by Default"
-					name="editAll"
-					checked={preferences.editAll}
+					label="Select All by Default"
+					name="selectAllByDefault"
+					checked={preferences.selectAllByDefault}
 					onChange={toggleCheckboxDispatch}
 					switchIcon />
 			</span>
