@@ -64,7 +64,7 @@ const GeneralSettings = () => {
 				</span>
 				<span className="input-option">
 					<Checkbox
-						label="Remove All Media"
+						label="Remove All/Selected Media"
 						name="removeAll"
 						checked={warnings.removeAll}
 						onChange={dispatchToggleWarning}
@@ -72,7 +72,7 @@ const GeneralSettings = () => {
 				</span>
 				<span className="input-option">
 					<Checkbox
-						label="Apply to All"
+						label="Apply Settings to All/Selected"
 						name="applyToAll"
 						checked={warnings.applyToAll}
 						onChange={dispatchToggleWarning}
