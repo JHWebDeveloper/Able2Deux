@@ -5,7 +5,12 @@ import 'css/index/preview.css'
 
 import { PrefsContext } from 'store'
 import { useToggle } from 'hooks'
-import { buildSource, debounce } from 'utilities'
+
+import {
+	buildSource,
+	debounce,
+	extractPreviewRenderDependencies
+} from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import PreviewViewport from './PreviewViewport'
@@ -103,7 +108,7 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 			previewSize,
 			requestId
 		})
-	}, [focused, previewSize, renderOutput])
+	}, [...extractPreviewRenderDependencies(focused), previewSize, renderOutput])
 	
 	return (
 		<>
