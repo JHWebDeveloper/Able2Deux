@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { bool, func, oneOf, oneOfType, number, string } from 'prop-types'
 
 import {
@@ -9,7 +9,12 @@ import {
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
-import { createSettingsMenu, pipe } from 'utilities'
+import {
+	createSettingsMenu,
+	extractRotationProps,
+	objectsAreEqual,
+	pipe
+} from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
@@ -177,14 +182,13 @@ const Rotation = props => {
 	)
 }
 
-const RotationPanel = props => {
-	const { id, transpose, reflect, freeRotateMode, angle, rotatedCentering, dispatch } = props
-	const rotationProps = { transpose, reflect, freeRotateMode, angle, rotatedCentering }
+const RotationPanel = memo(props => {
+	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(copySettings, dispatch)(rotationProps),
-		() => pipe(applySettingsToSelection(id), dispatch)(rotationProps),
-		() => pipe(applySettingsToAll(id), dispatch)(rotationProps)
+		() => pipe(extractRotationProps, copySettings, dispatch)(props),
+		() => pipe(extractRotationProps, applySettingsToSelection(id), dispatch)(props),
+		() => pipe(extractRotationProps, applySettingsToAll(id), dispatch)(props)
 	])
 
 	return (
@@ -196,7 +200,7 @@ const RotationPanel = props => {
 			<Rotation {...props} />
 		</AccordionPanel>
 	)
-}
+}, objectsAreEqual)
 
 const propTypes = {
 	id: string,

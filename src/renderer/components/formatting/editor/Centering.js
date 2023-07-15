@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -8,7 +8,11 @@ import {
 	updateMediaStateBySelection
 } from 'actions'
 
-import { createSettingsMenu, pipe } from 'utilities'
+import {
+	createSettingsMenu,
+	objectsAreEqual,
+	pipe
+} from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
@@ -41,13 +45,14 @@ const Centering = ({ centering, dispatch }) => {
 	)
 }
 
-const CenteringPanel = props => {
+const CenteringPanel = memo(props => {
 	const { centering, id, dispatch } = props
+	const centeringProps = { centering }
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(copySettings, dispatch)({ centering }),
-		() => pipe(applySettingsToSelection(id), dispatch)({ centering }),
-		() => pipe(applySettingsToAll(id), dispatch)({ centering })
+		() => pipe(copySettings, dispatch)(centeringProps),
+		() => pipe(applySettingsToSelection(id), dispatch)(centeringProps),
+		() => pipe(applySettingsToAll(id), dispatch)(centeringProps)
 	])
 
 	return (
@@ -60,7 +65,7 @@ const CenteringPanel = props => {
 			<Centering {...props} />
 		</AccordionPanel>
 	)
-}
+}, objectsAreEqual)
 
 const propTypes = {
 	id: string.isRequired,

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { memo, useCallback, useContext, useMemo } from 'react'
 import { bool, func, string, oneOf } from 'prop-types'
 
 import { PrefsContext } from 'store'
@@ -15,6 +15,7 @@ import {
 import {
 	createSettingsMenu,
 	has11pmBackground,
+	objectsAreEqual,
 	pipe,
 	warn
 } from 'utilities'
@@ -88,7 +89,7 @@ const Source = props => {
 	)
 }
 
-const SourcePanel = props => {
+const SourcePanel = memo(props => {
 	const { sourceName, sourcePrefix, sourceOnTop, id, dispatch } = props
 	const sourceProps = { sourceName, sourcePrefix, sourceOnTop }
 
@@ -108,7 +109,7 @@ const SourcePanel = props => {
 			<Source {...props} />
 		</AccordionPanel>
 	)
-}
+}, objectsAreEqual)
 
 const propTypes = {
 	id: string.isRequired,

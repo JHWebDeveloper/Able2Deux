@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { memo, useCallback, useContext, useMemo } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import { PrefsContext } from 'store'
@@ -15,7 +15,7 @@ import {
 	calcRotatedBoundingBox,
 	createSettingsMenu,
 	degToRad,
-	extractScaleProps,
+	objectsAreEqual,
 	pipe
 } from 'utilities'
 
@@ -182,13 +182,14 @@ const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, free
 	)
 }
 
-const ScalePanel = props => {
-	const { id, dispatch } = props
+const ScalePanel = memo(props => {
+	const { scaleX, scaleY, scaleLink, id, dispatch } = props
+	const scaleProps = { scaleX, scaleY, scaleLink }
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(extractScaleProps, copySettings, dispatch)(props),
-		() => pipe(applySettingsToSelection(id), dispatch)(props),
-		() => pipe(extractScaleProps, applySettingsToAll(id), dispatch)(props)
+		() => pipe(copySettings, dispatch)(scaleProps),
+		() => pipe(applySettingsToSelection(id), dispatch)(scaleProps),
+		() => pipe(applySettingsToAll(id), dispatch)(scaleProps)
 	])
 
 	return (
@@ -200,7 +201,7 @@ const ScalePanel = props => {
 			<Scale {...props} />
 		</AccordionPanel>
 	)
-}
+}, objectsAreEqual)
 
 FitButton.propTypes = {
 	title: string.isRequired,

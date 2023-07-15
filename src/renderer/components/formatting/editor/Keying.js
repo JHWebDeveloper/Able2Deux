@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -13,6 +13,7 @@ import {
 import {
 	createSettingsMenu,
 	extractKeyingProps,
+	objectsAreEqual,
 	pipe,
 	rgbToHex
 } from 'utilities'
@@ -223,12 +224,12 @@ const Keying = props => {
 	)
 }
 
-const KeyingPanel = props => {
+const KeyingPanel = memo(props => {
 	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(extractKeyingProps, copySettings, dispatch)(props),
-		() => pipe(applySettingsToSelection(id), dispatch)(props),
+		() => pipe(extractKeyingProps, applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractKeyingProps, applySettingsToAll(id), dispatch)(props)
 	])
 
@@ -241,7 +242,7 @@ const KeyingPanel = props => {
 			<Keying {...props} />
 		</AccordionPanel>
 	)
-}
+}, objectsAreEqual)
 
 LumaKeySliders.propTypes = {
 	threshold: number.isRequired,

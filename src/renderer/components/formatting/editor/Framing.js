@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo } from 'react'
+import React, { memo, useCallback, useContext, useEffect, useMemo } from 'react'
 import { bool, exact, func, oneOf, oneOfType, string } from 'prop-types'
 
 import { PrefsContext } from 'store'
@@ -11,7 +11,13 @@ import {
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
-import { createSettingsMenu, pipe, rgbToHex } from 'utilities'
+import {
+	createSettingsMenu,
+	extractFramingProps,
+	objectsAreEqual,
+	pipe,
+	rgbToHex
+} from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
@@ -204,16 +210,15 @@ const Framing = props => {
 	)
 }
 
-const FramingPanel = props => {
-	const { id, arc, background, overlay, dispatch } = props
-	const framingProps = { arc, background, overlay }
+const FramingPanel = memo(props => {
+	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(copySettings, dispatch)(framingProps),
-		() => pipe(applySettingsToSelection(id), dispatch)(framingProps),
-		() => pipe(applySettingsToAll(id), dispatch)(framingProps)
+		() => pipe(extractFramingProps, copySettings, dispatch)(props),
+		() => pipe(extractFramingProps, applySettingsToSelection(id), dispatch)(props),
+		() => pipe(extractFramingProps, applySettingsToAll(id), dispatch)(props)
 	])
-
+	
 	return (
 		<AccordionPanel
 			heading="Framing"
@@ -224,7 +229,7 @@ const FramingPanel = props => {
 			<Framing {...props} />
 		</AccordionPanel>
 	)
-}
+}, objectsAreEqual)
 
 BackgroundColorPicker.propTypes = {
 	bgColor: string.isRequired,

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -13,6 +13,7 @@ import {
 	clamp,
 	createSettingsMenu,
 	extractCropProps,
+	objectsAreEqual,
 	pipe
 } from 'utilities'
 
@@ -161,7 +162,7 @@ const Crop = props => {
 	)
 }
 
-const CropPanel = props => {
+const CropPanel = memo(props => {
 	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
@@ -179,7 +180,7 @@ const CropPanel = props => {
 			<Crop {...props} />
 		</AccordionPanel>
 	)
-}
+}, objectsAreEqual)
 
 const propTypes = {
 	id: string.isRequired,

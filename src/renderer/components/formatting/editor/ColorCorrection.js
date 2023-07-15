@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react'
 import { arrayOf, bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -19,6 +19,7 @@ import {
 	createColorCurvesCopier,
 	createSettingsMenu,
 	extractColorCorrectionProps,
+	objectsAreEqual,
 	pipe
 } from 'utilities'
 
@@ -271,12 +272,12 @@ const ColorCorrection = props => {
 	)
 }
 
-const ColorCorrectionPanel = props => {
+const ColorCorrectionPanel = memo(props => {
 	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(extractColorCorrectionProps, createColorCurvesCopier, copySettings, dispatch)(props),
-		() => pipe(applySettingsToSelection(id), dispatch)(props),
+		() => pipe(extractColorCorrectionProps, applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractColorCorrectionProps, createColorCurvesCopier, applySettingsToAll(id), dispatch)(props)
 	])
 
@@ -289,7 +290,7 @@ const ColorCorrectionPanel = props => {
 			<ColorCorrection {...props} />
 		</AccordionPanel>
 	)
-}
+}, objectsAreEqual)
 
 const pointPropType = exact({
 	id: string,

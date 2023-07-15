@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
 import { bool, func, number, oneOf, string } from 'prop-types'
 
 import { updateMediaStateByIdFromEvent } from 'actions'
+import { objectsAreEqual } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import StartEnd from './StartEnd'
@@ -49,7 +50,7 @@ const FileOptions = props => {
 	)
 }
 
-const FileOptionsPanel = props => (
+const FileOptionsPanel = memo(props => (
 	<AccordionPanel
 		heading="File"
 		id="file"
@@ -57,7 +58,7 @@ const FileOptionsPanel = props => (
 		initOpen>
 		<FileOptions {...props} />
 	</AccordionPanel>
-)
+), objectsAreEqual)
 
 const propTypes = {
 	id: string.isRequired,
