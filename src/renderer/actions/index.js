@@ -25,32 +25,7 @@ export const toggleCheckbox = e => ({
 	}
 })
 
-// ---- 2ND LEVEL STATE --------
-
-export const addNewSortableElement = (nest, element, index, e) => dispatch => {
-	const pos = e.shiftKey ? 1 : 0
-
-	dispatch({
-		type: ACTION.ADD_SORTABLE_ELEMENT,
-		payload: {
-			pos: index + pos,
-			nest,
-			element
-		}
-	})
-}
-
-export const removeSortableElement = (id, nest) => ({
-	type: ACTION.REMOVE_SORTABLE_ELEMENT,
-	payload: { id, nest }
-})
-
-export const moveSortableElement = (nest, oldPos, newPos) => ({
-	type: ACTION.MOVE_SORTABLE_ELEMENT,
-	payload: { nest, oldPos, newPos }
-})
-
-// ---- 3RD LEVEL STATE --------
+// ---- MEDIA STATE --------
 
 export const updateMediaStateBySelection = properties => ({
 	type: ACTION.UPDATE_MEDIA_STATE_BY_SELECTION,
@@ -81,4 +56,29 @@ export const toggleMediaCheckbox = (id, e) => ({
 		id,
 		property: e.target.name
 	}
+})
+
+// ---- SORTABLE ELEMENT STATE --------
+
+export const addNewSortableElement = (nest, element, index, e) => dispatch => {
+	const pos = e.shiftKey ? 1 : 0
+
+	dispatch({
+		type: ACTION.ADD_SORTABLE_ELEMENT,
+		payload: {
+			pos: index + pos,
+			nest,
+			element
+		}
+	})
+}
+
+export const removeSortableElement = (id, nest) => ({
+	type: ACTION.REMOVE_SORTABLE_ELEMENT,
+	payload: { id, nest }
+})
+
+export const moveSortableElement = (nest, oldPos, newPos) => ({
+	type: ACTION.MOVE_SORTABLE_ELEMENT,
+	payload: { nest, oldPos, newPos }
 })
