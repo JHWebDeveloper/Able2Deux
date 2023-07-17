@@ -8,7 +8,8 @@ import {
 	deselectAllMedia,
 	duplicateSelectedMedia,
 	selectAllMedia,
-	removeAllMedia
+	removeAllMedia,
+	removeSelectedMedia
 } from 'actions'
 
 import { warn } from 'utilities'
@@ -28,12 +29,12 @@ const MediaSelectorOptions = ({ media, allItemsSelected, multipleItemsSelected, 
 		dispatch(deselectAllMedia())
 	}, [])
 
-	const removeMediaWarning = useCallback(({ message, media }) => warn({
+	const removeMediaWarning = useCallback(({ message, action }) => warn({
 		message,
 		detail: 'This cannot be undone. Proceed?',
 		enabled: warnings.removeAll,
 		callback() {
-			dispatch(removeAllMedia(media, false))
+			dispatch(action())
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('removeAll'))
@@ -65,7 +66,7 @@ const MediaSelectorOptions = ({ media, allItemsSelected, multipleItemsSelected, 
 			action() {
 				dispatch(removeMediaWarning({
 					message: 'Remove Selected Media?',
-					media: media.filter(item => item.selected)
+					action: removeSelectedMedia
 				}))
 			}
 		},
@@ -74,7 +75,7 @@ const MediaSelectorOptions = ({ media, allItemsSelected, multipleItemsSelected, 
 			action() {
 				dispatch(removeMediaWarning({
 					message: 'Remove All Media?',
-					media
+					action: removeAllMedia
 				}))
 			}
 		}
