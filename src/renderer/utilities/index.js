@@ -34,7 +34,7 @@ export const arrayCount = (arr, exp) => {
 	let count = 0
 
 	while (i--) {
-		if (exp(arr[i], i)) count += 1
+		if (exp(arr[i], i)) count++
 	}
 
 	return count
