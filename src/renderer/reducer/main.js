@@ -115,7 +115,7 @@ const startOver = state => ({
 
 // ---- SELECT MEDIA --------
 
-const onShiftClick = (media, { clickedIndex }) => {
+const selectMediaByShiftClick = (media, { clickedIndex }) => {
 	const focusedIndex = media.findIndex(({ focused }) => focused)
 	const anchoredIndex = media.findIndex(({ anchored }) => anchored)
 
@@ -142,29 +142,18 @@ const onShiftClick = (media, { clickedIndex }) => {
 	} : item)
 }
 
-const onCtrlClick = (media, { clickedIndex, clickedInFocus, clickedIsAnchored, clickedInSelection }) => {
-	let nearestSelectedIndex = 0
-
+const selectMediaByCtrlClick = (media, { clickedIndex, clickedInFocus, clickedIsAnchored, clickedInSelection }) => {
 	if (clickedInFocus || clickedIsAnchored) {
-		nearestSelectedIndex = findNearestIndex(media, clickedIndex, ({ selected }) => selected)
-	}
+		const nearestSelectedIndex = findNearestIndex(media, clickedIndex, ({ selected }) => selected)
 
-	if (clickedInFocus) {
 		return media.map((item, i) => i === nearestSelectedIndex ? {
 			...item,
-			focused: true
+			focused: clickedInFocus,
+			anchored: clickedIsAnchored
 		} : i === clickedIndex ? {
 			...item,
-			focused: false,
-			selected: false
-		} : item)
-	} else if (clickedIsAnchored) {
-		return media.map((item, i) => i === nearestSelectedIndex ? {
-			...item,
-			anchored: true
-		} : i === clickedIndex ? {
-			...item,
-			anchored: false,
+			focused: clickedInFocus ? false : item.focused,
+			anchored: clickedIsAnchored ? false : item.anchored,
 			selected: false
 		} : item)
 	} else if (clickedInSelection) {
@@ -179,13 +168,14 @@ const onCtrlClick = (media, { clickedIndex, clickedInFocus, clickedIsAnchored, c
 			return {
 				...item,
 				focused,
+				anchored:  focused,
 				selected: focused || item.selected
 			}
 		})
 	}
 }
 
-const onClick = (media, { clickedIndex, clickedInFocus, clickedInSelection }) => {
+const selectMediaByClick = (media, { clickedIndex, clickedInFocus, clickedInSelection }) => {
 	if (clickedInFocus) {
 		return [...media]
 	} else if (clickedInSelection) {
@@ -217,11 +207,11 @@ export const selectMedia = (state, payload) => {
 	let media = []
 
 	if (ctrlOrCmd) {
-		media = onCtrlClick(state.media, payload)
+		media = selectMediaByCtrlClick(state.media, payload)
 	} else if (shift) {
-		media = onShiftClick(state.media, payload)
+		media = selectMediaByShiftClick(state.media, payload)
 	} else {
-		media = onClick(state.media, payload)
+		media = selectMediaByClick(state.media, payload)
 	}
 	
 	return { ...state, media }
