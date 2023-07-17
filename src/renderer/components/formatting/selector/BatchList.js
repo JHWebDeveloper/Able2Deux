@@ -9,6 +9,7 @@ import {
 	copySettings,
 	disableWarningAndSave,
 	moveSortableElement,
+	moveSelectedMedia,
 	removeMedia
 } from 'actions'
 
@@ -74,8 +75,8 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch })
 		}
 	}), [media, warnings.remove])
 
-	const sortingAction = useCallback((oldPos, newPos) => {
-		dispatch(moveSortableElement('media', oldPos, newPos))
+	const sortingAction = useCallback((oldPos, newPos, e) => {
+		dispatch(e.shiftKey ? moveSortableElement('media', oldPos, newPos) : moveSelectedMedia(newPos))
 	}, [])
 
 	return (
