@@ -130,7 +130,9 @@ button[name$="selectAll"] {
 }
 
 .dropdown > span > button {
-	display: inherit;
+	display: grid;
+	grid-template-columns: auto 30px;
+	gap: 0 5px;
 	width: 100%;
 	padding: 3px 9px;
 	text-align: left;
@@ -141,6 +143,8 @@ button[name$="selectAll"] {
 	background-color: var(--secondary);
 	color: var(--background);
 }
+
+.dropdown kbd { text-align: right; }
 
 .spacer {
 	display: inherit;
