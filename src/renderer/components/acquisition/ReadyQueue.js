@@ -5,8 +5,9 @@ import { arrayOf, bool, func, object, shape } from 'prop-types'
 import {
 	disableWarningAndSave,
 	removeFailedAcquisitions,
+	removeAllMedia,
 	removeMedia,
-	removeAllMedia
+	removeReferencedMedia
 } from 'actions'
 
 import { group, warn } from 'utilities'
@@ -65,7 +66,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 		detail: removeReferencedMediaDetail,
 		enabled: true, // we don't need to pass the warning here boolean because we already checked it prior to executing
 		callback() {
-			dispatch(removeAllMedia(media.filter(item => item.refId === refId)))
+			dispatch(removeReferencedMedia(refId))
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('removeReferenced'))
@@ -77,7 +78,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 		detail: removeAllMediaDetail,
 		enabled: warnings.removeAll,
 		callback() {
-			dispatch(removeAllMedia(media, false))
+			dispatch(removeAllMedia())
 		},
 		checkboxCallback() {
 			dispatchPrefs(disableWarningAndSave('removeAll'))
