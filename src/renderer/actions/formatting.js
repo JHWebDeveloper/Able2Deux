@@ -73,6 +73,11 @@ export const applySettingsToSelection = id => properties => ({
 	payload: { id, properties }
 })
 
+export const moveSelectedMedia = index => ({
+	type: ACTION.MOVE_SELECTED_MEDIA,
+	payload: { index }
+})
+
 export const duplicateMedia = index => ({
 	type: ACTION.DUPLICATE_MEDIA,
 	payload: { index }
