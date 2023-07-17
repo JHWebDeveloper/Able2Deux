@@ -4,7 +4,7 @@ const MediaOptionButtons = ({ buttons, toggleMenu }) => {
 	const menuId = useId()
 	const enabledButtons = useMemo(() => buttons.filter(({ hide }) => !hide), [buttons])
 
-	return enabledButtons.map(({ type, label, action }, i) => type === 'spacer' ? (
+	return enabledButtons.map(({ type, label, action, shortcut }, i) => type === 'spacer' ? (
 		<span
 			key={`${menuId}_${i}`}
 			className="spacer"
@@ -22,7 +22,10 @@ const MediaOptionButtons = ({ buttons, toggleMenu }) => {
 				action()
 				toggleMenu(false)
 			}}
-			data-no-drag>{label}</button>
+			data-no-drag>
+			<span>{label}</span>
+			{shortcut ? <kbd>{shortcut}</kbd> : <></>}
+		</button>
 	))
 }
 
