@@ -202,7 +202,7 @@ const selectMediaByClick = (media, { clickedIndex, clickedInFocus, clickedInSele
 	}
 }
 
-export const selectMedia = (state, payload) => {
+const selectMedia = (state, payload) => {
 	const { ctrlOrCmd, shift } = payload
 	let media = []
 
@@ -217,7 +217,7 @@ export const selectMedia = (state, payload) => {
 	return { ...state, media }
 }
 
-export const selectAllMedia = (state, { focusIndex }) => {
+const selectAllMedia = (state, { focusIndex }) => {
 	const updateFocus = !!focusIndex || focusIndex === 0
 
 	return {
@@ -235,7 +235,7 @@ export const selectAllMedia = (state, { focusIndex }) => {
 	}
 }
 
-export const deselectAllMedia = state => ({
+const deselectAllMedia = state => ({
 	...state,
 	media: state.media.map(item => item.focused ? {
 		...item,
@@ -300,7 +300,7 @@ const splitMedia = (state, payload) => {
 
 // ---- REMOVE MEDIA --------
 
-export const removeMedia = (state, payload) => {
+const removeMedia = (state, payload) => {
 	const len = state.media.length
 
 	if (len < 2) return { ...state, media: [] }
