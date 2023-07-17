@@ -249,7 +249,10 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 		acquisitionType: 'screengrab',
 		duration: 0,
 		fps: 0,
-		hasAudio: false
+		hasAudio: false,
+		focused: false,
+		anchored: false,
+		selected: false
 	})
 }
 
