@@ -30,7 +30,7 @@ const DraggableList = ({ sortingAction, children }) => {
 
 	const drop = useCallback((i, e) => {
 		e.preventDefault()
-		sortingAction(e.dataTransfer.getData('insert'), i)
+		sortingAction(e.dataTransfer.getData('insert'), i, e)
 		dragLeave(e)
 		setDragging(false)
 	}, [])
