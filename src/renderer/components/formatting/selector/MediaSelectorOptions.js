@@ -17,6 +17,10 @@ import { warn } from 'utilities'
 import DropdownMenu from '../../form_elements/DropdownMenu.js'
 import MediaOptionButtons from '../../form_elements/MediaOptionButtons'
 
+const { interop } = window.ABLE2
+
+const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
+
 const MediaSelectorOptions = ({ media, allItemsSelected, multipleItemsSelected, dispatch }) => {
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const { warnings } = preferences
@@ -45,11 +49,13 @@ const MediaSelectorOptions = ({ media, allItemsSelected, multipleItemsSelected, 
 		{
 			label: 'Select All',
 			hide: allItemsSelected,
+			shortcut: `${ctrlOrCmdKeySymbol}A`,
 			action: dispatchSelectAllMedia
 		},
 		{
 			label: 'Deselect All',
 			hide: !multipleItemsSelected,
+			shortcut: `⇧${ctrlOrCmdKeySymbol}A`,
 			action: dispatchDeselectAllMedia
 		},
 		{ type: 'spacer' },
