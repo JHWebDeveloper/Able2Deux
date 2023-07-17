@@ -55,6 +55,7 @@ const MediaSelectorOptions = ({ media, allItemsSelected, multipleItemsSelected, 
 		{ type: 'spacer' },
 		{
 			label: 'Duplicate Selected',
+			hide: !multipleItemsSelected,
 			action() {
 				dispatch(duplicateSelectedMedia())
 			}
@@ -62,7 +63,7 @@ const MediaSelectorOptions = ({ media, allItemsSelected, multipleItemsSelected, 
 		{ type: 'spacer' },
 		{
 			label: 'Remove Selected',
-			hide: allItemsSelected,
+			hide: !multipleItemsSelected || allItemsSelected,
 			action() {
 				dispatch(removeMediaWarning({
 					message: 'Remove Selected Media?',
