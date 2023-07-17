@@ -74,7 +74,7 @@ export const mainReducer = (state, action) => {
 	}
 }
 
-// ---- "REACTIONS" --------
+// ---- GENERIC MEDIA STATE --------
 
 const updateMediaStateBySelection = (state, payload) => ({
 	...state,
@@ -110,6 +110,13 @@ const unselectedProps = {
 	anchored: false,
 	selected: false
 }
+
+const startOver = state => ({
+	...state,
+	media: []
+})
+
+// ----  DUPLICATE MEDIA --------
 
 const duplicateMedia = (state, payload) => {
 	const { index } = payload
@@ -159,10 +166,14 @@ const splitMedia = (state, payload) => {
 	return { ...state, media }
 }
 
+// ---- REMOVE MEDIA --------
+
 const removeFailedAcquisitions = state => ({
 	...state,
 	media: state.media.filter(item => item.status !== STATUS.FAILED)
 })
+
+// ---- COPY/PASTE PROPERTIES --------
 
 const pasteSettings = (state, payload) => {
 	const { copiedSettings } = state
@@ -191,6 +202,8 @@ const applyToSelection = (state, { id, properties }) => ({
 		...replaceIds(properties)
 	} : item)
 })
+
+// ---- COLOR CORRECTION --------
 
 const addCurvePoint = (state, payload) => {
 	const { id, curveName, pointData } = payload
@@ -285,8 +298,3 @@ const cleanupCurve = (state, payload) => {
 		} : item)
 	}
 }
-
-const startOver = state => ({
-	...state,
-	media: []
-})
