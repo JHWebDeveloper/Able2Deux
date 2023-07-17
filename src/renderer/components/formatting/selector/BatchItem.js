@@ -16,6 +16,8 @@ import MediaOptionButtons from '../../form_elements/MediaOptionButtons'
 
 const { interop } = window.ABLE2
 
+const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
+
 const BatchItem = props => {
 	const {
 		id,
@@ -53,6 +55,7 @@ const BatchItem = props => {
 		{
 			label: 'Copy All Settings',
 			hide: isOnly,
+			shortcut: `${ctrlOrCmdKeySymbol}C`,
 			action() {
 				copyAllSettings(id)
 			}
@@ -60,6 +63,7 @@ const BatchItem = props => {
 		{
 			label: 'Paste Settings',
 			hide: isOnly,
+			shortcut: `${ctrlOrCmdKeySymbol}V`,
 			action() {
 				dispatch(pasteSettings(id))
 			}
@@ -82,6 +86,7 @@ const BatchItem = props => {
 		{
 			label: 'Move Up',
 			hide: isFirst,
+			shortcut: `${ctrlOrCmdKeySymbol}↑`,
 			action() {
 				dispatch(moveSortableElement('media', index, index - 1))
 			}
@@ -89,6 +94,7 @@ const BatchItem = props => {
 		{
 			label: 'Move Down',
 			hide: isLast,
+			shortcut: `${ctrlOrCmdKeySymbol}↓`,
 			action() {
 				dispatch(moveSortableElement('media', index, index + 2))
 			}
@@ -96,12 +102,14 @@ const BatchItem = props => {
 		{ type: 'spacer' },
 		{
 			label: 'Duplicate Media',
+			shortcut: `${ctrlOrCmdKeySymbol}D`,
 			action() {
 				dispatch(duplicateMedia(index))
 			}
 		},
 		{
 			label: 'Remove Media',
+			shortcut: '␡',
 			action() {
 				removeMediaWarning({ id, refId, index, title })
 			}
