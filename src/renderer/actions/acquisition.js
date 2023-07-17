@@ -5,6 +5,7 @@ import * as STATUS from 'status'
 import { updateMediaStateById } from 'actions'
 
 import {
+	arrayCount,
 	createMediaData,
 	errorToString,
 	replaceTokens,
@@ -55,23 +56,33 @@ export const removeMedia = ({
 	})
 }
 
-export const removeAllMedia = (media, updateSelection = true) => async dispatch => {
-	const len = media.length - 1
+export const removeAllMedia = (mediaToRemove, updateSelection = false) => (dispatch, state) => {
+	mediaToRemove = mediaToRemove || state.media
 
-	for (let i = 0; i < len; i++) {
-		media[i].references = 1
-
-		for (let j = i + 1; j <= len; j++) {
-			if (media[i].refId === media[j].refId) media[i].references++
+	const referenceCount = mediaToRemove.reduce((acc, { refId }) => {
+		if (!(refId in acc)) {
+			acc[refId] = arrayCount(state.media, item => item.refId === refId)
 		}
-	}
 
-	media[len].references = 1
+		return acc
+	}, {})
 
-	media.reduce(async (prevPromise, item) => {
+	mediaToRemove.reduce(async (prevPromise, item) => {
 		await prevPromise
-		return removeMedia({ ...item, updateSelection })(dispatch)
+
+		return removeMedia({
+			...item,
+			references: referenceCount[item.refId]--
+		}, updateSelection)(dispatch)
 	}, Promise.resolve())
+}
+
+export const removeReferencedMedia = refId => (dispatch, state) => {
+	removeAllMedia(state.media.filter(item => item.refId === refId), true)(dispatch, state)
+}
+
+export const removeSelectedMedia = () => (dispatch, state) => {
+	removeAllMedia(state.media.filter(item => item.selected), true)(dispatch, state)
 }
 
 export const removeFailedAcquisitions = () => ({
