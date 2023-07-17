@@ -3,6 +3,7 @@ import * as STATUS from 'status'
 import * as shared from 'reducer/shared'
 
 import {
+	arrayCount,
 	findNearestIndex,
 	replaceIds,
 	sortCurvePoints
@@ -32,6 +33,8 @@ export const mainReducer = (state, action) => {
 			return shared.removeSortableElement(state, payload)
 		case ACTION.MOVE_SORTABLE_ELEMENT:
 			return shared.moveSortableElement(state, payload)
+		case ACTION.MOVE_SELECTED_MEDIA:
+			return moveSelectedMedia(state, payload)
 		case ACTION.REMOVE_MEDIA:
 			return removeMedia(state, payload)
 		case ACTION.SELECT_MEDIA:
@@ -246,6 +249,20 @@ const deselectAllMedia = state => ({
 		selected: false
 	})
 })
+
+// ---- SORT MEDIA --------
+
+const moveSelectedMedia = (state, { index }) => {
+	const shiftIndexBy = arrayCount(state.media, (item, i) => i < index && item.selected)
+	const selected = state.media.filter(item => item.selected)
+
+	return {
+		...state,
+		media: state.media
+			.filter(item => !item.selected)
+			.toSpliced(index - shiftIndexBy, 0, ...selected)
+	}
+}
 
 
 // ----  DUPLICATE MEDIA --------
