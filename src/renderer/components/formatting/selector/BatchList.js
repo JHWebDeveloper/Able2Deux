@@ -76,7 +76,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch })
 	}), [media, warnings.remove])
 
 	const sortingAction = useCallback((oldPos, newPos, { selected }, e) => {
-		if (!selected || e.shiftKey || allItemsSelected) {
+		if (!selected || e.altKey || allItemsSelected) {
 			dispatch(moveSortableElement('media', oldPos, newPos))
 		} else {
 			dispatch(moveSelectedMedia(newPos))
