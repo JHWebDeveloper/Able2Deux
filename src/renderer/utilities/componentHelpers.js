@@ -18,11 +18,12 @@ export const createSettingsMenu = ({
 	},
 	{
 		label: 'Apply to Selected',
-		hide: !multipleItemsSelected || allItemsSelected || actions.length < 3,
+		hide: !multipleItemsSelected || actions.length < 3,
 		action() { actions[1]() }
 	},
 	{
 		label: 'Apply to All',
+		hide: allItemsSelected,
 		action() { actions.at(-1)() }
 	},
 	...additionalOptions
