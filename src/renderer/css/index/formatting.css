@@ -130,13 +130,17 @@ button[name$="selectAll"] {
 }
 
 .dropdown > span > button {
-	display: grid;
-	grid-template-columns: auto 30px;
-	gap: 0 5px;
+	display: inherit;
 	width: 100%;
 	padding: 3px 9px;
 	text-align: left;
 	white-space: nowrap;
+}
+
+#media-selector .dropdown > span > button {
+	display: grid;
+	grid-template-columns: auto 40px;
+	gap: 0 5px;
 }
 
 .dropdown > span > button:hover {
@@ -144,7 +148,14 @@ button[name$="selectAll"] {
 	color: var(--background);
 }
 
-.dropdown kbd { text-align: right; }
+.dropdown kbd {
+	text-align: right;
+	color: var(--secondary);
+}
+
+.dropdown button:hover > kbd {
+	color: inherit;
+}
 
 .spacer {
 	display: inherit;
