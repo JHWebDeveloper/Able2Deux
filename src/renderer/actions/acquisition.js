@@ -81,8 +81,8 @@ export const removeReferencedMedia = refId => (dispatch, state) => {
 	removeAllMedia(state.media.filter(item => item.refId === refId), true)(dispatch, state)
 }
 
-export const removeSelectedMedia = () => (dispatch, state) => {
-	removeAllMedia(state.media.filter(item => item.selected), true)(dispatch, state)
+export const removeSelectedMedia = (updateSelection = true) => (dispatch, state) => {
+	removeAllMedia(state.media.filter(item => item.selected), updateSelection)(dispatch, state)
 }
 
 export const removeFailedAcquisitions = () => ({
