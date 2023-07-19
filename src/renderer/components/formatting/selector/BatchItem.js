@@ -2,12 +2,9 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { bool, func, string, number } from 'prop-types'
 
 import {
-	deselectAllMedia,
 	duplicateMedia,
-	duplicateSelectedMedia,
 	moveSortableElement,
 	pasteSettings,
-	selectAllMedia,
 	selectMedia
 } from 'actions'
 
@@ -29,21 +26,33 @@ const BatchItem = props => {
 		selected,
 		isFirst,
 		isLast,
+		prevSelected,
+		nextSelected,
 		copyAllSettings,
 		applyToAllWarning,
 		applyToSelectionWarning,
 		removeMediaWarning,
 		multipleItemsSelected,
 		allItemsSelected,
+		tempFilePath,
 		dispatch
 	} = props
 
 	const triggers = [
-		title,
+		id,
+		refId,
 		index,
+		title,
+		isFirst,
+		isLast,
+		prevSelected,
+		nextSelected,
+		multipleItemsSelected,
+		allItemsSelected,
 		copyAllSettings,
 		applyToAllWarning,
-		removeMediaWarning
+		removeMediaWarning,
+		tempFilePath
 	]
 
 	const isOnly = isFirst && isLast
@@ -70,14 +79,14 @@ const BatchItem = props => {
 		},
 		{
 			label: 'Apply Settings to Selected',
-			hide: isOnly || !multipleItemsSelected && focused || allItemsSelected,
+			hide: isOnly || !multipleItemsSelected && focused,
 			action() {
 				dispatch(applyToSelectionWarning(id))
 			}
 		},
 		{
 			label: 'Apply Settings to All',
-			hide: isOnly,
+			hide: isOnly || allItemsSelected,
 			action() {
 				applyToAllWarning(id)
 			}
@@ -86,7 +95,7 @@ const BatchItem = props => {
 		{
 			label: 'Move Up',
 			hide: isFirst,
-			shortcut: `${ctrlOrCmdKeySymbol}↑`,
+			shortcut: '⌥↑',
 			action() {
 				dispatch(moveSortableElement('media', index, index - 1))
 			}
@@ -94,7 +103,7 @@ const BatchItem = props => {
 		{
 			label: 'Move Down',
 			hide: isLast,
-			shortcut: `${ctrlOrCmdKeySymbol}↓`,
+			shortcut: '⌥↓',
 			action() {
 				dispatch(moveSortableElement('media', index, index + 2))
 			}
@@ -109,7 +118,7 @@ const BatchItem = props => {
 		},
 		{
 			label: 'Remove Media',
-			shortcut: '␡',
+			shortcut: '⌫',
 			action() {
 				removeMediaWarning({ id, refId, index, title })
 			}
@@ -118,7 +127,7 @@ const BatchItem = props => {
 		{
 			label: 'Reveal in Cache',
 			action() {
-				interop.revealInTempFolder(props.tempFilePath)
+				interop.revealInTempFolder(tempFilePath)
 			}
 		}
 	], triggers)
@@ -130,23 +139,21 @@ const BatchItem = props => {
 			dropdown[0].action() // Copy All Settings
 		} else if (ctrlOrCmd && !isOnly && e.key === 'v') {
 			dropdown[1].action() // Paste Settings
-		} else if (ctrlOrCmd && !isFirst && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
+		} else if (e.altKey && !isFirst && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
 			dropdown[5].action() // Move Up
-		} else if (ctrlOrCmd && !isLast && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
+		} else if (e.altKey && !isLast && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
 			dropdown[6].action() // Move Down
 		} else if (!isFirst && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
-			dispatch(selectMedia(index - 1, e))
+			dispatch(selectMedia(index - 1, e, {
+				selected: prevSelected
+			}))
 		} else if (!isLast && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
-			dispatch(selectMedia(index + 1, e))
-		} else if (e.shiftKey && ctrlOrCmd && e.key === 'a') {
-			dispatch(deselectAllMedia())
-		} else if (ctrlOrCmd && e.key === 'a') {
-			dispatch(selectAllMedia())
-		} else if (e.shiftKey && ctrlOrCmd && e.key === 'd') {
-			dispatch(duplicateSelectedMedia())
+			dispatch(selectMedia(index + 1, e, {
+				selected: nextSelected
+			}))
 		} else if (ctrlOrCmd && e.key === 'd') {
 			dropdown[8].action() // Duplicate Media
-		} else if (e.key === 'Backspace' || e.key === 'Delete') {
+		} else if (e.key === 'Backspace' || e.ket === 'Delete') {
 			dropdown[9].action() // Remove Media
 		}
 	}, triggers)
@@ -162,7 +169,7 @@ const BatchItem = props => {
 	return (
 		<div
 			className={`batch-item${selected ? ' selected' : ''}${focused ? ' focused' : ''}`}
-			onKeyDown={onKeyDown}>
+			onKeyDownCapture={onKeyDown}>
 			<DropdownMenu>				
 				<MediaOptionButtons buttons={dropdown} />
 			</DropdownMenu>
@@ -194,6 +201,8 @@ BatchItem.propTypes = {
 	allItemsSelected: bool.isRequired,
 	isFirst: bool.isRequired,
 	isLast: bool.isRequired,
+	prevSelected: bool,
+	nextSelected: bool,
 	title: string.isRequired,
 	tempFilePath: string.isRequired,
 	index: number.isRequired,
