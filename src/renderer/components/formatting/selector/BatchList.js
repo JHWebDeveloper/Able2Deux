@@ -28,7 +28,7 @@ const removeMediaDetail = 'This cannot be undone. Proceed?'
 
 const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch }) => {
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
-	const warnings = preferences
+	const { warnings } = preferences
 
 	const copyAllSettings = useCallback(id => {
 		pipe(extractCopyPasteProps, copySettings, dispatch)(media.find(item => item.id === id))
@@ -75,9 +75,13 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch })
 		}
 	}), [media, warnings.remove])
 
-	const sortingAction = useCallback((oldPos, newPos, e) => {
-		dispatch(e.shiftKey ? moveSortableElement('media', oldPos, newPos) : moveSelectedMedia(newPos))
-	}, [])
+	const sortingAction = useCallback((oldPos, newPos, { selected }, e) => {
+		if (!selected || e.shiftKey || allItemsSelected) {
+			dispatch(moveSortableElement('media', oldPos, newPos))
+		} else {
+			dispatch(moveSelectedMedia(newPos))
+		}
+	}, [allItemsSelected])
 
 	return (
 		<div>
@@ -95,6 +99,8 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch })
 						index={i}
 						isFirst={i === 0}
 						isLast={i === media.length - 1}
+						prevSelected={media?.[i - 1]?.selected}
+						nextSelected={media?.[i + 1]?.selected}
 						copyAllSettings={copyAllSettings}
 						applyToAllWarning={applyToAllWarning}
 						applyToSelectionWarning={applyToSelectionWarning}
