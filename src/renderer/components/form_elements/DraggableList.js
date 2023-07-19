@@ -1,4 +1,4 @@
-import React, { useCallback, useId, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { arrayOf, element, func } from 'prop-types'
 
 const dragLeave = e => {
@@ -16,10 +16,10 @@ const enableDrag = e => {
 const DraggableList = ({ sortingAction, children }) => {
 	const [ dragging, setDragging ] = useState(false)
 	const draggable = children.length > 1
-	const listKey = useId()
+	const dragData = useRef({})
 
-	const dragStart = useCallback((i, e) => {
-		e.dataTransfer.setData('insert', i)
+	const dragStart = useCallback((index, props) => {
+		dragData.current = { index, props }
 		setDragging(true)
 	}, [])
 
@@ -30,17 +30,17 @@ const DraggableList = ({ sortingAction, children }) => {
 
 	const drop = useCallback((i, e) => {
 		e.preventDefault()
-		sortingAction(e.dataTransfer.getData('insert'), i, e)
+		sortingAction(dragData.current.index, i, dragData.current.props, e)
 		dragLeave(e)
 		setDragging(false)
-	}, [])
+	}, [sortingAction])
 
 	return (
 		<>
 			{children.map((child, i) => (
 				<div
-					key={`${listKey}_${i}`}
-					onDragStart={e => dragStart(i, e)}
+					key={child.props.id}
+					onDragStart={() => dragStart(i, child.props)}
 					onDragOver={dragOver}
 					onDragLeave={dragLeave}
 					onDrop={e => drop(i, e)}
