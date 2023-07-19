@@ -68,9 +68,6 @@ input[type="number"]::-webkit-outer-spin-button {
 
 [draggable] { -webkit-user-drag: element }
 
-[draggable] { -webkit-user-drag: element }
-
-
 /* --- VARIABLES --- */
 
 :root {
