@@ -57,6 +57,10 @@ export const limitTCChars = colonMax => e => {
 	}
 }
 
+export const refocusBatchItem = () => {
+	document.querySelector('.focused > button[name="select-media"]')?.focus()
+}
+
 export const replaceIds = (() => {
 	const _replaceIds = obj => {
 		obj = { ...obj }
