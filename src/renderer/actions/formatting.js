@@ -29,7 +29,7 @@ import {
 
 const { interop } = window.ABLE2
 
-// ---- MEDIA SELECTOR --------
+// ---- SELECT MEDIA --------
 
 export const selectMedia = (clickedIndex, e = {}, selectionData = {}) => dispatch => {
 	const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
@@ -58,32 +58,14 @@ export const deselectAllMedia = () => ({
 	type: ACTION.DESELECT_ALL_MEDIA
 })
 
-export const copySettings = settings => ({
-	type: ACTION.UPDATE_STATE,
-	payload: {
-		copiedSettings: settings instanceof Function ? settings : { ...settings }
-	}
-})
-
-export const pasteSettings = id => ({
-	type: ACTION.PASTE_SETTINGS,
-	payload: { id }
-})
-
-export const applySettingsToAll = id => properties => ({
-	type: ACTION.APPLY_TO_ALL,
-	payload: { id, properties }
-})
-
-export const applySettingsToSelection = id => properties => ({
-	type: ACTION.APPLY_TO_SELECTION,
-	payload: { id, properties }
-})
+// ---- SORT MEDIA --------
 
 export const moveSelectedMedia = index => ({
 	type: ACTION.MOVE_SELECTED_MEDIA,
 	payload: { index }
 })
+
+// ---- DUPLICATE MEDIA --------
 
 export const duplicateMedia = index => ({
 	type: ACTION.DUPLICATE_MEDIA,
@@ -92,17 +74,6 @@ export const duplicateMedia = index => ({
 
 export const duplicateSelectedMedia = () => ({
 	type: ACTION.DUPLICATE_SELECTED_MEDIA
-})
-
-// ---- EDITOR --------
-
-export const toggleAspectRatioMarker = id => ({
-	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
-	payload: {
-		property: 'selected',
-		nest: 'aspectRatioMarkers',
-		id 
-	}
 })
 
 export const splitMedia = (id, split, start, end) => async dispatch => {
@@ -134,6 +105,43 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 
 	dispatch(updateMediaStateById(id, { start: i }))
 }
+
+// ---- COPY/PASTE PROPERTIES --------
+
+export const copySettings = settings => ({
+	type: ACTION.UPDATE_STATE,
+	payload: {
+		copiedSettings: settings instanceof Function ? settings : { ...settings }
+	}
+})
+
+export const pasteSettings = id => ({
+	type: ACTION.PASTE_SETTINGS,
+	payload: { id }
+})
+
+export const applySettingsToAll = id => properties => ({
+	type: ACTION.APPLY_TO_ALL,
+	payload: { id, properties }
+})
+
+export const applySettingsToSelection = id => properties => ({
+	type: ACTION.APPLY_TO_SELECTION,
+	payload: { id, properties }
+})
+
+// ---- EDITOR --------
+
+export const toggleAspectRatioMarker = id => ({
+	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
+	payload: {
+		property: 'selected',
+		nest: 'aspectRatioMarkers',
+		id 
+	}
+})
+
+// ---- COLOR CORRECTION --------
 
 export const addCurvePoint = (id, curveName, pointData) => ({
 	type: ACTION.ADD_CURVE_POINT,
