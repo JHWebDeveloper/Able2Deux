@@ -161,8 +161,15 @@ const BatchItem = props => {
 		}
 	}, triggers)
 
-	const selectMediaDispatch = useCallback(e => {
+	const selectMediaOnClick = useCallback(e => {
 		dispatch(selectMedia(index, e, { focused, anchored, selected }))
+	}, [index, focused, anchored, selected])
+
+	const selectMediaOnKeyDown = useCallback(e => {
+		if (e.key === 'Enter') {
+			e.preventDefault()
+			selectMediaOnClick(e)
+		}
 	}, [index, focused, anchored, selected])
 
 	useEffect(() => {
@@ -182,7 +189,8 @@ const BatchItem = props => {
 				ref={selectMediaBtn}
 				title={selectBtnTitle}
 				aria-label={selectBtnTitle}
-				onClick={selectMediaDispatch}>{title}</button>
+				onClick={selectMediaOnClick}
+				onKeyDown={selectMediaOnKeyDown}>{title}</button>
 			<button
 				type="button"
 				title="Remove Media"
