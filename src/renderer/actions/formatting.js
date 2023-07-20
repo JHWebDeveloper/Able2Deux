@@ -130,17 +130,6 @@ export const applySettingsToSelection = id => properties => ({
 	payload: { id, properties }
 })
 
-// ---- EDITOR --------
-
-export const toggleAspectRatioMarker = id => ({
-	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
-	payload: {
-		property: 'selected',
-		nest: 'aspectRatioMarkers',
-		id 
-	}
-})
-
 // ---- COLOR CORRECTION --------
 
 export const addCurvePoint = (id, curveName, pointData) => ({
@@ -222,15 +211,6 @@ export const colorBalance = (eyedropper, curves) => dispatch => {
 export const cleanupCurve = curveName => ({
 	type: ACTION.CLEANUP_CURVE,
 	payload: { curveName }
-})
-
-export const toggleSaveLocation = (id, property) => ({
-	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
-	payload: {
-		nest: 'saveLocations',
-		property,
-		id
-	}
 })
 
 // ---- EXTRACT STILL --------
@@ -482,6 +462,26 @@ export const cancelRender = (id, renderStatus) => async dispatch => {
 
 	dispatch(updateRenderStatus(id, STATUS.CANCELLED))
 }
+
+// ---- OTHER EDITOR ACTIONS --------
+
+export const toggleAspectRatioMarker = id => ({
+	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
+	payload: {
+		property: 'selected',
+		nest: 'aspectRatioMarkers',
+		id 
+	}
+})
+
+export const toggleSaveLocation = (id, property) => ({
+	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
+	payload: {
+		nest: 'saveLocations',
+		property,
+		id
+	}
+})
 
 export const startOver = () => dispatch => {
 	dispatch({ type: ACTION.START_OVER })
