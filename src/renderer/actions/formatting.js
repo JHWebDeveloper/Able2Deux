@@ -21,6 +21,7 @@ import {
 	getIntegerLength,
 	pipe,
 	pipeAsync,
+	refocusBatchItem,
 	replaceTokens,
 	toastrOpts,
 	zeroize
@@ -30,17 +31,23 @@ const { interop } = window.ABLE2
 
 // ---- MEDIA SELECTOR --------
 
-export const selectMedia = (clickedIndex, e = {}, selectionData = {}) => ({
-	type: ACTION.SELECT_MEDIA,
-	payload: {
-		clickedIndex,
-		clickedInFocus: selectionData.focused,
-		clickedIsAnchored: selectionData.anchored,
-		clickedInSelection: selectionData.selected,
-		shift: e.shiftKey,
-		ctrlOrCmd: interop.isMac ? e.metaKey : e.ctrlKey
-	}
-})
+export const selectMedia = (clickedIndex, e = {}, selectionData = {}) => dispatch => {
+	const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
+
+	dispatch({
+		type: ACTION.SELECT_MEDIA,
+		payload: {
+			clickedIndex,
+			clickedInFocus: selectionData.focused,
+			clickedIsAnchored: selectionData.anchored,
+			clickedInSelection: selectionData.selected,
+			shift: e.shiftKey,
+			ctrlOrCmd
+		}
+	})
+
+	if (ctrlOrCmd) refocusBatchItem()
+}
 
 export const selectAllMedia = focusIndex => ({
 	type: ACTION.SELECT_ALL_MEDIA,
