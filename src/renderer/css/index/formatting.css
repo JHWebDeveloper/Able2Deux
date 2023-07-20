@@ -32,7 +32,7 @@
 }
 
 #media-selector h2,
-.batch-item > button:first-of-type {
+button[name="select-media"] {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -73,10 +73,15 @@
 
 .focused { background-color: var(--primary); }
 
-.batch-item > button:first-of-type {
+.batch-item > .dropdown { order: 1; }
+
+button[name="select-media"] {
+	order: 2;
 	text-align: left;
 	font-weight: 500;
 }
+
+button[name="remove-media"] { order: 3; }
 
 #media-selector > div:nth-child(3) {
 	display: flex;
