@@ -37,7 +37,7 @@ const MediaElement = props => {
 				title={mediaElementTitle}
 				style={{ color }}>lens</span>
 			<span>
-				<span>{title}</span>
+				<span className="overlow-ellipsis">{title}</span>
 				{downloading ? <>
 					{!isLive ? <span className="monospace">{secondsToTC(downloadETA)}</span> : <></>}
 					<progress

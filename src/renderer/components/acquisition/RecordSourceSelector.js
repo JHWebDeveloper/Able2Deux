@@ -62,7 +62,7 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 							aria-label={`Record ${name}`}
 							onClick={() => close(id)}>
 							<img src={thumbnail} />
-							<span>{name}</span>
+							<span className="overlow-ellipsis">{name}</span>
 						</button>
 					))}
 				</> : <></>}

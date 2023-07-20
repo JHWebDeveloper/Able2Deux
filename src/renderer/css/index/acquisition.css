@@ -263,13 +263,6 @@ button[name="screenshot"] { height: 26px; }
 	object-position: center;
 }
 
-#record-source-selector span {
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-
-
 /* ---- READY QUEUE -------- */
 
 #ready-queue {

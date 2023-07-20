@@ -84,9 +84,6 @@ button:is([title="Format Media"], [title="Back"]) {
 }
 
 .media-element > span:nth-of-type(2) > span:first-of-type {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 	display: block;
 	width: auto;
 }

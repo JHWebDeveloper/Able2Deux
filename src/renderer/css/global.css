@@ -281,6 +281,12 @@ svg.toggle-switch-disabled > .exclude-disabled { fill: var(--primary); }
 
 .insert-last.insert::before { top: -3px; }
 
+.overlow-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
 .monospace {
 	font: 400 1em 'Cutive Mono', 'Courier New', Courier, monospace;
 }

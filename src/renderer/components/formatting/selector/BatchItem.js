@@ -183,6 +183,7 @@ const BatchItem = props => {
 			<button
 				type="button"
 				name="select-media"
+				className="overlow-ellipsis"
 				ref={selectMediaBtn}
 				title={selectBtnTitle}
 				aria-label={selectBtnTitle}
