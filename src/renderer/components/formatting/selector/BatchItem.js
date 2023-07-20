@@ -180,9 +180,6 @@ const BatchItem = props => {
 		<div
 			className={`batch-item${selected ? ' selected' : ''}${focused ? ' focused' : ''}`}
 			onKeyDownCapture={onKeyDown}>
-			<DropdownMenu>				
-				<MediaOptionButtons buttons={dropdown} />
-			</DropdownMenu>
 			<button
 				type="button"
 				name="select-media"
@@ -191,9 +188,13 @@ const BatchItem = props => {
 				aria-label={selectBtnTitle}
 				onClick={selectMediaOnClick}
 				onKeyDown={selectMediaOnKeyDown}>{title}</button>
+			<DropdownMenu>				
+				<MediaOptionButtons buttons={dropdown} />
+			</DropdownMenu>
 			<button
 				type="button"
 				title="Remove Media"
+				name="remove-media"
 				aria-label="Remove Media"
 				className="symbol"
 				onClick={dropdown[9].action}>close</button>
