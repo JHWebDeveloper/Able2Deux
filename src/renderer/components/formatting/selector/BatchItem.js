@@ -178,7 +178,7 @@ const BatchItem = props => {
 			</DropdownMenu>
 			<button
 				type="button"
-				className="select-media"
+				name="select-media"
 				ref={selectMediaBtn}
 				title={selectBtnTitle}
 				aria-label={selectBtnTitle}
