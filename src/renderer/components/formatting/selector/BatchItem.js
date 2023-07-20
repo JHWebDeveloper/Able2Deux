@@ -8,6 +8,8 @@ import {
 	selectMedia
 } from 'actions'
 
+import { refocusBatchItem } from 'utilities'
+
 import DropdownMenu from '../../form_elements/DropdownMenu'
 import MediaOptionButtons from '../../form_elements/MediaOptionButtons'
 
@@ -121,6 +123,7 @@ const BatchItem = props => {
 			shortcut: '⌫',
 			action() {
 				removeMediaWarning({ id, refId, index, title })
+				refocusBatchItem()
 			}
 		},
 		{ type: 'spacer' },
@@ -175,6 +178,7 @@ const BatchItem = props => {
 			</DropdownMenu>
 			<button
 				type="button"
+				className="select-media"
 				ref={selectMediaBtn}
 				title={selectBtnTitle}
 				aria-label={selectBtnTitle}
@@ -184,9 +188,7 @@ const BatchItem = props => {
 				title="Remove Media"
 				aria-label="Remove Media"
 				className="symbol"
-				onClick={() => {
-					removeMediaWarning({ id, refId, index, title })}
-				}>close</button>
+				onClick={dropdown[9].action}>close</button>
 		</div>
 	)
 }
