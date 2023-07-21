@@ -141,7 +141,7 @@ button[name$="selectAll"] {
 	gap: 0 5px;
 }
 
-.dropdown > span > button:hover {
+.dropdown > span > button:is(:hover, :focus-visible) {
 	background-color: var(--secondary);
 	color: var(--background);
 }
