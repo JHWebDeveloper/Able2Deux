@@ -176,7 +176,7 @@ const BatchItem = props => {
 
 	useEffect(() => {
 		if (focused) selectMediaBtn.current.focus()
-	}, [focused])
+	}, [focused, index])
 
 	return (
 		<div
