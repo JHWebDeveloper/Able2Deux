@@ -7,7 +7,7 @@ import { detectTabExit } from 'utilities'
 const getFocusableSibling = (el, prop) => {
 	const sibling = el[prop]
 
-	return sibling?.tabIndex === -1 ? getFocusableSibling(sibling, dir) : sibling
+	return sibling?.tabIndex === -1 ? getFocusableSibling(sibling, prop) : sibling
 }
 
 const DropdownMenu = ({ icon = 'more_vert', children }) => {
