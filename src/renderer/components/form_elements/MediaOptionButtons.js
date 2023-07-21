@@ -1,6 +1,6 @@
 import React, { useId, useMemo } from 'react'
 
-const MediaOptionButtons = ({ buttons, toggleMenu }) => {
+const MediaOptionButtons = ({ buttons, toggleMenu, navigateWithKeys }) => {
 	const menuId = useId()
 	const enabledButtons = useMemo(() => buttons.filter(({ hide }) => !hide), [buttons])
 
@@ -22,6 +22,7 @@ const MediaOptionButtons = ({ buttons, toggleMenu }) => {
 				action()
 				toggleMenu(false)
 			}}
+			onKeyDown={navigateWithKeys}
 			data-no-drag>
 			<span>{label}</span>
 			{shortcut ? <kbd>{shortcut}</kbd> : <></>}

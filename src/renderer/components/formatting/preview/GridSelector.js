@@ -9,10 +9,10 @@ import DropdownMenu from '../../form_elements/DropdownMenu'
 const toggleTitle = state => state ? 'Hide' : 'Show'
 
 // eslint-disable-next-line no-extra-parens
-const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
-	buttons.map(({ id, label, selected }) => {
+const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch, navigateWithKeys }) => (
+	buttons.map(({ id, label, selected }, i) => {
 		const title = `${toggleTitle(selected)} ${label} Markers`
-
+		
 		return (
 			<button
 				key={id}
@@ -21,7 +21,9 @@ const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch }) => (
 				title={title}
 				aria-label={title}
 				style={toggleColor(selected)}
-				onClick={() => dispatch(toggleAspectRatioMarker(id))}>
+				autoFocus={i === 0}
+				onClick={() => dispatch(toggleAspectRatioMarker(id))}
+				onKeyDown={navigateWithKeys}>
 				<span>{label}</span>
 			</button>
 		)
