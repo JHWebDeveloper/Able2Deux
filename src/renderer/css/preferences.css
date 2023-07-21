@@ -64,6 +64,8 @@ form :is(.app-button, input:is([type="text"], [type="number"], [type="color"])) 
 	vertical-align: middle;
 }
 
+form input[type="color"] { width: 48px; }
+
 form .app-button {
 	width: 24px;
 	padding: 0;
