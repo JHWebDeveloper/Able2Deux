@@ -30,7 +30,7 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 	const closeMenuOnBlur = useCallback(detectTabExit(toggleMenu), [])
 
 	const navigateWithKeys = useCallback(e => {
-		e.stopPropagation()
+		if (e.key !== 'Tab') e.stopPropagation()
 		
 		if (e.key === 'Escape') {
 			toggleMenu()
