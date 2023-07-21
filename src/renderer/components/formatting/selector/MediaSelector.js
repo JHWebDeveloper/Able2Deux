@@ -95,11 +95,9 @@ const MediaSelector = ({ media, focused, multipleItems, multipleItemsSelected, a
 			dropdown[1].action() // Deselect All Media
 		} else if (ctrlOrCmd && e.key === 'a') {
 			dropdown[0].action() // Select All Media
-		} else if (e.shiftKey && ctrlOrCmd && e.key === 'd') {
-			e.stopPropagation()
+		} else if (ctrlOrCmd && e.key === 'd') { // requires shiftKey pressed, we conditionally stopped propagation on child element for !e.shiftKey
 			dropdown[3].action() // Duplicate Selected Media
-		} else if (e.shiftKey && (e.key === 'Backspace' || e.key === 'Delete')) {
-			e.stopPropagation()
+		} else if (e.key === 'Backspace' || e.key === 'Delete') { // same note as above
 			dropdown[5].action() // Remove Selected Media
 		}
 	}, [allItemsSelected, multipleItemsSelected, warnings.removeAll])
@@ -108,7 +106,7 @@ const MediaSelector = ({ media, focused, multipleItems, multipleItemsSelected, a
 		<div
 			id="media-selector"
 			className="formatting-panel"
-			onKeyDownCapture={onKeyDown}>
+			onKeyDown={onKeyDown}>
 			<MediaInfo
 				thumbnail={focused.thumbnail}
 				title={focused.title}
