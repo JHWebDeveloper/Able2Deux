@@ -154,9 +154,11 @@ const BatchItem = props => {
 			dispatch(selectMedia(index + 1, e, {
 				selected: nextSelected
 			}))
-		} else if (ctrlOrCmd && e.key === 'd') {
+		} else if (ctrlOrCmd && !e.shiftKey && e.key === 'd') {
+			e.stopPropagation()
 			dropdown[8].action() // Duplicate Media
-		} else if (e.key === 'Backspace' || e.ket === 'Delete') {
+		} else if (!e.shiftKey && (e.key === 'Backspace' || e.ket === 'Delete')) {
+			e.stopPropagation()
 			dropdown[9].action() // Remove Media
 		}
 	}, triggers)
@@ -179,7 +181,7 @@ const BatchItem = props => {
 	return (
 		<div
 			className={`batch-item${selected ? ' selected' : ''}${focused ? ' focused' : ''}`}
-			onKeyDownCapture={onKeyDown}>
+			onKeyDown={onKeyDown}>
 			<button
 				type="button"
 				name="select-media"
