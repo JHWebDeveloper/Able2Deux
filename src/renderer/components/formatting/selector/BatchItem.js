@@ -166,7 +166,7 @@ const BatchItem = props => {
 	}, [index, focused, anchored, selected])
 
 	const selectMediaOnKeyDown = useCallback(e => {
-		if (e.key === 'Enter') {
+		if (e.key === 'Enter' || e.key === 'Spacebar') {
 			e.preventDefault()
 			selectMediaOnClick(e)
 		}
