@@ -35,7 +35,7 @@ const SliderDouble = ({
 	min = 0,
 	max = 100,
 	step = 1,
-	fineTuneStep = 0.1,
+	microStep = 0.1,
 	macroStep = 10,
 	snapPoints = [],
 	sensitivity = 4,
@@ -111,7 +111,7 @@ const SliderDouble = ({
 		if (enableAutoCenter) setBoth(50 - diffLR / 2)
 	}, [onPan, diffLR])
 
-	const common = { diff, step, fineTuneStep, getTrack }
+	const common = { diff, step, microStep, getTrack }
 
 	return (
 		<span
@@ -129,7 +129,7 @@ const SliderDouble = ({
 					alignment={leftThumb.alignment || 'right'}
 					value={leftThumb.value}
 					min={min}
-					max={leftThumb.max ?? rightThumb.value - fineTuneStep}
+					max={leftThumb.max ?? rightThumb.value - microStep}
 					thresholds={sliderSnapPoints && thresholds}
 					setValue={setLeft}
 					onClick={leftThumb.onClick}
@@ -159,7 +159,7 @@ const SliderDouble = ({
 					title={rightThumb.title}
 					alignment={rightThumb.alignment || 'left'}
 					value={rightThumb.value}
-					min={rightThumb.min ?? leftThumb.value + fineTuneStep}
+					min={rightThumb.min ?? leftThumb.value + microStep}
 					max={max}
 					absoluteMin={min}
 					thresholds={sliderSnapPoints && thresholds}
@@ -199,7 +199,7 @@ SliderDouble.propTypes = {
 	min: number,
 	max: number,
 	step: number,
-	fineTuneStep: number,
+	microStep: number,
 	macroStep: number,
 	snapPoints: arrayOf(number),
 	sensitivity: number,

@@ -265,7 +265,7 @@ const ColorCorrection = props => {
 				}}
 				min={0}
 				max={256}
-				fineTuneStep={1}
+				microStep={1}
 				hasMiddleThumb={false}
 				disabled={!ccEnabled} />
 		</>

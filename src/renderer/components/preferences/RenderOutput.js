@@ -110,7 +110,7 @@ const RenderOutput = () => {
 					min={1}
 					max={10}
 					defaultValue={2}
-					fineTuneStep={1}
+					microStep={1}
 					onChange={updateConcurrent} />
 			</span>
 		</form>

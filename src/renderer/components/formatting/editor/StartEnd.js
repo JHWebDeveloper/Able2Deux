@@ -81,7 +81,7 @@ const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 				leftThumb={startProps}
 				rightThumb={endProps}
 				max={totalFrames}
-				fineTuneStep={1}
+				microStep={1}
 				onPan={shiftTimecodes}
 				transformValueForAria={val => framesToAudibleTC(val, fps)} />
 		</div>

@@ -86,7 +86,7 @@ const AcquisitionSettings = () => {
 					value={preferences.screenRecorderFrameRate}
 					min={1}
 					max={120}
-					fineTuneStep={1}
+					microStep={1}
 					onChange={updateStateDispatch} />
 			</span>
 			<span className="input-option">

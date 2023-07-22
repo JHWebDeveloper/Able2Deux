@@ -62,7 +62,7 @@ const FrameSelector = ({ focused, isAudio, dispatch }) => {
 			<div className={className}>
 				<SliderSingle
 					title="Select Frame"
-					fineTuneStep={1}
+					microStep={1}
 					snapPoints={snapPoints}
 					sensitivity={0}
 					transformValueForAria={val => framesToAudibleTC(val, fps)}

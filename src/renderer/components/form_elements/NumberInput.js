@@ -26,7 +26,7 @@ const NumberInput = ({
 	min = 0,
 	max = 100,
 	step = 1,
-	fineTuneStep = 0.1,
+	microStep = 0.1,
 	decimalPlaces = 3,
 	disabled = false,
 	onChange,
@@ -47,8 +47,8 @@ const NumberInput = ({
 	}), [onChange])
 
 	const onKeyDown = useCallback(e => {
-		if (e.shiftKey) e.target.step = fineTuneStep
-	}, [fineTuneStep])
+		if (e.shiftKey) e.target.step = microStep
+	}, [microStep])
 
 	return (
 		<input
@@ -80,7 +80,7 @@ NumberInput.propTypes = {
 	min: number,
 	max: number,
 	step: number,
-	fineTuneStep: number,
+	microStep: number,
 	decimalPlaces: number,
 	disabled: bool,
 	onChange: func,

@@ -123,7 +123,7 @@ const FormattingSettings = () => {
 					value={preferences.scaleSliderMax}
 					min={100}
 					max={4500}
-					fineTuneStep={1}
+					microStep={1}
 					defaultValue={400}
 					onChange={updateStateDispatch} />
 			</span>

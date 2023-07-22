@@ -39,7 +39,7 @@ const SliderThumb = forwardRef(({
 	min = 0,
 	max = 100,
 	step = 1,
-	fineTuneStep = 0.1,
+	microStep = 0.1,
 	macroStep = 10,
 	thresholds = [],
 	setValue,
@@ -73,9 +73,9 @@ const SliderThumb = forwardRef(({
 		let point = false
 
 		if (e.shiftKey && nextMousePos < prevMousePos) {
-			nextThumbPos = thumbPos.current - fineTuneStep
+			nextThumbPos = thumbPos.current - microStep
 		} else if (e.shiftKey && nextMousePos > prevMousePos) {
-			nextThumbPos = thumbPos.current + fineTuneStep
+			nextThumbPos = thumbPos.current + microStep
 		} else if (thresholds.length && ((point = snapToPoint(thresholds, nextMousePos)) || point === 0)) { // declaration inside if intended
 			nextThumbPos = point
 		} else {
@@ -120,7 +120,7 @@ const SliderThumb = forwardRef(({
 
 		e.preventDefault()
 
-		const incr = e.altKey && e.shiftKey ? macroStep : e.shiftKey ? fineTuneStep : step
+		const incr = e.altKey && e.shiftKey ? macroStep : e.shiftKey ? microStep : step
 		const next = rightOrUp
 			? Math.min(value + incr, max)
 			: Math.max(value - incr, min)
@@ -163,7 +163,7 @@ SliderThumb.propTypes = {
 	min: number,
 	max: number,
 	step: number,
-	fineTuneStep: number,
+	microStep: number,
 	macroStep: number,
 	thresholds: arrayOf(arrayOf(number)),
 	setValue: func.isRequired,
