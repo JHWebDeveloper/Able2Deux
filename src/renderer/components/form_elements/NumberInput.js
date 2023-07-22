@@ -27,6 +27,7 @@ const NumberInput = ({
 	max = 100,
 	step = 1,
 	microStep = 0.1,
+	macroStep = 10,
 	decimalPlaces = 3,
 	disabled = false,
 	onChange,
@@ -47,8 +48,12 @@ const NumberInput = ({
 	}), [onChange])
 
 	const onKeyDown = useCallback(e => {
-		if (e.shiftKey) e.target.step = microStep
-	}, [microStep])
+		if (e.altKey && e.shiftKey) {
+			e.target.step = macroStep
+		} else if (e.shiftKey) {
+			e.target.step = microStep
+		}
+	}, [macroStep, microStep])
 
 	return (
 		<input
