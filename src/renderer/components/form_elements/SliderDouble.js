@@ -111,7 +111,7 @@ const SliderDouble = ({
 		if (enableAutoCenter) setBoth(50 - diffLR / 2)
 	}, [onPan, diffLR])
 
-	const common = { diff, step, microStep, macroStep, getTrack }
+	const commonProps = { diff, step, microStep, macroStep, getTrack }
 
 	return (
 		<span
@@ -136,7 +136,7 @@ const SliderDouble = ({
 					ariaVal={leftAriaVal}
 					ariaMin={leftAriaMin}
 					ariaMax={leftAriaMax}
-					{...common} />
+					{ ...commonProps } />
 				{hasMiddleThumb ? (
 					<SliderThumb
 						sliderId={middleId}
@@ -151,7 +151,7 @@ const SliderDouble = ({
 						ariaVal={midAriaVal}
 						ariaMin={leftAriaMin}
 						ariaMax={rightAriaMax}
-						{...common} />
+						{ ...commonProps } />
 				) : <></>}
 				<SliderThumb
 					sliderId={rightId}
@@ -168,7 +168,7 @@ const SliderDouble = ({
 					ariaVal={rightAriaVal}
 					ariaMin={rightAriaMin}
 					ariaMax={rightAriaMax}
-					{...common} />
+					{ ...commonProps } />
 			</span>
 			{snapPoints.length ? (
 				<SliderSnapMarkers
