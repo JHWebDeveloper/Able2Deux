@@ -40,6 +40,7 @@ const SliderThumb = forwardRef(({
 	max = 100,
 	step = 1,
 	fineTuneStep = 0.1,
+	macroStep = 10,
 	thresholds = [],
 	setValue,
 	getTrack,
@@ -119,7 +120,7 @@ const SliderThumb = forwardRef(({
 
 		e.preventDefault()
 
-		const incr = e.shiftKey ? fineTuneStep : step
+		const incr = e.altKey && e.shiftKey ? macroStep : e.shiftKey ? fineTuneStep : step
 		const next = rightOrUp
 			? Math.min(value + incr, max)
 			: Math.max(value - incr, min)
@@ -163,6 +164,7 @@ SliderThumb.propTypes = {
 	max: number,
 	step: number,
 	fineTuneStep: number,
+	macroStep: number,
 	thresholds: arrayOf(arrayOf(number)),
 	setValue: func.isRequired,
 	getTrack: func.isRequired,
