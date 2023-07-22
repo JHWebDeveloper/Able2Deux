@@ -111,7 +111,7 @@ const SliderDouble = ({
 		if (enableAutoCenter) setBoth(50 - diffLR / 2)
 	}, [onPan, diffLR])
 
-	const common = { diff, step, microStep, getTrack }
+	const common = { diff, step, microStep, macroStep, getTrack }
 
 	return (
 		<span
