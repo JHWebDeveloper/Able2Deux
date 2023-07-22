@@ -171,7 +171,7 @@ const selectMediaByCtrlClick = (media, { clickedIndex, clickedInFocus, clickedIs
 			return {
 				...item,
 				focused,
-				anchored:  focused,
+				anchored: focused,
 				selected: focused || item.selected
 			}
 		})

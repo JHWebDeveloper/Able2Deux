@@ -1,5 +1,5 @@
 import React from 'react'
-import { arrayOf, bool, func, oneOf, shape, string } from 'prop-types'
+import { arrayOf, bool, func, shape, string } from 'prop-types'
 
 import DropdownMenu from '../../form_elements/DropdownMenu.js'
 import MediaOptionButtons from '../../form_elements/MediaOptionButtons'
