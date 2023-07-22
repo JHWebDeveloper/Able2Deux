@@ -53,7 +53,7 @@ const NumberInput = ({
 		} else if (e.shiftKey) {
 			e.target.step = microStep
 		}
-	}, [macroStep, microStep])
+	}, [])
 
 	return (
 		<input
