@@ -15,6 +15,7 @@ const SingleSlider = ({
 	max = 100,
 	step = 1,
 	microStep = 0.1,
+	macroStep = 10,
 	snapPoints = [],
 	sensitivity = 4,
 	disabled = false,
