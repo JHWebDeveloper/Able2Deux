@@ -81,7 +81,7 @@ const BatchItem = props => {
 		},
 		{
 			label: 'Apply Settings to Selected',
-			hide: isOnly || !multipleItemsSelected && focused,
+			hide: isOnly || !multipleItemsSelected,
 			action() {
 				dispatch(applyToSelectionWarning(id))
 			}
