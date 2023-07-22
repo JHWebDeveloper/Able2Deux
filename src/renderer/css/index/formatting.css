@@ -141,19 +141,13 @@ button[name$="selectAll"] {
 	gap: 0 5px;
 }
 
-.dropdown > span > button:is(:hover, :focus-visible) {
+.dropdown > span > button:hover,
+.dropdown > span:not(:hover) > button:focus-visible {
 	background-color: var(--secondary);
 	color: var(--background);
 }
 
-.dropdown kbd {
-	text-align: right;
-	color: var(--secondary);
-}
-
-.dropdown button:hover > kbd {
-	color: inherit;
-}
+.dropdown kbd { text-align: right; }
 
 .spacer {
 	display: inherit;
