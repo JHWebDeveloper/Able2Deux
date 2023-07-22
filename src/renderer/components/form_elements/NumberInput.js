@@ -86,6 +86,7 @@ NumberInput.propTypes = {
 	max: number,
 	step: number,
 	microStep: number,
+	macroStep: number,
 	decimalPlaces: number,
 	disabled: bool,
 	onChange: func,
