@@ -81,6 +81,7 @@ const SingleSlider = ({
 					max={max}
 					step={step}
 					fineTuneStep={fineTuneStep}
+					macroStep={macroStep}
 					thresholds={thresholds}
 					setValue={setValue}
 					getTrack={getTrack}
@@ -110,6 +111,7 @@ SingleSlider.propTypes = {
 	max: number,
 	step: number,
 	fineTuneStep: number,
+	macroStep: number,
 	snapPoints: arrayOf(number),
 	sensitivity: number,
 	onChange: func,
