@@ -13,6 +13,8 @@ const timecodeStaticProps = { name: 'timecode', min: 0 }
 const FrameSelector = ({ focused, isAudio, dispatch }) => {
 	const { id, timecode, start, end, fps, totalFrames } = focused
 
+	const fpsRounded = useMemo(() => Math.round(fps), [fps])
+
 	const [ snapPoints, className ] = useMemo(() => {
 		const points = []
 		const classes = []
@@ -36,15 +38,15 @@ const FrameSelector = ({ focused, isAudio, dispatch }) => {
 
 	const incrementFrameBackward = useCallback(e => {
 		dispatch(updateMediaStateById(id, {
-			timecode: Math.max(timecode - (e.shiftKey ? 10 : 1), 0)
+			timecode: Math.max(timecode - (e.altKey && e.shiftKey ? fpsRounded : e.shiftKey ? 10 : 1), 0)
 		}))
-	}, [id, timecode])
+	}, [id, timecode, fpsRounded])
 
 	const incrementFrameForward = useCallback(e => {
 		dispatch(updateMediaStateById(id, {
-			timecode: Math.min(timecode + (e.shiftKey ? 10 : 1), totalFrames)
+			timecode: Math.min(timecode + (e.altKey && e.shiftKey ? fpsRounded : e.shiftKey ? 10 : 1), totalFrames)
 		}))
-	}, [id, timecode, totalFrames])
+	}, [id, timecode, fpsRounded, totalFrames])
 
 	const dispatchExtractStill = useCallback(e => {
 		dispatch(extractStill(focused, e))
@@ -63,6 +65,7 @@ const FrameSelector = ({ focused, isAudio, dispatch }) => {
 				<SliderSingle
 					title="Select Frame"
 					microStep={1}
+					macroStep={fpsRounded}
 					snapPoints={snapPoints}
 					sensitivity={0}
 					transformValueForAria={val => framesToAudibleTC(val, fps)}
