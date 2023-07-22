@@ -136,7 +136,7 @@ const SliderDouble = ({
 					ariaVal={leftAriaVal}
 					ariaMin={leftAriaMin}
 					ariaMax={leftAriaMax}
-					{ ...commonProps } />
+					{...commonProps} />
 				{hasMiddleThumb ? (
 					<SliderThumb
 						sliderId={middleId}
@@ -151,7 +151,7 @@ const SliderDouble = ({
 						ariaVal={midAriaVal}
 						ariaMin={leftAriaMin}
 						ariaMax={rightAriaMax}
-						{ ...commonProps } />
+						{...commonProps} />
 				) : <></>}
 				<SliderThumb
 					sliderId={rightId}
@@ -168,7 +168,7 @@ const SliderDouble = ({
 					ariaVal={rightAriaVal}
 					ariaMin={rightAriaMin}
 					ariaMax={rightAriaMax}
-					{ ...commonProps } />
+					{...commonProps} />
 			</span>
 			{snapPoints.length ? (
 				<SliderSnapMarkers
