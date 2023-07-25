@@ -465,6 +465,11 @@ export const cancelRender = (id, renderStatus) => async dispatch => {
 
 // ---- OTHER EDITOR ACTIONS --------
 
+export const togglePanelOpen = panelName => ({
+	type: ACTION.TOGGLE_PANEL_OPEN,
+	payload: { panelName }
+})
+
 export const toggleAspectRatioMarker = id => ({
 	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
 	payload: {
