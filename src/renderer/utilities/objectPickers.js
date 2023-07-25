@@ -2,33 +2,15 @@ import { objectPick } from 'utilities'
 
 const createObjectPicker = keys => props => objectPick(props, keys)
 
-/* dyanmicProps are props that can be copied from one media item to another
-    and should cause a preview render on change */
-const dynamicProps = [
-	'audioVideoTracks',
-	'audioExportFormat',
-	'arc',
-	'background',
-	'backgroundMotion',
-	'bgColor',
-	'overlay',
-	'sourceName',
-	'sourcePrefix',
-	'sourceOnTop',
-	'centering',
-	'positionX',
-	'positionY',
-	'scaleX',
-	'scaleY',
-	'cropT',
-	'cropR',
-	'cropB',
-	'cropL',
-	'transpose',
-	'reflect',
-	'freeRotateMode',
-	'angle',
-	'rotatedCentering',
+const colorCorrectionProps = ['ccEnabled', 'ccHidden', 'ccRGB', 'ccR', 'ccG', 'ccB']
+
+const cropProps = ['cropT', 'cropR', 'cropB', 'cropL']
+
+const cropLinkProps = ['cropLinkTB', 'cropLinkLR']
+
+const framingProps = ['arc', 'background', 'bgColor', 'overlay']
+
+const keyingProps = [
 	'keyingEnabled',
 	'keyingHidden',
 	'keyingType',
@@ -38,19 +20,36 @@ const dynamicProps = [
 	'keyingThreshold',
 	'keyingTolerance',
 	'keyingSoftness',
-	'ccEnabled',
-	'ccHidden',
-	'ccRGB',
-	'ccR',
-	'ccG',
-	'ccB'
+]
+
+const rotationProps = ['transpose', 'reflect', 'freeRotateMode', 'angle', 'rotatedCentering' ]
+
+const scaleProps = ['scaleX', 'scaleY']
+
+const sourceProps = ['sourceName', 'sourcePrefix', 'sourceOnTop']
+
+/* dyanmicProps are props that can be copied from one media item to another
+    and should cause a preview render on change */
+const dynamicProps = [
+	...framingProps,
+	...scaleProps,
+	...cropProps,
+	...rotationProps,
+	...keyingProps,
+	...colorCorrectionProps,
+	...sourceProps,
+	'audioVideoTracks',
+	'audioExportFormat',
+	'centering',
+	'positionX',
+	'positionY'
 ]
 
 export const extractCopyPasteProps = createObjectPicker([
 	...dynamicProps,
+	...cropLinkProps,
+	'backgroundMotion',
 	'scaleLink',
-	'cropLinkTB',
-	'cropLinkLR',
 	'ccSelectedCurve'
 ])
 
@@ -65,21 +64,21 @@ export const extractPreviewRenderDependencies = (() => {
 })()
 
 
-export const extractColorCorrectionProps = createObjectPicker(['ccEnabled', 'ccHidden', 'ccSelectedCurve', 'ccRGB', 'ccR', 'ccG', 'ccB'])
+export const extractColorCorrectionProps = createObjectPicker([...colorCorrectionProps, 'ccSelectedCurve'])
 
-export const extractCommonEditPanelProps = createObjectPicker([
+export const extractCommonPanelProps = createObjectPicker([
 	'id',
-	'mediaType',
 	'multipleItems',
 	'multipleItemsSelected',
 	'allItemsSelected',
+	'mediaType',
 	'width',
 	'height',
 	'aspectRatio',
 	'dispatch'
 ])
 
-export const extractCropProps = createObjectPicker(['cropT', 'cropR', 'cropB', 'cropL', 'cropLinkTB', 'cropLinkLR'])
+export const extractCropProps = createObjectPicker([...cropProps, ...cropLinkProps])
 
 export const extractDefaultPrefs = createObjectPicker([
 	'saveLocations',
@@ -93,24 +92,12 @@ export const extractDefaultPrefs = createObjectPicker([
 	'aspectRatioMarkers'
 ])
 
-export const extractFramingProps = createObjectPicker(['arc', 'background', 'bgMotion', 'bgColor', 'overlay'])
+export const extractFramingProps = createObjectPicker([...framingProps, 'backgroundMotion'])
 
-export const extractKeyingProps = createObjectPicker([
-	'keyingEnabled',
-	'keyingHidden',
-	'keyingType',
-	'keyingColor',
-	'keyingSimilarity',
-	'keyingBlend',
-	'keyingThreshold',
-	'keyingTolerance',
-	'keyingSoftness'
-])
+export const extractKeyingProps = createObjectPicker(keyingProps)
 
-export const extractRotationProps = createObjectPicker([
-	'transpose',
-	'reflect',
-	'freeRotateMode',
-	'angle',
-	'rotatedCentering'
-])
+export const extractRotationProps = createObjectPicker(rotationProps)
+
+export const extractScaleProps = createObjectPicker([...scaleProps, 'scaleLink'])
+
+export const extractSourceProps = createObjectPicker(sourceProps)
