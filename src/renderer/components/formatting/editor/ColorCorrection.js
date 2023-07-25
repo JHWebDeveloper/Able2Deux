@@ -284,7 +284,7 @@ const ColorCorrectionPanel = memo(props => {
 	return ( 
 		<AccordionPanel
 			heading="Color Correction"
-			id="color-correction"
+			id="colorCorrection"
 			className="editor-options"
 			buttons={settingsMenu}>
 			<ColorCorrection {...props} />
