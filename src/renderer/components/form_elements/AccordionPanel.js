@@ -1,19 +1,15 @@
-import React, { cloneElement, useEffect } from 'react'
+import React, { cloneElement } from 'react'
 import { arrayOf, element, func, bool, oneOfType, shape, string } from 'prop-types'
 
-import { useToggle } from 'hooks'
+import { usePanelToggle } from 'hooks'
 
 import DropdownMenu from './DropdownMenu'
 import MediaOptionButtons from './MediaOptionButtons'
 
-const AccordionPanel = ({ heading, id, className = '', initOpen, buttons = [], children }) => {
-	const [ open, toggleOpen ] = useToggle()
+const AccordionPanel = ({ heading, id, className = '', buttons = [], children }) => {
+	const [ open, togglePanelOpen ] = usePanelToggle(id)
 	const headingId = `${id}-heading`
 	const title = `${open ? 'Close' : 'Open'} ${heading}`
-
-	useEffect(() => {
-		if (initOpen) toggleOpen(true)
-	}, [])
 
 	return (
 		<section className={`formatting-panel accordion${open ? ' open' : ''}`}>
@@ -22,7 +18,7 @@ const AccordionPanel = ({ heading, id, className = '', initOpen, buttons = [], c
 					type="button"
 					title={title}
 					id={headingId}
-					onClick={toggleOpen}
+					onClick={togglePanelOpen}
 					aria-label={title}
 					aria-expanded={open}
 					aria-controls={id}>
