@@ -53,7 +53,7 @@ const FileOptions = props => {
 const FileOptionsPanel = memo(props => (
 	<AccordionPanel
 		heading="File"
-		id="file"
+		id="fileOptions"
 		className="editor-options auto-rows"
 		initOpen>
 		<FileOptions {...props} />
