@@ -94,9 +94,9 @@ const SourcePanel = props => {
 	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(extractSourceProps, copySettings, dispatch)(sourceProps),
-		() => pipe(extractSourceProps, applySettingsToSelection(id), dispatch)(sourceProps),
-		() => pipe(extractSourceProps, applySettingsToAll(id), dispatch)(sourceProps)
+		() => pipe(extractSourceProps, copySettings, dispatch)(props),
+		() => pipe(extractSourceProps, applySettingsToSelection(id), dispatch)(props),
+		() => pipe(extractSourceProps, applySettingsToAll(id), dispatch)(props)
 	])
 
 	return (

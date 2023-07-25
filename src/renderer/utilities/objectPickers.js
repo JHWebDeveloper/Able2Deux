@@ -19,7 +19,7 @@ const keyingProps = [
 	'keyingBlend',
 	'keyingThreshold',
 	'keyingTolerance',
-	'keyingSoftness',
+	'keyingSoftness'
 ]
 
 const rotationProps = ['transpose', 'reflect', 'freeRotateMode', 'angle', 'rotatedCentering']
