@@ -1,7 +1,7 @@
 import React from 'react'
 import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
-import { extractCommonEditPanelProps } from 'utilities'
+import { extractCommonPanelProps } from 'utilities'
 
 import FileOptions from './FileOptions'
 import Audio from './Audio'
@@ -19,7 +19,7 @@ const EditorOptions = props => {
 	if (!props.id) return <></>
 
 	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper, scaleX, scaleY, cropT, cropR, cropB, cropL } = props
-	const common = extractCommonEditPanelProps(props)
+	const common = extractCommonPanelProps(props)
 	const scale = { scaleX, scaleY }
 	const crop = { cropT, cropR, cropB, cropL }
 
