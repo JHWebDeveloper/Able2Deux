@@ -26,7 +26,7 @@ import Checkbox from '../../form_elements/Checkbox'
 const message = 'A source on top is not for aesthetics!'
 const detail = 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.'
 
-const Source = props => {
+const Source = memo(props => {
 	const { id, sourceName, sourcePrefix, sourceOnTop, background, dispatch } = props
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const { warnings } = preferences
@@ -87,9 +87,9 @@ const Source = props => {
 				onChange={sourceOnTopWarning} />
 		</>
 	)
-}
+}, objectsAreEqual)
 
-const SourcePanel = memo(props => {
+const SourcePanel = props => {
 	const { sourceName, sourcePrefix, sourceOnTop, id, dispatch } = props
 	const sourceProps = { sourceName, sourcePrefix, sourceOnTop }
 
@@ -109,7 +109,7 @@ const SourcePanel = memo(props => {
 			<Source {...props} />
 		</AccordionPanel>
 	)
-}, objectsAreEqual)
+}
 
 const propTypes = {
 	id: string.isRequired,

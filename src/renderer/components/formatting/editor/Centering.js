@@ -24,7 +24,7 @@ const commonStatic = {
 	min: -100
 }
 
-const Centering = ({ centering, dispatch }) => {
+const Centering = memo(({ centering, dispatch }) => {
 	const updateCentering = useCallback(({ name, value }) => {
 		dispatch(updateMediaStateBySelection({
 			[name]: value
@@ -43,9 +43,9 @@ const Centering = ({ centering, dispatch }) => {
 			<NumberInput {...common} />
 		</>
 	)
-}
+}, objectsAreEqual)
 
-const CenteringPanel = memo(props => {
+const CenteringPanel = props => {
 	const { centering, id, dispatch } = props
 	const centeringProps = { centering }
 
@@ -65,7 +65,7 @@ const CenteringPanel = memo(props => {
 			<Centering {...props} />
 		</AccordionPanel>
 	)
-}, objectsAreEqual)
+}
 
 const propTypes = {
 	id: string.isRequired,

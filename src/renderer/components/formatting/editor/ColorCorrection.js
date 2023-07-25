@@ -74,7 +74,7 @@ const getCurveColor = curveName => {
 	}
 }
 
-const ColorCorrection = props => {
+const ColorCorrection = memo(props => {
 	const { id, ccEnabled, ccSelectedCurve, ccRGB, ccR, ccG, ccB, eyedropper, setEyedropper, dispatch } = props
 	const { active, pixelData } = eyedropper
 	const curvesRef = useRef(null)
@@ -270,9 +270,9 @@ const ColorCorrection = props => {
 				disabled={!ccEnabled} />
 		</>
 	)
-}
+}, objectsAreEqual)
 
-const ColorCorrectionPanel = memo(props => {
+const ColorCorrectionPanel = props => {
 	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
@@ -290,7 +290,7 @@ const ColorCorrectionPanel = memo(props => {
 			<ColorCorrection {...props} />
 		</AccordionPanel>
 	)
-}, objectsAreEqual)
+}
 
 const pointPropType = exact({
 	id: string,

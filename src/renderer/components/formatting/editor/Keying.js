@@ -111,7 +111,7 @@ const ColorKeySliders = ({ similarity, blend, onChange, disabled }) => {
 	)
 }
 
-const Keying = props => {
+const Keying = memo(props => {
 	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, dispatch } = props
 	const { active, pixelData } = eyedropper
 
@@ -222,9 +222,9 @@ const Keying = props => {
 			</div>
 		</>
 	)
-}
+}, objectsAreEqual)
 
-const KeyingPanel = memo(props => {
+const KeyingPanel = props => {
 	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
@@ -242,7 +242,7 @@ const KeyingPanel = memo(props => {
 			<Keying {...props} />
 		</AccordionPanel>
 	)
-}, objectsAreEqual)
+}
 
 LumaKeySliders.propTypes = {
 	threshold: number.isRequired,

@@ -47,7 +47,7 @@ const audioExportFormatButtons = [
 	}
 ]
 
-const Audio = ({ mediaType, audioVideoTracks, audioExportFormat, dispatch }) => {
+const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, dispatch }) => {
 	const updateAudio = useCallback(e => {
 		dispatch(updateMediaStateBySelectionFromEvent(e))
 	}, [])
@@ -76,9 +76,9 @@ const Audio = ({ mediaType, audioVideoTracks, audioExportFormat, dispatch }) => 
 			</fieldset>
 		</>
 	)
-}
+}, objectsAreEqual)
 
-const AudioPanel = memo(props => {
+const AudioPanel = props => {
 	const { audioVideoTracks, audioExportFormat, id, mediaType, dispatch } = props
 	const audioProps = { audioVideoTracks, audioExportFormat }
 
@@ -98,7 +98,7 @@ const AudioPanel = memo(props => {
 			<Audio {...props} />
 		</AccordionPanel>
 	)
-}, objectsAreEqual)
+}
 
 const propTypes = {
 	id: string.isRequired,

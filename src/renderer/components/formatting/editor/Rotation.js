@@ -94,7 +94,7 @@ const freeRotateModeButtons = [
 	}
 ]
 
-const Rotation = props => {
+const Rotation = memo(props => {
 	const { transpose, reflect, freeRotateMode, scaleX, scaleY, cropT, cropR, cropB, cropL, dispatch } = props
 	const crop = { cropT, cropR, cropB, cropL }
 	const isSideways = detectSideways(transpose)
@@ -180,9 +180,9 @@ const Rotation = props => {
 			</> : <></>}
 		</>
 	)
-}
+}, objectsAreEqual)
 
-const RotationPanel = memo(props => {
+const RotationPanel = props => {
 	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
@@ -200,7 +200,7 @@ const RotationPanel = memo(props => {
 			<Rotation {...props} />
 		</AccordionPanel>
 	)
-}, objectsAreEqual)
+}
 
 const propTypes = {
 	id: string,

@@ -21,7 +21,7 @@ import NumberInput from '../../form_elements/NumberInput'
 const propsXStatic = { name: 'positionX', title: 'Position X', min: -100 }
 const propsYStatic = { name: 'positionY', title: 'Position Y', min: -100 }
 
-const Position = ({ positionX, positionY, dispatch }) => {
+const Position = memo(({ positionX, positionY, dispatch }) => {
 	const updatePosition = useCallback(({ name, value }) => {
 		dispatch(updateMediaStateBySelection({ [name]: value }))
 	}, [])
@@ -48,9 +48,9 @@ const Position = ({ positionX, positionY, dispatch }) => {
 			<NumberInput {...propsY} />
 		</>
 	)
-}
+}, objectsAreEqual)
 
-const PositionPanel = memo(props => {
+const PositionPanel = props => {
 	const { positionX, positionY, id, dispatch } = props
 	const positionProps = { positionX, positionY }
 
@@ -69,7 +69,7 @@ const PositionPanel = memo(props => {
 			<Position {...props} />
 		</AccordionPanel>
 	)
-}, objectsAreEqual)
+}
 
 const propTypes = {
 	id: string.isRequired,

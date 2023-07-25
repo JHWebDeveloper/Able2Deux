@@ -120,13 +120,13 @@ const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropp
 	</div>
 )
 
-const Framing = props => {
+const Framing = memo(props => {
 	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
 	const { arc, background, bgColor, overlay, eyedropper, setEyedropper, dispatch } = props
 	const { active, pixelData } = eyedropper
-	
-	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
 
+	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
+	
 	const updateMediaStateDispatch = useCallback(e => {
 		dispatch(updateMediaStateBySelectionFromEvent(e))
 	}, [])
@@ -208,9 +208,9 @@ const Framing = props => {
 			</fieldset>
 		</>
 	)
-}
+}, objectsAreEqual)
 
-const FramingPanel = memo(props => {
+const FramingPanel = props => {
 	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
@@ -229,7 +229,7 @@ const FramingPanel = memo(props => {
 			<Framing {...props} />
 		</AccordionPanel>
 	)
-}, objectsAreEqual)
+}
 
 BackgroundColorPicker.propTypes = {
 	bgColor: string.isRequired,

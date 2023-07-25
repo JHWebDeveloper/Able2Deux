@@ -8,9 +8,9 @@ import AccordionPanel from '../../form_elements/AccordionPanel'
 import StartEnd from './StartEnd'
 import Split from './Split'
 
-const FileOptions = props => {
+const FileOptions = memo(props => {
 	const { id, mediaType, start, end, totalFrames, fps, split, dispatch } = props
-
+	
 	const updateFilename = useCallback(e => {
 		dispatch(updateMediaStateByIdFromEvent(id, e))
 	}, [id])
@@ -48,9 +48,9 @@ const FileOptions = props => {
 			</> : <></>}
 		</>
 	)
-}
+}, objectsAreEqual)
 
-const FileOptionsPanel = memo(props => (
+const FileOptionsPanel = props => (
 	<AccordionPanel
 		heading="File"
 		id="fileOptions"
@@ -58,7 +58,7 @@ const FileOptionsPanel = memo(props => (
 		initOpen>
 		<FileOptions {...props} />
 	</AccordionPanel>
-), objectsAreEqual)
+)
 
 const propTypes = {
 	id: string.isRequired,

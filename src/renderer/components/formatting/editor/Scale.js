@@ -41,7 +41,7 @@ const numberProps = {
 	defaultValue: 100
 }
 
-const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, freeRotateMode, angle, width, height, dispatch }) => {
+const Scale = memo(({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, freeRotateMode, angle, width, height, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
@@ -180,9 +180,9 @@ const Scale = ({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, free
 			</button>
 		</>
 	)
-}
+}, objectsAreEqual)
 
-const ScalePanel = memo(props => {
+const ScalePanel = props => {
 	const { scaleX, scaleY, scaleLink, id, dispatch } = props
 	const scaleProps = { scaleX, scaleY, scaleLink }
 
@@ -201,7 +201,7 @@ const ScalePanel = memo(props => {
 			<Scale {...props} />
 		</AccordionPanel>
 	)
-}, objectsAreEqual)
+}
 
 FitButton.propTypes = {
 	title: string.isRequired,

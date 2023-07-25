@@ -33,7 +33,7 @@ const sliderProps = {
 	enableAutoCenter: true
 }
 
-const Crop = props => {
+const Crop = memo(props => {
 	const { id, cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, dispatch } = props
 
 	const updateCrop = useCallback(({ name, value }) => {
@@ -160,9 +160,9 @@ const Crop = props => {
 			</button>
 		</>
 	)
-}
+}, objectsAreEqual)
 
-const CropPanel = memo(props => {
+const CropPanel = props => {
 	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
@@ -180,7 +180,7 @@ const CropPanel = memo(props => {
 			<Crop {...props} />
 		</AccordionPanel>
 	)
-}, objectsAreEqual)
+}
 
 const propTypes = {
 	id: string.isRequired,
