@@ -14,6 +14,7 @@ import {
 
 import {
 	createSettingsMenu,
+	extractSourceProps,
 	has11pmBackground,
 	objectsAreEqual,
 	pipe,
@@ -90,13 +91,12 @@ const Source = memo(props => {
 }, objectsAreEqual)
 
 const SourcePanel = props => {
-	const { sourceName, sourcePrefix, sourceOnTop, id, dispatch } = props
-	const sourceProps = { sourceName, sourcePrefix, sourceOnTop }
+	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(copySettings, dispatch)(sourceProps),
-		() => pipe(applySettingsToSelection(id), dispatch)(sourceProps),
-		() => pipe(applySettingsToAll(id), dispatch)(sourceProps)
+		() => pipe(extractSourceProps, copySettings, dispatch)(sourceProps),
+		() => pipe(extractSourceProps, applySettingsToSelection(id), dispatch)(sourceProps),
+		() => pipe(extractSourceProps, applySettingsToAll(id), dispatch)(sourceProps)
 	])
 
 	return (
