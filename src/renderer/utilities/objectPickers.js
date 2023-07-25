@@ -22,7 +22,7 @@ const keyingProps = [
 	'keyingSoftness',
 ]
 
-const rotationProps = ['transpose', 'reflect', 'freeRotateMode', 'angle', 'rotatedCentering' ]
+const rotationProps = ['transpose', 'reflect', 'freeRotateMode', 'angle', 'rotatedCentering']
 
 const scaleProps = ['scaleX', 'scaleY']
 
