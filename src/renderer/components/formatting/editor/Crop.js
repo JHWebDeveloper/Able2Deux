@@ -167,7 +167,7 @@ const CropPanel = props => {
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => pipe(extractCropProps, copySettings, dispatch)(props),
-		() => pipe(applySettingsToSelection(id), dispatch)(props),
+		() => pipe(extractCropProps, applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractCropProps, applySettingsToAll(id), dispatch)(props)
 	])
 
