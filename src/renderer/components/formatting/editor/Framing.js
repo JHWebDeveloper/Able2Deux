@@ -124,7 +124,7 @@ const Framing = props => {
 	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
 	const { arc, background, bgColor, overlay, eyedropper, setEyedropper, dispatch } = props
 	const { active, pixelData } = eyedropper
-
+	
 	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
 
 	const updateMediaStateDispatch = useCallback(e => {
@@ -218,11 +218,11 @@ const FramingPanel = memo(props => {
 		() => pipe(extractFramingProps, applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractFramingProps, applySettingsToAll(id), dispatch)(props)
 	])
-	
+
 	return (
 		<AccordionPanel
 			heading="Framing"
-			id="formatting"
+			id="framing"
 			className="editor-options"
 			buttons={settingsMenu}
 			initOpen>
