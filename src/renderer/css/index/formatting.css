@@ -318,7 +318,7 @@ button.link-button > svg { pointer-events: none; }
 
 /* -- Formatting Panel -- */
 
-#formatting {
+#framing {
 	grid-template-columns: repeat(3, min-content);
 	grid-template-rows: repeat(2, min-content);
 	gap: 9px;
@@ -326,33 +326,33 @@ button.link-button > svg { pointer-events: none; }
 }
 
 
-#formatting > fieldset:nth-of-type(2) { /* background column */
+#framing > fieldset:nth-of-type(2) { /* background column */
 	grid-column: 2;
 	grid-row: 1 / span 2;
 }
 
-#formatting > fieldset:nth-of-type(3) { /* motion column */
+#framing > fieldset:nth-of-type(3) { /* motion column */
 	grid-column: 1;
 	grid-row: 2;
 	align-self: flex-end;
 }
 
 @container formatting-panel (min-width: 400px) {
-	#formatting {
+	#framing {
 		grid-template-columns: repeat(4, min-content);
 	}
 
-	#formatting > fieldset:nth-of-type(2) { /* background column */
+	#framing > fieldset:nth-of-type(2) { /* background column */
 		grid-column: 2;
 	}
 
-	#formatting > fieldset:nth-of-type(3) { /* motion column */
+	#framing > fieldset:nth-of-type(3) { /* motion column */
 		grid-column: 3;
 		grid-row: 1;
 		align-self: flex-start;
 	}
 
-	#formatting > fieldset:nth-of-type(4) { /* overlay column */
+	#framing > fieldset:nth-of-type(4) { /* overlay column */
 		grid-column: 4;
 	}
 }
@@ -453,23 +453,23 @@ button[name="scaleLink"] {
 
 /* -- Color Correction Panel -- */
 
-#color-correction {
+#colorCorrection {
 	grid-template-columns: repeat(2, min-content);
 	grid-template-rows: repeat(3, min-content);
 	gap: 6px;
   align-items: flex-start;
 }
 
-#color-correction > .on-off-switch { grid-row: 2; }
+#colorCorrection > .on-off-switch { grid-row: 2; }
 
-#color-correction > :is(div:first-of-type, fieldset) {
+#colorCorrection > :is(div:first-of-type, fieldset) {
 	display: inherit;
 	justify-items: center;
 }
 
-#color-correction > div { grid-row: 2; }
+#colorCorrection > div { grid-row: 2; }
 
-#color-correction > div:first-of-type {
+#colorCorrection > div:first-of-type {
 	grid-auto-rows: 36px;
 	gap: 6px;
 	align-items: center;
@@ -477,14 +477,14 @@ button[name="scaleLink"] {
 	height: 100%;
 }
 
-#color-correction button {
+#colorCorrection button {
 	width: 36px;
 	height: 36px;
 	padding: 6px;
 	border-radius: 5px;
 }
 
-#color-correction button:disabled { color: var(--disabled); }
+#colorCorrection button:disabled { color: var(--disabled); }
 
 button[title="Reset Curves"] {
 	font-size: 20px;
@@ -493,15 +493,15 @@ button[title="Reset Curves"] {
 
 button[title="Reset Curves"]:active { color: #fff; }
 
-#color-correction > :is(fieldset, .curves, .slider) { grid-column: 2; }
+#colorCorrection > :is(fieldset, .curves, .slider) { grid-column: 2; }
 
-#color-correction > fieldset {
+#colorCorrection > fieldset {
 	grid-template-columns: repeat(4, 1fr);
 	font-weight: 500;
 }
 
 /* hide legend but keep for screen readers */
-#color-correction > fieldset > legend { font-size: 0; }
+#colorCorrection > fieldset > legend { font-size: 0; }
 
 
 /* ---- CURVES STYLES -------- */
@@ -689,21 +689,21 @@ button[title="Reset Curves"]:active { color: #fff; }
 
 /* -- curves double slider overrides -- */
 
-#color-correction > .slider {
+#colorCorrection > .slider {
 	width: 256px;
 	height: 14px;
 	margin-left: 7px;
 	padding: 0;
 }
 
-#color-correction .slider-track.double {
+#colorCorrection .slider-track.double {
 	top: 0; 
 	height: inherit;
 	background-color: transparent;
 	transform: none;
 }
 
-#color-correction .slider-track.double > span {
+#colorCorrection .slider-track.double > span {
 	top: inherit;
 	width: 14px;
 	height: 14px;
@@ -711,7 +711,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 	transform: translateX(-50%);
 }
 
-#color-correction .slider-track.double > span::after {
+#colorCorrection .slider-track.double > span::after {
 	content: '';
 	pointer-events: none;
 	display: block;
@@ -724,19 +724,19 @@ button[title="Reset Curves"]:active { color: #fff; }
 	transform: rotate(45deg);
 }
 
-#color-correction .slider-track.double > span:first-child::after {
+#colorCorrection .slider-track.double > span:first-child::after {
 	background-color: #000;
 	border-color: transparent;
 }
 
-#color-correction .slider-track.double > span:last-child::after {
+#colorCorrection .slider-track.double > span:last-child::after {
 	background-color: #fff;
 	border-color: var(--primary);
 }
 
 @media (prefers-color-scheme: dark) {
-	#color-correction .slider-track.double > span:first-child::after { border-color: var(--primary); }
-	#color-correction .slider-track.double > span:last-child::after { border-color: transparent; }
+	#colorCorrection .slider-track.double > span:first-child::after { border-color: var(--primary); }
+	#colorCorrection .slider-track.double > span:last-child::after { border-color: transparent; }
 }
 
 
