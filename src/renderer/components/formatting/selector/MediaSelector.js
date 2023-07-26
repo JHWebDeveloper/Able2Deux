@@ -100,7 +100,7 @@ const MediaSelector = ({ media, focused, multipleItems, multipleItemsSelected, a
 		} else if (e.key === 'Backspace' || e.key === 'Delete') { // same note as above
 			dropdown[5].action() // Remove Selected Media
 		}
-	}, [allItemsSelected, multipleItemsSelected, warnings.removeAll])
+	}, [media, allItemsSelected, multipleItemsSelected, warnings.removeAll])
 
 	return (
 		<div
