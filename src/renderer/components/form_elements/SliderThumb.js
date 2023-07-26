@@ -55,7 +55,7 @@ const SliderThumb = forwardRef(({
 	
 	const thumbPos = useRef(0)
 	const mousePos = useRef(0)
-	const triggers = [min, max, width, setValue, thresholds]
+	const dragDepencies = [min, max, width, setValue, thresholds]
 
 	const getClickPos = useMemo(() => createClickPositionGetter(alignment), [alignment])
 
@@ -85,7 +85,7 @@ const SliderThumb = forwardRef(({
 		if (nextThumbPos === thumbPos.current) return false
 		
 		setValue(clamp(nextThumbPos, min, max))
-	}, triggers)
+	}, dragDepencies)
 
 	const startDrag = useCallback((e, clickPos) => {
 		e.preventDefault()
@@ -109,9 +109,9 @@ const SliderThumb = forwardRef(({
 		window.addEventListener('mousemove', onMouseMove)
 		window.addEventListener('mouseup', onMouseUp)
 		window.addEventListener('contextmenu', onMouseUp)
-	}, triggers)
+	}, dragDepencies)
 
-	useImperativeHandle(thumbRef, () => ({ startDrag }), triggers)
+	useImperativeHandle(thumbRef, () => ({ startDrag }), dragDepencies)
 
 	const keyIncrement = useCallback(e => {
 		const rightOrUp = e.key === 'ArrowRight' || e.key === 'ArrowUp'
