@@ -70,7 +70,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL,
 		dispatch(updateMediaStateBySelection(axis))
 	}, [distortion])
 
-	const triggers = [renderOutput, width, height, cropT, cropR, cropB, cropL, freeRotateMode, angle, scaleLink, distortion]
+	const fitToFrameDependencies = [renderOutput, width, height, cropT, cropR, cropB, cropL, freeRotateMode, angle, scaleLink, distortion]
 
 	const fitToFrameWidth = useCallback(() => {
 		const cropW = width * (cropR - cropL) / 100
@@ -89,7 +89,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL,
 			scaleX: fitToWPrc,
 			scaleY: scaleLink ? fitToWPrc * distortion : scaleY
 		}))
-	}, [...triggers, scaleY])
+	}, [...fitToFrameDependencies, scaleY])
 	
 	const fitToFrameHeight = useCallback(() => {
 		const cropH = height * (cropB - cropT) / 100
@@ -108,7 +108,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL,
 			scaleX: scaleLink ? fitToHPrc / distortion : scaleX,
 			scaleY: fitToHPrc
 		}))
-	}, [...triggers, scaleX])
+	}, [...fitToFrameDependencies, scaleX])
 
 	const toggleScaleLink = useCallback(e => {
 		dispatch(toggleMediaCheckbox(id, e))
