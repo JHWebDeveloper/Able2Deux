@@ -40,7 +40,11 @@ const BatchItem = props => {
 		dispatch
 	} = props
 
-	const triggers = [
+	const selectMediaBtn = useRef(null)
+	const isOnly = isFirst && isLast
+	const selectBtnTitle = focused ? title : 'Select Media'
+
+	const dropdownDependencies = [
 		id,
 		refId,
 		index,
@@ -56,11 +60,6 @@ const BatchItem = props => {
 		removeMediaWarning,
 		tempFilePath
 	]
-
-	const isOnly = isFirst && isLast
-	const selectBtnTitle = focused ? title : 'Select Media'
-
-	const selectMediaBtn = useRef(null)
 
 	const dropdown = useMemo(() => [
 		{
@@ -133,7 +132,7 @@ const BatchItem = props => {
 				interop.revealInTempFolder(tempFilePath)
 			}
 		}
-	], triggers)
+	], dropdownDependencies)
 
 	const onKeyDown = useCallback(e => {
 		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
@@ -161,7 +160,7 @@ const BatchItem = props => {
 			e.stopPropagation()
 			dropdown[9].action() // Remove Media
 		}
-	}, triggers)
+	}, dropdownDependencies)
 
 	const selectMediaOnClick = useCallback(e => {
 		dispatch(selectMedia(index, e, { focused, anchored, selected }))
