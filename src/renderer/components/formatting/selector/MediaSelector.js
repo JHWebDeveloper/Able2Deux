@@ -38,6 +38,8 @@ const MediaSelector = ({ media, focused, multipleItems, multipleItemsSelected, a
 		}
 	}), [media, allItemsSelected, warnings.removeAll])
 
+	const dropdownDependencies = [media, allItemsSelected, warnings.removeAll]
+
 	const dropdown = useMemo(() => [
 		{
 			label: 'Select All',
@@ -86,7 +88,7 @@ const MediaSelector = ({ media, focused, multipleItems, multipleItemsSelected, a
 				})
 			}
 		}
-	], [media, allItemsSelected, multipleItemsSelected, warnings.removeAll])
+	], dropdownDependencies)
 
 	const onKeyDown = useCallback(e => {
 		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
@@ -100,7 +102,7 @@ const MediaSelector = ({ media, focused, multipleItems, multipleItemsSelected, a
 		} else if (e.key === 'Backspace' || e.key === 'Delete') { // same note as above
 			dropdown[5].action() // Remove Selected Media
 		}
-	}, [media, allItemsSelected, multipleItemsSelected, warnings.removeAll])
+	}, dropdownDependencies)
 
 	return (
 		<div
