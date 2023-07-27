@@ -6,7 +6,6 @@ import { PrefsContext } from 'store'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
-	copySettings,
 	disableWarningAndSave,
 	moveSortableElement,
 	moveSelectedMedia,
@@ -26,12 +25,12 @@ import BatchItem from './BatchItem'
 const applyToAllDetail = 'This will overwrite the settings except for filenames and start and end timecodes. This cannot be undone. Proceed?'
 const removeMediaDetail = 'This cannot be undone. Proceed?'
 
-const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch }) => {
+const BatchList = ({ media, multipleItemsSelected, allItemsSelected, copyToClipboard, clipboard, dispatch }) => {
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const { warnings } = preferences
 
 	const copyAllSettings = useCallback(id => {
-		pipe(extractCopyPasteProps, copySettings, dispatch)(media.find(item => item.id === id))
+		pipe(extractCopyPasteProps, copyToClipboard)(media.find(item => item.id === id))
 	}, [media])
 
 	const applyToMultipleWarning = useCallback(({ id, message, action }) => warn({
@@ -107,6 +106,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, dispatch })
 						removeMediaWarning={removeMediaWarning}
 						multipleItemsSelected={multipleItemsSelected}
 						allItemsSelected={allItemsSelected}
+						clipboard={clipboard}
 						dispatch={dispatch} />
 				))}
 			</DraggableList>
