@@ -37,6 +37,7 @@ const BatchItem = props => {
 		multipleItemsSelected,
 		allItemsSelected,
 		tempFilePath,
+		clipboard,
 		dispatch
 	} = props
 
@@ -75,7 +76,7 @@ const BatchItem = props => {
 			hide: isOnly,
 			shortcut: `${ctrlOrCmdKeySymbol}V`,
 			action() {
-				dispatch(pasteSettings(id))
+				dispatch(pasteSettings(id, clipboard))
 			}
 		},
 		{
