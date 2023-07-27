@@ -348,17 +348,13 @@ const removeFailedAcquisitions = state => ({
 
 // ---- COPY/PASTE PROPERTIES --------
 
-const pasteSettings = (state, payload) => {
-	const { copiedSettings } = state
-
-	return {
-		...state,
-		media: state.media.map(item => item.id === payload.id ? {
-			...item,
-			...replaceIds(copiedSettings)
-		} : item)
-	}
-}
+const pasteSettings = (state, { id, properties }) => ({
+	...state,
+	media: state.media.map(item => item.id === id ? {
+		...item,
+		...replaceIds(properties)
+	} : item)
+})
 
 const applyToAll = (state, { id, properties }) => ({
 	...state,
