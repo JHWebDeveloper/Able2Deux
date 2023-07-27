@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { bool, func, number, oneOfType, string } from 'prop-types'
 
 import { download, updateState, updateStateFromEvent } from 'actions'
@@ -18,16 +18,11 @@ const optimizeButtons = [
 ]
 
 const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
-	const isValidURL = useRef(false)
-
-	const validateAndSetURL = useCallback(url => {
-		isValidURL.current = validURLRegex.test(url)
-		dispatch(updateState({ url }))
-	}, [])
+	const isInvalidURL = useMemo(() => !validURLRegex.test(url), [url])
 
 	const downloadWithSettings = useCallback(() => {
+		dispatch(updateState({ url: '' }))
 		dispatch(download({ url, optimize, output, disableRateLimit }))
-		validateAndSetURL('')
 	}, [url, optimize, output, disableRateLimit])
 
 	const dispatchWithEvent = useCallback(e => {
@@ -44,14 +39,14 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				className="underline"
 				placeholder="Paste URL here..."
 				value={url}
-				onChange={e => validateAndSetURL(e.target.value)} />
+				onChange={dispatchWithEvent} />
 			<button
 				type="button"
 				className="app-button"
 				name="download"
 				title="Download Video"
 				aria-label="Download Video"
-				disabled={!isValidURL.current}
+				disabled={isInvalidURL}
 				onClick={downloadWithSettings}>
 				Download
 			</button>
