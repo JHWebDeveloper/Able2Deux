@@ -75,6 +75,7 @@ export const extractCommonPanelProps = createObjectPicker([
 	'width',
 	'height',
 	'aspectRatio',
+	'copyToClipboard',
 	'dispatch'
 ])
 
