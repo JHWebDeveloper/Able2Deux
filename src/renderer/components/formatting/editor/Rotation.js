@@ -19,7 +19,7 @@ import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
 import FreeRotate from './FreeRotate'
 
-const directions = Object.freeze(['cropT', 'cropL', 'cropB', 'cropR'])
+const cropDirections = Object.freeze(['cropT', 'cropL', 'cropB', 'cropR'])
 const transpositions = Object.freeze(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2'])
 const flip = Object.freeze(['', 'hflip', 'vflip', 'hflip,vflip'])
 
@@ -33,7 +33,7 @@ const rotateCropValues = (prev, next, crop) => {
 	const rotations = transpositions.indexOf(next) - transpositions.indexOf(prev) + 4
 	const cropVals = [crop.cropT, crop.cropL, 100 - crop.cropB, 100 - crop.cropR]
 
-	const rotated = directions.reduce((obj, dir, i) => {
+	const rotated = cropDirections.reduce((obj, dir, i) => {
 		obj[dir] = cropVals[(rotations + i) % 4]
 		return obj
 	}, {})
