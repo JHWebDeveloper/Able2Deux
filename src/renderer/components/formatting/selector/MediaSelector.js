@@ -22,7 +22,8 @@ const { interop } = window.ABLE2
 
 const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
 
-const MediaSelector = ({ media, focused, multipleItems, multipleItemsSelected, allItemsSelected, dispatch }) => {
+const MediaSelector = props => {
+	const { media, focused, multipleItems, multipleItemsSelected, allItemsSelected, dispatch } = props
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const { warnings } = preferences
 
@@ -125,6 +126,8 @@ const MediaSelector = ({ media, focused, multipleItems, multipleItemsSelected, a
 				media={media}
 				multipleItemsSelected={multipleItemsSelected}
 				allItemsSelected={allItemsSelected}
+				copyToClipboard={props.copyToClipboard}
+				clipboard={props.clipboard}
 				dispatch={dispatch} />
 			{multipleItems ? (
 				<MediaSelectorOptions
