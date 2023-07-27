@@ -4,7 +4,6 @@ import { bool, func, oneOf, string } from 'prop-types'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
-	copySettings,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
@@ -79,11 +78,11 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, dispatch }
 }, objectsAreEqual)
 
 const AudioPanel = props => {
-	const { audioVideoTracks, audioExportFormat, id, mediaType, dispatch } = props
+	const { audioVideoTracks, audioExportFormat, id, mediaType, copyToClipboard, dispatch } = props
 	const audioProps = { audioVideoTracks, audioExportFormat }
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(copySettings, dispatch)(audioProps),
+		() => copyToClipboard(audioProps),
 		() => pipe(applySettingsToSelection(id), dispatch)(audioProps),
 		() => pipe(applySettingsToAll(id), dispatch)(audioProps)
 	])

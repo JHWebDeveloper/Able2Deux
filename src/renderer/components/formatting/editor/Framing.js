@@ -6,7 +6,6 @@ import { PrefsContext } from 'store'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
-	copySettings,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
@@ -126,7 +125,7 @@ const Framing = memo(props => {
 	const { active, pixelData } = eyedropper
 
 	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
-	
+
 	const updateMediaStateDispatch = useCallback(e => {
 		dispatch(updateMediaStateBySelectionFromEvent(e))
 	}, [])
@@ -211,10 +210,10 @@ const Framing = memo(props => {
 }, objectsAreEqual)
 
 const FramingPanel = props => {
-	const { id, dispatch } = props
+	const { id, copyToClipboard, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(extractFramingProps, copySettings, dispatch)(props),
+		() => pipe(extractFramingProps, copyToClipboard)(props),
 		() => pipe(extractFramingProps, applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractFramingProps, applySettingsToAll(id), dispatch)(props)
 	])

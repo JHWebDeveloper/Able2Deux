@@ -4,7 +4,6 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
-	copySettings,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection
 } from 'actions'
@@ -163,10 +162,10 @@ const Crop = memo(props => {
 }, objectsAreEqual)
 
 const CropPanel = props => {
-	const { id, dispatch } = props
+	const { id, copyToClipboard, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(extractCropProps, copySettings, dispatch)(props),
+		() => pipe(extractCropProps, copyToClipboard)(props),
 		() => pipe(extractCropProps, applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractCropProps, applySettingsToAll(id), dispatch)(props)
 	])

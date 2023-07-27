@@ -4,7 +4,6 @@ import { bool, func, oneOf, oneOfType, number, string } from 'prop-types'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
-	copySettings,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
@@ -183,10 +182,10 @@ const Rotation = memo(props => {
 }, objectsAreEqual)
 
 const RotationPanel = props => {
-	const { id, dispatch } = props
+	const { id, copyToClipboard, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(extractRotationProps, copySettings, dispatch)(props),
+		() => pipe(extractRotationProps, copyToClipboard)(props),
 		() => pipe(extractRotationProps, applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractRotationProps, applySettingsToAll(id), dispatch)(props)
 	])

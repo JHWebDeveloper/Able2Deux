@@ -4,7 +4,6 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
-	copySettings,
 	updateMediaStateBySelection
 } from 'actions'
 
@@ -46,11 +45,11 @@ const Centering = memo(({ centering, dispatch }) => {
 }, objectsAreEqual)
 
 const CenteringPanel = props => {
-	const { centering, id, dispatch } = props
+	const { centering, id, copyToClipboard, dispatch } = props
 	const centeringProps = { centering }
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(copySettings, dispatch)(centeringProps),
+		() => copyToClipboard(centeringProps),
 		() => pipe(applySettingsToSelection(id), dispatch)(centeringProps),
 		() => pipe(applySettingsToAll(id), dispatch)(centeringProps)
 	])

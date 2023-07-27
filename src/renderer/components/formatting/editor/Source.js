@@ -6,7 +6,6 @@ import { PrefsContext } from 'store'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
-	copySettings,
 	disableWarningAndSave,
 	toggleMediaCheckbox,
 	updateMediaStateBySelectionFromEvent
@@ -91,10 +90,10 @@ const Source = memo(props => {
 }, objectsAreEqual)
 
 const SourcePanel = props => {
-	const { id, dispatch } = props
+	const { id, copyToClipboard, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(extractSourceProps, copySettings, dispatch)(props),
+		() => pipe(extractSourceProps, copyToClipboard)(props),
 		() => pipe(extractSourceProps, applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractSourceProps, applySettingsToAll(id), dispatch)(props)
 	])

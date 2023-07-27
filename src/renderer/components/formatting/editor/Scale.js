@@ -6,7 +6,6 @@ import { PrefsContext } from 'store'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
-	copySettings,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection
 } from 'actions'
@@ -184,10 +183,10 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL,
 }, objectsAreEqual)
 
 const ScalePanel = props => {
-	const { id, dispatch } = props
+	const { id, copyToClipboard, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(extractScaleProps, copySettings, dispatch)(props),
+		() => pipe(extractScaleProps, copyToClipboard)(props),
 		() => pipe(extractScaleProps, applySettingsToSelection(id), dispatch)(props),
 		() => pipe(extractScaleProps, applySettingsToAll(id), dispatch)(props)
 	])
