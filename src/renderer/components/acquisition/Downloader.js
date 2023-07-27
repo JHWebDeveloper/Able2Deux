@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { bool, func, number, oneOfType, string } from 'prop-types'
 
-import { download, updateStateFromEvent } from 'actions'
-import { useValidURL } from 'hooks'
+import { download, updateState, updateStateFromEvent } from 'actions'
+import { validURLRegex } from 'utilities'
 
 import RadioSet from '../form_elements/RadioSet'
 
@@ -17,12 +17,17 @@ const optimizeButtons = [
 	}
 ]
 
-const Downloader = ({ optimize, output, disableRateLimit, dispatch }) => {
-	const [ url, isValidURL, setURL ] = useValidURL('')
+const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
+	const isValidURL = useRef(false)
+
+	const validateAndSetURL = useCallback(url => {
+		isValidURL.current = validURLRegex.test(url)
+		dispatch(updateState({ url }))
+	}, [])
 
 	const downloadWithSettings = useCallback(() => {
 		dispatch(download({ url, optimize, output, disableRateLimit }))
-		setURL('')
+		validateAndSetURL('')
 	}, [url, optimize, output, disableRateLimit])
 
 	const dispatchWithEvent = useCallback(e => {
@@ -39,14 +44,14 @@ const Downloader = ({ optimize, output, disableRateLimit, dispatch }) => {
 				className="underline"
 				placeholder="Paste URL here..."
 				value={url}
-				onChange={e => setURL(e.target.value)} />
+				onChange={e => validateAndSetURL(e.target.value)} />
 			<button
 				type="button"
 				className="app-button"
 				name="download"
 				title="Download Video"
 				aria-label="Download Video"
-				disabled={!isValidURL}
+				disabled={!isValidURL.current}
 				onClick={downloadWithSettings}>
 				Download
 			</button>
