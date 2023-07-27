@@ -21,7 +21,7 @@ import FreeRotate from './FreeRotate'
 
 const cropDirections = Object.freeze(['cropT', 'cropL', 'cropB', 'cropR'])
 const transpositions = Object.freeze(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2'])
-const flip = Object.freeze(['', 'hflip', 'vflip', 'hflip,vflip'])
+const flipDirections = Object.freeze(['', 'hflip', 'vflip', 'hflip,vflip'])
 
 const detectSideways = transpose => transpose === transpositions[1] || transpose === transpositions[3]
 const detectOrientationChange = (prev, next) => !!(detectSideways(prev) ^ detectSideways(next))
@@ -66,19 +66,19 @@ const transposeButtons = [
 const flipButtons = isSideways => [
 	{
 		label: 'None',
-		value: flip[0]
+		value: flipDirections[0]
 	},
 	{
 		label: 'Horizontally',
-		value: flip[isSideways ? 2 : 1]
+		value: flipDirections[isSideways ? 2 : 1]
 	},
 	{
 		label: 'Vertically',
-		value: flip[isSideways ? 1 : 2]
+		value: flipDirections[isSideways ? 1 : 2]
 	},
 	{
 		label: 'Both',
-		value: flip[3]
+		value: flipDirections[3]
 	}
 ]
 
@@ -123,12 +123,12 @@ const Rotation = memo(props => {
 	const updateReflect = useCallback(e => {
 		const invertedCrop = {}
 
-		if (detectReflection(reflect, e.target.value, flip[1])) {
+		if (detectReflection(reflect, e.target.value, flipDirections[1])) {
 			invertedCrop.cropL = 100 - crop.cropR
 			invertedCrop.cropR = 100 - crop.cropL
 		}
 
-		if (detectReflection(reflect, e.target.value, flip[2])) {
+		if (detectReflection(reflect, e.target.value, flipDirections[2])) {
 			invertedCrop.cropT = 100 - crop.cropB
 			invertedCrop.cropB = 100 - crop.cropT
 		}
@@ -205,7 +205,7 @@ const propTypes = {
 	id: string,
 	multipleItems: bool.isRequired,
 	transpose: oneOf(transpositions),
-	reflect: oneOf(flip),
+	reflect: oneOf(flipDirections),
 	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
 	angle: number.isRequired,
 	rotatedCentering: number.isRequired,
