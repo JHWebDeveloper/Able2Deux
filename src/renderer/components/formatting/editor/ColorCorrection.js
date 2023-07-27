@@ -8,7 +8,6 @@ import {
 	applySettingsToSelection,
 	cleanupCurve,
 	colorBalance,
-	copySettings,
 	deleteCurvePoint,
 	resetCurve,
 	toggleMediaCheckbox,
@@ -16,7 +15,6 @@ import {
 } from 'actions'
 
 import {
-	createColorCurvesCopier,
 	createSettingsMenu,
 	extractColorCorrectionProps,
 	objectsAreEqual,
@@ -273,12 +271,12 @@ const ColorCorrection = memo(props => {
 }, objectsAreEqual)
 
 const ColorCorrectionPanel = props => {
-	const { id, dispatch } = props
+	const { id, copyToClipboard, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(extractColorCorrectionProps, createColorCurvesCopier, copySettings, dispatch)(props),
+		() => pipe(extractColorCorrectionProps, copyToClipboard)(props),
 		() => pipe(extractColorCorrectionProps, applySettingsToSelection(id), dispatch)(props),
-		() => pipe(extractColorCorrectionProps, createColorCurvesCopier, applySettingsToAll(id), dispatch)(props)
+		() => pipe(extractColorCorrectionProps, applySettingsToAll(id), dispatch)(props)
 	])
 
 	return ( 
