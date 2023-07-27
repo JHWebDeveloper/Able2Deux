@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import { func, number, string } from 'prop-types'
 
 import { updateMediaStateById } from 'actions'
-
 import { framesToAudibleTC } from 'utilities'
 
 import TimecodeInputFrames from '../../form_elements/TimecodeInputFrames'
