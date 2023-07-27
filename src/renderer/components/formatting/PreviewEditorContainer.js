@@ -39,6 +39,8 @@ const PreviewEditorContainer = props => {
 				multipleItems={props.multipleItems}
 				multipleItemsSelected={props.multipleItemsSelected}
 				allItemsSelected={props.allItemsSelected}
+				copyToClipboard={props.copyToClipboard}
+				clipboard={props.clipboard}
 				dispatch={dispatch}
 				{...focused} />
 		</div>
