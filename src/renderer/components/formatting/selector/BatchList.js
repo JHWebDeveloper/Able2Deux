@@ -118,6 +118,8 @@ BatchList.propTypes = {
 	media: arrayOf(object).isRequired,
 	multipleItemsSelected: bool.isRequired,
 	allItemsSelected: bool.isRequired,
+	copyToClipboard: func.isRequired,
+	clipboard: object,
 	dispatch: func.isRequired
 }
 

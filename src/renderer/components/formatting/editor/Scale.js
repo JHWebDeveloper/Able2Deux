@@ -221,6 +221,7 @@ const propTypes = {
 	cropL: oneOfType([oneOf(['']), number]).isRequired,
 	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']).isRequired,
 	angle: number.isRequired,
+	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
 

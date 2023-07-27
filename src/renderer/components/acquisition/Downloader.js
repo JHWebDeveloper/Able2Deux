@@ -62,6 +62,7 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 }
 
 Downloader.propTypes = {
+	url: string,
 	optimize: string.isRequired,
 	output: string.isRequired,
 	disableRateLimit: oneOfType([bool, number]),

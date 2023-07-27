@@ -279,6 +279,7 @@ const propTypes = {
 	}).isRequired,
 	setEyedropper: func.isRequired,
 	multipleItems: bool.isRequired,
+	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
 

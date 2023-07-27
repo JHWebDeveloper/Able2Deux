@@ -70,6 +70,7 @@ const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
 	centering: oneOfType([oneOf(['']), number]).isRequired,
+	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
 

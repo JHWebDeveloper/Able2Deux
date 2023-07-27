@@ -117,6 +117,7 @@ const propTypes = {
 	sourcePrefix: bool.isRequired,
 	sourceOnTop: bool.isRequired,
 	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
+	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
 

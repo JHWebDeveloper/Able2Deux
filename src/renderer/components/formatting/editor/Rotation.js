@@ -219,6 +219,7 @@ const propTypes = {
 	width: number.isRequired,
 	height: number.isRequired,
 	showFreeRotate: bool.isRequired,
+	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
 

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
-import { bool, func, string, number } from 'prop-types'
+import { bool, func, number, object, string } from 'prop-types'
 
 import {
 	duplicateMedia,
@@ -224,6 +224,7 @@ BatchItem.propTypes = {
 	applyToAllWarning: func.isRequired,
 	applyToSelectionWarning: func.isRequired,
 	removeMediaWarning: func.isRequired,
+	clipboard: object,
 	dispatch: func.isRequired
 }
 
