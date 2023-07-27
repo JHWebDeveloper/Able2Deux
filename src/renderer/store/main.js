@@ -9,6 +9,7 @@ import { useAugmentedDispatch } from 'hooks'
 import { extractDefaultPrefs, pipe } from 'utilities'
 
 const initState = {
+	url: '',
 	optimize: 'quality',
 	screenshot: false,
 	timer: 60,
