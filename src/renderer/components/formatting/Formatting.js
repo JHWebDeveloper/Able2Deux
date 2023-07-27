@@ -10,6 +10,7 @@ import {
 	updateState
 } from 'actions'
 
+import { useClipboard } from 'hooks'
 import { arrayCount } from 'utilities'
 
 import MediaSelector from './selector/MediaSelector'
@@ -37,6 +38,8 @@ const Formatting = () => {
 
 	if (!media.length) return <Navigate replace to="/" />
 
+	const [ clipboard, copyToClipboard ] = useClipboard()
+
 	const focused = media.find(item => item.focused) || {}
 	const multipleItems = media.length > 1
 	const selectionCount = arrayCount(media, item => item.selected)
@@ -60,6 +63,8 @@ const Formatting = () => {
 					multipleItems={multipleItems}
 					multipleItemsSelected={multipleItemsSelected}
 					allItemsSelected={allItemsSelected}
+					copyToClipboard={copyToClipboard}
+					clipboard={clipboard}
 					dispatch={dispatch} />	
 				{multipleItems ? (
 					<BatchName
@@ -81,6 +86,7 @@ const Formatting = () => {
 				multipleItems={multipleItems}
 				multipleItemsSelected={multipleItemsSelected}
 				allItemsSelected={allItemsSelected}
+				copyToClipboard={copyToClipboard}
 				split={split}
 				dispatch={dispatch} />
 			{rendering ? (
