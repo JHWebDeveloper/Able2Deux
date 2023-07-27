@@ -1,25 +1,4 @@
-import { v1 as uuid } from 'uuid'
-
 import { getIntegerLength } from 'utilities'
-
-// ---- CURVE ARRYS --------
-
-export const copyCurve = curve => curve.map(pt => ({ ...pt, id: uuid() }))
-
-export const copyCurveSet = curves => {
-	const [ rgb, r, g, b ] = [
-		curves.rgb,
-		curves.r,
-		curves.g,
-		curves.b
-	].map(c => copyCurve(c))
-
-	return { ...curves, rgb, r, g, b }
-}
-
-export const createColorCurvesCopier = ({ colorCurves }) => () => ({
-	colorCurves: copyCurveSet(colorCurves)
-})
 
 // ---- ZERO PADDERS --------
 
