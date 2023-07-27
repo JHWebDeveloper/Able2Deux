@@ -20,7 +20,7 @@ const optimizeButtons = [
 const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 	const isInvalidURL = useMemo(() => !validURLRegex.test(url), [url])
 
-	const downloadWithSettings = useCallback(() => {
+	const startDownload = useCallback(() => {
 		dispatch(updateState({ url: '' }))
 		dispatch(download({ url, optimize, output, disableRateLimit }))
 	}, [url, optimize, output, disableRateLimit])
@@ -47,7 +47,7 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				title="Download Video"
 				aria-label="Download Video"
 				disabled={isInvalidURL}
-				onClick={downloadWithSettings}>
+				onClick={startDownload}>
 				Download
 			</button>
 			<span>
