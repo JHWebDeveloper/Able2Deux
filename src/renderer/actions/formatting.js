@@ -108,16 +108,9 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 
 // ---- COPY/PASTE PROPERTIES --------
 
-export const copySettings = settings => ({
-	type: ACTION.UPDATE_STATE,
-	payload: {
-		copiedSettings: settings instanceof Function ? settings : { ...settings }
-	}
-})
-
-export const pasteSettings = id => ({
+export const pasteSettings = (id, properties) => ({
 	type: ACTION.PASTE_SETTINGS,
-	payload: { id }
+	payload: { id, properties }
 })
 
 export const applySettingsToAll = id => properties => ({
