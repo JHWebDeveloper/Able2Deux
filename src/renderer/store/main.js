@@ -14,10 +14,8 @@ const initState = {
 	timer: 60,
 	timerEnabled: false,
 	media: [],
-	selectedId: '',
 	batchName: '',
 	batchNameType: 'replace',
-	copiedSettings: {},
 	previewQuality: 1,
 	previewHeight: 540,
 	rendering: false
