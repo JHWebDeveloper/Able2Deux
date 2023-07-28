@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router'
 import { arrayOf, bool, func, object, shape } from 'prop-types'
 
 import {
-	disableWarningAndSave,
 	removeFailedAcquisitions,
 	removeAllMedia,
 	removeMedia,
 	removeReferencedMedia
 } from 'actions'
 
-import { group, warn } from 'utilities'
+import { useWarning } from 'hooks'
+import { group } from 'utilities'
 import * as STATUS from 'status'
 
 import MediaElement from './MediaElement'
@@ -34,7 +34,7 @@ const getUniqueFileRefs = media => group(media, 'refId').reduce((acc, arr) => {
 const checkMediaReady = ({ status }) => status === STATUS.READY || status === STATUS.FAILED
 const checkMediaFailed = ({ status }) => status === STATUS.FAILED
 
-const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => {
+const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 	const navigate = useNavigate()
 
 	const uniqueMedia = useMemo(() => getUniqueFileRefs(media), [media])
@@ -44,46 +44,48 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 		recording || !uniqueMedia.length || !uniqueMedia.every(checkMediaReady) || uniqueMedia.every(checkMediaFailed)
 	), [recording, uniqueMedia])
 
-	const removeMediaWarning = useCallback(({ title, id, refId, status, references }) => warn({
-		message: `Remove "${title}"?`,
+	const warnRemoveMedia = useWarning({
+		name: 'remove',
 		detail: removeMediaDetail,
-		enabled: warnings.remove,
-		callback() {
-			dispatch(removeMedia({
-				id,
-				refId,
-				status,
-				references
-			}))
-		},
-		checkboxCallback() {
-			dispatchPrefs(disableWarningAndSave('remove'))
-		}
-	}), [warnings.remove])
+	}, [media])
 
-	const removeReferencedMediaWarning = useCallback(({ title, refId }) => warn({
-		message: `Remove "${title}"?`,
+	const warnRemoveReferencedMedia = useWarning({
+		name: 'removeReferenced',
 		detail: removeReferencedMediaDetail,
-		enabled: true, // we don't need to pass the warning here boolean because we already checked it prior to executing
-		callback() {
-			dispatch(removeReferencedMedia(refId))
-		},
-		checkboxCallback() {
-			dispatchPrefs(disableWarningAndSave('removeReferenced'))
-		}
-	}), [media])
+	}, [media])
 
-	const removeAllMediaWarning = useCallback(() => warn({
+	const removeMediaWarning = useCallback(({ title, id, refId, status, references }) => {
+		const hasRefs = references > 1
+
+		const args = {
+			message: `Remove ${title}?`,
+			callback: hasRefs ? () => {
+				dispatch(removeReferencedMedia(refId))
+			} : () => {
+				dispatch(removeMedia({
+					id,
+					refId,
+					status,
+					references
+				}))
+			}
+		}
+
+		if (hasRefs && warnings.removeReferenced) {
+			return warnRemoveReferencedMedia(args)
+		} else {
+			return warnRemoveMedia(args)
+		}
+	}, [media, warnings.removeReferenced, removeReferencedMedia, warnRemoveMedia])
+
+	const removeAllMediaWarning = useWarning({
+		name: 'removeAll',
 		message: 'Remove all entries?',
 		detail: removeAllMediaDetail,
-		enabled: warnings.removeAll,
 		callback() {
 			dispatch(removeAllMedia())
-		},
-		checkboxCallback() {
-			dispatchPrefs(disableWarningAndSave('removeAll'))
 		}
-	}), [media, warnings.removeAll])
+	}, [media])
 
 	const removeFailedAcquisitionsAndRedirect = useCallback(() => {
 		dispatch(removeFailedAcquisitions())
@@ -96,7 +98,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 				{uniqueMedia.map(mediaElement => (
 					<MediaElement
 						key={mediaElement.id}
-						removeMediaWarning={mediaElement.references > 1 && warnings.removeReferenced ? removeReferencedMediaWarning : removeMediaWarning}
+						removeMediaWarning={removeMediaWarning}
 						{...mediaElement} />
 				))}
 			</div>
@@ -113,7 +115,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch, dispatchPrefs }) => 
 					className="app-button"
 					title="Remove All Media"
 					aria-label="Remove All Media"
-					onClick={removeAllMediaWarning}
+					onClick={() => removeAllMediaWarning()}
 					disabled={!uniqueMedia.length}>Remove All</button>
 			</div>
 		</div>
@@ -127,8 +129,7 @@ ReadyQueue.propTypes = {
 		remove: bool.isRequired,
 		removeAll: bool.isRequired
 	}).isRequired,
-	dispatch: func.isRequired,
-	dispatchPrefs: func.isRequired
+	dispatch: func.isRequired
 }
 
 export default ReadyQueue
