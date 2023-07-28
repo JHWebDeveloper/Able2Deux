@@ -10,7 +10,7 @@ import {
 } from 'utilities'
 
 const MediaElement = props => {
-	const { id, refId, status, title, isLive, downloadETA, downloadPercent, removeMediaWarning } = props
+	const { id, refId, status, title, isLive, downloadETA, downloadPercent, removeMediaWarning, references } = props
 	const downloading = status === STATUS.DOWNLOADING
 	const color = useMemo(() => getStatusColor(status), [status])
 	const progress = useRef(null)
@@ -18,8 +18,8 @@ const MediaElement = props => {
 	const downloadBtnTitle = downloading ? isLive ? 'Stop Stream' : 'Cancel Download' : 'Remove'
 
 	const removeElement = useCallback(() => {
-		props.removeMediaWarning({ id, refId, status, title })
-	}, [status, title, removeMediaWarning])
+		props.removeMediaWarning({ id, refId, status, title, references })
+	}, [status, title, references, removeMediaWarning])
 
 	const stopLiveDownload = useCallback(() => {
 		window.ABLE2.interop.stopLiveDownload(id)
