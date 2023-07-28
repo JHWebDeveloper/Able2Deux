@@ -1,10 +1,7 @@
-import React, { useContext, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { arrayOf, bool, func, object } from 'prop-types' 
 
-import { PrefsContext } from 'store'
-
 import {
-	disableWarningAndSave,
 	duplicateSelectedMedia,
 	deselectAllMedia,
 	selectAllMedia,
@@ -12,7 +9,7 @@ import {
 	removeAllMedia
 } from 'actions'
 
-import { warn } from 'utilities'
+import { useWarning } from 'hooks' 
 
 import MediaInfo from './MediaInfo'
 import BatchList from './BatchList'
@@ -24,22 +21,17 @@ const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
 
 const MediaSelector = props => {
 	const { media, focused, multipleItems, multipleItemsSelected, allItemsSelected, dispatch } = props
-	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
-	const { warnings } = preferences
+
+	const warn = useWarning({ name: 'removeAll' }, [media, allItemsSelected])
 
 	const removeMediaWarning = useCallback(({ message, action }) => warn({
 		message,
-		detail: 'This cannot be undone. Proceed?',
-		enabled: warnings.removeAll,
 		callback() {
 			dispatch(action())
-		},
-		checkboxCallback() {
-			dispatchPrefs(disableWarningAndSave('removeAll'))
 		}
-	}), [media, allItemsSelected, warnings.removeAll])
+	}), [media, allItemsSelected, warn])
 
-	const dropdownDependencies = [media, allItemsSelected, warnings.removeAll]
+	const dropdownDependencies = [media, allItemsSelected, warn]
 
 	const dropdown = useMemo(() => [
 		{

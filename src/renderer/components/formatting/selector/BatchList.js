@@ -1,66 +1,60 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback } from 'react'
 import { arrayOf, bool, func, object } from 'prop-types'
-
-import { PrefsContext } from 'store'
 
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
-	disableWarningAndSave,
 	moveSortableElement,
 	moveSelectedMedia,
 	removeMedia
 } from 'actions'
 
+import { useWarning } from 'hooks'
+
 import {
 	arrayCount,
 	extractCopyPasteProps,
-	pipe,
-	warn
+	pipe
 } from 'utilities'
 
 import DraggableList from '../../form_elements/DraggableList'
 import BatchItem from './BatchItem'
 
 const applyToAllDetail = 'This will overwrite the settings except for filenames and start and end timecodes. This cannot be undone. Proceed?'
-const removeMediaDetail = 'This cannot be undone. Proceed?'
 
 const BatchList = ({ media, multipleItemsSelected, allItemsSelected, copyToClipboard, clipboard, dispatch }) => {
-	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
-	const { warnings } = preferences
-
 	const copyAllSettings = useCallback(id => {
 		pipe(extractCopyPasteProps, copyToClipboard)(media.find(item => item.id === id))
 	}, [media])
 
-	const applyToMultipleWarning = useCallback(({ id, message, action }) => warn({
+	const warnApplyToMultiple = useWarning({
+		name: 'applyToAll',
+		detail: applyToAllDetail
+	}, [media])
+
+	const applyToMultipleWarning = useCallback(({ id, message, action }) => warnApplyToMultiple({
 		message,
-		detail: applyToAllDetail,
-		enabled: warnings.applyToAll,
 		callback() {
 			pipe(extractCopyPasteProps, action, dispatch)(media.find(item => item.id === id))
 		},
-		checkboxCallback() {
-			dispatchPrefs(disableWarningAndSave('applyToAll'))
-		}
-	}), [media, warnings.applyToAll])
+	}), [media, warnApplyToMultiple])
 
 	const applyToAllWarning = useCallback(id => applyToMultipleWarning({
 		id,
 		message: 'Apply current settings to all media items?',
 		action: applySettingsToAll(id)
-	}), [media, warnings.applyToAll])
+	}), [media, warnApplyToMultiple])
 
 	const applyToSelectionWarning = useCallback(id => applyToMultipleWarning({
 		id,
 		message: 'Apply current settings to the selected media items?',
 		action: applySettingsToSelection(id)
-	}), [media, warnings.applyToAll])
+	}), [media, warnApplyToMultiple])
 
-	const removeMediaWarning = useCallback(({ id, refId, index, title }) => warn({
+	const warnRemoveMedia = useWarning({ name: 'remove' }, [media])
+
+	const removeMediaWarning = useCallback(({ id, refId, index, title }) => warnRemoveMedia({
 		message: `Remove "${title}"?`,
-		detail: removeMediaDetail,
-		enabled: warnings.remove,
 		callback() {
 			dispatch(removeMedia({
 				id,
@@ -69,10 +63,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, copyToClipb
 				references: arrayCount(media, item => item.refId === refId)
 			}))
 		},
-		checkboxCallback() {
-			dispatchPrefs(disableWarningAndSave('remove'))
-		}
-	}), [media, warnings.remove])
+	}), [media, warnRemoveMedia])
 
 	const sortingAction = useCallback((oldPos, newPos, { selected }, e) => {
 		if (!selected || e.altKey || allItemsSelected) {

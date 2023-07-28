@@ -9,18 +9,14 @@ import * as STATUS from 'status'
 
 import {
 	cancelRender,
-	disableWarningAndSave,
 	removeLocationAndSave,
 	render,
 	startOver,
 	updateMediaStateById
 } from 'actions'
 
-import {
-	detectTabExit,
-	toastrOpts,
-	warn
-} from 'utilities'
+import { useWarning } from 'hooks'
+import { detectTabExit, toastrOpts } from 'utilities'
 
 import RenderElement from './RenderElement'
 
@@ -41,8 +37,7 @@ const RenderQueue = props => {
 		customFrameRate,
 		autoPNG,
 		asperaSafe,
-		concurrent,
-		warnings
+		concurrent
 	} = preferences
 
 	// eslint-disable-next-line no-extra-parens
@@ -70,19 +65,16 @@ const RenderQueue = props => {
 		closeRenderQueue()
 	}, [media])
 
-	const backToMain = useCallback(() => warn({
+	const backToMain = useWarning({
+		name: 'startOver',
 		message: startOverMessage,
 		detail: startOverDetail,
-		enabled: warnings.startOver,
 		callback() {
 			closeRenderQueue()
 			dispatch(startOver())
 			navigate('/')
-		},
-		checkboxCallback() {
-			dispatchPrefs(disableWarningAndSave('startOver'))
 		}
-	}), [warnings.startOver])
+	})
 
 	const containFocus = useCallback(detectTabExit(() => {
 		backOrCancelBtn.current.focus()
@@ -152,7 +144,7 @@ const RenderQueue = props => {
 								className="app-button"
 								title="Start Over"
 								aria-label="Start Over"
-								onClick={backToMain}>Start Over</button>
+								onClick={() => backToMain()}>Start Over</button>
 						</>
 					) : (
 						<button
