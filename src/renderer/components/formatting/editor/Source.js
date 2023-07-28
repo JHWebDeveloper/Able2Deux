@@ -11,13 +11,14 @@ import {
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
+import { useWarning } from 'hooks'
+
 import {
 	createSettingsMenu,
 	extractSourceProps,
 	has11pmBackground,
 	objectsAreEqual,
-	pipe,
-	warn
+	pipe
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -47,17 +48,17 @@ const Source = memo(props => {
 		dispatch(toggleMediaCheckbox(id, e))
 	}, [id])
 
-	const sourceOnTopWarning = useCallback(e => warn({
+	const warn = useWarning({
+		name: 'sourceOnTop',
 		message,
-		detail,
-		enabled: warnings.sourceOnTop && !sourceOnTop,
+		detail
+	}, [id])
+
+	const sourceOnTopWarning = useCallback(e => sourceOnTop ? toggleSourceOption(e) : warn({
 		callback() {
 			toggleSourceOption(e)
-		},
-		checkboxCallback() {
-			dispatchPrefs(disableWarningAndSave('sourceOnTop'))
 		}
-	}), [id, warnings.sourceOnTop, sourceOnTop])
+	}), [sourceOnTop, id, warn])
 
 	return (
 		<>
