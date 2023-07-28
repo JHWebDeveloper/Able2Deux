@@ -1,18 +1,18 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { func } from 'prop-types'
 
 import { cleanupPrefsAndSave, restoreDefaultPrefs } from 'actions'
-import { warn } from 'utilities'
+import { useWarning } from 'hooks'
 
 const SaveAndClose = ({ dispatch }) => {
-	const restoreDefaultPrefsWarning = useCallback(() => warn({
-		enabled: true,
+	const restoreDefaultPrefsWarning = useWarning({
 		message: 'Restore Default Preferences?',
 		detail: 'Once saved, this cannot be undone. Proceed?',
+		hasCheckbox: false,
 		callback() {
 			dispatch(restoreDefaultPrefs())
 		}
-	}), [])
+	})
 
 	return (
 		<footer>
@@ -40,7 +40,7 @@ const SaveAndClose = ({ dispatch }) => {
 				className="app-button"
 				title="Restore Default"
 				style={{ float: 'right' }}
-				onClick={restoreDefaultPrefsWarning}>Restore Default</button>
+				onClick={() => restoreDefaultPrefsWarning()}>Restore Default</button>
 		</footer>
 	)
 }
