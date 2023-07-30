@@ -1,6 +1,6 @@
 import { objectPick } from 'utilities'
 
-const createObjectPicker = keys => props => objectPick(props, keys)
+// ---- LOCAL CONSTANTS --------
 
 const colorCorrectionProps = ['ccEnabled', 'ccHidden', 'ccRGB', 'ccR', 'ccG', 'ccB']
 
@@ -44,6 +44,10 @@ const dynamicProps = [
 	'positionX',
 	'positionY'
 ]
+
+// ---- OBJECT PICKERS --------
+
+const createObjectPicker = keys => props => objectPick(props, keys)
 
 export const extractCopyPasteProps = createObjectPicker([
 	...dynamicProps,
