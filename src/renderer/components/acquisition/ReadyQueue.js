@@ -59,7 +59,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 
 		const args = {
 			message: `Remove ${title}?`,
-			callback: hasRefs ? () => {
+			onConfirm: hasRefs ? () => {
 				dispatch(removeReferencedMedia(refId))
 			} : () => {
 				dispatch(removeMedia({
@@ -82,7 +82,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 		name: 'removeAll',
 		message: 'Remove all entries?',
 		detail: removeAllMediaDetail,
-		callback() {
+		onConfirm() {
 			dispatch(removeAllMedia())
 		}
 	}, [media])

@@ -9,7 +9,7 @@ export const useWarning = ({
 	name: warningName,
 	message: fixedMessage,
 	detail: fixedDetail = 'This cannot be undone. Proceed?',
-	callback: fixedCallback,
+	onConfirm: fixedOnConfirm,
 	skip: fixedSkip,
 	hasCheckbox = true
 }, dependencies = []) => {
@@ -23,7 +23,7 @@ export const useWarning = ({
 	const warn = useCallback(async ({
 		message = fixedMessage,
 		detail = fixedDetail,
-		callback = fixedCallback,
+		onConfirm = fixedOnConfirm,
 		skip = fixedSkip
 	} = {}) => {
 		if (!skip && (!warningName || warnings[warningName])) {
@@ -37,8 +37,8 @@ export const useWarning = ({
 			if (hasCheckbox && checkboxChecked) disableWarning()
 		}
 	
-		callback()
-	}, [warnings, warningName, fixedSkip, fixedMessage, fixedDetail, fixedCallback, hasCheckbox, ...dependencies])
+		onConfirm()
+	}, [warnings, warningName, fixedMessage, fixedDetail, fixedCallback, hasCheckbox, fixedSkip, ...dependencies])
 
 	return warn
 }
@@ -69,7 +69,7 @@ export const useSaveWarning = ({
 		}
 
 		onConfirm()
-	}, [fixedSkip, fixedMessage, fixedDetail, fixedOnConfirm, fixedOnSave, ...dependencies])
+	}, [fixedMessage, fixedDetail, fixedOnConfirm, fixedOnSave, fixedSkip, ...dependencies])
 
 	return warn
 }

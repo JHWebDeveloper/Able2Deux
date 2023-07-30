@@ -69,7 +69,7 @@ const RenderQueue = props => {
 		name: 'startOver',
 		message: startOverMessage,
 		detail: startOverDetail,
-		callback() {
+		onConfirm() {
 			closeRenderQueue()
 			dispatch(startOver())
 			navigate('/')

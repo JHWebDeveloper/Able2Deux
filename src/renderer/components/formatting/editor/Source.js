@@ -50,7 +50,7 @@ const Source = memo(props => {
 	}, [id, sourceOnTop])
 
 	const sourceOnTopWarning = useCallback(e => warn({
-		callback() {
+		onConfirm() {
 			toggleSourceOption(e)
 		}
 	}), [id, sourceOnTop, warn])

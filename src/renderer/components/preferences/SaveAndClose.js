@@ -12,7 +12,7 @@ const SaveAndClose = ({ preferences, dispatch }) => {
 		message: 'Restore Default Preferences?',
 		detail: 'Once saved, this cannot be undone. Proceed?',
 		hasCheckbox: false,
-		callback() {
+		onConfirm() {
 			dispatch(restoreDefaultPrefs())
 		}
 	})

@@ -26,7 +26,7 @@ const MediaSelector = props => {
 
 	const removeMediaWarning = useCallback(({ message, action }) => warn({
 		message,
-		callback() {
+		onConfirm() {
 			dispatch(action())
 		}
 	}), [media, allItemsSelected, warn])

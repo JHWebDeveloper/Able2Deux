@@ -34,7 +34,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, copyToClipb
 
 	const applyToMultipleWarning = useCallback(({ id, message, action }) => warnApplyToMultiple({
 		message,
-		callback() {
+		onConfirm() {
 			pipe(extractCopyPasteProps, action, dispatch)(media.find(item => item.id === id))
 		},
 	}), [media, warnApplyToMultiple])
@@ -55,7 +55,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, copyToClipb
 
 	const removeMediaWarning = useCallback(({ id, refId, index, title }) => warnRemoveMedia({
 		message: `Remove "${title}"?`,
-		callback() {
+		onConfirm() {
 			dispatch(removeMedia({
 				id,
 				refId,
