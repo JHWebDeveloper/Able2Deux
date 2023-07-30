@@ -26,7 +26,7 @@ const ROTATION_PROPS = ['transpose', 'reflect', 'freeRotateMode', 'angle', 'rota
 
 const SCALE_PROPS = ['scaleX', 'scaleY']
 
-const sourceProps = ['sourceName', 'sourcePrefix', 'sourceOnTop']
+const SOURCE_PROPS = ['sourceName', 'sourcePrefix', 'sourceOnTop']
 
 /* dyanmicProps are props that can be copied from one media item to another
     and should cause a preview render on change */
@@ -37,7 +37,7 @@ const DYNAMIC_PROPS = [
 	...ROTATION_PROPS,
 	...KEYING_PROPS,
 	...COLOR_CORRECTION_PROPS,
-	...sourceProps,
+	...SOURCE_PROPS,
 	'audioVideoTracks',
 	'audioExportFormat',
 	'centering',
@@ -105,4 +105,4 @@ export const extractRotationProps = createObjectPicker(ROTATION_PROPS)
 
 export const extractScaleProps = createObjectPicker([...SCALE_PROPS, 'scaleLink'])
 
-export const extractSourceProps = createObjectPicker(sourceProps)
+export const extractSourceProps = createObjectPicker(SOURCE_PROPS)
