@@ -65,7 +65,8 @@ MediaElement.propTypes = {
 	isLive: bool.isRequired,
 	downloadETA: number,
 	downloadPercent: number,
-	removeMediaWarning: func.isRequired
+	removeMediaWarning: func.isRequired,
+	references: number.isRequired
 }
 
 export default MediaElement

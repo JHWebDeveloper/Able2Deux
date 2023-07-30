@@ -36,7 +36,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, copyToClipb
 		message,
 		onConfirm() {
 			pipe(extractCopyPasteProps, action, dispatch)(media.find(item => item.id === id))
-		},
+		}
 	}), [media, warnApplyToMultiple])
 
 	const applyToAllWarning = useCallback(id => applyToMultipleWarning({
@@ -62,7 +62,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, copyToClipb
 				index,
 				references: arrayCount(media, item => item.refId === refId)
 			}))
-		},
+		}
 	}), [media, warnRemoveMedia])
 
 	const sortingAction = useCallback((oldPos, newPos, { selected }, e) => {

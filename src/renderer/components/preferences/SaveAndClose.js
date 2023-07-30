@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { func } from 'prop-types'
+import { func, object } from 'prop-types'
 
 import { cleanupPrefsAndSave, restoreDefaultPrefs } from 'actions'
 import { useWarning, useSaveWarning } from 'hooks'
@@ -65,6 +65,7 @@ const SaveAndClose = ({ preferences, dispatch }) => {
 }
 
 SaveAndClose.propTypes = {
+	preferences: object.isRequired,
 	dispatch: func.isRequired
 }
 

@@ -46,12 +46,12 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 
 	const warnRemoveMedia = useWarning({
 		name: 'remove',
-		detail: removeMediaDetail,
+		detail: removeMediaDetail
 	}, [media])
 
 	const warnRemoveReferencedMedia = useWarning({
 		name: 'removeReferenced',
-		detail: removeReferencedMediaDetail,
+		detail: removeReferencedMediaDetail
 	}, [media])
 
 	const removeMediaWarning = useCallback(({ title, id, refId, status, references }) => {
