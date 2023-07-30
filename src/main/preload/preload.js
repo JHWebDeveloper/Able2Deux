@@ -74,7 +74,7 @@ interop.warning = ({
 	message,
 	detail,
 	buttons = ['OK', 'Cancel'],
-	hasCheckbox,
+	hasCheckbox
 }) => ipcRenderer.invoke('showMessageBox', {
 	type: 'warning',
 	message,
