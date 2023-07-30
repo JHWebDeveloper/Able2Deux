@@ -2,15 +2,15 @@ import { objectPick } from 'utilities'
 
 // ---- LOCAL CONSTANTS --------
 
-const colorCorrectionProps = ['ccEnabled', 'ccHidden', 'ccRGB', 'ccR', 'ccG', 'ccB']
+const COLOR_CORRECTION_PROPS = ['ccEnabled', 'ccHidden', 'ccRGB', 'ccR', 'ccG', 'ccB']
 
-const cropProps = ['cropT', 'cropR', 'cropB', 'cropL']
+const CROP_PROPS = ['cropT', 'cropR', 'cropB', 'cropL']
 
-const cropLinkProps = ['cropLinkTB', 'cropLinkLR']
+const CROP_LINK_PROPS = ['cropLinkTB', 'cropLinkLR']
 
-const framingProps = ['arc', 'background', 'bgColor', 'overlay']
+const FRAMING_PROPS = ['arc', 'background', 'bgColor', 'overlay']
 
-const keyingProps = [
+const KEYING_PROPS = [
 	'keyingEnabled',
 	'keyingHidden',
 	'keyingType',
@@ -22,21 +22,21 @@ const keyingProps = [
 	'keyingSoftness'
 ]
 
-const rotationProps = ['transpose', 'reflect', 'freeRotateMode', 'angle', 'rotatedCentering']
+const ROTATION_PROPS = ['transpose', 'reflect', 'freeRotateMode', 'angle', 'rotatedCentering']
 
-const scaleProps = ['scaleX', 'scaleY']
+const SCALE_PROPS = ['scaleX', 'scaleY']
 
 const sourceProps = ['sourceName', 'sourcePrefix', 'sourceOnTop']
 
 /* dyanmicProps are props that can be copied from one media item to another
     and should cause a preview render on change */
-const dynamicProps = [
-	...framingProps,
-	...scaleProps,
-	...cropProps,
-	...rotationProps,
-	...keyingProps,
-	...colorCorrectionProps,
+const DYNAMIC_PROPS = [
+	...FRAMING_PROPS,
+	...SCALE_PROPS,
+	...CROP_PROPS,
+	...ROTATION_PROPS,
+	...KEYING_PROPS,
+	...COLOR_CORRECTION_PROPS,
 	...sourceProps,
 	'audioVideoTracks',
 	'audioExportFormat',
@@ -50,8 +50,8 @@ const dynamicProps = [
 const createObjectPicker = keys => props => objectPick(props, keys)
 
 export const extractCopyPasteProps = createObjectPicker([
-	...dynamicProps,
-	...cropLinkProps,
+	...DYNAMIC_PROPS,
+	...CROP_LINK_PROPS,
 	'backgroundMotion',
 	'scaleLink',
 	'ccSelectedCurve'
@@ -59,7 +59,7 @@ export const extractCopyPasteProps = createObjectPicker([
 
 export const extractPreviewRenderDependencies = (() => {
 	const omitNonVisiualProps = createObjectPicker([
-		...dynamicProps,
+		...DYNAMIC_PROPS,
 		'id',
 		'timecode'
 	])
@@ -68,7 +68,7 @@ export const extractPreviewRenderDependencies = (() => {
 })()
 
 
-export const extractColorCorrectionProps = createObjectPicker([...colorCorrectionProps, 'ccSelectedCurve'])
+export const extractColorCorrectionProps = createObjectPicker([...COLOR_CORRECTION_PROPS, 'ccSelectedCurve'])
 
 export const extractCommonPanelProps = createObjectPicker([
 	'id',
@@ -83,7 +83,7 @@ export const extractCommonPanelProps = createObjectPicker([
 	'dispatch'
 ])
 
-export const extractCropProps = createObjectPicker([...cropProps, ...cropLinkProps])
+export const extractCropProps = createObjectPicker([...CROP_PROPS, ...CROP_LINK_PROPS])
 
 export const extractDefaultPrefs = createObjectPicker([
 	'saveLocations',
@@ -97,12 +97,12 @@ export const extractDefaultPrefs = createObjectPicker([
 	'aspectRatioMarkers'
 ])
 
-export const extractFramingProps = createObjectPicker([...framingProps, 'backgroundMotion'])
+export const extractFramingProps = createObjectPicker([...FRAMING_PROPS, 'backgroundMotion'])
 
-export const extractKeyingProps = createObjectPicker(keyingProps)
+export const extractKeyingProps = createObjectPicker(KEYING_PROPS)
 
-export const extractRotationProps = createObjectPicker(rotationProps)
+export const extractRotationProps = createObjectPicker(ROTATION_PROPS)
 
-export const extractScaleProps = createObjectPicker([...scaleProps, 'scaleLink'])
+export const extractScaleProps = createObjectPicker([...SCALE_PROPS, 'scaleLink'])
 
 export const extractSourceProps = createObjectPicker(sourceProps)
