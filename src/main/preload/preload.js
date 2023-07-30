@@ -70,12 +70,19 @@ interop.directoryNotFoundAlert = dir => ipcRenderer.invoke('showMessageBox', {
 	checkboxLabel: 'Remove from Save Locations'
 })
 
-interop.warning = ({ message, detail, hasCheckbox }) => ipcRenderer.invoke('showMessageBox', {
-	type: 'warning',
-	buttons: ['OK', 'Cancel'],
+interop.warning = ({
 	message,
 	detail,
-	...hasCheckbox ? { checkboxLabel: 'Don\'t show this message again' } : {}
+	buttons = ['OK', 'Cancel'],
+	hasCheckbox,
+}) => ipcRenderer.invoke('showMessageBox', {
+	type: 'warning',
+	message,
+	detail,
+	buttons,
+	...hasCheckbox ? {
+		checkboxLabel: 'Don\'t show this message again'
+	} : {}
 })
 
 // ---- GLOBAL METHODS --------
