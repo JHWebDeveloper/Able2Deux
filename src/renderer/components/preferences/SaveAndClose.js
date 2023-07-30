@@ -21,7 +21,7 @@ const SaveAndClose = ({ preferences, dispatch }) => {
 		dispatch(cleanupPrefsAndSave(closePrefs))
 	}, [])
 
-	const closeWithoutSaveWarning =  useSaveWarning({
+	const closeWithoutSaveWarning = useSaveWarning({
 		detail: 'If you close preferences without saving, any changes you\'ve made will revert to their previously saved state. Proceed?',
 		onConfirm() {
 			interop.closePreferences()
