@@ -1,12 +1,8 @@
-import React, { memo, useCallback, useContext, useMemo } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { bool, func, string, oneOf } from 'prop-types'
-
-import { PrefsContext } from 'store'
-
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
-	disableWarningAndSave,
 	toggleMediaCheckbox,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
@@ -29,8 +25,6 @@ const detail = 'This option shoud only be selected if the source would obscure i
 
 const Source = memo(props => {
 	const { id, sourceName, sourcePrefix, sourceOnTop, background, dispatch } = props
-	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
-	const { warnings } = preferences
 
 	const maxLength = useMemo(() => {
 		let len = has11pmBackground(background) ? sourceOnTop ? 44 : 38 : 51
@@ -51,14 +45,15 @@ const Source = memo(props => {
 	const warn = useWarning({
 		name: 'sourceOnTop',
 		message,
-		detail
-	}, [id])
+		detail,
+		skip: sourceOnTop
+	}, [id, sourceOnTop])
 
-	const sourceOnTopWarning = useCallback(e => sourceOnTop ? toggleSourceOption(e) : warn({
+	const sourceOnTopWarning = useCallback(e => warn({
 		callback() {
 			toggleSourceOption(e)
 		}
-	}), [sourceOnTop, id, warn])
+	}), [id, sourceOnTop, warn])
 
 	return (
 		<>
