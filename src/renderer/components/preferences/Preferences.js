@@ -56,7 +56,9 @@ const PreferencesRouter = () => {
 				<Route path="/rendering" element={<Rendering />} />
 				<Route path="/save-locations" element={<SaveLocations />} />
 			</Routes>
-			<SaveAndClose dispatch={dispatch} />
+			<SaveAndClose
+				preferences={preferences}
+				dispatch={dispatch} />
 		</HashRouter> 
 	)
 }
