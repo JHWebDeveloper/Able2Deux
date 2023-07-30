@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { func } from 'prop-types'
 
 import { cleanupPrefsAndSave, restoreDefaultPrefs } from 'actions'
-import { useWarning } from 'hooks'
+import { useWarning, useSaveWarning } from 'hooks'
 import { objectsAreEqual } from 'utilities'
 
 const { interop } = window.ABLE2
@@ -17,12 +17,17 @@ const SaveAndClose = ({ preferences, dispatch }) => {
 		}
 	})
 
-	const closeWithoutSaveWarning = useWarning({
-		message: 'Close Without Saving?',
-		details: 'You have unsaved changes. If you close preferences without saving these changes will revert to their previous state. Proceed?',
-		hasCheckbox: false,
-		callback() {
+	const savePrefs = useCallback(closePrefs => {
+		dispatch(cleanupPrefsAndSave(closePrefs))
+	}, [])
+
+	const closeWithoutSaveWarning =  useSaveWarning({
+		detail: 'If you close preferences without saving, any changes you\'ve made will revert to their previously saved state. Proceed?',
+		onConfirm() {
 			interop.closePreferences()
+		},
+		onSave() {
+			savePrefs(true)
 		}
 	})
 
@@ -31,10 +36,6 @@ const SaveAndClose = ({ preferences, dispatch }) => {
 			skip: objectsAreEqual(await interop.requestPrefs(), preferences)
 		})
 	}, [preferences])
-
-	const savePrefs = useCallback(closePrefs => {
-		dispatch(cleanupPrefsAndSave(closePrefs))
-	}, [])
 
 	return (
 		<footer>
