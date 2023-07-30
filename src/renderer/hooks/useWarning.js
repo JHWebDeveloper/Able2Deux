@@ -38,7 +38,7 @@ export const useWarning = ({
 		}
 	
 		onConfirm()
-	}, [warnings, warningName, fixedMessage, fixedDetail, fixedCallback, hasCheckbox, fixedSkip, ...dependencies])
+	}, [warnings, warningName, fixedMessage, fixedDetail, fixedOnConfirm, hasCheckbox, fixedSkip, ...dependencies])
 
 	return warn
 }
