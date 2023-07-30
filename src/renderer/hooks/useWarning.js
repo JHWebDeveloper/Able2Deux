@@ -8,6 +8,7 @@ export const useWarning = ({
 	message: fixedMessage,
 	detail: fixedDetail = 'This cannot be undone. Proceed?',
 	callback: fixedCallback,
+	skip: fixedSkip,
 	hasCheckbox = true
 }, dependencies = []) => {
 	const { preferences, dispatch } = useContext(PrefsContext)
@@ -20,9 +21,10 @@ export const useWarning = ({
 	const warn = useCallback(async ({
 		message = fixedMessage,
 		detail = fixedDetail,
-		callback = fixedCallback
+		callback = fixedCallback,
+		skip = fixedSkip
 	} = {}) => {
-		if (!warningName || warnings[warningName]) {
+		if (!skip && (!warningName || warnings[warningName])) {
 			const { response, checkboxChecked } = await window.ABLE2.interop.warning({
 				message,
 				detail,
@@ -37,7 +39,7 @@ export const useWarning = ({
 		callback()
 
 		return true
-	}, [warnings, warningName, fixedMessage, fixedDetail, fixedCallback, hasCheckbox, ...dependencies])
+	}, [warnings, warningName, fixedSkip, fixedMessage, fixedDetail, fixedCallback, hasCheckbox, ...dependencies])
 
 	return warn
 }
