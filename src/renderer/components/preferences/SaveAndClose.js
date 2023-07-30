@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { func } from 'prop-types'
 
 import { cleanupPrefsAndSave, restoreDefaultPrefs } from 'actions'
 import { useWarning } from 'hooks'
+import { objectsAreEqual } from 'utilities'
 
-const SaveAndClose = ({ dispatch }) => {
+const { interop } = window.ABLE2
+
+const SaveAndClose = ({ preferences, dispatch }) => {
 	const restoreDefaultPrefsWarning = useWarning({
 		message: 'Restore Default Preferences?',
 		detail: 'Once saved, this cannot be undone. Proceed?',
@@ -14,27 +17,42 @@ const SaveAndClose = ({ dispatch }) => {
 		}
 	})
 
+	const closeWithoutSaveWarning = useWarning({
+		message: 'Close Without Saving?',
+		details: 'You have unsaved changes. If you close preferences without saving these changes will revert to their previous state. Proceed?',
+		hasCheckbox: false,
+		callback() {
+			interop.closePreferences()
+		}
+	})
+
+	const closePrefs = useCallback(async () => {
+		closeWithoutSaveWarning({
+			skip: objectsAreEqual(await interop.requestPrefs(), preferences)
+		})
+	}, [preferences])
+
+	const savePrefs = useCallback(closePrefs => {
+		dispatch(cleanupPrefsAndSave(closePrefs))
+	}, [])
+
 	return (
 		<footer>
 			<button
 				type="button"
 				className="app-button"
 				title="Save and Close"
-				onClick={() => {
-					dispatch(cleanupPrefsAndSave(true))
-				}}>Save &amp; Close</button>
+				onClick={() => savePrefs(true)}>Save &amp; Close</button>
 			<button
 				type="button"
 				className="app-button"
 				title="Save"
-				onClick={() => {
-					dispatch(cleanupPrefsAndSave())
-				}}>Save</button>
+				onClick={() => savePrefs()}>Save</button>
 			<button
 				type="button"
 				className="app-button"
 				title="Close"
-				onClick={window.ABLE2.interop.closePreferences}>Close</button>
+				onClick={closePrefs}>Close</button>
 			<button
 				type="button"
 				className="app-button"
