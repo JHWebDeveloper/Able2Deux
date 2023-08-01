@@ -4,6 +4,7 @@ import * as shared from 'reducer/shared'
 
 import {
 	arrayCount,
+	clamp,
 	findNearestIndex,
 	replaceIds,
 	sortCurvePoints
@@ -209,6 +210,8 @@ const selectMedia = (state, payload) => {
 	const { ctrlOrCmd, shift } = payload
 	let media = []
 
+	payload.clickedIndex = clamp(payload.clickedIndex, 0, state.media.length - 1)
+
 	if (ctrlOrCmd) {
 		media = selectMediaByCtrlClick(state.media, payload)
 	} else if (shift) {
@@ -260,7 +263,7 @@ const moveSelectedMedia = (state, { index }) => {
 		...state,
 		media: state.media
 			.filter(item => !item.selected)
-			.toSpliced(index - shiftIndexBy, 0, ...selected)
+			.toSpliced(clamp(index - shiftIndexBy, 0, state.media.length), 0, ...selected)
 	}
 }
 
