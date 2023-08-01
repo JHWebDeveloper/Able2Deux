@@ -77,12 +77,12 @@ export const duplicateSelectedMedia = () => ({
 })
 
 export const splitMedia = (id, split, start, end) => async dispatch => {
-	const ammount = Math.ceil((end - start) / split)
+	const amount = Math.ceil((end - start) / split)
 
-	if (ammount > 50) {
+	if (amount > 50) {
 		const { response } = await interop.warning({
 			message: 'That\'s a lot of subclips!',
-			detail: `The current split duration will result in ${ammount} subclips. Large ammounts of media may cause Able2 to run slow. Make sure your split duration follows an HH:MM:SS format. Proceed?`
+			detail: `The current split duration will result in ${amount} subclips. Large amounts of media may cause Able2 to run slow. Make sure your split duration follows an HH:MM:SS format. Proceed?`
 		})
 
 		if (response) return false  
