@@ -1,3 +1,5 @@
+import { clamp } from 'utilities'
+
 export const updateState = (state, payload) => ({
 	...state,
 	...payload
@@ -37,16 +39,16 @@ export const removeSortableElement = (state, payload) => ({
 })
 
 export const moveSortableElement = (state, payload) => {
-	let { oldPos, newPos } = payload
-	const elements = [...state[payload.nest]]
+	let { nest, oldPos, newPos } = payload
+	const elements = [...state[nest]]
 	const targetElement = elements.splice(oldPos, 1)[0]
 
 	if (oldPos < newPos) newPos--
 
-	elements.splice(newPos, 0, targetElement)
+	elements.splice(clamp(newPos, 0, elements.length), 0, targetElement)
 
 	return {
 		...state,
-		[payload.nest]: elements
+		[nest]: elements
 	}
 }
