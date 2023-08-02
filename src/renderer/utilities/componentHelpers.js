@@ -48,6 +48,9 @@ export const getStatusColor = status => {
 
 export const has11pmBackground = background => background === 'light_blue' || background === 'dark_blue' || background === 'teal' || background === 'tan'
 
+export const isArrowNext = ({ key }) => key === 'ArrowDown' || key === 'ArrowRight'
+export const isArrowPrev = ({ key }) => key === 'ArrowUp' || key === 'ArrowLeft'
+
 export const limitTCChars = colonMax => e => {
 	if (/^[A-Za-z0-9~`!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/]$/.test(e.key)) {
 		const colons = e.target.value.match(/:|;/g) || []
