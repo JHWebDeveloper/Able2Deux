@@ -2,7 +2,7 @@ import React, { cloneElement, useCallback, useId, useRef, useState } from 'react
 import { arrayOf, element, oneOfType, string } from 'prop-types'
 
 import { useToggle } from 'hooks'
-import { detectTabExit } from 'utilities'
+import { detectTabExit, isArrowNext, isArrowPrev } from 'utilities'
 
 const getFocusableSibling = (el, prop) => {
 	const sibling = el[prop]
@@ -35,9 +35,9 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 		if (e.key === 'Escape') {
 			toggleMenu()
 			toggleMenuButton.current.focus()
-		} else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+		} else if (isArrowPrev(e)) {
 			getFocusableSibling(e.currentTarget, 'previousElementSibling')?.focus()
-		} else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+		} else if (isArrowNext(e)) {
 			getFocusableSibling(e.currentTarget, 'nextElementSibling')?.focus()
 		}
 	}, [])

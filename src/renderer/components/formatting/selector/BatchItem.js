@@ -8,7 +8,7 @@ import {
 	selectMedia
 } from 'actions'
 
-import { refocusBatchItem } from 'utilities'
+import { isArrowNext, isArrowPrev, refocusBatchItem } from 'utilities'
 
 import DropdownMenu from '../../form_elements/DropdownMenu'
 import MediaOptionButtons from '../../form_elements/MediaOptionButtons'
@@ -142,15 +142,15 @@ const BatchItem = props => {
 			dropdown[0].action() // Copy All Settings
 		} else if (ctrlOrCmd && !isOnly && e.key === 'v') {
 			dropdown[1].action() // Paste Settings
-		} else if (e.altKey && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
+		} else if (e.altKey && isArrowPrev(e)) {
 			dropdown[5].action() // Move Up
-		} else if (e.altKey && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
+		} else if (e.altKey && isArrowNext(e)) {
 			dropdown[6].action() // Move Down
-		} else if ((e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
+		} else if (isArrowPrev(e)) {
 			dispatch(selectMedia(index - 1, e, {
 				selected: prevSelected
 			}))
-		} else if ((e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
+		} else if (isArrowNext(e)) {
 			dispatch(selectMedia(index + 1, e, {
 				selected: nextSelected
 			}))
