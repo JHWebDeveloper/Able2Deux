@@ -7,6 +7,31 @@ Able2 is an all-in-one News Editor's video acquisition tool. Able2 is able to do
 This repo is intended for portfolio viewing purposes only. For official releases please download from the following repo:
 https://github.com/JHWebDeveloper/Able2-public-resources
 
+## [Unreleased][2.4.0] - TBD
+
+### Added 
+- Ability to select multiple media clips for editing. Able2 previously could only edit 1 clip or all clips. Not it can edit 1, all or some. Use <kbd>Shift</kbd>+Click to select multiple media clips in sequence <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to select out of order. Use <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to deselect selected clips.
+- Select All and Deselect All buttons in place of the Edit All checkbox.
+- Edit All dropdown menu with options: Select All, Deselect All, Duplicate Selected, Remove Selected, Remove All.
+- New media dropdown option: Apply Settings to Selected
+- New panel dropdown option: Apply to Selected
+- Select All by Default setting in the preferences.
+- Dropdown menus now display their keyboard shortcut to the right if available.
+
+### Changed
+- Sliders can now macro adjust with the arrow keys. Just as Able2 has supported holding <kbd>Shift</kbd>+<kbd>←</kbd>|<kbd>→</kbd> to increment/decrement by 0.1, holding <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>←</kbd>|<kbd>→</kbd> will now increment/decrement by 10.
+- Holding <kbd>Alt</kbd>+<kbd>Shift</kbd> while navigating the frame selector with arrow keys or clicking the frame incrementer buttons will increment/decrement the timecode by 1 second (or, more specifically, the rounded frame rate of thedisplayed media).
+- Deleting a displayed media clip will now auto display the nearest clip in the current media selection. If no other clips are selected, it will display the next clip in sequence like normal.
+- Dropdown menus can be navigated with arrow keys and closed with the escape key.
+
+
+### Fixed
+- Focus rings are back.
+- Grid Color selector width is back to normal.
+
+### Removed
+- Edit All checkbox and Edit All by Default setting. Edit All has been completely replaced by the multi selection feature outlines above.
+
 ## [2.3.3] - 7.6.2023
 
 ### Updated
