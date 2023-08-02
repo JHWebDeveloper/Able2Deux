@@ -266,7 +266,7 @@ const Curves = forwardRef(({
 
 		drawGridLines(ctx.current, 256, 256, 4)
 
-		if (disabled) return () => false
+		if (disabled) return
 
 		for (const bgCurve of backgroundCurves) {
 			drawCurve(ctx.current, bgCurve.data, bgCurve.color)
