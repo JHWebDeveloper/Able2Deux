@@ -61,7 +61,7 @@ export const toggleMediaCheckbox = (id, e) => ({
 // ---- SORTABLE ELEMENT STATE --------
 
 export const addNewSortableElement = (nest, element, index, e) => dispatch => {
-	const pos = e.shiftKey ? 1 : 0
+	const pos = e.altKey ? 1 : 0
 
 	dispatch({
 		type: ACTION.ADD_SORTABLE_ELEMENT,
