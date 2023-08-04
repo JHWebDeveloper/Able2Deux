@@ -89,8 +89,8 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, copyToClipb
 						index={i}
 						isFirst={i === 0}
 						isLast={i === media.length - 1}
-						prevSelected={media?.[i - 1]?.selected}
-						nextSelected={media?.[i + 1]?.selected}
+						prevSelected={media?.[i - 1]?.selected ?? true}
+						nextSelected={media?.[i + 1]?.selected ?? true}
 						copyAllSettings={copyAllSettings}
 						applyToAllWarning={applyToAllWarning}
 						applyToSelectionWarning={applyToSelectionWarning}
