@@ -21,6 +21,7 @@ let splashWin = false
 let updateWin = false
 let mainWin = false
 let preferences = false
+let presets = false
 let help = false
 
 process.noDeprecation = !dev
@@ -340,7 +341,42 @@ const mainMenuTemplate = [
 			{ role: 'paste' },
 			{ type: 'separator' },
 			{ role: 'selectall' },
-			...mac ? [] : prefsMenuItem
+			{ type: 'separator' },
+			...mac ? [] : prefsMenuItem,
+			{
+				label: 'Presets',
+				click() {
+					const { x, y, width, height } = mainWin.getNormalBounds()
+
+					presets = openWindow({
+						parent: mainWin,
+						x: x + 20,
+						y: y + 20,
+						width,
+						height,
+						minWidth: mac ? 746 : 762,
+						minHeight: 620
+					})
+
+					presets.loadURL(createURL('presets'))
+
+					presets.once('ready-to-show', async () => {
+						try {
+							await loadTheme(presets, 'presets')
+						} catch (err) {
+							console.error(err)
+						}
+		
+						presets.show()
+					})
+		
+					presets.on('close', () => {
+						presets = false
+					})
+		
+					presets.setMenu(null)
+				}
+			}
 		]
 	},
 	{
