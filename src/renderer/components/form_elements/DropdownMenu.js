@@ -11,7 +11,7 @@ const getFocusableSibling = (el, prop) => {
 }
 
 const DropdownMenu = ({ icon = 'more_vert', children }) => {
-	const [ menu, toggleMenu ] = useToggle()
+	const [ showMenu, toggleShowMenu ] = useToggle()
 	const [ position, setPosition ] = useState({ top: 0, left: 0 })
 	const toggleMenuButton = useRef(null)
 	const menuRefId = useId()
@@ -24,16 +24,16 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 			left: `${left}px`
 		})
 
-		toggleMenu()
+		toggleShowMenu()
 	}, [])
 
-	const closeMenuOnBlur = useCallback(detectTabExit(toggleMenu), [])
+	const closeMenuOnBlur = useCallback(detectTabExit(toggleShowMenu), [])
 
 	const navigateWithKeys = useCallback(e => {
 		if (e.key !== 'Tab') e.stopPropagation()
 		
 		if (e.key === 'Escape') {
-			toggleMenu()
+			toggleShowMenu()
 			toggleMenuButton.current.focus()
 		} else if (isArrowPrev(e)) {
 			getFocusableSibling(e.currentTarget, 'previousElementSibling')?.focus()
@@ -52,15 +52,15 @@ const DropdownMenu = ({ icon = 'more_vert', children }) => {
 				onClick={getPositionRelativeToWindow}
 				aria-label="Options"
 				aria-haspopup
-				aria-expanded={menu}
+				aria-expanded={showMenu}
 				aria-controls={menuRefId}>{icon}</button>
-			{menu ? (
+			{showMenu ? (
 				<span
 					role="menu"
 					aria-label="Options"
 					id={menuRefId}
 					style={position}>
-					{cloneElement(children, { toggleMenu, navigateWithKeys })}
+					{cloneElement(children, { toggleMenu: toggleShowMenu, navigateWithKeys })}
 				</span>
 			) : <></>}
 		</span>
