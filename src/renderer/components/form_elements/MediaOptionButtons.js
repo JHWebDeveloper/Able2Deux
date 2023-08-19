@@ -33,7 +33,7 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 					key={`${menuId}_${i}`}
 					type="button"
 					role="menuitem"
-					// title={label}
+					title={label}
 					aria-label={label}
 					autoFocus={i === 0}
 					onClick={action}
