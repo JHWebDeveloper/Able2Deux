@@ -1,5 +1,5 @@
 import React, { useId, useMemo } from 'react'
-import { arrayOf, bool, element, func, shape, string } from 'prop-types'
+import { arrayOf, bool, func, object, oneOfType, shape, string } from 'prop-types'
 
 import DropdownMenu from './DropdownMenu'
 
@@ -33,7 +33,7 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 					key={`${menuId}_${i}`}
 					type="button"
 					role="menuitem"
-					title={label}
+					// title={label}
 					aria-label={label}
 					autoFocus={i === 0}
 					onClick={action}
@@ -57,9 +57,12 @@ const MediaOptionsDropdown = ({ label, icon = 'more_vert', buttons, submenu, par
 	</DropdownMenu>
 )
 
-const parentMenuPropType = shape({
-  current: element
-})
+const parentMenuPropType = oneOfType([
+	func,
+	shape({
+		current: object
+	})
+])
 
 const buttonPropType = shape({
 	action: func,
@@ -74,7 +77,7 @@ buttonPropType.submenu = arrayOf(buttonPropType)
 MediaOptionButtons.propTypes = {
 	buttons: arrayOf(buttonPropType).isRequired,
 	navigateWithKeys: func,
-  parentMenu: parentMenuPropType
+	parentMenu: parentMenuPropType
 }
 
 MediaOptionsDropdown.propTypes = {

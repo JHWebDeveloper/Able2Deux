@@ -1,5 +1,5 @@
 import React, { cloneElement, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
-import { arrayOf, bool, element, oneOfType, shape, string } from 'prop-types'
+import { arrayOf, bool, element, func, object, oneOfType, shape, string } from 'prop-types'
 
 import {
 	detectTabExit,
@@ -157,9 +157,12 @@ DropdownMenu.propTypes = {
 	children: oneOfType([element, arrayOf(element)]),
 	icon: string,
 	label: string,
-	parentMenu: shape({
-		current: element
-	}),
+	parentMenu: oneOfType([
+		func,
+		shape({
+			current: object
+		})
+	]),
 	submenu: bool
 }
 
