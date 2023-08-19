@@ -1,5 +1,5 @@
 import React, { useId, useMemo } from 'react'
-import { arrayOf, bool, func, shape, string } from 'prop-types'
+import { arrayOf, bool, element, func, shape, string } from 'prop-types'
 
 import DropdownMenu from './DropdownMenu'
 
@@ -20,13 +20,12 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 			)
 		} else if ('submenu' in props) {
 			return (
-				<DropdownMenu
+				<MediaOptionsDropdown
 					key={`${menuId}_${i}`}
+          buttons={props.submenu}
 					label={label}
 					parentMenu={parentMenu}
-					submenu>
-					<MediaOptionButtons buttons={props.submenu} />
-				</DropdownMenu>
+          submenu />
 			)
 		} else {
 			return (
@@ -48,19 +47,42 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 	})
 }
 
+const MediaOptionsDropdown = ({ label, icon = 'more_vert', buttons, submenu, parentMenu }) => (
+	<DropdownMenu
+		label={label}
+    submenu={submenu}
+    parentMenu={parentMenu}
+    {...submenu ? {} : { icon }}>
+		<MediaOptionButtons buttons={buttons} />
+	</DropdownMenu>
+)
+
+const parentMenuPropType = shape({
+  current: element
+})
+
 const buttonPropType = shape({
-	type: string,
-	label: string,
-	hide: bool,
-	shortcut: string,
 	action: func,
+	hide: bool,
+	label: string,
+	shortcut: string,
+	type: string
 })
 
 buttonPropType.submenu = arrayOf(buttonPropType)
 
 MediaOptionButtons.propTypes = {
-	buttons: arrayOf(buttonPropType),
-	navigateWithKeys: func
+	buttons: arrayOf(buttonPropType).isRequired,
+	navigateWithKeys: func,
+  parentMenu: parentMenuPropType
 }
 
-export default MediaOptionButtons
+MediaOptionsDropdown.propTypes = {
+  buttons: arrayOf(buttonPropType).isRequired,
+  label: string,
+  icon: string,
+  parentMenu: parentMenuPropType,
+  submenu: bool
+}
+
+export default MediaOptionsDropdown
