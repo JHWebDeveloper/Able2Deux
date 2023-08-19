@@ -1,11 +1,11 @@
 import React from 'react'
 import { arrayOf, bool, func, shape, string } from 'prop-types'
 
-import MediaOptionButtons from '../../form_elements/MediaOptionButtons.js'
+import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown.js'
 
 const MediaSelectorOptions = ({ allItemsSelected, dropdown }) => (
 	<div>
-		<MediaOptionButtons buttons={dropdown} />
+		<MediaOptionsDropdown buttons={dropdown} />
 		{allItemsSelected ? (
 			<button
 				type="button"

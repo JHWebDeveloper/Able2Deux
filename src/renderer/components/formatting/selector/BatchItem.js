@@ -10,7 +10,7 @@ import {
 
 import { isArrowNext, isArrowPrev, refocusBatchItem } from 'utilities'
 
-import MediaOptionButtons from '../../form_elements/MediaOptionButtons'
+import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown'
 
 const { interop } = window.ABLE2
 
@@ -235,7 +235,7 @@ const BatchItem = props => {
 				aria-label={selectBtnTitle}
 				onClick={selectMediaOnClick}
 				onKeyDown={selectMediaOnKeyDown}>{title}</button>	
-			<MediaOptionButtons buttons={dropdown} />
+			<MediaOptionsDropdown buttons={dropdown} />
 			<button
 				type="button"
 				title="Remove Media"
