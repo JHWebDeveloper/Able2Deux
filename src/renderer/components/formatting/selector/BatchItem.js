@@ -10,7 +10,6 @@ import {
 
 import { isArrowNext, isArrowPrev, refocusBatchItem } from 'utilities'
 
-import DropdownMenu from '../../form_elements/DropdownMenu'
 import MediaOptionButtons from '../../form_elements/MediaOptionButtons'
 
 const { interop } = window.ABLE2
@@ -132,6 +131,51 @@ const BatchItem = props => {
 			action() {
 				interop.revealInTempFolder(tempFilePath)
 			}
+		},
+		{ type: 'spacer'},
+		{
+			label: 'Apply Preset',
+			submenu: [
+				{
+					label: 'Preset 1',
+					action() { console.log('Preset 1') }
+				},
+				{
+					label: 'Preset 2',
+					submenu: [
+						{
+							label: 'Preset 1',
+							action() { console.log('Preset 1') }
+						},
+						{
+							label: 'Preset 2',
+							submenu: [
+								{
+									label: 'Preset 1',
+									action() { console.log('Preset 1') }
+								},
+								{
+									label: 'Preset 2',
+									action() { console.log('Preset 2') }
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			label: 'Apply Preset as Duplicate',
+			submenu: [
+				{
+					label: 'Preset 1',
+					action() { console.log('Preset 1') }
+				},
+				{
+					label: 'Preset 2',
+					action() { console.log('Preset 2') }
+				}
+			]
 		}
 	], dropdownDependencies)
 
@@ -190,10 +234,8 @@ const BatchItem = props => {
 				title={selectBtnTitle}
 				aria-label={selectBtnTitle}
 				onClick={selectMediaOnClick}
-				onKeyDown={selectMediaOnKeyDown}>{title}</button>
-			<DropdownMenu>				
-				<MediaOptionButtons buttons={dropdown} />
-			</DropdownMenu>
+				onKeyDown={selectMediaOnKeyDown}>{title}</button>	
+			<MediaOptionButtons buttons={dropdown} />
 			<button
 				type="button"
 				title="Remove Media"
