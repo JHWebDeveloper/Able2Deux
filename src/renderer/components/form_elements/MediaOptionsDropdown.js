@@ -23,6 +23,7 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 				<MediaOptionsDropdown
 					key={`${menuId}_${i}`}
           buttons={props.submenu}
+					alignment="right top"
 					label={label}
 					parentMenu={parentMenu}
           submenu />
@@ -47,8 +48,16 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 	})
 }
 
-const MediaOptionsDropdown = ({ label, icon = 'more_vert', buttons, submenu, parentMenu }) => (
+const MediaOptionsDropdown = ({
+	alignment = 'bottom left',
+	icon = 'more_vert',
+	label,
+	buttons,
+	submenu,
+	parentMenu
+}) => (
 	<DropdownMenu
+		alignment={alignment}
 		label={label}
     submenu={submenu}
     parentMenu={parentMenu}
