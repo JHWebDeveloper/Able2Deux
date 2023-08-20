@@ -25,7 +25,9 @@ const AccordionPanel = ({ heading, id, className = '', buttons = [], children })
 					{heading}
 				</button>
 				{buttons.length && open ? (
-					<MediaOptionsDropdown buttons={buttons} />
+					<MediaOptionsDropdown
+						alignment="bottom right"
+						buttons={buttons} />
 				) : <></>}
 			</h2>
 			{open ? (

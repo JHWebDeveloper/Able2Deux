@@ -75,8 +75,9 @@ const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, tog
 						toggleColor={toggleColor}
 						dispatch={dispatch} />
 					<DropdownMenu
-						className="ar-markers"
-						icon="arrow_drop_down">
+						alignment="bottom right"
+						icon="arrow_drop_down"
+						label="More Aspect Ratios">
 						<AspectRatioMarkerButtons
 							buttons={enabledAspectRatioMarkers.slice(2)}
 							toggleColor={toggleColor}
