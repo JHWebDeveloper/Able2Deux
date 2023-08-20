@@ -15,8 +15,11 @@ const getFocusableSibling = (el, prop) => {
 
 const stopPropagation = e => e.stopPropagation()
 
+const toPx = val => `${val}px`
+
 const DropdownMenu = ({
 	submenu = false,
+	alignment = 'left bottom',
 	label = 'Options',
 	icon,
 	parentMenu,
@@ -28,24 +31,48 @@ const DropdownMenu = ({
 	const menuId = useId()
 
 	const getPositionRelativeToWindow = useCallback(e => {
-		const rect = e.currentTarget.children[0].getBoundingClientRect()
+		const { top, right, bottom, left }  = e.currentTarget.children[0].getBoundingClientRect()
+		const { innerWidth, innerHeight } = window
+		const style = {}
 
-		if (submenu) {
-			const { top, left, width } = rect
-
-			setPosition({
-				top: `${top - 11}px`,
-				left: `${left + width + 6}px`
-			})
-		} else {
-			const { bottom, left } = rect
-
-			setPosition({
-				top: `${bottom}px`,
-				left: `${left}px`
-			})
+		switch (alignment) {
+			case 'bottom left':
+				style.top = toPx(bottom)
+				style.left = toPx(left)
+				break
+			case 'bottom right':
+				style.top = toPx(bottom)
+				style.right = toPx(innerWidth - right)
+				break
+			case 'top left':
+				style.bottom = toPx(innerHeight - top)
+				style.left = toPx(left)
+				break
+			case 'top right':
+				style.bottom = toPx(innerHeight - top)
+				style.right = toPx(innerWidth - right)
+				break
+			case 'left top':
+				style.top = toPx(top)
+				style.right = toPx(innerWidth - left)
+				break
+			case 'left bottom':
+				style.bottom = toPx(innerHeight - bottom)
+				style.right = toPx(innerWidth - left)
+				break
+			case 'right top':
+				style.top = toPx(top)
+				style.left = toPx(right)
+				break
+			case 'right bottom':
+				style.bottom = toPx(innerHeight - bottom)
+				style.left = toPx(right)
+				break
+			default:
+				style = {}
 		}
 
+		setPosition(style)
 		setShowMenu(true)
 	}, [])
 
