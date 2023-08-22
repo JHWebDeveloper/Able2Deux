@@ -5,11 +5,17 @@ import DropdownMenu from './DropdownMenu'
 
 const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 	const menuId = useId()
-	const enabledButtons = useMemo(() => buttons.filter(({ hide }) => !hide), [buttons])
+
+	const enabledButtons = useMemo(() => (
+		buttons
+			.filter(({ hide }) => !hide)
+			.filter(({ type }, i, arr) => !(type === 'spacer' && (arr[i - 1]?.type === 'spacer' || i === 0)))
+	), [buttons])
+
 
 	return enabledButtons.map((props, i) => {
 		const { type, label, action, shortcut } = props
-
+		
 		if (type === 'spacer') {
 			return (
 				<span
@@ -26,6 +32,7 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 					alignment="right top"
 					label={label}
 					parentMenu={parentMenu}
+					autoFocus={i === 0}
           submenu />
 			)
 		} else {
@@ -54,13 +61,15 @@ const MediaOptionsDropdown = ({
 	label,
 	buttons,
 	submenu,
-	parentMenu
+	parentMenu,
+	autoFocus
 }) => (
 	<DropdownMenu
 		alignment={alignment}
 		label={label}
     submenu={submenu}
     parentMenu={parentMenu}
+		autoFocus={autoFocus}
     {...submenu ? {} : { icon }}>
 		<MediaOptionButtons buttons={buttons} />
 	</DropdownMenu>
