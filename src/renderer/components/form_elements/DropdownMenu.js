@@ -4,7 +4,8 @@ import { arrayOf, bool, element, func, object, oneOfType, shape, string } from '
 import {
 	detectTabExit,
 	isArrowNext,
-	isArrowPrev
+	isArrowPrev,
+	toPx
 } from 'utilities'
 
 const getFocusableSibling = (el, prop) => {
@@ -14,8 +15,6 @@ const getFocusableSibling = (el, prop) => {
 }
 
 const stopPropagation = e => e.stopPropagation()
-
-const toPx = val => `${val}px`
 
 const DropdownMenu = ({
 	submenu = false,
