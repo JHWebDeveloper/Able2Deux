@@ -2,7 +2,7 @@ import { app, nativeTheme } from 'electron'
 import { promises as fsp } from 'fs'
 import path from 'path'
 
-import defaultPrefs from './default'
+import { defaultPrefs, defaultPresets } from './default'
 import { fileExistsPromise, innerMergeObjectKeys } from '../utilities'
 
 const prefsDir = process.env.NODE_ENV === 'development'
@@ -10,12 +10,9 @@ const prefsDir = process.env.NODE_ENV === 'development'
 	: path.join(app.getPath('appData'), 'able2', 'prefs')
 
 export const prefsPath = path.join(prefsDir, 'preferences.json')
+export const presetsPath = path.join(prefsDir, 'presets.json')
 
-export const initPreferences = async () => {
-	const prefsDirExists = await fileExistsPromise(prefsDir)
-
-	if (!prefsDirExists) await fsp.mkdir(prefsDir)
-
+const initPreferences = async () => {
 	const prefsExists = await fileExistsPromise(prefsPath)
 
 	if (!prefsExists) {
@@ -78,6 +75,25 @@ export const initPreferences = async () => {
 			version: 12
 		}))
 	}
+}
+
+const initPresets = async () => {
+	const presetsExists = await fileExistsPromise(presetsPath)
+
+	if (!presetsExists) {
+		return fsp.writeFile(presetsPath, JSON.stringify(defaultPresets))
+  }
+}
+
+export const initPreferencesAndPresets = async () => {
+	const prefsDirExists = await fileExistsPromise(prefsDir)
+
+	if (!prefsDirExists) await fsp.mkdir(prefsDir)
+
+	return Promise.all([
+		initPreferences(),
+		initPresets()
+	])
 }
 
 export const loadPrefs = async () => JSON.parse(await fsp.readFile(prefsPath))

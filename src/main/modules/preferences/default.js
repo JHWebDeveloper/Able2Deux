@@ -6,7 +6,7 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 	? path.join(__dirname, '..', '..', 'temp')
 	: app.getPath('temp')
 
-const defaultPrefs = {
+export const defaultPrefs = {
 	version: 12,
 	theme: 'system',
 	windowWidth: 830,
@@ -103,4 +103,75 @@ const defaultPrefs = {
 	disableRateLimit: false
 }
 
-export default defaultPrefs
+export const defaultPresets = {
+  version: 1,
+  presets: [
+    {
+      id: uuid(),
+      label: 'EWN BG Blue',
+      disabled: false,
+      attributes: {
+        background: 'blue'
+      }
+    },
+    {
+      id: uuid(),
+      label: 'EWN BG Grey',
+      disabled: true,
+      attributes: {
+        background: 'grey'
+      }
+    },
+    {
+      id: uuid(),
+      label: 'TNT BG Light Blue',
+      disabled: false,
+      attributes: {
+        background: 'light_blue'
+      }
+    },
+    {
+      id: uuid(),
+      label: 'TNT BG Dark Blue',
+      disabled: true,
+      attributes: {
+        background: 'light_blue'
+      }
+    },
+    {
+      id: uuid(),
+      label: 'TNT BG Teal',
+      disabled: true,
+      attributes: {
+        background: 'teal'
+      }
+    },
+    {
+      id: uuid(),
+      label: 'TNT BG Tan',
+      disabled: true,
+      attributes: {
+        background: 'tan'
+      }
+    }
+  ],
+	batchPresets: []
+}
+
+defaultPresets.batchPresets = [
+	{
+		id: uuid(),
+		label: 'EWN+TNT Background',
+		disabled: false,
+		presets: [
+			defaultPresets.presets[0].id,
+			defaultPresets.presets[2].id
+		]
+	},
+	{
+		id: uuid(),
+		label: 'All Backgrounds',
+		disabled: false,
+		presets: defaultPresets.presets.map(({ id }) => id)
+	}
+]
