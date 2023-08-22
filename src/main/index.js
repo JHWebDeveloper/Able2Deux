@@ -4,7 +4,7 @@ import log from 'electron-log'
 import { pathToFileURL } from 'url'
 import path from 'path'
 
-import { initPreferences, loadPrefs, savePrefs, getDefaultPrefs, loadTheme } from './modules/preferences/preferences'
+import { initPreferencesAndPresets, loadPrefs, savePrefs, getDefaultPrefs, loadTheme } from './modules/preferences/preferences'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -162,7 +162,7 @@ const startApp = async () => {
 	createSplashWindow()
 
 	try {
-		await initPreferences()
+		await initPreferencesAndPresets()
 		await initScratchDisk()
 	} catch (err) {
 		console.error(err)
