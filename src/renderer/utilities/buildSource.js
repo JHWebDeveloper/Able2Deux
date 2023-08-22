@@ -1,4 +1,4 @@
-import { has11pmBackground } from 'utilities'
+import { has11pmBackground, toPx } from 'utilities'
 
 // eslint-disable-next-line no-extra-parens
 const buildSourceName = (src, prefix, maxLength) => (
@@ -32,7 +32,7 @@ const buildGenericSource = (() => {
 
 		const src = buildSourceName(sourceName, prefix, 60)
 
-		ctx.font = `${fontSize}px Gotham`
+		ctx.font = `${toPx(fontSize)} Gotham`
 		ctx.textAlign = 'center'
 		ctx.fillText(src, txtX, txtY)
 
@@ -74,7 +74,7 @@ const build11pmSource = (() => {
 
 		const src = buildSourceName(sourceName, prefix, onTop ? 53 : 47).toUpperCase()
 
-		ctx.font = `500 ${fontSize}px Gotham`
+		ctx.font = `500 ${toPx(fontSize)} Gotham`
 		ctx.textAlign = 'right'
 		ctx.fillText(src, txtX, txtY)
 

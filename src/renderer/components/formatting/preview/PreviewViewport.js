@@ -6,7 +6,8 @@ import { updateState } from 'actions'
 import {
 	clamp,
 	debounce,
-	throttle
+	throttle,
+	toPx
 } from 'utilities'
 
 const PreviewViewport = ({ previewHeight, applyDimensions, dispatch, children }) => {
@@ -46,7 +47,7 @@ const PreviewViewport = ({ previewHeight, applyDimensions, dispatch, children })
 
 	return (
 		<div id="preview-viewport">
-			<div style={{ height: `${previewHeight}px` }}>
+			<div style={{ height: toPx(previewHeight) }}>
 				{children}
 			</div>
 			<span onMouseDown={onMouseDown} tabIndex="0">

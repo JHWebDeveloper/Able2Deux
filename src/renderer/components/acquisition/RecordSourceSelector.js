@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { array, func, object } from 'prop-types'
 
-import { detectTabExit } from 'utilities'
+import { detectTabExit, toPx } from 'utilities'
 
 const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources, captureScreen }) => {
 	const [ visible, setVisible ] = useState(false)
@@ -34,7 +34,7 @@ const RecordSourceSelector = ({ recordButton, recordSources, closeRecordSources,
 	}, [])
 
 	const getRecordButtonPos = useCallback(() => ({
-		bottom: `${window.innerHeight - recordButton.getBoundingClientRect().bottom}px`
+		bottom: toPx(window.innerHeight - recordButton.getBoundingClientRect().bottom)
 	}), [])
 
 	return (
