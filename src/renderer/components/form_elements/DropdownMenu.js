@@ -22,6 +22,7 @@ const DropdownMenu = ({
 	label = 'Options',
 	icon,
 	parentMenu,
+	autoFocus,
 	children
 }) => {
 	const [ showMenu, setShowMenu ] = useState(false)
@@ -146,6 +147,10 @@ const DropdownMenu = ({
 			}
 		}
 	}, [showMenu])
+
+	useEffect(() => {
+		if (autoFocus) menuButton.current.focus()
+	}, [])
 
 	return (
 		<span
