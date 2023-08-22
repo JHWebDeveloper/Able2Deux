@@ -2,7 +2,7 @@ import React from 'react'
 
 const Presets = () => {
   return (
-    <div>WORKS</div>
+    <div></div>
   )
 }
 
