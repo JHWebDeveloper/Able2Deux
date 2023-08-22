@@ -90,22 +90,24 @@ button[name$="selectAll"] {
 /* ---- DROPDOWN MENU -------- */
 
 .dropdown {
-	z-index: 998;
+	display: block;
 	height: inherit;
 	font-size: 12px;
-	vertical-align: middle;
 }
 
-.dropdown:focus-within {
-	z-index: 999;
-}
+.dropdown span { display: inherit; }
 
-.dropdown > button { height: inherit; }
+#editor-options .dropdown-button-label { margin: 7px; }
 
-.dropdown > span {
-	display: block;
+.dropdown-button-label > span { font-family: 'Material Icons'; }
+
+.dropdown-content {
+	overflow-y: auto;
 	position: fixed;
-	margin-top: 3px;
+	z-index: 998;
+	max-height: 100vh;
+	max-width: min-content;
+	margin: 3px 0;
 	padding: 5px 0;
 	border-radius: 5px;
 	box-shadow: 0 0 3px var(--primary);
@@ -114,40 +116,35 @@ button[name$="selectAll"] {
 	font-weight: 500;
 }
 
-.accordion .dropdown > span {
-	transform: translateX(calc(-100% + 24px));
-}
+.dropdown-content:focus-within { z-index: 999; }
 
-#preview .dropdown > span {
+.submenu .dropdown-content { margin: -5px 0; }
+
+#preview .dropdown-content {
 	background-color: var(--preview-background);
 	color: var(--preview-text);
 }
 
-#editor-options .accordion .dropdown > button {
-	padding: 0 13px;
-}
-
-.dropdown > span > button {
-	display: inherit;
-	width: 100%;
-	padding: 3px 9px;
-	text-align: left;
-	white-space: nowrap;
-}
-
-#media-selector .dropdown > span > button {
-	display: grid;
-	grid-template-columns: auto 40px;
-	gap: 0 5px;
-}
-
-.dropdown > span > button:hover,
-.dropdown > span:not(:hover) > button:focus-visible {
+.dropdown-content > :is(button, span[role~="button"]):hover {
 	background-color: var(--secondary);
 	color: var(--background);
 }
 
-.dropdown kbd { text-align: right; }
+.dropdown-content > button,
+.dropdown-content .dropdown-button-label {
+	display: grid;
+	grid-template-columns: auto min-content;
+	gap: 0 9px;
+	padding: 3px 9px;
+	white-space: nowrap;
+	width: 100%;
+}
+
+.dropdown-content > button { text-align: left; }
+
+.dropdown-content :is(kbd, .dropdown-button-label > span) {
+	text-align: right;
+}
 
 .spacer {
 	display: inherit;

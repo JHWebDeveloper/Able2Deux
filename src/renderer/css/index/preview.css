@@ -130,7 +130,6 @@
 }
 
 #preview-controls button {
-	height: inherit;
 	height: 24px;
 	min-width: 24px;
 }
@@ -138,6 +137,12 @@
 #preview-controls > div:last-child { justify-content: flex-end; }
 
 button.ar-marker { padding: 0 3px; }
+
+.dropdown-content button.ar-marker {
+	display: inherit;
+	align-items: inherit;
+	padding: revert;
+}
 
 button.ar-marker > span {
 	pointer-events: none;
