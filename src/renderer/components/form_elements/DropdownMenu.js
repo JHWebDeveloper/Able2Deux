@@ -76,8 +76,9 @@ const DropdownMenu = ({
 		setShowMenu(true)
 	}, [])
 
-	const closeCurrentMenu = useCallback(() => {
+	const closeCurrentMenu = useCallback(refocus => {
 		setShowMenu(false)
+		if (refocus) menuButton.current.focus()
 	}, [showMenu])
 
 	const toggleMenu = useCallback(e => {
@@ -105,11 +106,15 @@ const DropdownMenu = ({
 		onClick: stopPropagation,
 		onMouseEnter: getPositionRelativeToWindow,
 		onMouseLeave() {
-			closeCurrentMenu()
-			menuButton.current.focus()
+			closeCurrentMenu(true)
 		},
 		onKeyDown(e) {
-			if (e.key === 'Enter') {
+			if (showMenu && e.key === 'Escape') {
+				e.stopPropagation()
+				closeCurrentMenu(true)
+			} else if (e.key === 'Escape') {
+				closeCurrentMenu(true)
+			} else if (e.key === 'Enter') {
 				e.preventDefault()
 				e.stopPropagation()
 				toggleMenu(e)
@@ -121,8 +126,7 @@ const DropdownMenu = ({
 		onClick: toggleMenu,
 		onKeyDown(e) {
 			if (e.key === 'Escape') {
-				closeCurrentMenu()
-				menuButton.current.focus()
+				closeCurrentMenu(true)
 			} else if (e.key === 'Enter') {
 				e.preventDefault()
 				toggleMenu(e)
