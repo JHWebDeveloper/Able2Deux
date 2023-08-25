@@ -4,9 +4,12 @@ import { arrayOf, bool, func, object } from 'prop-types'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
+	duplicateMedia,
 	moveSortableElement,
 	moveSelectedMedia,
-	removeMedia
+	pasteSettings,
+	removeMedia,
+	selectMedia
 } from 'actions'
 
 import { useWarning } from 'hooks'
@@ -14,15 +17,28 @@ import { useWarning } from 'hooks'
 import {
 	arrayCount,
 	extractCopyPasteProps,
-	pipe
+	isArrowNext,
+	isArrowPrev,
+	pipe,
+	refocusBatchItem
 } from 'utilities'
 
 import DraggableList from '../../form_elements/DraggableList'
 import BatchItem from './BatchItem'
 
+const { interop } = window.ABLE2
+
 const applyToAllDetail = 'This will overwrite the settings except for filenames and start and end timecodes. This cannot be undone. Proceed?'
 
-const BatchList = ({ media, multipleItemsSelected, allItemsSelected, copyToClipboard, clipboard, dispatch }) => {
+const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPresetMenu, copyToClipboard, clipboard, dispatch }) => {
+	const sortingAction = useCallback((oldPos, newPos, { selected }, e) => {
+		if (!selected || e.altKey || allItemsSelected) {
+			dispatch(moveSortableElement('media', oldPos, newPos))
+		} else {
+			dispatch(moveSelectedMedia(newPos))
+		}
+	}, [allItemsSelected])
+
 	const copyAllSettings = useCallback(id => {
 		pipe(extractCopyPasteProps, copyToClipboard)(media.find(item => item.id === id))
 	}, [media])
@@ -62,16 +78,130 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, copyToClipb
 				index,
 				references: arrayCount(media, item => item.refId === refId)
 			}))
+
+			refocusBatchItem()
 		}
 	}), [media, warnRemoveMedia])
 
-	const sortingAction = useCallback((oldPos, newPos, { selected }, e) => {
-		if (!selected || e.altKey || allItemsSelected) {
-			dispatch(moveSortableElement('media', oldPos, newPos))
-		} else {
-			dispatch(moveSelectedMedia(newPos))
+	const createDropdown = useCallback(({ id, refId, index, title, tempFilePath }) => {
+		const isFirst = index === 0
+		const isLast = index === media.length - 1
+		const isOnly = isFirst && isLast
+		const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
+
+		return [
+			{
+				label: 'Copy All Settings',
+				hide: isOnly,
+				shortcut: `${ctrlOrCmdKeySymbol}C`,
+				action() {
+					copyAllSettings(id)
+				}
+			},
+			{
+				label: 'Paste Settings',
+				hide: isOnly,
+				shortcut: `${ctrlOrCmdKeySymbol}V`,
+				action() {
+					dispatch(pasteSettings(id, clipboard))
+				}
+			},
+			{
+				label: 'Apply Settings to Selected',
+				hide: isOnly || !multipleItemsSelected,
+				action() {
+					dispatch(applyToSelectionWarning(id))
+				}
+			},
+			{
+				label: 'Apply Settings to All',
+				hide: isOnly || allItemsSelected,
+				action() {
+					applyToAllWarning(id)
+				}
+			},
+			{ type: 'spacer' },
+			{
+				label: 'Move Up',
+				hide: isFirst,
+				shortcut: '⌥↑',
+				action() {
+					dispatch(moveSortableElement('media', index, index - 1))
+				}
+			},
+			{
+				label: 'Move Down',
+				hide: isLast,
+				shortcut: '⌥↓',
+				action() {
+					dispatch(moveSortableElement('media', index, index + 2))
+				}
+			},
+			{ type: 'spacer' },
+			{
+				label: 'Duplicate Media',
+				shortcut: `${ctrlOrCmdKeySymbol}D`,
+				action() {
+					dispatch(duplicateMedia(index))
+				}
+			},
+			{ type: 'spacer' },
+			{
+				label: 'Apply Preset',
+				submenu: createPresetMenu,
+			},
+			{
+				label: 'Apply Preset as Duplicate',
+				submenu: createPresetMenu,
+			},
+			{ type: 'spacer' },
+			{
+				label: 'Remove Media',
+				shortcut: '⌫',
+				action() {
+					removeMediaWarning({ id, refId, index, title })
+				}
+			},
+			{ type: 'spacer' },
+			{
+				label: 'Reveal in Cache',
+				action() {
+					interop.revealInTempFolder(tempFilePath)
+				}
+			}
+		]
+	}, [media, clipboard, multipleItemsSelected, allItemsSelected, createPresetMenu, warnRemoveMedia])
+
+	const onBatchItemKeyDown = useCallback(({ id, refId, index, title }, e) => {
+		const isFirst = index === 0
+		const isLast = index === media.length - 1
+		const isOnly = isFirst && isLast
+		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
+
+		if (ctrlOrCmd && !isOnly && e.key === 'c') {
+			copyAllSettings(id)
+		} else if (ctrlOrCmd && !isOnly && e.key === 'v') {
+			dispatch(pasteSettings(id, clipboard))
+		} else if (e.altKey && isArrowPrev(e)) {
+			dispatch(moveSortableElement('media', index, index - 1))
+		} else if (e.altKey && isArrowNext(e)) {
+			dispatch(moveSortableElement('media', index, index + 2))
+		} else if (isArrowPrev(e)) {
+			dispatch(selectMedia(index - 1, e, {
+				selected: media?.[index - 1]?.selected ?? true
+			}))
+		} else if (isArrowNext(e)) {
+			dispatch(selectMedia(index + 1, e, {
+				selected: media?.[index + 1]?.selected ?? true
+			}))
+		} else if (ctrlOrCmd && !e.shiftKey && e.key === 'd') {
+			e.stopPropagation()
+			dispatch(duplicateMedia(index))
+		} else if (!e.shiftKey && (e.key === 'Backspace' || e.ket === 'Delete')) {
+			e.stopPropagation()
+			removeMediaWarning({ id, refId, index, title })
 		}
-	}, [allItemsSelected])
+	}, [media, clipboard, warnRemoveMedia])
 
 	return (
 		<div>
@@ -87,16 +217,10 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, copyToClipb
 						anchored={anchored}
 						selected={selected}
 						index={i}
-						isFirst={i === 0}
-						isLast={i === media.length - 1}
-						prevSelected={media?.[i - 1]?.selected ?? true}
-						nextSelected={media?.[i + 1]?.selected ?? true}
 						copyAllSettings={copyAllSettings}
-						applyToAllWarning={applyToAllWarning}
-						applyToSelectionWarning={applyToSelectionWarning}
 						removeMediaWarning={removeMediaWarning}
-						multipleItemsSelected={multipleItemsSelected}
-						allItemsSelected={allItemsSelected}
+						createDropdown={createDropdown}
+						onKeyDown={onBatchItemKeyDown}
 						clipboard={clipboard}
 						dispatch={dispatch} />
 				))}
