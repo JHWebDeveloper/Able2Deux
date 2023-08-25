@@ -1,4 +1,4 @@
-import React, { useId, useMemo } from 'react'
+import React, { useId } from 'react'
 import { arrayOf, bool, func, object, oneOfType, shape, string } from 'prop-types'
 
 import DropdownMenu from './DropdownMenu'
@@ -6,16 +6,13 @@ import DropdownMenu from './DropdownMenu'
 const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 	const menuId = useId()
 
-	const enabledButtons = useMemo(() => (
-		buttons
-			.filter(({ hide }) => !hide)
-			.filter(({ type }, i, arr) => !(type === 'spacer' && (arr[i - 1]?.type === 'spacer' || i === 0)))
-	), [buttons])
-
+	const enabledButtons = (buttons instanceof Function ? buttons() : buttons)
+		.filter(({ hide }) => !hide)
+		.filter(({ type }, i, arr) => !(type === 'spacer' && (arr[i - 1]?.type === 'spacer' || i === 0))) // remove consecutive and leading spacers
 
 	return enabledButtons.map((props, i) => {
 		const { type, label, action, shortcut } = props
-		
+
 		if (type === 'spacer') {
 			return (
 				<span
@@ -90,16 +87,16 @@ const buttonPropType = shape({
 	type: string
 })
 
-buttonPropType.submenu = arrayOf(buttonPropType)
+buttonPropType.submenu = oneOfType([func, arrayOf(buttonPropType)])
 
 MediaOptionButtons.propTypes = {
-	buttons: arrayOf(buttonPropType).isRequired,
+	buttons: oneOfType([func, arrayOf(buttonPropType)]).isRequired,
 	navigateWithKeys: func,
 	parentMenu: parentMenuPropType
 }
 
 MediaOptionsDropdown.propTypes = {
-  buttons: arrayOf(buttonPropType).isRequired,
+  buttons: oneOfType([func, arrayOf(buttonPropType)]).isRequired,
   label: string,
   icon: string,
   parentMenu: parentMenuPropType,
