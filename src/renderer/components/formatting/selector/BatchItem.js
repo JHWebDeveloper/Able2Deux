@@ -1,20 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { bool, func, number, object, string } from 'prop-types'
 
-import {
-	duplicateMedia,
-	moveSortableElement,
-	pasteSettings,
-	selectMedia
-} from 'actions'
-
-import { isArrowNext, isArrowPrev, refocusBatchItem } from 'utilities'
+import { selectMedia } from 'actions'
 
 import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown'
-
-const { interop } = window.ABLE2
-
-const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
 
 const BatchItem = props => {
 	const {
@@ -25,142 +14,17 @@ const BatchItem = props => {
 		focused,
 		anchored,
 		selected,
-		isFirst,
-		isLast,
-		prevSelected,
-		nextSelected,
-		copyAllSettings,
-		applyToAllWarning,
-		applyToSelectionWarning,
-		removeMediaWarning,
-		multipleItemsSelected,
-		allItemsSelected,
 		tempFilePath,
-		clipboard,
+		removeMediaWarning,
+		createDropdown,
+		onKeyDown,
 		dispatch
 	} = props
-
+	
 	const selectMediaBtn = useRef(null)
-	const isOnly = isFirst && isLast
 	const selectBtnTitle = focused ? title : 'Select Media'
 
-	const dropdownDependencies = [
-		id,
-		refId,
-		index,
-		title,
-		isFirst,
-		isLast,
-		prevSelected,
-		nextSelected,
-		multipleItemsSelected,
-		allItemsSelected,
-		copyAllSettings,
-		applyToAllWarning,
-		removeMediaWarning,
-		tempFilePath
-	]
-
-	const dropdown = useMemo(() => [
-		{
-			label: 'Copy All Settings',
-			hide: isOnly,
-			shortcut: `${ctrlOrCmdKeySymbol}C`,
-			action() {
-				copyAllSettings(id)
-			}
-		},
-		{
-			label: 'Paste Settings',
-			hide: isOnly,
-			shortcut: `${ctrlOrCmdKeySymbol}V`,
-			action() {
-				dispatch(pasteSettings(id, clipboard))
-			}
-		},
-		{
-			label: 'Apply Settings to Selected',
-			hide: isOnly || !multipleItemsSelected,
-			action() {
-				dispatch(applyToSelectionWarning(id))
-			}
-		},
-		{
-			label: 'Apply Settings to All',
-			hide: isOnly || allItemsSelected,
-			action() {
-				applyToAllWarning(id)
-			}
-		},
-		{ type: 'spacer' },
-		{
-			label: 'Move Up',
-			hide: isFirst,
-			shortcut: '⌥↑',
-			action() {
-				dispatch(moveSortableElement('media', index, index - 1))
-			}
-		},
-		{
-			label: 'Move Down',
-			hide: isLast,
-			shortcut: '⌥↓',
-			action() {
-				dispatch(moveSortableElement('media', index, index + 2))
-			}
-		},
-		{ type: 'spacer' },
-		{
-			label: 'Duplicate Media',
-			shortcut: `${ctrlOrCmdKeySymbol}D`,
-			action() {
-				dispatch(duplicateMedia(index))
-			}
-		},
-		{
-			label: 'Remove Media',
-			shortcut: '⌫',
-			action() {
-				removeMediaWarning({ id, refId, index, title })
-				refocusBatchItem()
-			}
-		},
-		{ type: 'spacer' },
-		{
-			label: 'Reveal in Cache',
-			action() {
-				interop.revealInTempFolder(tempFilePath)
-			}
-		}
-	], dropdownDependencies)
-
-	const onKeyDown = useCallback(e => {
-		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
-
-		if (ctrlOrCmd && !isOnly && e.key === 'c') {
-			dropdown[0].action() // Copy All Settings
-		} else if (ctrlOrCmd && !isOnly && e.key === 'v') {
-			dropdown[1].action() // Paste Settings
-		} else if (e.altKey && isArrowPrev(e)) {
-			dropdown[5].action() // Move Up
-		} else if (e.altKey && isArrowNext(e)) {
-			dropdown[6].action() // Move Down
-		} else if (isArrowPrev(e)) {
-			dispatch(selectMedia(index - 1, e, {
-				selected: prevSelected
-			}))
-		} else if (isArrowNext(e)) {
-			dispatch(selectMedia(index + 1, e, {
-				selected: nextSelected
-			}))
-		} else if (ctrlOrCmd && !e.shiftKey && e.key === 'd') {
-			e.stopPropagation()
-			dropdown[8].action() // Duplicate Media
-		} else if (!e.shiftKey && (e.key === 'Backspace' || e.ket === 'Delete')) {
-			e.stopPropagation()
-			dropdown[9].action() // Remove Media
-		}
-	}, dropdownDependencies)
+	const argsForParentFns = { id, refId, index, title, tempFilePath }
 
 	const selectMediaOnClick = useCallback(e => {
 		dispatch(selectMedia(index, e, { focused, anchored, selected }))
@@ -180,7 +44,7 @@ const BatchItem = props => {
 	return (
 		<div
 			className={`batch-item${selected ? ' selected' : ''}${focused ? ' focused' : ''}`}
-			onKeyDown={onKeyDown}>
+			onKeyDown={e => onKeyDown(argsForParentFns, e)}>
 			<button
 				type="button"
 				name="select-media"
@@ -190,14 +54,14 @@ const BatchItem = props => {
 				aria-label={selectBtnTitle}
 				onClick={selectMediaOnClick}
 				onKeyDown={selectMediaOnKeyDown}>{title}</button>	
-			<MediaOptionsDropdown buttons={dropdown} />
+			<MediaOptionsDropdown buttons={() => createDropdown(argsForParentFns)} />
 			<button
 				type="button"
 				title="Remove Media"
 				name="remove-media"
 				aria-label="Remove Media"
 				className="symbol"
-				onClick={dropdown[9].action}>close</button>
+				onClick={() => removeMediaWarning(argsForParentFns)}>close</button>
 		</div>
 	)
 }
@@ -208,18 +72,9 @@ BatchItem.propTypes = {
 	focused: bool.isRequired,
 	anchored: bool.isRequired,
 	selected: bool.isRequired,
-	multipleItemsSelected: bool.isRequired,
-	allItemsSelected: bool.isRequired,
-	isFirst: bool.isRequired,
-	isLast: bool.isRequired,
-	prevSelected: bool,
-	nextSelected: bool,
 	title: string.isRequired,
 	tempFilePath: string.isRequired,
 	index: number.isRequired,
-	copyAllSettings: func.isRequired,
-	applyToAllWarning: func.isRequired,
-	applyToSelectionWarning: func.isRequired,
 	removeMediaWarning: func.isRequired,
 	clipboard: object,
 	dispatch: func.isRequired
