@@ -14,8 +14,6 @@ const getFocusableSibling = (el, prop) => {
 	return sibling?.tabIndex === -1 ? getFocusableSibling(sibling, prop) : sibling
 }
 
-const stopPropagation = e => e.stopPropagation()
-
 const DropdownMenu = ({
 	submenu = false,
 	alignment = 'left bottom',
@@ -103,7 +101,9 @@ const DropdownMenu = ({
 
 	const rootMenuOrSubmenuProps = useMemo(() => submenu ? {
 		role: 'menuitem button',
-		onClick: stopPropagation,
+		onClick(e) {
+			if (e.target === e.currentTarget) e.stopPropagation()
+		},
 		onMouseEnter: getPositionRelativeToWindow,
 		onMouseLeave() {
 			closeCurrentMenu(true)
@@ -180,7 +180,7 @@ const DropdownMenu = ({
 					aria-label="Options"
 					id={menuId}
 					style={position}
-					{...submenu ? { onMouseLeave: stopPropagation } : {}}>
+					{...submenu ? { onMouseLeave(e) { e.stopPropagation() } } : {}}>
 					{cloneElement(children, { navigateWithKeys, parentMenu: parentMenu || menuButton })}
 				</span>
 			) : <></>}
