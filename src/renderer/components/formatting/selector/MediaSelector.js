@@ -1,5 +1,7 @@
-import React, { useCallback, useMemo } from 'react'
-import { arrayOf, bool, func, object } from 'prop-types' 
+import React, { useCallback, useContext, useMemo } from 'react'
+import { arrayOf, bool, func, object } from 'prop-types'
+
+import { PresetsContext } from 'store'
 
 import {
 	duplicateSelectedMedia,
@@ -21,6 +23,7 @@ const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
 
 const MediaSelector = props => {
 	const { media, focused, multipleItems, multipleItemsSelected, allItemsSelected, dispatch } = props
+	const { presets = [], batchPresets = [] } = useContext(PresetsContext).presets
 
 	const warn = useWarning({ name: 'removeAll' }, [media, allItemsSelected])
 
@@ -31,7 +34,25 @@ const MediaSelector = props => {
 		}
 	}), [media, allItemsSelected, warn])
 
-	const dropdownDependencies = [media, allItemsSelected, warn]
+	const dropdownDependencies = [media, allItemsSelected, warn, presets, batchPresets]
+
+	const createPresetMenu = useCallback(() => [
+		...presets.map(({ label, hidden }) => ({
+			label,
+			hide: hidden,
+			action() {
+				console.log(label)
+			}
+		})),
+		{...presets.length && batchPresets.length ? { type: 'spacer' } : {}},
+		...batchPresets.map(({ label, hidden }) => ({
+			label,
+			hide: hidden,
+			action() {
+				console.log(label)
+			}
+		}))
+	], [presets, batchPresets])
 
 	const dropdown = useMemo(() => [
 		{
@@ -120,10 +141,12 @@ const MediaSelector = props => {
 				allItemsSelected={allItemsSelected}
 				copyToClipboard={props.copyToClipboard}
 				clipboard={props.clipboard}
+				createPresetMenu={createPresetMenu}
 				dispatch={dispatch} />
 			{multipleItems ? (
 				<MediaSelectorOptions
 					allItemsSelected={allItemsSelected}
+					createPresetMenu={createPresetMenu}
 					dropdown={dropdown} />
 			) : <></>}
 		</div>
