@@ -2,7 +2,11 @@ import React, { useCallback, useContext, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import 'css/index/formatting.css'
 
-import { MainContext, PrefsContext } from 'store'
+import {
+	MainContext,
+	PrefsContext,
+	PresetsProvider
+} from 'store'
 
 import {
 	selectAllMedia,
@@ -102,4 +106,8 @@ const Formatting = () => {
 	)
 }
 
-export default Formatting
+export default () => (
+	<PresetsProvider>
+		<Formatting />
+	</PresetsProvider>
+)
