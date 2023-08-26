@@ -9,8 +9,9 @@ const prefsDir = process.env.NODE_ENV === 'development'
 	? path.join(__dirname, '..', '..', 'data')
 	: path.join(app.getPath('appData'), 'able2', 'prefs')
 
+// ---- PREFERENCES --------
+
 export const prefsPath = path.join(prefsDir, 'preferences.json')
-export const presetsPath = path.join(prefsDir, 'presets.json')
 
 const initPreferences = async () => {
 	const prefsExists = await fileExistsPromise(prefsPath)
@@ -77,25 +78,6 @@ const initPreferences = async () => {
 	}
 }
 
-const initPresets = async () => {
-	const presetsExists = await fileExistsPromise(presetsPath)
-
-	if (!presetsExists) {
-		return fsp.writeFile(presetsPath, JSON.stringify(defaultPresets))
-  }
-}
-
-export const initPreferencesAndPresets = async () => {
-	const prefsDirExists = await fileExistsPromise(prefsDir)
-
-	if (!prefsDirExists) await fsp.mkdir(prefsDir)
-
-	return Promise.all([
-		initPreferences(),
-		initPresets()
-	])
-}
-
 export const loadPrefs = async () => JSON.parse(await fsp.readFile(prefsPath))
 
 export const savePrefs = async prefs => fsp.writeFile(prefsPath, JSON.stringify({
@@ -109,4 +91,49 @@ export const loadTheme = async () => {
 	const { theme } = await loadPrefs()
 
 	nativeTheme.themeSource = theme
+}
+
+// ---- PRESETS --------
+
+export const presetsPath = path.join(prefsDir, 'presets.json')
+
+const initPresets = async () => {
+	const presetsExists = await fileExistsPromise(presetsPath)
+
+	if (!presetsExists) {
+		return fsp.writeFile(presetsPath, JSON.stringify(defaultPresets))
+  }
+}
+
+const getPresetReferences = presets => presets.reduce((acc, { id, label, hidden }) => {
+	if (!hidden) acc.push({ id, label })
+	return acc
+}, [])
+
+export const loadPresets = async ({ referencesOnly }) => {
+	const presets = JSON.parse(await fsp.readFile(presetsPath))
+
+	if (referencesOnly) {
+		presets.presets = getPresetReferences(presets.presets)
+		presets.batchPresets = getPresetReferences(presets.batchPresets)
+	}
+
+	return presets
+}
+
+export const getPresets = async presetIds => JSON
+	.parse(await fsp.readFile(presetsPath))
+	.filter(id => presetIds.includes(id))
+
+// ---- SHARED --------
+
+export const initPreferencesAndPresets = async () => {
+	const prefsDirExists = await fileExistsPromise(prefsDir)
+
+	if (!prefsDirExists) await fsp.mkdir(prefsDir)
+
+	return Promise.all([
+		initPreferences(),
+		initPresets()
+	])
 }
