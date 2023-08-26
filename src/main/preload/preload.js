@@ -4,9 +4,10 @@ import path from 'path'
 import * as acquisition from './acquisition'
 import * as formatting from './formatting'
 import * as preferences from './preferences'
+import * as presets from './presets'
 import * as update from './update'
 
-const interop = Object.assign({}, acquisition, formatting, preferences, update)
+const interop = Object.assign({}, acquisition, formatting, preferences, presets, update)
 
 // ---- GET INFO --------
  
