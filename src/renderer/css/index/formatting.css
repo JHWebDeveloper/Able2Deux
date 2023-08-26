@@ -97,6 +97,8 @@ button[name$="selectAll"] {
 
 .dropdown span { display: inherit; }
 
+.dropdown-button-label { pointer-events: none; }
+
 #editor-options .dropdown-button-label { margin: 7px; }
 
 .dropdown-button-label > span { font-family: 'Material Icons'; }
@@ -151,11 +153,6 @@ button[name$="selectAll"] {
 	height: 1px;
 	margin: 5px;
 	background-color: var(--background-alt-2);
-}
-
-.spacer:is(:first-child, :last-child),
-.spacer + .spacer {
-	display: none;
 }
 
 
