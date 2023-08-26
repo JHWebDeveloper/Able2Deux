@@ -67,8 +67,8 @@ const Formatting = () => {
 					multipleItems={multipleItems}
 					multipleItemsSelected={multipleItemsSelected}
 					allItemsSelected={allItemsSelected}
-					copyToClipboard={copyToClipboard}
 					clipboard={clipboard}
+					copyToClipboard={copyToClipboard}
 					dispatch={dispatch} />	
 				{multipleItems ? (
 					<BatchName
@@ -107,7 +107,7 @@ const Formatting = () => {
 }
 
 export default () => (
-	<PresetsProvider>
+	<PresetsProvider referencesOnly>
 		<Formatting />
 	</PresetsProvider>
 )
