@@ -1,13 +1,13 @@
-import { useRef, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 
 export const useClipboard = () => {
-	const clipboard = useRef({})
+	const [ clipboard, setClipboard ] = useState({})
 
 	const copyToClipboard = useCallback(properties => {
-		clipboard.current = { ...properties }
+		setClipboard({ ...properties })
 	}, [])
 
-	return [ clipboard.current, copyToClipboard ]
+	return [ clipboard, copyToClipboard ]
 }
 
 export default useClipboard
