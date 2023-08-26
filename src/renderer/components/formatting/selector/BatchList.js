@@ -92,7 +92,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 
 		return [
 			{
-				label: 'Copy All Settings',
+				label: 'Copy All Attributes',
 				hide: isOnly,
 				shortcut: `${ctrlOrCmdKeySymbol}C`,
 				action() {
@@ -100,7 +100,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 				}
 			},
 			{
-				label: 'Paste Settings',
+				label: 'Paste Attributes',
 				hide: clipboardIsEmpty,
 				shortcut: `${ctrlOrCmdKeySymbol}V`,
 				action() {
@@ -108,14 +108,14 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 				}
 			},
 			{
-				label: 'Apply Settings to Selected',
+				label: 'Apply Attributes to Selected',
 				hide: isOnly || !multipleItemsSelected,
 				action() {
 					dispatch(applyToSelectionWarning(id))
 				}
 			},
 			{
-				label: 'Apply Settings to All',
+				label: 'Apply Attributes to All',
 				hide: isOnly || allItemsSelected,
 				action() {
 					applyToAllWarning(id)
