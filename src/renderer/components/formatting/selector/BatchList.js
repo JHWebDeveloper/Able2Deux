@@ -88,6 +88,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 		const isLast = index === media.length - 1
 		const isOnly = isFirst && isLast
 		const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
+		const clipboardIsEmpty = !Object.keys(clipboard).length
 
 		return [
 			{
@@ -100,7 +101,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 			},
 			{
 				label: 'Paste Settings',
-				hide: isOnly,
+				hide: clipboardIsEmpty,
 				shortcut: `${ctrlOrCmdKeySymbol}V`,
 				action() {
 					dispatch(pasteSettings(id, clipboard))
@@ -120,7 +121,10 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 					applyToAllWarning(id)
 				}
 			},
-			{ type: 'spacer' },
+			{
+				type: 'spacer',
+				hide: isOnly && clipboardIsEmpty
+			},
 			{
 				label: 'Move Up',
 				hide: isFirst,
@@ -137,7 +141,10 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 					dispatch(moveSortableElement('media', index, index + 2))
 				}
 			},
-			{ type: 'spacer' },
+			{
+				type: 'spacer',
+				hide: isOnly
+			},
 			{
 				label: 'Duplicate Media',
 				shortcut: `${ctrlOrCmdKeySymbol}D`,
@@ -153,6 +160,10 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 			{
 				label: 'Apply Preset as Duplicate',
 				submenu: createPresetMenu,
+			},
+			{
+				label: 'Save as Preset',
+				action() {}
 			},
 			{ type: 'spacer' },
 			{
@@ -180,7 +191,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 
 		if (ctrlOrCmd && !isOnly && e.key === 'c') {
 			copyAllSettings(id)
-		} else if (ctrlOrCmd && !isOnly && e.key === 'v') {
+		} else if (ctrlOrCmd && e.key === 'v') {
 			dispatch(pasteSettings(id, clipboard))
 		} else if (e.altKey && isArrowPrev(e)) {
 			dispatch(moveSortableElement('media', index, index - 1))
