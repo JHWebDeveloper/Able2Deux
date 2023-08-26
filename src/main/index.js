@@ -4,7 +4,7 @@ import log from 'electron-log'
 import { pathToFileURL } from 'url'
 import path from 'path'
 
-import { initPreferencesAndPresets, loadPrefs, savePrefs, getDefaultPrefs, loadTheme } from './modules/preferences/preferences'
+import { initPreferencesAndPresets, loadPrefs, loadPresets, savePrefs, getDefaultPrefs, loadTheme } from './modules/preferences/preferences'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -588,6 +588,17 @@ ipcMain.on('savePrefsSilently', async (evt, newPrefs) => {
 		})
 	} catch (err) {
 		console.error(err)
+	}
+})
+
+// ---- IPC ROUTES: PRESETS ------------
+
+ipcMain.on('requestPresets', async (evt, data) => {
+	try {
+		evt.reply('presetsRecieved', await loadPresets(data))
+	} catch (err) {
+		console.error(err)
+		evt.reply('presetsErr', new Error('An error occurred while attempting to load presets.'))
 	}
 })
 
