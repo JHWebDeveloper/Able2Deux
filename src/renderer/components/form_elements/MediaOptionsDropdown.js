@@ -6,26 +6,26 @@ import DropdownMenu from './DropdownMenu'
 const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 	const menuId = useId()
 
-	const enabledButtons = (buttons instanceof Function ? buttons() : buttons)
-		.filter(({ hide }) => !hide)
-		.filter(({ type }, i, arr) => !(type === 'spacer' && (arr[i - 1]?.type === 'spacer' || i === 0))) // remove consecutive and leading spacers
+	return (buttons instanceof Function ? buttons() : buttons).reduce((acc, props, i) => {
+		const { hide, type, label, action, shortcut, submenu } = props
 
-	return enabledButtons.map((props, i) => {
-		const { type, label, action, shortcut } = props
+		if (hide) return acc
+
+		const key = `${menuId}_${i}`
 
 		if (type === 'spacer') {
-			return (
+			acc.push(
 				<span
-					key={`${menuId}_${i}`}
+					key={key}
 					className="spacer"
 					aria-hidden
 					data-no-drag></span>
 			)
 		} else if ('submenu' in props) {
-			return (
+			acc.push(
 				<MediaOptionsDropdown
-					key={`${menuId}_${i}`}
-          buttons={props.submenu}
+					key={key}
+          buttons={submenu}
 					alignment="right top"
 					label={label}
 					parentMenu={parentMenu}
@@ -33,9 +33,9 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
           submenu />
 			)
 		} else {
-			return (
+			acc.push(
 				<button
-					key={`${menuId}_${i}`}
+					key={key}
 					type="button"
 					role="menuitem"
 					title={label}
@@ -49,7 +49,9 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 				</button>
 			)
 		}
-	})
+
+		return acc
+	}, [])
 }
 
 const MediaOptionsDropdown = ({
