@@ -4,6 +4,7 @@ import { arrayOf, bool, func, object } from 'prop-types'
 import { PresetsContext } from 'store'
 
 import {
+	applyPreset,
 	duplicateSelectedMedia,
 	deselectAllMedia,
 	selectAllMedia,
@@ -36,21 +37,21 @@ const MediaSelector = props => {
 
 	const dropdownDependencies = [media, allItemsSelected, warn, presets, batchPresets]
 
-	const createPresetMenu = useCallback(() => [
-		...presets.map(({ label }) => ({
+	const createPresetMenu = useCallback((mediaId, applyAsDuplicate) => () => [
+		...presets.map(({ label, id }) => ({
 			label,
 			action() {
-				console.log(label)
+				dispatch(applyPreset(id, mediaId, applyAsDuplicate))
 			}
 		})),
 		{
 			type: 'spacer',
 			hide: !presets.length || !batchPresets.length
 		},
-		...batchPresets.map(({ label }) => ({
+		...batchPresets.map(({ label, presets }) => ({
 			label,
 			action() {
-				console.log(label)
+				dispatch(applyPreset(presets, mediaId, applyAsDuplicate))
 			}
 		}))
 	], [presets, batchPresets])
