@@ -6,3 +6,10 @@ export const requestPresets = referencesOnly => sendMessage({
 	errMsg: 'presetsErr',
   data: { referencesOnly }
 })
+
+export const getPresets = presetIds => sendMessage({
+	sendMsg: 'getPresets',
+	recieveMsg: 'presetsRetrieved',
+	errMsg: 'retrievePresetsErr',
+  data: { presetIds }
+})
