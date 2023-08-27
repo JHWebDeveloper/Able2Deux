@@ -13,7 +13,7 @@ export const createSettingsMenu = ({
 	allItemsSelected
 }, actions, additionalOptions = []) => multipleItems ? [
 	{
-		label: 'Copy Setting',
+		label: 'Copy Attributes',
 		action() { actions[0]() }
 	},
 	{
