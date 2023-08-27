@@ -22,7 +22,10 @@ const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch, navigateWith
 				aria-label={title}
 				style={toggleColor(selected)}
 				autoFocus={i === 0}
-				onClick={() => dispatch(toggleAspectRatioMarker(id))}
+				onClick={e => {
+					e.stopPropagation()
+					dispatch(toggleAspectRatioMarker(id))
+				}}
 				onKeyDown={navigateWithKeys}>
 				<span>{label}</span>
 			</button>
