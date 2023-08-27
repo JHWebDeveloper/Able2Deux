@@ -155,11 +155,11 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 			{ type: 'spacer' },
 			{
 				label: 'Apply Preset',
-				submenu: createPresetMenu,
+				submenu: createPresetMenu(id),
 			},
 			{
 				label: 'Apply Preset as Duplicate',
-				submenu: createPresetMenu,
+				submenu: createPresetMenu(id, true),
 			},
 			{
 				label: 'Save as Preset',
