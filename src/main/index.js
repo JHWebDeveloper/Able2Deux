@@ -4,7 +4,7 @@ import log from 'electron-log'
 import { pathToFileURL } from 'url'
 import path from 'path'
 
-import { initPreferencesAndPresets, loadPrefs, loadPresets, savePrefs, getDefaultPrefs, loadTheme } from './modules/preferences/preferences'
+import { initPreferencesAndPresets, loadPrefs, loadPresets, savePrefs, getDefaultPrefs, loadTheme, getPresets } from './modules/preferences/preferences'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -599,6 +599,15 @@ ipcMain.on('requestPresets', async (evt, data) => {
 	} catch (err) {
 		console.error(err)
 		evt.reply('presetsErr', new Error('An error occurred while attempting to load presets.'))
+	}
+})
+
+ipcMain.on('getPresets', async (evt, data) => {
+	try {
+		evt.reply('presetsRetrieved', await getPresets(data))
+	} catch (err) {
+		console.error(err)
+		evt.reply('retrievePresetsErr', new Error(`An error occurred while attempting to retrieve requested preset${data.presetIds.length > 1 ? 's' : ''}.`))
 	}
 })
 
