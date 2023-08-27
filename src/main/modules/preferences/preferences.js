@@ -105,8 +105,8 @@ const initPresets = async () => {
   }
 }
 
-const getPresetReferences = presets => presets.reduce((acc, { id, label, hidden }) => {
-	if (!hidden) acc.push({ id, label })
+const getPresetReferences = presets => presets.reduce((acc, { id, label, presets, hidden }) => {
+	if (!hidden) acc.push({ id, label, presets })
 	return acc
 }, [])
 
@@ -121,9 +121,11 @@ export const loadPresets = async ({ referencesOnly }) => {
 	return presets
 }
 
-export const getPresets = async presetIds => JSON
-	.parse(await fsp.readFile(presetsPath))
-	.filter(id => presetIds.includes(id))
+export const getPresets = async ({ presetIds }) => {
+	const { presets } = JSON.parse(await fsp.readFile(presetsPath))
+	
+	return presets.filter(({ id }) => presetIds.includes(id))
+}
 
 // ---- SHARED --------
 
