@@ -72,8 +72,9 @@ export const duplicateMedia = index => ({
 	payload: { index }
 })
 
-export const duplicateSelectedMedia = () => ({
-	type: ACTION.DUPLICATE_SELECTED_MEDIA
+export const duplicateSelectedMedia = duplicateAll => ({
+	type: ACTION.DUPLICATE_SELECTED_MEDIA,
+	payload: { duplicateAll }
 })
 
 export const splitMedia = (id, split, start, end) => async dispatch => {
@@ -122,6 +123,17 @@ export const applySettingsToSelection = id => properties => ({
 	type: ACTION.APPLY_TO_SELECTION,
 	payload: { id, properties }
 })
+
+// ---- APPLY/SAVE PRESETS --------
+
+export const applyPreset = (presetIds, mediaId) => async dispatch =>  {
+	if (typeof presetIds === 'string') presetIds = [presetIds]
+	if (typeof mediaId === 'string') mediaId = [mediaId]
+
+	const selectedPresets = await interop.getPresets(presetIds)
+
+	console.log(selectedPresets)
+}
 
 // ---- COLOR CORRECTION --------
 
