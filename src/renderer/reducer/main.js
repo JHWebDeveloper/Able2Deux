@@ -47,7 +47,7 @@ export const mainReducer = (state, action) => {
 		case ACTION.DUPLICATE_MEDIA: 
 			return duplicateMedia(state, payload)
 		case ACTION.DUPLICATE_SELECTED_MEDIA: 
-			return duplicateSelectedMedia(state)
+			return duplicateSelectedMedia(state, payload)
 		case ACTION.SPLIT_MEDIA: 
 			return splitMedia(state, payload)
 		case ACTION.REMOVE_FAILED_ACQUISITIONS:
@@ -282,13 +282,13 @@ const duplicateMedia = (state, payload) => {
 	return { ...state, media }
 }
 
-const duplicateSelectedMedia = state => {
+const duplicateSelectedMedia = (state, { duplicateAll }) => {
 	const media = [...state.media]
 
 	for (let i = 0; i < media.length; i++) {
 		const originalMedia = media[i]
 
-		if (!originalMedia.selected) continue
+		if (!duplicateAll && !originalMedia.selected) continue
 
 		media.splice(i++, 0, {
 			...replaceIds(originalMedia),
