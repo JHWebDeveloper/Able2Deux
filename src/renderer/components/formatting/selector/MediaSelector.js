@@ -83,9 +83,13 @@ const MediaSelector = props => {
 			}
 		},
 		{
-			type: 'spacer',
-			hide: !multipleItemsSelected
+			label: 'Duplicate All',
+			hide: allItemsSelected,
+			action() {
+				dispatch(duplicateSelectedMedia(true))
+			}
 		},
+		{ type: 'spacer' },
 		{
 			label: 'Remove Selected',
 			hide: !multipleItemsSelected,
