@@ -135,7 +135,7 @@ export const defaultPresets = {
       label: 'TNT BG Dark Blue',
       hidden: true,
       attributes: {
-        background: 'light_blue'
+        background: 'dark_blue'
       }
     },
     {
