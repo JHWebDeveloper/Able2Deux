@@ -27,8 +27,6 @@ const MediaSelector = props => {
 		if (selected) acc.push(id)
 		return acc
 	}, []), [media])
-
-	const warnDependencies = [media, allItemsSelected]
 	
 	const warn = useWarning({ name: 'removeAll' }, [media, allItemsSelected])
 
