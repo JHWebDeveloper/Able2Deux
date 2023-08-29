@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { arrayOf, bool, func, object } from 'prop-types'
 
 import {
+	applyPreset,
 	applySettingsToAll,
 	applySettingsToSelection,
 	duplicateMedia,
@@ -116,7 +117,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 			},
 			{
 				label: 'Apply Attributes to All',
-				hide: isOnly || allItemsSelected,
+				hide: isOnly || multipleItemsSelected,
 				action() {
 					applyToAllWarning(id)
 				}
@@ -155,11 +156,15 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 			{ type: 'spacer' },
 			{
 				label: 'Apply Preset',
-				submenu: createPresetMenu(id),
+				submenu: createPresetMenu(presetIds => (
+					applyPreset(presetIds, id)
+				))
 			},
 			{
 				label: 'Apply Preset as Duplicate',
-				submenu: createPresetMenu(id, true),
+				submenu: createPresetMenu(presetIds => (
+					applyPreset(presetIds, id, true)
+				))
 			},
 			{
 				label: 'Save as Preset',
