@@ -22,11 +22,6 @@ const { interop } = window.ABLE2
 const MediaSelector = props => {
 	const { media, focused, multipleItems, multipleItemsSelected, allItemsSelected, dispatch } = props
 	const { presets = [], batchPresets = [] } = useContext(PresetsContext).presets
-
-	const selectedIds = useMemo(() => media.reduce((acc, { selected, id }) => {
-		if (selected) acc.push(id)
-		return acc
-	}, []), [media])
 	
 	const warn = useWarning({ name: 'removeAll' }, [media, allItemsSelected])
 
