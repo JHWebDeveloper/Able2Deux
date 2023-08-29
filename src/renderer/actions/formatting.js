@@ -126,13 +126,18 @@ export const applySettingsToSelection = id => properties => ({
 
 // ---- APPLY/SAVE PRESETS --------
 
-export const applyPreset = (presetIds, mediaId) => async dispatch =>  {
+export const applyPreset = (presetIds, mediaIds, duplicate) => async dispatch => {
 	if (typeof presetIds === 'string') presetIds = [presetIds]
-	if (typeof mediaId === 'string') mediaId = [mediaId]
+	if (typeof mediaIds === 'string') mediaIds = [mediaIds]
 
-	const selectedPresets = await interop.getPresets(presetIds)
-
-	console.log(selectedPresets)
+	dispatch({
+		type: ACTION.APPLY_PRESET,
+		payload: {
+			presets: await interop.getPresets(presetIds),
+			mediaIds,
+			duplicate
+		}
+	})
 }
 
 // ---- COLOR CORRECTION --------
