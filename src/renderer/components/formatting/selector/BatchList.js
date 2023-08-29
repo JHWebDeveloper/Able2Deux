@@ -229,7 +229,6 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 						anchored={anchored}
 						selected={selected}
 						index={i}
-						copyAllSettings={copyAllSettings}
 						removeMediaWarning={removeMediaWarning}
 						createDropdown={createDropdown}
 						onKeyDown={onBatchItemKeyDown}
