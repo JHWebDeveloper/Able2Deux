@@ -49,6 +49,6 @@ export const PresetsProvider = ({ referencesOnly, children }) => {
 }
 
 PresetsProvider.propTypes = {
-	omitPresetAttributes: bool,
+	referencesOnly: bool,
 	children: oneOfType([element, arrayOf(element)]).isRequired
 }

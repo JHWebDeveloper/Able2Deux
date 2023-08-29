@@ -77,7 +77,7 @@ BatchItem.propTypes = {
 	index: number.isRequired,
 	removeMediaWarning: func.isRequired,
 	clipboard: object,
-	createPresetMenu: func.isRequired,
+	createDropdown: func.isRequired,
 	onKeyDown: func.isRequired,
 	dispatch: func.isRequired
 }
