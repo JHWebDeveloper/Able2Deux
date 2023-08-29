@@ -4,7 +4,6 @@ import { arrayOf, bool, func, object } from 'prop-types'
 import { PresetsContext } from 'store'
 
 import {
-	applyPreset,
 	duplicateSelectedMedia,
 	deselectAllMedia,
 	selectAllMedia,
@@ -13,7 +12,6 @@ import {
 } from 'actions'
 
 import { useWarning } from 'hooks'
-import { pipe } from 'utilities'
 
 import MediaInfo from './MediaInfo'
 import BatchList from './BatchList'
@@ -21,14 +19,16 @@ import MediaSelectorOptions from './MediaSelectorOptions'
 
 const { interop } = window.ABLE2
 
-const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
-
-const mapIds = media => media.map(({ id }) => id)
-const filterSelected = media => media.filter(({ selected }) => selected)
-
 const MediaSelector = props => {
 	const { media, focused, multipleItems, multipleItemsSelected, allItemsSelected, dispatch } = props
 	const { presets = [], batchPresets = [] } = useContext(PresetsContext).presets
+
+	const selectedIds = useMemo(() => media.reduce((acc, { selected, id }) => {
+		if (selected) acc.push(id)
+		return acc
+	}, []), [media])
+
+	const warnDependencies = [media, allItemsSelected]
 	
 	const warn = useWarning({ name: 'removeAll' }, [media, allItemsSelected])
 
@@ -37,9 +37,17 @@ const MediaSelector = props => {
 		onConfirm() {
 			dispatch(action())
 		}
-	}), [media, allItemsSelected, warn])
+	}), [warn])
 
-	const dropdownDependencies = [media, allItemsSelected, multipleItemsSelected, warn, presets, batchPresets]
+	const removeSelectedMediaWarning = useCallback(() => removeMediaWarning({
+		message: 'Remove Selected Media?',
+		action: () => removeSelectedMedia(!allItemsSelected)
+	}), [removeMediaWarning])
+
+	const removeAllMediaWarning = useCallback(() => removeMediaWarning({
+		message: 'Remove All Media?',
+		action: removeAllMedia
+	}), [removeMediaWarning])
 
 	const createPresetMenu = useCallback(action => () => [
 		...presets.map(({ label, id }) => ({
@@ -60,97 +68,27 @@ const MediaSelector = props => {
 		}))
 	], [presets, batchPresets])
 
-	const dropdown = useMemo(() => [
-		{
-			label: 'Select All',
-			hide: allItemsSelected,
-			shortcut: `${ctrlOrCmdKeySymbol}A`,
-			action() {
-				dispatch(selectAllMedia())
-			}
-		},
-		{
-			label: 'Deselect All',
-			hide: !multipleItemsSelected,
-			shortcut: `⇧${ctrlOrCmdKeySymbol}A`,
-			action() {
-				dispatch(deselectAllMedia())
-			}
-		},
-		{ type: 'spacer' },
-		{
-			label: 'Duplicate Selected',
-			hide: !multipleItemsSelected,
-			shortcut: `⇧${ctrlOrCmdKeySymbol}D`,
-			action() {
-				dispatch(duplicateSelectedMedia())
-			}
-		},
-		{
-			label: 'Duplicate All',
-			hide: multipleItemsSelected,
-			action() {
-				dispatch(duplicateSelectedMedia(true))
-			}
-		},
-		{ type: 'spacer' },
-		{
-			label: 'Apply Preset to Selected',
-			hide: !multipleItemsSelected,
-			submenu: createPresetMenu(presetIds => applyPreset(presetIds, pipe(filterSelected, mapIds)(media)))
-		},
-		{
-			label: 'Apply Preset to Selected as Duplicate',
-			hide: !multipleItemsSelected,
-			submenu: createPresetMenu(presetIds => applyPreset(presetIds, pipe(filterSelected, mapIds)(media), true))
-		},
-		{
-			label: 'Apply Preset to All',
-			hide: multipleItemsSelected,
-			submenu: createPresetMenu(presetIds => applyPreset(presetIds, mapIds(media)))
-		},
-		{
-			label: 'Apply Preset to All as Duplicate',
-			hide: multipleItemsSelected,
-			submenu: createPresetMenu(presetIds => applyPreset(presetIds, mapIds(media), true))
-		},
-		{ type: 'spacer' },
-		{
-			label: 'Remove Selected',
-			hide: !multipleItemsSelected,
-			shortcut: '⇧⌫',
-			action() {
-				removeMediaWarning({
-					message: 'Remove Selected Media?',
-					action: () => removeSelectedMedia(!allItemsSelected)
-				})
-			}
-		},
-		{
-			label: 'Remove All',
-			hide: allItemsSelected,
-			action() {
-				removeMediaWarning({
-					message: 'Remove All Media?',
-					action: removeAllMedia
-				})
-			}
-		}
-	], dropdownDependencies)
+	const dispatchDeselectAllMedia = useCallback(() => {
+		dispatch(deselectAllMedia())
+	}, [])
+
+	const dispatchSelectAllMedia = useCallback(() => {
+		dispatch(selectAllMedia())
+	}, [])
 
 	const onKeyDown = useCallback(e => {
 		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
 
 		if (e.shiftKey && ctrlOrCmd && e.key === 'a') {
-			dropdown[1].action() // Deselect All Media
+			dispatchDeselectAllMedia() // Deselect All Media
 		} else if (ctrlOrCmd && e.key === 'a') {
-			dropdown[0].action() // Select All Media
+			dispatchSelectAllMedia() // Select All Media
 		} else if (ctrlOrCmd && e.key === 'd') { // requires shiftKey pressed, we conditionally stopped propagation on child element for !e.shiftKey
-			dropdown[3].action() // Duplicate Selected Media
+			dispatch(duplicateSelectedMedia(!multipleItemsSelected)) // Duplicate Selected Media
 		} else if (e.key === 'Backspace' || e.key === 'Delete') { // same note as above
-			dropdown[5].action() // Remove Selected Media
+			removeSelectedMediaWarning() // Remove Selected Media
 		}
-	}, dropdownDependencies)
+	}, [removeSelectedMediaWarning, multipleItemsSelected])
 
 	return (
 		<div
@@ -180,8 +118,13 @@ const MediaSelector = props => {
 			{multipleItems ? (
 				<MediaSelectorOptions
 					allItemsSelected={allItemsSelected}
+					multipleItemsSelected={multipleItemsSelected}
 					createPresetMenu={createPresetMenu}
-					dropdown={dropdown} />
+					selectAllMedia={dispatchSelectAllMedia}
+					deselectAllMedia={dispatchDeselectAllMedia}
+					removeSelectedMediaWarning={removeSelectedMediaWarning}
+					removeAllMediaWarning={removeAllMediaWarning}
+					dispatch={dispatch} />
 			) : <></>}
 		</div>
 	)
