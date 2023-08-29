@@ -39,7 +39,7 @@ const MediaSelector = props => {
 		}
 	}), [media, allItemsSelected, warn])
 
-	const dropdownDependencies = [media, allItemsSelected, warn, presets, batchPresets]
+	const dropdownDependencies = [media, allItemsSelected, multipleItemsSelected, warn, presets, batchPresets]
 
 	const createPresetMenu = useCallback(action => () => [
 		...presets.map(({ label, id }) => ({
