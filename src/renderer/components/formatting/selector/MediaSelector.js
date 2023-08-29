@@ -73,13 +73,13 @@ const MediaSelector = props => {
 		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
 
 		if (e.shiftKey && ctrlOrCmd && e.key === 'a') {
-			dispatchDeselectAllMedia() // Deselect All Media
+			dispatchDeselectAllMedia()
 		} else if (ctrlOrCmd && e.key === 'a') {
-			dispatchSelectAllMedia() // Select All Media
+			dispatchSelectAllMedia()
 		} else if (ctrlOrCmd && e.key === 'd') { // requires shiftKey pressed, we conditionally stopped propagation on child element for !e.shiftKey
-			dispatch(duplicateSelectedMedia(!multipleItemsSelected)) // Duplicate Selected Media
+			dispatch(duplicateSelectedMedia(!multipleItemsSelected))
 		} else if (e.key === 'Backspace' || e.key === 'Delete') { // same note as above
-			removeSelectedMediaWarning() // Remove Selected Media
+			removeSelectedMediaWarning()
 		}
 	}, [removeSelectedMediaWarning, multipleItemsSelected])
 
