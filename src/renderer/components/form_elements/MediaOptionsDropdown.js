@@ -25,12 +25,12 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 			acc.push(
 				<MediaOptionsDropdown
 					key={key}
-          buttons={submenu}
+					buttons={submenu}
 					alignment="right top"
 					label={label}
 					parentMenu={parentMenu}
 					autoFocus={i === 0}
-          submenu />
+					submenu />
 			)
 		} else {
 			acc.push(
@@ -66,10 +66,10 @@ const MediaOptionsDropdown = ({
 	<DropdownMenu
 		alignment={alignment}
 		label={label}
-    submenu={submenu}
-    parentMenu={parentMenu}
+		submenu={submenu}
+		parentMenu={parentMenu}
 		autoFocus={autoFocus}
-    {...submenu ? {} : { icon }}>
+		{...submenu ? {} : { icon }}>
 		<MediaOptionButtons buttons={buttons} />
 	</DropdownMenu>
 )
@@ -98,11 +98,13 @@ MediaOptionButtons.propTypes = {
 }
 
 MediaOptionsDropdown.propTypes = {
-  buttons: oneOfType([func, arrayOf(buttonPropType)]).isRequired,
-  label: string,
-  icon: string,
-  parentMenu: parentMenuPropType,
-  submenu: bool
+	buttons: oneOfType([func, arrayOf(buttonPropType)]).isRequired,
+	alignment: arrayOf(string).isRequired,
+	label: string,
+	icon: string,
+	parentMenu: parentMenuPropType,
+	autoFocus: bool,
+	submenu: bool
 }
 
 export default MediaOptionsDropdown

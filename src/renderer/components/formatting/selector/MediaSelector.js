@@ -97,30 +97,22 @@ const MediaSelector = props => {
 		{
 			label: 'Apply Preset to Selected',
 			hide: !multipleItemsSelected,
-			submenu: createPresetMenu(presetIds => (
-				applyPreset(presetIds, pipe(filterSelected, mapIds)(media))
-			))
+			submenu: createPresetMenu(presetIds => applyPreset(presetIds, pipe(filterSelected, mapIds)(media)))
 		},
 		{
 			label: 'Apply Preset to Selected as Duplicate',
 			hide: !multipleItemsSelected,
-			submenu: createPresetMenu(presetIds => (
-				applyPreset(presetIds, pipe(filterSelected, mapIds)(media), true)
-			))
+			submenu: createPresetMenu(presetIds => applyPreset(presetIds, pipe(filterSelected, mapIds)(media), true))
 		},
 		{
 			label: 'Apply Preset to All',
 			hide: multipleItemsSelected,
-			submenu: createPresetMenu(presetIds => (
-				applyPreset(presetIds, mapIds(media))
-			))
+			submenu: createPresetMenu(presetIds => applyPreset(presetIds, mapIds(media)))
 		},
 		{
 			label: 'Apply Preset to All as Duplicate',
 			hide: multipleItemsSelected,
-			submenu: createPresetMenu(presetIds => (
-				applyPreset(presetIds, mapIds(media), true)
-			))
+			submenu: createPresetMenu(presetIds => applyPreset(presetIds, mapIds(media), true))
 		},
 		{ type: 'spacer' },
 		{

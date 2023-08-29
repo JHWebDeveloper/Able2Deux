@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { bool, func, number, object, string } from 'prop-types'
 
 import { selectMedia } from 'actions'
@@ -77,6 +77,8 @@ BatchItem.propTypes = {
 	index: number.isRequired,
 	removeMediaWarning: func.isRequired,
 	clipboard: object,
+	createPresetMenu: func.isRequired,
+	onKeyDown: func.isRequired,
 	dispatch: func.isRequired
 }
 

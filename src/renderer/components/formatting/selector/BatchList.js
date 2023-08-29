@@ -156,15 +156,11 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 			{ type: 'spacer' },
 			{
 				label: 'Apply Preset',
-				submenu: createPresetMenu(presetIds => (
-					applyPreset(presetIds, id)
-				))
+				submenu: createPresetMenu(presetIds => applyPreset(presetIds, id))
 			},
 			{
 				label: 'Apply Preset as Duplicate',
-				submenu: createPresetMenu(presetIds => (
-					applyPreset(presetIds, id, true)
-				))
+				submenu: createPresetMenu(presetIds => applyPreset(presetIds, id, true))
 			},
 			{
 				label: 'Save as Preset',
@@ -251,6 +247,7 @@ BatchList.propTypes = {
 	allItemsSelected: bool.isRequired,
 	copyToClipboard: func.isRequired,
 	clipboard: object,
+	createPresetMenu: func.isRequired,
 	dispatch: func.isRequired
 }
 

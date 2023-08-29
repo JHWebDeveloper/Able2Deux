@@ -1,5 +1,5 @@
 import React, { cloneElement, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
-import { arrayOf, bool, element, func, object, oneOfType, shape, string } from 'prop-types'
+import { arrayOf, bool, element, func, object, oneOf, oneOfType, shape, string } from 'prop-types'
 
 import {
 	detectTabExit,
@@ -29,9 +29,9 @@ const DropdownMenu = ({
 	const menuId = useId()
 
 	const getPositionRelativeToWindow = useCallback(e => {
-		const { top, right, bottom, left }  = e.currentTarget.children[0].getBoundingClientRect()
+		const { top, right, bottom, left } = e.currentTarget.children[0].getBoundingClientRect()
 		const { innerWidth, innerHeight } = window
-		const style = {}
+		let style = {}
 
 		switch (alignment) {
 			case 'bottom left':
@@ -192,6 +192,8 @@ DropdownMenu.propTypes = {
 	children: oneOfType([element, arrayOf(element)]),
 	icon: string,
 	label: string,
+	alignment: oneOf(['top left', 'top right', 'bottom left', 'bottom right', 'right top', 'right bottom', 'left top', 'left bottom']),
+	autoFocus: bool,
 	parentMenu: oneOfType([
 		func,
 		shape({

@@ -9,7 +9,7 @@ export const detectTabExit = callback => e => {
 
 export const createSettingsMenu = ({
 	multipleItems,
-	multipleItemsSelected,
+	multipleItemsSelected
 }, actions, additionalOptions = []) => multipleItems ? [
 	{
 		label: 'Copy Attributes',
