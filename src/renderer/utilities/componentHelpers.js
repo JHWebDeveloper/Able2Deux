@@ -10,7 +10,6 @@ export const detectTabExit = callback => e => {
 export const createSettingsMenu = ({
 	multipleItems,
 	multipleItemsSelected,
-	allItemsSelected
 }, actions, additionalOptions = []) => multipleItems ? [
 	{
 		label: 'Copy Attributes',
@@ -18,13 +17,13 @@ export const createSettingsMenu = ({
 	},
 	{
 		label: 'Apply to Selected',
-		hide: !multipleItemsSelected || actions.length < 3,
+		hide: !multipleItemsSelected,
 		action() { actions[1]() }
 	},
 	{
 		label: 'Apply to All',
-		hide: allItemsSelected,
-		action() { actions.at(-1)() }
+		hide: multipleItemsSelected,
+		action() { actions[2]() }
 	},
 	...additionalOptions
 ] : []
