@@ -50,6 +50,8 @@ export const mainReducer = (state, action) => {
 			return duplicateSelectedMedia(state, payload)
 		case ACTION.SPLIT_MEDIA: 
 			return splitMedia(state, payload)
+		case ACTION.APPLY_PRESET:
+			return applyPreset(state, payload)
 		case ACTION.REMOVE_FAILED_ACQUISITIONS:
 			return removeFailedAcquisitions(state)
 		case ACTION.PASTE_SETTINGS:
@@ -313,6 +315,40 @@ const splitMedia = (state, payload) => {
 			...timecodes[i],
 			...unselectedProps
 		})
+	}
+
+	return { ...state, media }
+}
+
+// ---- APPLY PRESET --------
+
+const applyPreset = (state, payload) => {
+	const { presets, mediaIds, duplicate } = payload
+	let media = [...state.media]
+
+	if (!duplicate) {
+		const lastPreset = presets.pop()
+
+		media = media.map(item => mediaIds.includes(item.id) ? {
+			...item,
+			...lastPreset.attributes
+		} : item)
+	}
+
+	const mediaIdsLen = mediaIds.length
+	const presetsLen = presets.length
+
+	for (let i = 0; i < mediaIdsLen; i++) {
+		const mediaId = mediaIds[i]
+		let mediaIndex = media.findIndex(({ id }) => id === mediaId)
+
+		for (let j = 0; j < presetsLen; j++) {
+			media.splice(mediaIndex, 0, replaceIds({
+				...media[mediaIndex++],
+				...presets[j].attributes,
+				...unselectedProps
+			}))
+		}
 	}
 
 	return { ...state, media }
