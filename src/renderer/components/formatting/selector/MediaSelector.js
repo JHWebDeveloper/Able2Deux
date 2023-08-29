@@ -13,6 +13,7 @@ import {
 } from 'actions'
 
 import { useWarning } from 'hooks'
+import { pipe } from 'utilities'
 
 import MediaInfo from './MediaInfo'
 import BatchList from './BatchList'
@@ -21,6 +22,9 @@ import MediaSelectorOptions from './MediaSelectorOptions'
 const { interop } = window.ABLE2
 
 const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
+
+const mapIds = media => media.map(({ id }) => id)
+const filterSelected = media => media.filter(({ selected }) => selected)
 
 const MediaSelector = props => {
 	const { media, focused, multipleItems, multipleItemsSelected, allItemsSelected, dispatch } = props
@@ -37,11 +41,11 @@ const MediaSelector = props => {
 
 	const dropdownDependencies = [media, allItemsSelected, warn, presets, batchPresets]
 
-	const createPresetMenu = useCallback((mediaId, applyAsDuplicate) => () => [
+	const createPresetMenu = useCallback(action => () => [
 		...presets.map(({ label, id }) => ({
 			label,
 			action() {
-				dispatch(applyPreset(id, mediaId, applyAsDuplicate))
+				dispatch(action(id))
 			}
 		})),
 		{
@@ -51,7 +55,7 @@ const MediaSelector = props => {
 		...batchPresets.map(({ label, presets }) => ({
 			label,
 			action() {
-				dispatch(applyPreset(presets, mediaId, applyAsDuplicate))
+				dispatch(action(presets))
 			}
 		}))
 	], [presets, batchPresets])
@@ -84,10 +88,39 @@ const MediaSelector = props => {
 		},
 		{
 			label: 'Duplicate All',
-			hide: allItemsSelected,
+			hide: multipleItemsSelected,
 			action() {
 				dispatch(duplicateSelectedMedia(true))
 			}
+		},
+		{ type: 'spacer' },
+		{
+			label: 'Apply Preset to Selected',
+			hide: !multipleItemsSelected,
+			submenu: createPresetMenu(presetIds => (
+				applyPreset(presetIds, pipe(filterSelected, mapIds)(media))
+			))
+		},
+		{
+			label: 'Apply Preset to Selected as Duplicate',
+			hide: !multipleItemsSelected,
+			submenu: createPresetMenu(presetIds => (
+				applyPreset(presetIds, pipe(filterSelected, mapIds)(media), true)
+			))
+		},
+		{
+			label: 'Apply Preset to All',
+			hide: multipleItemsSelected,
+			submenu: createPresetMenu(presetIds => (
+				applyPreset(presetIds, mapIds(media))
+			))
+		},
+		{
+			label: 'Apply Preset to All as Duplicate',
+			hide: multipleItemsSelected,
+			submenu: createPresetMenu(presetIds => (
+				applyPreset(presetIds, mapIds(media), true)
+			))
 		},
 		{ type: 'spacer' },
 		{
