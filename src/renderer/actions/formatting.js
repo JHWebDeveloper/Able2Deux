@@ -140,6 +140,16 @@ export const applyPreset = (presetIds, mediaIds, duplicate) => async dispatch =>
 	})
 }
 
+// ---- REMOVE MEDIA --------
+
+export const removeAllMedia = () => ({
+	type: ACTION.REMOVE_ALL_MEDIA
+})
+
+export const removeSelectedMedia = () => ({
+	type: ACTION.REMOVE_SELECTED_MEDIA
+})
+
 // ---- COLOR CORRECTION --------
 
 export const addCurvePoint = (id, curveName, pointData) => ({
