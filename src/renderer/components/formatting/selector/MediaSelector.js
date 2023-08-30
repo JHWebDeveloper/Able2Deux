@@ -19,28 +19,36 @@ import MediaSelectorOptions from './MediaSelectorOptions'
 
 const { interop } = window.ABLE2
 
-const MediaSelector = props => {
-	const { media, focused, multipleItems, multipleItemsSelected, allItemsSelected, dispatch } = props
+const MediaSelector = ({
+	media,
+	focused,
+	multipleItems,
+	multipleItemsSelected,
+	allItemsSelected,
+	copyToClipboard,
+	clipboard,
+	dispatch
+}) => {
 	const { presets = [], batchPresets = [] } = useContext(PresetsContext).presets
-	
-	const warn = useWarning({ name: 'removeAll' }, [media, allItemsSelected])
+
+	const warn = useWarning({ name: 'removeAll' }, [allItemsSelected])
 
 	const removeMediaWarning = useCallback(({ message, action }) => warn({
 		message,
 		onConfirm() {
 			dispatch(action())
 		}
-	}), [warn])
+	}), [allItemsSelected])
 
 	const removeSelectedMediaWarning = useCallback(() => removeMediaWarning({
 		message: 'Remove Selected Media?',
-		action: () => removeSelectedMedia(!allItemsSelected)
-	}), [removeMediaWarning])
+		action: removeSelectedMedia
+	}), [allItemsSelected])
 
 	const removeAllMediaWarning = useCallback(() => removeMediaWarning({
 		message: 'Remove All Media?',
 		action: removeAllMedia
-	}), [removeMediaWarning])
+	}), [allItemsSelected])
 
 	const createPresetMenu = useCallback(action => () => [
 		...presets.map(({ label, id }) => ({
@@ -81,7 +89,7 @@ const MediaSelector = props => {
 		} else if (e.key === 'Backspace' || e.key === 'Delete') { // same note as above
 			removeSelectedMediaWarning()
 		}
-	}, [removeSelectedMediaWarning, multipleItemsSelected])
+	}, [allItemsSelected, multipleItemsSelected])
 
 	return (
 		<div
@@ -104,8 +112,8 @@ const MediaSelector = props => {
 				media={media}
 				multipleItemsSelected={multipleItemsSelected}
 				allItemsSelected={allItemsSelected}
-				copyToClipboard={props.copyToClipboard}
-				clipboard={props.clipboard}
+				copyToClipboard={copyToClipboard}
+				clipboard={clipboard}
 				createPresetMenu={createPresetMenu}
 				dispatch={dispatch} />
 			{multipleItems ? (
