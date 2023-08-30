@@ -1,11 +1,7 @@
 import React, { useCallback } from 'react'
 import { arrayOf, bool, func, shape, string } from 'prop-types'
 
-import {
-	applyPreset,
-	duplicateSelectedMedia
-}  from 'actions'
-
+import { applyPreset, duplicateSelectedMedia }  from 'actions'
 import { pipe } from 'utilities'
 
 import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown.js'
@@ -94,9 +90,7 @@ const MediaSelectorOptions = ({
 	}, [
 		allItemsSelected,
 		multipleItemsSelected,
-		createPresetMenu,
-		removeSelectedMediaWarning,
-		removeSelectedMediaWarning
+		createPresetMenu
 	])
 
 	return (
