@@ -18,7 +18,7 @@ const MediaElement = props => {
 	const downloadBtnTitle = downloading ? isLive ? 'Stop Stream' : 'Cancel Download' : 'Remove'
 
 	const removeElement = useCallback(() => {
-		props.removeMediaWarning({ id, refId, status, title, references })
+		removeMediaWarning({ id, refId, status, title, references })
 	}, [status, title, references, removeMediaWarning])
 
 	const stopLiveDownload = useCallback(() => {
