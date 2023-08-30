@@ -38,6 +38,12 @@ export const mainReducer = (state, action) => {
 			return moveSelectedMedia(state, payload)
 		case ACTION.REMOVE_MEDIA:
 			return removeMedia(state, payload)
+		case ACTION.REMOVE_REFERENCED_MEDIA:
+			return removeReferencedMedia(state, payload)
+		case ACTION.REMOVE_SELECTED_MEDIA:
+			return removeSelectedMedia(state)
+		case ACTION.REMOVE_ALL_MEDIA:
+			return removeAllMedia(state)
 		case ACTION.SELECT_MEDIA:
 			return selectMedia(state, payload)
 		case ACTION.SELECT_ALL_MEDIA:
@@ -379,6 +385,23 @@ const removeMedia = (state, payload) => {
 
 	return { ...state, media }
 }
+
+const removeReferencedMedia = (state, payload) => (
+	state.media.reduce((acc, { refId, id }) => (
+		payload.refId === refId ? removeMedia(acc, { id, updateSelection: true }) : acc
+	), structuredClone(state))
+)
+
+const removeSelectedMedia = state => (
+	state.media.reduce((acc, { selected, id }) => (
+		selected ? removeMedia(acc, { id, updateSelection: true }) : acc
+	), structuredClone(state))
+)
+
+const removeAllMedia = state => ({
+	...state,
+	media: []
+})
 
 const removeFailedAcquisitions = state => ({
 	...state,
