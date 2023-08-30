@@ -31,7 +31,15 @@ const { interop } = window.ABLE2
 
 const applyToAllDetail = 'This will overwrite the settings except for filenames and start and end timecodes. This cannot be undone. Proceed?'
 
-const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPresetMenu, copyToClipboard, clipboard, dispatch }) => {
+const BatchList = ({
+	media,
+	multipleItemsSelected,
+	allItemsSelected,
+	createPresetMenu,
+	copyToClipboard,
+	clipboard,
+	dispatch
+}) => {
 	const sortingAction = useCallback((oldPos, newPos, { selected }, e) => {
 		if (!selected || e.altKey || allItemsSelected) {
 			dispatch(moveSortableElement('media', oldPos, newPos))
@@ -40,35 +48,35 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 		}
 	}, [allItemsSelected])
 
-	const copyAllSettings = useCallback(id => {
-		pipe(extractCopyPasteProps, copyToClipboard)(media.find(item => item.id === id))
-	}, [media])
+	const copyAllSettings = useCallback(attributes => {
+		pipe(extractCopyPasteProps, copyToClipboard)(attributes)
+	}, [])
 
 	const warnApplyToMultiple = useWarning({
 		name: 'applyToAll',
 		detail: applyToAllDetail
-	}, [media])
+	}, [])
 
-	const applyToMultipleWarning = useCallback(({ id, message, action }) => warnApplyToMultiple({
+	const applyToMultipleWarning = useCallback(({ attributes, message, action }) => warnApplyToMultiple({
 		message,
 		onConfirm() {
-			pipe(extractCopyPasteProps, action, dispatch)(media.find(item => item.id === id))
+			pipe(extractCopyPasteProps, action, dispatch)(attributes)
 		}
-	}), [media, warnApplyToMultiple])
+	}), [])
 
-	const applyToAllWarning = useCallback(id => applyToMultipleWarning({
-		id,
+	const applyToAllWarning = useCallback(attributes => applyToMultipleWarning({
+		attributes,
 		message: 'Apply current settings to all media items?',
-		action: applySettingsToAll(id)
-	}), [media, warnApplyToMultiple])
+		action: applySettingsToAll(attributes.id)
+	}), [])
 
-	const applyToSelectionWarning = useCallback(id => applyToMultipleWarning({
-		id,
+	const applyToSelectionWarning = useCallback(attributes => applyToMultipleWarning({
+		attributes,
 		message: 'Apply current settings to the selected media items?',
-		action: applySettingsToSelection(id)
-	}), [media, warnApplyToMultiple])
+		action: applySettingsToSelection(attributes.id)
+	}), [])
 
-	const warnRemoveMedia = useWarning({ name: 'remove' }, [media])
+	const warnRemoveMedia = useWarning({ name: 'remove' }, [])
 
 	const removeMediaWarning = useCallback(({ id, refId, index, title }) => warnRemoveMedia({
 		message: `Remove "${title}"?`,
@@ -82,9 +90,10 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 
 			refocusBatchItem()
 		}
-	}), [media, warnRemoveMedia])
+	}), [warnRemoveMedia])
 
-	const createDropdown = useCallback(({ id, refId, index, title, tempFilePath }) => {
+	const createDropdown = useCallback((attributes, index) => {
+		const { id, refId, title, tempFilePath } = attributes
 		const isFirst = index === 0
 		const isLast = index === media.length - 1
 		const isOnly = isFirst && isLast
@@ -97,7 +106,7 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 				hide: isOnly,
 				shortcut: `${ctrlOrCmdKeySymbol}C`,
 				action() {
-					copyAllSettings(id)
+					copyAllSettings(attributes)
 				}
 			},
 			{
@@ -112,14 +121,14 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 				label: 'Apply Attributes to Selected',
 				hide: isOnly || !multipleItemsSelected,
 				action() {
-					dispatch(applyToSelectionWarning(id))
+					dispatch(applyToSelectionWarning(attributes))
 				}
 			},
 			{
 				label: 'Apply Attributes to All',
 				hide: isOnly || multipleItemsSelected,
 				action() {
-					applyToAllWarning(id)
+					applyToAllWarning(attributes)
 				}
 			},
 			{
@@ -182,16 +191,17 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 				}
 			}
 		]
-	}, [media, clipboard, multipleItemsSelected, allItemsSelected, createPresetMenu, warnRemoveMedia])
+	}, [clipboard, multipleItemsSelected, allItemsSelected, createPresetMenu, warnRemoveMedia])
 
-	const onBatchItemKeyDown = useCallback(({ id, refId, index, title }, e) => {
+	const onBatchItemKeyDown = useCallback((attributes, index, e) => {
+		const { id, refId, title } = attributes
 		const isFirst = index === 0
 		const isLast = index === media.length - 1
 		const isOnly = isFirst && isLast
 		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
 
 		if (ctrlOrCmd && !isOnly && e.key === 'c') {
-			copyAllSettings(id)
+			copyAllSettings(attributes)
 		} else if (ctrlOrCmd && e.key === 'v') {
 			dispatch(pasteSettings(id, clipboard))
 		} else if (e.altKey && isArrowPrev(e)) {
@@ -213,21 +223,15 @@ const BatchList = ({ media, multipleItemsSelected, allItemsSelected, createPrese
 			e.stopPropagation()
 			removeMediaWarning({ id, refId, index, title })
 		}
-	}, [media, clipboard, warnRemoveMedia])
+	}, [clipboard, warnRemoveMedia])
 
 	return (
 		<div>
 			<DraggableList sortingAction={sortingAction}>
-				{media.map(({ id, refId, focused, anchored, selected, title, tempFilePath }, i) => (
+				{media.map((props, i) => (
 					<BatchItem
-						key={id}
-						id={id}
-						refId={refId}
-						title={title}
-						tempFilePath={tempFilePath}
-						focused={focused}
-						anchored={anchored}
-						selected={selected}
+						key={props.id}
+						attributes={props}
 						index={i}
 						removeMediaWarning={removeMediaWarning}
 						createDropdown={createDropdown}
