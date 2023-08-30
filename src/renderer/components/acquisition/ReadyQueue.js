@@ -4,7 +4,7 @@ import { arrayOf, bool, func, object, shape } from 'prop-types'
 
 import {
 	removeFailedAcquisitions,
-	removeAllMedia,
+	removeAllMediaAndStopDownloads,
 	removeMedia,
 	removeReferencedMedia
 } from 'actions'
@@ -47,12 +47,12 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 	const warnRemoveMedia = useWarning({
 		name: 'remove',
 		detail: removeMediaDetail
-	}, [media])
+	}, [])
 
 	const warnRemoveReferencedMedia = useWarning({
 		name: 'removeReferenced',
 		detail: removeReferencedMediaDetail
-	}, [media])
+	}, [])
 
 	const removeMediaWarning = useCallback(({ title, id, refId, status, references }) => {
 		const hasRefs = references > 1
@@ -62,12 +62,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 			onConfirm: hasRefs ? () => {
 				dispatch(removeReferencedMedia(refId))
 			} : () => {
-				dispatch(removeMedia({
-					id,
-					refId,
-					status,
-					references
-				}))
+				dispatch(removeMedia({ id, status }))
 			}
 		}
 
@@ -76,14 +71,14 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 		} else {
 			return warnRemoveMedia(args)
 		}
-	}, [media, warnings.removeReferenced, removeReferencedMedia, warnRemoveMedia])
+	}, [warnings.removeReferenced, removeReferencedMedia, warnRemoveMedia])
 
 	const removeAllMediaWarning = useWarning({
 		name: 'removeAll',
 		message: 'Remove all entries?',
 		detail: removeAllMediaDetail,
 		onConfirm() {
-			dispatch(removeAllMedia())
+			dispatch(removeAllMediaAndStopDownloads(media))
 		}
 	}, [media])
 
