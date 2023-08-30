@@ -1,30 +1,21 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import { bool, func, number, object, string } from 'prop-types'
+import { bool, func, number, object, shape, string } from 'prop-types'
 
 import { selectMedia } from 'actions'
 
 import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown'
 
-const BatchItem = props => {
-	const {
-		id,
-		refId,
-		title,
-		index,
-		focused,
-		anchored,
-		selected,
-		tempFilePath,
-		removeMediaWarning,
-		createDropdown,
-		onKeyDown,
-		dispatch
-	} = props
-	
+const BatchItem = ({
+	index,
+	attributes,
+	removeMediaWarning,
+	createDropdown,
+	onKeyDown,
+	dispatch
+}) => {
+	const { title, focused, anchored, selected, } = attributes
 	const selectMediaBtn = useRef(null)
 	const selectBtnTitle = focused ? title : 'Select Media'
-
-	const argsForParentFns = { id, refId, index, title, tempFilePath }
 
 	const selectMediaOnClick = useCallback(e => {
 		dispatch(selectMedia(index, e, { focused, anchored, selected }))
@@ -44,7 +35,7 @@ const BatchItem = props => {
 	return (
 		<div
 			className={`batch-item${selected ? ' selected' : ''}${focused ? ' focused' : ''}`}
-			onKeyDown={e => onKeyDown(argsForParentFns, e)}>
+			onKeyDown={e => onKeyDown(attributes, index, e)}>
 			<button
 				type="button"
 				name="select-media"
@@ -54,26 +45,28 @@ const BatchItem = props => {
 				aria-label={selectBtnTitle}
 				onClick={selectMediaOnClick}
 				onKeyDown={selectMediaOnKeyDown}>{title}</button>	
-			<MediaOptionsDropdown buttons={() => createDropdown(argsForParentFns)} />
+			<MediaOptionsDropdown buttons={() => createDropdown(attributes, index)} />
 			<button
 				type="button"
 				title="Remove Media"
 				name="remove-media"
 				aria-label="Remove Media"
 				className="symbol"
-				onClick={() => removeMediaWarning(argsForParentFns)}>close</button>
+				onClick={() => removeMediaWarning(attributes)}>close</button>
 		</div>
 	)
 }
 
 BatchItem.propTypes = {
-	id: string.isRequired,
-	refId: string.isRequired,
-	focused: bool.isRequired,
-	anchored: bool.isRequired,
-	selected: bool.isRequired,
-	title: string.isRequired,
-	tempFilePath: string.isRequired,
+	attributes: shape({
+		id: string.isRequired,
+		refId: string.isRequired,
+		focused: bool.isRequired,
+		anchored: bool.isRequired,
+		selected: bool.isRequired,
+		title: string.isRequired,
+		tempFilePath: string.isRequired,
+	}).isRequired,
 	index: number.isRequired,
 	removeMediaWarning: func.isRequired,
 	clipboard: object,
