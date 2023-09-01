@@ -22,6 +22,7 @@ let updateWin = false
 let mainWin = false
 let preferences = false
 let presets = false
+let presetSaveAs = false
 let help = false
 
 process.noDeprecation = !dev
@@ -138,7 +139,7 @@ const createMainWindow = async () => {
 
 	mainWin.on('ready-to-show', async () => {
 		try {
-			await loadTheme(mainWin, 'main')
+			await loadTheme()
 		} catch (err) {
 			console.error(err)
 		}
@@ -285,7 +286,7 @@ const prefsMenuItem = [
 
 			preferences.once('ready-to-show', async () => {
 				try {
-					await loadTheme(preferences, 'preferences')
+					await loadTheme()
 				} catch (err) {
 					console.error(err)
 				}
@@ -362,7 +363,7 @@ const mainMenuTemplate = [
 
 					presets.once('ready-to-show', async () => {
 						try {
-							await loadTheme(presets, 'presets')
+							await loadTheme()
 						} catch (err) {
 							console.error(err)
 						}
@@ -609,6 +610,36 @@ ipcMain.on('getPresets', async (evt, data) => {
 		console.error(err)
 		evt.reply('retrievePresetsErr', new Error(`An error occurred while attempting to retrieve requested preset${data.presetIds.length > 1 ? 's' : ''}.`))
 	}
+})
+
+ipcMain.on('openPresetSaveAs', async (evt, data) => {
+	ipcMain.handleOnce('getPresetToSave', () => data.preset)
+
+	presetSaveAs = openWindow({
+		parent: mainWin,
+		width: 400,
+		height: 648,
+		resizable: dev,
+		modal: true
+	})
+
+	presetSaveAs.loadURL(createURL('preset_save_as'))
+
+	presetSaveAs.once('ready-to-show', async () => {
+		try {
+			await loadTheme()
+		} catch (err) {
+			console.error(err)
+		}
+
+		presetSaveAs.show()
+	})
+
+	presetSaveAs.on('close', () => {
+		presetSaveAs = false
+	})
+
+	presetSaveAs.setMenu(null)
 })
 
 // ---- IPC ROUTES: UPDATE ------------
