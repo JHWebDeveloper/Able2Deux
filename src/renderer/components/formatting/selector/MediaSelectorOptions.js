@@ -1,20 +1,17 @@
 import React, { useCallback } from 'react'
 import { arrayOf, bool, func, shape, string } from 'prop-types'
 
-import { applyPreset, duplicateSelectedMedia }  from 'actions'
-import { pipe } from 'utilities'
+import { applyPresetToSelected, duplicateSelectedMedia }  from 'actions'
 
 import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown.js'
 
 const { interop } = window.ABLE2
 
-const mapIds = media => media.map(({ id }) => id)
-const filterSelected = media => media.filter(({ selected }) => selected)
-
 const MediaSelectorOptions = ({
 	allItemsSelected,
 	multipleItemsSelected,
 	createPresetMenu,
+	showApplyPresetOptions,
 	selectAllMedia,
 	deselectAllMedia,
 	removeSelectedMediaWarning,
@@ -56,25 +53,28 @@ const MediaSelectorOptions = ({
 			{ type: 'spacer' },
 			{
 				label: 'Apply Preset to Selected',
-				hide: !multipleItemsSelected,
-				submenu: createPresetMenu(presetIds => applyPreset(presetIds, pipe(filterSelected, mapIds)(media)))
+				hide: !showApplyPresetOptions || !multipleItemsSelected,
+				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds }))
 			},
 			{
 				label: 'Apply Preset to Selected as Duplicate',
-				hide: !multipleItemsSelected,
-				submenu: createPresetMenu(presetIds => applyPreset(presetIds, pipe(filterSelected, mapIds)(media), true))
+				hide: !showApplyPresetOptions || !multipleItemsSelected,
+				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds, duplicate: true }))
 			},
 			{
 				label: 'Apply Preset to All',
-				hide: multipleItemsSelected,
-				submenu: createPresetMenu(presetIds => applyPreset(presetIds, mapIds(media)))
+				hide: !showApplyPresetOptions || multipleItemsSelected,
+				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds, applyToAll: true }))
 			},
 			{
 				label: 'Apply Preset to All as Duplicate',
-				hide: multipleItemsSelected,
-				submenu: createPresetMenu(presetIds => applyPreset(presetIds, mapIds(media), true))
+				hide: !showApplyPresetOptions || multipleItemsSelected,
+				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds, applyToAll: true, duplicate: true }))
 			},
-			{ type: 'spacer' },
+			{
+				type: 'spacer',
+				hide: !showApplyPresetOptions
+			},
 			{
 				label: 'Remove Selected',
 				hide: !multipleItemsSelected,
