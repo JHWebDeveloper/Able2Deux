@@ -1,6 +1,7 @@
 import { app, nativeTheme } from 'electron'
 import { promises as fsp } from 'fs'
 import path from 'path'
+import { v1 as uuid } from 'uuid'
 
 import { defaultPrefs, defaultPresets } from './default'
 import { fileExistsPromise, innerMergeObjectKeys } from '../utilities'
@@ -125,6 +126,33 @@ export const getPresets = async ({ presetIds }) => {
 	const { presets } = JSON.parse(await fsp.readFile(presetsPath))
 	
 	return presets.filter(({ id }) => presetIds.includes(id))
+}
+
+export const createPreset = async ({ label, attributes }) => {
+	const presets = JSON.parse(await fsp.readFile(presetsPath))
+
+	presets.presets.unshift({
+		id: uuid(),
+		hidden: false,
+		label,
+		attributes
+	})
+
+	return fsp.writeFile(presetsPath, JSON.stringify(presets))
+}
+
+export const updatePreset = async ({ id, attributes, overwrite }) => {
+	const presets = JSON.parse(await fsp.readFile(presetsPath))
+
+	presets.presets = presets.presets.map(item => item.id === id ? {
+		...item,
+		attributes: overwrite ? attributes : {
+			...item.attributes,
+			...attributes
+		}
+	} : item)
+
+	return fsp.writeFile(presetsPath, JSON.stringify(presets))
 }
 
 // ---- SHARED --------
