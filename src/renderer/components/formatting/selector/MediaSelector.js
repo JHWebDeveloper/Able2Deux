@@ -69,6 +69,8 @@ const MediaSelector = ({
 		}))
 	], [presets, batchPresets])
 
+	const showApplyPresetOptions = useMemo(() => presets.length || batchPresets.length, [presets, batchPresets])
+
 	const dispatchDeselectAllMedia = useCallback(() => {
 		dispatch(deselectAllMedia())
 	}, [])
@@ -115,12 +117,14 @@ const MediaSelector = ({
 				copyToClipboard={copyToClipboard}
 				clipboard={clipboard}
 				createPresetMenu={createPresetMenu}
+				showApplyPresetOptions={showApplyPresetOptions}
 				dispatch={dispatch} />
 			{multipleItems ? (
 				<MediaSelectorOptions
 					allItemsSelected={allItemsSelected}
 					multipleItemsSelected={multipleItemsSelected}
 					createPresetMenu={createPresetMenu}
+					showApplyPresetOptions={showApplyPresetOptions}
 					selectAllMedia={dispatchSelectAllMedia}
 					deselectAllMedia={dispatchDeselectAllMedia}
 					removeSelectedMediaWarning={removeSelectedMediaWarning}
