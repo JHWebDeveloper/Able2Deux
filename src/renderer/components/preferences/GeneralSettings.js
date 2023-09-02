@@ -44,56 +44,44 @@ const GeneralSettings = () => {
 			<ScratchDisk
 				scratchDisk={preferences.scratchDisk}
 				dispatch={dispatch} />
-			<fieldset>
+			<fieldset className="radio-set">
 				<legend>Warnings:</legend>
-				<span className="input-option">
-					<Checkbox
-						label="Remove Media"
-						name="remove"
-						checked={warnings.remove}
-						onChange={dispatchToggleWarning}
-						switchIcon />
-				</span>
-				<span className="input-option">
-					<Checkbox
-						label="Remove Referenced Media"
-						name="removeReferenced"
-						checked={warnings.removeReferenced}
-						onChange={dispatchToggleWarning}
-						switchIcon />
-				</span>
-				<span className="input-option">
-					<Checkbox
-						label="Remove All/Selected Media"
-						name="removeAll"
-						checked={warnings.removeAll}
-						onChange={dispatchToggleWarning}
-						switchIcon />
-				</span>
-				<span className="input-option">
-					<Checkbox
-						label="Apply Settings to All/Selected"
-						name="applyToAll"
-						checked={warnings.applyToAll}
-						onChange={dispatchToggleWarning}
-						switchIcon />
-				</span>
-				<span className="input-option">
-					<Checkbox
-						label="Source on Top"
-						name="sourceOnTop"
-						checked={warnings.sourceOnTop}
-						onChange={dispatchToggleWarning}
-						switchIcon />
-				</span>
-				<span className="input-option">
-					<Checkbox
-						label="Start Over"
-						name="startOver"
-						checked={warnings.startOver}
-						onChange={dispatchToggleWarning}
-						switchIcon />
-				</span>
+				<Checkbox
+					label="Remove Media"
+					name="remove"
+					checked={warnings.remove}
+					onChange={dispatchToggleWarning}
+					switchIcon />
+				<Checkbox
+					label="Remove Referenced Media"
+					name="removeReferenced"
+					checked={warnings.removeReferenced}
+					onChange={dispatchToggleWarning}
+					switchIcon />
+				<Checkbox
+					label="Remove All/Selected Media"
+					name="removeAll"
+					checked={warnings.removeAll}
+					onChange={dispatchToggleWarning}
+					switchIcon />
+				<Checkbox
+					label="Apply Settings to All/Selected"
+					name="applyToAll"
+					checked={warnings.applyToAll}
+					onChange={dispatchToggleWarning}
+					switchIcon />
+				<Checkbox
+					label="Source on Top"
+					name="sourceOnTop"
+					checked={warnings.sourceOnTop}
+					onChange={dispatchToggleWarning}
+					switchIcon />
+				<Checkbox
+					label="Start Over"
+					name="startOver"
+					checked={warnings.startOver}
+					onChange={dispatchToggleWarning}
+					switchIcon />
 			</fieldset>
 		</form>
 	)
