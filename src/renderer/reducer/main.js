@@ -58,6 +58,8 @@ export const mainReducer = (state, action) => {
 			return splitMedia(state, payload)
 		case ACTION.APPLY_PRESET:
 			return applyPreset(state, payload)
+		case ACTION.APPLY_PRESET_TO_SELECTED:
+			return applyPresetToSelected(state, payload)
 		case ACTION.REMOVE_FAILED_ACQUISITIONS:
 			return removeFailedAcquisitions(state)
 		case ACTION.PASTE_SETTINGS:
@@ -358,6 +360,20 @@ const applyPreset = (state, payload) => {
 	}
 
 	return { ...state, media }
+}
+
+const applyPresetToSelected = (state, payload) => {
+	const { applyToAll, duplicate, presets } = payload
+	const mediaIds = state.media.reduce((acc, { selected, id }) => {
+		if (applyToAll || selected) acc.push(id)
+		return acc
+	}, [])
+
+	return applyPreset(state, {
+		presets,
+		mediaIds,
+		duplicate
+	})
 }
 
 // ---- REMOVE MEDIA --------
