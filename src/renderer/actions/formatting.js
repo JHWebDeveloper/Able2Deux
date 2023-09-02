@@ -140,6 +140,19 @@ export const applyPreset = (presetIds, mediaIds, duplicate) => async dispatch =>
 	})
 }
 
+export const applyPresetToSelected = ({ presetIds, applyToAll, duplicate }) => async dispatch => {
+	if (typeof presetIds === 'string') presetIds = [presetIds]
+	
+	dispatch({
+		type: ACTION.APPLY_PRESET_TO_SELECTED,
+		payload: {
+			presets: await interop.getPresets(presetIds),
+			applyToAll,
+			duplicate
+		}
+	})
+}
+
 // ---- REMOVE MEDIA --------
 
 export const removeAllMedia = () => ({
