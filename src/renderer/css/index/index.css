@@ -3,7 +3,6 @@
 	grid-template-columns: 308px minmax(384px, auto);
 	grid-template-rows: min-content repeat(3, 1fr);
 	gap: 18px;
-	padding: 18px;
 }
 
 header {
