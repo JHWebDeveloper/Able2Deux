@@ -1,0 +1,42 @@
+#root {
+  display: grid;
+  row-gap: 18px;
+  grid-template-rows: min-content auto min-content;
+}
+
+h1 {
+  text-align: center;
+  font-size: 18px;
+}
+
+main, footer {
+  display: inherit;
+}
+
+main {
+  overflow: hidden auto;
+  align-content: start;
+  row-gap: inherit;
+  height: 100%;
+}
+
+input[type="text"], select { height: 27px; }
+
+select {
+  width: 100%;
+  padding: 5px;
+	border-radius: 3px;
+  background-color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  select {
+    background-color: var(--background-alt-1);
+  }
+}
+
+footer {
+  grid-auto-flow: column;
+  column-gap: 6px;
+  background-color: var(--background);
+}
