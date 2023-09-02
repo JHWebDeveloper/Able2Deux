@@ -29,13 +29,13 @@ export const PresetsProvider = ({ referencesOnly, children }) => {
 			}
 		})()
 
-		// interop.addPrefsSyncListener(newPrefs => {
-		// 	dispatch(updateState(newPrefs))
-		// })
+		interop.addPresetsSyncListener(newPresets => {
+			dispatch(updateState(newPresets))
+		})
 
-		// return () => {
-		// 	interop.removePrefsSyncListener()
-		// }
+		return () => {
+			interop.removePresetsSyncListener()
+		}
 	}, [])
 
 	return (
