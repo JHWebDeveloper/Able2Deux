@@ -234,16 +234,6 @@ button[name$="selectAll"] {
 	font-size: 12px;
 }
 
-.editor-options legend {
-	white-space: nowrap;
-	font-size: 14px;
-}
-
-.editor-option-column > label {
-	display: block;
-	margin: 3px;
-}
-
 .editor-options input[type="text"] {
 	font-size: 16px;
 	margin-bottom: 9px;
