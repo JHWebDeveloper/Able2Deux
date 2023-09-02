@@ -33,7 +33,7 @@ const PreviewSettings = () => {
 
 	return (
 		<form>
-			<fieldset>
+			<fieldset className="radio-set">
 				<legend>Default Quality:</legend>
 				<RadioSet
 					name="previewQuality"

@@ -65,7 +65,7 @@ const FormattingSettings = () => {
 
 	return (
 		<form>
-			<fieldset>
+			<fieldset className="radio-set">
 				<legend>Default AR Correction:</legend>
 				<RadioSet
 					name="arc"
@@ -73,7 +73,7 @@ const FormattingSettings = () => {
 					onChange={updateEditorSettingsDispatch}
 					buttons={arcButtons} />
 			</fieldset>
-			<fieldset>
+			<fieldset className="radio-set">
 				<legend>Default Background Motion:</legend>
 				<RadioSet
 					name="backgroundMotion"

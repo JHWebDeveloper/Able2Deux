@@ -33,7 +33,7 @@ const GeneralSettings = () => {
 
 	return (
 		<form>
-			<fieldset>
+			<fieldset className="radio-set">
 				<legend>Theme:</legend>
 				<RadioSet
 					name="theme"

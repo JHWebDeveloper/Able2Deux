@@ -53,7 +53,7 @@ const RenderOutput = () => {
 
 	return (
 		<form>
-			<fieldset>
+			<fieldset className="radio-set">
 				<legend>Output Resolution:</legend>
 				<div>
 					<RadioSet 
@@ -63,7 +63,7 @@ const RenderOutput = () => {
 						buttons={outputButtons}/>
 				</div>
 			</fieldset>
-			<fieldset>
+			<fieldset className="radio-set">
 				<legend>Output Frame Rate:</legend>
 				<div>
 					<RadioSet 

@@ -50,7 +50,7 @@ const AcquisitionSettings = () => {
 
 	return (
 		<form>
-			<fieldset>
+			<fieldset className="radio-set">
 				<legend>Default Download Mode:</legend>
 				<div>
 					<RadioSet 
@@ -60,7 +60,7 @@ const AcquisitionSettings = () => {
 						buttons={optimizeButtons}/>
 				</div>
 			</fieldset>
-			<fieldset>
+			<fieldset className="radio-set">
 				<legend>Default Screen Capture Mode:</legend>
 				<div>
 					<RadioSet 
