@@ -2,6 +2,7 @@
 	overflow-y: hidden;
 	display: grid;
 	grid-template-rows: min-content auto 67px;
+	padding: 0;
 }
 
 nav, footer {
@@ -38,24 +39,19 @@ form {
 	background-color: var(--background-alt-1);
 }
 
-fieldset { margin-bottom: 18px; }
+fieldset { margin-bottom: 12px; }
 
-fieldset:nth-child(n + 2) { margin-top: 18px; }
-
-legend, label {
-	font-size: 14px;
-	white-space: nowrap;
-}
-
-legend { margin-bottom: 3px; }
-
-label { font-weight: 500; }
+fieldset:nth-child(n + 2) { margin-top: 12px; }
 
 .input-option, label:not([for]) { display: block; }
 
-.input-option > label { margin-right: 9px; }
-
 .input-option { margin-bottom: 9px; }
+
+:not(.radio-set) > label {
+	margin-right: 9px;
+	font-weight: 500;
+	font-size: 14px;
+}
 
 form > :last-child { margin-bottom: 0; }
 
