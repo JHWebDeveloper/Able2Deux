@@ -18,6 +18,7 @@ import { useWarning } from 'hooks'
 import {
 	arrayCount,
 	extractCopyPasteProps,
+	extractRelevantMediaProps,
 	isArrowNext,
 	isArrowPrev,
 	pipe,
@@ -36,6 +37,7 @@ const BatchList = ({
 	multipleItemsSelected,
 	allItemsSelected,
 	createPresetMenu,
+	showApplyPresetOptions,
 	copyToClipboard,
 	clipboard,
 	dispatch
@@ -165,15 +167,19 @@ const BatchList = ({
 			{ type: 'spacer' },
 			{
 				label: 'Apply Preset',
+				hide: !showApplyPresetOptions,
 				submenu: createPresetMenu(presetIds => applyPreset(presetIds, id))
 			},
 			{
 				label: 'Apply Preset as Duplicate',
+				hide: !showApplyPresetOptions,
 				submenu: createPresetMenu(presetIds => applyPreset(presetIds, id, true))
 			},
 			{
 				label: 'Save as Preset',
-				action() {}
+				action() {
+					interop.openPresetsSaveAs(extractRelevantMediaProps(attributes))
+				}
 			},
 			{ type: 'spacer' },
 			{
