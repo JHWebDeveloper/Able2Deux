@@ -3,20 +3,9 @@ import { v1 as uuid } from 'uuid'
 
 import * as ACTION from 'actions/types'
 import { addNewSortableElement } from 'actions'
-import { errorToString, toastrOpts } from 'utilities'
+import { toastrOpts } from 'utilities'
 
 const { interop } = window.ABLE2
-
-export const loadPrefs = () => async dispatch => {
-	try {
-		dispatch({
-			type: ACTION.UPDATE_STATE,
-			payload: await interop.requestPrefs()
-		})
-	} catch (err) {
-		toastr.error(errorToString(err), false, toastrOpts)
-	}
-}
 
 export const updateScratchDisk = properties => ({
 	type: ACTION.UPDATE_SCRATCH_DISK,
