@@ -156,7 +156,7 @@ const Framing = memo(props => {
 
 	return (
 		<>
-			<fieldset className="editor-option-column">
+			<fieldset className="radio-set">
 				<legend>AR Correction<span aria-hidden>:</span></legend>
 				<RadioSet
 					name="arc"
@@ -165,7 +165,7 @@ const Framing = memo(props => {
 					buttons={arcButtons}/>
 			</fieldset>
 			<fieldset
-				className="editor-option-column"
+				className="radio-set"
 				disabled={arc === 'none'}>
 				<legend>Background<span aria-hidden>:</span></legend>
 				<RadioSet
@@ -186,7 +186,7 @@ const Framing = memo(props => {
 					]}/>
 			</fieldset>
 			<fieldset
-				className="editor-option-column"
+				className="radio-set"
 				disabled={arc === 'none' || background === 'alpha' || background === 'color'}>
 				<legend>BG Motion<span aria-hidden>:</span></legend>
 				<RadioSet
@@ -196,7 +196,7 @@ const Framing = memo(props => {
 					buttons={backgroundMotionButtons}/>
 			</fieldset>
 			<fieldset
-				className="editor-option-column"
+				className="radio-set"
 				disabled={arc === 'none'}>
 				<legend>Box Overlay<span aria-hidden>:</span></legend>
 				<RadioSet

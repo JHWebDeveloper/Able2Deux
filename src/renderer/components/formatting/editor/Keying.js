@@ -165,7 +165,7 @@ const Keying = memo(props => {
 					switchIcon />
 			</div>
 			<fieldset
-				className="editor-option-column"
+				className="radio-set"
 				disabled={!keyingEnabled}>
 				<legend>Type<span aria-hidden>:</span></legend>
 				<RadioSet

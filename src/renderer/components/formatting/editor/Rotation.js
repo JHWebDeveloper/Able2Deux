@@ -146,7 +146,7 @@ const Rotation = memo(props => {
 
 	return (
 		<>
-			<fieldset className="editor-option-column">
+			<fieldset className="radio-set">
 				<legend>Reflect<span aria-hidden>:</span></legend>
 				<RadioSet
 					name="reflect"
@@ -154,7 +154,7 @@ const Rotation = memo(props => {
 					onChange={updateReflect}
 					buttons={flipButtons(isSideways)} />
 			</fieldset>
-			<fieldset className="editor-option-column">
+			<fieldset className="radio-set">
 				<legend>Rotate<span aria-hidden>:</span></legend>
 				<RadioSet 
 					name="transpose"
@@ -163,7 +163,7 @@ const Rotation = memo(props => {
 					buttons={transposeButtons}/>
 			</fieldset>
 			{props.showFreeRotate ? <>
-				<fieldset className="editor-option-column">
+				<fieldset className="radio-set">
 					<legend>Free Rotate Mode<span aria-hidden>:</span></legend>
 					<RadioSet
 						name="freeRotateMode"
