@@ -55,35 +55,31 @@ const RenderOutput = () => {
 		<form>
 			<fieldset className="radio-set">
 				<legend>Output Resolution:</legend>
-				<div>
-					<RadioSet 
-						name="renderOutput"
-						state={preferences.renderOutput}
-						onChange={e => dispatch(updateStateFromEvent(e))}
-						buttons={outputButtons}/>
-				</div>
+				<RadioSet 
+					name="renderOutput"
+					state={preferences.renderOutput}
+					onChange={e => dispatch(updateStateFromEvent(e))}
+					buttons={outputButtons} />
 			</fieldset>
 			<fieldset className="radio-set">
 				<legend>Output Frame Rate:</legend>
-				<div>
-					<RadioSet 
-						name="renderFrameRate"
-						state={preferences.renderFrameRate}
-						onChange={e => dispatch(updateStateFromEvent(e))}
-						buttons={[
-							...frameRateButtons,
-							{
-								label: 'custom',
-								value: 'custom',
-								component: <NumberInput
-									name="customFrameRate"
-									value={preferences.customFrameRate}
-									min={1}
-									max={240}
-									onChange={updateCustomFrameRate} />
-							}
-						]}/>
-				</div>
+				<RadioSet 
+					name="renderFrameRate"
+					state={preferences.renderFrameRate}
+					onChange={e => dispatch(updateStateFromEvent(e))}
+					buttons={[
+						...frameRateButtons,
+						{
+							label: 'custom',
+							value: 'custom',
+							component: <NumberInput
+								name="customFrameRate"
+								value={preferences.customFrameRate}
+								min={1}
+								max={240}
+								onChange={updateCustomFrameRate} />
+						}
+					]} />
 			</fieldset>
 			<span className="input-option">
 				<Checkbox

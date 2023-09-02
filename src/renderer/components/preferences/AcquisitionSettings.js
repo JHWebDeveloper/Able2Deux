@@ -52,23 +52,19 @@ const AcquisitionSettings = () => {
 		<form>
 			<fieldset className="radio-set">
 				<legend>Default Download Mode:</legend>
-				<div>
-					<RadioSet 
-						name="optimize"
-						state={preferences.optimize}
-						onChange={e => dispatch(updateStateFromEvent(e))}
-						buttons={optimizeButtons}/>
-				</div>
+				<RadioSet 
+					name="optimize"
+					state={preferences.optimize}
+					onChange={e => dispatch(updateStateFromEvent(e))}
+					buttons={optimizeButtons}/>
 			</fieldset>
 			<fieldset className="radio-set">
 				<legend>Default Screen Capture Mode:</legend>
-				<div>
-					<RadioSet 
-						name="screenshot"
-						state={preferences.screenshot ? 'screenshot' : 'screen_record'}
-						onChange={screenshotToBoolean}
-						buttons={screenshotButtons}/>
-				</div>
+				<RadioSet 
+					name="screenshot"
+					state={preferences.screenshot ? 'screenshot' : 'screen_record'}
+					onChange={screenshotToBoolean}
+					buttons={screenshotButtons}/>
 			</fieldset>
 			<span className="input-option">
 				<Checkbox
