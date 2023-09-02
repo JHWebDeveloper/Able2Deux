@@ -1,10 +1,10 @@
-import { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, powerSaveBlocker } from 'electron'
+import { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, powerSaveBlocker, ipcRenderer } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 import { pathToFileURL } from 'url'
 import path from 'path'
 
-import { initPreferencesAndPresets, loadPrefs, loadPresets, savePrefs, getDefaultPrefs, loadTheme, getPresets } from './modules/preferences/preferences'
+import { initPreferencesAndPresets, loadPrefs, loadPresets, savePrefs, getDefaultPrefs, loadTheme, getPresets, createPreset, updatePreset } from './modules/preferences/preferences'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -592,6 +592,10 @@ ipcMain.on('savePrefsSilently', async (evt, newPrefs) => {
 	}
 })
 
+ipcMain.on('closePrefs', () => {
+	preferences.close()
+})
+
 // ---- IPC ROUTES: PRESETS ------------
 
 ipcMain.on('requestPresets', async (evt, data) => {
@@ -615,6 +619,10 @@ ipcMain.on('getPresets', async (evt, data) => {
 ipcMain.on('openPresetSaveAs', async (evt, data) => {
 	ipcMain.handleOnce('getPresetToSave', () => data.preset)
 
+	ipcMain.once('closePresetSaveAs', () => {
+		presetSaveAs.close()
+	})
+
 	presetSaveAs = openWindow({
 		parent: mainWin,
 		width: 400,
@@ -636,10 +644,28 @@ ipcMain.on('openPresetSaveAs', async (evt, data) => {
 	})
 
 	presetSaveAs.on('close', () => {
+		ipcMain.removeHandler('getPresetToSave')
+		ipcMain.removeAllListeners('closePresetSaveAs')
 		presetSaveAs = false
 	})
 
 	presetSaveAs.setMenu(null)
+})
+
+ipcMain.on('savePreset', async (evt, data) => {
+	try {
+		if ('id' in data) {
+			await updatePreset(data)
+		} else {
+			await createPreset(data)
+		}
+
+		mainWin.webContents.send('syncPresets', await loadPresets({ referencesOnly: true }))
+		evt.reply('presetSaved')
+	} catch (err) {
+		console.error(err)
+		evt.reply('savePresetErr', new Error('An error occurred while attempting to save preset.'))
+	}
 })
 
 // ---- IPC ROUTES: UPDATE ------------
@@ -699,10 +725,6 @@ ipcMain.on('bringToFront', () => {
 
 ipcMain.on('hide', () => {
 	mainWin.hide()
-})
-
-ipcMain.on('closePrefs', () => {
-	preferences.close()
 })
 
 ipcMain.on('quit', () => {
