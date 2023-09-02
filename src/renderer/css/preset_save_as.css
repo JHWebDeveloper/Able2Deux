@@ -20,7 +20,7 @@ main {
   height: 100%;
 }
 
-input[type="text"], select { height: 27px; }
+input[type="text"], select { height: 28px; }
 
 select {
   width: 100%;
