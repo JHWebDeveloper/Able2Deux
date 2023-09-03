@@ -10,23 +10,32 @@ export const detectTabExit = callback => e => {
 export const createSettingsMenu = ({
 	multipleItems,
 	multipleItemsSelected
-}, actions, additionalOptions = []) => multipleItems ? [
+}, actions, additionalOptions = []) => [
 	{
 		label: 'Copy Attributes',
+		hide: !multipleItems,
 		action() { actions[0]() }
 	},
 	{
 		label: 'Apply to Selected',
-		hide: !multipleItemsSelected,
+		hide: !multipleItems || !multipleItemsSelected,
 		action() { actions[1]() }
 	},
 	{
 		label: 'Apply to All',
-		hide: multipleItemsSelected,
+		hide: !multipleItems || multipleItemsSelected,
 		action() { actions[2]() }
 	},
+	{
+		type: 'spacer',
+		hide: !multipleItems
+	},
+	{
+		label: 'Save as Preset',
+		action() { actions[3]() }
+	},
 	...additionalOptions
-] : []
+]
 
 export const getStatusColor = status => {
 	switch (status) {
@@ -64,10 +73,10 @@ export const refocusBatchItem = () => {
 }
 
 export const replaceIds = (() => {
-	const _replaceIds = obj => {
+	const _replaceIds = (obj, replaceWith) => {
 		obj = { ...obj }
 
-		if ('id' in obj) obj.id = uuid()
+		if ('id' in obj) obj.id = replaceWith ?? uuid()
 	
 		const entries = Object.entries(obj)
 	
@@ -78,8 +87,12 @@ export const replaceIds = (() => {
 		return obj
 	}
 
-	return arr => Array.isArray(arr) ? arr.map(_replaceIds) : _replaceIds(arr)
+	return (obj, replaceWith) => Array.isArray(obj)
+		? obj.map(item => _replaceIds(item, replaceWith))
+		: _replaceIds(obj, replaceWith)
 })()
+
+export const eraseIds = obj => replaceIds(obj, '')
 
 export const sortCurvePoints = (a, b) => a.x - b.x
 
