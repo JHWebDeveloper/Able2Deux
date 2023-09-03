@@ -2,8 +2,8 @@ import React, { memo, useCallback } from 'react'
 import { bool, func, oneOf, string } from 'prop-types'
 
 import {
-	applySettingsToAll,
-	applySettingsToSelection,
+	applyToAll,
+	applyToSelection,
 	copyAttributes,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
@@ -84,8 +84,8 @@ const AudioPanel = props => {
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractAudioProps)),
-		() => dispatch(applySettingsToSelection(id, extractRelevantMediaProps, extractAudioProps)),
-		() => dispatch(applySettingsToAll(id, extractRelevantMediaProps, extractAudioProps))
+		() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractAudioProps)),
+		() => dispatch(applyToAll(id, extractRelevantMediaProps, extractAudioProps))
 	])
 
 	return (

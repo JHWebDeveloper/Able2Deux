@@ -2,8 +2,8 @@ import React, { memo, useCallback, useEffect } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
-	applySettingsToAll,
-	applySettingsToSelection,
+	applyToAll,
+	applyToSelection,
 	copyAttributes,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection,
@@ -230,8 +230,8 @@ const KeyingPanel = props => {
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractKeyingProps)),
-		() => dispatch(applySettingsToSelection(id, extractRelevantMediaProps, extractKeyingProps)),
-		() => dispatch(applySettingsToAll(id, extractRelevantMediaProps, extractKeyingProps)),
+		() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractKeyingProps)),
+		() => dispatch(applyToAll(id, extractRelevantMediaProps, extractKeyingProps)),
 	])
 
 	return (

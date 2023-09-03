@@ -4,8 +4,8 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 import { PrefsContext } from 'store'
 
 import {
-	applySettingsToAll,
-	applySettingsToSelection,
+	applyToAll,
+	applyToSelection,
 	copyAttributes,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection
@@ -188,8 +188,8 @@ const ScalePanel = props => {
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => dispatch(copyAttributes(id, extractScaleProps)),
-		() => dispatch(applySettingsToSelection(id, extractScaleProps)),
-		() => dispatch(applySettingsToAll(id, extractScaleProps))
+		() => dispatch(applyToSelection(id, extractScaleProps)),
+		() => dispatch(applyToAll(id, extractScaleProps))
 	])
 
 	return (

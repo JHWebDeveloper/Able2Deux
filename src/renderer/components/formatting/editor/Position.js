@@ -2,8 +2,8 @@ import React, { memo, useCallback } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
-	applySettingsToAll,
-	applySettingsToSelection,
+	applyToAll,
+	applyToSelection,
 	copyAttributes,
 	updateMediaStateBySelection
 } from 'actions'
@@ -55,8 +55,8 @@ const PositionPanel = props => {
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => dispatch(copyAttributes(id, extractPositionProps)),
-		() => dispatch(applySettingsToSelection(id, extractPositionProps)),
-		() => dispatch(applySettingsToAll(id, extractPositionProps)),
+		() => dispatch(applyToSelection(id, extractPositionProps)),
+		() => dispatch(applyToAll(id, extractPositionProps)),
 	])
 
 	return (

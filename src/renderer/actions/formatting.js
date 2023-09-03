@@ -122,7 +122,7 @@ export const pasteAttributes = id => ({
 	payload: { id }
 })
 
-export const applySettingsToAll = (id, ...extractors) => ({
+export const applyToAll = (id, ...extractors) => ({
 	type: ACTION.APPLY_TO_ALL,
 	payload: {
 		id,
@@ -130,7 +130,7 @@ export const applySettingsToAll = (id, ...extractors) => ({
 	}
 })
 
-export const applySettingsToSelection = (id, ...extractors) => ({
+export const applyToSelection = (id, ...extractors) => ({
 	type: ACTION.APPLY_TO_SELECTION,
 	payload: {
 		id,

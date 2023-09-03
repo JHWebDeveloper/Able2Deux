@@ -3,8 +3,8 @@ import { arrayOf, bool, func, object } from 'prop-types'
 
 import {
 	applyPreset,
-	applySettingsToAll,
-	applySettingsToSelection,
+	applyToAll,
+	applyToSelection,
 	copyAttributes,
 	duplicateMedia,
 	moveSortableElement,
@@ -64,12 +64,12 @@ const BatchList = ({
 
 	const applyToAllWarning = useCallback(id => applyToMultipleWarning({
 		message: 'Apply current settings to all media items?',
-		action: applySettingsToAll(id, extractRelevantMediaProps)
+		action: applyToAll(id, extractRelevantMediaProps)
 	}), [])
 
 	const applyToSelectionWarning = useCallback(id => applyToMultipleWarning({
 		message: 'Apply current settings to the selected media items?',
-		action: applySettingsToSelection(id, extractRelevantMediaProps)
+		action: applyToSelection(id, extractRelevantMediaProps)
 	}), [])
 
 	const warnRemoveMedia = useWarning({ name: 'remove' }, [])

@@ -2,8 +2,8 @@ import React, { memo, useCallback } from 'react'
 import { bool, func, oneOf, oneOfType, number, string } from 'prop-types'
 
 import {
-	applySettingsToAll,
-	applySettingsToSelection,
+	applyToAll,
+	applyToSelection,
 	copyAttributes,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
@@ -188,8 +188,8 @@ const RotationPanel = props => {
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractRotationProps)),
-		() => dispatch(applySettingsToSelection(id, extractRelevantMediaProps, extractRotationProps)),
-		() => dispatch(applySettingsToAll(id, extractRelevantMediaProps, extractRotationProps)),
+		() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractRotationProps)),
+		() => dispatch(applyToAll(id, extractRelevantMediaProps, extractRotationProps)),
 	])
 
 	return (

@@ -4,8 +4,8 @@ import { arrayOf, bool, exact, func, number, oneOf, oneOfType, string } from 'pr
 import {
 	addCurvePoint,
 	addOrUpdateCurvePoint,
-	applySettingsToAll,
-	applySettingsToSelection,
+	applyToAll,
+	applyToSelection,
 	cleanupCurve,
 	colorBalance,
 	copyAttributes,
@@ -276,8 +276,8 @@ const ColorCorrectionPanel = props => {
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => dispatch(copyAttributes(id, extractColorCorrectionProps, eraseIds)),
-		() => dispatch(applySettingsToSelection(id, extractColorCorrectionProps)),
-		() => dispatch(applySettingsToAll(id, extractColorCorrectionProps))
+		() => dispatch(applyToSelection(id, extractColorCorrectionProps)),
+		() => dispatch(applyToAll(id, extractColorCorrectionProps))
 	])
 
 	return ( 

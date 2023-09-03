@@ -2,8 +2,8 @@ import React, { memo, useCallback } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
-	applySettingsToAll,
-	applySettingsToSelection,
+	applyToAll,
+	applyToSelection,
 	copyAttributes,
 	updateMediaStateBySelection
 } from 'actions'
@@ -50,8 +50,8 @@ const CenteringPanel = props => {
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => dispatch(copyAttributes(id, extractCenteringProps)),
-		() => dispatch(applySettingsToSelection(id, extractCenteringProps)),
-		() => dispatch(applySettingsToAll(id, extractCenteringProps)),
+		() => dispatch(applyToSelection(id, extractCenteringProps)),
+		() => dispatch(applyToAll(id, extractCenteringProps)),
 	])
 
 	return (

@@ -4,8 +4,8 @@ import { bool, exact, func, oneOf, oneOfType, string } from 'prop-types'
 import { PrefsContext } from 'store'
 
 import {
-	applySettingsToAll,
-	applySettingsToSelection,
+	applyToAll,
+	applyToSelection,
 	copyAttributes,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
@@ -215,8 +215,8 @@ const FramingPanel = props => {
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => dispatch(copyAttributes(id, extractFramingProps)),
-		() => dispatch(applySettingsToSelection(id, extractFramingProps)),
-		() => dispatch(applySettingsToAll(id, extractFramingProps)),
+		() => dispatch(applyToSelection(id, extractFramingProps)),
+		() => dispatch(applyToAll(id, extractFramingProps)),
 	])
 
 	return (

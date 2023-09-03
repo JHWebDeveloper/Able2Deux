@@ -2,8 +2,8 @@ import React, { memo, useCallback, useMemo } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
-	applySettingsToAll,
-	applySettingsToSelection,
+	applyToAll,
+	applyToSelection,
 	copyAttributes,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection
@@ -167,8 +167,8 @@ const CropPanel = props => {
 
 	const settingsMenu = createSettingsMenu(props, [
 		() => dispatch(copyAttributes(id, extractCropProps)),
-		() => dispatch(applySettingsToSelection(id, extractCropProps)),
-		() => dispatch(applySettingsToAll(id, extractCropProps)),
+		() => dispatch(applyToSelection(id, extractCropProps)),
+		() => dispatch(applyToAll(id, extractCropProps)),
 	])
 
 	return (
