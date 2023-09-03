@@ -16,41 +16,26 @@ const ROTATION_ADVANCED_PROPS = Object.freeze(['freeRotateMode', 'angle', 'rotat
 const SCALE_PROPS = Object.freeze(['scaleX', 'scaleY'])
 const SOURCE_PROPS = Object.freeze(['sourceName', 'sourcePrefix', 'sourceOnTop'])
 
-/* dynamic props are props that can be copied from one media item to another
-    and should cause a preview render on change */
-const DYNAMIC_PROPS = Object.freeze([
-	...AUDIO_PROPS,
-	...FRAMING_PROPS,
-	...SCALE_PROPS,
-	...CROP_PROPS,
-	...ROTATION_BASIC_PROPS,
-	...ROTATION_ADVANCED_PROPS,
-	...KEYING_PROPS,
-	...CHROMA_KEY_PROPS,
-	...LUMA_KEY_PROPS,
-	...COLOR_CORRECTION_PROPS,
-	...SOURCE_PROPS,
-	...POSITION_PROPS,
-	'arc',
-	'centering'
-])
-
 // ---- OBJECT PICKERS --------
 
 const createObjectPicker = keys => props => objectPick(props, keys)
 
 export const extractAudioProps = createObjectPicker(AUDIO_PROPS)
 
-export const extractCopyPasteProps = createObjectPicker([
-	...DYNAMIC_PROPS,
-	...CROP_LINK_PROPS,
-	'backgroundMotion',
-	'scaleLink'
-])
-
 export const extractPreviewRenderDependencies = (() => {
 	const getVisualProps = createObjectPicker([
-		...DYNAMIC_PROPS,
+		...AUDIO_PROPS,
+		...FRAMING_PROPS,
+		...SCALE_PROPS,
+		...CROP_PROPS,
+		...ROTATION_BASIC_PROPS,
+		...ROTATION_ADVANCED_PROPS,
+		...KEYING_PROPS,
+		...CHROMA_KEY_PROPS,
+		...LUMA_KEY_PROPS,
+		...COLOR_CORRECTION_PROPS,
+		...SOURCE_PROPS,
+		...POSITION_PROPS,
 		'keyingHidden',
 		'ccHidden',
 		'id',
