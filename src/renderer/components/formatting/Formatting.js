@@ -35,14 +35,13 @@ const Formatting = () => {
 		previewQuality,
 		previewHeight,
 		rendering,
+		clipboard,
 		dispatch
 	} = useContext(MainContext)
 
 	const { selectAllByDefault } = useContext(PrefsContext).preferences
 
 	if (!media.length) return <Navigate replace to="/" />
-
-	const [ clipboard, copyToClipboard ] = useClipboard()
 
 	const focused = media.find(item => item.focused) || {}
 	const multipleItems = media.length > 1
@@ -68,7 +67,6 @@ const Formatting = () => {
 					multipleItemsSelected={multipleItemsSelected}
 					allItemsSelected={allItemsSelected}
 					clipboard={clipboard}
-					copyToClipboard={copyToClipboard}
 					dispatch={dispatch} />	
 				{multipleItems ? (
 					<BatchName
@@ -90,7 +88,6 @@ const Formatting = () => {
 				multipleItems={multipleItems}
 				multipleItemsSelected={multipleItemsSelected}
 				allItemsSelected={allItemsSelected}
-				copyToClipboard={copyToClipboard}
 				split={split}
 				dispatch={dispatch} />
 			{rendering ? (
