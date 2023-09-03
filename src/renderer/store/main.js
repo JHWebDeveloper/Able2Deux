@@ -14,6 +14,7 @@ const initState = {
 	screenshot: false,
 	timer: 60,
 	timerEnabled: false,
+	clipboard: {},
 	media: [],
 	batchName: '',
 	batchNameType: 'replace',
