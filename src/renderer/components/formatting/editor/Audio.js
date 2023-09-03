@@ -4,13 +4,15 @@ import { bool, func, oneOf, string } from 'prop-types'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
+	copyAttributes,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
 import {
 	createSettingsMenu,
-	objectsAreEqual,
-	pipe
+	extractAudioProps,
+	extractRelevantMediaProps,
+	objectsAreEqual
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -78,13 +80,12 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, dispatch }
 }, objectsAreEqual)
 
 const AudioPanel = props => {
-	const { audioVideoTracks, audioExportFormat, id, mediaType, copyToClipboard, dispatch } = props
-	const audioProps = { audioVideoTracks, audioExportFormat }
+	const { id, mediaType, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => copyToClipboard(audioProps),
-		() => pipe(applySettingsToSelection(id), dispatch)(audioProps),
-		() => pipe(applySettingsToAll(id), dispatch)(audioProps)
+		() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractAudioProps)),
+		() => dispatch(applySettingsToSelection(id, extractRelevantMediaProps, extractAudioProps)),
+		() => dispatch(applySettingsToAll(id, extractRelevantMediaProps, extractAudioProps))
 	])
 
 	return (

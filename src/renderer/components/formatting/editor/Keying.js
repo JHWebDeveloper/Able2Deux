@@ -4,6 +4,7 @@ import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
+	copyAttributes,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
@@ -12,6 +13,7 @@ import {
 import {
 	createSettingsMenu,
 	extractKeyingProps,
+	extractRelevantMediaProps,
 	objectsAreEqual,
 	pipe,
 	rgbToHex
@@ -224,12 +226,12 @@ const Keying = memo(props => {
 }, objectsAreEqual)
 
 const KeyingPanel = props => {
-	const { id, copyToClipboard, dispatch } = props
+	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(extractKeyingProps, copyToClipboard)(props),
-		() => pipe(extractKeyingProps, applySettingsToSelection(id), dispatch)(props),
-		() => pipe(extractKeyingProps, applySettingsToAll(id), dispatch)(props)
+		() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractKeyingProps)),
+		() => dispatch(applySettingsToSelection(id, extractRelevantMediaProps, extractKeyingProps)),
+		() => dispatch(applySettingsToAll(id, extractRelevantMediaProps, extractKeyingProps)),
 	])
 
 	return (

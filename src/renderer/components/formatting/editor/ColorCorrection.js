@@ -8,6 +8,7 @@ import {
 	applySettingsToSelection,
 	cleanupCurve,
 	colorBalance,
+	copyAttributes,
 	deleteCurvePoint,
 	resetCurve,
 	toggleMediaCheckbox,
@@ -16,9 +17,9 @@ import {
 
 import {
 	createSettingsMenu,
+	eraseIds,
 	extractColorCorrectionProps,
-	objectsAreEqual,
-	pipe
+	objectsAreEqual
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -271,12 +272,12 @@ const ColorCorrection = memo(props => {
 }, objectsAreEqual)
 
 const ColorCorrectionPanel = props => {
-	const { id, copyToClipboard, dispatch } = props
+	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => pipe(extractColorCorrectionProps, copyToClipboard)(props),
-		() => pipe(extractColorCorrectionProps, applySettingsToSelection(id), dispatch)(props),
-		() => pipe(extractColorCorrectionProps, applySettingsToAll(id), dispatch)(props)
+		() => dispatch(copyAttributes(id, extractColorCorrectionProps, eraseIds)),
+		() => dispatch(applySettingsToSelection(id, extractColorCorrectionProps)),
+		() => dispatch(applySettingsToAll(id, extractColorCorrectionProps))
 	])
 
 	return ( 

@@ -4,13 +4,14 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
+	copyAttributes,
 	updateMediaStateBySelection
 } from 'actions'
 
 import {
 	createSettingsMenu,
-	objectsAreEqual,
-	pipe
+	extractCenteringProps,
+	objectsAreEqual
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -45,13 +46,12 @@ const Centering = memo(({ centering, dispatch }) => {
 }, objectsAreEqual)
 
 const CenteringPanel = props => {
-	const { centering, id, copyToClipboard, dispatch } = props
-	const centeringProps = { centering }
+	const { centering, id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => copyToClipboard(centeringProps),
-		() => pipe(applySettingsToSelection(id), dispatch)(centeringProps),
-		() => pipe(applySettingsToAll(id), dispatch)(centeringProps)
+		() => dispatch(copyAttributes(id, extractCenteringProps)),
+		() => dispatch(applySettingsToSelection(id, extractCenteringProps)),
+		() => dispatch(applySettingsToAll(id, extractCenteringProps)),
 	])
 
 	return (

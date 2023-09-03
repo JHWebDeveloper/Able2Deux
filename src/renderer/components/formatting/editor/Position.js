@@ -4,13 +4,14 @@ import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 import {
 	applySettingsToAll,
 	applySettingsToSelection,
+	copyAttributes,
 	updateMediaStateBySelection
 } from 'actions'
 
 import {
 	createSettingsMenu,
-	objectsAreEqual,
-	pipe
+	extractPositionProps,
+	objectsAreEqual
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -50,13 +51,12 @@ const Position = memo(({ positionX, positionY, dispatch }) => {
 }, objectsAreEqual)
 
 const PositionPanel = props => {
-	const { positionX, positionY, id, copyToClipboard, dispatch } = props
-	const positionProps = { positionX, positionY }
+	const { id, dispatch } = props
 
 	const settingsMenu = createSettingsMenu(props, [
-		() => copyToClipboard(positionProps),
-		() => pipe(applySettingsToSelection(id), dispatch)(positionProps),
-		() => pipe(applySettingsToAll(id), dispatch)(positionProps)
+		() => dispatch(copyAttributes(id, extractPositionProps)),
+		() => dispatch(applySettingsToSelection(id, extractPositionProps)),
+		() => dispatch(applySettingsToAll(id, extractPositionProps)),
 	])
 
 	return (
