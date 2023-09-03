@@ -9,7 +9,7 @@ import {
 	duplicateMedia,
 	moveSortableElement,
 	moveSelectedMedia,
-	pasteSettings,
+	pasteAttributes,
 	removeMedia,
 	saveAsPreset,
 	selectMedia
@@ -109,7 +109,7 @@ const BatchList = ({
 				hide: clipboardIsEmpty,
 				shortcut: `${ctrlOrCmdKeySymbol}V`,
 				action() {
-					dispatch(pasteSettings(id))
+					dispatch(pasteAttributes(id))
 				}
 			},
 			{
@@ -201,7 +201,7 @@ const BatchList = ({
 		if (ctrlOrCmd && !isOnly && e.key === 'c') {
 			dispatch(copyAttributes(id, extractRelevantMediaProps))
 		} else if (ctrlOrCmd && e.key === 'v') {
-			dispatch(pasteSettings(id))
+			dispatch(pasteAttributes(id))
 		} else if (e.altKey && isArrowPrev(e)) {
 			dispatch(moveSortableElement('media', index, index - 1))
 		} else if (e.altKey && isArrowNext(e)) {

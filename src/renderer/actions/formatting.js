@@ -117,7 +117,7 @@ export const copyAttributes = (id, ...extractors) => ({
 	}
 })
 
-export const pasteSettings = id => ({
+export const pasteAttributes = id => ({
 	type: ACTION.PASTE_SETTINGS,
 	payload: { id }
 })

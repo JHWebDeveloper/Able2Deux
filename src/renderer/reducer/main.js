@@ -66,8 +66,8 @@ export const mainReducer = (state, action) => {
 			return removeFailedAcquisitions(state)
 		case ACTION.COPY_ATTRIBUTES:
 			return copyAttributes(state, payload)
-		case ACTION.PASTE_SETTINGS:
-			return pasteSettings(state, payload)
+		case ACTION.PASTE_ATTRIBUTES:
+			return pasteAttributes(state, payload)
 		case ACTION.APPLY_TO_ALL:
 			return applyToAll(state, payload)
 		case ACTION.APPLY_TO_SELECTION:
@@ -443,7 +443,7 @@ const copyAttributes = (state, payload) => ({
 	clipboard: payload.extractAttributes(state.media.find(item => item.id === payload.id))
 })
 
-const pasteSettings = (state, payload) => ({
+const pasteAttributes = (state, payload) => ({
 	...state,
 	media: state.media.map(item => item.id === payload.id ? {
 		...item,
