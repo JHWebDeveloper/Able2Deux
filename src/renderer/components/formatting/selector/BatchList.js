@@ -5,11 +5,13 @@ import {
 	applyPreset,
 	applySettingsToAll,
 	applySettingsToSelection,
+	copyAttributes,
 	duplicateMedia,
 	moveSortableElement,
 	moveSelectedMedia,
 	pasteSettings,
 	removeMedia,
+	saveAsPreset,
 	selectMedia
 } from 'actions'
 
@@ -17,11 +19,10 @@ import { useWarning } from 'hooks'
 
 import {
 	arrayCount,
-	extractCopyPasteProps,
+	eraseIds,
 	extractRelevantMediaProps,
 	isArrowNext,
 	isArrowPrev,
-	pipe,
 	refocusBatchItem
 } from 'utilities'
 
@@ -38,7 +39,6 @@ const BatchList = ({
 	allItemsSelected,
 	createPresetMenu,
 	showApplyPresetOptions,
-	copyToClipboard,
 	clipboard,
 	dispatch
 }) => {
@@ -50,32 +50,26 @@ const BatchList = ({
 		}
 	}, [allItemsSelected])
 
-	const copyAllSettings = useCallback(attributes => {
-		pipe(extractCopyPasteProps, copyToClipboard)(attributes)
-	}, [])
-
 	const warnApplyToMultiple = useWarning({
 		name: 'applyToAll',
 		detail: applyToAllDetail
 	}, [])
 
-	const applyToMultipleWarning = useCallback(({ attributes, message, action }) => warnApplyToMultiple({
+	const applyToMultipleWarning = useCallback(({ message, action }) => warnApplyToMultiple({
 		message,
 		onConfirm() {
-			pipe(extractCopyPasteProps, action, dispatch)(attributes)
+			dispatch(action)
 		}
 	}), [])
 
-	const applyToAllWarning = useCallback(attributes => applyToMultipleWarning({
-		attributes,
+	const applyToAllWarning = useCallback(id => applyToMultipleWarning({
 		message: 'Apply current settings to all media items?',
-		action: applySettingsToAll(attributes.id)
+		action: applySettingsToAll(id, extractRelevantMediaProps)
 	}), [])
 
-	const applyToSelectionWarning = useCallback(attributes => applyToMultipleWarning({
-		attributes,
+	const applyToSelectionWarning = useCallback(id => applyToMultipleWarning({
 		message: 'Apply current settings to the selected media items?',
-		action: applySettingsToSelection(attributes.id)
+		action: applySettingsToSelection(id, extractRelevantMediaProps)
 	}), [])
 
 	const warnRemoveMedia = useWarning({ name: 'remove' }, [])
@@ -92,10 +86,9 @@ const BatchList = ({
 
 			refocusBatchItem()
 		}
-	}), [warnRemoveMedia])
+	}), [])
 
-	const createDropdown = useCallback((attributes, index) => {
-		const { id, refId, title, tempFilePath } = attributes
+	const createDropdown = useCallback((id, refId, title, tempFilePath, index) => {
 		const isFirst = index === 0
 		const isLast = index === media.length - 1
 		const isOnly = isFirst && isLast
@@ -108,7 +101,7 @@ const BatchList = ({
 				hide: isOnly,
 				shortcut: `${ctrlOrCmdKeySymbol}C`,
 				action() {
-					copyAllSettings(attributes)
+					dispatch(copyAttributes(id, extractRelevantMediaProps, eraseIds))
 				}
 			},
 			{
@@ -116,21 +109,21 @@ const BatchList = ({
 				hide: clipboardIsEmpty,
 				shortcut: `${ctrlOrCmdKeySymbol}V`,
 				action() {
-					dispatch(pasteSettings(id, clipboard))
+					dispatch(pasteSettings(id))
 				}
 			},
 			{
 				label: 'Apply Attributes to Selected',
 				hide: isOnly || !multipleItemsSelected,
 				action() {
-					dispatch(applyToSelectionWarning(attributes))
+					applyToSelectionWarning(id)
 				}
 			},
 			{
 				label: 'Apply Attributes to All',
 				hide: isOnly || multipleItemsSelected,
 				action() {
-					applyToAllWarning(attributes)
+					applyToAllWarning(id)
 				}
 			},
 			{
@@ -178,7 +171,7 @@ const BatchList = ({
 			{
 				label: 'Save as Preset',
 				action() {
-					interop.openPresetsSaveAs(extractRelevantMediaProps(attributes))
+					dispatch(saveAsPreset(id, extractRelevantMediaProps, eraseIds))
 				}
 			},
 			{ type: 'spacer' },
@@ -197,19 +190,18 @@ const BatchList = ({
 				}
 			}
 		]
-	}, [clipboard, multipleItemsSelected, allItemsSelected, createPresetMenu, warnRemoveMedia])
+	}, [clipboard, multipleItemsSelected, allItemsSelected, createPresetMenu])
 
-	const onBatchItemKeyDown = useCallback((attributes, index, e) => {
-		const { id, refId, title } = attributes
+	const onBatchItemKeyDown = useCallback((id, refId, title, index, e) => {
 		const isFirst = index === 0
 		const isLast = index === media.length - 1
 		const isOnly = isFirst && isLast
 		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
 
 		if (ctrlOrCmd && !isOnly && e.key === 'c') {
-			copyAllSettings(attributes)
+			dispatch(copyAttributes(id, extractRelevantMediaProps))
 		} else if (ctrlOrCmd && e.key === 'v') {
-			dispatch(pasteSettings(id, clipboard))
+			dispatch(pasteSettings(id))
 		} else if (e.altKey && isArrowPrev(e)) {
 			dispatch(moveSortableElement('media', index, index - 1))
 		} else if (e.altKey && isArrowNext(e)) {
@@ -229,7 +221,7 @@ const BatchList = ({
 			e.stopPropagation()
 			removeMediaWarning({ id, refId, index, title })
 		}
-	}, [clipboard, warnRemoveMedia])
+	}, [warnRemoveMedia])
 
 	return (
 		<div>
@@ -237,8 +229,14 @@ const BatchList = ({
 				{media.map((props, i) => (
 					<BatchItem
 						key={props.id}
-						attributes={props}
 						index={i}
+						id={props.id}
+						refId={props.refId}
+						title={props.title}
+						tempFilePath={props.tempFilePath}
+						focused={props.focused}
+						anchored={props.anchored}
+						selected={props.selected}
 						removeMediaWarning={removeMediaWarning}
 						createDropdown={createDropdown}
 						onKeyDown={onBatchItemKeyDown}
