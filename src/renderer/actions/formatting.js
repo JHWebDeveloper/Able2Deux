@@ -109,19 +109,33 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 
 // ---- COPY/PASTE PROPERTIES --------
 
-export const pasteSettings = (id, properties) => ({
+export const copyAttributes = (id, ...extractors) => ({
+	type: ACTION.COPY_ATTRIBUTES,
+	payload: {
+		id,
+		extractAttributes: attributes => pipe(...extractors)(attributes)
+	}
+})
+
+export const pasteSettings = id => ({
 	type: ACTION.PASTE_SETTINGS,
-	payload: { id, properties }
+	payload: { id }
 })
 
-export const applySettingsToAll = id => properties => ({
+export const applySettingsToAll = (id, ...extractors) => ({
 	type: ACTION.APPLY_TO_ALL,
-	payload: { id, properties }
+	payload: {
+		id,
+		extractAttributes: attributes => pipe(...extractors)(attributes)
+	}
 })
 
-export const applySettingsToSelection = id => properties => ({
+export const applySettingsToSelection = (id, ...extractors) => ({
 	type: ACTION.APPLY_TO_SELECTION,
-	payload: { id, properties }
+	payload: {
+		id,
+		extractAttributes: attributes => pipe(...extractors)(attributes)
+	}
 })
 
 // ---- APPLY/SAVE PRESETS --------
@@ -152,6 +166,16 @@ export const applyPresetToSelected = ({ presetIds, applyToAll, duplicate }) => a
 		}
 	})
 }
+
+export const saveAsPreset = (id, ...extractors) => ({
+	type: ACTION.SAVE_AS_PRESET,
+	payload: {
+		id,
+		openPresetSaveAs(attributes) {
+			interop.openPresetsSaveAs(pipe(...extractors)(attributes))
+		}
+	}
+})
 
 // ---- REMOVE MEDIA --------
 
