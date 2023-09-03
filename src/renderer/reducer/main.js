@@ -60,8 +60,12 @@ export const mainReducer = (state, action) => {
 			return applyPreset(state, payload)
 		case ACTION.APPLY_PRESET_TO_SELECTED:
 			return applyPresetToSelected(state, payload)
+		case ACTION.SAVE_AS_PRESET:
+			return saveAsPreset(state, payload)
 		case ACTION.REMOVE_FAILED_ACQUISITIONS:
 			return removeFailedAcquisitions(state)
+		case ACTION.COPY_ATTRIBUTES:
+			return copyAttributes(state, payload)
 		case ACTION.PASTE_SETTINGS:
 			return pasteSettings(state, payload)
 		case ACTION.APPLY_TO_ALL:
@@ -376,6 +380,14 @@ const applyPresetToSelected = (state, payload) => {
 	})
 }
 
+const saveAsPreset = (state, payload) => {
+	const { openPresetSaveAs, id, } = payload
+
+	openPresetSaveAs(state.media.find(item => item.id === id))
+
+	return state
+}
+
 // ---- REMOVE MEDIA --------
 
 const removeMedia = (state, payload) => {
@@ -426,29 +438,44 @@ const removeFailedAcquisitions = state => ({
 
 // ---- COPY/PASTE PROPERTIES --------
 
-const pasteSettings = (state, { id, properties }) => ({
+const copyAttributes = (state, payload) => ({
 	...state,
-	media: state.media.map(item => item.id === id ? {
+	clipboard: payload.extractAttributes(state.media.find(item => item.id === payload.id))
+})
+
+const pasteSettings = (state, payload) => ({
+	...state,
+	media: state.media.map(item => item.id === payload.id ? {
 		...item,
-		...replaceIds(properties)
+		...replaceIds(state.clipboard)
 	} : item)
 })
 
-const applyToAll = (state, { id, properties }) => ({
-	...state,
-	media: state.media.map(item => item.id !== id ? {
-		...item,
-		...replaceIds(properties)
-	} : item)
-})
+const applyToAll = (state, payload) => {
+	const { id, extractAttributes } = payload
+	const attributes = extractAttributes(state.media.find(item => item.id === id))
 
-const applyToSelection = (state, { id, properties }) => ({
-	...state,
-	media: state.media.map(item => item.selected && item.id !== id ? {
-		...item,
-		...replaceIds(properties)
-	} : item)
-})
+	return ({
+		...state,
+		media: state.media.map(item => item.id !== id ? {
+			...item,
+			...replaceIds(attributes)
+		} : item)
+	})
+}
+
+const applyToSelection = (state, payload) => {
+	const { id, extractAttributes } = payload
+	const attributes = extractAttributes(state.media.find(item => item.id === id))
+
+	return ({
+		...state,
+		media: state.media.map(item => item.selected && item.id !== id ? {
+			...item,
+			...replaceIds(attributes)
+		} : item)
+	})
+}
 
 // ---- COLOR CORRECTION --------
 
