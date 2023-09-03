@@ -25,7 +25,6 @@ const MediaSelector = ({
 	multipleItems,
 	multipleItemsSelected,
 	allItemsSelected,
-	copyToClipboard,
 	clipboard,
 	dispatch
 }) => {
@@ -114,7 +113,6 @@ const MediaSelector = ({
 				media={media}
 				multipleItemsSelected={multipleItemsSelected}
 				allItemsSelected={allItemsSelected}
-				copyToClipboard={copyToClipboard}
 				clipboard={clipboard}
 				createPresetMenu={createPresetMenu}
 				showApplyPresetOptions={showApplyPresetOptions}
