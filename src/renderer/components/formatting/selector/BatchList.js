@@ -190,7 +190,7 @@ const BatchList = ({
 				}
 			}
 		]
-	}, [clipboard, multipleItemsSelected, allItemsSelected, createPresetMenu])
+	}, [clipboard, multipleItemsSelected, allItemsSelected, createPresetMenu, media.length])
 
 	const onBatchItemKeyDown = useCallback((id, refId, title, index, e) => {
 		const isFirst = index === 0
@@ -221,7 +221,7 @@ const BatchList = ({
 			e.stopPropagation()
 			removeMediaWarning({ id, refId, index, title })
 		}
-	}, [warnRemoveMedia])
+	}, [media.length])
 
 	return (
 		<div>
