@@ -74,7 +74,7 @@ export const refocusBatchItem = () => {
 
 export const replaceIds = (() => {
 	const _replaceIds = (obj, replaceWith) => {
-		obj = { ...obj }
+		obj = structuredClone(obj)
 
 		if ('id' in obj) obj.id = replaceWith ?? uuid()
 	
