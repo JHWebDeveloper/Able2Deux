@@ -212,14 +212,16 @@ const Framing = memo(props => {
 }, objectsAreEqual)
 
 const FramingPanel = props => {
-	const { id, copyToClipboard, dispatch } = props
+	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(props, [
-		() => dispatch(copyAttributes(id, extractFramingProps)),
-		() => dispatch(applyToSelection(id, extractFramingProps)),
-		() => dispatch(applyToAll(id, extractFramingProps)),
-		() => dispatch(saveAsPreset(id, extractFramingProps))
-	])
+	const settingsMenu = useMemo(() => (
+		createSettingsMenu(multipleItems, multipleItemsSelected, [
+			() => dispatch(copyAttributes(id, extractFramingProps)),
+			() => dispatch(applyToSelection(id, extractFramingProps)),
+			() => dispatch(applyToAll(id, extractFramingProps)),
+			() => dispatch(saveAsPreset(id, extractFramingProps))
+		])
+	), [multipleItems, multipleItemsSelected, id])
 
 	return (
 		<AccordionPanel

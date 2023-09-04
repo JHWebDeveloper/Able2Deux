@@ -87,14 +87,16 @@ const Source = memo(props => {
 }, objectsAreEqual)
 
 const SourcePanel = props => {
-	const { id, dispatch } = props
+	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(props, [
-		() => dispatch(copyAttributes(id, extractSourceProps)),
-		() => dispatch(applyToSelection(id, extractSourceProps)),
-		() => dispatch(applyToAll(id, extractSourceProps)),
-		() => dispatch(saveAsPreset(id, extractSourceProps))
-	])
+	const settingsMenu = useMemo(() => (
+		createSettingsMenu(multipleItems, multipleItemsSelected, [
+			() => dispatch(copyAttributes(id, extractSourceProps)),
+			() => dispatch(applyToSelection(id, extractSourceProps)),
+			() => dispatch(applyToAll(id, extractSourceProps)),
+			() => dispatch(saveAsPreset(id, extractSourceProps))
+		])
+	), [multipleItems, multipleItemsSelected, id])
 
 	return (
 		<AccordionPanel

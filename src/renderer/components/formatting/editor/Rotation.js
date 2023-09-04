@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { bool, func, oneOf, oneOfType, number, string } from 'prop-types'
 
 import {
@@ -184,14 +184,16 @@ const Rotation = memo(props => {
 }, objectsAreEqual)
 
 const RotationPanel = props => {
-	const { id, dispatch } = props
+	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(props, [
-		() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractRotationProps)),
-		() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractRotationProps)),
-		() => dispatch(applyToAll(id, extractRelevantMediaProps, extractRotationProps)),
-		() => dispatch(saveAsPreset(id, extractRelevantMediaProps, extractRotationProps))
-	])
+	const settingsMenu = useMemo(() => (
+		createSettingsMenu(multipleItems, multipleItemsSelected, [
+			() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractRotationProps)),
+			() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractRotationProps)),
+			() => dispatch(applyToAll(id, extractRelevantMediaProps, extractRotationProps)),
+			() => dispatch(saveAsPreset(id, extractRelevantMediaProps, extractRotationProps))
+		])
+	), [multipleItems, multipleItemsSelected, id])
 
 	return (
 		<AccordionPanel

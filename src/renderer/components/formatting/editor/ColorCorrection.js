@@ -273,14 +273,16 @@ const ColorCorrection = memo(props => {
 }, objectsAreEqual)
 
 const ColorCorrectionPanel = props => {
-	const { id, dispatch } = props
+	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(props, [
-		() => dispatch(copyAttributes(id, extractColorCorrectionProps, eraseIds)),
-		() => dispatch(applyToSelection(id, extractColorCorrectionProps)),
-		() => dispatch(applyToAll(id, extractColorCorrectionProps)),
-		() => dispatch(saveAsPreset(id, extractColorCorrectionProps, eraseIds))
-	])
+	const settingsMenu = useMemo(() => (
+		createSettingsMenu(multipleItems, multipleItemsSelected, [
+			() => dispatch(copyAttributes(id, extractColorCorrectionProps, eraseIds)),
+			() => dispatch(applyToSelection(id, extractColorCorrectionProps)),
+			() => dispatch(applyToAll(id, extractColorCorrectionProps)),
+			() => dispatch(saveAsPreset(id, extractColorCorrectionProps, eraseIds))
+		])
+	), [multipleItems, multipleItemsSelected, id])
 
 	return ( 
 		<AccordionPanel

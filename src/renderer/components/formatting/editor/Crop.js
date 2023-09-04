@@ -164,14 +164,16 @@ const Crop = memo(props => {
 }, objectsAreEqual)
 
 const CropPanel = props => {
-	const { id, dispatch } = props
+	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(props, [
-		() => dispatch(copyAttributes(id, extractCropProps)),
-		() => dispatch(applyToSelection(id, extractCropProps)),
-		() => dispatch(applyToAll(id, extractCropProps)),
-		() => dispatch(saveAsPreset(id, extractCropProps))
-	])
+	const settingsMenu = useMemo(() => (
+		createSettingsMenu(multipleItems, multipleItemsSelected, [
+			() => dispatch(copyAttributes(id, extractCropProps)),
+			() => dispatch(applyToSelection(id, extractCropProps)),
+			() => dispatch(applyToAll(id, extractCropProps)),
+			() => dispatch(saveAsPreset(id, extractCropProps))
+		])
+	), [multipleItems, multipleItemsSelected, id])
 
 	return (
 		<AccordionPanel

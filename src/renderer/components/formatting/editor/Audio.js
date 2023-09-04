@@ -81,14 +81,16 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, dispatch }
 }, objectsAreEqual)
 
 const AudioPanel = props => {
-	const { id, mediaType, dispatch } = props
+	const { id, multipleItems, multipleItemsSelected, mediaType, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(props, [
-		() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractAudioProps)),
-		() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractAudioProps)),
-		() => dispatch(applyToAll(id, extractRelevantMediaProps, extractAudioProps)),
-		() => dispatch(saveAsPreset(id, extractRelevantMediaProps, extractAudioProps))
-	])
+	const settingsMenu = useMemo(() => (
+		createSettingsMenu(multipleItems, multipleItemsSelected, [
+			() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractAudioProps)),
+			() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractAudioProps)),
+			() => dispatch(applyToAll(id, extractRelevantMediaProps, extractAudioProps)),
+			() => dispatch(saveAsPreset(id, extractRelevantMediaProps, extractAudioProps))
+		])
+	), [multipleItems, multipleItemsSelected, id])
 
 	return (
 		<AccordionPanel

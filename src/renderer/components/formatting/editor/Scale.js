@@ -184,14 +184,16 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL,
 }, objectsAreEqual)
 
 const ScalePanel = props => {
-	const { id, dispatch } = props
+	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(props, [
-		() => dispatch(copyAttributes(id, extractScaleProps)),
-		() => dispatch(applyToSelection(id, extractScaleProps)),
-		() => dispatch(applyToAll(id, extractScaleProps)),
-		() => dispatch(saveAsPreset(id, extractScaleProps))
-	])
+	const settingsMenu = useMemo(() => (
+		createSettingsMenu(multipleItems, multipleItemsSelected, [
+			() => dispatch(copyAttributes(id, extractScaleProps)),
+			() => dispatch(applyToSelection(id, extractScaleProps)),
+			() => dispatch(applyToAll(id, extractScaleProps)),
+			() => dispatch(saveAsPreset(id, extractScaleProps))
+		])
+	), [multipleItems, multipleItemsSelected, id])
 
 	return (
 		<AccordionPanel

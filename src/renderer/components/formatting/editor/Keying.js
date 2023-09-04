@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { bool, exact, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -226,14 +226,16 @@ const Keying = memo(props => {
 }, objectsAreEqual)
 
 const KeyingPanel = props => {
-	const { id, dispatch } = props
+	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
-	const settingsMenu = createSettingsMenu(props, [
-		() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractKeyingProps)),
-		() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractKeyingProps)),
-		() => dispatch(applyToAll(id, extractRelevantMediaProps, extractKeyingProps)),
-		() => dispatch(saveAsPreset(id, extractRelevantMediaProps, extractKeyingProps))
-	])
+	const settingsMenu = useMemo(() => (
+		createSettingsMenu(multipleItems, multipleItemsSelected, [
+			() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractKeyingProps)),
+			() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractKeyingProps)),
+			() => dispatch(applyToAll(id, extractRelevantMediaProps, extractKeyingProps)),
+			() => dispatch(saveAsPreset(id, extractRelevantMediaProps, extractKeyingProps))
+		])
+	), [multipleItems, multipleItemsSelected, id])
 
 	return (
 		<AccordionPanel
