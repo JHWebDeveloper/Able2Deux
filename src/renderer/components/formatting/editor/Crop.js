@@ -5,6 +5,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	saveAsPreset,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection
 } from 'actions'
@@ -169,6 +170,7 @@ const CropPanel = props => {
 		() => dispatch(copyAttributes(id, extractCropProps)),
 		() => dispatch(applyToSelection(id, extractCropProps)),
 		() => dispatch(applyToAll(id, extractCropProps)),
+		() => dispatch(saveAsPreset(id, extractCropProps))
 	])
 
 	return (

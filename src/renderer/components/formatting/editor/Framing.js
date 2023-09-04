@@ -7,6 +7,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	saveAsPreset,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
@@ -217,6 +218,7 @@ const FramingPanel = props => {
 		() => dispatch(copyAttributes(id, extractFramingProps)),
 		() => dispatch(applyToSelection(id, extractFramingProps)),
 		() => dispatch(applyToAll(id, extractFramingProps)),
+		() => dispatch(saveAsPreset(id, extractFramingProps))
 	])
 
 	return (

@@ -5,6 +5,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	saveAsPreset,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
@@ -15,7 +16,6 @@ import {
 	extractKeyingProps,
 	extractRelevantMediaProps,
 	objectsAreEqual,
-	pipe,
 	rgbToHex
 } from 'utilities'
 
@@ -232,6 +232,7 @@ const KeyingPanel = props => {
 		() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractKeyingProps)),
 		() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractKeyingProps)),
 		() => dispatch(applyToAll(id, extractRelevantMediaProps, extractKeyingProps)),
+		() => dispatch(saveAsPreset(id, extractRelevantMediaProps, extractKeyingProps))
 	])
 
 	return (

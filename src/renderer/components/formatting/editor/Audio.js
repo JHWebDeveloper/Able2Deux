@@ -5,6 +5,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	saveAsPreset,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
@@ -85,7 +86,8 @@ const AudioPanel = props => {
 	const settingsMenu = createSettingsMenu(props, [
 		() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractAudioProps)),
 		() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractAudioProps)),
-		() => dispatch(applyToAll(id, extractRelevantMediaProps, extractAudioProps))
+		() => dispatch(applyToAll(id, extractRelevantMediaProps, extractAudioProps)),
+		() => dispatch(saveAsPreset(id, extractRelevantMediaProps, extractAudioProps))
 	])
 
 	return (

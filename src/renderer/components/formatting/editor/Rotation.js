@@ -5,6 +5,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	saveAsPreset,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
@@ -13,8 +14,7 @@ import {
 	createSettingsMenu,
 	extractRotationProps,
 	extractRelevantMediaProps,
-	objectsAreEqual,
-	pipe
+	objectsAreEqual
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -190,6 +190,7 @@ const RotationPanel = props => {
 		() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractRotationProps)),
 		() => dispatch(applyToSelection(id, extractRelevantMediaProps, extractRotationProps)),
 		() => dispatch(applyToAll(id, extractRelevantMediaProps, extractRotationProps)),
+		() => dispatch(saveAsPreset(id, extractRelevantMediaProps, extractRotationProps))
 	])
 
 	return (

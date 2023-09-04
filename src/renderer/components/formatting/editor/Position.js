@@ -5,6 +5,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	saveAsPreset,
 	updateMediaStateBySelection
 } from 'actions'
 
@@ -57,6 +58,7 @@ const PositionPanel = props => {
 		() => dispatch(copyAttributes(id, extractPositionProps)),
 		() => dispatch(applyToSelection(id, extractPositionProps)),
 		() => dispatch(applyToAll(id, extractPositionProps)),
+		() => dispatch(saveAsPreset(id, extractPositionProps))
 	])
 
 	return (

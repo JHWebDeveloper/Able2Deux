@@ -5,6 +5,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	saveAsPreset,
 	updateMediaStateBySelection
 } from 'actions'
 
@@ -52,6 +53,7 @@ const CenteringPanel = props => {
 		() => dispatch(copyAttributes(id, extractCenteringProps)),
 		() => dispatch(applyToSelection(id, extractCenteringProps)),
 		() => dispatch(applyToAll(id, extractCenteringProps)),
+		() => dispatch(saveAsPreset(id, extractCenteringProps))
 	])
 
 	return (

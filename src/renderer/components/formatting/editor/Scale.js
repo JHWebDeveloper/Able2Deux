@@ -7,6 +7,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	saveAsPreset,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection
 } from 'actions'
@@ -16,8 +17,7 @@ import {
 	createSettingsMenu,
 	degToRad,
 	extractScaleProps,
-	objectsAreEqual,
-	pipe
+	objectsAreEqual
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -189,7 +189,8 @@ const ScalePanel = props => {
 	const settingsMenu = createSettingsMenu(props, [
 		() => dispatch(copyAttributes(id, extractScaleProps)),
 		() => dispatch(applyToSelection(id, extractScaleProps)),
-		() => dispatch(applyToAll(id, extractScaleProps))
+		() => dispatch(applyToAll(id, extractScaleProps)),
+		() => dispatch(saveAsPreset(id, extractScaleProps))
 	])
 
 	return (

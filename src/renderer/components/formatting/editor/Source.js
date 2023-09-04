@@ -4,6 +4,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	saveAsPreset,
 	toggleMediaCheckbox,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
@@ -14,8 +15,7 @@ import {
 	createSettingsMenu,
 	extractSourceProps,
 	has11pmBackground,
-	objectsAreEqual,
-	pipe
+	objectsAreEqual
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -93,6 +93,7 @@ const SourcePanel = props => {
 		() => dispatch(copyAttributes(id, extractSourceProps)),
 		() => dispatch(applyToSelection(id, extractSourceProps)),
 		() => dispatch(applyToAll(id, extractSourceProps)),
+		() => dispatch(saveAsPreset(id, extractSourceProps))
 	])
 
 	return (
