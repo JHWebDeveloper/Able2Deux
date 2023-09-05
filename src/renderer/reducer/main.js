@@ -6,6 +6,7 @@ import {
 	arrayCount,
 	clamp,
 	findNearestIndex,
+	pipe,
 	replaceIds,
 	sortCurvePoints
 } from 'utilities'
@@ -267,6 +268,47 @@ const deselectAllMedia = state => ({
 	})
 })
 
+// ---- COPY/PASTE PROPERTIES --------
+
+const copyAttributes = (state, payload) => ({
+	...state,
+	clipboard: payload.extractAttributes(state.media.find(item => item.id === payload.id))
+})
+
+const pasteAttributes = (state, payload) => ({
+	...state,
+	media: state.media.map(item => item.id === payload.id ? {
+		...item,
+		...replaceIds(state.clipboard)
+	} : item)
+})
+
+const applyToAll = (state, payload) => {
+	const { id, extractAttributes } = payload
+	const attributes = extractAttributes(state.media.find(item => item.id === id))
+
+	return ({
+		...state,
+		media: state.media.map(item => item.id !== id ? {
+			...item,
+			...replaceIds(attributes)
+		} : item)
+	})
+}
+
+const applyToSelection = (state, payload) => {
+	const { id, extractAttributes } = payload
+	const attributes = extractAttributes(state.media.find(item => item.id === id))
+
+	return ({
+		...state,
+		media: state.media.map(item => item.selected && item.id !== id ? {
+			...item,
+			...replaceIds(attributes)
+		} : item)
+	})
+}
+
 // ---- SORT MEDIA --------
 
 const moveSelectedMedia = (state, { index }) => {
@@ -280,7 +322,6 @@ const moveSelectedMedia = (state, { index }) => {
 			.toSpliced(clamp(index - shiftIndexBy, 0, state.media.length), 0, ...selected)
 	}
 }
-
 
 // ----  DUPLICATE MEDIA --------
 
@@ -334,6 +375,18 @@ const splitMedia = (state, payload) => {
 
 // ---- APPLY PRESET --------
 
+const constrainPairedValue = media => (keyA, keyB) => preset => {
+	if (!(keyA in preset ^ keyB in preset)) return preset
+
+	if (preset[keyA] > media[keyB]) {
+		preset[keyA] = media[keyB] - 0.025
+	} else if (preset[keyB] < media[keyA]) {
+		preset[keyB] = media[keyA] + 0.025
+	}
+
+	return preset
+}
+
 const applyPreset = (state, payload) => {
 	const { presets, mediaIds, duplicate } = payload
 	let media = [...state.media]
@@ -341,10 +394,22 @@ const applyPreset = (state, payload) => {
 	if (!duplicate) {
 		const lastPreset = presets.pop()
 
-		media = media.map(item => mediaIds.includes(item.id) ? {
-			...item,
-			...lastPreset.attributes
-		} : item)
+		media = media.map(item => {
+			if (!mediaIds.includes(item.id)) return item
+
+			const constrainPresetPairedValue = constrainPairedValue(item)
+			const preset = pipe(
+				constrainPresetPairedValue('cropT', 'cropB'),
+				constrainPresetPairedValue('cropL', 'cropR'),
+				replaceIds,
+			)(lastPreset.attributes)
+
+			return {
+				...item,
+				...preset,
+				id: item.id
+			}
+		})
 	}
 
 	const mediaIdsLen = mediaIds.length
@@ -353,11 +418,18 @@ const applyPreset = (state, payload) => {
 	for (let i = 0; i < mediaIdsLen; i++) {
 		const mediaId = mediaIds[i]
 		let mediaIndex = media.findIndex(({ id }) => id === mediaId)
+		const item = media[mediaIndex]
 
 		for (let j = 0; j < presetsLen; j++) {
-			media.splice(mediaIndex, 0, replaceIds({
-				...media[mediaIndex++],
-				...presets[j].attributes,
+			const constrainPresetPairedValue = constrainPairedValue(item)
+			const preset = pipe(
+				constrainPresetPairedValue('cropT', 'cropB'),
+				constrainPresetPairedValue('cropL', 'cropR')
+			)(presets[j].attributes)
+
+			media.splice(mediaIndex++, 0, replaceIds({
+				...item,
+				...preset,
 				...unselectedProps
 			}))
 		}
@@ -435,47 +507,6 @@ const removeFailedAcquisitions = state => ({
 	...state,
 	media: state.media.filter(item => item.status !== STATUS.FAILED)
 })
-
-// ---- COPY/PASTE PROPERTIES --------
-
-const copyAttributes = (state, payload) => ({
-	...state,
-	clipboard: payload.extractAttributes(state.media.find(item => item.id === payload.id))
-})
-
-const pasteAttributes = (state, payload) => ({
-	...state,
-	media: state.media.map(item => item.id === payload.id ? {
-		...item,
-		...replaceIds(state.clipboard)
-	} : item)
-})
-
-const applyToAll = (state, payload) => {
-	const { id, extractAttributes } = payload
-	const attributes = extractAttributes(state.media.find(item => item.id === id))
-
-	return ({
-		...state,
-		media: state.media.map(item => item.id !== id ? {
-			...item,
-			...replaceIds(attributes)
-		} : item)
-	})
-}
-
-const applyToSelection = (state, payload) => {
-	const { id, extractAttributes } = payload
-	const attributes = extractAttributes(state.media.find(item => item.id === id))
-
-	return ({
-		...state,
-		media: state.media.map(item => item.selected && item.id !== id ? {
-			...item,
-			...replaceIds(attributes)
-		} : item)
-	})
-}
 
 // ---- COLOR CORRECTION --------
 
