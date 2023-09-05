@@ -16,7 +16,6 @@ import {
 	createSettingsMenu,
 	extractFramingProps,
 	objectsAreEqual,
-	pipe,
 	rgbToHex
 } from 'utilities'
 
