@@ -14,8 +14,7 @@ import {
 	clamp,
 	createSettingsMenu,
 	extractCropProps,
-	objectsAreEqual,
-	pipe
+	objectsAreEqual
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
