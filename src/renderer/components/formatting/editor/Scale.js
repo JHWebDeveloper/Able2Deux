@@ -7,15 +7,15 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	fitToFrameHeight,
+	fitToFrameWidth,
 	saveAsPreset,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection
 } from 'actions'
 
 import {
-	calcRotatedBoundingBox,
 	createSettingsMenu,
-	degToRad,
 	extractScaleProps,
 	objectsAreEqual
 } from 'utilities'
@@ -42,7 +42,7 @@ const numberProps = {
 	defaultValue: 100
 }
 
-const Scale = memo(({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL, freeRotateMode, angle, width, height, dispatch }) => {
+const Scale = memo(({ id, scaleX, scaleY, scaleLink, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
@@ -69,46 +69,6 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL,
 
 		dispatch(updateMediaStateBySelection(axis))
 	}, [distortion])
-
-	const fitToFrameDependencies = [renderOutput, width, height, cropT, cropR, cropB, cropL, freeRotateMode, angle, scaleLink, distortion]
-
-	const fitToFrameWidth = useCallback(() => {
-		const cropW = width * (cropR - cropL) / 100
-		let fitToWPrc = frameW / cropW
-
-		if (scaleLink && freeRotateMode === 'with_bounds' && angle !== 0) {
-			const cropH = height * (cropB - cropT) / 100 * distortion
-			const rotW = calcRotatedBoundingBox(cropW, cropH, degToRad(angle), 'w')
-
-			fitToWPrc *= cropW / rotW
-		}
-
-		fitToWPrc *= 100
-
-		dispatch(updateMediaStateBySelection({
-			scaleX: fitToWPrc,
-			scaleY: scaleLink ? fitToWPrc * distortion : scaleY
-		}))
-	}, [...fitToFrameDependencies, scaleY])
-	
-	const fitToFrameHeight = useCallback(() => {
-		const cropH = height * (cropB - cropT) / 100
-		let fitToHPrc = frameH / cropH
-
-		if (scaleLink && freeRotateMode === 'with_bounds' && angle !== 0) {
-			const cropW = width * (cropR - cropL) / 100 / distortion
-			const rotH = calcRotatedBoundingBox(cropW, cropH, degToRad(angle), 'h')
-
-			fitToHPrc *= cropH / rotH
-		}
-
-		fitToHPrc *= 100
-
-		dispatch(updateMediaStateBySelection({
-			scaleX: scaleLink ? fitToHPrc / distortion : scaleX,
-			scaleY: fitToHPrc
-		}))
-	}, [...fitToFrameDependencies, scaleX])
 
 	const toggleScaleLink = useCallback(e => {
 		dispatch(toggleMediaCheckbox(id, e))
@@ -155,7 +115,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL,
 				{...sliderProps} />
 			<FitButton
 				title={`${scaleLink ? 'Fit' : 'Stretch'} to Width`}
-				onClick={fitToFrameWidth} />
+				onClick={() => dispatch(fitToFrameWidth(frameW))} />
 			<NumberInput
 				{...propsX}
 				{...numberProps} />
@@ -166,7 +126,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, cropT, cropR, cropB, cropL,
 				{...sliderProps} />
 			<FitButton
 				title={`${scaleLink ? 'Fit' : 'Stretch'} to Height`}
-				onClick={fitToFrameHeight} />
+				onClick={() => dispatch(fitToFrameHeight(frameH))} />
 			<NumberInput
 				{...propsY}
 				{...numberProps} />
