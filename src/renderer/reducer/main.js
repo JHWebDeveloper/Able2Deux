@@ -3,10 +3,13 @@ import * as STATUS from 'status'
 import * as shared from 'reducer/shared'
 
 import {
+	CROP_PROPS,
+	RATIO_9_16,
 	arrayCount,
 	calcRotatedBoundingBox,
 	clamp,
 	degToRad,
+	detectMediaIsSideways,
 	findNearestIndex,
 	pipe,
 	replaceIds,
@@ -76,11 +79,15 @@ export const mainReducer = (state, action) => {
 		case ACTION.APPLY_TO_SELECTION:
 			return applyToSelection(state, payload)
 		case ACTION.FIT_TO_FRAME_WIDTH:
-			return fitSelectedToFrameWidth(state, payload)
+			return fitSelectedMediaToFrameWidth(state, payload)
 		case ACTION.FIT_TO_FRAME_HEIGHT:
-			return fitSelectedToFrameHeight(state, payload)
+			return fitSelectedMediaToFrameHeight(state, payload)
 		case ACTION.FIT_TO_FRAME_AUTO:
-			return fitToFrameAuto(state, payload)
+			return fitSelectedMediaToFrameAuto(state, payload)
+		case ACTION.ROTATE_MEDIA:
+			return rotateSelectedMedia(state, payload)
+		case ACTION.REFLECT_MEDIA:
+			return reflectSelectedMedia(state, payload)
 		case ACTION.ADD_CURVE_POINT:
 			return addCurvePoint(state, payload)
 		case ACTION.ADD_OR_UPDATE_CURVE_POINT:
@@ -563,29 +570,101 @@ const fitToFrameHeight = (item, frameH) => {
 	}
 }
 
-const fitSelectedToFrameWidth = (state, { frameW }) => ({
+const fitSelectedMediaToFrameWidth = (state, { frameW }) => ({
 	...state,
 	media: state.media.map(item => isAudioOrNotSelected(item) ? item : fitToFrameWidth(item, frameW))
 })
 
-const fitSelectedToFrameHeight = (state, { frameH }) => ({
+const fitSelectedMediaToFrameHeight = (state, { frameH }) => ({
 	...state,
 	media: state.media.map(item => isAudioOrNotSelected(item) ? item : fitToFrameHeight(item, frameH))
 })
 
-const fitToFrameAuto = (state, { sizingMethod, frameW, frameH }) => ({
+const fitSelectedMediaToFrameAuto = (state, { sizingMethod, frameW, frameH }) => ({
 	...state,
 	media: state.media.map(item => {
 		if (isAudioOrNotSelected(item)) return item
 
 		const appliedDim = calculateAppliedDimensions(item, 'w')
-		const isTall = appliedDim.appliedH / appliedDim.appliedW > 0.5625
+		const isTall = appliedDim.appliedH / appliedDim.appliedW > RATIO_9_16
 
 		if ((sizingMethod === 'fill' && isTall) || (sizingMethod === 'fit' && !isTall)) {
 			return fitToFrameWidth(item, frameW, appliedDim)
 		} else {
 			return fitToFrameHeight(item, frameH)
 		}
+	})
+})
+
+// ---- ROTATION --------
+
+const TRANSPOSITIONS = Object.freeze(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2'])
+const REFLECTIONS = Object.freeze(['', 'hflip', 'vflip', 'hflip,vflip'])
+
+const detectOrientationChange = (prev, next) => !!(detectMediaIsSideways(prev) ^ detectMediaIsSideways(next))
+const detectReflection = (prev, next, reflect) => !(!prev.includes(reflect) ^ next.includes(reflect))
+
+const rotateMedia = (item, transpose) => {
+	if (!detectOrientationChange(item.transpose, transpose)) return item
+
+	const { width, height, aspectRatio, scaleX, scaleY } = item
+	const rotations = TRANSPOSITIONS.indexOf(transpose) - TRANSPOSITIONS.indexOf(item.transpose) + 4
+	const cropVals = [item.cropT, item.cropL, 100 - item.cropB, 100 - item.cropR]
+
+	const rotatedProps = {
+		transpose,
+		width: height,
+		height: width,
+		aspectRatio: aspectRatio.split(':').reverse().join(':'),
+		scaleX: scaleY,
+		scaleY: scaleX,
+		...CROP_PROPS.reduce((obj, dir, i) => {
+			obj[dir] = cropVals[(rotations + i) % 4]
+			return obj
+		}, {})
+	}
+
+	rotatedProps.cropB = 100 - rotatedProps.cropB
+	rotatedProps.cropR = 100 - rotatedProps.cropR
+
+	return {
+		...item,
+		...rotatedProps
+	}
+}
+
+const reflectMedia = (item, reflect) => {
+	const reflectedProps = { reflect }
+
+	if (detectReflection(item.reflect, reflect, REFLECTIONS[1])) {
+		reflectedProps.cropL = 100 - item.cropR
+		reflectedProps.cropR = 100 - item.cropL
+	}
+
+	if (detectReflection(item.reflect, reflect, REFLECTIONS[2])) {
+		reflectedProps.cropT = 100 - item.cropB
+		reflectedProps.cropB = 100 - item.cropT
+	}
+
+	return {
+		...item,
+		...reflectedProps
+	}
+}
+
+const rotateSelectedMedia = (state, payload) => ({
+	...state,
+	media: state.media.map(item => isAudioOrNotSelected(item) ? item : {
+		...item,
+		...rotateMedia(item, payload.transpose)
+	})
+})
+
+const reflectSelectedMedia = (state, payload) => ({
+	...state,
+	media: state.media.map(item => isAudioOrNotSelected(item) ? item : {
+		...item,
+		...reflectMedia(item, payload.reflect)
 	})
 })
 
