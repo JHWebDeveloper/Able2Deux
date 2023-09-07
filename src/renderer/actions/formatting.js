@@ -187,6 +187,23 @@ export const removeSelectedMedia = () => ({
 	type: ACTION.REMOVE_SELECTED_MEDIA
 })
 
+// ---- SCALE --------
+
+export const fitToFrameWidth = frameW => ({
+	type: ACTION.FIT_TO_FRAME_WIDTH,
+	payload: { frameW }
+})
+
+export const fitToFrameHeight = frameH => ({
+	type: ACTION.FIT_TO_FRAME_HEIGHT,
+	payload: { frameH }
+})
+
+export const fitToFrameAuto = (sizingMethod, frameW, frameH) => ({
+	type: ACTION.FIT_TO_FRAME_AUTO,
+	payload: { sizingMethod, frameW, frameH }
+})
+
 // ---- COLOR CORRECTION --------
 
 export const addCurvePoint = (id, curveName, pointData) => ({
