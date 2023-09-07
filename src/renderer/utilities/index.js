@@ -9,6 +9,8 @@ export * from '../../shared/utilities'
 
 // ---- CONSTANTS --------
 
+export const RATIO_9_16 = 0.5625
+
 export const TAU = Math.PI * 2
 
 export const toastrOpts = {
