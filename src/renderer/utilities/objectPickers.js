@@ -1,10 +1,11 @@
 import { objectPick } from 'utilities'
 
-// ---- LOCAL CONSTANTS --------
+// ---- CONSTANTS --------
+
+export const CROP_PROPS = Object.freeze(['cropT', 'cropL', 'cropB', 'cropR'])
 
 const AUDIO_PROPS = Object.freeze(['audioVideoTracks', 'audioExportFormat'])
 const COLOR_CORRECTION_PROPS = Object.freeze(['ccEnabled', 'ccRGB', 'ccR', 'ccG', 'ccB'])
-const CROP_PROPS = Object.freeze(['cropT', 'cropR', 'cropB', 'cropL'])
 const CROP_LINK_PROPS = Object.freeze(['cropLinkTB', 'cropLinkLR'])
 const FRAMING_PROPS = Object.freeze(['arc', 'background', 'bgColor', 'backgroundMotion', 'overlay'])
 const KEYING_PROPS = Object.freeze(['keyingEnabled', 'keyingType', 'keyingColor'])
