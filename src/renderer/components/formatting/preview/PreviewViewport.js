@@ -4,6 +4,7 @@ import { arrayOf, element, func, number, oneOfType } from 'prop-types'
 import { updateState } from 'actions'
 
 import {
+	RATIO_9_16,
 	clamp,
 	debounce,
 	throttle,
@@ -18,7 +19,7 @@ const PreviewViewport = ({ previewHeight, applyDimensions, dispatch, children })
 	const onMouseDown = useCallback(e => {
 		const viewPort = e.target.previousElementSibling
 		const { top, width } = viewPort.getBoundingClientRect()
-		const maxHeight = 0.5625 * width
+		const maxHeight = RATIO_9_16 * width
 
 		const resizePreviewWindow = throttle(e => {
 			updatePreviewHeight(clamp(e.clientY - top, 216, maxHeight))
