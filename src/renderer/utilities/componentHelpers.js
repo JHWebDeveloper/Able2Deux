@@ -7,10 +7,7 @@ export const detectTabExit = callback => e => {
 	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)
 }
 
-export const createSettingsMenu = ({
-	multipleItems,
-	multipleItemsSelected
-}, actions, additionalOptions = []) => [
+export const createSettingsMenu = (multipleItems, multipleItemsSelected, actions, additionalOptions = []) => [
 	{
 		label: 'Copy Attributes',
 		hide: !multipleItems,
@@ -36,6 +33,8 @@ export const createSettingsMenu = ({
 	},
 	...additionalOptions
 ]
+
+export const detectMediaIsSideways = transpose => transpose === 'transpose=1' || transpose === 'transpose=2'
 
 export const getStatusColor = status => {
 	switch (status) {
@@ -81,7 +80,7 @@ export const replaceIds = (() => {
 		const entries = Object.entries(obj)
 	
 		for (const [ key, val ] of entries) {
-			if (Array.isArray(val)) obj[key] = val.map(_replaceIds)
+			if (Array.isArray(val)) obj[key] = val.map(item => _replaceIds(item, replaceWith))
 		}
 	
 		return obj
