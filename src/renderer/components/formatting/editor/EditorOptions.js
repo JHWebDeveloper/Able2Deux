@@ -18,10 +18,8 @@ import ColorCorrection from './ColorCorrection'
 const EditorOptions = props => {
 	if (!props.id) return <></>
 
-	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper, scaleX, scaleY, cropT, cropR, cropB, cropL } = props
+	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper } = props
 	const common = extractCommonPanelProps(props)
-	const scale = { scaleX, scaleY }
-	const crop = { cropT, cropR, cropB, cropL }
 
 	return (
 		<div id="editor-options">
@@ -69,16 +67,17 @@ const EditorOptions = props => {
 						positionY={props.positionY}
 						{...common} />
 					<Scale
+						scaleX={props.scaleX}
+						scaleY={props.scaleY}
 						scaleLink={props.scaleLink}
-						freeRotateMode={props.freeRotateMode}
-						angle={props.angle}
-						{...scale}
-						{...crop}
 						{...common} />
 					<Crop
+						cropT={props.cropT}
+						cropR={props.cropR}
+						cropB={props.cropB}
+						cropL={props.cropL}
 						cropLinkTB={props.cropLinkTB}
 						cropLinkLR={props.cropLinkLR}
-						{...crop}
 						{...common} />
 				</> : <></>}
 				<Rotation
@@ -88,8 +87,6 @@ const EditorOptions = props => {
 					angle={props.angle}
 					rotatedCentering={props.rotatedCentering}
 					showFreeRotate={arc === 'transform'}
-					{...scale}
-					{...crop}
 					{...common} />
 				{arc === 'none' ? <></> : (
 					<Keying
