@@ -4,7 +4,9 @@ import * as shared from 'reducer/shared'
 
 import {
 	arrayCount,
+	calcRotatedBoundingBox,
 	clamp,
+	degToRad,
 	findNearestIndex,
 	pipe,
 	replaceIds,
@@ -73,6 +75,12 @@ export const mainReducer = (state, action) => {
 			return applyToAll(state, payload)
 		case ACTION.APPLY_TO_SELECTION:
 			return applyToSelection(state, payload)
+		case ACTION.FIT_TO_FRAME_WIDTH:
+			return fitSelectedToFrameWidth(state, payload)
+		case ACTION.FIT_TO_FRAME_HEIGHT:
+			return fitSelectedToFrameHeight(state, payload)
+		case ACTION.FIT_TO_FRAME_AUTO:
+			return fitToFrameAuto(state, payload)
 		case ACTION.ADD_CURVE_POINT:
 			return addCurvePoint(state, payload)
 		case ACTION.ADD_OR_UPDATE_CURVE_POINT:
@@ -506,6 +514,79 @@ const removeAllMedia = state => ({
 const removeFailedAcquisitions = state => ({
 	...state,
 	media: state.media.filter(item => item.status !== STATUS.FAILED)
+})
+
+// ---- SCALE --------
+
+const isAudioOrNotSelected = item => item.mediaType === 'audio' || !item.selected
+
+const calculateAppliedDimensions = (item, axis) => {
+	const { scaleX, scaleY, scaleLink, cropT, cropB, cropL, cropR, freeRotateMode, angle } = item
+
+	const distortion = scaleY / scaleX || 1
+	let appliedW = item.width * (cropR - cropL) / 100 / (axis === 'h' ? distortion : 1)
+	let appliedH = item.height * (cropB - cropT) / 100 * (axis === 'w' ? distortion : 1)
+
+	if (scaleLink && freeRotateMode === 'with_bounds' && angle !== 0) {
+		const [ rotW, rotH ] = calcRotatedBoundingBox(appliedW, appliedH, degToRad(angle))
+
+		appliedW = rotW
+		appliedH = rotH
+	}
+
+	return {
+		appliedW,
+		appliedH,
+		distortion
+	}
+}
+
+const fitToFrameWidth = (item, frameW, preCalculated) => {
+	const { appliedW, distortion } = preCalculated || calculateAppliedDimensions(item, 'w')
+	const fitToWPrc = frameW / appliedW * 100
+
+	return {
+		...item,
+		scaleX: fitToWPrc,
+		scaleY: item.scaleLink ? fitToWPrc * distortion : item.scaleY
+	}
+}
+
+const fitToFrameHeight = (item, frameH) => {
+	const { appliedH, distortion } = calculateAppliedDimensions(item, 'h')
+	const fitToHPrc = frameH / appliedH * 100
+
+	return {
+		...item,
+		scaleX: item.scaleLink ? fitToHPrc / distortion : item.scaleX,
+		scaleY: fitToHPrc
+	}
+}
+
+const fitSelectedToFrameWidth = (state, { frameW }) => ({
+	...state,
+	media: state.media.map(item => isAudioOrNotSelected(item) ? item : fitToFrameWidth(item, frameW))
+})
+
+const fitSelectedToFrameHeight = (state, { frameH }) => ({
+	...state,
+	media: state.media.map(item => isAudioOrNotSelected(item) ? item : fitToFrameHeight(item, frameH))
+})
+
+const fitToFrameAuto = (state, { sizingMethod, frameW, frameH }) => ({
+	...state,
+	media: state.media.map(item => {
+		if (isAudioOrNotSelected(item)) return item
+
+		const appliedDim = calculateAppliedDimensions(item, 'w')
+		const isTall = appliedDim.appliedH / appliedDim.appliedW > 0.5625
+
+		if ((sizingMethod === 'fill' && isTall) || (sizingMethod === 'fit' && !isTall)) {
+			return fitToFrameWidth(item, frameW, appliedDim)
+		} else {
+			return fitToFrameHeight(item, frameH)
+		}
+	})
 })
 
 // ---- COLOR CORRECTION --------
