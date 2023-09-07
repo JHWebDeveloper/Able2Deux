@@ -5,13 +5,15 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	reflectMedia,
+	rotateMedia,
 	saveAsPreset,
-	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
 import {
 	createSettingsMenu,
+	detectMediaIsSideways,
 	extractRotationProps,
 	extractRelevantMediaProps,
 	objectsAreEqual
@@ -21,66 +23,22 @@ import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
 import FreeRotate from './FreeRotate'
 
-const cropDirections = Object.freeze(['cropT', 'cropL', 'cropB', 'cropR'])
-const transpositions = Object.freeze(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2'])
-const flipDirections = Object.freeze(['', 'hflip', 'vflip', 'hflip,vflip'])
-
-const detectSideways = transpose => transpose === transpositions[1] || transpose === transpositions[3]
-const detectOrientationChange = (prev, next) => !!(detectSideways(prev) ^ detectSideways(next))
-const detectReflection = (prev, next, query) => !(!prev.includes(query) ^ next.includes(query))
-
-const rotateCropValues = (prev, next, crop) => {
-	if (prev === next) return crop
-	
-	const rotations = transpositions.indexOf(next) - transpositions.indexOf(prev) + 4
-	const cropVals = [crop.cropT, crop.cropL, 100 - crop.cropB, 100 - crop.cropR]
-
-	const rotated = cropDirections.reduce((obj, dir, i) => {
-		obj[dir] = cropVals[(rotations + i) % 4]
-		return obj
-	}, {})
-
-	rotated.cropB = 100 - rotated.cropB
-	rotated.cropR = 100 - rotated.cropR
-
-	return rotated
-}
-
 const transposeButtons = [
 	{
 		label: '0°',
-		value: transpositions[0]
+		value: ''
 	},
 	{
 		label: '90°cw',
-		value: transpositions[1]
+		value: 'transpose=1'
 	},
 	{
 		label: '90°ccw',
-		value: transpositions[3]
+		value: 'transpose=2'
 	},
 	{
 		label: '180°',
-		value: transpositions[2]
-	}
-]
-
-const flipButtons = isSideways => [
-	{
-		label: 'None',
-		value: flipDirections[0]
-	},
-	{
-		label: 'Horizontally',
-		value: flipDirections[isSideways ? 2 : 1]
-	},
-	{
-		label: 'Vertically',
-		value: flipDirections[isSideways ? 1 : 2]
-	},
-	{
-		label: 'Both',
-		value: flipDirections[3]
+		value: 'transpose=2,transpose=2'
 	}
 ]
 
@@ -95,52 +53,36 @@ const freeRotateModeButtons = [
 	}
 ]
 
+const createReflectButtons = isSideways => [
+	{
+		label: 'None',
+		value: ''
+	},
+	{
+		label: 'Horizontally',
+		value: isSideways ? 'vflip' : 'hflip'
+	},
+	{
+		label: 'Vertically',
+		value: isSideways ? 'hflip' : 'vflip'
+	},
+	{
+		label: 'Both',
+		value: 'hflip,vflip'
+	}
+]
+
 const Rotation = memo(props => {
-	const { transpose, reflect, freeRotateMode, scaleX, scaleY, cropT, cropR, cropB, cropL, dispatch } = props
-	const crop = { cropT, cropR, cropB, cropL }
-	const isSideways = detectSideways(transpose)
+	const { transpose, reflect, freeRotateMode, dispatch } = props
+	const reflectButtons = useMemo(() => createReflectButtons(detectMediaIsSideways(transpose)), [transpose])
 
-	const updateTranspose = useCallback(e => {
-		let invertedProps = {}
+	const updateReflectMedia = useCallback(e => {
+		dispatch(reflectMedia(e))
+	}, [])
 
-		if (detectOrientationChange(transpose, e.target.value)) {
-			const { width, height, aspectRatio } = props
-
-			invertedProps = {
-				width: height,
-				height: width,
-				aspectRatio: aspectRatio.split(':').reverse().join(':'),
-				scaleX: scaleY,
-				scaleY: scaleX
-			}
-		}
-
-		dispatch(updateMediaStateBySelection({
-			...invertedProps,
-			...rotateCropValues(transpose, e.target.value, crop),
-			transpose: e.target.value
-		}))
-	}, [transpose, scaleX, scaleY, crop])
-
-	const updateReflect = useCallback(e => {
-		const invertedCrop = {}
-
-		if (detectReflection(reflect, e.target.value, flipDirections[1])) {
-			invertedCrop.cropL = 100 - crop.cropR
-			invertedCrop.cropR = 100 - crop.cropL
-		}
-
-		if (detectReflection(reflect, e.target.value, flipDirections[2])) {
-			invertedCrop.cropT = 100 - crop.cropB
-			invertedCrop.cropB = 100 - crop.cropT
-		}
-
-		dispatch(updateMediaStateBySelection({
-			...crop,
-			...invertedCrop,
-			reflect: e.target.value
-		}))
-	}, [reflect, crop])
+	const updateRotateMedia = useCallback(e => {
+		e => dispatch(rotateMedia(e))
+	}, [])
 
 	const updateOffsetMode = useCallback(e => {
 		dispatch(updateMediaStateBySelectionFromEvent(e))
@@ -153,15 +95,15 @@ const Rotation = memo(props => {
 				<RadioSet
 					name="reflect"
 					state={reflect}
-					onChange={updateReflect}
-					buttons={flipButtons(isSideways)} />
+					onChange={updateReflectMedia}
+					buttons={reflectButtons} />
 			</fieldset>
 			<fieldset className="radio-set">
 				<legend>Rotate<span aria-hidden>:</span></legend>
 				<RadioSet 
 					name="transpose"
 					state={transpose}
-					onChange={updateTranspose}
+					onChange={updateRotateMedia}
 					buttons={transposeButtons}/>
 			</fieldset>
 			{props.showFreeRotate ? <>
@@ -209,8 +151,8 @@ const RotationPanel = props => {
 const propTypes = {
 	id: string,
 	multipleItems: bool.isRequired,
-	transpose: oneOf(transpositions),
-	reflect: oneOf(flipDirections),
+	transpose: oneOf(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2']),
+	reflect: oneOf(['', 'hflip', 'vflip', 'hflip,vflip']),
 	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
 	angle: number.isRequired,
 	rotatedCentering: number.isRequired,
