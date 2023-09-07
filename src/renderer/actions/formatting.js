@@ -204,6 +204,22 @@ export const fitToFrameAuto = (sizingMethod, frameW, frameH) => ({
 	payload: { sizingMethod, frameW, frameH }
 })
 
+// ---- ROTATION --------
+
+export const rotateMedia = e => ({
+	type: ACTION.ROTATE_MEDIA,
+	payload: {
+		transpose: e.target.value
+	}
+})
+
+export const reflectMedia = e => ({
+	type: ACTION.REFLECT_MEDIA,
+	payload: {
+		reflect: e.target.value
+	}
+})
+
 // ---- COLOR CORRECTION --------
 
 export const addCurvePoint = (id, curveName, pointData) => ({
