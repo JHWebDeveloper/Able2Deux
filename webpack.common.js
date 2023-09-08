@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
 
 const rendererPath = path.resolve('src', 'renderer')
-const pages = ['index', 'splash', 'update', 'preferences', 'presets', 'help']
+const pages = ['index', 'splash', 'update', 'preferences', 'presets', 'preset_save_as', 'help']
 const alias = ['actions', 'css', 'hooks', 'reducer', 'status', 'store', 'utilities']
 
 module.exports = {
