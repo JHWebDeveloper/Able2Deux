@@ -3,8 +3,6 @@ import { bool, number, object } from 'prop-types'
 
 import { secondsToTC } from 'utilities'
 
-const blink = 'blink'
-
 const Clock = ({ start, decrement, recordIndicator }) => {
 	const clock = useRef(null)
 	const title = `Time ${decrement ? 'remaining' : 'ellapsed'}`
@@ -22,7 +20,7 @@ const Clock = ({ start, decrement, recordIndicator }) => {
 				recordIndicator.className = ''
 			} else {
 				clock.current.value = secondsToTC(seconds += dir)
-				recordIndicator.className = blink
+				recordIndicator.className = 'blink'
 			}
 
 			tick &= 1 // tracks whether tick is even (at the half-second) or odd (at the second)
