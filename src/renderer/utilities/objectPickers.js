@@ -37,6 +37,7 @@ export const extractPreviewRenderDependencies = (() => {
 		...COLOR_CORRECTION_PROPS,
 		...SOURCE_PROPS,
 		...POSITION_PROPS,
+		'centering',
 		'keyingHidden',
 		'ccHidden',
 		'id',
