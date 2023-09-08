@@ -9,6 +9,7 @@ import {
 	copyAttributes,
 	fitToFrameHeight,
 	fitToFrameWidth,
+	fitToFrameAuto,
 	saveAsPreset,
 	toggleMediaCheckbox,
 	updateMediaStateBySelection
@@ -25,6 +26,14 @@ import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 import LinkIcon from '../../svg/LinkIcon'
 
+const X_STATIC_PROPS = { name: 'scaleX', title: 'Scale X', min: 0 }
+const Y_STATIC_PROPS = { name: 'scaleY', title: 'Scale Y', min: 0 }
+
+const NUMBER_PROPS = Object.freeze({
+	max: 4500,
+	defaultValue: 100
+})
+
 const FitButton = ({ title, onClick }) => (
 	<button
 		type="button"
@@ -34,15 +43,7 @@ const FitButton = ({ title, onClick }) => (
 		onClick={onClick}>unfold_more</button>
 )
 
-const propsXStatic = { name: 'scaleX', title: 'Scale X', min: 0 }
-const propsYStatic = { name: 'scaleY', title: 'Scale Y', min: 0 }
-
-const numberProps = {
-	max: 4500,
-	defaultValue: 100
-}
-
-const Scale = memo(({ id, scaleX, scaleY, scaleLink, dispatch }) => {
+const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
@@ -74,7 +75,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, dispatch }) => {
 		dispatch(toggleMediaCheckbox(id, e))
 	}, [id])
 
-	const common = useMemo(() => ({
+	const commonProps = useMemo(() => ({
 		onChange: scaleLink ? updateScale : updateAxis
 	}), [scaleLink, distortion])
 
@@ -88,14 +89,14 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, dispatch }) => {
 	}, [scaleLink, scaleX, scaleY])
 
 	const propsX = {
-		...common,
-		...propsXStatic,
+		...commonProps,
+		...X_STATIC_PROPS,
 		value: scaleX
 	}
 
 	const propsY = {
-		...common,
-		...propsYStatic,
+		...commonProps,
+		...Y_STATIC_PROPS,
 		value: scaleY
 	}
 
@@ -118,7 +119,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, dispatch }) => {
 				onClick={() => dispatch(fitToFrameWidth(frameW))} />
 			<NumberInput
 				{...propsX}
-				{...numberProps} />
+				{...NUMBER_PROPS} />
 			<label>Y</label>
 			<SliderSingle
 				snapPoints={snapPointsY}
@@ -129,7 +130,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, dispatch }) => {
 				onClick={() => dispatch(fitToFrameHeight(frameH))} />
 			<NumberInput
 				{...propsY}
-				{...numberProps} />
+				{...NUMBER_PROPS} />
 			<button
 				type="button"
 				name="scaleLink"
@@ -139,6 +140,18 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, dispatch }) => {
 				aria-label={linkTitle}>
 				<LinkIcon linked={scaleLink} />
 			</button>
+			{multipleItemsSelected ? (
+				<div style={{ gridRow: 3, gridColumn: '1 / -1' }}>
+					<button
+						type="button"
+						className="app-button small"
+						onClick={() => dispatch(fitToFrameAuto('fill', frameW, frameH))}>Fill</button>
+					<button
+						type="button"
+						className="app-button small"
+						onClick={() => dispatch(fitToFrameAuto('fit', frameW, frameH))}>Fit</button>
+				</div>
+			) : <></>}
 		</>
 	)
 }, objectsAreEqual)
@@ -174,17 +187,9 @@ FitButton.propTypes = {
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
-	width: number.isRequired,
-	height: number.isRequired,
 	scaleX: oneOfType([oneOf(['']), number]).isRequired,
 	scaleY: oneOfType([oneOf(['']), number]).isRequired,
 	scaleLink: bool.isRequired,
-	cropT: oneOfType([oneOf(['']), number]).isRequired,
-	cropR: oneOfType([oneOf(['']), number]).isRequired,
-	cropB: oneOfType([oneOf(['']), number]).isRequired,
-	cropL: oneOfType([oneOf(['']), number]).isRequired,
-	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']).isRequired,
-	angle: number.isRequired,
 	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
