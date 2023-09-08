@@ -5,7 +5,7 @@ import 'css/preferences.css'
 
 import { PrefsProvider, PrefsContext } from 'store'
 import { updateState } from 'actions'
-import { createKonamiListener, toastrOpts } from 'utilities'
+import { TOASTR_OPTIONS, createKonamiListener } from 'utilities'
 
 import GeneralSettings from './GeneralSettings'
 import AcquisitionSettings from './AcquisitionSettings'
@@ -30,7 +30,7 @@ const PreferencesRouter = () => {
 			toastr.success(
 				`Download Rate Limit is now ${disableRateLimit ? 'Dis' : 'En'}abled`,
 				'You entered the Konami Code!',
-				{ ...toastrOpts, timeOut: 2000 })
+				{ ...TOASTR_OPTIONS, timeOut: 2000 })
 		})
 
 		return () => {

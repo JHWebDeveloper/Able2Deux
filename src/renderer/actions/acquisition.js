@@ -5,10 +5,10 @@ import * as STATUS from 'status'
 import { updateMediaStateById } from 'actions'
 
 import {
+	TOASTR_OPTIONS,
 	createMediaData,
 	errorToString,
-	replaceTokens,
-	toastrOpts
+	replaceTokens
 } from 'utilities'
 
 const { interop } = window.ABLE2
@@ -91,7 +91,7 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 			acquisitionType: 'download'
 		})
 	} catch (err) {
-		return toastr.error(errorToString(err), false, toastrOpts)
+		return toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 	}
 
 	dispatch(addMedia(mediaData))
@@ -108,7 +108,7 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
-		return toastr.error(errorToString(err), false, toastrOpts)
+		return toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 	}
 
 	const downloadParams = {
@@ -136,7 +136,7 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
-		toastr.error(errorToString(err), false, toastrOpts)
+		toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 	}
 }
 
@@ -149,7 +149,7 @@ export const upload = ({ name, path }) => async dispatch => {
 	try {
 		streamData = await interop.checkFileType(path)
 	} catch (err) {
-		return toastr.error(errorToString(err), false, toastrOpts)
+		return toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 	}
 
 	try {
@@ -161,7 +161,7 @@ export const upload = ({ name, path }) => async dispatch => {
 			...streamData
 		})
 	} catch (err) {
-		return toastr.error(errorToString(err), false, toastrOpts)
+		return toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 	}
 
 	dispatch(addMedia(mediaData))
@@ -177,7 +177,7 @@ export const upload = ({ name, path }) => async dispatch => {
 	} catch (err) {
 		dispatch(updateMediaStatus(id, STATUS.FAILED))
 
-		return toastr.error(errorToString(err), false, toastrOpts)
+		return toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 	}
 }
 
@@ -196,7 +196,7 @@ export const loadRecording = (id, screenshot) => async dispatch => {
 			status: STATUS.LOADING
 		})
 	} catch (err) {
-		return toastr.error(errorToString(err), false, toastrOpts)
+		return toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 	}
 
 	dispatch(addMedia(mediaData))

@@ -2,7 +2,7 @@ import toastr from 'toastr'
 
 import * as shared from 'reducer/shared'
 import * as ACTION from 'actions/types'
-import { errorToString, toastrOpts } from 'utilities'
+import { TOASTR_OPTIONS, errorToString } from 'utilities'
 
 // ---- REDUCER --------
 
@@ -46,7 +46,7 @@ const savePrefs = async (prefs, callback) => {
 		await window.ABLE2.interop.savePrefs(prefs)
 		callback?.()
 	} catch (err) {
-		toastr.error(errorToString(err), false, toastrOpts)
+		toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 	}
 }
 

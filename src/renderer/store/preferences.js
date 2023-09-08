@@ -5,7 +5,7 @@ import { arrayOf, element, oneOfType } from 'prop-types'
 import { prefsReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
 import { useAugmentedDispatch } from 'hooks'
-import { toastrOpts } from 'utilities'
+import { TOASTR_OPTIONS } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -63,7 +63,7 @@ export const PrefsProvider = ({ children }) => {
 			try {
 				dispatch(updateState(await interop.requestPrefs()))
 			} catch (err) {
-				toastr.error(err, false, toastrOpts)
+				toastr.error(err, false, TOASTR_OPTIONS)
 			}
 		})()
 

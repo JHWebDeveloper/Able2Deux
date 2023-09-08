@@ -10,7 +10,7 @@ import {
 	updateMediaStatus
 } from 'actions'
 
-import { errorToString, toastrOpts } from 'utilities'
+import { TOASTR_OPTIONS, errorToString } from 'utilities'
 
 import RecordSourceSelector from './RecordSourceSelector'
 import ScreenRecorderTimer from './ScreenRecorderTimer'
@@ -52,7 +52,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 			onError(err, recordId) {
 				if (recordId) dispatch(updateMediaStatus(recordId, STATUS.FAILED))
 
-				toastr.error(errorToString(err), false, toastrOpts)
+				toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 			}
 		})
 	}, [frameRate, timer, timerEnabled])
@@ -68,7 +68,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 			onError(err, recordId) {
 				if (recordId) dispatch(updateMediaStatus(recordId, STATUS.FAILED))
 
-				toastr.error(errorToString(err), false, toastrOpts)
+				toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 			}
 		})
 	}, [frameRate])
@@ -83,7 +83,7 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 		try {
 			recordSourceList = await interop.getRecordSources()
 		} catch (err) {
-			return toastr.error(errorToString(err), toastrOpts)
+			return toastr.error(errorToString(err), TOASTR_OPTIONS)
 		}
 
 		if (!recordSourceList.length) return false

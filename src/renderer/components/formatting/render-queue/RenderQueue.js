@@ -16,7 +16,7 @@ import {
 } from 'actions'
 
 import { useWarning } from 'hooks'
-import { detectTabExit, toastrOpts } from 'utilities'
+import { TOASTR_OPTIONS, detectTabExit } from 'utilities'
 
 import RenderElement from './RenderElement'
 
@@ -107,7 +107,7 @@ const RenderQueue = props => {
 		const atleastOneSuccess = media.some(item => item.renderStatus === STATUS.COMPLETE)
 
 		if (complete && atleastOneSuccess) {
-			toastr.success('Thank you for using Able2.', 'Your Files are Ready!', { ...toastrOpts, timeOut: 4000 })
+			toastr.success('Thank you for using Able2.', 'Your Files are Ready!', { ...TOASTR_OPTIONS, timeOut: 4000 })
 		}
 
 		if (complete) interop.enablePrefs()

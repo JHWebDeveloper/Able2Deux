@@ -10,6 +10,7 @@ import {
 } from 'actions'
 
 import {
+	TOASTR_OPTIONS,
 	buildSource,
 	clamp,
 	cleanFilename,
@@ -23,7 +24,6 @@ import {
 	pipeAsync,
 	refocusBatchItem,
 	replaceTokens,
-	toastrOpts,
 	zeroize
 } from 'utilities'
 
@@ -315,7 +315,7 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 			hasAlpha
 		})
 	} catch (err) {
-		return toastr.error(errorToString(err), false, toastrOpts)
+		return toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 	}
 
 	const inheritance = e.shiftKey ? {
@@ -465,7 +465,7 @@ const renderItem = (args, dispatch) => {
 				dispatch(updateRenderStatus(id, STATUS.CANCELLED))
 			} else {
 				dispatch(updateRenderStatus(id, STATUS.FAILED))
-				toastr.error(errStr, false, toastrOpts)
+				toastr.error(errStr, false, TOASTR_OPTIONS)
 			}
 		}
 	}

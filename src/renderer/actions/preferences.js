@@ -3,7 +3,7 @@ import { v1 as uuid } from 'uuid'
 
 import * as ACTION from 'actions/types'
 import { addNewSortableElement } from 'actions'
-import { toastrOpts } from 'utilities'
+import { TOASTR_OPTIONS } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -111,7 +111,7 @@ export const cleanupPrefsAndSave = saveAndClose => ({
 		if (saveAndClose) {
 			interop.closePreferences()
 		} else {
-			toastr.success('Preferences saved', false, { ...toastrOpts, timeOut: 2000 })
+			toastr.success('Preferences saved', false, { ...TOASTR_OPTIONS, timeOut: 2000 })
 		}
 	}
 })

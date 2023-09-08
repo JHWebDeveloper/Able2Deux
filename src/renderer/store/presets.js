@@ -5,7 +5,7 @@ import { arrayOf, bool, element, oneOfType } from 'prop-types'
 import { presetsReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
 import { useAugmentedDispatch } from 'hooks'
-import { toastrOpts } from 'utilities'
+import { TOASTR_OPTIONS } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -25,7 +25,7 @@ export const PresetsProvider = ({ referencesOnly, children }) => {
 			try {
 				dispatch(updateState(await interop.requestPresets(referencesOnly)))
 			} catch (err) {
-				toastr.error(err, false, toastrOpts)
+				toastr.error(err, false, TOASTR_OPTIONS)
 			}
 		})()
 

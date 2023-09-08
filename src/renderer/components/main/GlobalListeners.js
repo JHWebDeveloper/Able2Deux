@@ -4,7 +4,7 @@ import toastr from 'toastr'
 
 import { MainContext, PrefsContext } from 'store'
 import { upload } from 'actions'
-import { debounce, pipeAsync, toastrOpts } from 'utilities'
+import { TOASTR_OPTIONS, debounce, pipeAsync } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -25,7 +25,7 @@ const GlobalListeners = () => {
 
 	useEffect(() => {
 		interop.setOpenWithListener(files => {
-			if (rendering) return toastr.error('Files cannot be opened while Able2 is rendering.', false, toastrOpts)
+			if (rendering) return toastr.error('Files cannot be opened while Able2 is rendering.', false, TOASTR_OPTIONS)
 
 			navigate('/')
 
