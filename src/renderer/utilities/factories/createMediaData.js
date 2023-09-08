@@ -1,19 +1,6 @@
 import { v1 as uuid } from 'uuid'
 import { PENDING } from 'status'
 
-export const createCurvePoint = (x, y, limit = false) => ({
-	id: uuid(),
-	hidden: false,
-	limit,
-	x,
-	y
-})
-
-export const createDefaultCurvePoints = () => [
-	createCurvePoint(0, 256, true),
-	createCurvePoint(256, 0, true)
-]
-
 const DEFAULT_MEDIA_DATA = Object.freeze({
 	// metadata
 	id: '',
@@ -117,11 +104,24 @@ const DEFAULT_MEDIA_DATA = Object.freeze({
 	ccEnabled: false,
 	ccHidden: false,
 	ccSelectedCurve: 'ccRGB',
-	ccRGB: createDefaultCurvePoints(),
-	ccR: createDefaultCurvePoints(),
-	ccG: createDefaultCurvePoints(),
-	ccB: createDefaultCurvePoints()
+	ccRGB: [],
+	ccR: [],
+	ccG: [],
+	ccB: []
 })
+
+export const createCurvePoint = (x, y, limit = false) => ({
+	id: uuid(),
+	hidden: false,
+	limit,
+	x,
+	y
+})
+
+export const createDefaultCurvePoints = () => [
+	createCurvePoint(0, 256, true),
+	createCurvePoint(256, 0, true)
+]
 
 export const createMediaData = async params => {
 	const { editorSettings } = await window.ABLE2.interop.requestPrefs()
@@ -135,6 +135,10 @@ export const createMediaData = async params => {
 
 	return {
 		...DEFAULT_MEDIA_DATA,
+		ccRGB: createDefaultCurvePoints(),
+		ccR: createDefaultCurvePoints(),
+		ccG: createDefaultCurvePoints(),
+		ccB: createDefaultCurvePoints(),
 		...editorSettings,
 		...params
 	}
