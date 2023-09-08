@@ -8,7 +8,7 @@ import { framesToAudibleTC } from 'utilities'
 import SliderSingle from '../../form_elements/SliderSingle'
 import TimecodeInputFrames from '../../form_elements/TimecodeInputFrames'
 
-const timecodeStaticProps = { name: 'timecode', min: 0 }
+const TIMECODE_STATIC_PROPS = Object.freeze({ name: 'timecode', min: 0 })
 
 const FrameSelector = ({ focused, isAudio, dispatch }) => {
 	const { id, timecode, start, end, fps, totalFrames } = focused
@@ -53,7 +53,7 @@ const FrameSelector = ({ focused, isAudio, dispatch }) => {
 	}, [focused])
 
 	const timecodeProps = {
-		...timecodeStaticProps,
+		...TIMECODE_STATIC_PROPS,
 		value: timecode,
 		max: totalFrames - 1,
 		onChange: updateTimecode
