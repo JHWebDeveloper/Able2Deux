@@ -19,7 +19,7 @@ const EditorOptions = props => {
 	if (!props.id) return <></>
 
 	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper } = props
-	const common = extractCommonPanelProps(props)
+	const commonProps = extractCommonPanelProps(props)
 
 	return (
 		<div id="editor-options">
@@ -31,12 +31,12 @@ const EditorOptions = props => {
 				totalFrames={props.totalFrames}
 				duration={props.duration}
 				split={props.split}
-				{...common} />
+				{...commonProps} />
 			{props.hasAudio ? (
 				<Audio
 					audioVideoTracks={audioVideoTracks}
 					audioExportFormat={props.audioExportFormat}
-					{...common} />
+					{...commonProps} />
 			) : <></>}
 			{mediaType === 'audio' || mediaType === 'video' && audioVideoTracks === 'audio' ? <></> : <>
 				<Framing 
@@ -47,30 +47,30 @@ const EditorOptions = props => {
 					overlay={props.overlay}
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
-					{...common} />
+					{...commonProps} />
 				{arc === 'none' && aspectRatio !== '16:9' ? <></> : (
 					<Source
 						sourceName={props.sourceName}
 						sourcePrefix={props.sourcePrefix}
 						sourceOnTop={props.sourceOnTop}
 						background={background}
-						{...common} />
+						{...commonProps} />
 				)}
 				{arc === 'fill' && aspectRatio !== '16:9' ? (
 					<Centering
 						centering={props.centering}
-						{...common} />
+						{...commonProps} />
 				) : <></>}
 				{arc === 'transform' ? <>
 					<Position
 						positionX={props.positionX}
 						positionY={props.positionY}
-						{...common} />
+						{...commonProps} />
 					<Scale
 						scaleX={props.scaleX}
 						scaleY={props.scaleY}
 						scaleLink={props.scaleLink}
-						{...common} />
+						{...commonProps} />
 					<Crop
 						cropT={props.cropT}
 						cropR={props.cropR}
@@ -78,7 +78,7 @@ const EditorOptions = props => {
 						cropL={props.cropL}
 						cropLinkTB={props.cropLinkTB}
 						cropLinkLR={props.cropLinkLR}
-						{...common} />
+						{...commonProps} />
 				</> : <></>}
 				<Rotation
 					transpose={props.transpose}
@@ -87,7 +87,7 @@ const EditorOptions = props => {
 					angle={props.angle}
 					rotatedCentering={props.rotatedCentering}
 					showFreeRotate={arc === 'transform'}
-					{...common} />
+					{...commonProps} />
 				{arc === 'none' ? <></> : (
 					<Keying
 						keyingEnabled={props.keyingEnabled}
@@ -101,7 +101,7 @@ const EditorOptions = props => {
 						keyingSoftness={props.keyingSoftness}
 						eyedropper={eyedropper}
 						setEyedropper={setEyedropper}
-						{...common} />
+						{...commonProps} />
 				)}
 				<ColorCorrection
 					ccEnabled={props.ccEnabled}
@@ -113,7 +113,7 @@ const EditorOptions = props => {
 					ccB={props.ccB}
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
-					{...common} />
+					{...commonProps} />
 			</>}
 		</div>
 	)
