@@ -5,15 +5,30 @@ import '../../css/preset_save_as.css'
 import { PresetsProvider, PresetsContext } from 'store'
 
 import {
+	TOASTR_OPTIONS,
 	errorToString,
-	pipe,
-	toastrOpts
+	pipe
 } from 'utilities'
 
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 
 const { interop } = window.ABLE2
+
+const SAVE_TYPE_BUTTONS = Object.freeze([
+	{
+		label: 'New Preset',
+		value: 'newPreset'
+	},
+	{
+		label: 'Replace Existing Preset',
+		value: 'replace'
+	},
+	{
+		label: 'Merge with Existing Preset',
+		value: 'merge'
+	}
+])
 
 const attributeToPreset = ([attribute, value], attributes) => {
 	const attributeData = {
@@ -37,19 +52,22 @@ const attributeToPreset = ([attribute, value], attributes) => {
 			break
 		case 'background':
 			attributeData.label = 'Background'
+			attributeData.include = attributes.arc !== 'none'
 			attributeData.order = 4
 			break
 		case 'bgColor':
 			attributeData.label = 'Background Color'
-			attributeData.include = attributes.background === 'color'
+			attributeData.include = attributes.arc !== 'none' && attributes.background === 'color'
 			attributeData.order = 5
 			break
 		case 'backgroundMotion':
 			attributeData.label = 'Background Motion'
+			attributeData.include = attributes.arc !== 'none'
 			attributeData.order = 6
 			break
 		case 'overlay':
 			attributeData.label = 'Overlay'
+			attributeData.include = attributes.arc !== 'none'
 			attributeData.order = 7
 			break
 		case 'sourceName':
@@ -88,7 +106,7 @@ const attributeToPreset = ([attribute, value], attributes) => {
 			attributeData.order = 15
 			break
 		case 'scaleLink':
-			attributeData.label = 'Scale Link X&Y'
+			attributeData.label = 'Link Scale X & Y'
 			attributeData.order = 16
 			break
 		case 'cropT':
@@ -108,11 +126,11 @@ const attributeToPreset = ([attribute, value], attributes) => {
 			attributeData.order = 20
 			break
 		case 'cropLinkTB':
-			attributeData.label = 'Crop Link T&B'
+			attributeData.label = 'Link Crop Top & Bottom'
 			attributeData.order = 21
 			break
 		case 'cropLinkLR':
-			attributeData.label = 'Crop Link L&R'
+			attributeData.label = 'Link Crop Left & Right'
 			attributeData.order = 22
 			break
 		case 'reflect':
@@ -216,21 +234,6 @@ const mapPresetToAttributes = preset => preset.reduce((acc, { include, attribute
 	return acc
 }, {})
 
-const saveTypeButtons = [
-	{
-		label: 'New Preset',
-		value: 'newPreset'
-	},
-	{
-		label: 'Replace Existing Preset',
-		value: 'replace'
-	},
-	{
-		label: 'Merge with Existing Preset',
-		value: 'merge'
-	}
-]
-
 const PresetSaveAs = () => {
 	const { presets: existingPresets } = useContext(PresetsContext).presets
 	const [ saveType, setSaveType ] = useState('newPreset')
@@ -261,7 +264,7 @@ const PresetSaveAs = () => {
 	
 			interop.closePresetSaveAs()
 		} catch (err) {
-			toastr.error(errorToString(err), false, toastrOpts)
+			toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 		}
 	}
 
@@ -288,7 +291,7 @@ const PresetSaveAs = () => {
 							name="saveType"
 							state={saveType}
 							onChange={e => setSaveType(e.target.value)}
-							buttons={saveTypeButtons}/>
+							buttons={SAVE_TYPE_BUTTONS}/>
 					</fieldset>
 				) : <></>}
 				{saveType === 'newPreset' ? (
