@@ -23,7 +23,7 @@ import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
 import FreeRotate from './FreeRotate'
 
-const transposeButtons = [
+const TRANSPOSE_BUTTONS = Object.freeze([
 	{
 		label: '0°',
 		value: ''
@@ -40,9 +40,9 @@ const transposeButtons = [
 		label: '180°',
 		value: 'transpose=2,transpose=2'
 	}
-]
+])
 
-const freeRotateModeButtons = [
+const FREE_ROTATE_MODE_BUTTONS = Object.freeze([
 	{
 		label: 'Inside Bounds',
 		value: 'inside_bounds'
@@ -51,7 +51,7 @@ const freeRotateModeButtons = [
 		label: 'With Bounds',
 		value: 'with_bounds'
 	}
-]
+])
 
 const createReflectButtons = isSideways => [
 	{
@@ -104,7 +104,7 @@ const Rotation = memo(props => {
 					name="transpose"
 					state={transpose}
 					onChange={updateRotateMedia}
-					buttons={transposeButtons}/>
+					buttons={TRANSPOSE_BUTTONS}/>
 			</fieldset>
 			{props.showFreeRotate ? <>
 				<fieldset className="radio-set">
@@ -113,7 +113,7 @@ const Rotation = memo(props => {
 						name="freeRotateMode"
 						state={freeRotateMode}
 						onChange={updateOffsetMode}
-						buttons={freeRotateModeButtons} />
+						buttons={FREE_ROTATE_MODE_BUTTONS} />
 				</fieldset>
 				<FreeRotate
 					angle={props.angle}

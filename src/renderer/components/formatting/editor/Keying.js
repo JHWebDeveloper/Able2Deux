@@ -27,13 +27,13 @@ import SingleSlider from '../../form_elements/SliderSingle'
 import Checkbox from '../../form_elements/Checkbox'
 import EyedropperIcon from '../../svg/EyedropperIcon'
 
-const thresholdStaticProps = { name: 'keyingThreshold', title: 'Threshold', min: 0, max: 100 }
-const toleranceStaticProps = { name: 'keyingTolerance', title: 'Tolerance', min: 0, max: 100 }
-const softnessStaticProps = { name: 'keyingSoftness', title: 'Softness', min: 0, max: 100 }
-const similarityStaticProps = { name: 'keyingSimilarity', title: 'Similarity', min: 1, max: 100 }
-const blendStaticProps = { name: 'keyingBlend', title: 'Blend', min: 0, max: 100 }
+const THRESHOLD_STATIC_PROPS = Object.freeze({ name: 'keyingThreshold', title: 'Threshold', min: 0, max: 100 })
+const TOLERANCE_STATIC_PROPS = Object.freeze({ name: 'keyingTolerance', title: 'Tolerance', min: 0, max: 100 })
+const SOFTNESS_STATIC_PROPS = Object.freeze({ name: 'keyingSoftness', title: 'Softness', min: 0, max: 100 })
+const SIMILARITY_STATIC_PROPS = Object.freeze({ name: 'keyingSimilarity', title: 'Similarity', min: 1, max: 100 })
+const BLEND_STATIC_PROPS = Object.freeze({ name: 'keyingBlend', title: 'Blend', min: 0, max: 100 })
 
-const keyTypeButtons = [
+const KEY_TYPE_BUTTONS = Object.freeze([
 	{
 		label: 'Color Key',
 		value: 'colorkey'
@@ -46,25 +46,25 @@ const keyTypeButtons = [
 		label: 'Luma Key',
 		value: 'lumakey'
 	}
-]
+])
 
 const LumaKeySliders = ({ threshold, tolerance, softness, onChange, disabled }) => {
 	const thresholdProps = {
-		...thresholdStaticProps,
+		...THRESHOLD_STATIC_PROPS,
 		value: threshold,
 		onChange,
 		disabled
 	}
 
 	const toleranceProps = {
-		...toleranceStaticProps,
+		...TOLERANCE_STATIC_PROPS,
 		value: tolerance,
 		onChange,
 		disabled
 	}
 
 	const softnessProps = {
-		...softnessStaticProps,
+		...SOFTNESS_STATIC_PROPS,
 		value: softness,
 		onChange,
 		disabled
@@ -87,14 +87,14 @@ const LumaKeySliders = ({ threshold, tolerance, softness, onChange, disabled }) 
 
 const ColorKeySliders = ({ similarity, blend, onChange, disabled }) => {
 	const similarityProps = {
-		...similarityStaticProps,
+		...SIMILARITY_STATIC_PROPS,
 		value: similarity,
 		onChange,
 		disabled
 	}
 
 	const blendProps = {
-		...blendStaticProps,
+		...BLEND_STATIC_PROPS,
 		value: blend,
 		onChange,
 		disabled
@@ -174,7 +174,7 @@ const Keying = memo(props => {
 					name="keyingType"
 					state={keyingType}
 					onChange={updateKeyingFromEvent}
-					buttons={keyTypeButtons}/>
+					buttons={KEY_TYPE_BUTTONS}/>
 			</fieldset>
 			{keyingType === 'lumakey' ? <></> : (
 				<div className={keyingEnabled ? '' : 'disabled'}>

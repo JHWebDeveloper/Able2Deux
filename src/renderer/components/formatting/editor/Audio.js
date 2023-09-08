@@ -19,7 +19,7 @@ import {
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
 
-const audioVideoTracksButtons = [
+const AUDIO_VIDEO_TRACKS_BUTTONS = Object.freeze([
 	{
 		label: 'Video + Audio',
 		value: 'video_audio'
@@ -32,9 +32,9 @@ const audioVideoTracksButtons = [
 		label: 'Audio Only',
 		value: 'audio'
 	}
-]
+])
 
-const audioExportFormatButtons = [
+const AUDIO_EXPORT_FORMAT_BUTTONS = Object.freeze([
 	{
 		label: '.wav',
 		value: 'wav'
@@ -47,7 +47,7 @@ const audioExportFormatButtons = [
 		label: '.mp4 + color bars',
 		value: 'bars'
 	}
-]
+])
 
 const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, dispatch }) => {
 	const updateAudio = useCallback(e => {
@@ -63,7 +63,7 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, dispatch }
 						name="audioVideoTracks"
 						state={audioVideoTracks}
 						onChange={updateAudio}
-						buttons={audioVideoTracksButtons} />
+						buttons={AUDIO_VIDEO_TRACKS_BUTTONS} />
 				</fieldset>
 			) : <></>}
 				<fieldset
@@ -74,7 +74,7 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, dispatch }
 						name="audioExportFormat"
 						state={audioExportFormat}
 						onChange={updateAudio}
-						buttons={audioExportFormatButtons} />
+						buttons={AUDIO_EXPORT_FORMAT_BUTTONS} />
 				</fieldset>
 		</>
 	)

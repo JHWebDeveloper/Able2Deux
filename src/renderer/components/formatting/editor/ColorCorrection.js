@@ -30,7 +30,7 @@ import RadioSet from '../../form_elements/RadioSet'
 import Curves from '../../form_elements/Curves'
 import SliderDouble from '../../form_elements/SliderDouble'
 
-const colorChannelButtons = [
+const COLOR_CHANNEL_BUTTONS = Object.freeze([
 	{
 		label: 'RGB',
 		value: 'ccRGB'
@@ -47,19 +47,19 @@ const colorChannelButtons = [
 		label: 'B',
 		value: 'ccB'
 	}
-]
+])
 
-const propsWhitePtStatic = {
+const WHITE_PT_STATIC_PROPS = Object.freeze({
 	name: 'whitePt',
 	title: 'White Point',
 	alignment: 'center'
-}
+})
 
-const propsBlackPtStatic = {
+const BLACK_PT_STATIC_PROPS = Object.freeze({
 	name: 'blackPt',
 	title: 'Black Point',
 	alignment: 'center'
-}
+})
 
 const getCurveColor = curveName => {
 	switch (curveName) {
@@ -230,7 +230,7 @@ const ColorCorrection = memo(props => {
 				<RadioSet
 					name="ccSelectedCurve"
 					state={ccSelectedCurve}
-					buttons={colorChannelButtons}
+					buttons={COLOR_CHANNEL_BUTTONS}
 					onChange={selectCurve} />
 			</fieldset>
 			<Curves
@@ -246,7 +246,7 @@ const ColorCorrection = memo(props => {
 				disabled={!ccEnabled} />
 			<SliderDouble
 				leftThumb={{
-					...propsBlackPtStatic,
+					...BLACK_PT_STATIC_PROPS,
 					value: blackPt.x,
 					max: props[ccSelectedCurve][1].x - 6,
 					onChange: setBlackPoint,
@@ -255,7 +255,7 @@ const ColorCorrection = memo(props => {
 					}
 				}}
 				rightThumb={{
-					...propsWhitePtStatic,
+					...WHITE_PT_STATIC_PROPS,
 					value: whitePt.x,
 					min: props[ccSelectedCurve].at(-2).x + 6,
 					onChange: setWhitePoint,

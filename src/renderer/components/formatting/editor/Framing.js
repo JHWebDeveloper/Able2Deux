@@ -24,7 +24,7 @@ import RadioSet from '../../form_elements/RadioSet'
 import ColorInput from '../../form_elements/ColorInput'
 import EyedropperIcon from '../../svg/EyedropperIcon'
 
-const arcButtons = [
+const ARC_BUTTONS = Object.freeze([
 	{
 		label: 'None',
 		value: 'none'
@@ -41,7 +41,33 @@ const arcButtons = [
 		label: 'Transform',
 		value: 'transform'
 	}
-]
+])
+
+const OVERLAY_BUTTONS = Object.freeze([
+	{
+		label: 'None',
+		value: 'none'
+	},
+	{
+		label: 'TV',
+		value: 'tv'
+	},
+	{
+		label: 'Laptop',
+		value: 'laptop'
+	}
+])
+
+const BACKGROUND_MOTION_BUTTONS = Object.freeze([
+	{
+		label: 'Animated',
+		value: 'animated'
+	},
+	{
+		label: 'Still',
+		value: 'still'
+	}
+])
 
 const createBackgroundButtons = enable11pmBackgrounds => [
 	{
@@ -73,32 +99,6 @@ const createBackgroundButtons = enable11pmBackgrounds => [
 	{
 		label: 'Transparent',
 		value: 'alpha'
-	}
-]
-
-const overlayButtons = [
-	{
-		label: 'None',
-		value: 'none'
-	},
-	{
-		label: 'TV',
-		value: 'tv'
-	},
-	{
-		label: 'Laptop',
-		value: 'laptop'
-	}
-]
-
-const backgroundMotionButtons = [
-	{
-		label: 'Animated',
-		value: 'animated'
-	},
-	{
-		label: 'Still',
-		value: 'still'
 	}
 ]
 
@@ -163,7 +163,7 @@ const Framing = memo(props => {
 					name="arc"
 					state={arc}
 					onChange={updateMediaStateDispatch}
-					buttons={arcButtons}/>
+					buttons={ARC_BUTTONS}/>
 			</fieldset>
 			<fieldset
 				className="radio-set"
@@ -194,7 +194,7 @@ const Framing = memo(props => {
 					name="backgroundMotion"
 					state={props.backgroundMotion}
 					onChange={updateMediaStateDispatch}
-					buttons={backgroundMotionButtons}/>
+					buttons={BACKGROUND_MOTION_BUTTONS}/>
 			</fieldset>
 			<fieldset
 				className="radio-set"
@@ -204,7 +204,7 @@ const Framing = memo(props => {
 					name="overlay"
 					state={overlay}
 					onChange={updateMediaStateDispatch}
-					buttons={overlayButtons}/>
+					buttons={OVERLAY_BUTTONS}/>
 			</fieldset>
 		</>
 	)

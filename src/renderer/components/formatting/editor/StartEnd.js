@@ -7,8 +7,8 @@ import { framesToAudibleTC } from 'utilities'
 import TimecodeInputFrames from '../../form_elements/TimecodeInputFrames'
 import SliderDouble from '../../form_elements/SliderDouble'
 
-const startStaticProps = { name: 'start', title: 'Start' }
-const endStaticProps = { name: 'end', title: 'End' }
+const START_STATIC_PROPS = Object.freeze({ name: 'start', title: 'Start' })
+const END_STATIC_PROPS = Object.freeze({ name: 'end', title: 'End' })
 
 const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 	const updateTimecode = useCallback(({ name, value }) => {
@@ -49,13 +49,13 @@ const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 	}, [id, start, end, totalFrames])
 
 	const startProps = {
-		...startStaticProps,
+		...START_STATIC_PROPS,
 		value: start,
 		onChange: updateTimecode
 	}
 
 	const endProps = {
-		...endStaticProps,
+		...END_STATIC_PROPS,
 		value: end,
 		onChange: updateTimecode
 	}

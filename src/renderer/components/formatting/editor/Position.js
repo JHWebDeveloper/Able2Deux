@@ -19,8 +19,8 @@ import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
-const propsXStatic = { name: 'positionX', title: 'Position X', min: -100 }
-const propsYStatic = { name: 'positionY', title: 'Position Y', min: -100 }
+const X_STATIC_PROPS = Object.freeze({ name: 'positionX', title: 'Position X', min: -100 })
+const Y_STATIC_PROPS = Object.freeze({ name: 'positionY', title: 'Position Y', min: -100 })
 
 const Position = memo(({ positionX, positionY, dispatch }) => {
 	const updatePosition = useCallback(({ name, value }) => {
@@ -28,13 +28,13 @@ const Position = memo(({ positionX, positionY, dispatch }) => {
 	}, [])
 
 	const propsX = {
-		...propsXStatic,
+		...X_STATIC_PROPS,
 		onChange: updatePosition,
 		value: positionX
 	}
 
 	const propsY = {
-		...propsYStatic,
+		...Y_STATIC_PROPS,
 		onChange: updatePosition,
 		value: positionY
 	}

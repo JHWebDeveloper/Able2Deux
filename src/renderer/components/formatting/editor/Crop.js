@@ -22,16 +22,16 @@ import SliderDouble from '../../form_elements/SliderDouble'
 import NumberInput from '../../form_elements/NumberInput'
 import LinkIcon from '../../svg/LinkIcon'
 
-const propsTStatic = { name: 'cropT', title: 'Crop Top' }
-const propsBStatic = { name: 'cropB', title: 'Crop Bottom' }
-const propsLStatic = { name: 'cropL', title: 'Crop Left' }
-const propsRStatic = { name: 'cropR', title: 'Crop Right' }
+const T_STATIC_PROPS = Object.freeze({ name: 'cropT', title: 'Crop Top' })
+const B_STATIC_PROPS = Object.freeze({ name: 'cropB', title: 'Crop Bottom' })
+const L_STATUC_PROPS = Object.freeze({ name: 'cropL', title: 'Crop Left' })
+const R_STATIC_PROPS = Object.freeze({ name: 'cropR', title: 'Crop Right' })
 
-const sliderProps = {
+const SLIDER_STATIC_PROPS = Object.freeze({
 	snapPoints: [50],
 	sensitivity: 2,
 	enableAutoCenter: true
-}
+})
 
 const Crop = memo(props => {
 	const { id, cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, dispatch } = props
@@ -67,39 +67,39 @@ const Crop = memo(props => {
 		dispatch(toggleMediaCheckbox(id, e))
 	}, [id])
 
-	const propsTB = useMemo(() => ({
+	const TBProps = useMemo(() => ({
 		onChange: cropLinkTB
 			? vals => updateCropBiDirectional('cropT', 'cropB', vals)
 			: updateCrop
 	}), [cropLinkTB, cropT, cropB])
 
-	const propsLR = useMemo(() => ({
+	const LRProps = useMemo(() => ({
 		onChange: cropLinkLR
 			? vals => updateCropBiDirectional('cropL', 'cropR', vals)
 			: updateCrop
 	}), [cropLinkLR, cropL, cropR])
 
 	const propsT = {
-		...propsTStatic,
-		...propsTB,
+		...T_STATIC_PROPS,
+		...TBProps,
 		value: cropT
 	}
 
 	const propsB = {
-		...propsBStatic,
-		...propsTB,
+		...B_STATIC_PROPS,
+		...TBProps,
 		value: cropB
 	}
 
 	const propsL = {
-		...propsLStatic,
-		...propsLR,
+		...L_STATUC_PROPS,
+		...LRProps,
 		value: cropL
 	}
 
 	const propsR = {
-		...propsRStatic,
-		...propsLR,
+		...R_STATIC_PROPS,
+		...LRProps,
 		value: cropR
 	}
 
@@ -118,7 +118,7 @@ const Crop = memo(props => {
 				rightThumb={propsB}
 				onPan={panY}
 				middleThumbTitle="Pan Y"
-				{...sliderProps} />
+				{...SLIDER_STATIC_PROPS} />
 			<NumberInput
 				min={cropT + 0.05}
 				defaultValue={100}
@@ -143,7 +143,7 @@ const Crop = memo(props => {
 				rightThumb={propsR}
 				onPan={panX}
 				middleThumbTitle="Pan X"
-				{...sliderProps} />
+				{...SLIDER_STATIC_PROPS} />
 			<NumberInput
 				min={cropL + 0.05}
 				defaultValue={100}

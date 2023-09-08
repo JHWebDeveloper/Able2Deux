@@ -19,11 +19,11 @@ import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
-const commonStatic = {
+const COMMON_STATIC_PROPS = Object.freeze({
 	name: 'centering',
 	title: 'Position',
 	min: -100
-}
+})
 
 const Centering = memo(({ centering, dispatch }) => {
 	const updateCentering = useCallback(({ name, value }) => {
@@ -32,16 +32,16 @@ const Centering = memo(({ centering, dispatch }) => {
 		}))
 	}, [])
 
-	const common = {
-		...commonStatic,
+	const commonProps = {
+		...COMMON_STATIC_PROPS,
 		value: centering,
 		onChange: updateCentering
 	}
 
 	return (
 		<>
-			<SliderSingle snapPoints={[0]} {...common} />
-			<NumberInput {...common} />
+			<SliderSingle snapPoints={[0]} {...commonProps} />
+			<NumberInput {...commonProps} />
 		</>
 	)
 }, objectsAreEqual)
