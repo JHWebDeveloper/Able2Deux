@@ -14,7 +14,7 @@ export const createDefaultCurvePoints = () => [
 	createCurvePoint(256, 0, true)
 ]
 
-const defaultMediaData = {
+const DEFAULT_MEDIA_DATA = Object.freeze({
 	// metadata
 	id: '',
 	refId: '',
@@ -121,7 +121,7 @@ const defaultMediaData = {
 	ccR: createDefaultCurvePoints(),
 	ccG: createDefaultCurvePoints(),
 	ccB: createDefaultCurvePoints()
-}
+})
 
 export const createMediaData = async params => {
 	const { editorSettings } = await window.ABLE2.interop.requestPrefs()
@@ -134,7 +134,7 @@ export const createMediaData = async params => {
 	}
 
 	return {
-		...defaultMediaData,
+		...DEFAULT_MEDIA_DATA,
 		...editorSettings,
 		...params
 	}

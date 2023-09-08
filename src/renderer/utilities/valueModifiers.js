@@ -33,14 +33,14 @@ export const framesToTC = (frms, fps) => framesToTCLiterals(frms, fps)
 	.map((n, i) => i === 3 ? zeroizeAuto(n, fps) : zeroize(n))
 	.join(':')
 
-const timeUnit = ['hour', 'minute', 'second', 'frame']
+const TIME_UNIT = Object.freeze(['hour', 'minute', 'second', 'frame'])
 
 export const secondsToAudibleTC = sec => secondsToTCLiterals(sec)
-	.reduce((tc, n, i) => [...tc, n, `${timeUnit[i]}${n === 1 ? '' : 's'},`], [])
+	.reduce((tc, n, i) => [...tc, n, `${TIME_UNIT[i]}${n === 1 ? '' : 's'},`], [])
 	.join(' ')
 
 export const framesToAudibleTC = (frms, fps) => framesToTCLiterals(frms, fps)
-	.reduce((tc, n, i) => [...tc, n, `${timeUnit[i]}${n === 1 ? '' : 's'},`], [])
+	.reduce((tc, n, i) => [...tc, n, `${TIME_UNIT[i]}${n === 1 ? '' : 's'},`], [])
 	.join(' ')
 
 export const tcToSeconds = hms => hms

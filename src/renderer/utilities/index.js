@@ -13,13 +13,13 @@ export const RATIO_9_16 = 0.5625
 
 export const TAU = Math.PI * 2
 
-export const toastrOpts = {
+export const TOASTR_OPTIONS = Object.freeze({
 	closeButton: true,
 	positionClass: 'toast-bottom-right',
 	hideDuration: 150,
 	timeOut: 0,
 	extendedTimeOut: 0
-}
+})
 
 export const validURLRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
 
