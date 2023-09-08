@@ -81,7 +81,7 @@ const Rotation = memo(props => {
 	}, [])
 
 	const updateRotateMedia = useCallback(e => {
-		e => dispatch(rotateMedia(e))
+		dispatch(rotateMedia(e))
 	}, [])
 
 	const updateOffsetMode = useCallback(e => {
