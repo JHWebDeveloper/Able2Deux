@@ -22,8 +22,8 @@ import RenderElement from './RenderElement'
 
 const { interop } = window.ABLE2
 
-const startOverMessage = 'Start Over?'
-const startOverDetail = 'All entries will be cleared and media deleted. This cannot be undone. Proceed?'
+const START_OVER_MESSAGE = 'Start Over?'
+const START_OVER_DETAIL = 'All entries will be cleared and media deleted. This cannot be undone. Proceed?'
 
 const RenderQueue = props => {
 	const { media, batchName, batchNameType, saveLocations, closeRenderQueue, dispatch } = props
@@ -67,8 +67,8 @@ const RenderQueue = props => {
 
 	const backToMain = useWarning({
 		name: 'startOver',
-		message: startOverMessage,
-		detail: startOverDetail,
+		message: START_OVER_MESSAGE,
+		detail: START_OVER_DETAIL,
 		onConfirm() {
 			closeRenderQueue()
 			dispatch(startOver())
