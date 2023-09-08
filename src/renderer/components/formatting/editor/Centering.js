@@ -21,7 +21,7 @@ import NumberInput from '../../form_elements/NumberInput'
 
 const COMMON_STATIC_PROPS = Object.freeze({
 	name: 'centering',
-	title: 'Position',
+	title: 'Centering',
 	min: -100
 })
 
