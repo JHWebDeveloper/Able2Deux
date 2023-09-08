@@ -136,18 +136,18 @@ const toggleMediaCheckbox = (state, payload) => {
 	}
 }
 
-const unselectedProps = {
-	focused: false,
-	anchored: false,
-	selected: false
-}
-
 const startOver = state => ({
 	...state,
 	media: []
 })
 
 // ---- SELECT MEDIA --------
+
+const UNSELECTED_PROPS = Object.freeze({
+	focused: false,
+	anchored: false,
+	selected: false
+})
 
 const selectMediaByShiftClick = (media, { clickedIndex }) => {
 	const focusedIndex = media.findIndex(({ focused }) => focused)
@@ -346,7 +346,7 @@ const duplicateMedia = (state, payload) => {
 
 	media.splice(index, 0, {
 		...replaceIds(state.media[index]),
-		...unselectedProps
+		...UNSELECTED_PROPS
 	})
 
 	return { ...state, media }
@@ -362,7 +362,7 @@ const duplicateSelectedMedia = (state, { duplicateAll }) => {
 
 		media.splice(i++, 0, {
 			...replaceIds(originalMedia),
-			...unselectedProps
+			...UNSELECTED_PROPS
 		})
 	}
 
@@ -381,7 +381,7 @@ const splitMedia = (state, payload) => {
 		media.splice(insertAt, 0, {
 			...replaceIds(media[insertAt]),
 			...timecodes[i],
-			...unselectedProps
+			...UNSELECTED_PROPS
 		})
 	}
 
@@ -445,7 +445,7 @@ const applyPreset = (state, payload) => {
 			media.splice(mediaIndex++, 0, replaceIds({
 				...item,
 				...preset,
-				...unselectedProps
+				...UNSELECTED_PROPS
 			}))
 		}
 	}
