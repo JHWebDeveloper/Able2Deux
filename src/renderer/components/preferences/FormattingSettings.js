@@ -13,7 +13,7 @@ import NumberInput from '../form_elements/NumberInput'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 
-const arcButtons = [
+const ARC_BUTTONS = Object.freeze([
 	{
 		label: 'None',
 		value: 'none'
@@ -30,9 +30,9 @@ const arcButtons = [
 		label: 'Transform',
 		value: 'transform'
 	}
-]
+])
 
-const backgroundMotionButtons = [
+const BACKGROUND_MOTION_BUTTONS = Object.freeze([
 	{
 		label: 'Animated',
 		value: 'animated'
@@ -45,7 +45,7 @@ const backgroundMotionButtons = [
 		label: 'Auto',
 		value: 'auto'
 	}
-]
+])
 
 const FormattingSettings = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
@@ -71,7 +71,7 @@ const FormattingSettings = () => {
 					name="arc"
 					state={editorSettings.arc}
 					onChange={updateEditorSettingsDispatch}
-					buttons={arcButtons} />
+					buttons={ARC_BUTTONS} />
 			</fieldset>
 			<fieldset className="radio-set">
 				<legend>Default Background Motion:</legend>
@@ -79,7 +79,7 @@ const FormattingSettings = () => {
 					name="backgroundMotion"
 					state={editorSettings.backgroundMotion}
 					onChange={updateEditorSettingsDispatch}
-					buttons={backgroundMotionButtons} />
+					buttons={BACKGROUND_MOTION_BUTTONS} />
 			</fieldset>
 			<span className="input-option">
 				<Checkbox

@@ -13,7 +13,7 @@ import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 import NumberInput from '../form_elements/NumberInput'
 
-const optimizeButtons = [
+const OPTIMIZE_BUTTONS = Object.freeze([
 	{
 		label: 'Optimize Video Quality',
 		value: 'quality'
@@ -22,9 +22,9 @@ const optimizeButtons = [
 		label: 'Optimize Download Time',
 		value: 'download'
 	}
-]
+])
 
-const screenshotButtons = [
+const SCREENSHOT_BUTTONS = Object.freeze([
 	{
 		label: 'Screen Record',
 		value: 'screen_record'
@@ -33,7 +33,7 @@ const screenshotButtons = [
 		label: 'Screenshot',
 		value: 'screenshot'
 	}
-]
+])
 
 const AcquisitionSettings = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
@@ -56,7 +56,7 @@ const AcquisitionSettings = () => {
 					name="optimize"
 					state={preferences.optimize}
 					onChange={e => dispatch(updateStateFromEvent(e))}
-					buttons={optimizeButtons}/>
+					buttons={OPTIMIZE_BUTTONS}/>
 			</fieldset>
 			<fieldset className="radio-set">
 				<legend>Default Screen Capture Mode:</legend>
@@ -64,7 +64,7 @@ const AcquisitionSettings = () => {
 					name="screenshot"
 					state={preferences.screenshot ? 'screenshot' : 'screen_record'}
 					onChange={screenshotToBoolean}
-					buttons={screenshotButtons}/>
+					buttons={SCREENSHOT_BUTTONS}/>
 			</fieldset>
 			<span className="input-option">
 				<Checkbox

@@ -12,7 +12,7 @@ import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
 
-const outputButtons = [
+const OUTPUT_BUTTONS = Object.freeze([
 	{
 		label: '1280x720',
 		value: '1280x720'
@@ -21,9 +21,9 @@ const outputButtons = [
 		label: '1920x1080',
 		value: '1920x1080'
 	}
-]
+])
 
-const frameRateButtons = [
+const FRAME_RATE_BUTTONS = Object.freeze([
 	{
 		label: 'Auto',
 		value: 'auto'
@@ -36,7 +36,7 @@ const frameRateButtons = [
 		label: '59.94',
 		value: '59.94'
 	}
-]
+])
 
 const RenderOutput = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
@@ -59,7 +59,7 @@ const RenderOutput = () => {
 					name="renderOutput"
 					state={preferences.renderOutput}
 					onChange={e => dispatch(updateStateFromEvent(e))}
-					buttons={outputButtons} />
+					buttons={OUTPUT_BUTTONS} />
 			</fieldset>
 			<fieldset className="radio-set">
 				<legend>Output Frame Rate:</legend>
@@ -68,7 +68,7 @@ const RenderOutput = () => {
 					state={preferences.renderFrameRate}
 					onChange={e => dispatch(updateStateFromEvent(e))}
 					buttons={[
-						...frameRateButtons,
+						...FRAME_RATE_BUTTONS,
 						{
 							label: 'custom',
 							value: 'custom',

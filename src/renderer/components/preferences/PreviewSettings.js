@@ -7,7 +7,7 @@ import { updateState, updateStateFromEvent } from 'actions'
 import RadioSet from '../form_elements/RadioSet'
 import AspectRatioMarkers from './AspectRatioMarkers'
 
-const qualityButtons = [
+const QUALITY_BUTTONS = Object.freeze([
 	{
 		label: '100%',
 		value: '1'
@@ -20,7 +20,7 @@ const qualityButtons = [
 		label: '50%',
 		value: '0.5'
 	}
-]
+])
 
 const PreviewSettings = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
@@ -37,7 +37,7 @@ const PreviewSettings = () => {
 				<legend>Default Quality:</legend>
 				<RadioSet
 					name="previewQuality"
-					buttons={qualityButtons}
+					buttons={QUALITY_BUTTONS}
 					state={preferences.previewQuality.toString()}
 					onChange={setPreviewQuality} />
 			</fieldset>

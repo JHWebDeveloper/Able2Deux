@@ -8,7 +8,7 @@ import RadioSet from '../form_elements/RadioSet'
 import ScratchDisk from './ScratchDisk'
 import Checkbox from '../form_elements/Checkbox'
 
-const themeButtons = [
+const THEME_BUTTONS = Object.freeze([
 	{
 		label: 'System',
 		value: 'system'
@@ -21,7 +21,7 @@ const themeButtons = [
 		label: 'Dark',
 		value: 'dark'
 	}
-]
+])
 
 const GeneralSettings = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
@@ -39,7 +39,7 @@ const GeneralSettings = () => {
 					name="theme"
 					state={preferences.theme}
 					onChange={e => dispatch(updateStateFromEvent(e))}
-					buttons={themeButtons} />
+					buttons={THEME_BUTTONS} />
 			</fieldset>
 			<ScratchDisk
 				scratchDisk={preferences.scratchDisk}
