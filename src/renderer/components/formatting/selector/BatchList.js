@@ -31,8 +31,6 @@ import BatchItem from './BatchItem'
 
 const { interop } = window.ABLE2
 
-const applyToAllDetail = 'This will overwrite the settings except for filenames and start and end timecodes. This cannot be undone. Proceed?'
-
 const BatchList = ({
 	media,
 	multipleItemsSelected,
@@ -52,7 +50,7 @@ const BatchList = ({
 
 	const warnApplyToMultiple = useWarning({
 		name: 'applyToAll',
-		detail: applyToAllDetail
+		detail: 'This will overwrite the settings except for filenames and start and end timecodes. This cannot be undone. Proceed?'
 	}, [])
 
 	const applyToMultipleWarning = useCallback(({ message, action }) => warnApplyToMultiple({
