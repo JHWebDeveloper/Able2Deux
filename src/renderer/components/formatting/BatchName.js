@@ -5,7 +5,7 @@ import { updateStateFromEvent } from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
 
-const batchNameTypeButtons = [
+const BATCH_NAME_TYPE_BUTTONS = Object.freeze([
 	{
 		label: 'Replace',
 		value: 'replace'
@@ -18,7 +18,7 @@ const batchNameTypeButtons = [
 		label: 'Append',
 		value: 'append'
 	}
-]
+])
 
 const BatchName = ({ batchName, batchNameType, dispatch }) => {
 	const updateBatch = useCallback(e => {
@@ -43,7 +43,7 @@ const BatchName = ({ batchName, batchNameType, dispatch }) => {
 					name="batchNameType"
 					state={batchNameType}
 					onChange={updateBatch}
-					buttons={batchNameTypeButtons}/>
+					buttons={BATCH_NAME_TYPE_BUTTONS}/>
 			</div>
 		</div>
 	)
