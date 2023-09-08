@@ -390,7 +390,7 @@ const splitMedia = (state, payload) => {
 
 // ---- APPLY PRESET --------
 
-const constrainPairedValue = media => (keyA, keyB) => preset => {
+const constrainPairedValue = (media, keyA, keyB) => preset => {
 	if (!(keyA in preset ^ keyB in preset)) return preset
 
 	if (preset[keyA] > media[keyB]) {
@@ -402,26 +402,31 @@ const constrainPairedValue = media => (keyA, keyB) => preset => {
 	return preset
 }
 
+const mergePresetWithMedia = (item, preset) => ({
+	...item,
+	...preset,
+	...'transpose' in preset ? rotateMedia(item, preset.transpose) : {},
+	...'reflect' in preset ? reflectMedia(item, preset.reflect) : {},
+})
+
 const applyPreset = (state, payload) => {
 	const { presets, mediaIds, duplicate } = payload
 	let media = [...state.media]
 
 	if (!duplicate) {
-		const lastPreset = presets.pop()
+		const lastPreset = presets.pop().attributes
 
 		media = media.map(item => {
 			if (!mediaIds.includes(item.id)) return item
 
-			const constrainPresetPairedValue = constrainPairedValue(item)
 			const preset = pipe(
-				constrainPresetPairedValue('cropT', 'cropB'),
-				constrainPresetPairedValue('cropL', 'cropR'),
-				replaceIds,
-			)(lastPreset.attributes)
+				constrainPairedValue(item, 'cropT', 'cropB'),
+				constrainPairedValue(item, 'cropL', 'cropR'),
+				replaceIds
+			)(lastPreset)
 
 			return {
-				...item,
-				...preset,
+				...mergePresetWithMedia(item, preset),
 				id: item.id
 			}
 		})
@@ -436,15 +441,13 @@ const applyPreset = (state, payload) => {
 		const item = media[mediaIndex]
 
 		for (let j = 0; j < presetsLen; j++) {
-			const constrainPresetPairedValue = constrainPairedValue(item)
 			const preset = pipe(
-				constrainPresetPairedValue('cropT', 'cropB'),
-				constrainPresetPairedValue('cropL', 'cropR')
+				constrainPairedValue(item, 'cropT', 'cropB'),
+				constrainPairedValue(item, 'cropL', 'cropR'),
 			)(presets[j].attributes)
 
 			media.splice(mediaIndex++, 0, replaceIds({
-				...item,
-				...preset,
+				...mergePresetWithMedia(item, preset),
 				...UNSELECTED_PROPS
 			}))
 		}
@@ -605,7 +608,7 @@ const detectOrientationChange = (prev, next) => !!(detectMediaIsSideways(prev) ^
 const detectReflection = (prev, next, reflect) => !(!prev.includes(reflect) ^ next.includes(reflect))
 
 const rotateMedia = (item, transpose) => {
-	if (!detectOrientationChange(item.transpose, transpose)) return item
+	if (!detectOrientationChange(item.transpose, transpose)) return { ...item, transpose }
 
 	const { width, height, aspectRatio, scaleX, scaleY } = item
 	const rotations = TRANSPOSITIONS.indexOf(transpose) - TRANSPOSITIONS.indexOf(item.transpose) + 4
