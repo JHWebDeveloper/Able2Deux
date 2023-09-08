@@ -6,7 +6,7 @@ import { validURLRegex } from 'utilities'
 
 import RadioSet from '../form_elements/RadioSet'
 
-const optimizeButtons = [
+const OPTIMIZE_BUTTONS = Object.freeze([
 	{
 		label: 'Optimize Video Quality',
 		value: 'quality'
@@ -15,7 +15,7 @@ const optimizeButtons = [
 		label: 'Optimize Download Time',
 		value: 'download'
 	}
-]
+])
 
 const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 	const isInvalidURL = useMemo(() => !validURLRegex.test(url), [url])
@@ -55,7 +55,7 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 					name="optimize"
 					state={optimize}
 					onChange={dispatchWithEvent}
-					buttons={optimizeButtons} />
+					buttons={OPTIMIZE_BUTTONS} />
 			</span>
 		</div>
 	)
