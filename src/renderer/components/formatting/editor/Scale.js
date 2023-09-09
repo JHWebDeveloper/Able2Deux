@@ -34,13 +34,15 @@ const NUMBER_PROPS = Object.freeze({
 	defaultValue: 100
 })
 
-const FitButton = ({ title, onClick, icon = 'height' }) => (
+const FitButton = ({ title, onClick, icon = 'open_in_full', rotateIcon = 0 }) => (
 	<button
 		type="button"
 		className="app-button small symbol"
 		title={title}
 		aria-label={title}
-		onClick={onClick}>{icon}</button>
+		onClick={onClick}>
+		<span style={{ rotate: `${rotateIcon}deg` }}>{icon}</span>
+	</button>
 )
 
 const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, dispatch }) => {
@@ -132,12 +134,13 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 				{...propsX}
 				{...sliderProps} />
 			<FitButton
+				rotateIcon={45}
 				title={`${scaleLink ? 'Fit' : 'Stretch'}${multipleItemsSelected ? ' Selected' : ''} to Frame Width`}
 				onClick={dispatchFitToFrameWidth} />
 			{multipleItemsSelected ? (
 				<FitButton
 					title="Fill Frame with Selected"
-					icon="zoom_out_map"
+					icon="open_in_full"
 					onClick={dispatchFitToFrameAutoFill} />
 			) : <></>}
 			<NumberInput
@@ -149,12 +152,13 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 				{...propsY}
 				{...sliderProps} />
 			<FitButton
+				rotateIcon={-45}
 				title={`${scaleLink ? 'Fit' : 'Stretch'}${multipleItemsSelected ? ' Selected' : ''} to Frame Height`}
 				onClick={dispatchFitToFrameHeight} />
 			{multipleItemsSelected ? (
 				<FitButton
-					title="Fit Selected to Frame"
-					icon="zoom_in_map"
+					title="Fit Selected in Frame"
+					icon="close_fullscreen"
 					onClick={dispatchFitToFrameAutoFit} />
 			) : <></>}
 			<NumberInput
@@ -200,6 +204,7 @@ const ScalePanel = props => {
 FitButton.propTypes = {
 	title: string.isRequired,
 	icon: string,
+	rotateIcon: number,
 	onClick: func.isRequired
 }
 
@@ -207,7 +212,6 @@ const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
-
 	scaleX: oneOfType([oneOf(['']), number]).isRequired,
 	scaleY: oneOfType([oneOf(['']), number]).isRequired,
 	scaleLink: bool.isRequired,
