@@ -352,8 +352,10 @@ button.link-button > svg { pointer-events: none; }
 /* -- Scale Panel -- */
 
 #scale {
-	grid-template-columns: min-content auto repeat(3, min-content);
+	grid-template-columns: min-content auto repeat(4, min-content);
 }
+
+#scale > label:nth-of-type(2) { grid-row: 2; }
 
 #scale > .slider { grid-column: 2; }
 
@@ -362,7 +364,7 @@ button.link-button > svg { pointer-events: none; }
 #scale > .app-button:first-of-type { transform: rotate(90deg); }
 
 button[name="scaleLink"] {
-	grid-column: 5;
+	grid-column: 6;
 	grid-row: 1 / span 2;
 	height: 100%;
 }
