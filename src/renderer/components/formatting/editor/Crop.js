@@ -165,6 +165,7 @@ const Crop = memo(props => {
 const CropPanel = props => {
 	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
+	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
 			() => dispatch(copyAttributes(id, extractCropProps)),
@@ -188,6 +189,7 @@ const CropPanel = props => {
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
 	cropT: oneOfType([oneOf(['']), number]).isRequired,
 	cropB: oneOfType([oneOf(['']), number]).isRequired,
 	cropR: oneOfType([oneOf(['']), number]).isRequired,

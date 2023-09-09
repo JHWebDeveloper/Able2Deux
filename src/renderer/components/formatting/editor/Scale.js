@@ -176,6 +176,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 const ScalePanel = props => {
 	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
+	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
 			() => dispatch(copyAttributes(id, extractScaleProps)),
@@ -198,12 +199,15 @@ const ScalePanel = props => {
 
 FitButton.propTypes = {
 	title: string.isRequired,
+	icon: string,
 	onClick: func.isRequired
 }
 
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
+
 	scaleX: oneOfType([oneOf(['']), number]).isRequired,
 	scaleY: oneOfType([oneOf(['']), number]).isRequired,
 	scaleLink: bool.isRequired,

@@ -228,6 +228,7 @@ const Keying = memo(props => {
 const KeyingPanel = props => {
 	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
+	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
 			() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractKeyingProps)),
@@ -284,6 +285,7 @@ const propTypes = {
 	}).isRequired,
 	setEyedropper: func.isRequired,
 	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
 	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import { bool, func, number, object, shape, string } from 'prop-types'
+import { bool, func, number, string } from 'prop-types'
 
 import { selectMedia } from 'actions'
 
@@ -57,7 +57,7 @@ const BatchItem = ({
 				name="remove-media"
 				aria-label="Remove Media"
 				className="symbol"
-				onClick={() => removeMediaWarning({id, refId, title, index })}>close</button>
+				onClick={() => removeMediaWarning({ id, refId, title, index })}>close</button>
 		</div>
 	)
 }

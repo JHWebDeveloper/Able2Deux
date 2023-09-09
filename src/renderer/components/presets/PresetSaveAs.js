@@ -244,7 +244,7 @@ const PresetSaveAs = () => {
 	const saveEnabled = (saveType === 'newPreset' && presetName.length || selectedPreset) && presets.some(({ include }) => include)
 
 	const toggleIncludePreset = useCallback(e => {
-		setPresets(props => props.map(item => item.attribute === e.target.name ? {
+		setPresets(items => items.map(item => item.attribute === e.target.name ? {
 			...item,
 			include: !item.include
 		} : item))

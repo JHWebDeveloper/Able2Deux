@@ -213,6 +213,7 @@ const Framing = memo(props => {
 const FramingPanel = props => {
 	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
+	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
 			() => dispatch(copyAttributes(id, extractFramingProps)),
@@ -244,6 +245,7 @@ BackgroundColorPicker.propTypes = {
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
 	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
 	backgroundMotion: oneOf(['animated', 'still', 'auto']).isRequired,

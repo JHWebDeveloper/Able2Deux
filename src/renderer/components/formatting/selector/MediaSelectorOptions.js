@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
-import { arrayOf, bool, func, shape, string } from 'prop-types'
+import { bool, func } from 'prop-types'
 
-import { applyPresetToSelected, duplicateSelectedMedia }  from 'actions'
+import { applyPresetToSelected, duplicateSelectedMedia } from 'actions'
 
 import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown.js'
 
@@ -115,13 +115,14 @@ const MediaSelectorOptions = ({
 
 MediaSelectorOptions.propTypes = {
 	allItemsSelected: bool.isRequired,
-	dropdown: arrayOf(shape({
-		type: string,
-		label: string,
-		hide: bool,
-		shortcut: string,
-		action: func
-	})).isRequired
+	multipleItemsSelected: bool.isRequired,
+	showApplyPresetOptions: bool.isRequired,
+	createPresetMenu: func.isRequired,
+	selectAllMedia: func.isRequired,
+	deselectAllMedia: func.isRequired,
+	removeSelectedMediaWarning: func.isRequired,
+	removeAllMediaWarning: func.isRequired,
+	dispatch: func.isRequired
 }
 
 export default MediaSelectorOptions

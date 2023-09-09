@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, powerSaveBlocker, ipcRenderer } from 'electron'
+import { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, powerSaveBlocker } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 import { pathToFileURL } from 'url'

@@ -104,57 +104,57 @@ export const defaultPrefs = {
 }
 
 export const defaultPresets = {
-  version: 1,
-  presets: [
-    {
-      id: uuid(),
-      label: 'EWN BG Blue',
-      hidden: false,
-      attributes: {
-        background: 'blue'
-      }
-    },
-    {
-      id: uuid(),
-      label: 'EWN BG Grey',
-      hidden: true,
-      attributes: {
-        background: 'grey'
-      }
-    },
-    {
-      id: uuid(),
-      label: 'TNT BG Light Blue',
-      hidden: false,
-      attributes: {
-        background: 'light_blue'
-      }
-    },
-    {
-      id: uuid(),
-      label: 'TNT BG Dark Blue',
-      hidden: true,
-      attributes: {
-        background: 'dark_blue'
-      }
-    },
-    {
-      id: uuid(),
-      label: 'TNT BG Teal',
-      hidden: true,
-      attributes: {
-        background: 'teal'
-      }
-    },
-    {
-      id: uuid(),
-      label: 'TNT BG Tan',
-      hidden: true,
-      attributes: {
-        background: 'tan'
-      }
-    }
-  ],
+	version: 1,
+	presets: [
+		{
+			id: uuid(),
+			label: 'EWN BG Blue',
+			hidden: false,
+			attributes: {
+				background: 'blue'
+			}
+		},
+		{
+			id: uuid(),
+			label: 'EWN BG Grey',
+			hidden: true,
+			attributes: {
+				background: 'grey'
+			}
+		},
+		{
+			id: uuid(),
+			label: 'TNT BG Light Blue',
+			hidden: false,
+			attributes: {
+				background: 'light_blue'
+			}
+		},
+		{
+			id: uuid(),
+			label: 'TNT BG Dark Blue',
+			hidden: true,
+			attributes: {
+				background: 'dark_blue'
+			}
+		},
+		{
+			id: uuid(),
+			label: 'TNT BG Teal',
+			hidden: true,
+			attributes: {
+				background: 'teal'
+			}
+		},
+		{
+			id: uuid(),
+			label: 'TNT BG Tan',
+			hidden: true,
+			attributes: {
+				background: 'tan'
+			}
+		}
+	],
 	batchPresets: []
 }
 

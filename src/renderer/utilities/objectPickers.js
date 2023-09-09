@@ -131,7 +131,7 @@ export const extractRelevantMediaProps = media => {
 			...ROTATION_ADVANCED_PROPS,
 			'scaleLink'
 		])
-  }
+	}
 	
 	return objectPick(media, commonProps)
 }

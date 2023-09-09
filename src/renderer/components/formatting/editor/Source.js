@@ -89,6 +89,7 @@ const Source = memo(props => {
 const SourcePanel = props => {
 	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
+	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
 			() => dispatch(copyAttributes(id, extractSourceProps)),
@@ -113,6 +114,7 @@ const SourcePanel = props => {
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
 	sourceName: string.isRequired,
 	sourcePrefix: bool.isRequired,
 	sourceOnTop: bool.isRequired,

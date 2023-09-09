@@ -6,14 +6,14 @@ export const requestPresets = referencesOnly => sendMessage({
 	sendMsg: 'requestPresets',
 	recieveMsg: 'presetsRecieved',
 	errMsg: 'presetsErr',
-  data: { referencesOnly }
+	data: { referencesOnly }
 })
 
 export const getPresets = presetIds => sendMessage({
 	sendMsg: 'getPresets',
 	recieveMsg: 'presetsRetrieved',
 	errMsg: 'retrievePresetsErr',
-  data: { presetIds }
+	data: { presetIds }
 })
 
 export const openPresetsSaveAs = preset => {
@@ -30,7 +30,7 @@ export const savePreset = data => sendMessage({
 	sendMsg: 'savePreset',
 	recieveMsg: 'presetSaved',
 	errMsg: 'savePresetErr',
-  data
+	data
 })
 
 export const addPresetsSyncListener = callback => {

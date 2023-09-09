@@ -302,26 +302,26 @@ const applyToAll = (state, payload) => {
 	const { id, extractAttributes } = payload
 	const attributes = extractAttributes(state.media.find(item => item.id === id))
 
-	return ({
+	return {
 		...state,
 		media: state.media.map(item => item.id !== id ? {
 			...item,
 			...replaceIds(attributes)
 		} : item)
-	})
+	}
 }
 
 const applyToSelection = (state, payload) => {
 	const { id, extractAttributes } = payload
 	const attributes = extractAttributes(state.media.find(item => item.id === id))
 
-	return ({
+	return {
 		...state,
 		media: state.media.map(item => item.selected && item.id !== id ? {
 			...item,
 			...replaceIds(attributes)
 		} : item)
-	})
+	}
 }
 
 // ---- SORT MEDIA --------
@@ -406,7 +406,7 @@ const mergePresetWithMedia = (item, preset) => ({
 	...item,
 	...preset,
 	...'transpose' in preset ? rotateMedia(item, preset.transpose) : {},
-	...'reflect' in preset ? reflectMedia(item, preset.reflect) : {},
+	...'reflect' in preset ? reflectMedia(item, preset.reflect) : {}
 })
 
 const applyPreset = (state, payload) => {
@@ -443,7 +443,7 @@ const applyPreset = (state, payload) => {
 		for (let j = 0; j < presetsLen; j++) {
 			const preset = pipe(
 				constrainPairedValue(item, 'cropT', 'cropB'),
-				constrainPairedValue(item, 'cropL', 'cropR'),
+				constrainPairedValue(item, 'cropL', 'cropR')
 			)(presets[j].attributes)
 
 			media.splice(mediaIndex++, 0, replaceIds({
@@ -471,7 +471,7 @@ const applyPresetToSelected = (state, payload) => {
 }
 
 const saveAsPreset = (state, payload) => {
-	const { openPresetSaveAs, id, } = payload
+	const { openPresetSaveAs, id } = payload
 
 	openPresetSaveAs(state.media.find(item => item.id === id))
 
@@ -504,12 +504,14 @@ const removeMedia = (state, payload) => {
 	return { ...state, media }
 }
 
+// eslint-disable-next-line no-extra-parens
 const removeReferencedMedia = (state, payload) => (
 	state.media.reduce((acc, { refId, id }) => (
 		payload.refId === refId ? removeMedia(acc, { id, updateSelection: true }) : acc
 	), structuredClone(state))
 )
 
+// eslint-disable-next-line no-extra-parens
 const removeSelectedMedia = state => (
 	state.media.reduce((acc, { selected, id }) => (
 		selected ? removeMedia(acc, { id, updateSelection: true }) : acc
@@ -591,7 +593,7 @@ const fitSelectedMediaToFrameAuto = (state, { sizingMethod, frameW, frameH }) =>
 		const appliedDim = calculateAppliedDimensions(item, 'w')
 		const isTall = appliedDim.appliedH / appliedDim.appliedW > RATIO_9_16
 
-		if ((sizingMethod === 'fill' && isTall) || (sizingMethod === 'fit' && !isTall)) {
+		if (sizingMethod === 'fill' && isTall || sizingMethod === 'fit' && !isTall) {
 			return fitToFrameWidth(item, frameW, appliedDim)
 		} else {
 			return fitToFrameHeight(item, frameH)

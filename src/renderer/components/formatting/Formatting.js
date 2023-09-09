@@ -14,7 +14,6 @@ import {
 	updateState
 } from 'actions'
 
-import { useClipboard } from 'hooks'
 import { arrayCount } from 'utilities'
 
 import MediaSelector from './selector/MediaSelector'

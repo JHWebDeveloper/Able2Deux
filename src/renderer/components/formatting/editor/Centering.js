@@ -49,6 +49,7 @@ const Centering = memo(({ centering, dispatch }) => {
 const CenteringPanel = props => {
 	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
+	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
 			() => dispatch(copyAttributes(id, extractCenteringProps)),
@@ -73,6 +74,7 @@ const CenteringPanel = props => {
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
 	centering: oneOfType([oneOf(['']), number]).isRequired,
 	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired

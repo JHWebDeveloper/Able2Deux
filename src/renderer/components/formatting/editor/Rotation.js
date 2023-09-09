@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo } from 'react'
-import { bool, func, oneOf, oneOfType, number, string } from 'prop-types'
+import { bool, func, oneOf, number, string } from 'prop-types'
 
 import {
 	applyToAll,
@@ -128,6 +128,7 @@ const Rotation = memo(props => {
 const RotationPanel = props => {
 	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
+	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
 			() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractRotationProps)),
@@ -151,6 +152,7 @@ const RotationPanel = props => {
 const propTypes = {
 	id: string,
 	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
 	transpose: oneOf(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2']),
 	reflect: oneOf(['', 'hflip', 'vflip', 'hflip,vflip']),
 	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),

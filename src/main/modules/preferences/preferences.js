@@ -103,7 +103,7 @@ const initPresets = async () => {
 
 	if (!presetsExists) {
 		return fsp.writeFile(presetsPath, JSON.stringify(defaultPresets))
-  }
+	}
 }
 
 const getPresetReferences = presets => presets.reduce((acc, { id, label, presets, hidden }) => {

@@ -54,6 +54,7 @@ const Position = memo(({ positionX, positionY, dispatch }) => {
 const PositionPanel = props => {
 	const { id, multipleItems, multipleItemsSelected, dispatch } = props
 
+	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
 			() => dispatch(copyAttributes(id, extractPositionProps)),
@@ -77,6 +78,7 @@ const PositionPanel = props => {
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
 	positionX: oneOfType([oneOf(['']), number]).isRequired,
 	positionY: oneOfType([oneOf(['']), number]).isRequired,
 	copyToClipboard: func.isRequired,

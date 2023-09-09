@@ -66,16 +66,16 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, dispatch }
 						buttons={AUDIO_VIDEO_TRACKS_BUTTONS} />
 				</fieldset>
 			) : <></>}
-				<fieldset
-					className="radio-set"
-					disabled={audioVideoTracks !== 'audio' && mediaType !== 'audio'}>
-					<legend>Format<span aria-hidden>:</span></legend>
-					<RadioSet
-						name="audioExportFormat"
-						state={audioExportFormat}
-						onChange={updateAudio}
-						buttons={AUDIO_EXPORT_FORMAT_BUTTONS} />
-				</fieldset>
+			<fieldset
+				className="radio-set"
+				disabled={audioVideoTracks !== 'audio' && mediaType !== 'audio'}>
+				<legend>Format<span aria-hidden>:</span></legend>
+				<RadioSet
+					name="audioExportFormat"
+					state={audioExportFormat}
+					onChange={updateAudio}
+					buttons={AUDIO_EXPORT_FORMAT_BUTTONS} />
+			</fieldset>
 		</>
 	)
 }, objectsAreEqual)
@@ -83,6 +83,7 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, dispatch }
 const AudioPanel = props => {
 	const { id, multipleItems, multipleItemsSelected, mediaType, dispatch } = props
 
+	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
 			() => dispatch(copyAttributes(id, extractRelevantMediaProps, extractAudioProps)),
@@ -107,6 +108,7 @@ const AudioPanel = props => {
 const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']).isRequired,
 	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']).isRequired,
 	audioExportFormat: oneOf(['wav', 'mp3', 'bars']).isRequired,
