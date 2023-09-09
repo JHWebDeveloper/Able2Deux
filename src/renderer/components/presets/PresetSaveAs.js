@@ -300,7 +300,7 @@ const PresetSaveAs = () => {
 						<input
 							type="text"
 							className="underline"
-							placeholder="Enter Preset Name"
+							maxLength={50}
 							value={presetName}
 							onChange={e => setPresetName(e.target.value)} />
 					</fieldset>
