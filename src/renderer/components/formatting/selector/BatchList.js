@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { arrayOf, bool, func, object, shape, string } from 'prop-types'
+import { arrayOf, bool, func, object } from 'prop-types'
 
 import {
 	applyPreset,
@@ -224,17 +224,17 @@ const BatchList = ({
 	return (
 		<div>
 			<DraggableList sortingAction={sortingAction}>
-				{media.map(({ id, refId, title, tempFilePath, focused, anchored, selected }, i) => (
+				{media.map((item, i) => (
 					<BatchItem
-						key={id}
+						key={item.id}
 						index={i}
-						id={id}
-						refId={refId}
-						title={title}
-						tempFilePath={tempFilePath}
-						focused={focused}
-						anchored={anchored}
-						selected={selected}
+						id={item.id}
+						refId={item.refId}
+						title={item.title}
+						tempFilePath={item.tempFilePath}
+						focused={item.focused}
+						anchored={item.anchored}
+						selected={item.selected}
 						removeMediaWarning={removeMediaWarning}
 						createDropdown={createDropdown}
 						onKeyDown={onBatchItemKeyDown}
@@ -247,15 +247,7 @@ const BatchList = ({
 }
 
 BatchList.propTypes = {
-	media: arrayOf(shape({
-		id: string.isRequired,
-		refId: string.isRequired,
-		title: string,
-		tempFilePath: string.isRequired,
-		focused: bool.isRequired,
-		anchored: bool.isRequired,
-		selected: bool.isRequired
-	})).isRequired,
+	media: arrayOf(object).isRequired,
 	multipleItemsSelected: bool.isRequired,
 	allItemsSelected: bool.isRequired,
 	showApplyPresetOptions: bool.isRequired,
