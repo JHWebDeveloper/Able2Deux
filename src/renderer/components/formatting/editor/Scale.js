@@ -113,12 +113,12 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 
 	const dispatchFillToFrameAutoFill = useCallback(() => {
 		dispatch(fitToFrameAuto('fill', frameW, frameH))
-	}, [renderOutput])
+	}, [frameW, frameH])
 
 
 	const dispatchFillToFrameAutoFit = useCallback(() => {
 		dispatch(fitToFrameAuto('fit', frameW, frameH))
-	}, [renderOutput])
+	}, [frameW, frameH])
 
 	const toggleScaleLink = useCallback(e => {
 		dispatch(toggleMediaCheckbox(id, e))
