@@ -67,7 +67,7 @@
 #preview-container > svg {
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	translate: -50% -50%;
 }
 
 #preview-controls {
@@ -113,11 +113,12 @@
 	overflow: hidden;
 	width: 6px;
 	background-color: var(--preview-text);
-	transform: none;
+	translate: revert;
 }
 
 .start-visible .snap-marker:first-child {
-	transform: translateX(-100%) rotateY(180deg);
+	translate: -100%;
+	rotate: 180deg;
 }
 
 :is(.start-visible, .end-visible) .snap-marker::after {
@@ -126,7 +127,7 @@
 	width: 18px;
 	height: 18px;
 	background-color: var(--preview-background);
-	transform: rotate(45deg);
+	rotate: 45deg;
 }
 
 #preview-controls button {

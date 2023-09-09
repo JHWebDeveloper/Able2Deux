@@ -361,7 +361,7 @@ button.link-button > svg { pointer-events: none; }
 
 #scale > .app-button { margin-right: 5px; }
 
-#scale > .app-button:first-of-type { transform: rotate(90deg); }
+#scale > .app-button > span { display: block; }
 
 button[name="scaleLink"] {
 	grid-column: 6;
@@ -418,7 +418,7 @@ button[name="scaleLink"] {
 
 .on-off-switch > span {
 	display: inline-block;
-	transform: rotate(270deg);
+	rotate: 270deg;
 }
 
 #key-color {
@@ -474,7 +474,7 @@ button[name="scaleLink"] {
 
 button[title="Reset Curves"] {
 	font-size: 20px;
-	transform: rotateY(180deg); /* so the crossout line in icon matches curve direction */
+	rotate: 0 1 0 180deg; /* so the crossout line in icon matches curve direction */
 }
 
 button[title="Reset Curves"]:active { color: #fff; }
@@ -581,7 +581,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 	height: 8px;
 	border-radius: 3px;
 	background-color: var(--button);
-	transform: translateY(-50%);
+	translate:  0 -50%;
 }
 
 :is(.disabled, [disabled]) .slider-track {
@@ -599,7 +599,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 .slider-track.single > span {
 	width: 18px;
 	border-radius: 50%;
-	transform: translate(-50%, -50%);
+	translate: -50% -50%;
 }
 
 .slider-track.double > span:is(:first-child, :last-child) {
@@ -614,13 +614,13 @@ button[title="Reset Curves"]:active { color: #fff; }
 
 .slider-track.double > span:first-child {
 	border-left-color: transparent;
-	transform: translate(-100%, -50%);
+	translate: -100% -50%;
 }
 
 .slider-track.double > span:last-child {
 	left: 100%;
 	border-right-color: transparent;
-	transform: translateY(-50%);
+	translate: 0 -50%;
 }
 
 .slider-track.double > span:not(:first-child):not(:last-child) {
@@ -662,7 +662,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 	margin-left: -2px;
 	height: 70%;
 	background-color: var(--background-alt-1);
-	transform: translateY(-50%);
+	translate: 0 -50%;
 }
 
 .snap-marker {
@@ -670,7 +670,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 	width: 1px;
 	height: inherit;
 	background-color: var(--primary);
-	transform: translateX(-50%);
+	translate: -50%;
 }
 
 /* -- curves double slider overrides -- */
@@ -686,7 +686,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 	top: 0; 
 	height: inherit;
 	background-color: transparent;
-	transform: none;
+	translate: 0 0;
 }
 
 #colorCorrection .slider-track.double > span {
@@ -694,7 +694,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 	width: 14px;
 	height: 14px;
 	border: 0;
-	transform: translateX(-50%);
+	translate: -50%;
 }
 
 #colorCorrection .slider-track.double > span::after {
@@ -707,7 +707,7 @@ button[title="Reset Curves"]:active { color: #fff; }
 	width: 10px;
 	height: 10px;
 	border: 1px solid;
-	transform: rotate(45deg);
+	rotate: 45deg;
 }
 
 #colorCorrection .slider-track.double > span:first-child::after {

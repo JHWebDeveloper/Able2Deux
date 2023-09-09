@@ -68,5 +68,5 @@ button[title="Back to Top"] {
 	background-color: var(--primary);
 	color: var(--background);
 	font-size: 1.5rem;
-	transform: rotate(90deg);
+	rotate: 90deg;
 }

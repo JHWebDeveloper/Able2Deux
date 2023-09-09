@@ -25,7 +25,8 @@ header::after {
 	font: 600 32px/34px var(--font-stack);
 	text-align: center;
 	transform-origin: bottom right;
-	transform: translateY(-32px) rotate(-90deg);
+	translate: 0 -32px;
+	rotate: -90deg;
 }
 
 header > h1 {
@@ -109,9 +110,9 @@ progress::-webkit-progress-value {
 }
 
 @keyframes indeterminate {
-	0%   { transform: translate(-100%) scaleX(1); }
-	50%  { transform: translate(500%) scaleX(7.5); }
-	100% { transform: translate(1000%) scaleX(1); }
+	0%   { translate: -100%; scale: 1; }
+	50%  { translate: 500%; scale: 7.5; }
+	100% { translate: 1000%; scale: 1; }
 }
 
 progress:is([data-status="RENDERING"], [data-status="DOWNLOADING"]):indeterminate::after {

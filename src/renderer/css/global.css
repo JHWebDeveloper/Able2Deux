@@ -242,7 +242,7 @@ label > :is(input, span, svg) { vertical-align: middle; }
 .symbol {
 	padding: 6px;
 	font-family: 'Material Icons';
-}
+} 
 
 .panel-input {
 	padding: 2px;
