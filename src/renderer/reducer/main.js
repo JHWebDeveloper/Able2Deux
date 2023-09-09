@@ -50,6 +50,8 @@ export const mainReducer = (state, action) => {
 			return removeSelectedMedia(state)
 		case ACTION.REMOVE_ALL_MEDIA:
 			return removeAllMedia(state)
+		case ACTION.REMOVE_FAILED_ACQUISITIONS:
+			return removeFailedAcquisitions(state)
 		case ACTION.SELECT_MEDIA:
 			return selectMedia(state, payload)
 		case ACTION.SELECT_ALL_MEDIA:
@@ -68,8 +70,6 @@ export const mainReducer = (state, action) => {
 			return applyPresetToSelected(state, payload)
 		case ACTION.SAVE_AS_PRESET:
 			return saveAsPreset(state, payload)
-		case ACTION.REMOVE_FAILED_ACQUISITIONS:
-			return removeFailedAcquisitions(state)
 		case ACTION.COPY_ATTRIBUTES:
 			return copyAttributes(state, payload)
 		case ACTION.PASTE_ATTRIBUTES:
