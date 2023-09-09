@@ -50,11 +50,16 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 	const distortion = useMemo(() => scaleY / scaleX || 1, [scaleX, scaleY])
 	const [ frameW, frameH ] = useMemo(() => renderOutput.split('x').map(n => parseInt(n)), [renderOutput])
 
-	const updateAxis = useCallback(({ name, value }) => {
-		dispatch(updateMediaStateBySelection({
-			[name]: value
-		}))
-	}, [])
+	const linkTitle = `${scaleLink ? 'Unl' : 'L'}ink X and Y`
+
+	const [ snapPointsX, snapPointsY ] = useMemo(() => {
+		const pts = [[100], [100]]
+
+		if (!scaleLink && scaleY !== 100) pts[0].push(scaleY)
+		if (!scaleLink && scaleX !== 100) pts[1].push(scaleX)
+
+		return pts
+	}, [scaleLink, scaleX, scaleY])
 
 	const updateScale = useCallback(({ name, value }) => {
 		const axis = {}
@@ -71,22 +76,15 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 		dispatch(updateMediaStateBySelection(axis))
 	}, [distortion])
 
-	const toggleScaleLink = useCallback(e => {
-		dispatch(toggleMediaCheckbox(id, e))
-	}, [id])
+	const updateAxis = useCallback(({ name, value }) => {
+		dispatch(updateMediaStateBySelection({
+			[name]: value
+		}))
+	}, [])
 
 	const commonProps = useMemo(() => ({
 		onChange: scaleLink ? updateScale : updateAxis
 	}), [scaleLink, distortion])
-
-	const [ snapPointsX, snapPointsY ] = useMemo(() => {
-		const pts = [[100], [100]]
-
-		if (!scaleLink && scaleY !== 100) pts[0].push(scaleY)
-		if (!scaleLink && scaleX !== 100) pts[1].push(scaleX)
-
-		return pts
-	}, [scaleLink, scaleX, scaleY])
 
 	const propsX = {
 		...commonProps,
@@ -105,7 +103,26 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 		sensitivity
 	}
 
-	const linkTitle = `${scaleLink ? 'Unl' : 'L'}ink X and Y`
+	const dispatchFitToFrameWidth = useCallback(() => {
+		dispatch(fitToFrameWidth(frameW))
+	}, [frameW])
+
+	const dispatchFitToFrameHeight = useCallback(() => {
+		dispatch(fitToFrameHeight(frameH))
+	}, [frameH])
+
+	const dispatchFillToFrameAutoFill = useCallback(() => {
+		dispatch(fitToFrameAuto('fill', frameW, frameH))
+	}, [renderOutput])
+
+
+	const dispatchFillToFrameAutoFit = useCallback(() => {
+		dispatch(fitToFrameAuto('fit', frameW, frameH))
+	}, [renderOutput])
+
+	const toggleScaleLink = useCallback(e => {
+		dispatch(toggleMediaCheckbox(id, e))
+	}, [id])
 
 	return (
 		<>
@@ -116,12 +133,12 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 				{...sliderProps} />
 			<FitButton
 				title={`${scaleLink ? 'Fit' : 'Stretch'}${multipleItemsSelected ? ' Selected' : ''} to Frame Width`}
-				onClick={() => dispatch(fitToFrameWidth(frameW))} />
+				onClick={dispatchFitToFrameWidth} />
 			{multipleItemsSelected ? (
 				<FitButton
 					title="Fill Frame with Selected"
 					icon="zoom_out_map"
-					onClick={() => dispatch(fitToFrameAuto('fill', frameW, frameH))} />
+					onClick={dispatchFillToFrameAutoFill} />
 			) : <></>}
 			<NumberInput
 				{...propsX}
@@ -133,12 +150,12 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 				{...sliderProps} />
 			<FitButton
 				title={`${scaleLink ? 'Fit' : 'Stretch'}${multipleItemsSelected ? ' Selected' : ''} to Frame Height`}
-				onClick={() => dispatch(fitToFrameHeight(frameH))} />
+				onClick={dispatchFitToFrameHeight} />
 			{multipleItemsSelected ? (
 				<FitButton
 					title="Fit Selected to Frame"
 					icon="zoom_in_map"
-					onClick={() => dispatch(fitToFrameAuto('fit', frameW, frameH))} />
+					onClick={dispatchFillToFrameAutoFit} />
 			) : <></>}
 			<NumberInput
 				{...propsY}
