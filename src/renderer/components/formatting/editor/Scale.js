@@ -111,12 +111,12 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 		dispatch(fitToFrameHeight(frameH))
 	}, [frameH])
 
-	const dispatchFillToFrameAutoFill = useCallback(() => {
+	const dispatchFitToFrameAutoFill = useCallback(() => {
 		dispatch(fitToFrameAuto('fill', frameW, frameH))
 	}, [frameW, frameH])
 
 
-	const dispatchFillToFrameAutoFit = useCallback(() => {
+	const dispatchFitToFrameAutoFit = useCallback(() => {
 		dispatch(fitToFrameAuto('fit', frameW, frameH))
 	}, [frameW, frameH])
 
@@ -138,7 +138,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 				<FitButton
 					title="Fill Frame with Selected"
 					icon="zoom_out_map"
-					onClick={dispatchFillToFrameAutoFill} />
+					onClick={dispatchFitToFrameAutoFill} />
 			) : <></>}
 			<NumberInput
 				{...propsX}
@@ -155,7 +155,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 				<FitButton
 					title="Fit Selected to Frame"
 					icon="zoom_in_map"
-					onClick={dispatchFillToFrameAutoFit} />
+					onClick={dispatchFitToFrameAutoFit} />
 			) : <></>}
 			<NumberInput
 				{...propsY}
