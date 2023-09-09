@@ -34,13 +34,13 @@ const NUMBER_PROPS = Object.freeze({
 	defaultValue: 100
 })
 
-const FitButton = ({ title, onClick }) => (
+const FitButton = ({ title, onClick, icon = 'height' }) => (
 	<button
 		type="button"
 		className="app-button small symbol"
 		title={title}
 		aria-label={title}
-		onClick={onClick}>unfold_more</button>
+		onClick={onClick}>{icon}</button>
 )
 
 const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, dispatch }) => {
@@ -115,8 +115,14 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 				{...propsX}
 				{...sliderProps} />
 			<FitButton
-				title={`${scaleLink ? 'Fit' : 'Stretch'} to Width`}
+				title={`${scaleLink ? 'Fit' : 'Stretch'}${multipleItemsSelected ? ' Selected' : ''} to Frame Width`}
 				onClick={() => dispatch(fitToFrameWidth(frameW))} />
+			{multipleItemsSelected ? (
+				<FitButton
+					title="Fill Frame with Selected"
+					icon="zoom_out_map"
+					onClick={() => dispatch(fitToFrameAuto('fill', frameW, frameH))} />
+			) : <></>}
 			<NumberInput
 				{...propsX}
 				{...NUMBER_PROPS} />
@@ -126,8 +132,14 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 				{...propsY}
 				{...sliderProps} />
 			<FitButton
-				title={`${scaleLink ? 'Fit' : 'Stretch'} to Height`}
+				title={`${scaleLink ? 'Fit' : 'Stretch'}${multipleItemsSelected ? ' Selected' : ''} to Frame Height`}
 				onClick={() => dispatch(fitToFrameHeight(frameH))} />
+			{multipleItemsSelected ? (
+				<FitButton
+					title="Fit Selected to Frame"
+					icon="zoom_in_map"
+					onClick={() => dispatch(fitToFrameAuto('fit', frameW, frameH))} />
+			) : <></>}
 			<NumberInput
 				{...propsY}
 				{...NUMBER_PROPS} />
@@ -140,18 +152,6 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, disp
 				aria-label={linkTitle}>
 				<LinkIcon linked={scaleLink} />
 			</button>
-			{multipleItemsSelected ? (
-				<div style={{ gridRow: 3, gridColumn: '1 / -1' }}>
-					<button
-						type="button"
-						className="app-button small"
-						onClick={() => dispatch(fitToFrameAuto('fill', frameW, frameH))}>Fill</button>
-					<button
-						type="button"
-						className="app-button small"
-						onClick={() => dispatch(fitToFrameAuto('fit', frameW, frameH))}>Fit</button>
-				</div>
-			) : <></>}
 		</>
 	)
 }, objectsAreEqual)
