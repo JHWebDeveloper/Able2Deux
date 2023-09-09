@@ -211,7 +211,6 @@ const propTypes = {
 	scaleX: oneOfType([oneOf(['']), number]).isRequired,
 	scaleY: oneOfType([oneOf(['']), number]).isRequired,
 	scaleLink: bool.isRequired,
-	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
 

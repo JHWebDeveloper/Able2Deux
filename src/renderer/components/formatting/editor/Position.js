@@ -81,7 +81,6 @@ const propTypes = {
 	multipleItemsSelected: bool.isRequired,
 	positionX: oneOfType([oneOf(['']), number]).isRequired,
 	positionY: oneOfType([oneOf(['']), number]).isRequired,
-	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
 

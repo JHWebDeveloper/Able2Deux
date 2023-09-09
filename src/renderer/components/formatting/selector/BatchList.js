@@ -251,7 +251,6 @@ BatchList.propTypes = {
 	multipleItemsSelected: bool.isRequired,
 	allItemsSelected: bool.isRequired,
 	showApplyPresetOptions: bool.isRequired,
-	copyToClipboard: func.isRequired,
 	clipboard: object,
 	createPresetMenu: func.isRequired,
 	dispatch: func.isRequired

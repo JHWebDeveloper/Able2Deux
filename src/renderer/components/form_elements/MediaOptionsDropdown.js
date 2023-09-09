@@ -99,7 +99,7 @@ MediaOptionButtons.propTypes = {
 
 MediaOptionsDropdown.propTypes = {
 	buttons: oneOfType([func, arrayOf(buttonPropType)]).isRequired,
-	alignment: arrayOf(string).isRequired,
+	alignment: string,
 	label: string,
 	icon: string,
 	parentMenu: parentMenuPropType,

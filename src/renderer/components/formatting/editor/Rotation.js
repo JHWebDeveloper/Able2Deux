@@ -159,7 +159,6 @@ const propTypes = {
 	angle: number.isRequired,
 	rotatedCentering: number.isRequired,
 	showFreeRotate: bool.isRequired,
-	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
 

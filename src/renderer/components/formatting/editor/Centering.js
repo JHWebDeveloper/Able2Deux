@@ -76,7 +76,6 @@ const propTypes = {
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
 	centering: oneOfType([oneOf(['']), number]).isRequired,
-	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
 

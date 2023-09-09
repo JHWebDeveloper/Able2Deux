@@ -68,7 +68,7 @@ const MediaSelector = ({
 		}))
 	], [presets, batchPresets])
 
-	const showApplyPresetOptions = useMemo(() => presets.length || batchPresets.length, [presets, batchPresets])
+	const showApplyPresetOptions = useMemo(() => !!(presets.length || batchPresets.length), [presets, batchPresets])
 
 	const dispatchDeselectAllMedia = useCallback(() => {
 		dispatch(deselectAllMedia())
@@ -139,7 +139,6 @@ MediaSelector.propTypes = {
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
 	allItemsSelected: bool.isRequired,
-	copyToClipboard: func.isRequired,
 	clipboard: object,
 	dispatch: func.isRequired
 }

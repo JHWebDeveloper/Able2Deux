@@ -196,7 +196,6 @@ const propTypes = {
 	cropL: oneOfType([oneOf(['']), number]).isRequired,
 	cropLinkTB: bool.isRequired,
 	cropLinkLR: bool.isRequired,
-	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
 

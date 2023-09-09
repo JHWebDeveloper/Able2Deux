@@ -261,7 +261,6 @@ const propTypes = {
 	}).isRequired,
 	setEyedropper: func.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
-	copyToClipboard: func.isRequired,
 	dispatch: func.isRequired
 }
 
