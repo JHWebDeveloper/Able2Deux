@@ -1,4 +1,9 @@
-import { getIntegerLength } from 'utilities'
+import { arrayInterlace, getIntegerLength } from 'utilities'
+
+// ---- CONSTANTS --------
+
+const TIME_UNIT_L = Object.freeze(['hour', 'minute', 'second', 'frame'])
+const TIME_UNIT_S = Object.freeze(TIME_UNIT_L.map(u => u[0]))
 
 // ---- ZERO PADDERS --------
 
@@ -10,12 +15,6 @@ export const zeroizeAuto = (n, total) => zeroize(n, getIntegerLength(total))
 
 // ---- TIMECODES AND TIMESTAMPS --------
 
-const secondsToTCLiterals = sec => [
-	sec / 3600,
-	sec / 60 % 60,
-	sec % 60
-].map(lit => lit | 0) // using bitwise or to floor values
-
 const framesToTCLiterals = (frms, fps) => {
 	const frmsPrec = frms * 1e4
 	const fpsPrec = fps * 1e4
@@ -25,29 +24,26 @@ const framesToTCLiterals = (frms, fps) => {
 	return [...secondsToTCLiterals(sec), rmd]
 }
 
+const secondsToTCLiterals = sec => [
+	sec / 3600,
+	sec / 60 % 60,
+	sec % 60
+].map(lit => lit | 0) // using bitwise or to floor values
+
+// unjoined zeroized values are needed in function getTokenReplacerFns below. not the case for secondsToTC.
+const framesToTCZeroized = (frms, fps) => framesToTCLiterals(frms, fps).map((n, i) => i === 3 ? zeroizeAuto(n, fps) : zeroize(n))
+
+export const framesToTC = (frms, fps) => framesToTCZeroized(frms, fps).join(':')
+
 export const secondsToTC = sec => secondsToTCLiterals(sec)
 	.map(n => zeroize(n, 2))
 	.join(':')
 
-export const framesToTC = (frms, fps) => framesToTCLiterals(frms, fps)
-	.map((n, i) => i === 3 ? zeroizeAuto(n, fps) : zeroize(n))
-	.join(':')
+const pluralizeUnit = (t, u) => t === 1 ? u : `${u}s`
 
-const TIME_UNIT = Object.freeze(['hour', 'minute', 'second', 'frame'])
+export const framesToAudibleTC = (frms, fps) => arrayInterlace(secondsToTCLiterals(frms, fps), TIME_UNIT_L, pluralizeUnit).join(' ')
 
-export const secondsToAudibleTC = sec => secondsToTCLiterals(sec)
-	.reduce((tc, n, i) => [...tc, n, `${TIME_UNIT[i]}${n === 1 ? '' : 's'},`], [])
-	.join(' ')
-
-export const framesToAudibleTC = (frms, fps) => framesToTCLiterals(frms, fps)
-	.reduce((tc, n, i) => [...tc, n, `${TIME_UNIT[i]}${n === 1 ? '' : 's'},`], [])
-	.join(' ')
-
-export const tcToSeconds = hms => hms
-	.split(/:|;/)
-	.reverse()
-	.map(val => parseInt(val) || 0)
-	.reduce((acc, val, i) => acc + val * 60 ** i, 0)
+export const secondsToAudibleTC = sec => arrayInterlace(secondsToTCLiterals(sec), TIME_UNIT_L, pluralizeUnit).join(' ')
 
 export const tcToFrames = (hmsf, fps) => {
 	const parts = hmsf
@@ -63,6 +59,12 @@ export const tcToFrames = (hmsf, fps) => {
 
 	return frms
 }
+
+export const tcToSeconds = hms => hms
+	.split(/:|;/)
+	.reverse()
+	.map(val => parseInt(val) || 0)
+	.reduce((acc, val, i) => acc + val * 60 ** i, 0)
 
 // ---- FILE NAMES --------
 
@@ -103,7 +105,7 @@ const replaceBackground = bg => {
 	}
 }
 
-const getReplacerFns = (i, l, { start, end, duration, fps, background }) => {
+const getTokenReplacerFns = (i, l, { start, end, duration, fps, background }) => {
 	const d = new Date()
 
 	return new Map(Object.entries({
@@ -113,10 +115,10 @@ const getReplacerFns = (i, l, { start, end, duration, fps, background }) => {
 		'$T': () => `${d.getHours()}${d.getMinutes()}`,
 		'$n': () => zeroizeAuto(i + 1, l),
 		'$l': () => l,
-		'$s': () => secondsToTC(Math.round(start / fps)).split(':').join(''),
-		'$e': () => secondsToTC(Math.round(end / fps)).split(':').join(''),
-		'$r': () => secondsToTC(Math.round(duration)).split(':').join(''),
-		'$c': () => secondsToTC(Math.round((end - start) / fps)).split(':').join(''),
+		'$s': () => arrayInterlace(framesToTCZeroized(start, fps), TIME_UNIT_S).join(''),
+		'$e': () => arrayInterlace(framesToTCZeroized(end, fps), TIME_UNIT_S).join(''),
+		'$r': () => arrayInterlace(framesToTCZeroized(duration * fps, fps), TIME_UNIT_S).join(''),
+		'$c': () => arrayInterlace(framesToTCZeroized(end - start, fps), TIME_UNIT_S).join(''),
 		'$9': () => replaceBackground(background)
 	}))
 }
@@ -127,7 +129,7 @@ export const replaceTokens = (filename, i = 0, l = 0, media = {}) => {
 	const matches = [...new Set(filename.match(/(?<!\\)\$(d|D|t|T|n|l|s|e|r|c|9)/g))].sort().reverse()
 
 	if (matches.length) {
-		const replacer = getReplacerFns(i, l, media)
+		const replacer = getTokenReplacerFns(i, l, media)
 	
 		for (const match of matches) {
 			filename = filename.replace(new RegExp(`(?<!\\\\)\\${match}`, 'g'), replacer.get(match)())
