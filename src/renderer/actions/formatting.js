@@ -306,7 +306,7 @@ export const cleanupCurve = curveName => ({
 // ---- EXTRACT STILL --------
 
 export const extractStill = (sourceMediaData, e) => async dispatch => {
-	const { hasAlpha, filename, width, height, aspectRatio } = sourceMediaData
+	const { hasAlpha, filename, width, height, aspectRatio, duration, fps, timecode } = sourceMediaData
 	let stillData = {}
 
 	try {
@@ -323,7 +323,9 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 		width,
 		height,
 		aspectRatio,
-		hasAlpha
+		hasAlpha,
+		duration,
+		fps
 	} : sourceMediaData
 
 	pipeAsync(createMediaData, addMedia, dispatch)({
@@ -332,8 +334,8 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 		title: `Screengrab ${sourceMediaData.title}`,
 		mediaType: 'image',
 		acquisitionType: 'screengrab',
-		duration: 0,
-		fps: 0,
+		start: timecode,
+		end: timecode + 1,
 		hasAudio: false,
 		focused: false,
 		anchored: false,
