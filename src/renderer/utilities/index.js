@@ -44,6 +44,14 @@ export const arrayCount = (arr, exp) => {
 	return count
 }
 
+export const arrayInterlace = (arrL, arrR, mod) => arrL.reduce((acc, val, i) => {
+	if (arrR[i]) {
+		acc.push(val, mod instanceof Function ? mod(val, arrR[i]) : arrR[i])
+	}
+
+	return acc
+}, [])
+
 export const findNearestIndex = (arr, startIndex, condition, fallback = -1) => {
 	const len = arr.length - 1
 	let next = startIndex
