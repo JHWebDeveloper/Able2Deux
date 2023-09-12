@@ -1,36 +1,35 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { bool, number, object } from 'prop-types'
 
 import { secondsToTC } from 'utilities'
 
 const Clock = ({ start, decrement, recordIndicator }) => {
+	const [ halfSeconds, setHalfSeconds ] = useState(decrement ? start : 0)
 	const clock = useRef(null)
-	const title = `Time ${decrement ? 'remaining' : 'ellapsed'}`
-	let seconds = 0
-	let tick = 0
-	let interval = false
+	const interval = useRef(null)
+	const tick = useRef(0)
+	const title = useRef(`Time ${decrement ? 'remaining' : 'ellapsed'}`)
 
 	useEffect(() => {
 		const dir = decrement ? -1 : 1
-
-		seconds = decrement ? start : 0
 		
-		interval = setInterval(() => {
-			if (tick++) {
-				recordIndicator.className = ''
-			} else {
-				clock.current.value = secondsToTC(seconds += dir)
-				recordIndicator.className = 'blink'
-			}
+		interval.current = setInterval(() => {
+			recordIndicator.current.classList.toggle('blink')
 
-			tick &= 1 // tracks whether tick is even (at the half-second) or odd (at the second)
+			if (!tick.current++) setHalfSeconds(s => {
+				const nextHalfSecond = s + dir
 
-			if (decrement && seconds < 1) clearInterval(interval)
+				if (decrement && nextHalfSecond < 1) clearInterval(interval.current)
+
+				return nextHalfSecond
+			})
+
+			tick.current &= 1 // tracks whether tick is even (at the half-second) or odd (at the second)
 		}, 500)
 
 		return () => {
-			clearInterval(interval)
-			recordIndicator.className = ''
+			clearInterval(interval.current)
+			recordIndicator.current.classList.remove('blink')
 		}
 	}, [])
 
@@ -39,9 +38,9 @@ const Clock = ({ start, decrement, recordIndicator }) => {
 			type="text"
 			className="timecode monospace"
 			ref={clock}
-			value={secondsToTC(decrement ? start : 0)}
-			title={title}
-			aria-label={title}
+			value={secondsToTC(halfSeconds)}
+			title={title.current}
+			aria-label={title.current}
 			style={{ cursor: 'default' }}
 			readOnly />
 	)
