@@ -231,7 +231,7 @@ button[name="screenshot"] { height: 26px; }
 #record-source-selector h2 {
 	position: sticky;
 	top: 0;
-	padding: 12px 0;
+	padding-block: 12px;
 	background-color: inherit;
 	text-align: center;
 }
