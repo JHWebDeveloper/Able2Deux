@@ -402,12 +402,15 @@ const constrainPairedValue = (media, keyA, keyB) => preset => {
 	return preset
 }
 
-const mergePresetWithMedia = (item, preset) => ({
-	...item,
-	...preset,
-	...'transpose' in preset ? rotateMedia(item, preset.transpose) : {},
-	...'reflect' in preset ? reflectMedia(item, preset.reflect) : {}
-})
+const mergePresetWithMedia = (item, preset) => {
+	if ('reflect' in preset) item = reflectMedia(item, preset.reflect)
+	if ('transpose' in preset) item = rotateMedia(item, preset.transpose)
+
+	return {
+		...item,
+		...preset
+	}
+}
 
 const applyPreset = (state, payload) => {
 	const { presets, mediaIds, duplicate } = payload
@@ -604,25 +607,16 @@ const fitSelectedMediaToFrameAuto = (state, { sizingMethod, frameW, frameH }) =>
 // ---- ROTATION --------
 
 const TRANSPOSITIONS = Object.freeze(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2'])
-const REFLECTIONS = Object.freeze(['', 'hflip', 'vflip', 'hflip,vflip'])
 
-const detectOrientationChange = (prev, next) => !!(detectMediaIsSideways(prev) ^ detectMediaIsSideways(next))
-const detectReflection = (prev, next, reflect) => !(!prev.includes(reflect) ^ next.includes(reflect))
+const detectMediaOrientationChange = (prev, next) => !!(detectMediaIsSideways(prev) ^ detectMediaIsSideways(next))
+const detectMediaIsReflected = (prev, next, reflect) => !(!prev.includes(reflect) ^ next.includes(reflect))
 
 const rotateMedia = (item, transpose) => {
-	if (!detectOrientationChange(item.transpose, transpose)) return { ...item, transpose }
-
-	const { width, height, aspectRatio, scaleX, scaleY } = item
 	const rotations = TRANSPOSITIONS.indexOf(transpose) - TRANSPOSITIONS.indexOf(item.transpose) + 4
 	const cropVals = [item.cropT, item.cropL, 100 - item.cropB, 100 - item.cropR]
 
-	const rotatedProps = {
+	let rotatedProps = {
 		transpose,
-		width: height,
-		height: width,
-		aspectRatio: aspectRatio.split(':').reverse().join(':'),
-		scaleX: scaleY,
-		scaleY: scaleX,
 		...CROP_PROPS.reduce((obj, dir, i) => {
 			obj[dir] = cropVals[(rotations + i) % 4]
 			return obj
@@ -632,6 +626,17 @@ const rotateMedia = (item, transpose) => {
 	rotatedProps.cropB = 100 - rotatedProps.cropB
 	rotatedProps.cropR = 100 - rotatedProps.cropR
 
+	if (detectMediaOrientationChange(item.transpose, transpose)) {
+		rotatedProps = {
+			...rotatedProps,
+			width: item.height,
+			height: item.width,
+			aspectRatio: item.aspectRatio.split(':').reverse().join(':'),
+			scaleX: item.scaleY,
+			scaleY: item.scaleX
+		}
+	}
+
 	return {
 		...item,
 		...rotatedProps
@@ -640,15 +645,18 @@ const rotateMedia = (item, transpose) => {
 
 const reflectMedia = (item, reflect) => {
 	const reflectedProps = { reflect }
+	const isFlippedH = detectMediaIsReflected(item.reflect, reflect, 'hflip')
+	const isFlippedV = detectMediaIsReflected(item.reflect, reflect, 'vflip')
+	const isSideways = detectMediaIsSideways(item.transpose)
 
-	if (detectReflection(item.reflect, reflect, REFLECTIONS[1])) {
-		reflectedProps.cropL = 100 - item.cropR
-		reflectedProps.cropR = 100 - item.cropL
-	}
-
-	if (detectReflection(item.reflect, reflect, REFLECTIONS[2])) {
+	if (isFlippedH && isSideways || isFlippedV && !isSideways) {
 		reflectedProps.cropT = 100 - item.cropB
 		reflectedProps.cropB = 100 - item.cropT
+	}
+	
+	if (isFlippedH && !isSideways || isFlippedV && isSideways) {
+		reflectedProps.cropL = 100 - item.cropR
+		reflectedProps.cropR = 100 - item.cropL
 	}
 
 	return {
