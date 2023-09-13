@@ -5,6 +5,9 @@ import { panelsReducer as reducer } from 'reducer'
 import { useAugmentedDispatch } from 'hooks'
 
 const initState = {
+	batchName: {
+		open: false
+	},
 	preview: {
 		open: true
 	},
@@ -39,6 +42,9 @@ const initState = {
 		open: false
 	},
 	colorCorrection: {
+		open: false
+	},
+	presetNameTemplate: {
 		open: false
 	}
 }
