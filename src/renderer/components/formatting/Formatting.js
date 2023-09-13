@@ -26,8 +26,10 @@ import RenderQueue from './render-queue/RenderQueue'
 const Formatting = () => {
 	const {
 		media,
-		batchName,
 		batchNameType,
+		batchName,
+		batchNamePrepend,
+		batchNameAppend,
 		split,
 		saveLocations,
 		aspectRatioMarkers,
@@ -69,8 +71,10 @@ const Formatting = () => {
 					dispatch={dispatch} />	
 				{multipleItems ? (
 					<BatchName
-						batchName={batchName}
 						batchNameType={batchNameType}
+						batchName={batchName}
+						batchNamePrepend={batchNamePrepend}
+						batchNameAppend={batchNameAppend}
 						dispatch={dispatch} />
 				) : <></>}
 				<SaveOptions
@@ -92,8 +96,10 @@ const Formatting = () => {
 			{rendering ? (
 				<RenderQueue
 					media={media}
-					batchName={batchName}
 					batchNameType={batchNameType}
+					batchName={batchName}
+					batchNamePrepend={batchNamePrepend}
+					batchNameAppend={batchNameAppend}
 					saveLocations={saveLocations}
 					closeRenderQueue={() => setRendering(false)}
 					dispatch={dispatch} />
