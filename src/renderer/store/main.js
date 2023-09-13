@@ -16,8 +16,10 @@ const initState = {
 	timerEnabled: false,
 	clipboard: {},
 	media: [],
-	batchName: '',
 	batchNameType: 'replace',
+	batchName: '',
+	batchNamePrepend: '',
+	batchNameAppend: '',
 	previewQuality: 1,
 	previewHeight: 540,
 	rendering: false
