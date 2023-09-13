@@ -26,7 +26,7 @@ const START_OVER_MESSAGE = 'Start Over?'
 const START_OVER_DETAIL = 'All entries will be cleared and media deleted. This cannot be undone. Proceed?'
 
 const RenderQueue = props => {
-	const { media, batchName, batchNameType, saveLocations, closeRenderQueue, dispatch } = props
+	const { media, batchNameType, batchName, batchNamePrepend, batchNameAppend, saveLocations, closeRenderQueue, dispatch } = props
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const navigate = useNavigate()
 	const backOrCancelBtn = useRef(null)
@@ -89,8 +89,10 @@ const RenderQueue = props => {
 
 		pipeAsync(render, dispatch)({
 			media,
-			batchName,
 			batchNameType,
+			batchName,
+			batchNamePrepend,
+			batchNameAppend,
 			saveLocations,
 			renderOutput,
 			renderFrameRate,
@@ -164,8 +166,10 @@ const RenderQueue = props => {
 
 RenderQueue.propTypes = {
 	media: arrayOf(object).isRequired,
+	batchNameType: oneOf(['replace', 'prepend_append']),
 	batchName: string,
-	batchNameType: oneOf(['replace', 'prepend', 'append']),
+	batchNamePrepend: string,
+	batchNameAppend: string,
 	saveLocations: arrayOf(object).isRequired,
 	closeRenderQueue: func.isRequired,
 	dispatch: func.isRequired
