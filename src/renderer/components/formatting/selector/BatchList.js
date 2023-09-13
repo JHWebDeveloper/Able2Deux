@@ -12,7 +12,7 @@ import {
 	pasteAttributes,
 	removeMedia,
 	saveAsPreset,
-	selectInstances,
+	selectDuplicates,
 	selectMedia
 } from 'actions'
 
@@ -157,10 +157,10 @@ const BatchList = ({
 				}
 			},
 			{
-				label: 'Select Instances',
+				label: 'Select Duplicates',
 				hide: isOnly,
 				action() {
-					dispatch(selectInstances(refId, index))
+					dispatch(selectDuplicates(refId, index))
 				}
 			},
 			{ type: 'spacer' },
