@@ -43,7 +43,7 @@
 #media-selector > div:nth-of-type(2) {
 	overflow-y: auto;
 	position: relative;
-	padding-block: 10px 0 6px; /* using padding instead of grid-grid gap so drag and drop markers are visible */
+	padding-block: 10px 6px; /* using padding instead of grid-grid gap so drag and drop markers are visible */
 }
 
 .batch-item {
