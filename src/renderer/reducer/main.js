@@ -58,6 +58,8 @@ export const mainReducer = (state, action) => {
 			return selectAllMedia(state, payload)
 		case ACTION.DESELECT_ALL_MEDIA:
 			return deselectAllMedia(state)
+		case ACTION.SELECT_INSTANCES:
+			return selectInstances(state, payload)
 		case ACTION.DUPLICATE_MEDIA: 
 			return duplicateMedia(state, payload)
 		case ACTION.DUPLICATE_SELECTED_MEDIA: 
@@ -237,10 +239,27 @@ const selectMediaByClick = (media, { clickedIndex, clickedInFocus, clickedInSele
 }
 
 const selectMedia = (state, payload) => {
-	const { ctrlOrCmd, shift } = payload
+	const { ctrlOrCmd, shift, arrowKeyDir } = payload
 	let media = []
 
-	payload.clickedIndex = clamp(payload.clickedIndex, 0, state.media.length - 1)
+	// check selection status of related target if from keydown event
+	switch (arrowKeyDir) {
+		case 'prev':
+			payload.selected = state.media[payload.clickedIndex - 1]?.selected
+			break
+		case 'next':
+			payload.selected = state.media[payload.clickedIndex + 1]?.selected
+			break
+		default:
+			break
+	}
+
+	// loop selection if target is out of bounds
+	if (payload.clickedIndex < 0) {
+		payload.clickedIndex = state.media.length - 1
+	} else if (payload.clickedIndex >= state.media.length) {
+		payload.clickedIndex = 0
+	}
 
 	if (ctrlOrCmd) {
 		media = selectMediaByCtrlClick(state.media, payload)

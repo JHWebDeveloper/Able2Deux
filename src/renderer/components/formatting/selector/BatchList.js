@@ -205,13 +205,9 @@ const BatchList = ({
 		} else if (e.altKey && isArrowNext(e)) {
 			dispatch(moveSortableElement('media', index, index + 2))
 		} else if (isArrowPrev(e)) {
-			dispatch(selectMedia(index - 1, e, {
-				selected: media?.[index - 1]?.selected ?? true
-			}))
+			dispatch(selectMedia(index - 1, e, { arrowKeyDir: 'prev' }))
 		} else if (isArrowNext(e)) {
-			dispatch(selectMedia(index + 1, e, {
-				selected: media?.[index + 1]?.selected ?? true
-			}))
+			dispatch(selectMedia(index + 1, e, { arrowKeyDir: 'next', }))
 		} else if (ctrlOrCmd && !e.shiftKey && e.key === 'd') {
 			e.stopPropagation()
 			dispatch(duplicateMedia(index))
