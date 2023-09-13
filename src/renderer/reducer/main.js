@@ -58,8 +58,8 @@ export const mainReducer = (state, action) => {
 			return selectAllMedia(state, payload)
 		case ACTION.DESELECT_ALL_MEDIA:
 			return deselectAllMedia(state)
-		case ACTION.SELECT_INSTANCES:
-			return selectInstances(state, payload)
+		case ACTION.SELECT_DUPLICATES:
+			return selectDuplicates(state, payload)
 		case ACTION.DUPLICATE_MEDIA: 
 			return duplicateMedia(state, payload)
 		case ACTION.DUPLICATE_SELECTED_MEDIA: 
@@ -302,7 +302,7 @@ const deselectAllMedia = state => ({
 	})
 })
 
-const selectInstances = (state, payload) => ({
+const selectDuplicates = (state, payload) => ({
 	...state,
 	media: state.media.map((item, i) => {
 		const focused = payload.index === i

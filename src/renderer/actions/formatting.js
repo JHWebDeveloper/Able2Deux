@@ -58,8 +58,8 @@ export const deselectAllMedia = () => ({
 	type: ACTION.DESELECT_ALL_MEDIA
 })
 
-export const selectInstances = (refId, index) => ({
-	type: ACTION.SELECT_INSTANCES,
+export const selectDuplicates = (refId, index) => ({
+	type: ACTION.SELECT_DUPLICATES,
 	payload: { refId, index }
 })
 
