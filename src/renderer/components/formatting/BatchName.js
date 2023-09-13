@@ -3,56 +3,92 @@ import { func, string, oneOf } from 'prop-types'
 
 import { updateStateFromEvent } from 'actions'
 
+import AccordionPanel from '../form_elements/AccordionPanel'
 import RadioSet from '../form_elements/RadioSet'
 
 const BATCH_NAME_TYPE_BUTTONS = Object.freeze([
 	{
-		label: 'Replace',
+		label: 'Replace Filename',
 		value: 'replace'
 	},
 	{
-		label: 'Prepend',
-		value: 'prepend'
-	},
-	{
-		label: 'Append',
-		value: 'append'
+		label: 'Prepend/Append',
+		value: 'prepend_append'
 	}
 ])
 
-const BatchName = ({ batchName, batchNameType, dispatch }) => {
-	const updateBatch = useCallback(e => {
+const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend, dispatch }) => {
+	const updateBatchName = useCallback(e => {
 		dispatch(updateStateFromEvent(e))
 	}, [])
 
 	return (
-		<div
-			id="batch-name"
-			className="formatting-panel">
-			<h2>Batch Name</h2>
-			<div>
-				<input
-					type="text"
-					name="batchName"
-					className="underline"
-					value={batchName}
-					maxLength={251}
-					onChange={updateBatch}
-					placeholder="If none, leave blank" />
+		<>
+			<fieldset className="radio-set">
+				<legend>Template Type<span ariaHidden>:</span></legend>
 				<RadioSet
 					name="batchNameType"
 					state={batchNameType}
-					onChange={updateBatch}
-					buttons={BATCH_NAME_TYPE_BUTTONS}/>
-			</div>
-		</div>
+					onChange={updateBatchName}
+					buttons={BATCH_NAME_TYPE_BUTTONS} />
+			</fieldset>
+			{batchNameType === 'replace' ? (
+				<fieldset>
+					<legend>Batch Name<span ariaHidden>:</span></legend>
+					<input
+						type="text"
+						name="batchName"
+						className="underline"
+						value={batchName}
+						maxLength={251}
+						onChange={updateBatchName}
+						placeholder="If none, leave blank" />
+				</fieldset>
+			) : (
+				<>
+					<fieldset>
+						<legend>Prepend to Filename<span ariaHidden>:</span></legend>
+						<input
+							type="text"
+							name="batchNamePrepend"
+							className="underline"
+							value={batchNamePrepend}
+							maxLength={251}
+							onChange={updateBatchName}
+							placeholder="If none, leave blank" />
+					</fieldset>
+					<fieldset>
+						<legend>Append to Filename<span ariaHidden>:</span></legend>
+						<input
+							type="text"
+							name="batchNameAppend"
+							className="underline"
+							value={batchNameAppend}
+							maxLength={251}
+							onChange={updateBatchName}
+							placeholder="If none, leave blank" />
+					</fieldset>
+				</>
+			)}
+		</>
 	)
 }
 
+const BatchNamePanel = props => (
+	<AccordionPanel
+			heading="Batch Name Template"
+			id="batchName"
+			className="editor-options auto-rows">
+		<BatchName {...props} />
+	</AccordionPanel>
+)
+
 BatchName.propTypes = {
+	batchNameType: oneOf(['replace', 'prepend_append']),
 	batchName: string,
-	batchNameType: oneOf(['replace', 'prepend', 'append']),
+	batchNamePrepend: string,
+	batchNameAppend: string,
 	dispatch: func.isRequired
 }
 
-export default BatchName
+export default BatchNamePanel
