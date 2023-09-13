@@ -12,6 +12,7 @@ import {
 	pasteAttributes,
 	removeMedia,
 	saveAsPreset,
+	selectInstances,
 	selectMedia
 } from 'actions'
 
@@ -153,6 +154,13 @@ const BatchList = ({
 				shortcut: `${ctrlOrCmdKeySymbol}D`,
 				action() {
 					dispatch(duplicateMedia(index))
+				}
+			},
+			{
+				label: 'Select Instances',
+				hide: isOnly,
+				action() {
+					dispatch(selectInstances(refId, index))
 				}
 			},
 			{ type: 'spacer' },
