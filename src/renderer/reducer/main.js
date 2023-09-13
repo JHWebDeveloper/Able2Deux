@@ -302,6 +302,20 @@ const deselectAllMedia = state => ({
 	})
 })
 
+const selectInstances = (state, payload) => ({
+	...state,
+	media: state.media.map((item, i) => {
+		const focused = payload.index === i
+
+		return {
+			...item,
+			selected: payload.refId === item.refId,
+			focused,
+			anchored: focused,
+		}
+	})
+})
+
 // ---- COPY/PASTE PROPERTIES --------
 
 const copyAttributes = (state, payload) => ({

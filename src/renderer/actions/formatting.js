@@ -58,6 +58,11 @@ export const deselectAllMedia = () => ({
 	type: ACTION.DESELECT_ALL_MEDIA
 })
 
+export const selectInstances = (refId, index) => ({
+	type: ACTION.SELECT_INSTANCES,
+	payload: { refId, index }
+})
+
 // ---- SORT MEDIA --------
 
 export const moveSelectedMedia = index => ({
