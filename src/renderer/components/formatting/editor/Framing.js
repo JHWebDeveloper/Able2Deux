@@ -13,8 +13,8 @@ import {
 } from 'actions'
 
 import {
+	createObjectPicker,
 	createSettingsMenu,
-	extractFramingProps,
 	objectsAreEqual,
 	rgbToHex
 } from 'utilities'
@@ -101,6 +101,8 @@ const createBackgroundButtons = enable11pmBackgrounds => [
 		value: 'alpha'
 	}
 ]
+
+const extractFramingProps = createObjectPicker(['arc', 'background', 'bgColor', 'backgroundMotion', 'overlay'])
 
 const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropperActive }) => (
 	<div className="color-picker">
