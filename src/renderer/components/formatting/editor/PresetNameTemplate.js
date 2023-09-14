@@ -1,4 +1,5 @@
 import React, { memo, useMemo } from 'react'
+import { bool, func, string } from 'prop-types'
 
 import { createObjectPicker, objectsAreEqual } from 'utilities'
 
@@ -73,5 +74,18 @@ const PresetNameTemplatePanel = props => {
     </AccordionPanel>
   )
 }
+
+const propTypes = {
+  id: string.isRequired,
+	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
+  presetNamePrepend: string,
+  presetNameAppend: string,
+  updateSelectionFromEvent: func.isRequired,
+  dispatch: func.isRequired
+}
+
+PresetNameTemplate.propTypes = propTypes
+PresetNameTemplatePanel.propTypes = propTypes
 
 export default PresetNameTemplatePanel
