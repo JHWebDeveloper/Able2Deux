@@ -10,8 +10,8 @@ import {
 } from 'actions'
 
 import {
+	createObjectPicker,
 	createSettingsMenu,
-	extractPositionProps,
 	objectsAreEqual
 } from 'utilities'
 
@@ -21,6 +21,8 @@ import NumberInput from '../../form_elements/NumberInput'
 
 const X_STATIC_PROPS = Object.freeze({ name: 'positionX', title: 'Position X', min: -100 })
 const Y_STATIC_PROPS = Object.freeze({ name: 'positionY', title: 'Position Y', min: -100 })
+
+const extractPositionProps = createObjectPicker(['positionX', 'positionY'])
 
 const Position = memo(({ positionX, positionY, dispatch }) => {
 	const updatePosition = useCallback(({ name, value }) => {
