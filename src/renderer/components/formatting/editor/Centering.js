@@ -10,8 +10,8 @@ import {
 } from 'actions'
 
 import {
+	createObjectPicker,
 	createSettingsMenu,
-	extractCenteringProps,
 	objectsAreEqual
 } from 'utilities'
 
@@ -24,6 +24,8 @@ const COMMON_STATIC_PROPS = Object.freeze({
 	title: 'Centering',
 	min: -100
 })
+
+const extractCenteringProps = createObjectPicker(['centering'])
 
 const Centering = memo(({ centering, dispatch }) => {
 	const updateCentering = useCallback(({ name, value }) => {
