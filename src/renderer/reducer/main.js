@@ -3,7 +3,6 @@ import * as STATUS from 'status'
 import * as shared from 'reducer/shared'
 
 import {
-	CROP_PROPS,
 	RATIO_9_16,
 	arrayCount,
 	calcRotatedBoundingBox,
@@ -639,6 +638,7 @@ const fitSelectedMediaToFrameAuto = (state, { sizingMethod, frameW, frameH }) =>
 
 // ---- ROTATION --------
 
+const CROP_PROPS = Object.freeze(['cropT', 'cropL', 'cropB', 'cropR'])
 const TRANSPOSITIONS = Object.freeze(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2'])
 
 const detectMediaOrientationChange = (prev, next) => !!(detectMediaIsSideways(prev) ^ detectMediaIsSideways(next))
