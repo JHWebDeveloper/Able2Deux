@@ -11,7 +11,7 @@ const SaveButtons = ({ setRendering }) => {
 				type="button"
 				className="app-button"
 				title="Back"
-				aria-label="Black"
+				aria-label="Back"
 				onClick={() => navigate('/')}>Back</button>
 			<button
 				type="button"
