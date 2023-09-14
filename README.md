@@ -9,25 +9,30 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ## [Unreleased][2.4.0] - TBD
 
-### Added 
+### Added
+- Presets! Able2 can now store and apply preset media attributes to media clips. There are two types of Presets. Presets and Batch Presets. Batch Presets allow user to create multiple versions of a single or multiple media clips in a single click. Both Presets and Batch Presets can be created, modified, sorted and deleted in the new Preset Editor window.
 - Ability to select multiple media clips for editing. Able2 previously could only edit 1 clip or all clips. Not it can edit 1, all or some. Use <kbd>Shift</kbd>+Click to select multiple media clips in sequence <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to select out of order. Use <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to deselect selected clips.
 - Select All and Deselect All buttons in place of the Edit All checkbox.
-- Edit All dropdown menu with options: Select All, Deselect All, Duplicate Selected, Remove Selected, Remove All.
-- New media dropdown option: Apply Settings to Selected
-- New panel dropdown option: Apply to Selected
+- Edit All dropdown menu with options: Select All, Deselect All, Duplicate Selected/All, Apply Preset to Selected/All, Apply Preset to Selected/All as Duplicate, Remove Selected/All.
+- New media dropdown options: Apply Attributes to Selected, Select Duplicates, Apply Preset, Apply Preset as Duplicate, Save as Preset
+- New panel dropdown options: Apply to Selected, Save as Preset
 - Select All by Default setting in the preferences.
 - Dropdown menus now display their keyboard shortcut to the right if available.
 
 ### Changed
+- Fit to Height and Fit to Width buttons in the Scale panel now fit any selected media relative to the media and frame dimensions as opposed to just copying the percentages from the selected media.
+- Batch name panel is now collapsible and text can be prepended/appended to the filename simultaneously instead of one or the other.
 - Sliders can now macro adjust with the arrow keys. Just as Able2 has supported holding <kbd>Shift</kbd>+<kbd>←</kbd>|<kbd>→</kbd> to increment/decrement by 0.1, holding <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>←</kbd>|<kbd>→</kbd> will now increment/decrement by 10.
 - Holding <kbd>Alt</kbd>+<kbd>Shift</kbd> while navigating the frame selector with arrow keys or clicking the frame incrementer buttons will increment/decrement the timecode by 1 second (or, more specifically, the rounded frame rate of thedisplayed media).
-- Deleting a displayed media clip will now auto display the nearest clip in the current media selection. If no other clips are selected, it will display the next clip in sequence like normal.
+- Deleting a displayed media clip will now auto display the nearest selected clip in the current media selection. If no other clips are selected, it will display the next clip in sequence like normal.
 - Dropdown menus can be navigated with arrow keys and closed with the escape key.
-
+- $s, $e, $r and $c timecode tokens now include frames and are concatenated with 1 letter units (e.g. 01h02m03s04f)
+- Formatting Panels now retain their open/closed state on page navigation.
 
 ### Fixed
 - Focus rings are back.
 - Grid Color selector width is back to normal.
+- Crop values adjust correctly when reflecting a clip rotated 90deg or -90deg
 
 ### Removed
 - Edit All checkbox and Edit All by Default setting. Edit All has been completely replaced by the multi selection feature outlines above.
