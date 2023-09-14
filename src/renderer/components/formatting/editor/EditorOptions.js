@@ -27,7 +27,6 @@ const extractCommonPanelProps = createObjectPicker([
 	'id',
 	'multipleItems',
 	'multipleItemsSelected',
-	'allItemsSelected',
 	'mediaType',
 	'width',
 	'height',
