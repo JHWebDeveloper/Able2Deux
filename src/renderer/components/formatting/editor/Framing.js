@@ -171,8 +171,8 @@ const Framing = memo(props => {
 							value: 'color',
 							component: <BackgroundColorPicker
 								bgColor={bgColor}
-								updateBgColor={updateBgColor}
-								selectBgColor={updateSelectionFromCustomInput}
+								updateBgColor={updateSelectionFromCustomInput}
+								selectBgColor={selectBgColor}
 								eyedropperActive={active === 'background'} />
 						}
 					]}/>
