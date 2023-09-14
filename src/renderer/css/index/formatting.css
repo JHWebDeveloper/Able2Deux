@@ -158,16 +158,16 @@ button[name$="selectAll"] {
 
 /* ---- BATCH NAME AND SAVE OPTIONS -------- */
 
-#batch-name,
+#batchName {
+	row-gap: 6px;
+	padding-left: 12px;
+}
+
 #save-options {
 	display: inherit;
 	gap: 6px;
 	padding: 9px 12px;
 }
-
-#batch-name input[type="text"] { margin-bottom: 6px; }
-#batch-name label { font-size: 12px;  }
-#batch-name label:nth-last-of-type(n+2) { margin-right: 12px; }
 
 #save-options { grid-template-rows: min-content auto; }
 #save-options > div { overflow-y: auto; }
@@ -229,8 +229,7 @@ button[name$="selectAll"] {
 
 .editor-options {
 	display: grid;
-	margin: 0 18px 0 27px;
-	padding-bottom: 12px;
+	padding: 0 12px 12px 27px;
 	font-size: 12px;
 }
 
