@@ -4,8 +4,7 @@ import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'p
 import {
 	toggleMediaCheckbox,
 	updateMediaStateByIdFromEvent,
-	updateMediaStateBySelection,
-	updateMediaStateBySelectionFromEvent
+	updateMediaStateBySelection
 } from 'actions'
 
 import FileOptions from './FileOptions'
