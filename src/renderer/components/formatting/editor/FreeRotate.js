@@ -7,18 +7,18 @@ import NumberInput from '../../form_elements/NumberInput'
 const ANGLE_STATIC_PROPS = { name: 'angle', title: 'Angle', min: -180, max: 180 }
 const CENTERING_STATIC_PROPS = { name: 'rotatedCentering', title: 'Centering', min: -100, max: 100 }
 
-const FreeRotate = ({ angle, center, disableCenter, updateSelectionFromCustomInput }) => {
+const FreeRotate = ({ angle, center, disableCenter, updateSelectionFromEvent }) => {
 	const angleProps = {
 		...ANGLE_STATIC_PROPS,
 		value: angle,
-		onChange: updateSelectionFromCustomInput
+		onChange: updateSelectionFromEvent
 	}
 
 	const centeringProps = {
 		...CENTERING_STATIC_PROPS,
 		value: center,
 		disabled: disableCenter,
-		onChange: updateSelectionFromCustomInput
+		onChange: updateSelectionFromEvent
 	}
 
 	return (
@@ -41,7 +41,7 @@ FreeRotate.propTypes = {
 	angle: number.isRequired,
 	center: number.isRequired,
 	disableCenter: bool.isRequired,
-	updateSelectionFromCustomInput: func.isRequired
+	updateSelectionFromEvent: func.isRequired
 }
 
 export default FreeRotate

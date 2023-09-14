@@ -31,7 +31,7 @@ const FileOptions = memo(props => {
 					end={end}
 					totalFrames={totalFrames}
 					fps={fps}
-					updateStartEnd={props.updateSelectionFromCustomInput}
+					updateStartEnd={props.updateSelectionFromEvent}
 					dispatch={dispatch} />
 				<Split
 					id={id}
@@ -67,7 +67,7 @@ const propTypes = {
 	duration: number.isRequired,
 	split: number.isRequired,
 	updateFilename: func.isRequired,
-	updateSelectionFromCustomInput: func.isRequired,
+	updateSelectionFromEvent: func.isRequired,
 	dispatch: func.isRequired
 }
 

@@ -33,10 +33,8 @@ const EditorOptions = props => {
 	}, [id])
 
 	const updateSelectionFromEvent = useCallback(e => {
-		dispatch(updateMediaStateBySelectionFromEvent(e))
-	}, [])
-
-	const updateSelectionFromCustomInput = useCallback(({ name, value }) => {
+		const { name, value } = e?.target || e
+		
 		dispatch(updateMediaStateBySelection({
 			[name]: value
 		}))
@@ -66,7 +64,7 @@ const EditorOptions = props => {
 				split={props.split}
 				mediaType={mediaType}
 				updateFilename={updateMediaFromEvent}
-				updateSelectionFromCustomInput={updateSelectionFromCustomInput}
+				updateSelectionFromEvent={updateSelectionFromEvent}
 				dispatch={dispatch} />
 			{props.hasAudio ? (
 				<Audio
@@ -87,7 +85,6 @@ const EditorOptions = props => {
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
 					updateSelectionFromEvent={updateSelectionFromEvent}
-					updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 					{...commonProps} />
 				{arc === 'none' && aspectRatio !== '16:9' ? <></> : (
 					<Source
@@ -102,20 +99,20 @@ const EditorOptions = props => {
 				{arc === 'fill' && aspectRatio !== '16:9' ? (
 					<Centering
 						centering={props.centering}
-						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
+						updateSelectionFromEvent={updateSelectionFromEvent}
 						{...commonProps} />
 				) : <></>}
 				{arc === 'transform' ? <>
 					<Position
 						positionX={props.positionX}
 						positionY={props.positionY}
-						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
+						updateSelectionFromEvent={updateSelectionFromEvent}
 						{...commonProps} />
 					<Scale
 						scaleX={props.scaleX}
 						scaleY={props.scaleY}
 						scaleLink={props.scaleLink}
-						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
+						updateSelectionFromEvent={updateSelectionFromEvent}
 						toggleSelectionCheckbox={toggleSelectionCheckbox}
 						{...commonProps} />
 					<Crop
@@ -125,7 +122,7 @@ const EditorOptions = props => {
 						cropL={props.cropL}
 						cropLinkTB={props.cropLinkTB}
 						cropLinkLR={props.cropLinkLR}
-						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
+						updateSelectionFromEvent={updateSelectionFromEvent}
 						toggleSelectionCheckbox={toggleSelectionCheckbox}
 						{...commonProps} />
 				</> : <></>}
@@ -137,7 +134,6 @@ const EditorOptions = props => {
 					rotatedCentering={props.rotatedCentering}
 					showFreeRotate={arc === 'transform'}
 					updateSelectionFromEvent={updateSelectionFromEvent}
-					updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 					{...commonProps} />
 				{arc === 'none' ? <></> : (
 					<Keying
@@ -153,7 +149,6 @@ const EditorOptions = props => {
 						eyedropper={eyedropper}
 						setEyedropper={setEyedropper}
 						updateSelectionFromEvent={updateSelectionFromEvent}
-						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						toggleSelectionCheckbox={toggleSelectionCheckbox}
 						{...commonProps} />
 				)}

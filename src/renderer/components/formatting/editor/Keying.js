@@ -122,7 +122,7 @@ const extractKeyingProps = createObjectPicker([
 ])
 
 const Keying = memo(props => {
-	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, updateSelectionFromCustomInput, toggleSelectionCheckbox, dispatch } = props
+	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, updateSelectionFromEvent, toggleSelectionCheckbox, dispatch } = props
 	const { active, pixelData } = eyedropper
 
 	const toggleKeying = useCallback(e => {
@@ -168,7 +168,7 @@ const Keying = memo(props => {
 				<RadioSet
 					name="keyingType"
 					state={keyingType}
-					onChange={props.updateSelectionFromEvent}
+					onChange={updateSelectionFromEvent}
 					buttons={KEY_TYPE_BUTTONS}/>
 			</fieldset>
 			{keyingType === 'lumakey' ? <></> : (
@@ -178,7 +178,7 @@ const Keying = memo(props => {
 						<ColorInput
 							name="keyingColor"
 							value={props.keyingColor}
-							onChange={updateSelectionFromCustomInput}
+							onChange={updateSelectionFromEvent}
 							disabled={!keyingEnabled}
 							ariaLabelledby="key-color" />
 						<button
@@ -206,13 +206,13 @@ const Keying = memo(props => {
 						threshold={props.keyingThreshold}
 						tolerance={props.keyingTolerance}
 						softness={props.keyingSoftness}
-						onChange={updateSelectionFromCustomInput}
+						onChange={updateSelectionFromEvent}
 						disabled={!keyingEnabled} />
 				) : (
 					<ColorKeySliders
 						similarity={props.keyingSimilarity}
 						blend={props.keyingBlend}
-						onChange={updateSelectionFromCustomInput}
+						onChange={updateSelectionFromEvent}
 						disabled={!keyingEnabled} />
 				)}
 			</div>
@@ -282,7 +282,6 @@ const propTypes = {
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
 	updateSelectionFromEvent: func.isRequired,
-	updateSelectionFromCustomInput: func.isRequired,
 	toggleSelectionCheckbox: func.isRequired,
 	dispatch: func.isRequired
 }

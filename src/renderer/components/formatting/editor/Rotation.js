@@ -116,7 +116,7 @@ const Rotation = memo(props => {
 					angle={props.angle}
 					center={props.rotatedCentering}
 					disableCenter={freeRotateMode === 'with_bounds'}
-					updateSelectionFromCustomInput={props.updateSelectionFromCustomInput} />
+					updateSelectionFromEvent={updateSelectionFromEvent} />
 			</> : <></>}
 		</>
 	)
@@ -157,7 +157,6 @@ const propTypes = {
 	rotatedCentering: number.isRequired,
 	showFreeRotate: bool.isRequired,
 	updateSelectionFromEvent: func.isRequired,
-	updateSelectionFromCustomInput: func.isRequired,
 	dispatch: func.isRequired
 }
 

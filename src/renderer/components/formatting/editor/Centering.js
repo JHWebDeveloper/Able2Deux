@@ -26,11 +26,11 @@ const COMMON_STATIC_PROPS = Object.freeze({
 
 const extractCenteringProps = createObjectPicker(['centering'])
 
-const Centering = memo(({ centering, updateSelectionFromCustomInput }) => {
+const Centering = memo(({ centering, updateSelectionFromEvent }) => {
 	const commonProps = {
 		...COMMON_STATIC_PROPS,
 		value: centering,
-		onChange: updateSelectionFromCustomInput
+		onChange: updateSelectionFromEvent
 	}
 
 	return (
@@ -71,7 +71,7 @@ const propTypes = {
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
 	centering: oneOfType([oneOf(['']), number]).isRequired,
-	updateSelectionFromCustomInput: func.isRequired,
+	updateSelectionFromEvent: func.isRequired,
 	dispatch: func.isRequired
 }
 

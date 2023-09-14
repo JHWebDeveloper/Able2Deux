@@ -35,7 +35,7 @@ const SLIDER_STATIC_PROPS = Object.freeze({
 const extractCropProps = createObjectPicker(['cropT', 'cropL', 'cropB', 'cropR', 'cropLinkTB', 'cropLinkLR'])
 
 const Crop = memo(props => {
-	const { cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, updateSelectionFromCustomInput, toggleSelectionCheckbox, dispatch } = props
+	const { cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, updateSelectionFromEvent, toggleSelectionCheckbox, dispatch } = props
 
 	const updateCropBiDirectional = useCallback((d1, d2, { name, value }) => {
 		const isD1 = name === d1
@@ -61,13 +61,13 @@ const Crop = memo(props => {
 	const TBProps = useMemo(() => ({
 		onChange: cropLinkTB
 			? vals => updateCropBiDirectional('cropT', 'cropB', vals)
-			: updateSelectionFromCustomInput
+			: updateSelectionFromEvent
 	}), [cropLinkTB, cropT, cropB])
 
 	const LRProps = useMemo(() => ({
 		onChange: cropLinkLR
 			? vals => updateCropBiDirectional('cropL', 'cropR', vals)
-			: updateSelectionFromCustomInput
+			: updateSelectionFromEvent
 	}), [cropLinkLR, cropL, cropR])
 
 	const propsT = {
@@ -187,7 +187,7 @@ const propTypes = {
 	cropL: oneOfType([oneOf(['']), number]).isRequired,
 	cropLinkTB: bool.isRequired,
 	cropLinkLR: bool.isRequired,
-	updateSelectionFromCustomInput: func.isRequired,
+	updateSelectionFromEvent: func.isRequired,
 	toggleSelectionCheckbox: func.isRequired,
 	dispatch: func.isRequired
 }
