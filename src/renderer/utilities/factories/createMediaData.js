@@ -46,6 +46,8 @@ const DEFAULT_MEDIA_DATA = Object.freeze({
 	filename: '',
 	start: 0,
 	end: 0,
+	presetNamePrepend: '',
+	presetNameAppend: '',
 
 	// audio
 	audioVideoTracks: 'video_audio',
