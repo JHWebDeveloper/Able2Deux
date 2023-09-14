@@ -20,6 +20,7 @@ import {
 	createPromiseQueue,
 	errorToString,
 	getIntegerLength,
+	createObjectPicker,
 	pipe,
 	pipeAsync,
 	refocusBatchItem,
@@ -361,31 +362,55 @@ const fillMissingFilenames = media => media.map(item => ({
 	filename: item.filename || 'Able2 Export $t $d'
 }))
 
-const getBatchNamer = (batchName, batchNameType) => {
-	const prepareBatchName = filename => batchName.trim().replace(/(?<!\\)\$f/g, filename.trim())
-
-	switch (batchNameType) {
-		case 'replace':
-			return prepareBatchName
-		case 'prepend':
-			return filename => `${prepareBatchName(filename)} ${filename.trim()}`
-		case 'append':
-			return filename => `${filename.trim()} ${prepareBatchName(filename)}`
-		default:
-			return filename => filename
+const createNamingTemplate = ({ type, replacer, prepend, append }) => {
+	if (type === 'replace') {
+		return filename => replacer.replace(/(?<!\\)\$f/g, filename.trim())
+	} else if (prepend && append) {
+		return filename => `${prepend} ${filename.trim()} ${append}`
+	} else if (prepend) {
+		return filename => `${prepend} ${filename.trim()}`
+	} else if (append) {
+		return filename => `${filename.trim()} ${append}`
+	} else {
+		return filename => filename.trim()
 	}
 }
 
-const applyBatchName = (media, batchName, batchNameType) => {
-	if (media.length < 2 || !batchName) return media
+const applyPresetName = media => media.map(item => {
+	if (!item.presetNamePrepend && !item.presetNameAppend) return item
 
-	const batchNamer = getBatchNamer(batchName, batchNameType)
+	const presetNameTemplate = createNamingTemplate({
+		prepend: item.presetNamePrepend?.trimStart(),
+		append: item.presetNameAppend?.trimEnd()
+	})
+
+	return {
+		...item,
+		filename: presetNameTemplate(item.filename)
+	}
+})
+
+const applyBatchName = (media, { batchNameType, batchName, batchNamePrepend, batchNameAppend }) => {
+	if (
+		(media.length < 2) ||
+		(batchNameType === 'replace' && !batchName) ||
+		(batchNameType === 'prepend_append' && !batchNamePrepend && !batchNameAppend)
+	) return media
+	
+	const batchNameTemplate = createNamingTemplate({
+		type: batchNameType, 
+		replacer: batchName?.trim(),
+		prepend: batchNamePrepend?.trimStart(),
+		append: batchNameAppend?.trimEnd()
+})
 
 	return media.map(item => ({
 		...item,
-		filename: batchNamer(item.filename)
+		filename: batchNameTemplate(item.filename)
 	}))
 }
+
+const extractBatchNameProps = createObjectPicker(['batchNameType', 'batchName', 'batchNamePrepend', 'batchNameAppend'])
 
 const sanitizeFilenames = (media, asperaSafe) => media.map((item, i) => ({
 	...item,
@@ -479,7 +504,7 @@ const renderItem = (args, dispatch) => {
 }
 
 export const render = args => async dispatch => {
-	const { batchName, batchNameType, goBack, removeLocation } = args
+	const { goBack, removeLocation } = args
 	let { media, saveLocations } = args
 
 	saveLocations = saveLocations.filter(({ hidden, checked }) => !hidden && checked)
@@ -521,7 +546,8 @@ export const render = args => async dispatch => {
 
 	media = pipe(
 		fillMissingFilenames,
-		val => applyBatchName(val, batchName, batchNameType),
+		applyPresetName,
+		val => applyBatchName(val, extractBatchNameProps(args)),
 		val => sanitizeFilenames(val, args.asperaSafe),
 		preventDuplicateFilenames
 	)(media)
