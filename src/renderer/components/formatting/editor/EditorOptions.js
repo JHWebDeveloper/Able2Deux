@@ -8,8 +8,6 @@ import {
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
 
-import { createObjectPicker } from 'utilities'
-
 import FileOptions from './FileOptions'
 import PresetNameTemplate from './PresetNameTemplate'
 import Audio from './Audio'
@@ -23,24 +21,12 @@ import Rotation from './Rotation'
 import Keying from './Keying'
 import ColorCorrection from './ColorCorrection'
 
-const extractCommonPanelProps = createObjectPicker([
-	'id',
-	'multipleItems',
-	'multipleItemsSelected',
-	'mediaType',
-	'width',
-	'height',
-	'aspectRatio',
-	'copyToClipboard',
-	'dispatch'
-])
-
 const EditorOptions = props => {
 	const { id } = props
 
 	if (!id) return <></>
 
-	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper, dispatch } = props
+	const { multipleItems, multipleItemsSelected, background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper, dispatch } = props
 
 	const updateMediaFromEvent = useCallback(e => {
 		dispatch(updateMediaStateByIdFromEvent(id, e))
@@ -61,13 +47,17 @@ const EditorOptions = props => {
 	}, [id])
 
 	const commonProps = {
-		...extractCommonPanelProps(props),
-		updateSelectionFromCustomInput
+		id,
+		multipleItems,
+		multipleItemsSelected,
+		updateSelectionFromCustomInput,
+		dispatch
 	}
 
 	return (
 		<div id="editor-options">
 			<FileOptions
+				mediaType={mediaType}
 				filename={props.filename}
 				start={props.start}
 				end={props.end}
@@ -79,13 +69,15 @@ const EditorOptions = props => {
 				{...commonProps} />
 			{props.hasAudio ? (
 				<Audio
+					mediaType={mediaType}
 					audioVideoTracks={audioVideoTracks}
 					audioExportFormat={props.audioExportFormat}
 					updateSelectionFromEvent={updateSelectionFromEvent}
 					{...commonProps} />
 			) : <></>}
 			{mediaType === 'audio' || mediaType === 'video' && audioVideoTracks === 'audio' ? <></> : <>
-				<Framing 
+				<Framing
+					mediaType={mediaType}
 					arc={arc}
 					background={background}
 					backgroundMotion={props.backgroundMotion}
