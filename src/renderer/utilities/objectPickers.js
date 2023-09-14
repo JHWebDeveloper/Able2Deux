@@ -19,7 +19,7 @@ const SOURCE_PROPS = Object.freeze(['sourceName', 'sourcePrefix', 'sourceOnTop']
 
 // ---- OBJECT PICKERS --------
 
-const createObjectPicker = keys => props => objectPick(props, keys)
+export const createObjectPicker = keys => props => objectPick(props, keys)
 
 export const extractAudioProps = createObjectPicker(AUDIO_PROPS)
 
