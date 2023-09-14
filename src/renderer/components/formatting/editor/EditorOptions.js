@@ -46,13 +46,13 @@ const EditorOptions = props => {
 		dispatch(toggleMediaCheckbox(id, e))
 	}, [id])
 
-	const commonProps = useMemo(() => {
+	const commonProps = useMemo(() => ({
 		id,
 		multipleItems,
 		multipleItemsSelected,
 		updateSelectionFromCustomInput,
 		dispatch
-	}, [id, multipleItems, multipleItemsSelected,])
+	}), [id, multipleItems, multipleItemsSelected,])
 
 	return (
 		<div id="editor-options">
@@ -165,6 +165,7 @@ const EditorOptions = props => {
 				<PresetNameTemplate
 					presetNamePrepend={props.presetNamePrepend}
 					presetNameAppend={props.presetNameAppend}
+					updateSelectionFromEvent={updateSelectionFromEvent}
 					{...commonProps} />
 			</>}
 		</div>
