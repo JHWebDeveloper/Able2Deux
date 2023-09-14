@@ -3,7 +3,7 @@ import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'p
 
 import {
 	toggleMediaCheckbox,
-	updateMediaStateByIdFromEvent,
+	updateMediaStateById,
 	updateMediaStateBySelection
 } from 'actions'
 
@@ -28,7 +28,11 @@ const EditorOptions = props => {
 	const { multipleItems, multipleItemsSelected, background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper, dispatch } = props
 
 	const updateMediaFromEvent = useCallback(e => {
-		dispatch(updateMediaStateByIdFromEvent(id, e))
+		const { name, value } = e?.target || e
+
+		dispatch(updateMediaStateById(id, {
+			[name]: value
+		}))
 	}, [id])
 
 	const updateSelectionFromEvent = useCallback(e => {
