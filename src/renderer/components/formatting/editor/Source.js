@@ -5,8 +5,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
-	saveAsPreset,
-	toggleMediaCheckbox
+	saveAsPreset
 } from 'actions'
 
 import { useWarning } from 'hooks'
@@ -27,7 +26,7 @@ const DETAIL = 'This option shoud only be selected if the source would obscure i
 const extractSourceProps = createObjectPicker(['sourceName', 'sourcePrefix', 'sourceOnTop'])
 
 const Source = memo(props => {
-	const { id, sourceName, sourcePrefix, sourceOnTop, background, updateSelectionFromEvent, dispatch } = props
+	const { id, sourceName, sourcePrefix, sourceOnTop, background, updateSelectionFromEvent, toggleSelectionCheckbox } = props
 
 	const maxLength = useMemo(() => {
 		let len = has11pmBackground(background) ? sourceOnTop ? 44 : 38 : 51
@@ -36,10 +35,6 @@ const Source = memo(props => {
 		
 		return len
 	}, [background, sourcePrefix, sourceOnTop])
-
-	const toggleSourceOption = useCallback(e => {
-		dispatch(toggleMediaCheckbox(id, e))
-	}, [id])
 
 	const warn = useWarning({
 		name: 'sourceOnTop',
@@ -50,7 +45,7 @@ const Source = memo(props => {
 
 	const sourceOnTopWarning = useCallback(e => warn({
 		onConfirm() {
-			toggleSourceOption(e)
+			toggleSelectionCheckbox(e)
 		}
 	}), [id, sourceOnTop, warn])
 
@@ -74,7 +69,7 @@ const Source = memo(props => {
 				label={'Add "Source: " to beginning'}
 				name="sourcePrefix"
 				checked={sourcePrefix}
-				onChange={toggleSourceOption} />
+				onChange={toggleSelectionCheckbox} />
 			<Checkbox
 				label="Place source at top of video"
 				name="sourceOnTop"

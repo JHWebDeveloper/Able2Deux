@@ -123,19 +123,15 @@ const extractKeyingProps = createObjectPicker([
 ])
 
 const Keying = memo(props => {
-	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, updateSelectionFromEvent, updateSelectionFromCustomInput, dispatch } = props
+	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, updateSelectionFromCustomInput, toggleSelectionCheckbox, dispatch } = props
 	const { active, pixelData } = eyedropper
-
-	const toggleKeyingCheckbox = useCallback(e => {
-		dispatch(toggleMediaCheckbox(id, e))
-	}, [id])
 
 	const toggleKeying = useCallback(e => {
 		if (active === 'key') {
 			setEyedropper({ active: false, pixelData: false })
 		}
 
-		toggleKeyingCheckbox(e)
+		toggleSelectionCheckbox(e)
 	}, [id, active])
 
 	const selectKeyColor = useCallback(() => {
@@ -173,7 +169,7 @@ const Keying = memo(props => {
 				<RadioSet
 					name="keyingType"
 					state={keyingType}
-					onChange={updateSelectionFromEvent}
+					onChange={props.updateSelectionFromEvent}
 					buttons={KEY_TYPE_BUTTONS}/>
 			</fieldset>
 			{keyingType === 'lumakey' ? <></> : (
@@ -199,7 +195,7 @@ const Keying = memo(props => {
 							name="keyingHidden"
 							title={`Show ${keyingHidden ? 'effect' : 'original'}`}
 							checked={keyingHidden}
-							onChange={toggleKeyingCheckbox}
+							onChange={toggleSelectionCheckbox}
 							disabled={!keyingEnabled}
 							visibleIcon />
 					</div>

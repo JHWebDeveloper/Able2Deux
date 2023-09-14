@@ -36,7 +36,7 @@ const SLIDER_STATIC_PROPS = Object.freeze({
 const extractCropProps = createObjectPicker(['cropT', 'cropL', 'cropB', 'cropR', 'cropLinkTB', 'cropLinkLR'])
 
 const Crop = memo(props => {
-	const { id, cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, updateSelectionFromCustomInput, dispatch } = props
+	const { cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, updateSelectionFromCustomInput, toggleSelectionCheckbox, dispatch } = props
 
 	const updateCropBiDirectional = useCallback((d1, d2, { name, value }) => {
 		const isD1 = name === d1
@@ -58,10 +58,6 @@ const Crop = memo(props => {
 
 	const panX = useCallback(values => pan('cropL', 'cropR', values), [])
 	const panY = useCallback(values => pan('cropT', 'cropB', values), [])
-
-	const toggleCropLink = useCallback(e => {
-		dispatch(toggleMediaCheckbox(id, e))
-	}, [id])
 
 	const TBProps = useMemo(() => ({
 		onChange: cropLinkTB
@@ -126,7 +122,7 @@ const Crop = memo(props => {
 				className="link-button"
 				title={linkTBTitle}
 				aria-label={linkTBTitle}
-				onClick={toggleCropLink}>
+				onClick={toggleSelectionCheckbox}>
 				<LinkIcon linked={cropLinkTB} single />
 			</button>
 			<label>L</label>
@@ -151,7 +147,7 @@ const Crop = memo(props => {
 				className="link-button"
 				title={linkLRTitle}
 				aria-label={linkLRTitle}
-				onClick={toggleCropLink}>
+				onClick={toggleSelectionCheckbox}>
 				<LinkIcon linked={cropLinkLR} single />
 			</button>
 		</>

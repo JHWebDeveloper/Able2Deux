@@ -11,7 +11,6 @@ import {
 	fitToFrameWidth,
 	fitToFrameAuto,
 	saveAsPreset,
-	toggleMediaCheckbox,
 	updateMediaStateBySelection
 } from 'actions'
 
@@ -47,7 +46,7 @@ const FitButton = ({ title, onClick, icon = 'open_in_full', rotateIcon = 0 }) =>
 	</button>
 )
 
-const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, updateSelectionFromCustomInput, dispatch }) => {
+const Scale = memo(({ scaleX, scaleY, scaleLink, multipleItemsSelected, updateSelectionFromCustomInput, toggleSelectionCheckbox, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
@@ -118,10 +117,6 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, upda
 		dispatch(fitToFrameAuto('fit', frameW, frameH))
 	}, [frameW, frameH])
 
-	const toggleScaleLink = useCallback(e => {
-		dispatch(toggleMediaCheckbox(id, e))
-	}, [id])
-
 	return (
 		<>
 			<label>X</label>
@@ -164,7 +159,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, upda
 				type="button"
 				name="scaleLink"
 				className="link-button"
-				onClick={toggleScaleLink}
+				onClick={toggleSelectionCheckbox}
 				title={linkTitle}
 				aria-label={linkTitle}>
 				<LinkIcon linked={scaleLink} />

@@ -77,20 +77,16 @@ const getCurveColor = curveName => {
 const extractColorCorrectionProps = createObjectPicker(['ccEnabled', 'ccRGB', 'ccR', 'ccG', 'ccB'])
 
 const ColorCorrection = memo(props => {
-	const { id, ccEnabled, ccSelectedCurve, ccRGB, ccR, ccG, ccB, eyedropper, setEyedropper, dispatch } = props
+	const { id, ccEnabled, ccSelectedCurve, ccRGB, ccR, ccG, ccB, eyedropper, setEyedropper, toggleSelectionCheckbox, dispatch } = props
 	const { active, pixelData } = eyedropper
 	const curvesRef = useRef(null)
-
-	const toggleCCCheckbox = useCallback(e => {
-		dispatch(toggleMediaCheckbox(id, e))
-	}, [id])
 
 	const toggleColorCorrection = useCallback(e => {
 		if (active === 'black' || active === 'white') {
 			setEyedropper({ active: false, pixelData: false })
 		}
 
-		toggleCCCheckbox(e)
+		toggleSelectionCheckbox(e)
 	}, [id, active])
 
 	const selectCurve = useCallback(e => {
@@ -216,7 +212,7 @@ const ColorCorrection = memo(props => {
 				<Checkbox
 					name="ccHidden"
 					checked={props.ccHidden}
-					onChange={toggleCCCheckbox}
+					onChange={toggleSelectionCheckbox}
 					disabled={!ccEnabled}
 					visibleIcon />
 				<button
