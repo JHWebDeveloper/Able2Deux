@@ -12,8 +12,8 @@ import {
 } from 'actions'
 
 import {
+	createObjectPicker,
 	createSettingsMenu,
-	extractKeyingProps,
 	extractRelevantMediaProps,
 	objectsAreEqual,
 	rgbToHex
@@ -111,6 +111,17 @@ const ColorKeySliders = ({ similarity, blend, onChange, disabled }) => {
 		</>
 	)
 }
+
+const extractKeyingProps = createObjectPicker([
+	'keyingEnabled',
+	'keyingType',
+	'keyingColor',
+	'keyingSimilarity',
+	'keyingBlend',
+	'keyingThreshold',
+	'keyingTolerance',
+	'keyingSoftness'
+])
 
 const Keying = memo(props => {
 	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, dispatch } = props
