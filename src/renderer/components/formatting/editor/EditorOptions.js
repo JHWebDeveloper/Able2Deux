@@ -57,7 +57,6 @@ const EditorOptions = props => {
 	return (
 		<div id="editor-options">
 			<FileOptions
-				mediaType={mediaType}
 				filename={props.filename}
 				start={props.start}
 				end={props.end}
@@ -65,24 +64,25 @@ const EditorOptions = props => {
 				totalFrames={props.totalFrames}
 				duration={props.duration}
 				split={props.split}
+				mediaType={mediaType}
 				updateFilename={updateMediaFromEvent}
 				{...commonProps} />
 			{props.hasAudio ? (
 				<Audio
-					mediaType={mediaType}
 					audioVideoTracks={audioVideoTracks}
 					audioExportFormat={props.audioExportFormat}
+					mediaType={mediaType}
 					updateSelectionFromEvent={updateSelectionFromEvent}
 					{...commonProps} />
 			) : <></>}
 			{mediaType === 'audio' || mediaType === 'video' && audioVideoTracks === 'audio' ? <></> : <>
 				<Framing
-					mediaType={mediaType}
 					arc={arc}
 					background={background}
 					backgroundMotion={props.backgroundMotion}
 					bgColor={props.bgColor}
 					overlay={props.overlay}
+					mediaType={mediaType}
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
 					updateSelectionFromEvent={updateSelectionFromEvent}
