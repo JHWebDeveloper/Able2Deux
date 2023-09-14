@@ -10,11 +10,7 @@ import SliderDouble from '../../form_elements/SliderDouble'
 const START_STATIC_PROPS = Object.freeze({ name: 'start', title: 'Start' })
 const END_STATIC_PROPS = Object.freeze({ name: 'end', title: 'End' })
 
-const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
-	const updateTimecode = useCallback(({ name, value }) => {
-		dispatch(updateMediaStateById(id, { [name]: value }))
-	}, [id])
-
+const StartEnd = ({ id, start, end, totalFrames, fps, updateSelectionFromCustomInput, dispatch }) => {
 	const shiftTimecodes = useCallback(({ valueL, valueR }) => {
 		dispatch(updateMediaStateById(id, {
 			start: valueL,
@@ -51,13 +47,13 @@ const StartEnd = ({ id, start, end, totalFrames, fps, dispatch }) => {
 	const startProps = {
 		...START_STATIC_PROPS,
 		value: start,
-		onChange: updateTimecode
+		onChange: updateSelectionFromCustomInput
 	}
 
 	const endProps = {
 		...END_STATIC_PROPS,
 		value: end,
-		onChange: updateTimecode
+		onChange: updateSelectionFromCustomInput
 	}
 
 	return (
