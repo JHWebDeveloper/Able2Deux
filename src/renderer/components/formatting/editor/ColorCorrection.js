@@ -17,9 +17,9 @@ import {
 } from 'actions'
 
 import {
+	createObjectPicker,
 	createSettingsMenu,
 	eraseIds,
-	extractColorCorrectionProps,
 	objectsAreEqual
 } from 'utilities'
 
@@ -73,6 +73,8 @@ const getCurveColor = curveName => {
 			return '#000'
 	}
 }
+
+const extractColorCorrectionProps = createObjectPicker(['ccEnabled', 'ccRGB', 'ccR', 'ccG', 'ccB'])
 
 const ColorCorrection = memo(props => {
 	const { id, ccEnabled, ccSelectedCurve, ccRGB, ccR, ccG, ccB, eyedropper, setEyedropper, dispatch } = props
