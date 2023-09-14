@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -46,13 +46,13 @@ const EditorOptions = props => {
 		dispatch(toggleMediaCheckbox(id, e))
 	}, [id])
 
-	const commonProps = useMemo(() => ({
+	const commonProps = {
 		id,
 		multipleItems,
 		multipleItemsSelected,
 		updateSelectionFromCustomInput,
 		dispatch
-	}), [id, multipleItems, multipleItemsSelected,])
+	}
 
 	return (
 		<div id="editor-options">
@@ -175,6 +175,7 @@ const EditorOptions = props => {
 EditorOptions.propTypes = {
 	id: string,
 	multipleItems: bool,
+	multipleItemsSelected: bool,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
 	hasAudio: bool,
 	width: number,
