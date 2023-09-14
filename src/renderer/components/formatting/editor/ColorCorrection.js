@@ -11,9 +11,7 @@ import {
 	copyAttributes,
 	deleteCurvePoint,
 	resetCurve,
-	saveAsPreset,
-	toggleMediaCheckbox,
-	updateMediaStateByIdFromEvent
+	saveAsPreset
 } from 'actions'
 
 import {
@@ -88,10 +86,6 @@ const ColorCorrection = memo(props => {
 
 		toggleSelectionCheckbox(e)
 	}, [id, active])
-
-	const selectCurve = useCallback(e => {
-		dispatch(updateMediaStateByIdFromEvent(id, e))
-	}, [id])
 
 	// ---- Curves ----
 	
@@ -229,7 +223,7 @@ const ColorCorrection = memo(props => {
 					name="ccSelectedCurve"
 					state={ccSelectedCurve}
 					buttons={COLOR_CHANNEL_BUTTONS}
-					onChange={selectCurve} />
+					onChange={props.selectCurve} />
 			</fieldset>
 			<Curves
 				ref={curvesRef}
