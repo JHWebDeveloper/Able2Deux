@@ -60,6 +60,7 @@ const EditorOptions = props => {
 				totalFrames={props.totalFrames}
 				duration={props.duration}
 				split={props.split}
+				updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 				{...commonProps} />
 			{props.hasAudio ? (
 				<Audio
@@ -78,6 +79,7 @@ const EditorOptions = props => {
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
 					updateSelectionFromEvent={updateSelectionFromEvent}
+					updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 					{...commonProps} />
 				{arc === 'none' && aspectRatio !== '16:9' ? <></> : (
 					<Source
