@@ -123,16 +123,10 @@ const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropp
 
 const Framing = memo(props => {
 	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
-	const { arc, background, bgColor, overlay, eyedropper, setEyedropper, updateSelectionFromEvent, dispatch } = props
+	const { arc, background, bgColor, overlay, eyedropper, setEyedropper, updateSelectionFromEvent, updateSelectionFromSlider: updateBgColor, dispatch } = props
 	const { active, pixelData } = eyedropper
 
 	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
-
-	const updateBgColor = useCallback(({ name, value }) => {
-		dispatch(updateMediaStateBySelection({
-			[name]: value
-		}))
-	}, [])
 
 	const selectBgColor = useCallback(() => {
 		setEyedropper(({ active }) => ({
