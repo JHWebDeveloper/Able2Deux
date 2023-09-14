@@ -116,7 +116,7 @@ const Rotation = memo(props => {
 					angle={props.angle}
 					center={props.rotatedCentering}
 					disableCenter={freeRotateMode === 'with_bounds'}
-					dispatch={dispatch} />
+					updateSelectionFromSlider={props.updateSelectionFromSlider} />
 			</> : <></>}
 		</>
 	)

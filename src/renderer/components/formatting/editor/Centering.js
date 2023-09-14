@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -27,17 +27,11 @@ const COMMON_STATIC_PROPS = Object.freeze({
 
 const extractCenteringProps = createObjectPicker(['centering'])
 
-const Centering = memo(({ centering, dispatch }) => {
-	const updateCentering = useCallback(({ name, value }) => {
-		dispatch(updateMediaStateBySelection({
-			[name]: value
-		}))
-	}, [])
-
+const Centering = memo(({ centering, updateSelectionFromSlider }) => {
 	const commonProps = {
 		...COMMON_STATIC_PROPS,
 		value: centering,
-		onChange: updateCentering
+		onChange: updateSelectionFromSlider
 	}
 
 	return (

@@ -1,12 +1,11 @@
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { bool, func, number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
-	saveAsPreset,
-	updateMediaStateBySelection
+	saveAsPreset
 } from 'actions'
 
 import {
@@ -24,20 +23,16 @@ const Y_STATIC_PROPS = Object.freeze({ name: 'positionY', title: 'Position Y', m
 
 const extractPositionProps = createObjectPicker(['positionX', 'positionY'])
 
-const Position = memo(({ positionX, positionY, dispatch }) => {
-	const updatePosition = useCallback(({ name, value }) => {
-		dispatch(updateMediaStateBySelection({ [name]: value }))
-	}, [])
-
+const Position = memo(({ positionX, positionY, updateSelectionFromSlider }) => {
 	const propsX = {
 		...X_STATIC_PROPS,
-		onChange: updatePosition,
+		onChange: updateSelectionFromSlider,
 		value: positionX
 	}
 
 	const propsY = {
 		...Y_STATIC_PROPS,
-		onChange: updatePosition,
+		onChange: updateSelectionFromSlider,
 		value: positionY
 	}
 

@@ -1,37 +1,24 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { bool, func, number } from 'prop-types'
-
-import { updateMediaStateBySelection } from 'actions'
 
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
-const FreeRotate = ({ angle, center, disableCenter, dispatch }) => {
-	const updateAngle = useCallback(({ value }) => {
-		dispatch(updateMediaStateBySelection({
-			angle: value
-		}))
-	}, [])
+const ANGLE_STATIC_PROPS = { name: 'angle', title: 'Angle', min: -180, max: 180 }
+const CENTERING_STATIC_PROPS = { name: 'rotatedCentering', title: 'Centering', min: -100, max: 100 }
 
-	const updateCentering = useCallback(({ value }) => {
-		dispatch(updateMediaStateBySelection({
-			rotatedCentering: value
-		}))
-	}, [])
-
+const FreeRotate = ({ angle, center, disableCenter, updateSelectionFromSlider }) => {
 	const angleProps = {
+		...ANGLE_STATIC_PROPS,
 		value: angle,
-		min: -180,
-		max: 180,
-		onChange: updateAngle
+		onChange: updateSelectionFromSlider
 	}
 
-	const centerProps = {
+	const centeringProps = {
+		...CENTERING_STATIC_PROPS,
 		value: center,
-		min: -100,
-		max: 100,
 		disabled: disableCenter,
-		onChange: updateCentering
+		onChange: updateSelectionFromSlider
 	}
 
 	return (
@@ -43,8 +30,8 @@ const FreeRotate = ({ angle, center, disableCenter, dispatch }) => {
 			</div>
 			<div className={disableCenter ? 'disabled' : ''}>
 				<label>Centering</label>
-				<SliderSingle {...centerProps} snapPoints={[0]} />
-				<NumberInput {...centerProps} />
+				<SliderSingle {...centeringProps} snapPoints={[0]} />
+				<NumberInput {...centeringProps} />
 			</div>
 		</>
 	)

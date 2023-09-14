@@ -123,7 +123,7 @@ const extractKeyingProps = createObjectPicker([
 ])
 
 const Keying = memo(props => {
-	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, updateSelectionFromEvent, dispatch } = props
+	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, updateSelectionFromEvent, updateSelectionFromSlider, dispatch } = props
 	const { active, pixelData } = eyedropper
 
 	const toggleKeyingCheckbox = useCallback(e => {
@@ -137,12 +137,6 @@ const Keying = memo(props => {
 
 		toggleKeyingCheckbox(e)
 	}, [id, active])
-
-	const updateKeying = useCallback(({ name, value }) => {
-		dispatch(updateMediaStateBySelection({
-			[name]: value
-		}))
-	}, [])
 
 	const selectKeyColor = useCallback(() => {
 		setEyedropper(({ active }) => ({
@@ -189,7 +183,7 @@ const Keying = memo(props => {
 						<ColorInput
 							name="keyingColor"
 							value={props.keyingColor}
-							onChange={updateKeying}
+							onChange={updateSelectionFromSlider}
 							disabled={!keyingEnabled}
 							ariaLabelledby="key-color" />
 						<button
@@ -217,13 +211,13 @@ const Keying = memo(props => {
 						threshold={props.keyingThreshold}
 						tolerance={props.keyingTolerance}
 						softness={props.keyingSoftness}
-						onChange={updateKeying}
+						onChange={updateSelectionFromSlider}
 						disabled={!keyingEnabled} />
 				) : (
 					<ColorKeySliders
 						similarity={props.keyingSimilarity}
 						blend={props.keyingBlend}
-						onChange={updateKeying}
+						onChange={updateSelectionFromSlider}
 						disabled={!keyingEnabled} />
 				)}
 			</div>
