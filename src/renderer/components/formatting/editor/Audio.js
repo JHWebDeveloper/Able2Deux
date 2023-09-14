@@ -1,12 +1,11 @@
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { bool, func, oneOf, string } from 'prop-types'
 
 import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
-	saveAsPreset,
-	updateMediaStateBySelectionFromEvent
+	saveAsPreset
 } from 'actions'
 
 import {
@@ -51,36 +50,30 @@ const AUDIO_EXPORT_FORMAT_BUTTONS = Object.freeze([
 
 const extractAudioProps = createObjectPicker(['audioVideoTracks', 'audioExportFormat'])
 
-const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, dispatch }) => {
-	const updateAudio = useCallback(e => {
-		dispatch(updateMediaStateBySelectionFromEvent(e))
-	}, [])
-
-	return (
-		<>
-			{mediaType === 'video' ? (
-				<fieldset className="radio-set">
-					<legend>Export As<span aria-hidden>:</span></legend>
-					<RadioSet
-						name="audioVideoTracks"
-						state={audioVideoTracks}
-						onChange={updateAudio}
-						buttons={AUDIO_VIDEO_TRACKS_BUTTONS} />
-				</fieldset>
-			) : <></>}
-			<fieldset
-				className="radio-set"
-				disabled={audioVideoTracks !== 'audio' && mediaType !== 'audio'}>
-				<legend>Format<span aria-hidden>:</span></legend>
+const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, updateSelectionFromEvent }) => (
+	<>
+		{mediaType === 'video' ? (
+			<fieldset className="radio-set">
+				<legend>Export As<span aria-hidden>:</span></legend>
 				<RadioSet
-					name="audioExportFormat"
-					state={audioExportFormat}
-					onChange={updateAudio}
-					buttons={AUDIO_EXPORT_FORMAT_BUTTONS} />
+					name="audioVideoTracks"
+					state={audioVideoTracks}
+					onChange={updateSelectionFromEvent}
+					buttons={AUDIO_VIDEO_TRACKS_BUTTONS} />
 			</fieldset>
-		</>
-	)
-}, objectsAreEqual)
+		) : <></>}
+		<fieldset
+			className="radio-set"
+			disabled={audioVideoTracks !== 'audio' && mediaType !== 'audio'}>
+			<legend>Format<span aria-hidden>:</span></legend>
+			<RadioSet
+				name="audioExportFormat"
+				state={audioExportFormat}
+				onChange={updateSelectionFromEvent}
+				buttons={AUDIO_EXPORT_FORMAT_BUTTONS} />
+		</fieldset>
+	</>
+), objectsAreEqual)
 
 const AudioPanel = props => {
 	const { id, multipleItems, multipleItemsSelected, mediaType, dispatch } = props

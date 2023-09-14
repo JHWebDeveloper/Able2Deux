@@ -8,8 +8,7 @@ import {
 	applyToSelection,
 	copyAttributes,
 	saveAsPreset,
-	updateMediaStateBySelection,
-	updateMediaStateBySelectionFromEvent
+	updateMediaStateBySelection
 } from 'actions'
 
 import {
@@ -124,14 +123,10 @@ const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropp
 
 const Framing = memo(props => {
 	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
-	const { arc, background, bgColor, overlay, eyedropper, setEyedropper, dispatch } = props
+	const { arc, background, bgColor, overlay, eyedropper, setEyedropper, updateSelectionFromEvent, dispatch } = props
 	const { active, pixelData } = eyedropper
 
 	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
-
-	const updateMediaStateDispatch = useCallback(e => {
-		dispatch(updateMediaStateBySelectionFromEvent(e))
-	}, [])
 
 	const updateBgColor = useCallback(({ name, value }) => {
 		dispatch(updateMediaStateBySelection({
@@ -164,7 +159,7 @@ const Framing = memo(props => {
 				<RadioSet
 					name="arc"
 					state={arc}
-					onChange={updateMediaStateDispatch}
+					onChange={updateSelectionFromEvent}
 					buttons={ARC_BUTTONS}/>
 			</fieldset>
 			<fieldset
@@ -174,7 +169,7 @@ const Framing = memo(props => {
 				<RadioSet
 					name="background"
 					state={background}
-					onChange={updateMediaStateDispatch}
+					onChange={updateSelectionFromEvent}
 					buttons={[
 						...backgroundButtons,
 						{
@@ -195,7 +190,7 @@ const Framing = memo(props => {
 				<RadioSet
 					name="backgroundMotion"
 					state={props.backgroundMotion}
-					onChange={updateMediaStateDispatch}
+					onChange={updateSelectionFromEvent}
 					buttons={BACKGROUND_MOTION_BUTTONS}/>
 			</fieldset>
 			<fieldset
@@ -205,7 +200,7 @@ const Framing = memo(props => {
 				<RadioSet
 					name="overlay"
 					state={overlay}
-					onChange={updateMediaStateDispatch}
+					onChange={updateSelectionFromEvent}
 					buttons={OVERLAY_BUTTONS}/>
 			</fieldset>
 		</>

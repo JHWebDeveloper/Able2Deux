@@ -7,8 +7,7 @@ import {
 	copyAttributes,
 	reflectMedia,
 	rotateMedia,
-	saveAsPreset,
-	updateMediaStateBySelectionFromEvent
+	saveAsPreset
 } from 'actions'
 
 import {
@@ -75,7 +74,7 @@ const createReflectButtons = isSideways => [
 const extractRotationProps = createObjectPicker(['transpose', 'reflect', 'freeRotateMode', 'angle', 'rotatedCentering'])
 
 const Rotation = memo(props => {
-	const { transpose, reflect, freeRotateMode, dispatch } = props
+	const { transpose, reflect, freeRotateMode, updateSelectionFromEvent, dispatch } = props
 	const reflectButtons = useMemo(() => createReflectButtons(detectMediaIsSideways(transpose)), [transpose])
 
 	const updateReflectMedia = useCallback(e => {
@@ -84,10 +83,6 @@ const Rotation = memo(props => {
 
 	const updateRotateMedia = useCallback(e => {
 		dispatch(rotateMedia(e))
-	}, [])
-
-	const updateOffsetMode = useCallback(e => {
-		dispatch(updateMediaStateBySelectionFromEvent(e))
 	}, [])
 
 	return (
@@ -114,7 +109,7 @@ const Rotation = memo(props => {
 					<RadioSet
 						name="freeRotateMode"
 						state={freeRotateMode}
-						onChange={updateOffsetMode}
+						onChange={updateSelectionFromEvent}
 						buttons={FREE_ROTATE_MODE_BUTTONS} />
 				</fieldset>
 				<FreeRotate

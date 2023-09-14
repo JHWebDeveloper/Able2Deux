@@ -1,12 +1,12 @@
 import React, { memo, useCallback, useMemo } from 'react'
 import { bool, func, string, oneOf } from 'prop-types'
+
 import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
 	saveAsPreset,
-	toggleMediaCheckbox,
-	updateMediaStateBySelectionFromEvent
+	toggleMediaCheckbox
 } from 'actions'
 
 import { useWarning } from 'hooks'
@@ -27,7 +27,7 @@ const DETAIL = 'This option shoud only be selected if the source would obscure i
 const extractSourceProps = createObjectPicker(['sourceName', 'sourcePrefix', 'sourceOnTop'])
 
 const Source = memo(props => {
-	const { id, sourceName, sourcePrefix, sourceOnTop, background, dispatch } = props
+	const { id, sourceName, sourcePrefix, sourceOnTop, background, updateSelectionFromEvent, dispatch } = props
 
 	const maxLength = useMemo(() => {
 		let len = has11pmBackground(background) ? sourceOnTop ? 44 : 38 : 51
@@ -36,10 +36,6 @@ const Source = memo(props => {
 		
 		return len
 	}, [background, sourcePrefix, sourceOnTop])
-
-	const updateSourceName = useCallback(e => {
-		dispatch(updateMediaStateBySelectionFromEvent(e))
-	}, [])
 
 	const toggleSourceOption = useCallback(e => {
 		dispatch(toggleMediaCheckbox(id, e))
@@ -71,7 +67,7 @@ const Source = memo(props => {
 					placeholder="If none, leave blank"
 					list="source-suggestions"
 					value={sourceName}
-					onChange={updateSourceName}
+					onChange={updateSelectionFromEvent}
 					maxLength={maxLength} />
 			</fieldset>
 			<Checkbox

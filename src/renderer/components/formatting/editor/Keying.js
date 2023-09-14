@@ -7,8 +7,7 @@ import {
 	copyAttributes,
 	saveAsPreset,
 	toggleMediaCheckbox,
-	updateMediaStateBySelection,
-	updateMediaStateBySelectionFromEvent
+	updateMediaStateBySelection
 } from 'actions'
 
 import {
@@ -124,7 +123,7 @@ const extractKeyingProps = createObjectPicker([
 ])
 
 const Keying = memo(props => {
-	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, dispatch } = props
+	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, updateSelectionFromEvent, dispatch } = props
 	const { active, pixelData } = eyedropper
 
 	const toggleKeyingCheckbox = useCallback(e => {
@@ -143,10 +142,6 @@ const Keying = memo(props => {
 		dispatch(updateMediaStateBySelection({
 			[name]: value
 		}))
-	}, [])
-
-	const updateKeyingFromEvent = useCallback(e => {
-		dispatch(updateMediaStateBySelectionFromEvent(e))
 	}, [])
 
 	const selectKeyColor = useCallback(() => {
@@ -184,7 +179,7 @@ const Keying = memo(props => {
 				<RadioSet
 					name="keyingType"
 					state={keyingType}
-					onChange={updateKeyingFromEvent}
+					onChange={updateSelectionFromEvent}
 					buttons={KEY_TYPE_BUTTONS}/>
 			</fieldset>
 			{keyingType === 'lumakey' ? <></> : (
