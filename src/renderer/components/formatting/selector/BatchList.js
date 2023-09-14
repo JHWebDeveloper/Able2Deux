@@ -215,7 +215,7 @@ const BatchList = ({
 		} else if (isArrowPrev(e)) {
 			dispatch(selectMedia(index - 1, e, { arrowKeyDir: 'prev' }))
 		} else if (isArrowNext(e)) {
-			dispatch(selectMedia(index + 1, e, { arrowKeyDir: 'next', }))
+			dispatch(selectMedia(index + 1, e, { arrowKeyDir: 'next' }))
 		} else if (ctrlOrCmd && !e.shiftKey && e.key === 'd') {
 			e.stopPropagation()
 			dispatch(duplicateMedia(index))

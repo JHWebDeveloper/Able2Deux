@@ -392,9 +392,9 @@ const applyPresetName = media => media.map(item => {
 
 const applyBatchName = (media, { batchNameType, batchName, batchNamePrepend, batchNameAppend }) => {
 	if (
-		(media.length < 2) ||
-		(batchNameType === 'replace' && !batchName) ||
-		(batchNameType === 'prepend_append' && !batchNamePrepend && !batchNameAppend)
+		media.length < 2 ||
+		batchNameType === 'replace' && !batchName ||
+		batchNameType === 'prepend_append' && !batchNamePrepend && !batchNameAppend
 	) return media
 	
 	const batchNameTemplate = createNamingTemplate({
@@ -402,7 +402,7 @@ const applyBatchName = (media, { batchNameType, batchName, batchNamePrepend, bat
 		replacer: batchName?.trim(),
 		prepend: batchNamePrepend?.trimStart(),
 		append: batchNameAppend?.trimEnd()
-})
+	})
 
 	return media.map(item => ({
 		...item,

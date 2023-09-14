@@ -239,6 +239,8 @@ EditorOptions.propTypes = {
 	ccR: arrayOf(object),
 	ccG: arrayOf(object),
 	ccB: arrayOf(object),
+	presetNamePrepend: string,
+	presetNameAppend: string,
 	eyedropper: object.isRequired,
 	setEyedropper: func.isRequired,
 	dispatch: func.isRequired

@@ -25,7 +25,7 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 	return (
 		<>
 			<fieldset className="radio-set">
-				<legend>Template Type<span ariaHidden>:</span></legend>
+				<legend>Template Type<span aria-hidden>:</span></legend>
 				<RadioSet
 					name="batchNameType"
 					state={batchNameType}
@@ -34,7 +34,7 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 			</fieldset>
 			{batchNameType === 'replace' ? (
 				<fieldset>
-					<legend>Batch Name<span ariaHidden>:</span></legend>
+					<legend>Batch Name<span aria-hidden>:</span></legend>
 					<input
 						type="text"
 						name="batchName"
@@ -47,7 +47,7 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 			) : (
 				<>
 					<fieldset>
-						<legend>Prepend to Filename<span ariaHidden>:</span></legend>
+						<legend>Prepend to Filename<span aria-hidden>:</span></legend>
 						<input
 							type="text"
 							name="batchNamePrepend"
@@ -58,7 +58,7 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 							placeholder="If none, leave blank" />
 					</fieldset>
 					<fieldset>
-						<legend>Append to Filename<span ariaHidden>:</span></legend>
+						<legend>Append to Filename<span aria-hidden>:</span></legend>
 						<input
 							type="text"
 							name="batchNameAppend"
@@ -76,9 +76,9 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 
 const BatchNamePanel = props => (
 	<AccordionPanel
-			heading="Batch Name Template"
-			id="batchName"
-			className="editor-options auto-rows">
+		heading="Batch Name Template"
+		id="batchName"
+		className="editor-options auto-rows">
 		<BatchName {...props} />
 	</AccordionPanel>
 )

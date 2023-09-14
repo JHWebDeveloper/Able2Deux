@@ -6,7 +6,6 @@ import {
 	applyToSelection,
 	copyAttributes,
 	saveAsPreset,
-	toggleMediaCheckbox,
 	updateMediaStateBySelection
 } from 'actions'
 

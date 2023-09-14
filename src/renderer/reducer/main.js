@@ -310,7 +310,7 @@ const selectDuplicates = (state, payload) => ({
 			...item,
 			selected: payload.refId === item.refId,
 			focused,
-			anchored: focused,
+			anchored: focused
 		}
 	})
 })
