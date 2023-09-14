@@ -3,6 +3,7 @@ import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'p
 
 import {
 	toggleMediaCheckbox,
+	updateMediaStateByIdFromEvent,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
@@ -42,6 +43,10 @@ const EditorOptions = props => {
 
 	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper, dispatch } = props
 
+	const updateMediaFromEvent = useCallback(e => {
+		dispatch(updateMediaStateByIdFromEvent(id, e))
+	}, [id])
+
 	const updateSelectionFromEvent = useCallback(e => {
 		dispatch(updateMediaStateBySelectionFromEvent(e))
 	}, [])
@@ -71,6 +76,7 @@ const EditorOptions = props => {
 				totalFrames={props.totalFrames}
 				duration={props.duration}
 				split={props.split}
+				updateFilename={updateMediaFromEvent}
 				{...commonProps} />
 			{props.hasAudio ? (
 				<Audio
@@ -162,6 +168,7 @@ const EditorOptions = props => {
 					ccB={props.ccB}
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
+					selectCurve={updateMediaFromEvent}
 					toggleSelectionCheckbox={toggleSelectionCheckbox}
 					{...commonProps} />
 				<PresetNameTemplate
