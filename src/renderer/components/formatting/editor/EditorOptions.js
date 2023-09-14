@@ -4,6 +4,7 @@ import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'p
 import { extractCommonPanelProps } from 'utilities'
 
 import FileOptions from './FileOptions'
+import PresetNameTemplate from './PresetNameTemplate'
 import Audio from './Audio'
 import Framing from './Framing'
 import Source from './Source'
@@ -113,6 +114,10 @@ const EditorOptions = props => {
 					ccB={props.ccB}
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
+					{...commonProps} />
+				<PresetNameTemplate
+					presetNamePrepend={props.presetNamePrepend}
+					presetNameAppend={props.presetNameAppend}
 					{...commonProps} />
 			</>}
 		</div>
