@@ -50,13 +50,13 @@ const EditorOptions = props => {
 		id,
 		multipleItems,
 		multipleItemsSelected,
-		updateSelectionFromCustomInput,
 		dispatch
 	}
 
 	return (
 		<div id="editor-options">
 			<FileOptions
+				id={id}
 				filename={props.filename}
 				start={props.start}
 				end={props.end}
@@ -66,7 +66,8 @@ const EditorOptions = props => {
 				split={props.split}
 				mediaType={mediaType}
 				updateFilename={updateMediaFromEvent}
-				{...commonProps} />
+				updateSelectionFromCustomInput={updateSelectionFromCustomInput}
+				dispatch={dispatch} />
 			{props.hasAudio ? (
 				<Audio
 					audioVideoTracks={audioVideoTracks}
@@ -86,6 +87,7 @@ const EditorOptions = props => {
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
 					updateSelectionFromEvent={updateSelectionFromEvent}
+					updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 					{...commonProps} />
 				{arc === 'none' && aspectRatio !== '16:9' ? <></> : (
 					<Source
@@ -100,17 +102,20 @@ const EditorOptions = props => {
 				{arc === 'fill' && aspectRatio !== '16:9' ? (
 					<Centering
 						centering={props.centering}
+						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 				) : <></>}
 				{arc === 'transform' ? <>
 					<Position
 						positionX={props.positionX}
 						positionY={props.positionY}
+						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 					<Scale
 						scaleX={props.scaleX}
 						scaleY={props.scaleY}
 						scaleLink={props.scaleLink}
+						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						toggleSelectionCheckbox={toggleSelectionCheckbox}
 						{...commonProps} />
 					<Crop
@@ -120,6 +125,7 @@ const EditorOptions = props => {
 						cropL={props.cropL}
 						cropLinkTB={props.cropLinkTB}
 						cropLinkLR={props.cropLinkLR}
+						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						toggleSelectionCheckbox={toggleSelectionCheckbox}
 						{...commonProps} />
 				</> : <></>}
@@ -131,6 +137,7 @@ const EditorOptions = props => {
 					rotatedCentering={props.rotatedCentering}
 					showFreeRotate={arc === 'transform'}
 					updateSelectionFromEvent={updateSelectionFromEvent}
+					updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 					{...commonProps} />
 				{arc === 'none' ? <></> : (
 					<Keying
@@ -146,6 +153,7 @@ const EditorOptions = props => {
 						eyedropper={eyedropper}
 						setEyedropper={setEyedropper}
 						updateSelectionFromEvent={updateSelectionFromEvent}
+						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						toggleSelectionCheckbox={toggleSelectionCheckbox}
 						{...commonProps} />
 				)}
