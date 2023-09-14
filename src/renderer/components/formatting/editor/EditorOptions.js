@@ -1,7 +1,7 @@
 import React from 'react'
 import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
-import { extractCommonPanelProps } from 'utilities'
+import { createObjectPicker } from 'utilities'
 
 import FileOptions from './FileOptions'
 import PresetNameTemplate from './PresetNameTemplate'
@@ -15,6 +15,19 @@ import Crop from './Crop'
 import Rotation from './Rotation'
 import Keying from './Keying'
 import ColorCorrection from './ColorCorrection'
+
+const extractCommonPanelProps = createObjectPicker([
+	'id',
+	'multipleItems',
+	'multipleItemsSelected',
+	'allItemsSelected',
+	'mediaType',
+	'width',
+	'height',
+	'aspectRatio',
+	'copyToClipboard',
+	'dispatch'
+])
 
 const EditorOptions = props => {
 	if (!props.id) return <></>
