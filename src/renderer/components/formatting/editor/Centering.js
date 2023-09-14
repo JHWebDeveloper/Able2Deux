@@ -71,10 +71,11 @@ const propTypes = {
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
 	centering: oneOfType([oneOf(['']), number]).isRequired,
-	updateSelectionFromCustomInput: func.isRequired
+	updateSelectionFromCustomInput: func.isRequired,
+	dispatch: func.isRequired
 }
 
 Centering.propTypes = propTypes
-CenteringPanel.propTypes = { ...propTypes, dispatch: func.isRequired }
+CenteringPanel.propTypes = propTypes
 
 export default CenteringPanel

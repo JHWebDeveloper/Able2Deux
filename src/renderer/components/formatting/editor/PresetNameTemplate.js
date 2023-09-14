@@ -87,10 +87,11 @@ const propTypes = {
 	multipleItemsSelected: bool.isRequired,
 	presetNamePrepend: string,
 	presetNameAppend: string,
-	updateSelectionFromEvent: func.isRequired
+	updateSelectionFromEvent: func.isRequired,
+	dispatch: func.isRequired
 }
 
 PresetNameTemplate.propTypes = propTypes
-PresetNameTemplatePanel.propTypes = { ...propTypes, dispatch: func.isRequired }
+PresetNameTemplatePanel.propTypes = propTypes
 
 export default PresetNameTemplatePanel

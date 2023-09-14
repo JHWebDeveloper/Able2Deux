@@ -107,10 +107,11 @@ const propTypes = {
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']).isRequired,
 	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']).isRequired,
 	audioExportFormat: oneOf(['wav', 'mp3', 'bars']).isRequired,
-	updateSelectionFromEvent: func.isRequired
+	updateSelectionFromEvent: func.isRequired,
+	dispatch: func.isRequired
 }
 
 Audio.propTypes = propTypes
-AudioPanel.propTypes = { ...propTypes, dispatch: func.isRequired }
+AudioPanel.propTypes = propTypes
 
 export default AudioPanel
