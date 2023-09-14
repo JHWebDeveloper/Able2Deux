@@ -1,7 +1,6 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo } from 'react'
 import { bool, func, number, oneOf, string } from 'prop-types'
 
-import { updateMediaStateByIdFromEvent } from 'actions'
 import { objectsAreEqual } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -10,10 +9,6 @@ import Split from './Split'
 
 const FileOptions = memo(props => {
 	const { id, mediaType, start, end, totalFrames, fps, split, dispatch } = props
-	
-	const updateFilename = useCallback(e => {
-		dispatch(updateMediaStateByIdFromEvent(id, e))
-	}, [id])
 
 	return (
 		<>
@@ -27,7 +22,7 @@ const FileOptions = memo(props => {
 					className="underline"
 					value={props.filename}
 					maxLength={251}
-					onChange={updateFilename} />
+					onChange={props.updateFilename} />
 			</fieldset>
 			{mediaType === 'video' || mediaType === 'audio' ? <>
 				<StartEnd
