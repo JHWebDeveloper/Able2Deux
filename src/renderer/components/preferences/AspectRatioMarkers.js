@@ -6,8 +6,7 @@ import {
 	enableAspectRatioMarker,
 	moveSortableElement,
 	removeSortableElement,
-	updateAspectRatioMarker,
-	updateAspectRatioMarkerFromEvent
+	updateAspectRatioMarker
 } from 'actions'
 
 import DraggableList from '../form_elements/DraggableList'
@@ -25,7 +24,9 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 	}, [])
 
 	const updateLabel = useCallback(e => {
-		dispatch(updateAspectRatioMarkerFromEvent(id, e))
+		const { name, value } = e?.target || e
+
+		dispatch(updateAspectRatioMarker(id, name, value))
 	}, [])
 
 	const updateRatio = useCallback((index, { name, value }) => {
