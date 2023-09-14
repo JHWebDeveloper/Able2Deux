@@ -16,8 +16,8 @@ import {
 } from 'actions'
 
 import {
+	createObjectPicker,
 	createSettingsMenu,
-	extractScaleProps,
 	objectsAreEqual
 } from 'utilities'
 
@@ -33,6 +33,8 @@ const NUMBER_PROPS = Object.freeze({
 	max: 4500,
 	defaultValue: 100
 })
+
+const extractScaleProps = createObjectPicker(['scaleX', 'scaleY', 'scaleLink'])
 
 const FitButton = ({ title, onClick, icon = 'open_in_full', rotateIcon = 0 }) => (
 	<button
