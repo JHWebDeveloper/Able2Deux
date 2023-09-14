@@ -57,20 +57,6 @@ export const updateAspectRatioMarker = (id, name, value) => ({
 	}
 })
 
-export const updateAspectRatioMarkerFromEvent = (id, e) => dispatch => {
-	const { name, value } = e.target
-
-	dispatch({
-		type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
-		payload: {
-			nest: 'aspectRatioMarkers',
-			id,
-			name,
-			value
-		}
-	})
-}
-
 export const addNewLocation = (index, e) => dispatch => {
 	addNewSortableElement('saveLocations', {
 		id: uuid(),
@@ -90,20 +76,6 @@ export const updateSaveLocation = (id, name, value) => ({
 		value
 	}
 })
-
-export const updateSaveLocationFromEvent = (id, e) => dispatch => {
-	const { name, value } = e.target
-
-	dispatch({
-		type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
-		payload: {
-			nest: 'saveLocations',
-			id,
-			name,
-			value
-		}
-	})
-}
 
 export const cleanupPrefsAndSave = saveAndClose => ({
 	type: ACTION.CLEANUP_PREFS_AND_SAVE,
