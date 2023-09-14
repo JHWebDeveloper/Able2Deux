@@ -156,6 +156,8 @@ const propTypes = {
 	angle: number.isRequired,
 	rotatedCentering: number.isRequired,
 	showFreeRotate: bool.isRequired,
+	updateSelectionFromEvent: func.isRequired,
+	updateSelectionFromCustomInput: func.isRequired,
 	dispatch: func.isRequired
 }
 

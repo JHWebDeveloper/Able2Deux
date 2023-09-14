@@ -78,10 +78,10 @@ const propTypes = {
 	multipleItemsSelected: bool.isRequired,
 	positionX: oneOfType([oneOf(['']), number]).isRequired,
 	positionY: oneOfType([oneOf(['']), number]).isRequired,
-	dispatch: func.isRequired
+	updateSelectionFromCustomInput: func.isRequired
 }
 
 Position.propTypes = propTypes
-PositionPanel.propTypes = propTypes
+PositionPanel.propTypes = { ...propTypes, dispatch: func.isRequired }
 
 export default PositionPanel

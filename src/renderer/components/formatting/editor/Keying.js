@@ -6,7 +6,6 @@ import {
 	applyToSelection,
 	copyAttributes,
 	saveAsPreset,
-	toggleMediaCheckbox,
 	updateMediaStateBySelection
 } from 'actions'
 
@@ -282,6 +281,9 @@ const propTypes = {
 	setEyedropper: func.isRequired,
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
+	updateSelectionFromEvent: func.isRequired,
+	updateSelectionFromCustomInput: func.isRequired,
+	toggleSelectionCheckbox: func.isRequired,
 	dispatch: func.isRequired
 }
 

@@ -67,6 +67,8 @@ const propTypes = {
 	fps: number.isRequired,
 	duration: number.isRequired,
 	split: number.isRequired,
+	updateFilename: func.isRequired,
+	updateSelectionFromCustomInput: func.isRequired,
 	dispatch: func.isRequired
 }
 

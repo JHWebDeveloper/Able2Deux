@@ -316,6 +316,8 @@ const propTypes = {
 	setEyedropper: func.isRequired,
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
+	toggleSelectionCheckbox: func.isRequired,
+	selectCurve: func.isRequired,
 	dispatch: func.isRequired
 }
 

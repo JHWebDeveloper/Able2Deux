@@ -206,6 +206,8 @@ const propTypes = {
 	scaleX: oneOfType([oneOf(['']), number]).isRequired,
 	scaleY: oneOfType([oneOf(['']), number]).isRequired,
 	scaleLink: bool.isRequired,
+	updateSelectionFromCustomInput: func.isRequired,
+	toggleSelectionCheckbox: func.isRequired,
 	dispatch: func.isRequired
 }
 

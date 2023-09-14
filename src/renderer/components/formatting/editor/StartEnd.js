@@ -89,6 +89,7 @@ StartEnd.propTypes = {
 	end: number.isRequired,
 	totalFrames: number.isRequired,
 	fps: number.isRequired,
+	updateStartEnd: func.isRequired,
 	dispatch: func.isRequired
 }
 

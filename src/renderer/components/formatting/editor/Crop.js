@@ -188,6 +188,8 @@ const propTypes = {
 	cropL: oneOfType([oneOf(['']), number]).isRequired,
 	cropLinkTB: bool.isRequired,
 	cropLinkLR: bool.isRequired,
+	updateSelectionFromCustomInput: func.isRequired,
+	toggleSelectionCheckbox: func.isRequired,
 	dispatch: func.isRequired
 }
 

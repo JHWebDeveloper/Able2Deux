@@ -41,7 +41,7 @@ FreeRotate.propTypes = {
 	angle: number.isRequired,
 	center: number.isRequired,
 	disableCenter: bool.isRequired,
-	dispatch: func.isRequired
+	updateSelectionFromCustomInput: func.isRequired
 }
 
 export default FreeRotate

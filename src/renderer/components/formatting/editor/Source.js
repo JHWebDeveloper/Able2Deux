@@ -112,10 +112,11 @@ const propTypes = {
 	sourcePrefix: bool.isRequired,
 	sourceOnTop: bool.isRequired,
 	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
-	dispatch: func.isRequired
+	updateSelectionFromEvent: func.isRequired,
+	toggleSelectionCheckbox: func.isRequired
 }
 
 Source.propTypes = propTypes
-SourcePanel.propTypes = propTypes
+SourcePanel.propTypes = { ...propTypes, dispatch: func.isRequired }
 
 export default SourcePanel

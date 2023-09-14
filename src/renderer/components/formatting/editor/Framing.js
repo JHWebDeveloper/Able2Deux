@@ -252,6 +252,8 @@ const propTypes = {
 	}).isRequired,
 	setEyedropper: func.isRequired,
 	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
+	updateSelectionFromEvent: func.isRequired,
+	updateSelectionFromCustomInput: func.isRequired,
 	dispatch: func.isRequired
 }
 
