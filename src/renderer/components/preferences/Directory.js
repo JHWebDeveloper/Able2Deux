@@ -6,8 +6,7 @@ import {
 	moveSortableElement,
 	removeSortableElement,
 	toggleSaveLocation,
-	updateSaveLocation,
-	updateSaveLocationFromEvent
+	updateSaveLocation
 } from 'actions'
 
 import Checkbox from '../form_elements/Checkbox'
@@ -36,7 +35,9 @@ const Directory = ({ dir, index, total, dispatch }) => {
 	}, [id])
 
 	const updateLocation = useCallback(e => {
-		dispatch(updateSaveLocationFromEvent(id, e))
+		const { name, value } = e?.target || e
+
+		dispatch(updateSaveLocation(id, name, value))
 	}, [id])
 
 	const updateDirectory = useCallback(dir => {
