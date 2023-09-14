@@ -38,7 +38,6 @@ const EditorOptions = props => {
 	if (!props.id) return <></>
 
 	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper, dispatch } = props
-	const commonProps = extractCommonPanelProps(props)
 
 	const updateSelectionFromEvent = useCallback(e => {
 		dispatch(updateMediaStateBySelectionFromEvent(e))
@@ -50,6 +49,11 @@ const EditorOptions = props => {
 		}))
 	}, [])
 
+	const commonProps = {
+		...extractCommonPanelProps(props),
+		updateSelectionFromCustomInput
+	}
+
 	return (
 		<div id="editor-options">
 			<FileOptions
@@ -60,7 +64,6 @@ const EditorOptions = props => {
 				totalFrames={props.totalFrames}
 				duration={props.duration}
 				split={props.split}
-				updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 				{...commonProps} />
 			{props.hasAudio ? (
 				<Audio
@@ -79,7 +82,6 @@ const EditorOptions = props => {
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
 					updateSelectionFromEvent={updateSelectionFromEvent}
-					updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 					{...commonProps} />
 				{arc === 'none' && aspectRatio !== '16:9' ? <></> : (
 					<Source
@@ -93,20 +95,17 @@ const EditorOptions = props => {
 				{arc === 'fill' && aspectRatio !== '16:9' ? (
 					<Centering
 						centering={props.centering}
-						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 				) : <></>}
 				{arc === 'transform' ? <>
 					<Position
 						positionX={props.positionX}
 						positionY={props.positionY}
-						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 					<Scale
 						scaleX={props.scaleX}
 						scaleY={props.scaleY}
 						scaleLink={props.scaleLink}
-						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 					<Crop
 						cropT={props.cropT}
@@ -115,7 +114,6 @@ const EditorOptions = props => {
 						cropL={props.cropL}
 						cropLinkTB={props.cropLinkTB}
 						cropLinkLR={props.cropLinkLR}
-						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 				</> : <></>}
 				<Rotation
@@ -126,7 +124,6 @@ const EditorOptions = props => {
 					rotatedCentering={props.rotatedCentering}
 					showFreeRotate={arc === 'transform'}
 					updateSelectionFromEvent={updateSelectionFromEvent}
-					updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 					{...commonProps} />
 				{arc === 'none' ? <></> : (
 					<Keying
@@ -142,7 +139,6 @@ const EditorOptions = props => {
 						eyedropper={eyedropper}
 						setEyedropper={setEyedropper}
 						updateSelectionFromEvent={updateSelectionFromEvent}
-						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 				)}
 				<ColorCorrection
