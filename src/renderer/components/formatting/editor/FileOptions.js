@@ -8,7 +8,7 @@ import StartEnd from './StartEnd'
 import Split from './Split'
 
 const FileOptions = memo(props => {
-	const { id, mediaType, start, end, totalFrames, fps, split, dispatch } = props
+	const { id, mediaType, start, end, totalFrames, fps, dispatch } = props
 
 	return (
 		<>
@@ -35,7 +35,7 @@ const FileOptions = memo(props => {
 					dispatch={dispatch} />
 				<Split
 					id={id}
-					split={split}
+					split={props.split}
 					start={start}
 					end={end}
 					fps={fps}
