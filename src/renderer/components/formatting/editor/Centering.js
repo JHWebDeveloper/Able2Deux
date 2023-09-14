@@ -5,8 +5,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
-	saveAsPreset,
-	updateMediaStateBySelection
+	saveAsPreset
 } from 'actions'
 
 import {
