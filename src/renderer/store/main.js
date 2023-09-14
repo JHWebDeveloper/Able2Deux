@@ -6,7 +6,7 @@ import { PrefsProvider, PrefsContext } from 'store'
 import { mainReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
 import { useAugmentedDispatch } from 'hooks'
-import { extractDefaultPrefs, pipe } from 'utilities'
+import { createObjectPicker, pipe } from 'utilities'
 
 const initState = {
 	url: '',
@@ -24,6 +24,18 @@ const initState = {
 	previewHeight: 540,
 	rendering: false
 }
+
+const extractDefaultPrefs = createObjectPicker([
+	'saveLocations',
+	'split',
+	'optimize',
+	'timerEnabled',
+	'timer',
+	'screenshot',
+	'previewQuality',
+	'previewHeight',
+	'aspectRatioMarkers'
+])
 
 export const MainContext = createContext()
 
