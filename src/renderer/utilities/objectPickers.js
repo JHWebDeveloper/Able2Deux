@@ -2,11 +2,9 @@ import { objectPick } from 'utilities'
 
 // ---- CONSTANTS --------
 
-export const CROP_PROPS = Object.freeze(['cropT', 'cropL', 'cropB', 'cropR'])
-
 const AUDIO_PROPS = Object.freeze(['audioVideoTracks', 'audioExportFormat'])
 const COLOR_CORRECTION_PROPS = Object.freeze(['ccEnabled', 'ccRGB', 'ccR', 'ccG', 'ccB'])
-const CROP_LINK_PROPS = Object.freeze(['cropLinkTB', 'cropLinkLR'])
+const CROP_PROPS = Object.freeze(['cropT', 'cropL', 'cropB', 'cropR'])
 const FRAMING_PROPS = Object.freeze(['arc', 'background', 'bgColor', 'backgroundMotion', 'overlay'])
 const KEYING_PROPS = Object.freeze(['keyingEnabled', 'keyingType', 'keyingColor'])
 const CHROMA_KEY_PROPS = Object.freeze(['keyingSimilarity', 'keyingBlend'])
@@ -20,8 +18,6 @@ const SOURCE_PROPS = Object.freeze(['sourceName', 'sourcePrefix', 'sourceOnTop']
 // ---- OBJECT PICKERS --------
 
 export const createObjectPicker = keys => props => objectPick(props, keys)
-
-export const extractAudioProps = createObjectPicker(AUDIO_PROPS)
 
 export const extractPreviewRenderDependencies = (() => {
 	const getVisualProps = createObjectPicker([
@@ -46,49 +42,6 @@ export const extractPreviewRenderDependencies = (() => {
 
 	return props => Object.values(getVisualProps(props))
 })()
-
-export const extractCenteringProps = createObjectPicker(['centering'])
-
-export const extractColorCorrectionProps = createObjectPicker(COLOR_CORRECTION_PROPS)
-
-export const extractCommonPanelProps = createObjectPicker([
-	'id',
-	'multipleItems',
-	'multipleItemsSelected',
-	'allItemsSelected',
-	'mediaType',
-	'width',
-	'height',
-	'aspectRatio',
-	'copyToClipboard',
-	'dispatch'
-])
-
-export const extractCropProps = createObjectPicker([...CROP_PROPS, ...CROP_LINK_PROPS])
-
-export const extractDefaultPrefs = createObjectPicker([
-	'saveLocations',
-	'split',
-	'optimize',
-	'timerEnabled',
-	'timer',
-	'screenshot',
-	'previewQuality',
-	'previewHeight',
-	'aspectRatioMarkers'
-])
-
-export const extractFramingProps = createObjectPicker(FRAMING_PROPS)
-
-export const extractKeyingProps = createObjectPicker([...KEYING_PROPS, ...CHROMA_KEY_PROPS, ...LUMA_KEY_PROPS])
-
-export const extractPositionProps = createObjectPicker(POSITION_PROPS)
-
-export const extractRotationProps = createObjectPicker([...ROTATION_BASIC_PROPS, ...ROTATION_ADVANCED_PROPS])
-
-export const extractScaleProps = createObjectPicker([...SCALE_PROPS, 'scaleLink'])
-
-export const extractSourceProps = createObjectPicker(SOURCE_PROPS)
 
 export const extractRelevantMediaProps = media => {
 	const { mediaType, arc } = media
@@ -127,9 +80,10 @@ export const extractRelevantMediaProps = media => {
 			...POSITION_PROPS,
 			...SCALE_PROPS,
 			...CROP_PROPS,
-			...CROP_LINK_PROPS,
 			...ROTATION_ADVANCED_PROPS,
-			'scaleLink'
+			'scaleLink',
+			'cropLinkTB',
+			'cropLinkLR'
 		])
 	}
 	
