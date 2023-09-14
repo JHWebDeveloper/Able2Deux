@@ -1,7 +1,11 @@
 import React, { useCallback } from 'react'
 import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
-import { updateMediaStateBySelectionFromEvent } from 'actions'
+import {
+	updateMediaStateBySelection,
+	updateMediaStateBySelectionFromEvent
+} from 'actions'
+
 import { createObjectPicker } from 'utilities'
 
 import FileOptions from './FileOptions'
@@ -38,6 +42,12 @@ const EditorOptions = props => {
 
 	const updateSelectionFromEvent = useCallback(e => {
 		dispatch(updateMediaStateBySelectionFromEvent(e))
+	}, [])
+
+	const updateSelectionFromSlider = useCallback(({ name, value }) => {
+		dispatch(updateMediaStateBySelection({
+			[name]: value
+		}))
 	}, [])
 
 	return (
@@ -81,17 +91,20 @@ const EditorOptions = props => {
 				{arc === 'fill' && aspectRatio !== '16:9' ? (
 					<Centering
 						centering={props.centering}
+						updateSelectionFromSlider={updateSelectionFromSlider}
 						{...commonProps} />
 				) : <></>}
 				{arc === 'transform' ? <>
 					<Position
 						positionX={props.positionX}
 						positionY={props.positionY}
+						updateSelectionFromSlider={updateSelectionFromSlider}
 						{...commonProps} />
 					<Scale
 						scaleX={props.scaleX}
 						scaleY={props.scaleY}
 						scaleLink={props.scaleLink}
+						updateSelectionFromSlider={updateSelectionFromSlider}
 						{...commonProps} />
 					<Crop
 						cropT={props.cropT}
@@ -100,6 +113,7 @@ const EditorOptions = props => {
 						cropL={props.cropL}
 						cropLinkTB={props.cropLinkTB}
 						cropLinkLR={props.cropLinkLR}
+						updateSelectionFromSlider={updateSelectionFromSlider}
 						{...commonProps} />
 				</> : <></>}
 				<Rotation
@@ -110,6 +124,7 @@ const EditorOptions = props => {
 					rotatedCentering={props.rotatedCentering}
 					showFreeRotate={arc === 'transform'}
 					updateSelectionFromEvent={updateSelectionFromEvent}
+					updateSelectionFromSlider={updateSelectionFromSlider}
 					{...commonProps} />
 				{arc === 'none' ? <></> : (
 					<Keying
@@ -125,6 +140,7 @@ const EditorOptions = props => {
 						eyedropper={eyedropper}
 						setEyedropper={setEyedropper}
 						updateSelectionFromEvent={updateSelectionFromEvent}
+						updateSelectionFromSlider={updateSelectionFromSlider}
 						{...commonProps} />
 				)}
 				<ColorCorrection
