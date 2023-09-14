@@ -42,10 +42,6 @@ export const updateMediaStateById = (id, properties) => ({
 	}
 })
 
-export const updateMediaStateByIdFromEvent = (id, e) => updateMediaStateById(id, {
-	[e.target.name]: e.target.value
-})
-
 export const toggleMediaCheckbox = (id, e) => ({
 	type: ACTION.TOGGLE_MEDIA_CHECKBOX,
 	payload: {
