@@ -10,8 +10,8 @@ import {
 } from 'actions'
 
 import {
+	createObjectPicker,
 	createSettingsMenu,
-	extractAudioProps,
 	extractRelevantMediaProps,
 	objectsAreEqual
 } from 'utilities'
@@ -48,6 +48,8 @@ const AUDIO_EXPORT_FORMAT_BUTTONS = Object.freeze([
 		value: 'bars'
 	}
 ])
+
+const extractAudioProps = createObjectPicker(['audioVideoTracks', 'audioExportFormat'])
 
 const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, dispatch }) => {
 	const updateAudio = useCallback(e => {
