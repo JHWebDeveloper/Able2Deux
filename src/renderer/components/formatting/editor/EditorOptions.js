@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
+import { updateMediaStateBySelectionFromEvent } from 'actions'
 import { createObjectPicker } from 'utilities'
 
 import FileOptions from './FileOptions'
@@ -32,8 +33,12 @@ const extractCommonPanelProps = createObjectPicker([
 const EditorOptions = props => {
 	if (!props.id) return <></>
 
-	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper } = props
+	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper, dispatch } = props
 	const commonProps = extractCommonPanelProps(props)
+
+	const updateSelectionFromEvent = useCallback(e => {
+		dispatch(updateMediaStateBySelectionFromEvent(e))
+	}, [])
 
 	return (
 		<div id="editor-options">
@@ -50,6 +55,7 @@ const EditorOptions = props => {
 				<Audio
 					audioVideoTracks={audioVideoTracks}
 					audioExportFormat={props.audioExportFormat}
+					updateSelectionFromEvent={updateSelectionFromEvent}
 					{...commonProps} />
 			) : <></>}
 			{mediaType === 'audio' || mediaType === 'video' && audioVideoTracks === 'audio' ? <></> : <>
@@ -61,6 +67,7 @@ const EditorOptions = props => {
 					overlay={props.overlay}
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
+					updateSelectionFromEvent={updateSelectionFromEvent}
 					{...commonProps} />
 				{arc === 'none' && aspectRatio !== '16:9' ? <></> : (
 					<Source
@@ -68,6 +75,7 @@ const EditorOptions = props => {
 						sourcePrefix={props.sourcePrefix}
 						sourceOnTop={props.sourceOnTop}
 						background={background}
+						updateSelectionFromEvent={updateSelectionFromEvent}
 						{...commonProps} />
 				)}
 				{arc === 'fill' && aspectRatio !== '16:9' ? (
@@ -101,6 +109,7 @@ const EditorOptions = props => {
 					angle={props.angle}
 					rotatedCentering={props.rotatedCentering}
 					showFreeRotate={arc === 'transform'}
+					updateSelectionFromEvent={updateSelectionFromEvent}
 					{...commonProps} />
 				{arc === 'none' ? <></> : (
 					<Keying
@@ -115,6 +124,7 @@ const EditorOptions = props => {
 						keyingSoftness={props.keyingSoftness}
 						eyedropper={eyedropper}
 						setEyedropper={setEyedropper}
+						updateSelectionFromEvent={updateSelectionFromEvent}
 						{...commonProps} />
 				)}
 				<ColorCorrection
