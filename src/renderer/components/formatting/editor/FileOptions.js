@@ -31,7 +31,7 @@ const FileOptions = memo(props => {
 					end={end}
 					totalFrames={totalFrames}
 					fps={fps}
-					updateSelectionFromCustomInput={props.updateSelectionFromCustomInput}
+					updateStartEnd={props.updateSelectionFromCustomInput}
 					dispatch={dispatch} />
 				<Split
 					id={id}
