@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { arrayOf, bool, func, number, object, oneOf, oneOfType, string } from 'prop-types'
 
 import {
+	toggleMediaCheckbox,
 	updateMediaStateBySelection,
 	updateMediaStateBySelectionFromEvent
 } from 'actions'
@@ -35,7 +36,9 @@ const extractCommonPanelProps = createObjectPicker([
 ])
 
 const EditorOptions = props => {
-	if (!props.id) return <></>
+	const { id } = props
+
+	if (!id) return <></>
 
 	const { background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper, dispatch } = props
 
@@ -48,6 +51,10 @@ const EditorOptions = props => {
 			[name]: value
 		}))
 	}, [])
+
+	const toggleSelectionCheckbox = useCallback(e => {
+		dispatch(toggleMediaCheckbox(id, e))
+	}, [id])
 
 	const commonProps = {
 		...extractCommonPanelProps(props),
@@ -90,6 +97,7 @@ const EditorOptions = props => {
 						sourceOnTop={props.sourceOnTop}
 						background={background}
 						updateSelectionFromEvent={updateSelectionFromEvent}
+						toggleSelectionCheckbox={toggleSelectionCheckbox}
 						{...commonProps} />
 				)}
 				{arc === 'fill' && aspectRatio !== '16:9' ? (
@@ -106,6 +114,7 @@ const EditorOptions = props => {
 						scaleX={props.scaleX}
 						scaleY={props.scaleY}
 						scaleLink={props.scaleLink}
+						toggleSelectionCheckbox={toggleSelectionCheckbox}
 						{...commonProps} />
 					<Crop
 						cropT={props.cropT}
@@ -114,6 +123,7 @@ const EditorOptions = props => {
 						cropL={props.cropL}
 						cropLinkTB={props.cropLinkTB}
 						cropLinkLR={props.cropLinkLR}
+						toggleSelectionCheckbox={toggleSelectionCheckbox}
 						{...commonProps} />
 				</> : <></>}
 				<Rotation
@@ -139,6 +149,7 @@ const EditorOptions = props => {
 						eyedropper={eyedropper}
 						setEyedropper={setEyedropper}
 						updateSelectionFromEvent={updateSelectionFromEvent}
+						toggleSelectionCheckbox={toggleSelectionCheckbox}
 						{...commonProps} />
 				)}
 				<ColorCorrection
@@ -151,6 +162,7 @@ const EditorOptions = props => {
 					ccB={props.ccB}
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
+					toggleSelectionCheckbox={toggleSelectionCheckbox}
 					{...commonProps} />
 				<PresetNameTemplate
 					presetNamePrepend={props.presetNamePrepend}
