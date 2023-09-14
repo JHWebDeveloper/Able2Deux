@@ -62,7 +62,7 @@ const attributeToPreset = ([attribute, value], attributes) => {
 			break
 		case 'backgroundMotion':
 			attributeData.label = 'Background Motion'
-			attributeData.include = attributes.arc !== 'none'
+			attributeData.include = attributes.arc !== 'none' && attributes.background !== 'alpha' && attributes.background !== 'color'
 			attributeData.order = 6
 			break
 		case 'overlay':
