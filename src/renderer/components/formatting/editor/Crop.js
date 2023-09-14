@@ -12,8 +12,8 @@ import {
 
 import {
 	clamp,
+	createObjectPicker,
 	createSettingsMenu,
-	extractCropProps,
 	objectsAreEqual
 } from 'utilities'
 
@@ -32,6 +32,8 @@ const SLIDER_STATIC_PROPS = Object.freeze({
 	sensitivity: 2,
 	enableAutoCenter: true
 })
+
+const extractCropProps = createObjectPicker(['cropT', 'cropL', 'cropB', 'cropR', 'cropLinkTB', 'cropLinkLR'])
 
 const Crop = memo(props => {
 	const { id, cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, dispatch } = props
