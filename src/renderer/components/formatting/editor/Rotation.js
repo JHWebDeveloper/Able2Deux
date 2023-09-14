@@ -12,9 +12,9 @@ import {
 } from 'actions'
 
 import {
+	createObjectPicker,
 	createSettingsMenu,
 	detectMediaIsSideways,
-	extractRotationProps,
 	extractRelevantMediaProps,
 	objectsAreEqual
 } from 'utilities'
@@ -71,6 +71,8 @@ const createReflectButtons = isSideways => [
 		value: 'hflip,vflip'
 	}
 ]
+
+const extractRotationProps = createObjectPicker(['transpose', 'reflect', 'freeRotateMode', 'angle', 'rotatedCentering'])
 
 const Rotation = memo(props => {
 	const { transpose, reflect, freeRotateMode, dispatch } = props
