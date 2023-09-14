@@ -27,11 +27,11 @@ const COMMON_STATIC_PROPS = Object.freeze({
 
 const extractCenteringProps = createObjectPicker(['centering'])
 
-const Centering = memo(({ centering, updateSelectionFromSlider }) => {
+const Centering = memo(({ centering, updateSelectionFromCustomInput }) => {
 	const commonProps = {
 		...COMMON_STATIC_PROPS,
 		value: centering,
-		onChange: updateSelectionFromSlider
+		onChange: updateSelectionFromCustomInput
 	}
 
 	return (

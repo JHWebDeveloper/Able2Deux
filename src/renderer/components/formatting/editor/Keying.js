@@ -123,7 +123,7 @@ const extractKeyingProps = createObjectPicker([
 ])
 
 const Keying = memo(props => {
-	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, updateSelectionFromEvent, updateSelectionFromSlider, dispatch } = props
+	const { id, eyedropper, setEyedropper, keyingEnabled, keyingHidden, keyingType, updateSelectionFromEvent, updateSelectionFromCustomInput, dispatch } = props
 	const { active, pixelData } = eyedropper
 
 	const toggleKeyingCheckbox = useCallback(e => {
@@ -183,7 +183,7 @@ const Keying = memo(props => {
 						<ColorInput
 							name="keyingColor"
 							value={props.keyingColor}
-							onChange={updateSelectionFromSlider}
+							onChange={updateSelectionFromCustomInput}
 							disabled={!keyingEnabled}
 							ariaLabelledby="key-color" />
 						<button
@@ -211,13 +211,13 @@ const Keying = memo(props => {
 						threshold={props.keyingThreshold}
 						tolerance={props.keyingTolerance}
 						softness={props.keyingSoftness}
-						onChange={updateSelectionFromSlider}
+						onChange={updateSelectionFromCustomInput}
 						disabled={!keyingEnabled} />
 				) : (
 					<ColorKeySliders
 						similarity={props.keyingSimilarity}
 						blend={props.keyingBlend}
-						onChange={updateSelectionFromSlider}
+						onChange={updateSelectionFromCustomInput}
 						disabled={!keyingEnabled} />
 				)}
 			</div>

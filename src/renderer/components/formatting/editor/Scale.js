@@ -47,7 +47,7 @@ const FitButton = ({ title, onClick, icon = 'open_in_full', rotateIcon = 0 }) =>
 	</button>
 )
 
-const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, updateSelectionFromSlider, dispatch }) => {
+const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, updateSelectionFromCustomInput, dispatch }) => {
 	const { renderOutput, scaleSliderMax } = useContext(PrefsContext).preferences
 
 	const sensitivity = useMemo(() => scaleSliderMax / 100 * 2, [scaleSliderMax])
@@ -81,7 +81,7 @@ const Scale = memo(({ id, scaleX, scaleY, scaleLink, multipleItemsSelected, upda
 	}, [distortion])
 
 	const commonProps = useMemo(() => ({
-		onChange: scaleLink ? updateScale : updateSelectionFromSlider
+		onChange: scaleLink ? updateScale : updateSelectionFromCustomInput
 	}), [scaleLink, distortion])
 
 	const propsX = {

@@ -123,7 +123,7 @@ const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropp
 
 const Framing = memo(props => {
 	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
-	const { arc, background, bgColor, overlay, eyedropper, setEyedropper, updateSelectionFromEvent, updateSelectionFromSlider: updateBgColor, dispatch } = props
+	const { arc, background, bgColor, overlay, eyedropper, setEyedropper, updateSelectionFromEvent, updateSelectionFromCustomInput, dispatch } = props
 	const { active, pixelData } = eyedropper
 
 	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
@@ -172,7 +172,7 @@ const Framing = memo(props => {
 							component: <BackgroundColorPicker
 								bgColor={bgColor}
 								updateBgColor={updateBgColor}
-								selectBgColor={selectBgColor}
+								selectBgColor={updateSelectionFromCustomInput}
 								eyedropperActive={active === 'background'} />
 						}
 					]}/>

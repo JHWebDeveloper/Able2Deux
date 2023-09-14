@@ -36,7 +36,7 @@ const SLIDER_STATIC_PROPS = Object.freeze({
 const extractCropProps = createObjectPicker(['cropT', 'cropL', 'cropB', 'cropR', 'cropLinkTB', 'cropLinkLR'])
 
 const Crop = memo(props => {
-	const { id, cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, updateSelectionFromSlider, dispatch } = props
+	const { id, cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, updateSelectionFromCustomInput, dispatch } = props
 
 	const updateCropBiDirectional = useCallback((d1, d2, { name, value }) => {
 		const isD1 = name === d1
@@ -66,13 +66,13 @@ const Crop = memo(props => {
 	const TBProps = useMemo(() => ({
 		onChange: cropLinkTB
 			? vals => updateCropBiDirectional('cropT', 'cropB', vals)
-			: updateSelectionFromSlider
+			: updateSelectionFromCustomInput
 	}), [cropLinkTB, cropT, cropB])
 
 	const LRProps = useMemo(() => ({
 		onChange: cropLinkLR
 			? vals => updateCropBiDirectional('cropL', 'cropR', vals)
-			: updateSelectionFromSlider
+			: updateSelectionFromCustomInput
 	}), [cropLinkLR, cropL, cropR])
 
 	const propsT = {

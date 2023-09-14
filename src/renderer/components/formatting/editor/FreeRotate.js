@@ -7,18 +7,18 @@ import NumberInput from '../../form_elements/NumberInput'
 const ANGLE_STATIC_PROPS = { name: 'angle', title: 'Angle', min: -180, max: 180 }
 const CENTERING_STATIC_PROPS = { name: 'rotatedCentering', title: 'Centering', min: -100, max: 100 }
 
-const FreeRotate = ({ angle, center, disableCenter, updateSelectionFromSlider }) => {
+const FreeRotate = ({ angle, center, disableCenter, updateSelectionFromCustomInput }) => {
 	const angleProps = {
 		...ANGLE_STATIC_PROPS,
 		value: angle,
-		onChange: updateSelectionFromSlider
+		onChange: updateSelectionFromCustomInput
 	}
 
 	const centeringProps = {
 		...CENTERING_STATIC_PROPS,
 		value: center,
 		disabled: disableCenter,
-		onChange: updateSelectionFromSlider
+		onChange: updateSelectionFromCustomInput
 	}
 
 	return (

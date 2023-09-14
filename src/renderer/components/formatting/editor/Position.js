@@ -23,16 +23,16 @@ const Y_STATIC_PROPS = Object.freeze({ name: 'positionY', title: 'Position Y', m
 
 const extractPositionProps = createObjectPicker(['positionX', 'positionY'])
 
-const Position = memo(({ positionX, positionY, updateSelectionFromSlider }) => {
+const Position = memo(({ positionX, positionY, updateSelectionFromCustomInput }) => {
 	const propsX = {
 		...X_STATIC_PROPS,
-		onChange: updateSelectionFromSlider,
+		onChange: updateSelectionFromCustomInput,
 		value: positionX
 	}
 
 	const propsY = {
 		...Y_STATIC_PROPS,
-		onChange: updateSelectionFromSlider,
+		onChange: updateSelectionFromCustomInput,
 		value: positionY
 	}
 

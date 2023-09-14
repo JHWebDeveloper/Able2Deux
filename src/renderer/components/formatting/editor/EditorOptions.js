@@ -44,7 +44,7 @@ const EditorOptions = props => {
 		dispatch(updateMediaStateBySelectionFromEvent(e))
 	}, [])
 
-	const updateSelectionFromSlider = useCallback(({ name, value }) => {
+	const updateSelectionFromCustomInput = useCallback(({ name, value }) => {
 		dispatch(updateMediaStateBySelection({
 			[name]: value
 		}))
@@ -91,20 +91,20 @@ const EditorOptions = props => {
 				{arc === 'fill' && aspectRatio !== '16:9' ? (
 					<Centering
 						centering={props.centering}
-						updateSelectionFromSlider={updateSelectionFromSlider}
+						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 				) : <></>}
 				{arc === 'transform' ? <>
 					<Position
 						positionX={props.positionX}
 						positionY={props.positionY}
-						updateSelectionFromSlider={updateSelectionFromSlider}
+						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 					<Scale
 						scaleX={props.scaleX}
 						scaleY={props.scaleY}
 						scaleLink={props.scaleLink}
-						updateSelectionFromSlider={updateSelectionFromSlider}
+						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 					<Crop
 						cropT={props.cropT}
@@ -113,7 +113,7 @@ const EditorOptions = props => {
 						cropL={props.cropL}
 						cropLinkTB={props.cropLinkTB}
 						cropLinkLR={props.cropLinkLR}
-						updateSelectionFromSlider={updateSelectionFromSlider}
+						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 				</> : <></>}
 				<Rotation
@@ -124,7 +124,7 @@ const EditorOptions = props => {
 					rotatedCentering={props.rotatedCentering}
 					showFreeRotate={arc === 'transform'}
 					updateSelectionFromEvent={updateSelectionFromEvent}
-					updateSelectionFromSlider={updateSelectionFromSlider}
+					updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 					{...commonProps} />
 				{arc === 'none' ? <></> : (
 					<Keying
@@ -140,7 +140,7 @@ const EditorOptions = props => {
 						eyedropper={eyedropper}
 						setEyedropper={setEyedropper}
 						updateSelectionFromEvent={updateSelectionFromEvent}
-						updateSelectionFromSlider={updateSelectionFromSlider}
+						updateSelectionFromCustomInput={updateSelectionFromCustomInput}
 						{...commonProps} />
 				)}
 				<ColorCorrection
