@@ -12,8 +12,8 @@ import {
 import { useWarning } from 'hooks'
 
 import {
+	createObjectPicker,
 	createSettingsMenu,
-	extractSourceProps,
 	has11pmBackground,
 	objectsAreEqual
 } from 'utilities'
@@ -23,6 +23,8 @@ import Checkbox from '../../form_elements/Checkbox'
 
 const MESSAGE = 'A source on top is not for aesthetics!'
 const DETAIL = 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.'
+
+const extractSourceProps = createObjectPicker(['sourceName', 'sourcePrefix', 'sourceOnTop'])
 
 const Source = memo(props => {
 	const { id, sourceName, sourcePrefix, sourceOnTop, background, dispatch } = props
