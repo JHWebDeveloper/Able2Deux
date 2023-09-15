@@ -20,9 +20,9 @@ const PresetNameTemplate = memo(({ presetNamePrepend, presetNameAppend, updateSe
 			<input
 				type="text"
 				name="presetNamePrepend"
+				className="panel-input"
 				title="Prepend to Filename"
 				aria-label="Prepend to Filename"
-				className="underline"
 				placeholder="If none, leave blank"
 				value={presetNamePrepend}
 				maxLength={251}
@@ -33,9 +33,9 @@ const PresetNameTemplate = memo(({ presetNamePrepend, presetNameAppend, updateSe
 			<input
 				type="text"
 				name="presetNameAppend"
+				className="panel-input"
 				title="Append to Filename"
 				aria-label="Append to Filename"
-				className="underline"
 				placeholder="If none, leave blank"
 				value={presetNameAppend}
 				maxLength={251}

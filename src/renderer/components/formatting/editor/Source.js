@@ -56,9 +56,9 @@ const Source = memo(props => {
 				<input
 					type="text"
 					name="sourceName"
+					className="panel-input"
 					title="Source Name"
 					aria-label="Source Name"
-					className="underline"
 					placeholder="If none, leave blank"
 					list="source-suggestions"
 					value={sourceName}

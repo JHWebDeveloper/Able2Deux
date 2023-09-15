@@ -17,9 +17,9 @@ const FileOptions = memo(props => {
 				<input
 					type="text"
 					name="filename"
+					className="panel-input"
 					title="Filename"
 					aria-label="Filename"
-					className="underline"
 					value={props.filename}
 					maxLength={251}
 					onChange={props.updateFilename} />
