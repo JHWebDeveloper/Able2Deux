@@ -326,6 +326,7 @@ const PresetSaveAs = () => {
 						<legend>Preset Name<span aria-hidden>:</span></legend>
 						<input
 							type="text"
+							className="panel-input"
 							name="presetName"
 							maxLength={50}
 							value={presetName}
@@ -335,6 +336,7 @@ const PresetSaveAs = () => {
 					<fieldset>
 						<legend>Select Preset<span aria-hidden>:</span></legend>
 						<select
+							className="panel-input"
 							name="selectedPreset"
 							value={selectedPreset}
 							onChange={updateStateFromEvent}>
@@ -359,6 +361,7 @@ const PresetSaveAs = () => {
 					<legend>Prepend to Filename<span aria-hidden>:</span></legend>
 					<input
 						type="text"
+						className="panel-input"
 						name="presetNamePrepend"
 						placeholder="If none, leave blank"
 						maxLength={251}
@@ -369,6 +372,7 @@ const PresetSaveAs = () => {
 					<legend>Append to Filename<span aria-hidden>:</span></legend>
 					<input
 						type="text"
+						className="panel-input"
 						name="presetNameAppend"
 						placeholder="If none, leave blank"
 						maxLength={251}
