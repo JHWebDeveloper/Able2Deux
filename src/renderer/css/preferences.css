@@ -165,3 +165,5 @@ footer {
 }
 
 footer > button { margin-right: 12px; }
+
+footer > button:last-of-type { float: right; }
