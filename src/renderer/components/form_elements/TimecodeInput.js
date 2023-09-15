@@ -71,7 +71,7 @@ const TimecodeInput = ({
 	return (
 		<input
 			type="text"
-			className="timecode panel-input monospace"
+			className="panel-input timecode monospace"
 			id={id}
 			name={name}
 			title={title}
