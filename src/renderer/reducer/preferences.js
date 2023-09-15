@@ -86,7 +86,7 @@ const updateSortableElementField = (state, payload) => ({
 	...state,
 	[payload.nest]: state[payload.nest].map(obj => obj.id === payload.id ? {
 		...obj,
-		[payload.name]: payload.value
+		...payload.properties
 	} : obj)
 })
 
