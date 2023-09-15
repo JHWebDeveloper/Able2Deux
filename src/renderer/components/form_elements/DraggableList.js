@@ -6,11 +6,7 @@ const dragLeave = e => {
 }
 
 const disableDrag = e => {
-	if (e.target.dataset.noDrag) e.currentTarget.draggable = false
-}
-
-const enableDrag = e => {
-	e.currentTarget.draggable = true
+	if (e.target.matches('[data-no-drag="true"], [data-no-drag] *')) e.preventDefault()
 }
 
 const DraggableList = ({ sortingAction, children }) => {
@@ -18,10 +14,11 @@ const DraggableList = ({ sortingAction, children }) => {
 	const draggable = children.length > 1
 	const dragData = useRef({})
 
-	const dragStart = useCallback((index, props) => {
+	const dragStart = useCallback((e, index, props) => {
+		if (!draggable) e.preventDefault()
 		dragData.current = { index, props }
 		setDragging(true)
-	}, [])
+	}, [draggable])
 
 	const dragOver = useCallback(e => {
 		e.preventDefault()
@@ -40,13 +37,12 @@ const DraggableList = ({ sortingAction, children }) => {
 			{children.map((child, i) => (
 				<div
 					key={child.props.id}
-					onDragStart={() => dragStart(i, child.props)}
+					onDragStart={e => dragStart(e, i, child.props)}
 					onDragOver={dragOver}
 					onDragLeave={dragLeave}
 					onDrop={e => drop(i, e)}
-					draggable={draggable}
 					onMouseDown={disableDrag}
-					onMouseUp={enableDrag}>{child}</div>
+					draggable>{child}</div>
 			))}
 			{draggable && (
 				<span
