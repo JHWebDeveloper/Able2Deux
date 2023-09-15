@@ -38,7 +38,7 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 					<input
 						type="text"
 						name="batchName"
-						className="underline"
+						className="panel-input"
 						value={batchName}
 						maxLength={251}
 						onChange={updateBatchName}
@@ -51,7 +51,7 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 						<input
 							type="text"
 							name="batchNamePrepend"
-							className="underline"
+							className="panel-input"
 							value={batchNamePrepend}
 							maxLength={251}
 							onChange={updateBatchName}
@@ -62,7 +62,7 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 						<input
 							type="text"
 							name="batchNameAppend"
-							className="underline"
+							className="panel-input"
 							value={batchNameAppend}
 							maxLength={251}
 							onChange={updateBatchName}
