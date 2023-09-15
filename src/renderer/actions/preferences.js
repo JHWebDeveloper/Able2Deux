@@ -47,13 +47,12 @@ export const addNewAspectRatioMarker = (index, e) => dispatch => {
 	}, index, e)(dispatch)
 }
 
-export const updateAspectRatioMarker = (id, name, value) => ({
+export const updateAspectRatioMarker = (id, properties) => ({
 	type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
 	payload: {
 		nest: 'aspectRatioMarkers',
 		id,
-		name,
-		value
+		properties
 	}
 })
 
@@ -67,13 +66,12 @@ export const addNewLocation = (index, e) => dispatch => {
 	}, index, e)(dispatch)
 }
 
-export const updateSaveLocation = (id, name, value) => ({
+export const updateSaveLocation = (id, properties) => ({
 	type: ACTION.UPDATE_SORTABLE_ELEMENT_FIELD,
 	payload: {
 		nest: 'saveLocations',
 		id,
-		name,
-		value
+		properties
 	}
 })
 
