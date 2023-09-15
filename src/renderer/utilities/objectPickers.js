@@ -55,7 +55,9 @@ export const extractRelevantMediaProps = media => {
 	const commonProps = [
 		...FRAMING_PROPS,
 		...COLOR_CORRECTION_PROPS,
-		...ROTATION_BASIC_PROPS
+		...ROTATION_BASIC_PROPS,
+		'presetNamePrepend',
+		'presetNameAppend'
 	]
 
 	if (mediaType === 'video' && media.hasAudio) {
