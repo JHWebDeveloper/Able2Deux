@@ -1,42 +1,77 @@
 #root {
   display: grid;
-  row-gap: 18px;
+  row-gap: 9px;
   grid-template-rows: min-content auto min-content;
+  padding: 0;
 }
+
+header, footer { padding: 9px; }
 
 h1 {
   text-align: center;
   font-size: 18px;
 }
 
-main, footer {
-  display: inherit;
-}
+main, section, nav, section > div, footer { display: inherit; }
 
-main {
-  overflow: hidden auto;
-  align-content: start;
+main, section, section > div {
   row-gap: inherit;
   height: 100%;
 }
 
-input[type="text"], select { height: 28px; }
-
-select {
-  width: 100%;
-  padding: 5px;
-	border-radius: 3px;
-  background-color: #fff;
+main {
+  overflow: hidden;
+  grid-template-rows: min-content auto;
 }
 
+section {
+  overflow: inherit;
+  align-content: start;
+}
+
+.preset-name,
+.preset-settings > div {
+  padding-inline: 18px;
+}
+
+.preset-settings { 
+  height: 100%;
+  background-color: var(--background-alt-1);
+}
+
+.preset-settings > div { padding-bottom: 12px; }
+
+.preset-name .panel-input { background-color: #fff; }
+
 @media (prefers-color-scheme: dark) {
-  select {
-    background-color: var(--background-alt-1);
-  }
+  .preset-name .panel-input { background-color: var(--background-alt-1); }
+  .preset-settings .panel-input { background-color: var(--background); }
+}
+
+nav {
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+nav > a {
+  display: block;
+  padding: 9px;
+  text-align: center;
+  font-weight: 500;
+}
+
+nav > a:not(.active) { background-color: var(--background); }
+
+.preset-settings > div {
+  overflow: hidden auto;
+  height: 100%;
 }
 
 footer {
   grid-auto-flow: column;
+  grid-auto-columns: 1fr;
   column-gap: 6px;
-  background-color: var(--background);
+  padding-top: 0;
 }
+
+select[name="selectedPreset"] { height: 25px; }
