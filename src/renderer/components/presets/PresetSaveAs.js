@@ -3,12 +3,7 @@ import toastr from 'toastr'
 import '../../css/preset_save_as.css'
 
 import { PresetsProvider, PresetsContext } from 'store'
-
-import {
-	TOASTR_OPTIONS,
-	errorToString,
-	pipe
-} from 'utilities'
+import { TOASTR_OPTIONS, errorToString } from 'utilities'
 
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
@@ -236,24 +231,45 @@ const mapPresetToAttributes = preset => preset.reduce((acc, { include, attribute
 
 const PresetSaveAs = () => {
 	const { presets: existingPresets } = useContext(PresetsContext).presets
-	const [ saveType, setSaveType ] = useState('newPreset')
-	const [ presetName, setPresetName ] = useState('')
-	const [ selectedPreset, setSelectedPreset ] = useState('')
-	const [ presets, setPresets ] = useState([])
+
+	const [ state, updateState ] = useState({
+		saveType: 'newPreset',
+		presetName: '',
+		selectedPreset: '',
+		presets: [],
+		presetNamePrepend: '',
+		presetNameAppend: ''
+	})
+
+	const { saveType, presetName, selectedPreset, presets, presetNamePrepend, presetNameAppend } = state
 	const presetKey = useId()
 	const saveEnabled = (saveType === 'newPreset' && presetName.length || selectedPreset) && presets.some(({ include }) => include)
 
+	const updateStateFromEvent = useCallback(e => {
+		updateState(currentState => ({
+			...currentState,
+			[e.target.name]: e.target.value
+		}))
+	}, [])
+
 	const toggleIncludePreset = useCallback(e => {
-		setPresets(items => items.map(item => item.attribute === e.target.name ? {
-			...item,
-			include: !item.include
-		} : item))
+		updateState(currentState => ({
+			...currentState,
+			presets: currentState.presets.map(item => item.attribute === e.target.name ? {
+				...item,
+				include: !item.include
+			} : item)
+		}))
 	}, [])
 
 	const savePreset = async () => {
 		try {
 			await interop.savePreset({
-				attributes: mapPresetToAttributes(presets),
+				attributes: {
+					...mapPresetToAttributes(presets),
+					...presetNamePrepend ? { presetNamePrepend } : {},
+					...presetNameAppend ? { presetNameAppend } : {}
+				},
 				...saveType === 'newPreset' ? {
 					label: presetName
 				} : {
@@ -270,12 +286,22 @@ const PresetSaveAs = () => {
 
 	useEffect(() => {
 		(async () => {
-			pipe(mapAttributesToPreset, setPresets)(await interop.getPresetToSave())
+			const { presetNamePrepend, presetNameAppend, ...presets } = await interop.getPresetToSave()
+
+			updateState(currentState => ({
+				...currentState,
+				presets: mapAttributesToPreset(presets),
+				presetNamePrepend: presetNameAppend ?? '',
+				presetNameAppend: presetNameAppend ?? ''
+			}))
 		})()
 	}, [])
 
 	useEffect(() => {
-		if (saveType !== 'newPreset' && !selectedPreset) setSelectedPreset(existingPresets[0].id)
+		if (saveType !== 'newPreset' && !selectedPreset) updateState(currentState => ({
+			...currentState,
+			selectedPreset: existingPresets[0].id
+		}))
 	}, [saveType, existingPresets])
 
 	return (
@@ -286,34 +312,33 @@ const PresetSaveAs = () => {
 			<main>
 				{existingPresets.length ? (
 					<fieldset className="radio-set">
-						<legend>Save Type:</legend>  
+						<legend>Save Type<span aria-hidden>:</span></legend>  
 						<RadioSet
 							name="saveType"
 							state={saveType}
-							onChange={e => setSaveType(e.target.value)}
+							onChange={updateStateFromEvent}
 							buttons={SAVE_TYPE_BUTTONS}/>
 					</fieldset>
 				) : <></>}
 				{saveType === 'newPreset' ? (
 					<fieldset>
-						<legend>Preset Name:</legend>
+						<legend>Preset Name<span aria-hidden>:</span></legend>
 						<input
 							type="text"
-							className="underline"
+							name="presetName"
 							maxLength={50}
 							value={presetName}
-							onChange={e => setPresetName(e.target.value)} />
+							onChange={updateStateFromEvent} />
 					</fieldset>
 				) : (
 					<fieldset>
-						<legend>Select Preset:</legend>
+						<legend>Select Preset<span aria-hidden>:</span></legend>
 						<select
+							name="selectedPreset"
 							value={selectedPreset}
-							onChange={e => setSelectedPreset(e.target.value)}>
+							onChange={updateStateFromEvent}>
 							{existingPresets.map(({ id, label }) => (
-								<option
-									key={id}
-									value={id}>{label}</option>
+								<option key={id} value={id}>{label}</option>
 							))}
 						</select>
 					</fieldset>
@@ -328,6 +353,26 @@ const PresetSaveAs = () => {
 							name={attribute}
 							onChange={toggleIncludePreset} />
 					))}
+				</fieldset>
+				<fieldset>
+					<legend>Prepend to Filename<span aria-hidden>:</span></legend>
+					<input
+						type="text"
+						name="presetNamePrepend"
+						placeholder="If none, leave blank"
+						maxLength={251}
+						value={presetNamePrepend}
+						onChange={updateStateFromEvent} />
+				</fieldset>
+				<fieldset>
+					<legend>Append to Filename<span aria-hidden>:</span></legend>
+					<input
+						type="text"
+						name="presetNameAppend"
+						placeholder="If none, leave blank"
+						maxLength={251}
+						value={presetNameAppend}
+						onChange={updateStateFromEvent} />
 				</fieldset>
 			</main>
 			<footer>
