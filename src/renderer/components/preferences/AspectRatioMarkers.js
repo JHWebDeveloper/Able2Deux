@@ -26,13 +26,17 @@ const AspectRatioMarker = ({ marker, index, total, dispatch }) => {
 	const updateLabel = useCallback(e => {
 		const { name, value } = e?.target || e
 
-		dispatch(updateAspectRatioMarker(id, name, value))
+		dispatch(updateAspectRatioMarker(id, {
+			[name]: value
+		}))
 	}, [])
 
 	const updateRatio = useCallback((index, { name, value }) => {
 		ratio[index] = value
 
-		dispatch(updateAspectRatioMarker(id, name, ratio))
+		dispatch(updateAspectRatioMarker(id, {
+			[name]: ratio
+		}))
 	}, [])
 
 	const add = useCallback(e => {
