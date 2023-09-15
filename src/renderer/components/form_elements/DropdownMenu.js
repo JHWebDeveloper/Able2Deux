@@ -168,6 +168,7 @@ const DropdownMenu = ({
 			aria-expanded={showMenu}
 			aria-controls={menuId}
 			onBlur={closeMenuOnBlur}
+			data-no-drag={showMenu}
 			{...rootMenuOrSubmenuProps}>
 			<span className={`dropdown-button-label${icon ? ' symbol' : ''}`}>
 				{icon || label}
