@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { arrayOf, func, object, oneOf, string } from 'prop-types'
 import toastr from 'toastr'
@@ -16,9 +16,10 @@ import {
 } from 'actions'
 
 import { useWarning } from 'hooks'
-import { TOASTR_OPTIONS, detectTabExit } from 'utilities'
+import { TOASTR_OPTIONS } from 'utilities'
 
 import RenderElement from './RenderElement'
+import ButtonWithIcon from '../../form_elements/ButtonWithIcon'
 
 const { interop } = window.ABLE2
 
@@ -29,7 +30,6 @@ const RenderQueue = props => {
 	const { media, batchNameType, batchName, batchNamePrepend, batchNameAppend, saveLocations, closeRenderQueue, dispatch } = props
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
 	const navigate = useNavigate()
-	const backOrCancelBtn = useRef(null)
 
 	const {
 		renderOutput,
@@ -76,10 +76,6 @@ const RenderQueue = props => {
 		}
 	})
 
-	const containFocus = useCallback(detectTabExit(() => {
-		backOrCancelBtn.current.focus()
-	}), [backOrCancelBtn])
-
 	const removeLocation = useCallback(id => {
 		dispatchPrefs(removeLocationAndSave(id))
 	}, [])
@@ -116,7 +112,7 @@ const RenderQueue = props => {
 	}, [complete])
 
 	return (
-		<div id="render-queue" onBlur={containFocus}>
+		<div id="render-queue">
 			<div>
 				<div>
 					{media.map(({ id, mediaType, filename, exportFilename, renderPercent, renderStatus }) => (
@@ -134,29 +130,22 @@ const RenderQueue = props => {
 				<div>
 					{complete ? (
 						<>
-							<button
-								type="button"
-								className="app-button"
-								title="Back"
-								aria-label="Back"
-								ref={backOrCancelBtn}
-								onClick={goBack}>Back</button>
-							<button
-								type="button"
-								className="app-button"
-								title="Start Over"
-								aria-label="Start Over"
-								onClick={() => backToMain()}>Start Over</button>
+							<ButtonWithIcon
+								label="Back"
+								icon="arrow_back"
+								onClick={goBack}
+								autoFocus />
+							<ButtonWithIcon
+								label="Start Over"
+								icon="restart_alt"
+								onClick={() => backToMain()} />
 						</>
 					) : (
-						<button
-							type="button"
-							className="app-button"
-							title="Cancel All"
-							aria-label="Cancel All"
-							ref={backOrCancelBtn}
+						<ButtonWithIcon
+							label="Cancel All"
+							icon="close"
 							onClick={cancelAll}
-							autoFocus>Cancel All</button>
+							autoFocus />
 					)}
 				</div>
 			</div>

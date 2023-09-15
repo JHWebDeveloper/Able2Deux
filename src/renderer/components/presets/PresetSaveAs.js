@@ -7,6 +7,7 @@ import { TOASTR_OPTIONS, errorToString } from 'utilities'
 
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
+import ButtonWithIcon from '../form_elements/ButtonWithIcon'
 
 const { interop } = window.ABLE2
 
@@ -376,19 +377,17 @@ const PresetSaveAs = () => {
 				</fieldset>
 			</main>
 			<footer>
-				<button
-					type="button"
-					className="app-button"
+				<ButtonWithIcon
+					label="Save"
+					icon="save"
 					title="Save Preset"
-					aria-label="Save Preset"
 					onClick={savePreset}
-					disabled={!saveEnabled}>Save</button>
-				<button
-					type="button"
-					className="app-button"
-					title="Cancel"
-					aria-label="Cancel"
-					onClick={interop.closePresetSaveAs}>Cancel</button>
+					disabled={!saveEnabled} />
+				<ButtonWithIcon
+					label="Cancel"
+					icon="close"
+					title="Cancel Preset"
+					onClick={interop.closePresetSaveAs} />
 			</footer>
 		</>
 	)

@@ -4,6 +4,7 @@ import { bool, func, number, oneOfType, string } from 'prop-types'
 import { download, updateState, updateStateFromEvent } from 'actions'
 import { validURLRegex } from 'utilities'
 
+import ButtonWithIcon from '../form_elements/ButtonWithIcon'
 import RadioSet from '../form_elements/RadioSet'
 
 const OPTIMIZE_BUTTONS = Object.freeze([
@@ -16,6 +17,11 @@ const OPTIMIZE_BUTTONS = Object.freeze([
 		value: 'download'
 	}
 ])
+
+const STYLE_INCREASE_ICON_SIZE = Object.freeze({
+	scale: '1.35',
+	translate: '0 8%'
+})
 
 const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 	const isInvalidURL = useMemo(() => !validURLRegex.test(url), [url])
@@ -40,16 +46,13 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				placeholder="Paste URL here..."
 				value={url}
 				onChange={dispatchWithEvent} />
-			<button
-				type="button"
-				className="app-button"
-				name="download"
-				title="Download Video"
-				aria-label="Download Video"
+			<ButtonWithIcon
+				label="Download"
+				icon="download"
+				title="Download Media"
+				onClick={startDownload}
 				disabled={isInvalidURL}
-				onClick={startDownload}>
-				Download
-			</button>
+				iconStyle={STYLE_INCREASE_ICON_SIZE} />
 			<span>
 				<RadioSet
 					name="optimize"

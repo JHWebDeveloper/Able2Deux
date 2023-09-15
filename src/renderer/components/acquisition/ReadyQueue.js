@@ -13,6 +13,7 @@ import { useWarning } from 'hooks'
 import { group } from 'utilities'
 import * as STATUS from 'status'
 
+import ButtonWithIcon from '../form_elements/ButtonWithIcon'
 import MediaElement from './MediaElement'
 
 // ---- store warning strings
@@ -98,20 +99,18 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 				))}
 			</div>
 			<div>
-				<button
-					type="button"
+				<ButtonWithIcon
+					label="Format"
+					icon="tune"
 					title="Format Media"
-					aria-label="Format Media"
-					className="app-button"
-					disabled={notReady}
-					onClick={removeFailedAcquisitionsAndRedirect}>Format</button>
-				<button
-					type="button"
-					className="app-button"
+					onClick={removeFailedAcquisitionsAndRedirect}
+					disabled={notReady} />
+				<ButtonWithIcon
+					label="Remove All"
+					icon="delete"
 					title="Remove All Media"
-					aria-label="Remove All Media"
 					onClick={() => removeAllMediaWarning()}
-					disabled={!uniqueMedia.length}>Remove All</button>
+					disabled={!uniqueMedia.length} />
 			</div>
 		</div>
 	)

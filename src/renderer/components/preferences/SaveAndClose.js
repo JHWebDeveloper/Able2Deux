@@ -5,6 +5,8 @@ import { cleanupPrefsAndSave, restoreDefaultPrefs } from 'actions'
 import { useWarning, useSaveWarning } from 'hooks'
 import { objectsAreEqual } from 'utilities'
 
+import ButtonWithIcon from '../form_elements/ButtonWithIcon'
+
 const { interop } = window.ABLE2
 
 const SaveAndClose = ({ preferences, dispatch }) => {
@@ -39,27 +41,23 @@ const SaveAndClose = ({ preferences, dispatch }) => {
 
 	return (
 		<footer>
-			<button
-				type="button"
-				className="app-button"
+			<ButtonWithIcon
+				label="Save & Close"
+				icon="save"
 				title="Save and Close"
-				onClick={() => savePrefs(true)}>Save &amp; Close</button>
-			<button
-				type="button"
-				className="app-button"
-				title="Save"
-				onClick={() => savePrefs()}>Save</button>
-			<button
-				type="button"
-				className="app-button"
-				title="Close"
-				onClick={closePrefs}>Close</button>
-			<button
-				type="button"
-				className="app-button"
-				title="Restore Default"
-				style={{ float: 'right' }}
-				onClick={() => restoreDefaultPrefsWarning()}>Restore Default</button>
+				onClick={() => savePrefs(true)} />
+			<ButtonWithIcon
+				label="Save"
+				icon="save"
+				onClick={() => savePrefs()} />
+			<ButtonWithIcon
+				label="Close"
+				icon="close"
+				onClick={closePrefs} />
+			<ButtonWithIcon
+				label="Restore Default"
+				icon="settings_backup_restore"
+				onClick={() => restoreDefaultPrefsWarning()} />
 		</footer>
 	)
 }

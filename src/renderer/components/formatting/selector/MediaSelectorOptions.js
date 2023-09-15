@@ -4,8 +4,14 @@ import { bool, func } from 'prop-types'
 import { applyPresetToSelected, duplicateSelectedMedia } from 'actions'
 
 import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown.js'
+import ButtonWithIcon from '../../form_elements/ButtonWithIcon.js'
 
 const { interop } = window.ABLE2
+
+const STYLE_INCREASE_ICON_SIZE = Object.freeze({
+	scale: '1.35',
+	translate: '0 -10%'
+})
 
 const MediaSelectorOptions = ({
 	allItemsSelected,
@@ -97,17 +103,17 @@ const MediaSelectorOptions = ({
 		<div>
 			<MediaOptionsDropdown buttons={dropdown} />
 			{allItemsSelected ? (
-				<button
-					type="button"
-					name="deselectAll"
-					className="app-button"
-					onClick={deselectAllMedia}>Deselect All</button>
+				<ButtonWithIcon
+					label="Deselect All"
+					icon="remove_done"
+					onClick={deselectAllMedia}
+					iconStyle={STYLE_INCREASE_ICON_SIZE} />
 			) : (
-				<button
-					type="button"
-					name="selectAll"
-					className="app-button"
-					onClick={selectAllMedia}>Select All</button>
+				<ButtonWithIcon
+					label="Select All"
+					icon="done_all"
+					onClick={selectAllMedia}
+					iconStyle={STYLE_INCREASE_ICON_SIZE} />
 			)}
 		</div>
 	)

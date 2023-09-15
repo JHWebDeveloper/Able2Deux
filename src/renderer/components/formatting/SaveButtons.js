@@ -2,23 +2,21 @@ import React from 'react'
 import { useNavigate } from 'react-router'
 import { func } from 'prop-types'
 
+import ButtonWithIcon from '../form_elements/ButtonWithIcon'
+
 const SaveButtons = ({ setRendering }) => {
 	const navigate = useNavigate()
 	
 	return (
 		<div id="save">
-			<button
-				type="button"
-				className="app-button"
-				title="Back"
-				aria-label="Back"
-				onClick={() => navigate('/')}>Back</button>
-			<button
-				type="button"
-				className="app-button"
-				title="Save"
-				aria-label="Save"
-				onClick={() => setRendering(true)}>Save</button>
+			<ButtonWithIcon
+				label="Back"
+				icon="arrow_back"
+				onClick={() => navigate('/')} />
+			<ButtonWithIcon
+				label="Save"
+				icon="save"
+				onClick={() => setRendering(true)} />
 		</div>
 	)
 }
