@@ -144,16 +144,32 @@ input, select {
 	color: var(--primary);
 }
 
-input.underline {
-	display: block;
-	width: 100%;
-	padding: 3px 2px;
-	border-bottom: var(--main-border-style);
+.panel-input {
+	padding: 2px;
+	border-radius: 3px;
+	background-color: var(--background);
 }
 
 input:is([type="text"], [type="number"]):disabled { color: var(--disabled); }
 
 input[type="text"] { text-overflow: ellipsis; }
+
+:is(input[type="text"], select):is(.underline, .panel-input) {
+	width: 100%;
+	padding: 3px;
+}
+
+input[type="text"].underline {
+	display: block;
+	border-bottom: var(--main-border-style);
+}
+
+input[type="text"].timecode {
+	width: 82px;
+	height: 18px;
+	padding: revert;
+	text-align: center;
+}
 
 label > :is(input:is([type="checkbox"], [type="radio"]), svg) {
 	margin-right: 5px;
@@ -215,10 +231,11 @@ label > :is(input, span, svg) { vertical-align: middle; }
 
 .disabled label { color: var(--disabled); }
 
+.app-button, .symbol { padding: 6px; }
+
 .app-button {
 	background-color: var(--button);
 	color: var(--button-text);
-	padding: 6px 20px;
 	border-radius: 5px;
 	transition: background-color 250ms;
 }
@@ -239,15 +256,18 @@ label > :is(input, span, svg) { vertical-align: middle; }
 	color: var(--button-disabled-text);
 }
 
-.symbol {
-	padding: 6px;
+.symbol,
+.symbol-left > i {
 	font-family: 'Material Icons';
-} 
+}
 
-.panel-input {
-	padding: 2px;
-	border-radius: 3px;
-	background-color: var(--background);
+.symbol-left {
+	display: inline-grid;
+	grid-template-columns: min-content max-content;
+	justify-content: center;
+	align-items: center;
+	padding-inline: 8px 10px;
+	column-gap: 6px;
 }
 
 .radio-set > label {
@@ -261,12 +281,6 @@ svg.toggle-switch-disabled { fill: var(--disabled); }
 svg.toggle-switch-disabled > .exclude-disabled { fill: var(--primary); }
 
 .toggle-switch-switch { fill: var(--background); }
-
-.timecode {
-	width: 82px;
-	height: 18px;
-	text-align: center;
-}
 
 [draggable],
 .insert-last {
