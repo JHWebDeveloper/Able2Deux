@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useId, useState } from 'react'
+import { HashRouter, NavLink, Routes, Route } from 'react-router-dom'
 import toastr from 'toastr'
 import '../../css/preset_save_as.css'
 
@@ -6,8 +7,9 @@ import { PresetsProvider, PresetsContext } from 'store'
 import { TOASTR_OPTIONS, errorToString } from 'utilities'
 
 import RadioSet from '../form_elements/RadioSet'
-import Checkbox from '../form_elements/Checkbox'
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
+import SelectAttributes from './SelectAttributes'
+import FilenameOptions from './FilenameOptions'
 
 const { interop } = window.ABLE2
 
@@ -68,17 +70,17 @@ const attributeToPreset = ([attribute, value], attributes) => {
 			break
 		case 'sourceName':
 			attributeData.label = 'Source'
-			attributeData.include = attributes.sourceName
+			attributeData.include = !!attributes.sourceName
 			attributeData.order = 8
 			break
 		case 'sourcePrefix':
 			attributeData.label = 'Add "Source: " to beginning'
-			attributeData.include = attributes.sourceName
+			attributeData.include = !!attributes.sourceName
 			attributeData.order = 9
 			break
 		case 'sourceOnTop':
 			attributeData.label = 'Place source at top of video'
-			attributeData.include = attributes.sourceName
+			attributeData.include = !!attributes.sourceName
 			attributeData.order = 10
 			break
 		case 'centering':
@@ -243,23 +245,12 @@ const PresetSaveAs = () => {
 	})
 
 	const { saveType, presetName, selectedPreset, presets, presetNamePrepend, presetNameAppend } = state
-	const presetKey = useId()
 	const saveEnabled = (saveType === 'newPreset' && presetName.length || selectedPreset) && presets.some(({ include }) => include)
 
 	const updateStateFromEvent = useCallback(e => {
 		updateState(currentState => ({
 			...currentState,
 			[e.target.name]: e.target.value
-		}))
-	}, [])
-
-	const toggleIncludePreset = useCallback(e => {
-		updateState(currentState => ({
-			...currentState,
-			presets: currentState.presets.map(item => item.attribute === e.target.name ? {
-				...item,
-				include: !item.include
-			} : item)
 		}))
 	}, [])
 
@@ -311,74 +302,67 @@ const PresetSaveAs = () => {
 				<h1>Save Preset</h1>
 			</header>
 			<main>
-				{existingPresets.length ? (
-					<fieldset className="radio-set">
-						<legend>Save Type<span aria-hidden>:</span></legend>  
-						<RadioSet
-							name="saveType"
-							state={saveType}
-							onChange={updateStateFromEvent}
-							buttons={SAVE_TYPE_BUTTONS}/>
-					</fieldset>
-				) : <></>}
-				{saveType === 'newPreset' ? (
-					<fieldset>
-						<legend>Preset Name<span aria-hidden>:</span></legend>
-						<input
-							type="text"
-							className="panel-input"
-							name="presetName"
-							maxLength={50}
-							value={presetName}
-							onChange={updateStateFromEvent} />
-					</fieldset>
-				) : (
-					<fieldset>
-						<legend>Select Preset<span aria-hidden>:</span></legend>
-						<select
-							className="panel-input"
-							name="selectedPreset"
-							value={selectedPreset}
-							onChange={updateStateFromEvent}>
-							{existingPresets.map(({ id, label }) => (
-								<option key={id} value={id}>{label}</option>
-							))}
-						</select>
-					</fieldset>
-				)}
-				<fieldset className="radio-set">
-					<legend>Select attributes to include:</legend>
-					{presets.map(({ label, include, attribute }, i) => (
-						<Checkbox
-							key={`${presetKey}_${i}`}
-							label={label}
-							checked={include}
-							name={attribute}
-							onChange={toggleIncludePreset} />
-					))}
-				</fieldset>
-				<fieldset>
-					<legend>Prepend to Filename<span aria-hidden>:</span></legend>
-					<input
-						type="text"
-						className="panel-input"
-						name="presetNamePrepend"
-						placeholder="If none, leave blank"
-						maxLength={251}
-						value={presetNamePrepend}
-						onChange={updateStateFromEvent} />
-				</fieldset>
-				<fieldset>
-					<legend>Append to Filename<span aria-hidden>:</span></legend>
-					<input
-						type="text"
-						className="panel-input"
-						name="presetNameAppend"
-						placeholder="If none, leave blank"
-						maxLength={251}
-						value={presetNameAppend}
-						onChange={updateStateFromEvent} />
-				</fieldset>
+				<section className="preset-name">
+					{existingPresets.length ? (
+						<fieldset className="radio-set">
+							<legend>Save Type<span aria-hidden>:</span></legend>  
+							<RadioSet
+								name="saveType"
+								state={saveType}
+								onChange={updateStateFromEvent}
+								buttons={SAVE_TYPE_BUTTONS}/>
+						</fieldset>
+					) : <></>}
+					{saveType === 'newPreset' ? (
+						<fieldset>
+							<legend>Preset Name<span aria-hidden>:</span></legend>
+							<input
+								type="text"
+								className="panel-input"
+								name="presetName"
+								maxLength={50}
+								value={presetName}
+								onChange={updateStateFromEvent} />
+						</fieldset>
+					) : (
+						<fieldset>
+							<legend>Select Preset<span aria-hidden>:</span></legend>
+							<select
+								className="panel-input"
+								name="selectedPreset"
+								value={selectedPreset}
+								onChange={updateStateFromEvent}>
+								{existingPresets.map(({ id, label }) => (
+									<option key={id} value={id}>{label}</option>
+								))}
+							</select>
+						</fieldset>
+					)}
+				</section>
+				<section className="preset-settings">
+					<HashRouter>
+						<nav>
+							<NavLink to="/" title="Attributes">Attributes</NavLink>
+							<NavLink to="/options" title="Filename Options">Filename Options</NavLink>
+						</nav>
+						<div>
+							<Routes>
+								<Route path="/" element={
+									<SelectAttributes
+										presets={presets}
+										updateState={updateState} />
+								} />
+								<Route path="/options" element={
+									<FilenameOptions
+										presetNamePrepend={presetNamePrepend}
+										presetNameAppend={presetNameAppend}
+										updateStateFromEvent={updateStateFromEvent} />
+								} />
+								<Route />
+							</Routes>
+						</div>
+					</HashRouter>
+				</section>
 			</main>
 			<footer>
 				<ButtonWithIcon
