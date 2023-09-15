@@ -37,11 +37,15 @@ const Directory = ({ dir, index, total, dispatch }) => {
 	const updateLocation = useCallback(e => {
 		const { name, value } = e?.target || e
 
-		dispatch(updateSaveLocation(id, name, value))
+		dispatch(updateSaveLocation(id, {
+			[name]: value
+		}))
 	}, [id])
 
 	const updateDirectory = useCallback(dir => {
-		dispatch(updateSaveLocation(id, 'directory', dir))
+		dispatch(updateSaveLocation(id, {
+			directory: dir
+		}))
 	}, [id])
 
 	const moveUp = useCallback(() => {
