@@ -111,7 +111,8 @@ export const defaultPresets = {
 			label: 'EWN BG Blue',
 			hidden: false,
 			attributes: {
-				background: 'blue'
+				background: 'blue',
+				presetNameAppend: '- EWN BG Blue'
 			}
 		},
 		{
@@ -119,7 +120,8 @@ export const defaultPresets = {
 			label: 'EWN BG Grey',
 			hidden: true,
 			attributes: {
-				background: 'grey'
+				background: 'grey',
+				presetNameAppend: '- EWN BG Grey'
 			}
 		},
 		{
@@ -127,7 +129,8 @@ export const defaultPresets = {
 			label: 'TNT BG Light Blue',
 			hidden: false,
 			attributes: {
-				background: 'light_blue'
+				background: 'light_blue',
+				presetNameAppend: '- TNT BG Light Blue'
 			}
 		},
 		{
@@ -135,7 +138,8 @@ export const defaultPresets = {
 			label: 'TNT BG Dark Blue',
 			hidden: true,
 			attributes: {
-				background: 'dark_blue'
+				background: 'dark_blue',
+				presetNameAppend: '- TNT BG Dark Blue'
 			}
 		},
 		{
@@ -143,7 +147,8 @@ export const defaultPresets = {
 			label: 'TNT BG Teal',
 			hidden: true,
 			attributes: {
-				background: 'teal'
+				background: 'teal',
+				presetNameAppend: '- TNT BG Teal'
 			}
 		},
 		{
@@ -151,7 +156,8 @@ export const defaultPresets = {
 			label: 'TNT BG Tan',
 			hidden: true,
 			attributes: {
-				background: 'tan'
+				background: 'tan',
+				presetNameAppend: '- TNT BG Tan'
 			}
 		}
 	],
