@@ -1,14 +1,19 @@
-import { updateMediaStateById } from 'actions'
+import { toggleSaveLocation, updateMediaStateById } from 'actions'
 import * as STATUS from 'status'
 
 import {
+  TOASTR_OPTIONS,
   buildSource,
   cleanFilename,
   createPromiseQueue,
+  errorToString,
   getIntegerLength,
+  pipe,
   replaceTokens,
   zeroize
 } from 'utilities'
+
+const { interop } = window.ABLE2
 
 const updateRenderStatus = (id, renderStatus) => updateMediaStateById(id, { renderStatus })
 
@@ -23,7 +28,7 @@ const fillMissingFilenames = media => media.map(item => ({
 
 const createNamingTemplate = ({ type, replacer, prepend, append, separator = '' }) => {
 	if (type === 'replace') {
-		return filename => replacer.replace(/(?<!\\)\$f/g, filename)
+		return () => replacer
 	} else if (prepend && append) {
 		return filename => [prepend, filename, append].join(separator)
 	} else if (prepend) {
@@ -84,7 +89,7 @@ const replaceSpaces = (replace, replacement) => media => replace ? media.map(ite
 const convertCase = (convert, casing) => media => {
   if (!convert) return media
 
-  const converter = casing === 'uppercase' ? 'toUppercase' : 'toLowercase'
+  const converter = casing === 'uppercase' ? 'toUpperCase' : 'toLowerCase'
 
   return media.map(item => ({
     ...item,
@@ -225,7 +230,7 @@ export const render = args => async dispatch => {
 		applyPresetName(args.batchNameSeparator),
 		sanitizeFilenames(args.asperaSafe),
     replaceSpaces(args.replaceSpaces, args.spaceReplacement),
-    convertCase(args.conmvertCase, args.case),
+    convertCase(args.convertCase, args.casing),
 		preventDuplicateFilenames
 	)(media)
 
