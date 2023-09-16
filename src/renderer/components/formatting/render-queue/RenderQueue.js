@@ -37,7 +37,8 @@ const RenderQueue = props => {
 		customFrameRate,
 		autoPNG,
 		asperaSafe,
-		concurrent
+		concurrent,
+		batchNameSeparator
 	} = preferences
 
 	// eslint-disable-next-line no-extra-parens
@@ -96,6 +97,7 @@ const RenderQueue = props => {
 			autoPNG,
 			asperaSafe,
 			concurrent,
+			batchNameSeparator,
 			goBack,
 			removeLocation
 		})
