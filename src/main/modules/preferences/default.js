@@ -89,6 +89,7 @@ export const defaultPrefs = {
 	renderFrameRate: 'auto',
 	customFrameRate: 23.98,
 	autoPNG: true,
+	batchNameSeparator: ' ',
 	asperaSafe: true,
 	concurrent: 2,
 	saveLocations: [
