@@ -8,7 +8,7 @@ import {
 	TOASTR_OPTIONS,
 	createMediaData,
 	errorToString,
-	replaceTokens
+	format12hr
 } from 'utilities'
 
 const { interop } = window.ABLE2
@@ -184,7 +184,8 @@ export const upload = ({ name, path }) => async dispatch => {
 // ---- SCREEN RECORD ------------
 
 export const loadRecording = (id, screenshot) => async dispatch => {
-	const title = replaceTokens(`Able2 Screen${screenshot ? 'shot' : ' Record'} $t $d`)
+	const d = new Date()
+	const title = `Able2 Screen${screenshot ? 'shot' : ' Record'} ${format12hr(d)} ${d.toDateString()}`
 	let mediaData = {}
 
 	try {
