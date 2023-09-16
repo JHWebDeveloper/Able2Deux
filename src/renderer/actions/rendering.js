@@ -1,3 +1,15 @@
+import { updateMediaStateById } from 'actions'
+import * as STATUS from 'status'
+
+import {
+  buildSource,
+  cleanFilename,
+  createPromiseQueue,
+  getIntegerLength,
+  replaceTokens,
+  zeroize
+} from 'utilities'
+
 const updateRenderStatus = (id, renderStatus) => updateMediaStateById(id, { renderStatus })
 
 const updateRenderProgress = ({ id, percent: renderPercent }) => updateMediaStateById(id, { renderPercent })
@@ -63,6 +75,22 @@ const sanitizeFilenames = asperaSafe => media => media.map((item, i) => ({
 	...item,
 	filename: cleanFilename(replaceTokens(item.filename, i, media.length, item), asperaSafe)
 }))
+
+const replaceSpaces = (replace, replacement) => media => replace ? media.map(item => ({
+  ...item,
+  filename: item.filename.replaceAll(' ', replacement)
+})) : media
+
+const convertCase = (convert, casing) => media => {
+  if (!convert) return media
+
+  const converter = casing === 'uppercase' ? 'toUppercase' : 'toLowercase'
+
+  return media.map(item => ({
+    ...item,
+    filename: item.filename[converter]()
+  }))
+}
 
 const preventDuplicateFilenames = media => {
 	if (media.length < 2) return media
@@ -196,6 +224,8 @@ export const render = args => async dispatch => {
 		applyBatchName(args),
 		applyPresetName(args.batchNameSeparator),
 		sanitizeFilenames(args.asperaSafe),
+    replaceSpaces(args.replaceSpaces, args.spaceReplacement),
+    convertCase(args.conmvertCase, args.case),
 		preventDuplicateFilenames
 	)(media)
 
