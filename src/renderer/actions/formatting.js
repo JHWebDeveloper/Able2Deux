@@ -1,7 +1,6 @@
 import toastr from 'toastr'
 
 import * as ACTION from 'actions/types'
-import * as STATUS from 'status'
 
 import {
 	addMedia,
@@ -11,20 +10,14 @@ import {
 
 import {
 	TOASTR_OPTIONS,
-	buildSource,
 	clamp,
-	cleanFilename,
 	createMediaData,
 	createCurvePoint,
 	createDefaultCurvePoints,
-	createPromiseQueue,
 	errorToString,
-	getIntegerLength,
 	pipe,
 	pipeAsync,
-	refocusBatchItem,
-	replaceTokens,
-	zeroize
+	refocusBatchItem
 } from 'utilities'
 
 const { interop } = window.ABLE2
