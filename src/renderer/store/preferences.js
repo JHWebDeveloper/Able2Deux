@@ -48,6 +48,7 @@ const initState = {
 	customFrameRate: 23.98,
 	autoPNG: true,
 	asperaSafe: true,
+	batchNameSeparator: ' ',
 	concurrent: 2,
 	saveLocations: [],
 	disableRateLimit: false
