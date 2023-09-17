@@ -1,4 +1,4 @@
-import React, { useId } from 'react'
+import React, { Fragment, useId } from 'react'
 import { arrayOf, bool, func, object, oneOfType, shape, string } from 'prop-types'
 
 import DropdownMenu from './DropdownMenu'
@@ -8,12 +8,27 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 
 	return (buttons instanceof Function ? buttons() : buttons).map((props, i) => {
 		const { hide, type, label, action, shortcut, submenu } = props
-
-		if (hide) return <></>
-
 		const key = `${menuId}_${i}`
 
+		if (hide) return <Fragment key={key} />
+
 		switch (type) {
+			case 'button':
+				return (
+					<button
+						key={key}
+						type="button"
+						role="menuitem"
+						title={label}
+						aria-label={label}
+						autoFocus={i === 0}
+						onClick={action}
+						onKeyDown={navigateWithKeys}
+						data-no-drag>
+						<span>{label}</span>
+						{shortcut ? <kbd>{shortcut}</kbd> : <></>}
+					</button>
+				)
 			case 'spacer':
 				return (
 					<span
@@ -35,66 +50,9 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 						autoFocus={i === 0}
 						submenu />
 				)
-			case 'button':
-				return (
-					<button
-						key={key}
-						type="button"
-						role="menuitem"
-						title={label}
-						aria-label={label}
-						autoFocus={i === 0}
-						onClick={action}
-						onKeyDown={navigateWithKeys}
-						data-no-drag>
-						<span>{label}</span>
-						{shortcut ? <kbd>{shortcut}</kbd> : <></>}
-					</button>
-				)
 			default:
-				return <></>
+				return <Fragment key={key} />
 		}
-
-		if (type === 'spacer') {
-			acc.push(
-				<span
-					key={key}
-					className="spacer"
-					aria-hidden
-					data-no-drag>
-					{label ? <span>{label}</span> : <></>}
-				</span>
-			)
-		} else if ('submenu' in props) {
-			acc.push(
-				<MediaOptionsDropdown
-					key={key}
-					buttons={submenu}
-					alignment="right top"
-					label={label}
-					parentMenu={parentMenu}
-					autoFocus={i === 0}
-					submenu />
-			)
-		} else {
-			acc.push(
-				<button
-					key={key}
-					type="button"
-					role="menuitem"
-					title={label}
-					aria-label={label}
-					autoFocus={i === 0}
-					onClick={action}
-					onKeyDown={navigateWithKeys}
-					data-no-drag>
-					<span>{label}</span>
-					{shortcut ? <kbd>{shortcut}</kbd> : <></>}
-				</button>
-			)
-		}
-
-		return acc
 	})
 }
 
