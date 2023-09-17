@@ -90,6 +90,10 @@ export const defaultPrefs = {
 	customFrameRate: 23.98,
 	autoPNG: true,
 	batchNameSeparator: ' ',
+	replaceSpaces: false,
+	spaceReplacement: '_',
+	convertCase: false,
+	casing: 'lowercase',
 	asperaSafe: true,
 	concurrent: 2,
 	saveLocations: [
