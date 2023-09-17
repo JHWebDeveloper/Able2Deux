@@ -19,7 +19,9 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 					key={key}
 					className="spacer"
 					aria-hidden
-					data-no-drag></span>
+					data-no-drag>
+					{label ? <span>{label}</span> : <></>}
+				</span>
 			)
 		} else if ('submenu' in props) {
 			acc.push(
