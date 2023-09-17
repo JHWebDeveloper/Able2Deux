@@ -150,14 +150,15 @@ input, select {
 	background-color: var(--background);
 }
 
-input:is([type="text"], [type="number"]):disabled { color: var(--disabled); }
+:is(input:is([type="text"], [type="number"]), select):disabled { color: var(--disabled); }
+
+:is(input[type="text"], select):is(.underline, .panel-input) {
+	padding: 3px;
+}
 
 input[type="text"] { text-overflow: ellipsis; }
 
-:is(input[type="text"], select):is(.underline, .panel-input) {
-	width: 100%;
-	padding: 3px;
-}
+input[type="text"].panel-input { width: 100%; }
 
 input[type="text"].underline {
 	display: block;
