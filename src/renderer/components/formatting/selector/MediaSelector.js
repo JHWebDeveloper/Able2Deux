@@ -50,6 +50,11 @@ const MediaSelector = ({
 	}), [allItemsSelected])
 
 	const createPresetMenu = useCallback(action => () => [
+		{
+			type: 'spacer',
+			label: 'Presets',
+			hide: !presets.length || !batchPresets.length
+		},
 		...presets.map(({ label, id }) => ({
 			label,
 			action() {
@@ -58,6 +63,7 @@ const MediaSelector = ({
 		})),
 		{
 			type: 'spacer',
+			label: 'Batch Presets',
 			hide: !presets.length || !batchPresets.length
 		},
 		...batchPresets.map(({ label, presets }) => ({
