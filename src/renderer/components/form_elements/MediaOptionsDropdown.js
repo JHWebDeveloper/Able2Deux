@@ -6,12 +6,54 @@ import DropdownMenu from './DropdownMenu'
 const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 	const menuId = useId()
 
-	return (buttons instanceof Function ? buttons() : buttons).reduce((acc, props, i) => {
+	return (buttons instanceof Function ? buttons() : buttons).map((props, i) => {
 		const { hide, type, label, action, shortcut, submenu } = props
 
-		if (hide) return acc
+		if (hide) return <></>
 
 		const key = `${menuId}_${i}`
+
+		switch (type) {
+			case 'spacer':
+				return (
+					<span
+						key={key}
+						className="spacer"
+						aria-hidden
+						data-no-drag>
+						{label ? <span>{label}</span> : <></>}
+					</span>
+				)
+			case 'submenu':
+				return (
+					<MediaOptionsDropdown
+						key={key}
+						buttons={submenu}
+						alignment="right top"
+						label={label}
+						parentMenu={parentMenu}
+						autoFocus={i === 0}
+						submenu />
+				)
+			case 'button':
+				return (
+					<button
+						key={key}
+						type="button"
+						role="menuitem"
+						title={label}
+						aria-label={label}
+						autoFocus={i === 0}
+						onClick={action}
+						onKeyDown={navigateWithKeys}
+						data-no-drag>
+						<span>{label}</span>
+						{shortcut ? <kbd>{shortcut}</kbd> : <></>}
+					</button>
+				)
+			default:
+				return <></>
+		}
 
 		if (type === 'spacer') {
 			acc.push(
@@ -53,7 +95,7 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 		}
 
 		return acc
-	}, [])
+	})
 }
 
 const MediaOptionsDropdown = ({
