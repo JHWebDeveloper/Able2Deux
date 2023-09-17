@@ -19,19 +19,19 @@ const ScratchDisk = ({ scratchDisk, dispatch }) => {
 	return (
 		<fieldset>
 			<legend>Scratch Disks:</legend>
-			<span className="input-option">
+			<span className="scratch-disk">
 				<label>Import Cache</label>
 				<DirectorySelector
 					directory={scratchDisk.imports}
 					onChange={updateImports} />
 			</span>
-			<span className="input-option">
+			<span className="scratch-disk">
 				<label>Export Cache</label>
 				<DirectorySelector
 					directory={scratchDisk.exports}
 					onChange={updateExports} />
 			</span>
-			<span className="input-option">
+			<span className="scratch-disk">
 				<label>Preview Cache</label>
 				<DirectorySelector
 					directory={scratchDisk.previews}
