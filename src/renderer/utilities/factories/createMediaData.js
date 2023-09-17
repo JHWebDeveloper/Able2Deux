@@ -37,7 +37,7 @@ const DEFAULT_MEDIA_DATA = Object.freeze({
 	originalWidth: 0,
 	originalHeight: 0,
 	originalAspectRatio: '',
-	fps: 0,
+	fps: 1,
 	channelLayout: '',
 	sampleRate: '',
 	bitRate: '',
