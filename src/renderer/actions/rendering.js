@@ -130,9 +130,14 @@ export const replaceTokens = (filename, i = 0, media) => {
 	return removeEscapeChars(filename)
 }
 
+const replaceFilenameTokens = media => media.map((item, i) => ({
+  ...item,
+  filename: replaceTokens(item.filename, i, media)
+}))
+
 const sanitizeFilenames = asperaSafe => media => media.map((item, i) => ({
 	...item,
-	filename: cleanFilename(replaceTokens(item.filename, i, media), asperaSafe)
+	filename: cleanFilename(item.filename, asperaSafe)
 }))
 
 const replaceSpaces = (replace, replacement) => media => replace ? media.map(item => ({
