@@ -29,12 +29,14 @@ const MediaSelectorOptions = ({
 
 		return [
 			{
+				type: 'button',
 				label: 'Select All',
 				hide: allItemsSelected,
 				shortcut: `${ctrlOrCmdKeySymbol}A`,
 				action: selectAllMedia
 			},
 			{
+				type: 'button',
 				label: 'Deselect All',
 				hide: !multipleItemsSelected,
 				shortcut: `⇧${ctrlOrCmdKeySymbol}A`,
@@ -42,6 +44,7 @@ const MediaSelectorOptions = ({
 			},
 			{ type: 'spacer' },
 			{
+				type: 'button',
 				label: 'Duplicate Selected',
 				hide: !multipleItemsSelected,
 				shortcut: `⇧${ctrlOrCmdKeySymbol}D`,
@@ -50,6 +53,7 @@ const MediaSelectorOptions = ({
 				}
 			},
 			{
+				type: 'button',
 				label: 'Duplicate All',
 				hide: multipleItemsSelected,
 				action() {
@@ -58,21 +62,25 @@ const MediaSelectorOptions = ({
 			},
 			{ type: 'spacer' },
 			{
+				type: 'submenu',
 				label: 'Apply Preset to Selected',
 				hide: !showApplyPresetOptions || !multipleItemsSelected,
 				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds }))
 			},
 			{
+				type: 'submenu',
 				label: 'Apply Preset to Selected as Duplicate',
 				hide: !showApplyPresetOptions || !multipleItemsSelected,
 				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds, duplicate: true }))
 			},
 			{
+				type: 'submenu',
 				label: 'Apply Preset to All',
 				hide: !showApplyPresetOptions || multipleItemsSelected,
 				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds, applyToAll: true }))
 			},
 			{
+				type: 'submenu',
 				label: 'Apply Preset to All as Duplicate',
 				hide: !showApplyPresetOptions || multipleItemsSelected,
 				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds, applyToAll: true, duplicate: true }))
@@ -82,12 +90,14 @@ const MediaSelectorOptions = ({
 				hide: !showApplyPresetOptions
 			},
 			{
+				type: 'button',
 				label: 'Remove Selected',
 				hide: !multipleItemsSelected,
 				shortcut: '⇧⌫',
 				action: removeSelectedMediaWarning
 			},
 			{
+				type: 'button',
 				label: 'Remove All',
 				hide: allItemsSelected,
 				action: removeAllMediaWarning

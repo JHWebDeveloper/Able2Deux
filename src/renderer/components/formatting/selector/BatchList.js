@@ -96,6 +96,7 @@ const BatchList = ({
 
 		return [
 			{
+				type: 'button',
 				label: 'Copy All Attributes',
 				hide: isOnly,
 				shortcut: `${ctrlOrCmdKeySymbol}C`,
@@ -104,6 +105,7 @@ const BatchList = ({
 				}
 			},
 			{
+				type: 'button',
 				label: 'Paste Attributes',
 				hide: clipboardIsEmpty,
 				shortcut: `${ctrlOrCmdKeySymbol}V`,
@@ -112,6 +114,7 @@ const BatchList = ({
 				}
 			},
 			{
+				type: 'button',
 				label: 'Apply Attributes to Selected',
 				hide: isOnly || !multipleItemsSelected,
 				action() {
@@ -119,6 +122,7 @@ const BatchList = ({
 				}
 			},
 			{
+				type: 'button',
 				label: 'Apply Attributes to All',
 				hide: isOnly || multipleItemsSelected,
 				action() {
@@ -130,6 +134,7 @@ const BatchList = ({
 				hide: isOnly && clipboardIsEmpty
 			},
 			{
+				type: 'button',
 				label: 'Move Up',
 				hide: isFirst,
 				shortcut: '⌥↑',
@@ -138,6 +143,7 @@ const BatchList = ({
 				}
 			},
 			{
+				type: 'button',
 				label: 'Move Down',
 				hide: isLast,
 				shortcut: '⌥↓',
@@ -150,6 +156,7 @@ const BatchList = ({
 				hide: isOnly
 			},
 			{
+				type: 'button',
 				label: 'Duplicate Media',
 				shortcut: `${ctrlOrCmdKeySymbol}D`,
 				action() {
@@ -157,6 +164,7 @@ const BatchList = ({
 				}
 			},
 			{
+				type: 'button',
 				label: 'Select Duplicates',
 				hide: isOnly,
 				action() {
@@ -165,16 +173,19 @@ const BatchList = ({
 			},
 			{ type: 'spacer' },
 			{
+				type: 'submenu',
 				label: 'Apply Preset',
 				hide: !showApplyPresetOptions,
 				submenu: createPresetMenu(presetIds => applyPreset(presetIds, id))
 			},
 			{
+				type: 'submenu',
 				label: 'Apply Preset as Duplicate',
 				hide: !showApplyPresetOptions,
 				submenu: createPresetMenu(presetIds => applyPreset(presetIds, id, true))
 			},
 			{
+				type: 'button',
 				label: 'Save as Preset',
 				action() {
 					dispatch(saveAsPreset(id, extractRelevantMediaProps, eraseIds))
@@ -182,6 +193,7 @@ const BatchList = ({
 			},
 			{ type: 'spacer' },
 			{
+				type: 'button',
 				label: 'Remove Media',
 				shortcut: '⌫',
 				action() {
@@ -190,6 +202,7 @@ const BatchList = ({
 			},
 			{ type: 'spacer' },
 			{
+				type: 'button',
 				label: 'Reveal in Cache',
 				action() {
 					interop.revealInTempFolder(tempFilePath)

@@ -56,6 +56,7 @@ const MediaSelector = ({
 			hide: !presets.length || !batchPresets.length
 		},
 		...presets.map(({ label, id }) => ({
+			type: 'button',
 			label,
 			action() {
 				dispatch(action(id))
@@ -67,6 +68,7 @@ const MediaSelector = ({
 			hide: !presets.length || !batchPresets.length
 		},
 		...batchPresets.map(({ label, presets }) => ({
+			type: 'button',
 			label,
 			action() {
 				dispatch(action(presets))

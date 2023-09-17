@@ -49,12 +49,14 @@ const PresetNameTemplatePanel = props => {
 
 	const settingsMenu = useMemo(() => multipleItems ? [
 		{
+			type: 'button',
 			label: 'Copy Attributes',
 			action() {
 				dispatch(copyAttributes(id, extractPresetNameProps))
 			}
 		},
 		{
+			type: 'button',
 			label: 'Apply to Selection',
 			hide: !multipleItemsSelected,
 			action() {
@@ -62,6 +64,7 @@ const PresetNameTemplatePanel = props => {
 			}
 		},
 		{
+			type: 'button',
 			label: 'Apply to All',
 			hide: multipleItemsSelected,
 			action() {
