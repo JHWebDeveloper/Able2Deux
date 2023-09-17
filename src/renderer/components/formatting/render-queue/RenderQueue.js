@@ -38,7 +38,11 @@ const RenderQueue = props => {
 		autoPNG,
 		asperaSafe,
 		concurrent,
-		batchNameSeparator
+		batchNameSeparator,
+		replaceSpaces,
+		spaceReplacement,
+		convertCase,
+		casing
 	} = preferences
 
 	// eslint-disable-next-line no-extra-parens
@@ -98,6 +102,10 @@ const RenderQueue = props => {
 			asperaSafe,
 			concurrent,
 			batchNameSeparator,
+			replaceSpaces,
+			spaceReplacement,
+			convertCase,
+			casing,
 			goBack,
 			removeLocation
 		})
