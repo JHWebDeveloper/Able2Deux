@@ -68,16 +68,6 @@ export const tcToSeconds = hms => hms
 	.map(val => parseInt(val) || 0)
 	.reduce((acc, val, i) => acc + val * 60 ** i, 0)
 
-// ---- FILE NAMES --------
-
-const getAsperaSafeRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
-
-export const cleanFilename = (fileName, asperaSafe) => fileName
-	.replace(getAsperaSafeRegex(asperaSafe), '_')
-	.trim()
-	.slice(0, 252)
-	.trimEnd()
-
 export const format12hr = d => {
 	let h = d.getHours()
 	const m = d.getMinutes()
