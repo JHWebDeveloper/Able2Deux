@@ -43,9 +43,21 @@ fieldset { margin-bottom: 12px; }
 
 fieldset:nth-child(n + 2) { margin-top: 12px; }
 
-.input-option, label:not([for]) { display: block; }
+.input-option,
+.scratch-disk {
+	margin-bottom: 9px;
+}
 
-.input-option { margin-bottom: 9px; }
+.input-option {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: min-content;
+	align-items: baseline;
+}
+
+.scratch-disk { display: block; }
+
+label:not([for]) { display: block; }
 
 :not(.radio-set) > label {
 	margin-right: 9px;
@@ -55,7 +67,7 @@ fieldset:nth-child(n + 2) { margin-top: 12px; }
 
 form > :last-child { margin-bottom: 0; }
 
-form :is(.app-button, input:is([type="text"], [type="number"], [type="color"])) {
+form :is(.app-button, input:is([type="text"], [type="number"], [type="color"]), select) {
 	height: 24px;
 	vertical-align: middle;
 }
