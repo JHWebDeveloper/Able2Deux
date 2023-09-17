@@ -4,7 +4,6 @@ import * as STATUS from 'status'
 import {
   TOASTR_OPTIONS,
   buildSource,
-  cleanFilename,
   createPromiseQueue,
   errorToString,
   format12hr,
@@ -23,10 +22,14 @@ const updateRenderProgress = ({ id, percent: renderPercent }) => updateMediaStat
 
 const renderQueue = createPromiseQueue()
 
+// ---- FILL MISSING FILENAMES --------
+
 const fillMissingFilenames = media => media.map(item => ({
 	...item,
 	filename: item.filename || 'Able2 Export $t $d'
 }))
+
+// ---- APPLY BATCH AND PRESET NAME TEMPLATES --------
 
 const createNamingTemplate = ({ type, replacer, prepend, append, separator = '' }) => {
 	if (type === 'replace') {
@@ -77,6 +80,8 @@ const applyBatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameA
 		filename: batchNameTemplate(item.filename)
 	}))
 }
+
+// ---- REPLACE FILENAME TOKENS --------
 
 const getTokenReplacerFns = (i, l, { start, end, duration, fps, instances= [], versions = [], refId, id }) => {
 	const d = new Date()
@@ -135,9 +140,17 @@ const replaceFilenameTokens = media => media.map((item, i) => ({
   filename: replaceTokens(item.filename, i, media)
 }))
 
-const sanitizeFilenames = asperaSafe => media => media.map((item, i) => ({
+// ---- CLEAN AND FORMAT FILENAME --------
+
+const getAsperaSafeRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSafe ? '|ŒœŠšŸ​]|[^!-ż\\s' : ''}])`, 'g')
+
+const sanitizeFilenames = asperaSafe => media => media.map(item => ({
 	...item,
-	filename: cleanFilename(item.filename, asperaSafe)
+	filename: item.filename
+    .replace(getAsperaSafeRegex(asperaSafe), '_')
+    .trim()
+    .slice(0, 252)
+    .trimEnd()
 }))
 
 const replaceSpaces = (replace, replacement) => media => replace ? media.map(item => ({
@@ -199,6 +212,8 @@ const preventDuplicateFilenames = media => {
 
 	return mediaCopy
 }
+
+// ---- RENDER --------
 
 const renderItem = (args, dispatch) => {
 	const { saveLocations, renderOutput, renderFrameRate, customFrameRate, autoPNG } = args
@@ -287,6 +302,7 @@ export const render = args => async dispatch => {
 		fillMissingFilenames,
 		applyBatchName(args),
 		applyPresetName(args.batchNameSeparator),
+    replaceFilenameTokens,
 		sanitizeFilenames(args.asperaSafe),
     replaceSpaces(args.replaceSpaces, args.spaceReplacement),
     convertCase(args.convertCase, args.casing),
