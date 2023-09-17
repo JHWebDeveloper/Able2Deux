@@ -1,12 +1,7 @@
 import React, { useCallback, useContext } from 'react'
 
 import { PrefsContext } from 'store'
-
-import {
-	toggleCheckbox,
-	updateState,
-	updateStateFromEvent
-} from 'actions'
+import { toggleCheckbox, updateState } from 'actions'
 
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
@@ -41,7 +36,9 @@ const FRAME_RATE_BUTTONS = Object.freeze([
 const RenderOutput = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
 
-	const updateCustomFrameRate = useCallback(({ name, value }) => {
+	const updateStateFromEvent = useCallback(e => {
+		const { name, value } = e?.target || e
+
 		dispatch(updateState({ [name]: value }))
 	}, [])
 
@@ -51,6 +48,10 @@ const RenderOutput = () => {
 		}))
 	}, [])
 
+	const dispatchToggleCheckbox = useCallback(e => {
+		dispatch(toggleCheckbox(e))
+	}, [])
+
 	return (
 		<form>
 			<fieldset className="radio-set">
@@ -58,7 +59,7 @@ const RenderOutput = () => {
 				<RadioSet 
 					name="renderOutput"
 					state={preferences.renderOutput}
-					onChange={e => dispatch(updateStateFromEvent(e))}
+					onChange={updateStateFromEvent}
 					buttons={OUTPUT_BUTTONS} />
 			</fieldset>
 			<fieldset className="radio-set">
@@ -66,7 +67,7 @@ const RenderOutput = () => {
 				<RadioSet 
 					name="renderFrameRate"
 					state={preferences.renderFrameRate}
-					onChange={e => dispatch(updateStateFromEvent(e))}
+					onChange={updateStateFromEvent}
 					buttons={[
 						...FRAME_RATE_BUTTONS,
 						{
@@ -77,7 +78,7 @@ const RenderOutput = () => {
 								value={preferences.customFrameRate}
 								min={1}
 								max={240}
-								onChange={updateCustomFrameRate} />
+								onChange={updateStateFromEvent} />
 						}
 					]} />
 			</fieldset>
@@ -86,7 +87,7 @@ const RenderOutput = () => {
 					label="Auto Export Still Video as .png"
 					name="autoPNG"
 					checked={preferences.autoPNG}
-					onChange={e => dispatch(toggleCheckbox(e))}
+					onChange={dispatchToggleCheckbox}
 					switchIcon/>
 			</span>
 			<span className="input-option">
@@ -94,8 +95,62 @@ const RenderOutput = () => {
 					label="Filter Unsafe Characters for Aspera"
 					name="asperaSafe"
 					checked={preferences.asperaSafe}
-					onChange={e => dispatch(toggleCheckbox(e))}
+					onChange={dispatchToggleCheckbox}
 					switchIcon />
+			</span>
+			<span className="input-option">
+				<Checkbox
+					label="Replace Spaces with"
+					name="replaceSpaces"
+					checked={preferences.replaceSpaces}
+					onChange={dispatchToggleCheckbox}
+					switchIcon />
+				<select
+					name="spaceReplacement"
+					className="panel-input"
+					title="Select space replacement character"
+					aria-label="Select space replacement character"
+					value={preferences.spaceReplacement}
+					onChange={updateStateFromEvent}
+					disabled={!preferences.replaceSpaces}>
+					<option value="">Nothing (Remove Spaces)</option>
+					<option value="-">Dashes</option>
+					<option value="_">Underscores</option>
+				</select>
+			</span>
+			<span className="input-option">
+				<Checkbox
+					label="Convert Case to"
+					name="convertCase"
+					checked={preferences.convertCase}
+					onChange={dispatchToggleCheckbox}
+					switchIcon />
+				<select
+					name="casing"
+					className="panel-input"
+					title="Select filename case"
+					aria-label="Select filename case"
+					value={preferences.casing}
+					onChange={updateStateFromEvent}
+					disabled={!preferences.convertCase}>
+					<option value="lowercase">Lowercase</option>
+					<option value="uppercase">Uppercase</option>
+				</select>
+			</span>
+			<span className="input-option">
+				<label htmlFor="batchNameSeparator">Join Batch/Preset Names with</label>
+				<select
+					id="batchNameSeparator"
+					name="batchNameSeparator"
+					className="panel-input"
+					value={preferences.batchNameSeparator}
+					onChange={updateStateFromEvent}>
+					<option value="">Nothing</option>
+					<option value=" ">Spaces</option>
+					<option value="-">Dashes</option>
+					<option value=" - ">Spaced Dashes</option>
+					<option value="_">Underscores</option>
+				</select>
 			</span>
 			<span className="input-option">
 				<label htmlFor="concurrent">Concurrent Renders</label>
