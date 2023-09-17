@@ -149,10 +149,22 @@ button[name$="selectAll"] {
 }
 
 .spacer {
+	position: relative;
 	display: inherit;
 	height: 1px;
 	margin: 5px;
 	background-color: var(--background-alt-2);
+}
+
+.spacer > span {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	translate: -50% -50%;
+	padding-inline: 3px;
+	background-color: var(--background);
+	color: var(--background-alt-2);
+	font-size: 8px;
 }
 
 
