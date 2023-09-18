@@ -302,67 +302,69 @@ const PresetSaveAs = () => {
 				<h1>Save Preset</h1>
 			</header>
 			<main>
-				<section className="preset-name">
-					{existingPresets.length ? (
-						<fieldset className="radio-set">
-							<legend>Save Type<span aria-hidden>:</span></legend>  
-							<RadioSet
-								name="saveType"
-								state={saveType}
-								onChange={updateStateFromEvent}
-								buttons={SAVE_TYPE_BUTTONS}/>
-						</fieldset>
-					) : <></>}
-					{saveType === 'newPreset' ? (
-						<fieldset>
-							<legend>Preset Name<span aria-hidden>:</span></legend>
-							<input
-								type="text"
-								className="panel-input"
-								name="presetName"
-								maxLength={50}
-								value={presetName}
-								onChange={updateStateFromEvent} />
-						</fieldset>
-					) : (
-						<fieldset>
-							<legend>Select Preset<span aria-hidden>:</span></legend>
-							<select
-								className="panel-input"
-								name="selectedPreset"
-								value={selectedPreset}
-								onChange={updateStateFromEvent}>
-								{existingPresets.map(({ id, label }) => (
-									<option key={id} value={id}>{label}</option>
-								))}
-							</select>
-						</fieldset>
-					)}
-				</section>
-				<section className="preset-settings">
-					<HashRouter>
-						<nav>
-							<NavLink to="/" title="Attributes">Attributes</NavLink>
-							<NavLink to="/options" title="Filename Options">Filename Options</NavLink>
-						</nav>
-						<div>
-							<Routes>
-								<Route path="/" element={
-									<SelectAttributes
-										presets={presets}
-										updateState={updateState} />
-								} />
-								<Route path="/options" element={
-									<FilenameOptions
-										presetNamePrepend={presetNamePrepend}
-										presetNameAppend={presetNameAppend}
-										updateStateFromEvent={updateStateFromEvent} />
-								} />
-								<Route />
-							</Routes>
-						</div>
-					</HashRouter>
-				</section>
+				<form>
+					<section className="preset-name">
+						{existingPresets.length ? (
+							<fieldset className="radio-set">
+								<legend>Save Type<span aria-hidden>:</span></legend>  
+								<RadioSet
+									name="saveType"
+									state={saveType}
+									onChange={updateStateFromEvent}
+									buttons={SAVE_TYPE_BUTTONS}/>
+							</fieldset>
+						) : <></>}
+						{saveType === 'newPreset' ? (
+							<fieldset>
+								<legend>Preset Name<span aria-hidden>:</span></legend>
+								<input
+									type="text"
+									className="panel-input"
+									name="presetName"
+									maxLength={50}
+									value={presetName}
+									onChange={updateStateFromEvent} />
+							</fieldset>
+						) : (
+							<fieldset>
+								<legend>Select Preset<span aria-hidden>:</span></legend>
+								<select
+									className="panel-input"
+									name="selectedPreset"
+									value={selectedPreset}
+									onChange={updateStateFromEvent}>
+									{existingPresets.map(({ id, label }) => (
+										<option key={id} value={id}>{label}</option>
+									))}
+								</select>
+							</fieldset>
+						)}
+					</section>
+					<section className="preset-settings">
+						<HashRouter>
+							<nav>
+								<NavLink to="/" title="Attributes">Attributes</NavLink>
+								<NavLink to="/options" title="Filename Options">Filename Options</NavLink>
+							</nav>
+							<div>
+								<Routes>
+									<Route path="/" element={
+										<SelectAttributes
+											presets={presets}
+											updateState={updateState} />
+									} />
+									<Route path="/options" element={
+										<FilenameOptions
+											presetNamePrepend={presetNamePrepend}
+											presetNameAppend={presetNameAppend}
+											updateStateFromEvent={updateStateFromEvent} />
+									} />
+									<Route />
+								</Routes>
+							</div>
+						</HashRouter>
+					</section>
+				</form>
 			</main>
 			<footer>
 				<ButtonWithIcon
