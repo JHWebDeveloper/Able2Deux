@@ -5,16 +5,9 @@
 	padding: 0;
 }
 
-nav, footer {
-	position: fixed;
-	left: 0;
-	width: 100%;
-	background-color: var(--background);
-}
-
 nav { display: flex; }
 
-nav > a, form, footer { padding: 18px; }
+nav > a, main, footer { padding: 18px; }
 
 nav > a {
 	display: inline-block;
@@ -25,19 +18,14 @@ nav > a {
 	text-align: center;
 }
 
-nav > a:is(.active, :hover) { background-color: var(--background-alt-1); }
-
-form {
-	overflow-y: scroll;
-	display: block;
-	position: absolute;
-	top: 55px;
-	left: 0;
-	bottom: 67px;
-	width: 100%;
-	height: calc(100% - 122px);
+nav > a:is(.active, :hover),
+main {
 	background-color: var(--background-alt-1);
 }
+
+main { overflow: auto; }
+
+form { display: contents; }
 
 fieldset { margin-bottom: 12px; }
 
@@ -67,23 +55,23 @@ label:not([for]) { display: block; }
 
 form > :last-child { margin-bottom: 0; }
 
-form :is(.app-button, input:is([type="text"], [type="number"], [type="color"]), select) {
+main .app-button,
+input:is([type="text"], [type="number"], [type="color"]),
+select {
 	height: 24px;
 	vertical-align: middle;
 }
 
-form input[type="color"] { width: 48px; }
-
-form .app-button {
+main .app-button {
 	width: 24px;
 	padding: 0;
 }
 
+input[type="color"] { width: 48px; }
+
 input[name="customFrameRate"] { width: 50px; }
 
-.directory-selector > input {
-	margin-left: 6px;
-}
+.directory-selector > input { margin-left: 6px; }
 
 .directory-selector { display: flex; }
 
@@ -124,7 +112,10 @@ input[name="customFrameRate"] { width: 50px; }
 	margin: 0;
 }
 
-:is(.aspect-ratio-markers-grid, .save-locations-grid) > :is(div, span) { grid-column: 1 / -1; }
+:is(.aspect-ratio-markers-grid, .save-locations-grid) > :is(div, span) {
+	grid-column: 1 / -1;
+	align-items: center;
+}
 
 :is(.aspect-ratio-markers-grid, .save-locations-grid) > label { font-size: 10px; }
 
