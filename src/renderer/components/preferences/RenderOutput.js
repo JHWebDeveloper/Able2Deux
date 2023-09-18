@@ -53,7 +53,7 @@ const RenderOutput = () => {
 	}, [])
 
 	return (
-		<form>
+		<>
 			<fieldset className="radio-set">
 				<legend>Output Resolution:</legend>
 				<RadioSet 
@@ -164,7 +164,7 @@ const RenderOutput = () => {
 					microStep={1}
 					onChange={updateConcurrent} />
 			</span>
-		</form>
+		</>
 	)
 }
 

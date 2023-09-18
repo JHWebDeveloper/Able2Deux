@@ -32,7 +32,7 @@ const PreviewSettings = () => {
 	}, [])
 
 	return (
-		<form>
+		<>
 			<fieldset className="radio-set">
 				<legend>Default Quality:</legend>
 				<RadioSet
@@ -41,7 +41,7 @@ const PreviewSettings = () => {
 					state={preferences.previewQuality.toString()}
 					onChange={setPreviewQuality} />
 			</fieldset>
-			<span className="input-option">
+			<span className="input-option" style={{ alignItems: 'center' }}>
 				<label htmlFor="grid-color">Grid Color</label>
 				<input
 					type="color"
@@ -53,7 +53,7 @@ const PreviewSettings = () => {
 			<AspectRatioMarkers
 				aspectRatioMarkers={preferences.aspectRatioMarkers}
 				dispatch={dispatch} />
-		</form>
+		</>
 	)
 }
 

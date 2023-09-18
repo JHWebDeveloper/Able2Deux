@@ -32,7 +32,7 @@ const GeneralSettings = () => {
 	}, [])
 
 	return (
-		<form>
+		<>
 			<fieldset className="radio-set">
 				<legend>Theme:</legend>
 				<RadioSet
@@ -83,7 +83,7 @@ const GeneralSettings = () => {
 					onChange={dispatchToggleWarning}
 					switchIcon />
 			</fieldset>
-		</form>
+		</>
 	)
 }
 

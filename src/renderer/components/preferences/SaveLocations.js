@@ -22,7 +22,7 @@ const SaveLocations = () => {
 	}, [saveLocations])
 
 	return (
-		<form>
+		<>
 			<fieldset>
 				<legend>Save Locations:</legend>
 				<div className="sortable-grid save-locations-grid">
@@ -42,7 +42,7 @@ const SaveLocations = () => {
 					</DraggableList>
 				</div>
 			</fieldset>
-		</form>
+		</>
 	)
 }
 

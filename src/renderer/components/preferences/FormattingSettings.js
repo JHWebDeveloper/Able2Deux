@@ -64,7 +64,7 @@ const FormattingSettings = () => {
 	}, [])
 
 	return (
-		<form>
+		<>
 			<fieldset className="radio-set">
 				<legend>Default AR Correction:</legend>
 				<RadioSet
@@ -127,7 +127,7 @@ const FormattingSettings = () => {
 					defaultValue={400}
 					onChange={updateStateDispatch} />
 			</span>
-		</form>
+		</>
 	)
 }
 

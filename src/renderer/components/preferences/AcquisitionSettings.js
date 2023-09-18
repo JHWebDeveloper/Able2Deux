@@ -49,7 +49,7 @@ const AcquisitionSettings = () => {
 	}, [])
 
 	return (
-		<form>
+		<>
 			<fieldset className="radio-set">
 				<legend>Default Download Mode:</legend>
 				<RadioSet 
@@ -95,7 +95,7 @@ const AcquisitionSettings = () => {
 					max={86399}
 					onChange={updateStateDispatch} />
 			</span>
-		</form>
+		</>
 	)
 }
 
