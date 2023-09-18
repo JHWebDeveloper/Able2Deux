@@ -1,6 +1,9 @@
-#root {
+#root, section {
   display: grid;
   row-gap: 9px;
+}
+
+#root {
   grid-template-rows: min-content auto min-content;
   padding: 0;
 }
@@ -14,7 +17,7 @@ h1 {
 
 main, section, nav, section > div, footer { display: inherit; }
 
-main, section, section > div {
+main, section > div {
   row-gap: inherit;
   height: 100%;
 }
@@ -25,6 +28,8 @@ main {
 }
 
 section {
+  display: grid;
+  row-gap: 9px;
   overflow: inherit;
   align-content: start;
 }
