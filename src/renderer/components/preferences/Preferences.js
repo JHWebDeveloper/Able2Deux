@@ -48,14 +48,18 @@ const PreferencesRouter = () => {
 				<NavLink to="/rendering" title="Rendering">Rendering</NavLink>
 				<NavLink to="/save-locations" title="Save Locations">Save Locations</NavLink>
 			</nav>
-			<Routes>
-				<Route path="/" element={<GeneralSettings />} />
-				<Route path="/acquisition" element={<AcquisitionSettings />} />
-				<Route path="/formatting" element={<FormattingSettings />} />
-				<Route path="/preview" element={<PreviewSettings />} />
-				<Route path="/rendering" element={<Rendering />} />
-				<Route path="/save-locations" element={<SaveLocations />} />
-			</Routes>
+			<main>
+				<form>
+					<Routes>
+						<Route path="/" element={<GeneralSettings />} />
+						<Route path="/acquisition" element={<AcquisitionSettings />} />
+						<Route path="/formatting" element={<FormattingSettings />} />
+						<Route path="/preview" element={<PreviewSettings />} />
+						<Route path="/rendering" element={<Rendering />} />
+						<Route path="/save-locations" element={<SaveLocations />} />
+					</Routes>
+				</form>
+			</main>
 			<SaveAndClose
 				preferences={preferences}
 				dispatch={dispatch} />
