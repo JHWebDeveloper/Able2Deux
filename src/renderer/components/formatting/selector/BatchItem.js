@@ -40,7 +40,7 @@ const BatchItem = ({
 	return (
 		<div
 			className={`batch-item${selected ? ' selected' : ''}${focused ? ' focused' : ''}`}
-			onKeyDown={e => onKeyDown(id, refId, title, index, e)}>
+			onKeyDown={e => onKeyDown(id, index, title, e)}>
 			<button
 				type="button"
 				name="select-media"
@@ -57,7 +57,7 @@ const BatchItem = ({
 				name="remove-media"
 				aria-label="Remove Media"
 				className="symbol"
-				onClick={() => removeMediaWarning({ id, refId, title, index })}>close</button>
+				onClick={() => removeMediaWarning({ id, index, title })}>close</button>
 		</div>
 	)
 }
