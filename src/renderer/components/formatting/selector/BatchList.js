@@ -19,7 +19,6 @@ import {
 import { useWarning } from 'hooks'
 
 import {
-	arrayCount,
 	eraseIds,
 	extractRelevantMediaProps,
 	isArrowNext,
@@ -73,19 +72,13 @@ const BatchList = ({
 
 	const warnRemoveMedia = useWarning({ name: 'remove' }, [])
 
-	const removeMediaWarning = useCallback(({ id, refId, index, title }) => warnRemoveMedia({
+	const removeMediaWarning = useCallback(({ id, index, title }) => warnRemoveMedia({
 		message: `Remove "${title}"?`,
 		onConfirm() {
-			dispatch(removeMedia({
-				id,
-				refId,
-				index,
-				references: arrayCount(media, item => item.refId === refId)
-			}))
-
+			dispatch(removeMedia({ id, index }))
 			refocusBatchItem()
 		}
-	}), [])
+	}), [warnRemoveMedia])
 
 	const createDropdown = useCallback((id, refId, title, tempFilePath, index) => {
 		const isFirst = index === 0
@@ -197,7 +190,7 @@ const BatchList = ({
 				label: 'Remove Media',
 				shortcut: '⌫',
 				action() {
-					removeMediaWarning({ id, refId, index, title })
+					removeMediaWarning({ id, index, title })
 				}
 			},
 			{ type: 'spacer' },
@@ -211,7 +204,7 @@ const BatchList = ({
 		]
 	}, [clipboard, multipleItemsSelected, allItemsSelected, createPresetMenu, media.length])
 
-	const onBatchItemKeyDown = useCallback((id, refId, title, index, e) => {
+	const onBatchItemKeyDown = useCallback((id, index, title, e) => {
 		const isFirst = index === 0
 		const isLast = index === media.length - 1
 		const isOnly = isFirst && isLast
@@ -234,7 +227,7 @@ const BatchList = ({
 			dispatch(duplicateMedia(index))
 		} else if (!e.shiftKey && (e.key === 'Backspace' || e.ket === 'Delete')) {
 			e.stopPropagation()
-			removeMediaWarning({ id, refId, index, title })
+			removeMediaWarning({ id, index, title })
 		}
 	}, [media.length])
 
