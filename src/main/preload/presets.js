@@ -9,11 +9,11 @@ export const requestPresets = referencesOnly => sendMessage({
 	data: { referencesOnly }
 })
 
-export const getPresets = presetIds => sendMessage({
-	sendMsg: 'getPresets',
-	recieveMsg: 'presetsRetrieved',
-	errMsg: 'retrievePresetsErr',
-	data: { presetIds }
+export const getPresetAttributes = presetId => sendMessage({
+	sendMsg: 'getPresetAttributes',
+	recieveMsg: 'presetAttributesRetrieved',
+	errMsg: 'retrievePresetAttributesErr',
+	data: { presetId }
 })
 
 export const openPresetsSaveAs = preset => {
