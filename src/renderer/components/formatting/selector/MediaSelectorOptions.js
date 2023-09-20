@@ -65,19 +65,19 @@ const MediaSelectorOptions = ({
 				type: 'submenu',
 				label: 'Apply Preset to Selected',
 				hide: !showApplyPresetOptions || !multipleItemsSelected,
-				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds }))
+				submenu: createPresetMenu(presetId => applyPresetToSelected({ presetId }))
 			},
 			{
 				type: 'submenu',
 				label: 'Apply Preset to Selected as Duplicate',
 				hide: !showApplyPresetOptions || !multipleItemsSelected,
-				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds, duplicate: true }))
+				submenu: createPresetMenu(presetId => applyPresetToSelected({ presetId, duplicate: true }))
 			},
 			{
 				type: 'submenu',
 				label: 'Apply Preset to All',
 				hide: !showApplyPresetOptions || multipleItemsSelected,
-				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds, applyToAll: true }))
+				submenu: createPresetMenu(presetId => applyPresetToSelected({ presetId, applyToAll: true }))
 			},
 			{
 				type: 'submenu',
