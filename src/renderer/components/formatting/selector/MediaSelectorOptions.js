@@ -24,7 +24,7 @@ const MediaSelectorOptions = ({
 	removeAllMediaWarning,
 	dispatch
 }) => {
-	const dropdown = useCallback(() => {
+	const createDropdown = useCallback(() => {
 		const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
 
 		return [
@@ -111,7 +111,7 @@ const MediaSelectorOptions = ({
 
 	return (
 		<div>
-			<MediaOptionsDropdown buttons={dropdown} />
+			<MediaOptionsDropdown buttons={createDropdown} />
 			{allItemsSelected ? (
 				<ButtonWithIcon
 					label="Deselect All"
