@@ -138,27 +138,24 @@ export const applyToSelection = (id, ...extractors) => ({
 
 // ---- APPLY/SAVE PRESETS --------
 
-export const applyPreset = (presetIds, mediaIds, duplicate) => async dispatch => {
-	if (typeof presetIds === 'string') presetIds = [presetIds]
+export const applyPreset = (presetId, mediaIds, duplicate) => async dispatch => {
 	if (typeof mediaIds === 'string') mediaIds = [mediaIds]
 
 	dispatch({
 		type: ACTION.APPLY_PRESET,
 		payload: {
-			presets: await interop.getPresets(presetIds),
+			presets: await interop.getPresetAttributes(presetId),
 			mediaIds,
 			duplicate
 		}
 	})
 }
 
-export const applyPresetToSelected = ({ presetIds, applyToAll, duplicate }) => async dispatch => {
-	if (typeof presetIds === 'string') presetIds = [presetIds]
-	
+export const applyPresetToSelected = ({ presetId, applyToAll, duplicate }) => async dispatch => {	
 	dispatch({
 		type: ACTION.APPLY_PRESET_TO_SELECTED,
 		payload: {
-			presets: await interop.getPresets(presetIds),
+			presets: await interop.getPresetAttributes(presetId),
 			applyToAll,
 			duplicate
 		}
