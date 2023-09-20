@@ -232,6 +232,9 @@ button[name$="selectAll"] {
 
 #editor-options {
 	overflow-y: auto;
+	scrollbar-gutter: stable;
+	width: calc(100% + 18px);
+	margin-right: -18pc;
 	position: relative;
 }
 
