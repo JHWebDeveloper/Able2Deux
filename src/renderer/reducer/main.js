@@ -446,10 +446,13 @@ const mergePresetWithMedia = (item, preset) => {
 
 const applyPreset = (state, payload) => {
 	const { presets, mediaIds, duplicate } = payload
+
+	if (!presets.length) return state
+
 	let media = [...state.media]
 
 	if (!duplicate) {
-		const lastPreset = presets.pop().attributes
+		const lastPreset = presets.pop()
 
 		media = media.map(item => {
 			if (!mediaIds.includes(item.id)) return item
@@ -479,7 +482,7 @@ const applyPreset = (state, payload) => {
 			const preset = pipe(
 				constrainPairedValue(item, 'cropT', 'cropB'),
 				constrainPairedValue(item, 'cropL', 'cropR')
-			)(presets[j].attributes)
+			)(presets[j])
 
 			media.splice(mediaIndex++, 0, replaceIds({
 				...mergePresetWithMedia(item, preset),
