@@ -215,12 +215,16 @@ const BatchList = ({
 		} else if (ctrlOrCmd && e.key === 'v') {
 			dispatch(pasteAttributes(id))
 		} else if (e.altKey && isArrowPrev(e)) {
+			e.preventDefault()
 			dispatch(moveSortableElement('media', index, index - 1))
 		} else if (e.altKey && isArrowNext(e)) {
+			e.preventDefault()
 			dispatch(moveSortableElement('media', index, index + 2))
 		} else if (isArrowPrev(e)) {
+			e.preventDefault()
 			dispatch(selectMedia(index - 1, e, { arrowKeyDir: 'prev' }))
 		} else if (isArrowNext(e)) {
+			e.preventDefault()
 			dispatch(selectMedia(index + 1, e, { arrowKeyDir: 'next' }))
 		} else if (ctrlOrCmd && !e.shiftKey && e.key === 'd') {
 			e.stopPropagation()
