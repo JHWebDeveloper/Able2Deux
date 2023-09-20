@@ -67,11 +67,11 @@ const MediaSelector = ({
 			label: 'Batch Presets',
 			hide: !presets.length || !batchPresets.length
 		},
-		...batchPresets.map(({ label, presets }) => ({
+		...batchPresets.map(({ label, id }) => ({
 			type: 'button',
 			label,
 			action() {
-				dispatch(action(presets))
+				dispatch(action(id))
 			}
 		}))
 	], [presets, batchPresets])
