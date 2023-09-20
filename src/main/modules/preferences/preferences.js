@@ -98,6 +98,25 @@ export const loadTheme = async () => {
 
 export const presetsPath = path.join(prefsDir, 'presets.json')
 
+const partitionPresets = presets => ({
+	...presets,
+	...presets.presets.reduce((acc, preset) => {
+		switch (preset.type) {
+			case 'preset':
+				acc.presets.push(preset)
+				break
+			case 'batchPreset':
+				acc.batchPresets.push(preset)
+			// no default needed here. filter out any manipulations to preset.type in the JSON
+		}
+
+		return acc
+	}, {
+		presets: [],
+		batchPresets: []
+	})
+})
+
 const initPresets = async () => {
 	const presetsExists = await fileExistsPromise(presetsPath)
 
@@ -106,13 +125,13 @@ const initPresets = async () => {
 	}
 }
 
-const getPresetReferences = presets => presets.reduce((acc, { id, label, presets, hidden }) => {
-	if (!hidden) acc.push({ id, label, presets })
+const getPresetReferences = presets => presets.reduce((acc, { id, type, label, hidden }) => {
+	if (!hidden) acc.push({ id, type, label })
 	return acc
 }, [])
 
 export const loadPresets = async ({ referencesOnly }) => {
-	const presets = JSON.parse(await fsp.readFile(presetsPath))
+	const presets = partitionPresets(JSON.parse(await fsp.readFile(presetsPath)))
 
 	if (referencesOnly) {
 		presets.presets = getPresetReferences(presets.presets)
@@ -122,10 +141,16 @@ export const loadPresets = async ({ referencesOnly }) => {
 	return presets
 }
 
-export const getPresets = async ({ presetIds }) => {
+export const getPresetAttributes = async ({ presetId }) => {
 	const { presets } = JSON.parse(await fsp.readFile(presetsPath))
-	
-	return presets.filter(({ id }) => presetIds.includes(id))
+
+	const flattenBatchPresets = (preset, parentIds = []) => preset.type === 'batchPreset'
+		? preset.presetIds
+			.filter(refId => !parentIds.includes(refId))
+			.flatMap(refId => flattenBatchPresets(presets.find(({ id }) => id === refId), [...parentIds, refId]))
+		: [preset.attributes]
+
+	return flattenBatchPresets(presets.find(preset => preset.id === presetId))
 }
 
 export const createPreset = async ({ label, attributes }) => {
