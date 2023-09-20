@@ -113,6 +113,7 @@ export const defaultPresets = {
 	presets: [
 		{
 			id: uuid(),
+			type: 'preset',
 			label: 'EWN BG Blue',
 			hidden: false,
 			attributes: {
@@ -122,6 +123,7 @@ export const defaultPresets = {
 		},
 		{
 			id: uuid(),
+			type: 'preset',
 			label: 'EWN BG Grey',
 			hidden: true,
 			attributes: {
@@ -131,6 +133,7 @@ export const defaultPresets = {
 		},
 		{
 			id: uuid(),
+			type: 'preset',
 			label: 'TNT BG Light Blue',
 			hidden: false,
 			attributes: {
@@ -140,6 +143,7 @@ export const defaultPresets = {
 		},
 		{
 			id: uuid(),
+			type: 'preset',
 			label: 'TNT BG Dark Blue',
 			hidden: true,
 			attributes: {
@@ -149,6 +153,7 @@ export const defaultPresets = {
 		},
 		{
 			id: uuid(),
+			type: 'preset',
 			label: 'TNT BG Teal',
 			hidden: true,
 			attributes: {
@@ -158,6 +163,7 @@ export const defaultPresets = {
 		},
 		{
 			id: uuid(),
+			type: 'preset',
 			label: 'TNT BG Tan',
 			hidden: true,
 			attributes: {
@@ -165,24 +171,25 @@ export const defaultPresets = {
 				presetNameAppend: '- TNT BG Tan'
 			}
 		}
-	],
-	batchPresets: []
+	]
 }
 
-defaultPresets.batchPresets = [
+defaultPresets.presets.push(
 	{
 		id: uuid(),
+		type: 'batchPreset',
 		label: 'EWN+TNT Background',
 		hidden: false,
-		presets: [
+		presetIds: [
 			defaultPresets.presets[0].id,
 			defaultPresets.presets[2].id
 		]
 	},
 	{
 		id: uuid(),
+		type: 'batchPreset',
 		label: 'All Backgrounds',
 		hidden: false,
-		presets: defaultPresets.presets.map(({ id }) => id)
+		presetIds: defaultPresets.presets.map(({ id }) => id)
 	}
-]
+)
