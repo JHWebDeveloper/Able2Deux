@@ -53,13 +53,13 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				onClick={startDownload}
 				disabled={isInvalidURL}
 				iconStyle={STYLE_INCREASE_ICON_SIZE} />
-			<span>
-				<RadioSet
-					name="optimize"
-					state={optimize}
-					onChange={dispatchWithEvent}
-					buttons={OPTIMIZE_BUTTONS} />
-			</span>
+			<RadioSet
+				label="Optimize"
+				hideLabel
+				name="optimize"
+				state={optimize}
+				onChange={dispatchWithEvent}
+				buttons={OPTIMIZE_BUTTONS} />
 		</div>
 	)
 }
