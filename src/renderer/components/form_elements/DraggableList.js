@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useId, useRef, useState } from 'react'
 import { arrayOf, element, func } from 'prop-types'
 
 const dragLeave = e => {
@@ -13,6 +13,7 @@ const DraggableList = ({ sortingAction, children }) => {
 	const [ dragging, setDragging ] = useState(false)
 	const draggable = children.length > 1
 	const dragData = useRef({})
+	const setKey = useId()
 
 	const dragStart = useCallback((e, index, props) => {
 		if (!draggable) return e.preventDefault()
@@ -36,7 +37,7 @@ const DraggableList = ({ sortingAction, children }) => {
 		<>
 			{children.map((child, i) => (
 				<div
-					key={child.props.id}
+					key={`${setKey}_${i}`}
 					onDragStart={e => dragStart(e, i, child.props)}
 					onDragOver={dragOver}
 					onDragLeave={dragLeave}
@@ -46,6 +47,7 @@ const DraggableList = ({ sortingAction, children }) => {
 			))}
 			{draggable && (
 				<span
+					key={`${setKey}_${children.length}`}
 					className="insert-last"
 					onDragOver={dragOver}
 					onDragLeave={dragLeave}
