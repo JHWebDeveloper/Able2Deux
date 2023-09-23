@@ -4,7 +4,7 @@ import toastr from 'toastr'
 import '../../css/preset_save_as.css'
 
 import { PresetsProvider, PresetsContext } from 'store'
-import { TOASTR_OPTIONS, errorToString } from 'utilities'
+import { MEDIA_TYPES, TOASTR_OPTIONS, errorToString } from 'utilities'
 
 import RadioSet from '../form_elements/RadioSet'
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
@@ -241,10 +241,11 @@ const PresetSaveAs = () => {
 		selectedPreset: '',
 		presets: [],
 		presetNamePrepend: '',
-		presetNameAppend: ''
+		presetNameAppend: '',
+		limitTo: [...MEDIA_TYPES]
 	})
 
-	const { saveType, presetName, selectedPreset, presets, presetNamePrepend, presetNameAppend } = state
+	const { saveType, presetName, selectedPreset, presets, presetNamePrepend, presetNameAppend, limitTo } = state
 	const saveEnabled = (saveType === 'newPreset' && presetName.length || selectedPreset) && presets.some(({ include }) => include)
 
 	const updateStateFromEvent = useCallback(e => {
@@ -357,7 +358,9 @@ const PresetSaveAs = () => {
 										<FilenameOptions
 											presetNamePrepend={presetNamePrepend}
 											presetNameAppend={presetNameAppend}
-											updateStateFromEvent={updateStateFromEvent} />
+											limitTo={limitTo}
+											updateStateFromEvent={updateStateFromEvent}
+											updateState={updateState} />
 									} />
 									<Route />
 								</Routes>
