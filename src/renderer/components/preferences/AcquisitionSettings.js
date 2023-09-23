@@ -50,22 +50,18 @@ const AcquisitionSettings = () => {
 
 	return (
 		<>
-			<fieldset className="radio-set">
-				<legend>Default Download Mode:</legend>
-				<RadioSet 
-					name="optimize"
-					state={preferences.optimize}
-					onChange={e => dispatch(updateStateFromEvent(e))}
-					buttons={OPTIMIZE_BUTTONS}/>
-			</fieldset>
-			<fieldset className="radio-set">
-				<legend>Default Screen Capture Mode:</legend>
-				<RadioSet 
-					name="screenshot"
-					state={preferences.screenshot ? 'screenshot' : 'screen_record'}
-					onChange={screenshotToBoolean}
-					buttons={SCREENSHOT_BUTTONS}/>
-			</fieldset>
+			<RadioSet
+				label="Default Download Mode"
+				name="optimize"
+				state={preferences.optimize}
+				onChange={e => dispatch(updateStateFromEvent(e))}
+				buttons={OPTIMIZE_BUTTONS} />
+			<RadioSet
+				label="Default Screen Capture Mode"
+				name="screenshot"
+				state={preferences.screenshot ? 'screenshot' : 'screen_record'}
+				onChange={screenshotToBoolean}
+				buttons={SCREENSHOT_BUTTONS} />
 			<span className="input-option">
 				<Checkbox
 					label="Timer Enabled by Default"

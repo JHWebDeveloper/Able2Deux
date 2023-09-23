@@ -217,14 +217,14 @@ const ColorCorrection = memo(props => {
 					onClick={dispatchResetCurve}
 					disabled={!ccEnabled}>format_color_reset</button>
 			</div>
-			<fieldset disabled={!ccEnabled}>
-				<legend>Color Channel</legend>
-				<RadioSet
-					name="ccSelectedCurve"
-					state={ccSelectedCurve}
-					buttons={COLOR_CHANNEL_BUTTONS}
-					onChange={props.selectCurve} />
-			</fieldset>
+			<RadioSet
+				label="Color Channel"
+				hideLabel
+				name="ccSelectedCurve"
+				disabled={!ccEnabled}
+				state={ccSelectedCurve}
+				buttons={COLOR_CHANNEL_BUTTONS}
+				onChange={props.selectCurve} />
 			<Curves
 				ref={curvesRef}
 				curve={props[ccSelectedCurve]}

@@ -148,55 +148,44 @@ const Framing = memo(props => {
 
 	return (
 		<>
-			<fieldset className="radio-set">
-				<legend>AR Correction<span aria-hidden>:</span></legend>
-				<RadioSet
-					name="arc"
-					state={arc}
-					onChange={updateSelectionFromEvent}
-					buttons={ARC_BUTTONS}/>
-			</fieldset>
-			<fieldset
-				className="radio-set"
-				disabled={arc === 'none'}>
-				<legend>Background<span aria-hidden>:</span></legend>
-				<RadioSet
-					name="background"
-					state={background}
-					onChange={updateSelectionFromEvent}
-					buttons={[
-						...backgroundButtons,
-						{
-							label: 'Color',
-							value: 'color',
-							component: <BackgroundColorPicker
-								bgColor={bgColor}
-								updateBgColor={updateSelectionFromEvent}
-								selectBgColor={selectBgColor}
-								eyedropperActive={active === 'background'} />
-						}
-					]}/>
-			</fieldset>
-			<fieldset
-				className="radio-set"
-				disabled={arc === 'none' || background === 'alpha' || background === 'color'}>
-				<legend>BG Motion<span aria-hidden>:</span></legend>
-				<RadioSet
-					name="backgroundMotion"
-					state={props.backgroundMotion}
-					onChange={updateSelectionFromEvent}
-					buttons={BACKGROUND_MOTION_BUTTONS}/>
-			</fieldset>
-			<fieldset
-				className="radio-set"
-				disabled={arc === 'none'}>
-				<legend>Box Overlay<span aria-hidden>:</span></legend>
-				<RadioSet
-					name="overlay"
-					state={overlay}
-					onChange={updateSelectionFromEvent}
-					buttons={OVERLAY_BUTTONS}/>
-			</fieldset>
+			<RadioSet
+				label="AR Correction"
+				name="arc"
+				state={arc}
+				onChange={updateSelectionFromEvent}
+				buttons={ARC_BUTTONS} />
+			<RadioSet
+				label="Background"
+				name="background"
+				disabled={arc === 'none'}
+				state={background}
+				onChange={updateSelectionFromEvent}
+				buttons={[
+					...backgroundButtons,
+					{
+						label: 'Color',
+						value: 'color',
+						component: <BackgroundColorPicker
+							bgColor={bgColor}
+							updateBgColor={updateSelectionFromEvent}
+							selectBgColor={selectBgColor}
+							eyedropperActive={active === 'background'} />
+					}
+				]} />
+			<RadioSet
+				label="BG Motion"
+				name="backgroundMotion"
+				disabled={arc === 'none' || background === 'alpha' || background === 'color'}
+				state={props.backgroundMotion}
+				onChange={updateSelectionFromEvent}
+				buttons={BACKGROUND_MOTION_BUTTONS} />
+			<RadioSet
+				label="Box Overlay"
+				name="overlay"
+				disabled={arc === 'none'}
+				state={overlay}
+				onChange={updateSelectionFromEvent}
+				buttons={OVERLAY_BUTTONS}/>
 		</>
 	)
 }, objectsAreEqual)

@@ -54,34 +54,30 @@ const RenderOutput = () => {
 
 	return (
 		<>
-			<fieldset className="radio-set">
-				<legend>Output Resolution:</legend>
-				<RadioSet 
-					name="renderOutput"
-					state={preferences.renderOutput}
-					onChange={updateStateFromEvent}
-					buttons={OUTPUT_BUTTONS} />
-			</fieldset>
-			<fieldset className="radio-set">
-				<legend>Output Frame Rate:</legend>
-				<RadioSet 
-					name="renderFrameRate"
-					state={preferences.renderFrameRate}
-					onChange={updateStateFromEvent}
-					buttons={[
-						...FRAME_RATE_BUTTONS,
-						{
-							label: 'custom',
-							value: 'custom',
-							component: <NumberInput
-								name="customFrameRate"
-								value={preferences.customFrameRate}
-								min={1}
-								max={240}
-								onChange={updateStateFromEvent} />
-						}
-					]} />
-			</fieldset>
+			<RadioSet
+				label="Output Resolution"
+				name="renderOutput"
+				state={preferences.renderOutput}
+				onChange={updateStateFromEvent}
+				buttons={OUTPUT_BUTTONS} />
+			<RadioSet
+				label="Output Frame Rate"
+				name="renderFrameRate"
+				state={preferences.renderFrameRate}
+				onChange={updateStateFromEvent}
+				buttons={[
+					...FRAME_RATE_BUTTONS,
+					{
+						label: 'custom',
+						value: 'custom',
+						component: <NumberInput
+							name="customFrameRate"
+							value={preferences.customFrameRate}
+							min={1}
+							max={240}
+							onChange={updateStateFromEvent} />
+					}
+				]} />
 			<span className="input-option">
 				<Checkbox
 					label="Auto Export Still Video as .png"

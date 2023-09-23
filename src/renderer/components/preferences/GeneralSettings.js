@@ -33,14 +33,12 @@ const GeneralSettings = () => {
 
 	return (
 		<>
-			<fieldset className="radio-set">
-				<legend>Theme:</legend>
-				<RadioSet
-					name="theme"
-					state={preferences.theme}
-					onChange={e => dispatch(updateStateFromEvent(e))}
-					buttons={THEME_BUTTONS} />
-			</fieldset>
+			<RadioSet
+				label="Theme"
+				name="theme"
+				state={preferences.theme}
+				onChange={e => dispatch(updateStateFromEvent(e))}
+				buttons={THEME_BUTTONS} />
 			<ScratchDisk
 				scratchDisk={preferences.scratchDisk}
 				dispatch={dispatch} />

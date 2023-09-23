@@ -161,16 +161,13 @@ const Keying = memo(props => {
 					onChange={toggleKeying}
 					switchIcon />
 			</div>
-			<fieldset
-				className="radio-set"
-				disabled={!keyingEnabled}>
-				<legend>Type<span aria-hidden>:</span></legend>
-				<RadioSet
-					name="keyingType"
-					state={keyingType}
-					onChange={updateSelectionFromEvent}
-					buttons={KEY_TYPE_BUTTONS}/>
-			</fieldset>
+			<RadioSet
+				label="Type"
+				name="keyingType"
+				disabled={!keyingEnabled}
+				state={keyingType}
+				onChange={updateSelectionFromEvent}
+				buttons={KEY_TYPE_BUTTONS}/>
 			{keyingType === 'lumakey' ? <></> : (
 				<div className={keyingEnabled ? '' : 'disabled'}>
 					<label id="key-color">Color<span aria-hidden>:</span></label>

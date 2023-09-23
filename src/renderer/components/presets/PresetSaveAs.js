@@ -306,14 +306,12 @@ const PresetSaveAs = () => {
 				<form>
 					<section className="preset-name">
 						{existingPresets.length ? (
-							<fieldset className="radio-set">
-								<legend>Save Type<span aria-hidden>:</span></legend>  
-								<RadioSet
-									name="saveType"
-									state={saveType}
-									onChange={updateStateFromEvent}
-									buttons={SAVE_TYPE_BUTTONS}/>
-							</fieldset>
+							<RadioSet
+								label="Save Type"
+								name="saveType"
+								state={saveType}
+								onChange={updateStateFromEvent}
+								buttons={SAVE_TYPE_BUTTONS}/>
 						) : <></>}
 						{saveType === 'newPreset' ? (
 							<fieldset>

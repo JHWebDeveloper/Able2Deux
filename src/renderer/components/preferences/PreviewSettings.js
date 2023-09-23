@@ -33,14 +33,12 @@ const PreviewSettings = () => {
 
 	return (
 		<>
-			<fieldset className="radio-set">
-				<legend>Default Quality:</legend>
-				<RadioSet
-					name="previewQuality"
-					buttons={QUALITY_BUTTONS}
-					state={preferences.previewQuality.toString()}
-					onChange={setPreviewQuality} />
-			</fieldset>
+			<RadioSet
+				label="Default Quality"
+				name="previewQuality"
+				buttons={QUALITY_BUTTONS}
+				state={preferences.previewQuality.toString()}
+				onChange={setPreviewQuality} />
 			<span className="input-option" style={{ alignItems: 'center' }}>
 				<label htmlFor="grid-color">Grid Color</label>
 				<input

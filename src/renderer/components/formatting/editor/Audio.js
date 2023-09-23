@@ -53,25 +53,20 @@ const extractAudioProps = createObjectPicker(['audioVideoTracks', 'audioExportFo
 const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, updateSelectionFromEvent }) => (
 	<>
 		{mediaType === 'video' ? (
-			<fieldset className="radio-set">
-				<legend>Export As<span aria-hidden>:</span></legend>
-				<RadioSet
-					name="audioVideoTracks"
-					state={audioVideoTracks}
-					onChange={updateSelectionFromEvent}
-					buttons={AUDIO_VIDEO_TRACKS_BUTTONS} />
-			</fieldset>
-		) : <></>}
-		<fieldset
-			className="radio-set"
-			disabled={audioVideoTracks !== 'audio' && mediaType !== 'audio'}>
-			<legend>Format<span aria-hidden>:</span></legend>
 			<RadioSet
-				name="audioExportFormat"
-				state={audioExportFormat}
+				label="Export As"
+				name="audioVideoTracks"
+				state={audioVideoTracks}
 				onChange={updateSelectionFromEvent}
-				buttons={AUDIO_EXPORT_FORMAT_BUTTONS} />
-		</fieldset>
+				buttons={AUDIO_VIDEO_TRACKS_BUTTONS} />
+		) : <></>}
+		<RadioSet
+			label="Format"
+			name="audioExportFormat"
+			disabled={audioVideoTracks !== 'audio' && mediaType !== 'audio'}
+			state={audioExportFormat}
+			onChange={updateSelectionFromEvent}
+			buttons={AUDIO_EXPORT_FORMAT_BUTTONS} />
 	</>
 ), objectsAreEqual)
 

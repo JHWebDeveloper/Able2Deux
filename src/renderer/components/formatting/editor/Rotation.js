@@ -87,31 +87,25 @@ const Rotation = memo(props => {
 
 	return (
 		<>
-			<fieldset className="radio-set">
-				<legend>Reflect<span aria-hidden>:</span></legend>
-				<RadioSet
-					name="reflect"
-					state={reflect}
-					onChange={updateReflectMedia}
-					buttons={reflectButtons} />
-			</fieldset>
-			<fieldset className="radio-set">
-				<legend>Rotate<span aria-hidden>:</span></legend>
-				<RadioSet 
-					name="transpose"
-					state={transpose}
-					onChange={updateRotateMedia}
-					buttons={TRANSPOSE_BUTTONS}/>
-			</fieldset>
+			<RadioSet
+				label="Reflect"
+				name="reflect"
+				state={reflect}
+				onChange={updateReflectMedia}
+				buttons={reflectButtons} />
+			<RadioSet
+				label="Rotate"
+				name="transpose"
+				state={transpose}
+				onChange={updateRotateMedia}
+				buttons={TRANSPOSE_BUTTONS}/>
 			{props.showFreeRotate ? <>
-				<fieldset className="radio-set">
-					<legend>Free Rotate Mode<span aria-hidden>:</span></legend>
-					<RadioSet
-						name="freeRotateMode"
-						state={freeRotateMode}
-						onChange={updateSelectionFromEvent}
-						buttons={FREE_ROTATE_MODE_BUTTONS} />
-				</fieldset>
+				<RadioSet
+					label="Free Rotate Mode"
+					name="freeRotateMode"
+					state={freeRotateMode}
+					onChange={updateSelectionFromEvent}
+					buttons={FREE_ROTATE_MODE_BUTTONS} />
 				<FreeRotate
 					angle={props.angle}
 					center={props.rotatedCentering}

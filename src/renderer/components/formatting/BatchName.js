@@ -24,14 +24,12 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 
 	return (
 		<>
-			<fieldset className="radio-set">
-				<legend>Template Type<span aria-hidden>:</span></legend>
-				<RadioSet
-					name="batchNameType"
-					state={batchNameType}
-					onChange={updateBatchName}
-					buttons={BATCH_NAME_TYPE_BUTTONS} />
-			</fieldset>
+			<RadioSet
+				label="Template Type"
+				name="batchNameType"
+				state={batchNameType}
+				onChange={updateBatchName}
+				buttons={BATCH_NAME_TYPE_BUTTONS} />
 			{batchNameType === 'replace' ? (
 				<fieldset>
 					<legend>Batch Name<span aria-hidden>:</span></legend>

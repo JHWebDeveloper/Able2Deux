@@ -65,22 +65,18 @@ const FormattingSettings = () => {
 
 	return (
 		<>
-			<fieldset className="radio-set">
-				<legend>Default AR Correction:</legend>
-				<RadioSet
-					name="arc"
-					state={editorSettings.arc}
-					onChange={updateEditorSettingsDispatch}
-					buttons={ARC_BUTTONS} />
-			</fieldset>
-			<fieldset className="radio-set">
-				<legend>Default Background Motion:</legend>
-				<RadioSet
-					name="backgroundMotion"
-					state={editorSettings.backgroundMotion}
-					onChange={updateEditorSettingsDispatch}
-					buttons={BACKGROUND_MOTION_BUTTONS} />
-			</fieldset>
+			<RadioSet
+				label="Default AR Correction"
+				name="arc"
+				state={editorSettings.arc}
+				onChange={updateEditorSettingsDispatch}
+				buttons={ARC_BUTTONS} />
+			<RadioSet
+				label="Default Background Motion"
+				name="backgroundMotion"
+				state={editorSettings.backgroundMotion}
+				onChange={updateEditorSettingsDispatch}
+				buttons={BACKGROUND_MOTION_BUTTONS} />
 			<span className="input-option">
 				<Checkbox
 					label="Select All by Default"
