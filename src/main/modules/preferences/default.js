@@ -108,6 +108,8 @@ export const defaultPrefs = {
 	disableRateLimit: false
 }
 
+const limitTo = ['gif', 'image', 'video']
+
 export const defaultPresets = {
 	version: 1,
 	presets: [
@@ -116,6 +118,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'EWN BG Blue',
 			hidden: false,
+			limitTo,
 			attributes: {
 				background: 'blue',
 				presetNameAppend: '- EWN BG Blue'
@@ -126,6 +129,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'EWN BG Grey',
 			hidden: true,
+			limitTo,
 			attributes: {
 				background: 'grey',
 				presetNameAppend: '- EWN BG Grey'
@@ -136,6 +140,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'TNT BG Light Blue',
 			hidden: false,
+			limitTo,
 			attributes: {
 				background: 'light_blue',
 				presetNameAppend: '- TNT BG Light Blue'
@@ -146,6 +151,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'TNT BG Dark Blue',
 			hidden: true,
+			limitTo,
 			attributes: {
 				background: 'dark_blue',
 				presetNameAppend: '- TNT BG Dark Blue'
@@ -156,6 +162,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'TNT BG Teal',
 			hidden: true,
+			limitTo,
 			attributes: {
 				background: 'teal',
 				presetNameAppend: '- TNT BG Teal'
@@ -166,6 +173,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'TNT BG Tan',
 			hidden: true,
+			limitTo,
 			attributes: {
 				background: 'tan',
 				presetNameAppend: '- TNT BG Tan'
@@ -180,6 +188,10 @@ defaultPresets.presets.push(
 		type: 'batchPreset',
 		label: 'EWN+TNT Background',
 		hidden: false,
+		limitTo,
+		attributes: {
+			arc: 'fit'
+		},
 		presetIds: [
 			defaultPresets.presets[0].id,
 			defaultPresets.presets[2].id
@@ -190,6 +202,8 @@ defaultPresets.presets.push(
 		type: 'batchPreset',
 		label: 'All Backgrounds',
 		hidden: false,
+		limitTo,
+		attributes: {},
 		presetIds: defaultPresets.presets.map(({ id }) => id)
 	}
 )
