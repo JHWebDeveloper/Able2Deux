@@ -384,7 +384,7 @@ const PresetSaveAs = () => {
 }
 
 export default () => (
-	<PresetsProvider referencesOnly>
+	<PresetsProvider referencesOnly presorted>
 		<PresetSaveAs />
 	</PresetsProvider>
 )
