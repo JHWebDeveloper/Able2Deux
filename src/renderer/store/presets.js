@@ -17,13 +17,13 @@ const initState = {
 
 export const PresetsContext = createContext()
 
-export const PresetsProvider = ({ referencesOnly, children }) => {
+export const PresetsProvider = ({ referencesOnly, presorted, children }) => {
 	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
 
 	useEffect(() => {
 		(async () => {
 			try {
-				dispatch(updateState(await interop.requestPresets(referencesOnly)))
+				dispatch(updateState(await interop.requestPresets(referencesOnly, presorted)))
 			} catch (err) {
 				toastr.error(err, false, TOASTR_OPTIONS)
 			}
