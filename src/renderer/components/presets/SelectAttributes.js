@@ -1,33 +1,30 @@
-import React, { useCallback, useId } from 'react'
+import React, { useCallback } from 'react'
 import { arrayOf, bool, exact, func, number, oneOfType, string } from 'prop-types'
 
-import Checkbox from '../form_elements/Checkbox'
+import CheckboxGroup from '../form_elements/CheckboxGroup'
 
 const SelectAttributes = ({ presets, updateState }) => {
-  const presetKey = useId()
+  const toggleIncludePreset = useCallback((e, checked) => {
+    const { name } = e?.target || e
 
-  const toggleIncludePreset = useCallback(e => {
 		updateState(currentState => ({
 			...currentState,
-			presets: currentState.presets.map(item => item.attribute === e.target.name ? {
+			presets: currentState.presets.map(item => item.attribute === name ? {
 				...item,
-				include: !item.include
+				include: checked ?? !item.include
 			} : item)
 		}))
 	}, [])
 
   return (
-    <fieldset className="radio-set">
-      <legend>Select attributes to include:</legend>
-      {presets.map(({ label, include, attribute }, i) => (
-        <Checkbox
-          key={`${presetKey}_${i}`}
-          label={label}
-          checked={include}
-          name={attribute}
-          onChange={toggleIncludePreset} />
-      ))}
-    </fieldset>
+    <CheckboxGroup
+      label="Select attributes to include"
+      onChange={toggleIncludePreset} 
+      checkboxes={presets.map(({ label, include, attribute }) => ({
+        label,
+        name: attribute,
+        checked: include
+      }))} />
   )
 }
 
