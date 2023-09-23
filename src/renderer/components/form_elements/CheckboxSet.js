@@ -1,6 +1,7 @@
-import React, { Fragment, useId, useMemo } from 'react'
+import React, { useId, useMemo } from 'react'
 import { arrayOf, bool, func, shape, string } from 'prop-types'
 
+import FieldsetWrapper from './FieldsetWrapper'
 import Checkbox from './Checkbox'
 
 const SelectAllCheckbox = ({ checkboxes, toggleSelectAll }) => {
@@ -19,6 +20,7 @@ const SelectAllCheckbox = ({ checkboxes, toggleSelectAll }) => {
 const CheckboxSet = ({
   label,
   hideLabel,
+  disabled,
   checkboxes,
   onChange: onChangeFallback,
   toggleSelectAll,
@@ -28,29 +30,33 @@ const CheckboxSet = ({
   const offsetKey = toggleSelectAll ? 0 : 1
 
   return (
-    <fieldset className="radio-set">
-      <legend style={hideLabel ? { fontSize: 0 } : {}}>{label}<span aria-hidden>:</span></legend>
-      {toggleSelectAll && checkboxes.length > selectAllThreshold ? (
-        <SelectAllCheckbox
-          key={`${groupKey}_0`}
-          checkboxes={checkboxes}
-          toggleSelectAll={toggleSelectAll} />
-      ) : <></>}
-      {checkboxes.map(({ hidden, label, checked, name, onChange }, i) => {
-        const key = `${setKey}_${i + offsetKey}`
+    <FieldsetWrapper
+      label={label}
+      hideLabel={hideLabel}
+      disabled={disabled}>
+      <>
+        {toggleSelectAll && checkboxes.length > selectAllThreshold ? (
+          <SelectAllCheckbox
+            key={`${groupKey}_0`}
+            checkboxes={checkboxes}
+            toggleSelectAll={toggleSelectAll} />
+        ) : <></>}
+        {checkboxes.map(({ hidden, label, checked, name, onChange }, i) => {
+          const key = `${setKey}_${i + offsetKey}`
 
-        return hidden ? (
-          <Fragment key={key}/>
-        ) : (
-          <Checkbox
-            key={key}
-            label={label}
-            checked={checked}
-            name={name}
-            onChange={onChange || onChangeFallback} />
-        )
-      })}
-    </fieldset>
+          return hidden ? (
+            <React.Fragment key={key}/>
+          ) : (
+            <Checkbox
+              key={key}
+              label={label}
+              checked={checked}
+              name={name}
+              onChange={onChange || onChangeFallback} />
+          )
+        })}
+      </>
+    </FieldsetWrapper>
   )
 }
 
