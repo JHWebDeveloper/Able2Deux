@@ -1,0 +1,16 @@
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto min-content;
+  grid-gap: 18px;
+  height: 100%;
+}
+
+main > div {
+  display: inherit
+}
+
+.preset-selector {
+  background: var(--background-alt-2);
+  border-radius: 5px;
+}
