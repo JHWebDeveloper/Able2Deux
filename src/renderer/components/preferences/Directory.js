@@ -91,8 +91,7 @@ const Directory = ({ dir, index, total, dispatch }) => {
 				className="panel-input"
 				value={label}
 				onChange={updateLocation}
-				aria-labelledby="save-locations-label"
-				data-no-drag />
+				aria-labelledby="save-locations-label" />
 			<DirectorySelector
 				ariaLabelledby="save-locations-folder"
 				directory={directory}
