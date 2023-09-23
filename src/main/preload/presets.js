@@ -2,11 +2,11 @@ import { ipcRenderer } from 'electron'
 
 import { sendMessage } from './sendMessage'
 
-export const requestPresets = referencesOnly => sendMessage({
+export const requestPresets = (referencesOnly, presorted) => sendMessage({
 	sendMsg: 'requestPresets',
 	recieveMsg: 'presetsRecieved',
 	errMsg: 'presetsErr',
-	data: { referencesOnly }
+	data: { referencesOnly, presorted }
 })
 
 export const getPresetAttributes = presetId => sendMessage({
