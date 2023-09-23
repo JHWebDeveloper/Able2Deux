@@ -272,9 +272,16 @@ label > :is(input, span, svg) { vertical-align: middle; }
 }
 
 .radio-set > label {
+	position: relative;
 	display: block;
 	margin: 0 3px 3px;
 	font-size: 12px;
+}
+
+.radio-set.hide-label > legend {
+	position: absolute;
+	pointer-events: none;
+	font-size: 0;
 }
 
 svg.toggle-switch-disabled { fill: var(--disabled); }
