@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { arrayOf, bool, exact, func, number, oneOfType, string } from 'prop-types'
 
-import CheckboxGroup from '../form_elements/CheckboxGroup'
+import CheckboxSet from '../form_elements/CheckboxSet'
 
 const SelectAttributes = ({ presets, updateState }) => {
   const toggleIncludePreset = useCallback((e, checked) => {
@@ -16,10 +16,20 @@ const SelectAttributes = ({ presets, updateState }) => {
 		}))
 	}, [])
 
+  const toggleSelectAllPresets = useCallback(e => {
+    const { checked } = e?.target || e
+
+    updateState(currentState => ({
+      ...currentState,
+      presets: currentState.presets.map(item => ({ ...item, include: checked }))
+    }))
+  }, [])
+
   return (
-    <CheckboxGroup
+    <CheckboxSet
       label="Select attributes to include"
-      onChange={toggleIncludePreset} 
+      onChange={toggleIncludePreset}
+      toggleSelectAll={toggleSelectAllPresets}
       checkboxes={presets.map(({ label, include, attribute }) => ({
         label,
         name: attribute,
