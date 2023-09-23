@@ -15,7 +15,7 @@ const DraggableList = ({ sortingAction, children }) => {
 	const dragData = useRef({})
 
 	const dragStart = useCallback((e, index, props) => {
-		if (!draggable) e.preventDefault()
+		if (!draggable) return e.preventDefault()
 		dragData.current = { index, props }
 		setDragging(true)
 	}, [draggable])
