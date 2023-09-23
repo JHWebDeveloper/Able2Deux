@@ -1,7 +1,33 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { func, string } from 'prop-types'
 
-const FilenameOptions = ({ presetNamePrepend, presetNameAppend, updateStateFromEvent }) => {
+import { MEDIA_TYPES, capitalize } from 'utilities'
+
+import CheckboxSet from '../form_elements/CheckboxSet'
+
+const MEDIA_LABEL = Object.freeze(['Audio', 'Motion Graphics', 'Images', 'Video'])
+
+const FilenameOptions = ({ presetNamePrepend, presetNameAppend, limitTo, updateState, updateStateFromEvent }) => {
+  const toggleLimitTo = useCallback(e => {
+		const { name, checked } = e?.target || e
+
+		updateState(currentState => ({
+			...currentState,
+			limitTo: !checked
+				? currentState.limitTo.filter(mediaType => mediaType !== name)
+				: [...currentState.limitTo, name].toSorted()
+		}))
+	}, [])
+
+  const toggleSelectAllLimitTo = useCallback(e => {
+    const { checked } = e?.target || e
+
+    updateState(currentState => ({
+      ...currentState,
+      limitTo: checked ? [...MEDIA_TYPES] : []
+    }))
+  }, [])
+
   return (
     <>
       <fieldset>
@@ -26,6 +52,15 @@ const FilenameOptions = ({ presetNamePrepend, presetNameAppend, updateStateFromE
           value={presetNameAppend}
           onChange={updateStateFromEvent} />
       </fieldset>
+      <CheckboxSet
+        label="Only Apply Presets To"
+        onChange={toggleLimitTo}
+        toggleSelectAll={toggleSelectAllLimitTo}
+        checkboxes={MEDIA_TYPES.map((mediaType, i) => ({
+          label: MEDIA_LABEL[i],
+          name: mediaType,
+          checked: limitTo.includes(mediaType)
+        }))} />
     </>
   )
 }
