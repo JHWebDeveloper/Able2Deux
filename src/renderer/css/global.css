@@ -133,11 +133,32 @@ body {
 
 #root { padding: 18px; }
 
+fieldset { position: relative; }
+
 fieldset:disabled { color: var(--disabled); }
 
 fieldset:disabled > :is(input, input::placeholder, div) { color: inherit; }
 
 fieldset:disabled > :is(input, div) { border-color: var(--disabled); }
+
+legend, label { white-space: nowrap; }
+
+legend {
+	margin-bottom: 3px;
+	font-size: 14px;
+}
+
+.hide-label > legend {
+	position: absolute;
+	pointer-events: none;
+	font-size: 0;
+}
+
+label { width: min-content; }
+
+label > :is(input, span, svg) { vertical-align: middle; }
+
+.disabled label { color: var(--disabled); }
 
 input, select {
 	background-color: transparent;
@@ -219,19 +240,6 @@ input[type="color"]:disabled::-webkit-color-swatch-wrapper {
 
 input[type="color"]:disabled::-webkit-color-swatch { opacity: 0.25; }
 
-legend, label { white-space: nowrap; }
-
-legend {
-	margin-bottom: 3px;
-	font-size: 14px;
-}
-
-label { width: min-content; }
-
-label > :is(input, span, svg) { vertical-align: middle; }
-
-.disabled label { color: var(--disabled); }
-
 .app-button, .symbol { padding: 6px; }
 
 .app-button {
@@ -272,16 +280,9 @@ label > :is(input, span, svg) { vertical-align: middle; }
 }
 
 .radio-set > label {
-	position: relative;
 	display: block;
 	margin: 0 3px 3px;
 	font-size: 12px;
-}
-
-.radio-set.hide-label > legend {
-	position: absolute;
-	pointer-events: none;
-	font-size: 0;
 }
 
 svg.toggle-switch-disabled { fill: var(--disabled); }
