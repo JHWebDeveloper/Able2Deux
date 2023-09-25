@@ -10,13 +10,13 @@ import {
 import { createObjectPicker, objectsAreEqual } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
+import FieldsetWrapper from '../../form_elements/FieldsetWrapper'
 
 const extractPresetNameProps = createObjectPicker(['presetNamePrepend', 'presetNameAppend'])
 
 const PresetNameTemplate = memo(({ presetNamePrepend, presetNameAppend, updateSelectionFromEvent }) => (
 	<>
-		<fieldset>
-			<legend>Prepend to Filename<span aria-hidden>:</span></legend>
+		<FieldsetWrapper label="Prepend to Filename">
 			<input
 				type="text"
 				name="presetNamePrepend"
@@ -27,9 +27,8 @@ const PresetNameTemplate = memo(({ presetNamePrepend, presetNameAppend, updateSe
 				value={presetNamePrepend}
 				maxLength={251}
 				onChange={updateSelectionFromEvent} />
-		</fieldset>
-		<fieldset>
-			<legend>Append to Filename<span aria-hidden>:</span></legend>
+		</FieldsetWrapper>
+		<FieldsetWrapper label="Append to Filename">
 			<input
 				type="text"
 				name="presetNameAppend"
@@ -40,7 +39,7 @@ const PresetNameTemplate = memo(({ presetNamePrepend, presetNameAppend, updateSe
 				value={presetNameAppend}
 				maxLength={251}
 				onChange={updateSelectionFromEvent} />
-		</fieldset>
+		</FieldsetWrapper>
 	</>
 ), objectsAreEqual)
 

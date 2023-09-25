@@ -18,6 +18,7 @@ import {
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
+import FieldsetWrapper from '../../form_elements/FieldsetWrapper'
 import Checkbox from '../../form_elements/Checkbox'
 
 const MESSAGE = 'A source on top is not for aesthetics!'
@@ -51,8 +52,7 @@ const Source = memo(props => {
 
 	return (
 		<>
-			<fieldset>
-				<legend>Source Name<span aria-hidden>:</span></legend>
+			<FieldsetWrapper label="Source Name">				
 				<input
 					type="text"
 					name="sourceName"
@@ -64,7 +64,7 @@ const Source = memo(props => {
 					value={sourceName}
 					onChange={updateSelectionFromEvent}
 					maxLength={maxLength} />
-			</fieldset>
+			</FieldsetWrapper>
 			<Checkbox
 				label={'Add "Source: " to beginning'}
 				name="sourcePrefix"

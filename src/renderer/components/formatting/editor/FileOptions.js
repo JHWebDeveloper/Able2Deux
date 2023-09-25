@@ -1,9 +1,10 @@
 import React, { memo } from 'react'
-import { bool, func, number, oneOf, string } from 'prop-types'
+import { func, number, oneOf, string } from 'prop-types'
 
 import { objectsAreEqual } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
+import FieldsetWrapper from '../../form_elements/FieldsetWrapper'
 import StartEnd from './StartEnd'
 import Split from './Split'
 
@@ -12,8 +13,7 @@ const FileOptions = memo(props => {
 
 	return (
 		<>
-			<fieldset>
-				<legend>Filename<span aria-hidden>:</span></legend>
+			<FieldsetWrapper label="Filename">
 				<input
 					type="text"
 					name="filename"
@@ -23,7 +23,7 @@ const FileOptions = memo(props => {
 					value={props.filename}
 					maxLength={251}
 					onChange={props.updateFilename} />
-			</fieldset>
+			</FieldsetWrapper>
 			{mediaType === 'video' || mediaType === 'audio' ? <>
 				<StartEnd
 					id={id}

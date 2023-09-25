@@ -5,6 +5,7 @@ import { updateStateFromEvent } from 'actions'
 
 import AccordionPanel from '../form_elements/AccordionPanel'
 import RadioSet from '../form_elements/RadioSet'
+import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 
 const BATCH_NAME_TYPE_BUTTONS = Object.freeze([
 	{
@@ -31,8 +32,7 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 				onChange={updateBatchName}
 				buttons={BATCH_NAME_TYPE_BUTTONS} />
 			{batchNameType === 'replace' ? (
-				<fieldset>
-					<legend>Batch Name<span aria-hidden>:</span></legend>
+				<FieldsetWrapper label="Batch Name">
 					<input
 						type="text"
 						name="batchName"
@@ -41,11 +41,10 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 						maxLength={251}
 						onChange={updateBatchName}
 						placeholder="If none, leave blank" />
-				</fieldset>
+				</FieldsetWrapper>
 			) : (
 				<>
-					<fieldset>
-						<legend>Prepend to Filename<span aria-hidden>:</span></legend>
+					<FieldsetWrapper label="Prepend to Filename">
 						<input
 							type="text"
 							name="batchNamePrepend"
@@ -54,9 +53,8 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 							maxLength={251}
 							onChange={updateBatchName}
 							placeholder="If none, leave blank" />
-					</fieldset>
-					<fieldset>
-						<legend>Append to Filename<span aria-hidden>:</span></legend>
+					</FieldsetWrapper>
+					<FieldsetWrapper label="Append to Filename">
 						<input
 							type="text"
 							name="batchNameAppend"
@@ -65,7 +63,7 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 							maxLength={251}
 							onChange={updateBatchName}
 							placeholder="If none, leave blank" />
-					</fieldset>
+					</FieldsetWrapper>
 				</>
 			)}
 		</>

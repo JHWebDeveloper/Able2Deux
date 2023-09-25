@@ -3,6 +3,7 @@ import { func, string } from 'prop-types'
 
 import { MEDIA_TYPES, capitalize } from 'utilities'
 
+import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 import CheckboxSet from '../form_elements/CheckboxSet'
 
 const MEDIA_LABEL = Object.freeze(['Audio', 'Motion Graphics', 'Images', 'Video'])
@@ -30,8 +31,7 @@ const FilenameOptions = ({ presetNamePrepend, presetNameAppend, limitTo, updateS
 
   return (
     <>
-      <fieldset>
-        <legend>Prepend to Filename<span aria-hidden>:</span></legend>
+      <FieldsetWrapper label="Prepend to Filename">
         <input
           type="text"
           className="panel-input"
@@ -40,9 +40,8 @@ const FilenameOptions = ({ presetNamePrepend, presetNameAppend, limitTo, updateS
           maxLength={251}
           value={presetNamePrepend}
           onChange={updateStateFromEvent} />
-      </fieldset>
-      <fieldset>
-        <legend>Append to Filename<span aria-hidden>:</span></legend>
+      </FieldsetWrapper>
+      <FieldsetWrapper label="Append to Filename">
         <input
           type="text"
           className="panel-input"
@@ -51,7 +50,7 @@ const FilenameOptions = ({ presetNamePrepend, presetNameAppend, limitTo, updateS
           maxLength={251}
           value={presetNameAppend}
           onChange={updateStateFromEvent} />
-      </fieldset>
+      </FieldsetWrapper>
       <CheckboxSet
         label="Only Apply Presets To"
         onChange={toggleLimitTo}

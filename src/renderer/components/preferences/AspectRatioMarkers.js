@@ -9,6 +9,7 @@ import {
 	updateAspectRatioMarker
 } from 'actions'
 
+import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 import DraggableList from '../form_elements/DraggableList'
 import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
@@ -145,8 +146,9 @@ const AspectRatioMarkers = ({ aspectRatioMarkers, dispatch }) => {
 	}, [aspectRatioMarkers])
 
 	return (
-		<fieldset className="aspect-ratio-markers">
-			<legend>Aspect Ratio Markers:</legend>
+		<FieldsetWrapper
+			label="Aspect Ratio Markers"
+			className="aspect-ratio-markers">
 			<div className="sortable-grid aspect-ratio-markers-grid">
 				<label id="ar-markers-hide">Hide</label>
 				<label id="ar-markers-label">Label</label>
@@ -162,7 +164,7 @@ const AspectRatioMarkers = ({ aspectRatioMarkers, dispatch }) => {
 					))}
 				</DraggableList>
 			</div>
-		</fieldset>
+		</FieldsetWrapper>
 	)
 }
 

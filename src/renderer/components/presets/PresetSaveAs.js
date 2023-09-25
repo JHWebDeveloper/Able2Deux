@@ -7,6 +7,7 @@ import { PresetsProvider, PresetsContext } from 'store'
 import { MEDIA_TYPES, TOASTR_OPTIONS, errorToString } from 'utilities'
 
 import RadioSet from '../form_elements/RadioSet'
+import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
 import SelectAttributes from './SelectAttributes'
 import FilenameOptions from './FilenameOptions'
@@ -314,8 +315,7 @@ const PresetSaveAs = () => {
 								buttons={SAVE_TYPE_BUTTONS}/>
 						) : <></>}
 						{saveType === 'newPreset' ? (
-							<fieldset>
-								<legend>Preset Name<span aria-hidden>:</span></legend>
+							<FieldsetWrapper label="Preset Name">
 								<input
 									type="text"
 									className="panel-input"
@@ -323,10 +323,9 @@ const PresetSaveAs = () => {
 									maxLength={50}
 									value={presetName}
 									onChange={updateStateFromEvent} />
-							</fieldset>
+							</FieldsetWrapper>
 						) : (
-							<fieldset>
-								<legend>Select Preset<span aria-hidden>:</span></legend>
+							<FieldsetWrapper label="Select Preset">
 								<select
 									className="panel-input"
 									name="selectedPreset"
@@ -336,7 +335,7 @@ const PresetSaveAs = () => {
 										<option key={id} value={id}>{label}</option>
 									))}
 								</select>
-							</fieldset>
+							</FieldsetWrapper>
 						)}
 					</section>
 					<section className="preset-settings">

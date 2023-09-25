@@ -4,6 +4,7 @@ import { PrefsContext } from 'store'
 
 import { addNewLocation, moveSortableElement } from 'actions'
 
+import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 import DraggableList from '../form_elements/DraggableList'
 import Directory from './Directory'
 
@@ -23,8 +24,7 @@ const SaveLocations = () => {
 
 	return (
 		<>
-			<fieldset>
-				<legend>Save Locations:</legend>
+			<FieldsetWrapper label="Save Locations">
 				<div className="sortable-grid save-locations-grid">
 					<label id="save-locations-hide">Hide</label>
 					<label id="save-locations-default">Default</label>
@@ -41,7 +41,7 @@ const SaveLocations = () => {
 						))}
 					</DraggableList>
 				</div>
-			</fieldset>
+			</FieldsetWrapper>
 		</>
 	)
 }

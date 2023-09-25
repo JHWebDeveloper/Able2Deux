@@ -3,6 +3,7 @@ import { exact, func, string } from 'prop-types'
 
 import { updateScratchDisk } from 'actions'
 
+import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 import DirectorySelector from '../form_elements/DirectorySelector'
 
 const ScratchDisk = ({ scratchDisk, dispatch }) => {
@@ -17,8 +18,7 @@ const ScratchDisk = ({ scratchDisk, dispatch }) => {
 	const updatePreview = useCallback(dispatchUpdateScratchDisk('previews'), [])
 
 	return (
-		<fieldset>
-			<legend>Scratch Disks:</legend>
+		<FieldsetWrapper label="Scratch Disks">
 			<span className="scratch-disk">
 				<label>Import Cache</label>
 				<DirectorySelector
@@ -37,7 +37,7 @@ const ScratchDisk = ({ scratchDisk, dispatch }) => {
 					directory={scratchDisk.previews}
 					onChange={updatePreview} />
 			</span>
-		</fieldset>
+		</FieldsetWrapper>
 	)
 }
 
