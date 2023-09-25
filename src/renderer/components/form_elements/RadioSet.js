@@ -9,6 +9,7 @@ const RadioSet = ({ label, hideLabel, disabled, name, state, onChange, buttons =
 	return (
     <FieldsetWrapper
       label={label}
+			className="radio-set"
       hideLabel={hideLabel}
       disabled={disabled}>
 			{buttons.map(({ label, value, component }, i) => (

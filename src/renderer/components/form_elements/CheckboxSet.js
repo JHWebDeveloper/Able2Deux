@@ -32,6 +32,7 @@ const CheckboxSet = ({
   return (
     <FieldsetWrapper
       label={label}
+      className="radio-set"
       hideLabel={hideLabel}
       disabled={disabled}>
       <>
