@@ -449,9 +449,8 @@ const applyPreset = (state, payload) => {
 
 	if (!presets.length) return state
 
-	let media = [...state.media]
-
 	const mediaIdsLength = mediaIds.length
+	let media = [...state.media]
 
 	for (let i = 0; i < mediaIdsLength; i++) {
 		const mediaId = mediaIds[i]
