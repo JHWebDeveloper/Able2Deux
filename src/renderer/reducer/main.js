@@ -422,7 +422,7 @@ const splitMedia = (state, payload) => {
 
 // ---- APPLY PRESET --------
 
-const constrainPairedValue = (media, keyA, keyB) => preset => {
+const constrainPairedValue = media => (keyA, keyB) => preset => {
 	if (!(keyA in preset ^ keyB in preset)) return preset
 
 	if (preset[keyA] > media[keyB]) {
@@ -451,43 +451,39 @@ const applyPreset = (state, payload) => {
 
 	let media = [...state.media]
 
-	if (!duplicate) {
-		const lastPreset = presets.pop()
+	const mediaIdsLength = mediaIds.length
 
-		media = media.map(item => {
-			if (!mediaIds.includes(item.id)) return item
-
-			const preset = pipe(
-				constrainPairedValue(item, 'cropT', 'cropB'),
-				constrainPairedValue(item, 'cropL', 'cropR'),
-				replaceIds
-			)(lastPreset)
-
-			return {
-				...mergePresetWithMedia(item, preset),
-				id: item.id
-			}
-		})
-	}
-
-	const mediaIdsLen = mediaIds.length
-	const presetsLen = presets.length
-
-	for (let i = 0; i < mediaIdsLen; i++) {
+	for (let i = 0; i < mediaIdsLength; i++) {
 		const mediaId = mediaIds[i]
 		let mediaIndex = media.findIndex(({ id }) => id === mediaId)
 		const item = media[mediaIndex]
+		const applicablePresets = presets.filter(({ limitTo }) => limitTo.includes(item.mediaType))
+		const presetsLength = applicablePresets.length
+		const lastPresetIndex = presetsLength - 1
 
-		for (let j = 0; j < presetsLen; j++) {
-			const preset = pipe(
-				constrainPairedValue(item, 'cropT', 'cropB'),
-				constrainPairedValue(item, 'cropL', 'cropR')
-			)(presets[j])
+		for (let j = 0; j < presetsLength; j++) {
+			let preset = applicablePresets[j]
 
-			media.splice(mediaIndex++, 0, replaceIds({
-				...mergePresetWithMedia(item, preset),
-				...UNSELECTED_PROPS
-			}))
+			if (!preset.limitTo.includes(item.mediaType)) continue
+
+			const _constrainPairedValue = constrainPairedValue(item)
+
+			preset = pipe(
+				_constrainPairedValue('cropT', 'cropB'),
+				_constrainPairedValue('cropL', 'cropR')
+			)(preset.attributes)
+
+			if (!duplicate && j === lastPresetIndex) {
+				media[mediaIndex] = {
+					...mergePresetWithMedia(item, replaceIds(preset)),
+					id: item.id
+				}
+			} else {
+				media.splice(mediaIndex++, 0, replaceIds({
+					...mergePresetWithMedia(item, preset),
+					...UNSELECTED_PROPS
+				}))
+			}
 		}
 	}
 
