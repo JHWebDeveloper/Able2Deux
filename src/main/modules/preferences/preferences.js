@@ -145,14 +145,17 @@ export const loadPresets = async ({ referencesOnly, presorted }) => {
 }
 
 const flattenBatchPresets = (presets, preset, parentIds = []) => preset.type === 'batchPreset'
-? preset.presetIds
-	.filter(refId => !parentIds.includes(refId))
-	.flatMap(refId => flattenBatchPresets(presets, presets.find(({ id }) => id === refId), [...parentIds, refId]))
-	.map(attributes => ({
-		...attributes,
-		...preset.attributes
-	}))
-: [preset.attributes]
+	? preset.presetIds
+		.filter(refId => !parentIds.includes(refId))
+		.flatMap(refId => flattenBatchPresets(presets, presets.find(({ id }) => id === refId), [...parentIds, refId]))
+		.map(referencedPreset => ({
+			...referencedPreset,
+			attributes: {
+				...referencedPreset.attributes,
+				...preset.attributes
+			}
+		}))
+	: [preset]
 
 export const getPresetAttributes = async ({ presetId }) => {
 	const { presets } = JSON.parse(await fsp.readFile(presetsPath))
@@ -160,14 +163,16 @@ export const getPresetAttributes = async ({ presetId }) => {
 	return flattenBatchPresets(presets, presets.find(preset => preset.id === presetId))
 }
 
-export const createPreset = async ({ label, attributes }) => {
+export const createPreset = async ({ type, label, attributes, limitTo }) => {
 	const presets = JSON.parse(await fsp.readFile(presetsPath))
-
+	
 	presets.presets.unshift({
 		id: uuid(),
 		hidden: false,
+		type,
 		label,
-		attributes
+		attributes,
+		limitTo
 	})
 
 	return fsp.writeFile(presetsPath, JSON.stringify(presets))
