@@ -660,7 +660,11 @@ ipcMain.on('savePreset', async (evt, data) => {
 			await createPreset(data)
 		}
 
-		mainWin.webContents.send('syncPresets', await loadPresets({ referencesOnly: true }))
+		mainWin.webContents.send('syncPresets', await loadPresets({
+			referencesOnly: true,
+			presorted: true
+		}))
+		
 		evt.reply('presetSaved')
 	} catch (err) {
 		console.error(err)
