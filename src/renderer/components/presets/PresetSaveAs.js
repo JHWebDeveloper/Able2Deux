@@ -247,7 +247,7 @@ const PresetSaveAs = () => {
 	})
 
 	const { saveType, presetName, selectedPreset, presets, presetNamePrepend, presetNameAppend, limitTo } = state
-	const saveEnabled = (saveType === 'newPreset' && presetName.length || selectedPreset) && presets.some(({ include }) => include)
+	const saveEnabled = (saveType === 'newPreset' && presetName.length || selectedPreset) && presets.some(({ include }) => include) && limitTo.length
 
 	const updateStateFromEvent = useCallback(e => {
 		updateState(currentState => ({
@@ -259,6 +259,8 @@ const PresetSaveAs = () => {
 	const savePreset = async () => {
 		try {
 			await interop.savePreset({
+				type: 'preset',
+				limitTo,
 				attributes: {
 					...mapPresetToAttributes(presets),
 					...presetNamePrepend ? { presetNamePrepend } : {},
