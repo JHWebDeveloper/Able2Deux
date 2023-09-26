@@ -18,7 +18,7 @@ const DropdownMenu = ({
 	submenu = false,
 	alignment = 'left bottom',
 	label = 'Options',
-	showLabelAsTooltip = false,
+	showTooltip = false,
 	icon,
 	parentMenu,
 	autoFocus,
@@ -170,7 +170,7 @@ const DropdownMenu = ({
 			onBlur={closeMenuOnBlur}
 			data-no-drag={showMenu}
 			{...rootMenuOrSubmenuProps}
-			{...showLabelAsTooltip ? { title: label } : {}}>
+			{...showTooltip ? { title: label } : {}}>
 			<span className={`dropdown-button-label${icon ? ' symbol' : ''}`}>
 				{icon || label}
 				{submenu ? <span>chevron_right</span> : <></>}
@@ -194,7 +194,7 @@ DropdownMenu.propTypes = {
 	children: oneOfType([element, arrayOf(element)]),
 	icon: string,
 	label: string,
-	showLabelAsTooltip: bool,
+	showTooltip: bool,
 	alignment: oneOf(['top left', 'top right', 'bottom left', 'bottom right', 'right top', 'right bottom', 'left top', 'left bottom']),
 	autoFocus: bool,
 	parentMenu: oneOfType([
