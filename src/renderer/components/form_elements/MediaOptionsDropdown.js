@@ -19,7 +19,6 @@ const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 						key={key}
 						type="button"
 						role="menuitem"
-						title={label}
 						aria-label={label}
 						autoFocus={i === 0}
 						onClick={action}
@@ -68,6 +67,7 @@ const MediaOptionsDropdown = ({
 	<DropdownMenu
 		alignment={alignment}
 		label={label}
+		showTooltip
 		submenu={submenu}
 		parentMenu={parentMenu}
 		autoFocus={autoFocus}
