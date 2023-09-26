@@ -38,7 +38,7 @@ const CheckboxSet = ({
       <>
         {toggleSelectAll && checkboxes.length > selectAllThreshold ? (
           <SelectAllCheckbox
-            key={`${groupKey}_0`}
+            key={`${setKey}_0`}
             checkboxes={checkboxes}
             toggleSelectAll={toggleSelectAll} />
         ) : <></>}
