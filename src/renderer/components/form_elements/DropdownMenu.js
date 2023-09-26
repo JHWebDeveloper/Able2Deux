@@ -18,7 +18,6 @@ const DropdownMenu = ({
 	submenu = false,
 	alignment = 'left bottom',
 	label = 'Options',
-	showTooltip = false,
 	icon,
 	parentMenu,
 	autoFocus,
@@ -124,6 +123,7 @@ const DropdownMenu = ({
 			}
 		}
 	} : {
+		title: label,
 		onClick: toggleMenu,
 		onKeyDown(e) {
 			if (e.key === 'Escape') {
@@ -169,8 +169,7 @@ const DropdownMenu = ({
 			aria-controls={menuId}
 			onBlur={closeMenuOnBlur}
 			data-no-drag={showMenu}
-			{...rootMenuOrSubmenuProps}
-			{...showTooltip ? { title: label } : {}}>
+			{...rootMenuOrSubmenuProps}>
 			<span className={`dropdown-button-label${icon ? ' symbol' : ''}`}>
 				{icon || label}
 				{submenu ? <span>chevron_right</span> : <></>}
@@ -194,7 +193,6 @@ DropdownMenu.propTypes = {
 	children: oneOfType([element, arrayOf(element)]),
 	icon: string,
 	label: string,
-	showTooltip: bool,
 	alignment: oneOf(['top left', 'top right', 'bottom left', 'bottom right', 'right top', 'right bottom', 'left top', 'left bottom']),
 	autoFocus: bool,
 	parentMenu: oneOfType([
