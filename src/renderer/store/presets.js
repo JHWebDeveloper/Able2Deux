@@ -50,5 +50,6 @@ export const PresetsProvider = ({ referencesOnly, presorted, children }) => {
 
 PresetsProvider.propTypes = {
 	referencesOnly: bool,
+	presorted: bool,
 	children: oneOfType([element, arrayOf(element)]).isRequired
 }

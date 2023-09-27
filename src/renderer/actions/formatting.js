@@ -172,7 +172,7 @@ export const saveAsPreset = (id, ...extractors) => ({
 			interop.openPresetsSaveAs({
 				...pipe(...extractors)(attributes),
 				...presetNamePrepend ? { presetNamePrepend } : {},
-				...presetNameAppend ? { presetNameAppend } : {},
+				...presetNameAppend ? { presetNameAppend } : {}
 			})
 		}
 	}

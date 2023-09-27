@@ -1,17 +1,18 @@
 import { toggleSaveLocation, updateMediaStateById } from 'actions'
 import * as STATUS from 'status'
+import toastr from 'toastr'
 
 import {
-  TOASTR_OPTIONS,
-  buildSource,
-  createPromiseQueue,
-  errorToString,
-  format12hr,
-  framesToShortTC,
-  getIntegerLength,
-  pipe,
-  zeroize,
-  zeroizeAuto
+	TOASTR_OPTIONS,
+	buildSource,
+	createPromiseQueue,
+	errorToString,
+	format12hr,
+	framesToShortTC,
+	getIntegerLength,
+	pipe,
+	zeroize,
+	zeroizeAuto
 } from 'utilities'
 
 const { interop } = window.ABLE2
@@ -83,7 +84,7 @@ const applyBatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameA
 
 // ---- REPLACE FILENAME TOKENS --------
 
-const getTokenReplacerFns = (i, l, { start, end, duration, fps, instances= [], versions = [], refId, id }) => {
+const getTokenReplacerFns = (i, l, { start, end, duration, fps, instances = [], versions = [], refId, id }) => {
 	const d = new Date()
 
 	return new Map(Object.entries({
@@ -136,8 +137,8 @@ export const replaceTokens = (filename, i = 0, media) => {
 }
 
 const replaceFilenameTokens = media => media.map((item, i) => ({
-  ...item,
-  filename: replaceTokens(item.filename, i, media)
+	...item,
+	filename: replaceTokens(item.filename, i, media)
 }))
 
 // ---- CLEAN AND FORMAT FILENAME --------
@@ -147,26 +148,26 @@ const getAsperaSafeRegex = asperaSafe => new RegExp(`([%&"/:;<>?\\\\\`${asperaSa
 const sanitizeFilenames = asperaSafe => media => media.map(item => ({
 	...item,
 	filename: item.filename
-    .replace(getAsperaSafeRegex(asperaSafe), '_')
-    .trim()
-    .slice(0, 252)
-    .trimEnd()
+		.replace(getAsperaSafeRegex(asperaSafe), '_')
+		.trim()
+		.slice(0, 252)
+		.trimEnd()
 }))
 
 const replaceSpaces = (replace, replacement) => media => replace ? media.map(item => ({
-  ...item,
-  filename: item.filename.replaceAll(' ', replacement)
+	...item,
+	filename: item.filename.replaceAll(' ', replacement)
 })) : media
 
 const convertCase = (convert, casing) => media => {
-  if (!convert) return media
+	if (!convert) return media
 
-  const converter = casing === 'uppercase' ? 'toUpperCase' : 'toLowerCase'
+	const converter = casing === 'uppercase' ? 'toUpperCase' : 'toLowerCase'
 
-  return media.map(item => ({
-    ...item,
-    filename: item.filename[converter]()
-  }))
+	return media.map(item => ({
+		...item,
+		filename: item.filename[converter]()
+	}))
 }
 
 const preventDuplicateFilenames = media => {
@@ -302,10 +303,10 @@ export const render = args => async dispatch => {
 		fillMissingFilenames,
 		applyBatchName(args),
 		applyPresetName(args.batchNameSeparator),
-    replaceFilenameTokens,
+		replaceFilenameTokens,
 		sanitizeFilenames(args.asperaSafe),
-    replaceSpaces(args.replaceSpaces, args.spaceReplacement),
-    convertCase(args.convertCase, args.casing),
+		replaceSpaces(args.replaceSpaces, args.spaceReplacement),
+		convertCase(args.convertCase, args.casing),
 		preventDuplicateFilenames
 	)(media)
 
