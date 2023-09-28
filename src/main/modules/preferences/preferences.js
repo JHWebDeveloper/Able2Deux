@@ -150,6 +150,7 @@ const flattenBatchPresets = (presets, preset, parentIds = []) => preset.type ===
 		.flatMap(refId => flattenBatchPresets(presets, presets.find(({ id }) => id === refId), [...parentIds, refId]))
 		.map(referencedPreset => ({
 			...referencedPreset,
+			limitTo: (preset.limitToOverwrite ? preset : referencedPreset).limitTo,
 			attributes: {
 				...referencedPreset.attributes,
 				...preset.attributes
