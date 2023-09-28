@@ -187,6 +187,8 @@ defaultPresets.presets.push(
 		id: uuid(),
 		type: 'batchPreset',
 		label: 'EWN+TNT Background',
+		limitToOverwrite: false,
+		limitTo,
 		hidden: false,
 		presetIds: [
 			defaultPresets.presets[0].id,
@@ -198,6 +200,8 @@ defaultPresets.presets.push(
 		type: 'batchPreset',
 		label: 'All Backgrounds',
 		hidden: false,
+		limitToOverwrite: false,
+		limitTo,
 		attributes: {},
 		presetIds: defaultPresets.presets.map(({ id }) => id)
 	}
