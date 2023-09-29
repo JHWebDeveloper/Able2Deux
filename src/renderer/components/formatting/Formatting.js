@@ -109,7 +109,7 @@ const Formatting = () => {
 }
 
 export default () => (
-	<PresetsProvider referencesOnly presorted>
+	<PresetsProvider referencesOnly presorted enableSync>
 		<Formatting />
 	</PresetsProvider>
 )
