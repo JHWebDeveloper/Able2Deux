@@ -17,20 +17,22 @@ const initState = {
 
 export const PresetsContext = createContext()
 
-export const PresetsProvider = ({ referencesOnly, presorted, children }) => {
+export const PresetsProvider = ({ loadAction = updateState, referencesOnly, presorted, enableSync, children }) => {
 	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
 
 	useEffect(() => {
 		(async () => {
 			try {
-				dispatch(updateState(await interop.requestPresets(referencesOnly, presorted)))
+				dispatch(loadAction(await interop.requestPresets(referencesOnly, presorted)))
 			} catch (err) {
 				toastr.error(err, false, TOASTR_OPTIONS)
 			}
 		})()
 
+		if (!enableSync) return
+
 		interop.addPresetsSyncListener(newPresets => {
-			dispatch(updateState(newPresets))
+			dispatch(loadAction(newPresets))
 		})
 
 		return () => {
