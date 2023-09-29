@@ -16,13 +16,11 @@ export const presetsReducer = (state, action) => {
 	}
 }
 
-const loadPresetsForEditing = (state, payload) => {
-	return {
-		...state,
-		...payload,
-		presets: payload.presets.map((item, i) => ({
-			...item,
-			focused: i === 0
-		}))
-	}
-}
+const loadPresetsForEditing = (state, payload) => ({
+	...state,
+	...payload,
+	presets: payload.presets.map((item, i) => ({
+		...item,
+		focused: i === 0
+	}))
+})
