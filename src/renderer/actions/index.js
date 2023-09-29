@@ -3,6 +3,7 @@ import * as ACTION from 'actions/types'
 export * from './acquisition'
 export * from './formatting'
 export * from './preferences'
+export * from './presets'
 export * from './rendering'
 
 // ---- 1ST LEVEL STATE --------
