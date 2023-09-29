@@ -1,6 +1,6 @@
 import React, { createContext, useEffect } from 'react'
 import toastr from 'toastr'
-import { arrayOf, element, oneOfType } from 'prop-types'
+import { arrayOf, bool, element, oneOfType } from 'prop-types'
 
 import { prefsReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
@@ -60,7 +60,7 @@ const initState = {
 
 export const PrefsContext = createContext()
 
-export const PrefsProvider = ({ children }) => {
+export const PrefsProvider = ({ enableSync, children }) => {
 	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
 
 	useEffect(() => {
@@ -71,6 +71,8 @@ export const PrefsProvider = ({ children }) => {
 				toastr.error(err, false, TOASTR_OPTIONS)
 			}
 		})()
+
+		if (!enableSync) return
 
 		interop.addPrefsSyncListener(newPrefs => {
 			dispatch(updateState(newPrefs))
@@ -86,11 +88,12 @@ export const PrefsProvider = ({ children }) => {
 			preferences: state,
 			dispatch
 		}}>
-			{ children }
+			{children}
 		</PrefsContext.Provider>
 	)
 }
 
 PrefsProvider.propTypes = {
+	enableSync: bool,
 	children: oneOfType([element, arrayOf(element)]).isRequired
 }
