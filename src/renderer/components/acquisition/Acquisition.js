@@ -16,7 +16,7 @@ const Acquisition = () => {
 	const output = useMemo(() => preferences.renderOutput.split('x')[1], [preferences.renderOutput])
 
 	return (
-		<form>
+		<>
 			<Downloader
 				url={url}
 				optimize={optimize}
@@ -37,7 +37,7 @@ const Acquisition = () => {
 				recording={recording}
 				warnings={preferences.warnings}
 				dispatch={dispatch} />
-		</form>
+		</>
 	)
 }
 

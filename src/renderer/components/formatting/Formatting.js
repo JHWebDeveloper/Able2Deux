@@ -59,7 +59,7 @@ const Formatting = () => {
 	}, [focused])
 
 	return (
-		<form>
+		<>
 			<div id="media-manager">			
 				<MediaSelector
 					media={media}
@@ -104,7 +104,7 @@ const Formatting = () => {
 					closeRenderQueue={() => setRendering(false)}
 					dispatch={dispatch} />
 			) : <></>}
-		</form>
+		</>
 	)
 }
 
