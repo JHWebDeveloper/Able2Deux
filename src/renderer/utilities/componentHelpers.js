@@ -3,9 +3,13 @@ import { v1 as uuid } from 'uuid'
 import * as STATUS from 'status'
 import { createAnimator } from 'utilities'
 
-export const detectTabExit = callback => e => {
-	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)
-}
+export const classNameBuilder = classList => Object
+	.entries(classList)
+	.reduce((acc, [ key, val ]) => {
+		if (val) acc.push(key)
+		return acc
+	}, [])
+	.join(' ')
 
 export const createSettingsMenu = (multipleItems, multipleItemsSelected, actions, additionalOptions = []) => [
 	{
@@ -39,6 +43,10 @@ export const createSettingsMenu = (multipleItems, multipleItemsSelected, actions
 ]
 
 export const detectMediaIsSideways = transpose => transpose === 'transpose=1' || transpose === 'transpose=2'
+
+export const detectTabExit = callback => e => {
+	if (!e.currentTarget.contains(e.relatedTarget)) callback(false)
+}
 
 export const getStatusColor = status => {
 	switch (status) {
