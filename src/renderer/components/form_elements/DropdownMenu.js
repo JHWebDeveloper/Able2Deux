@@ -2,6 +2,7 @@ import React, { cloneElement, useCallback, useEffect, useId, useMemo, useRef, us
 import { arrayOf, bool, element, func, object, oneOf, oneOfType, shape, string } from 'prop-types'
 
 import {
+	classNameBuilder,
 	detectTabExit,
 	isArrowNext,
 	isArrowPrev,
@@ -170,7 +171,10 @@ const DropdownMenu = ({
 			onBlur={closeMenuOnBlur}
 			data-no-drag={showMenu}
 			{...rootMenuOrSubmenuProps}>
-			<span className={`dropdown-button-label${icon ? ' symbol' : ''}`}>
+			<span className={classNameBuilder({
+				'dropdown-button-label': true,
+				symbol: icon
+			})}>
 				{icon || label}
 				{submenu ? <span>chevron_right</span> : <></>}
 			</span>

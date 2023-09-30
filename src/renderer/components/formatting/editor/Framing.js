@@ -12,6 +12,7 @@ import {
 } from 'actions'
 
 import {
+	classNameBuilder,
 	createObjectPicker,
 	createSettingsMenu,
 	objectsAreEqual,
@@ -114,7 +115,10 @@ const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropp
 			type="button"
 			title="Select Background Color"
 			aria-label="Select Background Color"
-			className={`eyedropper-btn${eyedropperActive ? ' eyedropper-active' : ''}`}
+			className={classNameBuilder({
+				'eyedropper-btn': true,
+				'eyedropper-active': eyedropperActive
+			})}
 			onClick={selectBgColor}>
 			<EyedropperIcon hideContents />
 		</button>

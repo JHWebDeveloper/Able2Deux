@@ -2,6 +2,7 @@ import React, { createRef, useCallback, useContext, useId, useMemo, useRef } fro
 import { arrayOf, bool, func, number, oneOf, oneOfType, shape, string } from 'prop-types'
 
 import { PrefsContext } from 'store'
+import { classNameBuilder } from 'utilities'
 
 import SliderThumb from './SliderThumb'
 import SliderSnapMarkers from './SliderSnapMarkers'
@@ -115,7 +116,10 @@ const SliderDouble = ({
 
 	return (
 		<span
-			className={`slider${disabled ? ' disabled' : ''}`}
+			className={classNameBuilder({
+				slider: true,
+				disabled
+			})}
 			title={sliderTitle}
 			aria-label={sliderTitle}>
 			<span

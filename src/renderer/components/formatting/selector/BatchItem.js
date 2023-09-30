@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { bool, func, number, string } from 'prop-types'
 
 import { selectMedia } from 'actions'
+import { classNameBuilder } from 'utilities'
 
 import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown'
 
@@ -39,7 +40,11 @@ const BatchItem = ({
 
 	return (
 		<div
-			className={`batch-item${selected ? ' selected' : ''}${focused ? ' focused' : ''}`}
+			className={classNameBuilder({
+				'batch-item': true,
+				selected,
+				focused
+			})}
 			onKeyDown={e => onKeyDown(id, index, title, e)}>
 			<button
 				type="button"

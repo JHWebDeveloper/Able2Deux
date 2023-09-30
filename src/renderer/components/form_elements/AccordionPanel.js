@@ -2,6 +2,7 @@ import React, { cloneElement } from 'react'
 import { arrayOf, element, func, bool, oneOfType, shape, string } from 'prop-types'
 
 import { usePanelToggle } from 'hooks'
+import { classNameBuilder } from 'utilities'
 
 import MediaOptionsDropdown from './MediaOptionsDropdown'
 
@@ -9,9 +10,13 @@ const AccordionPanel = ({ heading, id, className = '', buttons = [], children })
 	const [ open, togglePanelOpen ] = usePanelToggle(id)
 	const headingId = `${id}-heading`
 	const title = `${open ? 'Close' : 'Open'} ${heading}`
-
+	
 	return (
-		<section className={`formatting-panel accordion${open ? ' open' : ''}`}>
+		<section className={classNameBuilder({
+			'formatting-panel': true,
+			accordion: true,
+			open
+		})}>
 			<h2>
 				<button
 					type="button"

@@ -15,6 +15,7 @@ import {
 } from 'actions'
 
 import {
+	classNameBuilder,
 	createObjectPicker,
 	createSettingsMenu,
 	eraseIds,
@@ -185,7 +186,10 @@ const ColorCorrection = memo(props => {
 					type="button"
 					title="Select Black Point"
 					aria-label="Select Black Point"
-					className={`eyedropper-btn${active === 'black' ? ' eyedropper-active' : ''}`}
+					className={classNameBuilder({
+						'eyedropper-btn': true,
+						'eyedropper-active': active === 'black'
+					})}
 					onClick={selectBlackPt}
 					disabled={!ccEnabled}>
 					<EyedropperIcon
@@ -196,7 +200,10 @@ const ColorCorrection = memo(props => {
 					type="button"
 					title="Select White Point"
 					aria-label="Select White Point"
-					className={`eyedropper-btn${active === 'white' ? ' eyedropper-active' : ''}`}
+					className={classNameBuilder({
+						'eyedropper-btn': true,
+						'eyedropper-active': active === 'white'
+					})}
 					onClick={selectWhitePt}
 					disabled={!ccEnabled}>
 					<EyedropperIcon

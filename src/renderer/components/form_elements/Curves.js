@@ -3,6 +3,7 @@ import { arrayOf, bool, exact, func, number, string } from 'prop-types'
 
 import {
 	clamp,
+	classNameBuilder,
 	createCurvePoint,
 	CSPL,
 	pythagorean,
@@ -277,7 +278,10 @@ const Curves = forwardRef(({
 	}, [selectedPoint.id, curve, curveColor, disabled])
 
 	return (
-		<div className={`curves${disabled ? ' disabled' : ''}`}>
+		<div className={classNameBuilder({
+			curves: true,
+			disabled
+		})}>
 			<span aria-hidden></span>
 			<canvas
 				tabIndex="0"

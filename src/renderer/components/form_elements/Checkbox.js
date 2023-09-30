@@ -1,6 +1,8 @@
 import React from 'react'
 import { arrayOf, bool, element, func, oneOfType, string } from 'prop-types'
 
+import { classNameBuilder } from 'utilities'
+
 import ToggleSwitch from '../svg/ToggleSwitch'
 
 const CheckboxWrapper = ({ label, children }) => label ? (
@@ -16,7 +18,10 @@ const Checkbox = ({ label, name, title, checked, visibleIcon, switchIcon, disabl
 			type="checkbox"
 			name={name}
 			title={title}
-			className={visibleIcon ? 'visibility' : switchIcon ? 'switch' : ''}
+			className={classNameBuilder({
+				visibility: !switchIcon && visibleIcon,
+				switch: !visibleIcon && switchIcon
+			})}
 			checked={checked}
 			onChange={onChange}
 			disabled={disabled}

@@ -10,6 +10,7 @@ import {
 } from 'actions'
 
 import {
+	classNameBuilder,
 	createObjectPicker,
 	createSettingsMenu,
 	extractRelevantMediaProps,
@@ -182,7 +183,10 @@ const Keying = memo(props => {
 							type="button"
 							title="Select Key Color"
 							aria-label="Select Key Color"
-							className={`eyedropper-btn${active === 'key' ? ' eyedropper-active' : ''}`}
+							className={classNameBuilder({
+								'eyedropper-btn': true,
+								'eyedropper-active': active === 'key'
+							})}
 							onClick={selectKeyColor}
 							disabled={!keyingEnabled}>
 							<EyedropperIcon hideContents />
@@ -197,7 +201,10 @@ const Keying = memo(props => {
 					</div>
 				</div>
 			)}
-			<div className={`color-sliders-panel${keyingEnabled ? '' : ' disabled'}`}>
+			<div className={classNameBuilder({
+				'color-sliders-panel': true,
+				disabled: !keyingEnabled
+			})}>
 				{keyingType === 'lumakey' ? (
 					<LumaKeySliders
 						threshold={props.keyingThreshold}

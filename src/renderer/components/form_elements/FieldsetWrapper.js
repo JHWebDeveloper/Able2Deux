@@ -1,9 +1,14 @@
 import React from 'react'
 import { arrayOf, bool, element, oneOfType, string } from 'prop-types'
 
+import { classNameBuilder } from 'utilities'
+
 const FieldsetWrapper = ({ label, className, hideLabel, disabled, children }) => (
 	<fieldset
-		className={`${className}${hideLabel ? `${className ? ' ' : ''}hide-label` : ''}`}
+		className={classNameBuilder({
+			[className]: className,
+			'hide-label': hideLabel
+		})}
 		disabled={disabled}>
 		<legend>{label}<span aria-hidden>:</span></legend>
 		{children}
