@@ -6,6 +6,7 @@ import '../../css/preset_save_as.css'
 import { PresetsProvider, PresetsContext } from 'store'
 import { MEDIA_TYPES, TOASTR_OPTIONS, errorToString } from 'utilities'
 
+import MainForm from '../form_elements/MainForm'
 import RadioSet from '../form_elements/RadioSet'
 import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
@@ -305,69 +306,67 @@ const PresetSaveAs = () => {
 			<header>
 				<h1>Save Preset</h1>
 			</header>
-			<main>
-				<form>
-					<section className="preset-name">
-						{existingPresets.length ? (
-							<RadioSet
-								label="Save Type"
-								name="saveType"
-								state={saveType}
-								onChange={updateStateFromEvent}
-								buttons={SAVE_TYPE_BUTTONS}/>
-						) : <></>}
-						{saveType === 'newPreset' ? (
-							<FieldsetWrapper label="Preset Name">
-								<input
-									type="text"
-									className="panel-input"
-									name="presetName"
-									maxLength={50}
-									value={presetName}
-									onChange={updateStateFromEvent} />
-							</FieldsetWrapper>
-						) : (
-							<FieldsetWrapper label="Select Preset">
-								<select
-									className="panel-input"
-									name="selectedPreset"
-									value={selectedPreset}
-									onChange={updateStateFromEvent}>
-									{existingPresets.map(({ id, label }) => (
-										<option key={id} value={id}>{label}</option>
-									))}
-								</select>
-							</FieldsetWrapper>
-						)}
-					</section>
-					<section className="preset-settings">
-						<HashRouter>
-							<nav>
-								<NavLink to="/" title="Attributes">Attributes</NavLink>
-								<NavLink to="/options" title="Filename Options">Filename Options</NavLink>
-							</nav>
-							<div>
-								<Routes>
-									<Route path="/" element={
-										<SelectAttributes
-											presets={presets}
-											updateState={updateState} />
-									} />
-									<Route path="/options" element={
-										<FilenameOptions
-											presetNamePrepend={presetNamePrepend}
-											presetNameAppend={presetNameAppend}
-											limitTo={limitTo}
-											updateStateFromEvent={updateStateFromEvent}
-											updateState={updateState} />
-									} />
-									<Route />
-								</Routes>
-							</div>
-						</HashRouter>
-					</section>
-				</form>
-			</main>
+			<MainForm>
+				<section className="preset-name">
+					{existingPresets.length ? (
+						<RadioSet
+							label="Save Type"
+							name="saveType"
+							state={saveType}
+							onChange={updateStateFromEvent}
+							buttons={SAVE_TYPE_BUTTONS}/>
+					) : <></>}
+					{saveType === 'newPreset' ? (
+						<FieldsetWrapper label="Preset Name">
+							<input
+								type="text"
+								className="panel-input"
+								name="presetName"
+								maxLength={50}
+								value={presetName}
+								onChange={updateStateFromEvent} />
+						</FieldsetWrapper>
+					) : (
+						<FieldsetWrapper label="Select Preset">
+							<select
+								className="panel-input"
+								name="selectedPreset"
+								value={selectedPreset}
+								onChange={updateStateFromEvent}>
+								{existingPresets.map(({ id, label }) => (
+									<option key={id} value={id}>{label}</option>
+								))}
+							</select>
+						</FieldsetWrapper>
+					)}
+				</section>
+				<section className="preset-settings">
+					<HashRouter>
+						<nav>
+							<NavLink to="/" title="Attributes">Attributes</NavLink>
+							<NavLink to="/options" title="Filename Options">Filename Options</NavLink>
+						</nav>
+						<div>
+							<Routes>
+								<Route path="/" element={
+									<SelectAttributes
+										presets={presets}
+										updateState={updateState} />
+								} />
+								<Route path="/options" element={
+									<FilenameOptions
+										presetNamePrepend={presetNamePrepend}
+										presetNameAppend={presetNameAppend}
+										limitTo={limitTo}
+										updateStateFromEvent={updateStateFromEvent}
+										updateState={updateState} />
+								} />
+								<Route />
+							</Routes>
+						</div>
+					</HashRouter>
+				</section>
+			</MainForm>
 			<footer>
 				<ButtonWithIcon
 					label="Save"

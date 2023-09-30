@@ -14,6 +14,7 @@ import { updateState } from 'actions'
 import { createObjectPicker, pipe } from 'utilities'
 
 import Header from './Header'
+import MainForm from '../form_elements/MainForm'
 import Acquisition from '../acquisition/Acquisition'
 import Formatting from '../formatting/Formatting'
 import SourceSuggestionList from './SourceSuggestionList'
@@ -52,16 +53,16 @@ const Router = () => {
 
 const App = () => (
 	<>
-		<PrefsProvider enableSync>
-			<Header />
-			<main>
+		<Header />
+		<MainForm>
+			<PrefsProvider enableSync>
 				<MainProvider>
 					<PanelsProvider>
 						<Router />
 					</PanelsProvider>
 				</MainProvider>
-			</main>
-		</PrefsProvider>
+			</PrefsProvider>
+		</MainForm>
 		<SourceSuggestionList />
 	</>
 )
