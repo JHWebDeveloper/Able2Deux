@@ -8,7 +8,7 @@ import CheckboxSet from '../form_elements/CheckboxSet'
 
 const MEDIA_LABEL = Object.freeze(['Audio', 'Motion Graphics', 'Images', 'Video'])
 
-const FilenameOptions = ({ presetNamePrepend, presetNameAppend, limitTo, updateState, updateStateFromEvent }) => {
+const PresetOptions = ({ presetNamePrepend, presetNameAppend, limitTo, updateState, updateStateFromEvent }) => {
 	const toggleLimitTo = useCallback(e => {
 		const { name, checked } = e?.target || e
 
@@ -64,7 +64,7 @@ const FilenameOptions = ({ presetNamePrepend, presetNameAppend, limitTo, updateS
 	)
 }
 
-FilenameOptions.propTypes = {
+PresetOptions.propTypes = {
 	presetNamePrepend: string,
 	presetNameAppend: string,
 	limitTo: arrayOf(oneOf(['audio', 'gif', 'image', 'video'])),
@@ -72,4 +72,4 @@ FilenameOptions.propTypes = {
 	updateStateFromEvent: func.isRequired
 }
 
-export default FilenameOptions
+export default PresetOptions
