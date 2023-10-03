@@ -3,34 +3,34 @@ import { arrayOf, bool, exact, func, number, oneOfType, string } from 'prop-type
 
 import CheckboxSet from '../form_elements/CheckboxSet'
 
-const SelectAttributes = ({ presets, updateState }) => {
-	const toggleIncludePreset = useCallback((e, checked) => {
+const AttributeSelector = ({ attributes, updateState }) => {
+	const toggleIncludeAttribute = useCallback((e, checked) => {
 		const { name } = e?.target || e
 
 		updateState(currentState => ({
 			...currentState,
-			presets: currentState.presets.map(item => item.attribute === name ? {
+			attributes: currentState.attributes.map(item => item.attribute === name ? {
 				...item,
 				include: checked ?? !item.include
 			} : item)
 		}))
 	}, [])
 
-	const toggleSelectAllPresets = useCallback(e => {
+	const toggleSelectAllAttributes = useCallback(e => {
 		const { checked } = e?.target || e
 
 		updateState(currentState => ({
 			...currentState,
-			presets: currentState.presets.map(item => ({ ...item, include: checked }))
+			attributes: currentState.attributes.map(item => ({ ...item, include: checked }))
 		}))
 	}, [])
 
 	return (
 		<CheckboxSet
 			label="Select attributes to include"
-			onChange={toggleIncludePreset}
-			toggleSelectAll={toggleSelectAllPresets}
-			checkboxes={presets.map(({ label, include, attribute }) => ({
+			onChange={toggleIncludeAttribute}
+			toggleSelectAll={toggleSelectAllAttributes}
+			checkboxes={attributes.map(({ label, include, attribute }) => ({
 				label,
 				name: attribute,
 				checked: include
@@ -38,8 +38,8 @@ const SelectAttributes = ({ presets, updateState }) => {
 	)
 }
 
-SelectAttributes.propTypes = {
-	presets: arrayOf(exact({
+AttributeSelector.propTypes = {
+	attributes: arrayOf(exact({
 		attribute: string,
 		label: string,
 		include: bool,
@@ -55,4 +55,4 @@ SelectAttributes.propTypes = {
 	updateState: func.isRequired
 }
 
-export default SelectAttributes
+export default AttributeSelector
