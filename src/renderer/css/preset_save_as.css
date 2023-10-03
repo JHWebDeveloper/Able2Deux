@@ -1,10 +1,7 @@
-#root, section {
-  display: grid;
-  row-gap: 9px;
-}
-
 #root {
+  display: grid;
   grid-template-rows: min-content auto min-content;
+  row-gap: 9px;
   padding: 0;
 }
 
@@ -15,22 +12,19 @@ h1 {
   font-size: 18px;
 }
 
-main, section, nav, section > div, footer { display: inherit; }
-
-main, section > div {
-  row-gap: inherit;
+main, .preset-settings {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
-main {
-  overflow: hidden;
-  grid-template-rows: min-content auto;
-}
+main, section > div { row-gap: inherit; }
 
 section {
   display: grid;
-  row-gap: 9px;
   overflow: inherit;
+  row-gap: 9px;
   align-content: start;
 }
 
@@ -39,12 +33,34 @@ section {
   padding-inline: 18px;
 }
 
-.preset-settings { 
-  height: 100%;
+.preset-settings {
+  flex: 1;
   background-color: var(--background-alt-1);
 }
 
-.preset-settings > div { padding-bottom: 12px; }
+.preset-settings > :is(nav, div) { display: grid; }
+
+.preset-settings > nav {
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.preset-settings > nav > a {
+  display: block;
+  padding: 9px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.preset-settings > nav > a:not(.active) { background-color: var(--background); }
+
+.preset-settings > div {
+  overflow: hidden auto;
+  flex: inherit;
+  align-content: start;
+  height: 100%;
+  padding-bottom: 12px;
+}
 
 .preset-name .panel-input { background-color: #fff; }
 
@@ -53,26 +69,8 @@ section {
   .preset-settings .panel-input { background-color: var(--background); }
 }
 
-nav {
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-}
-
-nav > a {
-  display: block;
-  padding: 9px;
-  text-align: center;
-  font-weight: 500;
-}
-
-nav > a:not(.active) { background-color: var(--background); }
-
-.preset-settings > div {
-  overflow: hidden auto;
-  height: 100%;
-}
-
 footer {
+  display: inherit;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   column-gap: 6px;
