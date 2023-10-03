@@ -19,7 +19,7 @@ const PresetItem = ({ focused, label, index, selectPreset }) => (
 	</div>
 )
 
-const PresetSelector = ({ allPresets, dispatch }) => {
+const AttributeSelector = ({ allPresets, dispatch }) => {
 	const presetKey = useId()
 	const batchPresetKey = useId()
 	const presets = allPresets.filter(({ type }) => type === 'preset')
@@ -58,4 +58,4 @@ const PresetSelector = ({ allPresets, dispatch }) => {
   )
 }
 
-export default PresetSelector
+export default AttributeSelector
