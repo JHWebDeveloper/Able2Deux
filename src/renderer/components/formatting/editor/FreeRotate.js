@@ -5,7 +5,7 @@ import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
 const ANGLE_STATIC_PROPS = { name: 'angle', title: 'Angle', min: -180, max: 180 }
-const CENTERING_STATIC_PROPS = { name: 'rotatedCentering', title: 'Centering', min: -100, max: 100 }
+const CENTERING_STATIC_PROPS = { name: 'rotatedCentering', title: 'Centering', min: -100 }
 
 const FreeRotate = ({ angle, center, disableCenter, updateSelectionFromEvent }) => {
 	const angleProps = {
