@@ -42,7 +42,7 @@ const CheckboxSet = ({
 						checkboxes={checkboxes}
 						toggleSelectAll={toggleSelectAll} />
 				) : <></>}
-				{checkboxes.map(({ hidden, label, checked, name, onChange }, i) => {
+				{checkboxes.map(({ hidden, label, Component, checked, name, onChange }, i) => {
 					const key = `${setKey}_${i + offsetKey}`
 
 					return hidden ? (
@@ -53,7 +53,8 @@ const CheckboxSet = ({
 							label={label}
 							checked={checked}
 							name={name}
-							onChange={onChange || onChangeFallback} />
+							onChange={onChange || onChangeFallback}
+							Component={Component} />
 					)
 				})}
 			</>
