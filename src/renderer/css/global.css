@@ -159,7 +159,18 @@ legend {
 
 label { width: min-content; }
 
-label > :is(input, span, svg) { vertical-align: middle; }
+label > :is(input[type="checkbox"], input[type="radio"], span, svg) { vertical-align: middle; }
+
+label > :is(input:not([type="checkbox"], [type="radio"]), select) {
+	font-weight: revert;
+	margin-left: 5px;
+	height: auto;
+	vertical-align: baseline;
+}
+
+label > :is(input[type="checkbox"], input[type="radio"]) + :is(input, select) {
+	margin-left: revert;
+}
 
 .disabled label { color: var(--disabled); }
 
