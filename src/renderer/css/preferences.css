@@ -46,7 +46,6 @@ fieldset:nth-child(n + 2) { margin-top: 12px; }
 label:not([for]) { display: block; }
 
 :not(.radio-set) > label {
-	margin-right: 9px;
 	font-weight: 500;
 	font-size: 14px;
 }
@@ -54,10 +53,10 @@ label:not([for]) { display: block; }
 form > :last-child { margin-bottom: 0; }
 
 main .app-button,
-input:is([type="text"], [type="number"], [type="color"]),
-select {
+label > input[type="color"],
+.directory-selector > input,
+.aspect-ratio-markers-grid input {
 	height: 24px;
-	vertical-align: middle;
 }
 
 main .app-button {
@@ -65,16 +64,18 @@ main .app-button {
 	padding: 0;
 }
 
-input[type="color"] { width: 48px; }
+label > input[type="color"] {
+	width: 48px;
+	vertical-align: -5px;
+}
 
 input[name="customFrameRate"] { width: 50px; }
-
-.directory-selector > input { margin-left: 6px; }
 
 .directory-selector { display: flex; }
 
 .directory-selector > input {
 	flex: 1;
+	margin-left: 6px;
 	background-color: var(--background-alt-2);
 }
 
