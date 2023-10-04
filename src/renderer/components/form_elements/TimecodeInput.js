@@ -74,7 +74,6 @@ const TimecodeInput = ({
 			className="panel-input timecode monospace"
 			id={id}
 			name={name}
-			title={title}
 			value={display}
 			onKeyDown={onKeyDown}
 			onChange={e => setDisplay(e.target.value)}
@@ -82,6 +81,7 @@ const TimecodeInput = ({
 			onPaste={pasteTimecode}
 			disabled={disabled}
 			aria-label={title}
+			{...title ? { title, 'aria-label': title } : {}}
 			aria-valuetext={numberToAudibleTC(value, fps)}
 			aria-valuemin={numberToAudibleTC(min, fps)}
 			aria-valuemax={numberToAudibleTC(max, fps)} />

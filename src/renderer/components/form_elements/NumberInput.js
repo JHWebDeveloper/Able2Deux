@@ -60,7 +60,6 @@ const NumberInput = ({
 			type="number"
 			className="panel-input monospace"
 			name={name}
-			title={title}
 			id={id}
 			value={value}
 			min={min}
@@ -72,7 +71,8 @@ const NumberInput = ({
 			onKeyUp={onKeyUp} 
 			onKeyDown={onKeyDown}
 			disabled={disabled}
-			{...ariaLabelledby ? { 'aria-labelledby': ariaLabelledby } : { 'aria-label': title }} />
+			{...title ? { title } : {}}
+			{...ariaLabelledby ? { 'aria-labelledby': ariaLabelledby } : title ? { 'aria-label': title } : {}} />
 	)
 }
 

@@ -20,7 +20,6 @@ const Checkbox = ({ label, Component, name, title, checked, visibleIcon, switchI
 		<input
 			type="checkbox"
 			name={name}
-			title={title}
 			className={classNameBuilder({
 				visibility: !switchIcon && visibleIcon,
 				switch: !visibleIcon && switchIcon
@@ -28,7 +27,8 @@ const Checkbox = ({ label, Component, name, title, checked, visibleIcon, switchI
 			checked={checked}
 			onChange={onChange}
 			disabled={disabled}
-			{...label ? {} : ariaLabelledby ? { 'aria-labelledby': ariaLabelledby } : { 'aria-label': title }} />
+			{...title ? { title } : {}}
+			{...label ? {} : ariaLabelledby ? { 'aria-labelledby': ariaLabelledby } : title ? { 'aria-label': title } : {}} />
 		{switchIcon ? <ToggleSwitch toggle={checked} disabled={disabled} /> : <></>}
 	</CheckboxWrapper>
 )
