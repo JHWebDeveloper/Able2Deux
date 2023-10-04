@@ -100,19 +100,21 @@ const RenderOutput = () => {
 					name="replaceSpaces"
 					checked={preferences.replaceSpaces}
 					onChange={dispatchToggleCheckbox}
+					Component={({ disabled }) => (
+						<select
+							name="spaceReplacement"
+							className="panel-input"
+							title="Select space replacement character"
+							aria-label="Select space replacement character"
+							value={preferences.spaceReplacement}
+							onChange={updateStateFromEvent}
+							disabled={disabled}>
+							<option value="">Nothing (Remove Spaces)</option>
+							<option value="-">Dashes</option>
+							<option value="_">Underscores</option>
+						</select>
+					)}
 					switchIcon />
-				<select
-					name="spaceReplacement"
-					className="panel-input"
-					title="Select space replacement character"
-					aria-label="Select space replacement character"
-					value={preferences.spaceReplacement}
-					onChange={updateStateFromEvent}
-					disabled={!preferences.replaceSpaces}>
-					<option value="">Nothing (Remove Spaces)</option>
-					<option value="-">Dashes</option>
-					<option value="_">Underscores</option>
-				</select>
 			</span>
 			<span className="input-option">
 				<Checkbox
@@ -120,45 +122,49 @@ const RenderOutput = () => {
 					name="convertCase"
 					checked={preferences.convertCase}
 					onChange={dispatchToggleCheckbox}
+					Component={({ disabled }) => (
+						<select
+							name="casing"
+							className="panel-input"
+							title="Select filename case"
+							aria-label="Select filename case"
+							value={preferences.casing}
+							onChange={updateStateFromEvent}
+							disabled={disabled}>
+							<option value="lowercase">Lowercase</option>
+							<option value="uppercase">Uppercase</option>
+						</select>
+					)}
 					switchIcon />
-				<select
-					name="casing"
-					className="panel-input"
-					title="Select filename case"
-					aria-label="Select filename case"
-					value={preferences.casing}
-					onChange={updateStateFromEvent}
-					disabled={!preferences.convertCase}>
-					<option value="lowercase">Lowercase</option>
-					<option value="uppercase">Uppercase</option>
-				</select>
 			</span>
 			<span className="input-option">
-				<label htmlFor="batchNameSeparator">Join Batch/Preset Names with</label>
-				<select
-					id="batchNameSeparator"
-					name="batchNameSeparator"
-					className="panel-input"
-					value={preferences.batchNameSeparator}
-					onChange={updateStateFromEvent}>
-					<option value="">Nothing</option>
-					<option value=" ">Spaces</option>
-					<option value="-">Dashes</option>
-					<option value=" - ">Spaced Dashes</option>
-					<option value="_">Underscores</option>
-				</select>
+				<label>
+					Join Batch/Preset Names with
+					<select
+						name="batchNameSeparator"
+						className="panel-input"
+						value={preferences.batchNameSeparator}
+						onChange={updateStateFromEvent}>
+						<option value="">Nothing</option>
+						<option value=" ">Spaces</option>
+						<option value="-">Dashes</option>
+						<option value=" - ">Spaced Dashes</option>
+						<option value="_">Underscores</option>
+					</select>
+				</label>
 			</span>
 			<span className="input-option">
-				<label htmlFor="concurrent">Concurrent Renders</label>
-				<NumberInput
-					name="concurrent"
-					id="concurrent"
-					value={preferences.concurrent}
-					min={1}
-					max={10}
-					defaultValue={2}
-					microStep={1}
-					onChange={updateConcurrent} />
+				<label>
+					Concurrent Renders
+					<NumberInput
+						name="concurrent"
+						value={preferences.concurrent}
+						min={1}
+						max={10}
+						defaultValue={2}
+						microStep={1}
+						onChange={updateConcurrent} />
+				</label>
 			</span>
 		</>
 	)
