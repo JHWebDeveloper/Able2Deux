@@ -71,25 +71,27 @@ const AcquisitionSettings = () => {
 					switchIcon />
 			</span>
 			<span className="input-option">
-				<label htmlFor="screenRecorderFrameRate">Screen Recorder Frame Rate</label>
-				<NumberInput
-					name="screenRecorderFrameRate"
-					id="screenRecorderFrameRate"
-					value={preferences.screenRecorderFrameRate}
-					min={1}
-					max={120}
-					microStep={1}
-					onChange={updateStateDispatch} />
+				<label>
+					Screen Recorder Frame Rate
+					<NumberInput
+						name="screenRecorderFrameRate"
+						value={preferences.screenRecorderFrameRate}
+						min={1}
+						max={120}
+						microStep={1}
+						onChange={updateStateDispatch} />
+				</label>
 			</span>
 			<span className="input-option">
-				<label htmlFor="timer">Default Timer Duration</label>
-				<TimecodeInputSeconds
-					name="timer"
-					id="timer"
-					value={preferences.timer}
-					min={1}
-					max={86399}
-					onChange={updateStateDispatch} />
+				<label>
+					Default Timer Duration
+					<TimecodeInputSeconds
+						name="timer"
+						value={preferences.timer}
+						min={1}
+						max={86399}
+						onChange={updateStateDispatch} />
+				</label>
 			</span>
 		</>
 	)
