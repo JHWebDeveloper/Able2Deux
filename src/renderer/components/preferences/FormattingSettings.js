@@ -102,26 +102,28 @@ const FormattingSettings = () => {
 					switchIcon />
 			</span>
 			<span className="input-option">
-				<label htmlFor="split">Default Split Duration</label>
-				<TimecodeInputSeconds
-					name="split"
-					id="split"
-					value={preferences.split}
-					min={1}
-					max={86399}
-					onChange={updateStateDispatch} />
+				<label>
+					Default Split Duration
+					<TimecodeInputSeconds
+						name="split"
+						value={preferences.split}
+						min={1}
+						max={86399}
+						onChange={updateStateDispatch} />
+				</label>
 			</span>
 			<span className="input-option">
-				<label htmlFor="scaleSliderMax">Scale Slider Max</label>
-				<NumberInput
-					name="scaleSliderMax"
-					id="scaleSliderMax"
-					value={preferences.scaleSliderMax}
-					min={100}
-					max={4500}
-					microStep={1}
-					defaultValue={400}
-					onChange={updateStateDispatch} />
+				<label>
+					Scale Slider Max
+					<NumberInput
+						name="scaleSliderMax"
+						value={preferences.scaleSliderMax}
+						min={100}
+						max={4500}
+						microStep={1}
+						defaultValue={400}
+						onChange={updateStateDispatch} />
+				</label>
 			</span>
 		</>
 	)
