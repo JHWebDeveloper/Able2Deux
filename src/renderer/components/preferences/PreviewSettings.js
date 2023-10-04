@@ -40,13 +40,14 @@ const PreviewSettings = () => {
 				state={preferences.previewQuality.toString()}
 				onChange={setPreviewQuality} />
 			<span className="input-option" style={{ alignItems: 'center' }}>
-				<label htmlFor="grid-color">Grid Color</label>
-				<input
-					type="color"
-					name="gridColor"
-					id="grid-color"
-					value={preferences.gridColor}
-					onChange={e => dispatch(updateStateFromEvent(e))} />
+				<label>
+					Grid Color
+					<input
+						type="color"
+						name="gridColor"
+						value={preferences.gridColor}
+						onChange={e => dispatch(updateStateFromEvent(e))} />
+				</label>
 			</span>
 			<AspectRatioMarkers
 				aspectRatioMarkers={preferences.aspectRatioMarkers}
