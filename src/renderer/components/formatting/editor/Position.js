@@ -18,8 +18,8 @@ import AccordionPanel from '../../form_elements/AccordionPanel'
 import SliderSingle from '../../form_elements/SliderSingle'
 import NumberInput from '../../form_elements/NumberInput'
 
-const X_STATIC_PROPS = Object.freeze({ name: 'positionX', title: 'Position X', min: -100 })
-const Y_STATIC_PROPS = Object.freeze({ name: 'positionY', title: 'Position Y', min: -100 })
+const X_STATIC_PROPS = Object.freeze({ name: 'positionX', title: 'Position X', min: -100, max: 100 })
+const Y_STATIC_PROPS = Object.freeze({ name: 'positionY', title: 'Position Y', min: -100, max: 100 })
 
 const extractPositionProps = createObjectPicker(['positionX', 'positionY'])
 
