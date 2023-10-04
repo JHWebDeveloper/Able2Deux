@@ -21,7 +21,8 @@ import NumberInput from '../../form_elements/NumberInput'
 const COMMON_STATIC_PROPS = Object.freeze({
 	name: 'centering',
 	title: 'Centering',
-	min: -100
+	min: -100,
+	max: 100
 })
 
 const extractCenteringProps = createObjectPicker(['centering'])
