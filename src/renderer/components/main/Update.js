@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import { TAU, drawAble2Logo } from 'utilities'
+import { TAU } from 'constants'
+import { drawAble2Logo } from 'utilities'
 
 const { interop } = window.ABLE2
 
