@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from 'react'
 import { bool, func, number, oneOfType, string } from 'prop-types'
 
 import { download, updateState, updateStateFromEvent } from 'actions'
-import { validURLRegex } from 'utilities'
 
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
 import RadioSet from '../form_elements/RadioSet'
@@ -22,6 +21,8 @@ const STYLE_INCREASE_ICON_SIZE = Object.freeze({
 	scale: '1.35',
 	translate: '0 8%'
 })
+
+const validURLRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
 
 const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 	const isInvalidURL = useMemo(() => !validURLRegex.test(url), [url])
