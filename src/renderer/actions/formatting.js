@@ -8,8 +8,9 @@ import {
 	updateMediaStateBySelection
 } from 'actions'
 
+import { TOASTR_OPTIONS } from 'constants'
+
 import {
-	TOASTR_OPTIONS,
 	clamp,
 	createMediaData,
 	createCurvePoint,

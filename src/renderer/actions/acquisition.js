@@ -4,8 +4,9 @@ import * as ACTION from 'actions/types'
 import * as STATUS from 'status'
 import { updateMediaStateById } from 'actions'
 
+import { TOASTR_OPTIONS } from 'constants'
+
 import {
-	TOASTR_OPTIONS,
 	createMediaData,
 	errorToString,
 	format12hr

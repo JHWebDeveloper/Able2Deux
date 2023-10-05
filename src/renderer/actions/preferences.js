@@ -3,7 +3,7 @@ import { v1 as uuid } from 'uuid'
 
 import * as ACTION from 'actions/types'
 import { addNewSortableElement } from 'actions'
-import { TOASTR_OPTIONS } from 'utilities'
+import { TOASTR_OPTIONS } from 'constants'
 
 const { interop } = window.ABLE2
 

@@ -5,7 +5,8 @@ import 'css/preferences.css'
 
 import { PrefsProvider, PrefsContext } from 'store'
 import { updateState } from 'actions'
-import { TOASTR_OPTIONS, createKonamiListener } from 'utilities'
+import { TOASTR_OPTIONS } from 'constants'
+import { createKonamiListener } from 'utilities'
 
 import MainForm from '../form_elements/MainForm'
 import GeneralSettings from './GeneralSettings'

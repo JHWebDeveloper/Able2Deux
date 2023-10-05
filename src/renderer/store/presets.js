@@ -4,8 +4,8 @@ import { arrayOf, bool, element, oneOfType } from 'prop-types'
 
 import { presetsReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
+import { TOASTR_OPTIONS } from 'constants'
 import { useAugmentedDispatch } from 'hooks'
-import { TOASTR_OPTIONS } from 'utilities'
 
 const { interop } = window.ABLE2
 

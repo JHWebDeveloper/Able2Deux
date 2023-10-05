@@ -4,7 +4,8 @@ import toastr from 'toastr'
 
 import { MainContext, PrefsContext } from 'store'
 import { upload } from 'actions'
-import { TOASTR_OPTIONS, debounce, pipeAsync } from 'utilities'
+import { TOASTR_OPTIONS } from 'constants'
+import { debounce, pipeAsync } from 'utilities'
 
 const { interop } = window.ABLE2
 

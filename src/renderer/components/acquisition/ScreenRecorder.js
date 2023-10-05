@@ -10,7 +10,8 @@ import {
 	updateMediaStatus
 } from 'actions'
 
-import { TOASTR_OPTIONS, errorToString } from 'utilities'
+import { TOASTR_OPTIONS } from 'constants'
+import { errorToString } from 'utilities'
 
 import RecordSourceSelector from './RecordSourceSelector'
 import ScreenRecorderTimer from './ScreenRecorderTimer'

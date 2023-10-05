@@ -15,8 +15,8 @@ import {
 	updateMediaStateById
 } from 'actions'
 
+import { TOASTR_OPTIONS } from 'constants'
 import { useWarning } from 'hooks'
-import { TOASTR_OPTIONS } from 'utilities'
 
 import RenderElement from './RenderElement'
 import ButtonWithIcon from '../../form_elements/ButtonWithIcon'
