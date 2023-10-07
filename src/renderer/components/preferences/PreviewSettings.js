@@ -41,7 +41,7 @@ const PreviewSettings = () => {
 				onChange={setPreviewQuality} />
 			<span className="input-option" style={{ alignItems: 'center' }}>
 				<label>
-					Grid Color
+					<span>Grid Color</span>
 					<input
 						type="color"
 						name="gridColor"

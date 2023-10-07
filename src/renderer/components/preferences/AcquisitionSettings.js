@@ -72,7 +72,7 @@ const AcquisitionSettings = () => {
 			</span>
 			<span className="input-option">
 				<label>
-					Screen Recorder Frame Rate
+					<span>Screen Recorder Frame Rate</span>
 					<NumberInput
 						name="screenRecorderFrameRate"
 						value={preferences.screenRecorderFrameRate}
@@ -84,7 +84,7 @@ const AcquisitionSettings = () => {
 			</span>
 			<span className="input-option">
 				<label>
-					Default Timer Duration
+					<span>Default Timer Duration</span>
 					<TimecodeInputSeconds
 						name="timer"
 						value={preferences.timer}

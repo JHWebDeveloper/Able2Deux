@@ -103,7 +103,7 @@ const FormattingSettings = () => {
 			</span>
 			<span className="input-option">
 				<label>
-					Default Split Duration
+					<span>Default Split Duration</span>
 					<TimecodeInputSeconds
 						name="split"
 						value={preferences.split}
@@ -114,7 +114,7 @@ const FormattingSettings = () => {
 			</span>
 			<span className="input-option">
 				<label>
-					Scale Slider Max
+					<span>Scale Slider Max</span>
 					<NumberInput
 						name="scaleSliderMax"
 						value={preferences.scaleSliderMax}
