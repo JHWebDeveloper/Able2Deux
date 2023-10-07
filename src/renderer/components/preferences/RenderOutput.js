@@ -6,6 +6,7 @@ import { toggleCheckbox, updateState } from 'actions'
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
+import SelectInput from '../form_elements/SelectInput'
 
 const OUTPUT_BUTTONS = Object.freeze([
 	{
@@ -33,8 +34,58 @@ const FRAME_RATE_BUTTONS = Object.freeze([
 	}
 ])
 
+const SPACE_REPLACEMENT_OPTIONS = Object.freeze([
+	{
+		label: 'Nothing (Remove Spaces)',
+		value: ''
+	},
+	{
+		label: 'Dashes',
+		value: '-'
+	},
+	{
+		label: 'Underscores',
+		value: '_'
+	}
+])
+
+const CASE_OPTIONS = Object.freeze([
+	{
+		label: 'Lowercase',
+		value: 'lowercase'
+	},
+	{
+		label: 'Uppercase',
+		value: 'uppercase'
+	}
+])
+
+const BATCH_NAME_SEPARATOR_OPTIONS = Object.freeze([
+	{
+		label: 'Nothing',
+		value: '',
+	},
+	{
+		label: 'Spaces',
+		value: ' '
+	},
+	{
+		label: 'Dashes',
+		value: '-'
+	},
+	{
+		label: 'Spaced Dashes',
+		value: ' - '
+	},
+	{
+		label: 'Underscores',
+		value: '_'
+	}
+])
+
 const RenderOutput = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
+	const { convertCase, replaceSpaces } = preferences
 
 	const updateStateFromEvent = useCallback(e => {
 		const { name, value } = e?.target || e
@@ -98,64 +149,50 @@ const RenderOutput = () => {
 				<Checkbox
 					label="Replace Spaces with"
 					name="replaceSpaces"
-					checked={preferences.replaceSpaces}
+					checked={replaceSpaces}
 					onChange={dispatchToggleCheckbox}
-					Component={({ disabled }) => (
-						<select
+					Component={
+						<SelectInput
 							name="spaceReplacement"
-							className="panel-input"
 							title="Select space replacement character"
-							aria-label="Select space replacement character"
 							value={preferences.spaceReplacement}
 							onChange={updateStateFromEvent}
-							disabled={disabled}>
-							<option value="">Nothing (Remove Spaces)</option>
-							<option value="-">Dashes</option>
-							<option value="_">Underscores</option>
-						</select>
-					)}
+							disabled={replaceSpaces}
+							options={SPACE_REPLACEMENT_OPTIONS} />
+					}
 					switchIcon />
 			</span>
 			<span className="input-option">
 				<Checkbox
 					label="Convert Case to"
 					name="convertCase"
-					checked={preferences.convertCase}
+					checked={convertCase}
 					onChange={dispatchToggleCheckbox}
-					Component={({ disabled }) => (
-						<select
+					Component={
+						<SelectInput
 							name="casing"
-							className="panel-input"
 							title="Select filename case"
-							aria-label="Select filename case"
 							value={preferences.casing}
 							onChange={updateStateFromEvent}
-							disabled={disabled}>
-							<option value="lowercase">Lowercase</option>
-							<option value="uppercase">Uppercase</option>
-						</select>
-					)}
+							disabled={convertCase}
+							options={CASE_OPTIONS} />
+					}
 					switchIcon />
 			</span>
 			<span className="input-option">
 				<label>
-					Join Batch/Preset Names with
-					<select
+					<span>Join Batch/Preset Names with</span>
+					<SelectInput
 						name="batchNameSeparator"
-						className="panel-input"
+						title="Select batch/preset name separator character"
 						value={preferences.batchNameSeparator}
-						onChange={updateStateFromEvent}>
-						<option value="">Nothing</option>
-						<option value=" ">Spaces</option>
-						<option value="-">Dashes</option>
-						<option value=" - ">Spaced Dashes</option>
-						<option value="_">Underscores</option>
-					</select>
+						onChange={updateStateFromEvent}
+						options={BATCH_NAME_SEPARATOR_OPTIONS} />
 				</label>
 			</span>
 			<span className="input-option">
 				<label>
-					Concurrent Renders
+					<span>Concurrent Renders</span>
 					<NumberInput
 						name="concurrent"
 						value={preferences.concurrent}
