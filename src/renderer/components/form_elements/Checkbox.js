@@ -5,18 +5,18 @@ import { classNameBuilder } from 'utilities'
 
 import ToggleSwitch from '../svg/ToggleSwitch'
 
-const CheckboxWrapper = ({ label, children, component }) => label ? (
-	<label>
+const CheckboxWrapper = ({ label, children, Component }) => label ? (
+	<label className="label-with-input">
 		{children}
 		<span>{label}</span>
-		{component}
+		{Component}
 	</label>
-) : <span>{children}{component}</span>
+) : <span>{children}{Component}</span>
 
-const Checkbox = ({ label, Component, name, title, checked, visibleIcon, switchIcon, disabled, onChange, ariaLabelledby }) => (
+const Checkbox = ({ label, Component, name, checked, visibleIcon, switchIcon, disabled, onChange, title, ariaLabelledby }) => (
 	<CheckboxWrapper
 		label={label}
-		component={Component ? <Component disabled={!checked} /> : <></>}>
+		Component={Component ? Component : <></>}>
 		<input
 			type="checkbox"
 			name={name}
@@ -35,7 +35,7 @@ const Checkbox = ({ label, Component, name, title, checked, visibleIcon, switchI
 
 CheckboxWrapper.propTypes = {
 	label: string,
-	component: element,
+	Component: element,
 	children: oneOfType([element, arrayOf(element)]).isRequired
 }
 
