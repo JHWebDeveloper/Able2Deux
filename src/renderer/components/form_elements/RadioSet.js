@@ -13,7 +13,9 @@ const RadioSet = ({ label, hideLabel, disabled, name, state, onChange, buttons =
 			hideLabel={hideLabel}
 			disabled={disabled}>
 			{buttons.map(({ label, value, component }, i) => (
-				<label key={`${setKey}_${i}`}>
+				<label
+					key={`${setKey}_${i}`}
+					className="label-with-input">
 					<input
 						type="radio"
 						name={name}
