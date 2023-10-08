@@ -4,9 +4,9 @@ const HTMLWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
 
-const rendererPath = path.resolve('src', 'renderer')
-const pages = ['index', 'splash', 'update', 'preferences', 'presets', 'preset_save_as', 'help']
-const alias = ['actions', 'constants', 'css', 'hooks', 'reducer', 'store', 'utilities']
+const RENDERER_PATH = path.resolve('src', 'renderer')
+const PAGES = ['index', 'splash', 'update', 'preferences', 'presets', 'preset_save_as', 'help']
+const ALIAS = ['actions', 'constants', 'css', 'hooks', 'reducer', 'store', 'utilities']
 
 module.exports = {
 	target: 'web',
@@ -17,12 +17,12 @@ module.exports = {
 			'react-router-dom',
 			'prop-types',
 			'toastr',
-			path.join(rendererPath, 'css', 'global.css'),
-			path.join(rendererPath, 'css', 'toastr.css')
+			path.join(RENDERER_PATH, 'css', 'global.css'),
+			path.join(RENDERER_PATH, 'css', 'toastr.css')
 		],
-		...pages.reduce((obj, page) => {
+		...PAGES.reduce((obj, page) => {
 			obj[page] = {
-				import: path.join(rendererPath, `${page}.js`),
+				import: path.join(RENDERER_PATH, `${page}.js`),
 				dependOn: 'common'
 			}
 			return obj
@@ -65,8 +65,8 @@ module.exports = {
 		]
 	},
 	resolve: {
-		alias: alias.reduce((obj, folder) => {
-			obj[folder] = path.join(rendererPath, folder)
+		alias: ALIAS.reduce((obj, folder) => {
+			obj[folder] = path.join(RENDERER_PATH, folder)
 			return obj
 		}, {})
 	},
@@ -74,15 +74,15 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: path.join('assets', 'css', '[name].min.css')
 		}),
-		...pages.map(page => new HTMLWebpackPlugin({
+		...PAGES.map(page => new HTMLWebpackPlugin({
 			inject: false,
 			filename: `${page}.html`,
-			template: path.join(rendererPath, `${page}.html`)
+			template: path.join(RENDERER_PATH, `${page}.html`)
 		})),
 		new CopyWebpackPlugin({
 			patterns: [
 				{
-					from: path.join(rendererPath, 'font'),
+					from: path.join(RENDERER_PATH, 'font'),
 					to: path.join('assets', 'font')
 				}
 			]
