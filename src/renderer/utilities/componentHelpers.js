@@ -1,6 +1,6 @@
 import { v1 as uuid } from 'uuid'
 
-import * as STATUS from 'status'
+import { STATUS } from 'constants'
 import { createAnimator } from 'utilities'
 
 export const classNameBuilder = classList => Object
