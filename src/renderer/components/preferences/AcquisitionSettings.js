@@ -62,37 +62,31 @@ const AcquisitionSettings = () => {
 				state={preferences.screenshot ? 'screenshot' : 'screen_record'}
 				onChange={screenshotToBoolean}
 				buttons={SCREENSHOT_BUTTONS} />
-			<span className="input-option">
-				<Checkbox
-					label="Timer Enabled by Default"
-					name="timerEnabled"
-					checked={preferences.timerEnabled}
-					onChange={e => dispatch(toggleCheckbox(e))}
-					switchIcon />
-			</span>
-			<span className="input-option">
-				<label>
-					<span>Screen Recorder Frame Rate</span>
-					<NumberInput
-						name="screenRecorderFrameRate"
-						value={preferences.screenRecorderFrameRate}
-						min={1}
-						max={120}
-						microStep={1}
-						onChange={updateStateDispatch} />
-				</label>
-			</span>
-			<span className="input-option">
-				<label>
-					<span>Default Timer Duration</span>
-					<TimecodeInputSeconds
-						name="timer"
-						value={preferences.timer}
-						min={1}
-						max={86399}
-						onChange={updateStateDispatch} />
-				</label>
-			</span>
+			<Checkbox
+				label="Timer Enabled by Default"
+				name="timerEnabled"
+				checked={preferences.timerEnabled}
+				onChange={e => dispatch(toggleCheckbox(e))}
+				switchIcon />
+			<label className="label-with-input">
+				<span>Screen Recorder Frame Rate</span>
+				<NumberInput
+					name="screenRecorderFrameRate"
+					value={preferences.screenRecorderFrameRate}
+					min={1}
+					max={120}
+					microStep={1}
+					onChange={updateStateDispatch} />
+			</label>
+			<label className="label-with-input">
+				<span>Default Timer Duration</span>
+				<TimecodeInputSeconds
+					name="timer"
+					value={preferences.timer}
+					min={1}
+					max={86399}
+					onChange={updateStateDispatch} />
+			</label>
 		</>
 	)
 }

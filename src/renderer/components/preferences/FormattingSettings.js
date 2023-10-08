@@ -77,54 +77,44 @@ const FormattingSettings = () => {
 				state={editorSettings.backgroundMotion}
 				onChange={updateEditorSettingsDispatch}
 				buttons={BACKGROUND_MOTION_BUTTONS} />
-			<span className="input-option">
-				<Checkbox
-					label="Select All by Default"
-					name="selectAllByDefault"
-					checked={preferences.selectAllByDefault}
-					onChange={toggleCheckboxDispatch}
-					switchIcon />
-			</span>
-			<span className="input-option">
-				<Checkbox
-					label="Show 11pm Backgrounds"
-					name="enable11pmBackgrounds"
-					checked={preferences.enable11pmBackgrounds}
-					onChange={toggleCheckboxDispatch}
-					switchIcon />
-			</span>
-			<span className="input-option">
-				<Checkbox
-					label="Enable Slider Snap Points"
-					name="sliderSnapPoints"
-					checked={preferences.sliderSnapPoints}
-					onChange={toggleCheckboxDispatch}
-					switchIcon />
-			</span>
-			<span className="input-option">
-				<label>
-					<span>Default Split Duration</span>
-					<TimecodeInputSeconds
-						name="split"
-						value={preferences.split}
-						min={1}
-						max={86399}
-						onChange={updateStateDispatch} />
-				</label>
-			</span>
-			<span className="input-option">
-				<label>
-					<span>Scale Slider Max</span>
-					<NumberInput
-						name="scaleSliderMax"
-						value={preferences.scaleSliderMax}
-						min={100}
-						max={4500}
-						microStep={1}
-						defaultValue={400}
-						onChange={updateStateDispatch} />
-				</label>
-			</span>
+			<Checkbox
+				label="Select All by Default"
+				name="selectAllByDefault"
+				checked={preferences.selectAllByDefault}
+				onChange={toggleCheckboxDispatch}
+				switchIcon />
+			<Checkbox
+				label="Show 11pm Backgrounds"
+				name="enable11pmBackgrounds"
+				checked={preferences.enable11pmBackgrounds}
+				onChange={toggleCheckboxDispatch}
+				switchIcon />
+			<Checkbox
+				label="Enable Slider Snap Points"
+				name="sliderSnapPoints"
+				checked={preferences.sliderSnapPoints}
+				onChange={toggleCheckboxDispatch}
+				switchIcon />
+			<label className="label-with-input">
+				<span>Default Split Duration</span>
+				<TimecodeInputSeconds
+					name="split"
+					value={preferences.split}
+					min={1}
+					max={86399}
+					onChange={updateStateDispatch} />
+			</label>
+			<label className="label-with-input">
+				<span>Scale Slider Max</span>
+				<NumberInput
+					name="scaleSliderMax"
+					value={preferences.scaleSliderMax}
+					min={100}
+					max={4500}
+					microStep={1}
+					defaultValue={400}
+					onChange={updateStateDispatch} />
+			</label>
 		</>
 	)
 }

@@ -129,80 +129,68 @@ const RenderOutput = () => {
 							onChange={updateStateFromEvent} />
 					}
 				]} />
-			<span className="input-option">
-				<Checkbox
-					label="Auto Export Still Video as .png"
-					name="autoPNG"
-					checked={preferences.autoPNG}
-					onChange={dispatchToggleCheckbox}
-					switchIcon/>
-			</span>
-			<span className="input-option">
-				<Checkbox
-					label="Filter Unsafe Characters for Aspera"
-					name="asperaSafe"
-					checked={preferences.asperaSafe}
-					onChange={dispatchToggleCheckbox}
-					switchIcon />
-			</span>
-			<span className="input-option">
-				<Checkbox
-					label="Replace Spaces with"
-					name="replaceSpaces"
-					checked={replaceSpaces}
-					onChange={dispatchToggleCheckbox}
-					Component={
-						<SelectInput
-							name="spaceReplacement"
-							title="Select space replacement character"
-							value={preferences.spaceReplacement}
-							onChange={updateStateFromEvent}
-							disabled={replaceSpaces}
-							options={SPACE_REPLACEMENT_OPTIONS} />
-					}
-					switchIcon />
-			</span>
-			<span className="input-option">
-				<Checkbox
-					label="Convert Case to"
-					name="convertCase"
-					checked={convertCase}
-					onChange={dispatchToggleCheckbox}
-					Component={
-						<SelectInput
-							name="casing"
-							title="Select filename case"
-							value={preferences.casing}
-							onChange={updateStateFromEvent}
-							disabled={convertCase}
-							options={CASE_OPTIONS} />
-					}
-					switchIcon />
-			</span>
-			<span className="input-option">
-				<label>
-					<span>Join Batch/Preset Names with</span>
+			<Checkbox
+				label="Auto Export Still Video as .png"
+				name="autoPNG"
+				checked={preferences.autoPNG}
+				onChange={dispatchToggleCheckbox}
+				switchIcon/>
+			<Checkbox
+				label="Filter Unsafe Characters for Aspera"
+				name="asperaSafe"
+				checked={preferences.asperaSafe}
+				onChange={dispatchToggleCheckbox}
+				switchIcon />
+			<Checkbox
+				label="Replace Spaces with"
+				name="replaceSpaces"
+				checked={replaceSpaces}
+				onChange={dispatchToggleCheckbox}
+				Component={
 					<SelectInput
-						name="batchNameSeparator"
-						title="Select batch/preset name separator character"
-						value={preferences.batchNameSeparator}
+						name="spaceReplacement"
+						title="Select space replacement character"
+						value={preferences.spaceReplacement}
 						onChange={updateStateFromEvent}
-						options={BATCH_NAME_SEPARATOR_OPTIONS} />
-				</label>
-			</span>
-			<span className="input-option">
-				<label>
-					<span>Concurrent Renders</span>
-					<NumberInput
-						name="concurrent"
-						value={preferences.concurrent}
-						min={1}
-						max={10}
-						defaultValue={2}
-						microStep={1}
-						onChange={updateConcurrent} />
-				</label>
-			</span>
+						disabled={replaceSpaces}
+						options={SPACE_REPLACEMENT_OPTIONS} />
+				}
+				switchIcon />
+			<Checkbox
+				label="Convert Case to"
+				name="convertCase"
+				checked={convertCase}
+				onChange={dispatchToggleCheckbox}
+				Component={
+					<SelectInput
+						name="casing"
+						title="Select filename case"
+						value={preferences.casing}
+						onChange={updateStateFromEvent}
+						disabled={convertCase}
+						options={CASE_OPTIONS} />
+				}
+				switchIcon />
+			<label className="label-with-input">
+				<span>Join Batch/Preset Names with</span>
+				<SelectInput
+					name="batchNameSeparator"
+					title="Select batch/preset name separator character"
+					value={preferences.batchNameSeparator}
+					onChange={updateStateFromEvent}
+					options={BATCH_NAME_SEPARATOR_OPTIONS} />
+			</label>
+			<label className="label-with-input">
+				<span>Concurrent Renders</span>
+				<NumberInput
+					name="concurrent"
+					value={preferences.concurrent}
+					min={1}
+					max={10}
+					defaultValue={2}
+					microStep={1}
+					onChange={updateConcurrent} />
+			</label>
 		</>
 	)
 }
