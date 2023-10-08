@@ -1,8 +1,7 @@
 import * as ACTION from 'actions/types'
-import * as STATUS from 'status'
 import * as shared from 'reducer/shared'
 
-import { RATIO_9_16 } from 'constants'
+import { STATUS, RATIO_9_16 } from 'constants'
 
 import {
 	arrayCount,
