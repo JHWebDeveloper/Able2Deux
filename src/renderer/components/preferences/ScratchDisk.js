@@ -18,25 +18,27 @@ const ScratchDisk = ({ scratchDisk, dispatch }) => {
 	const updatePreview = useCallback(dispatchUpdateScratchDisk('previews'), [])
 
 	return (
-		<FieldsetWrapper label="Scratch Disks">
-			<span className="scratch-disk">
-				<label>Import Cache</label>
-				<DirectorySelector
-					directory={scratchDisk.imports}
-					onChange={updateImports} />
-			</span>
-			<span className="scratch-disk">
-				<label>Export Cache</label>
-				<DirectorySelector
-					directory={scratchDisk.exports}
-					onChange={updateExports} />
-			</span>
-			<span className="scratch-disk">
-				<label>Preview Cache</label>
-				<DirectorySelector
-					directory={scratchDisk.previews}
-					onChange={updatePreview} />
-			</span>
+		<FieldsetWrapper
+			label="Scratch Disks"
+			className="scratch-disks">
+		<label>
+			<span>Import Cache</span>
+			<DirectorySelector
+				directory={scratchDisk.imports}
+				onChange={updateImports} />
+		</label>
+		<label>
+			<span>Export Cache</span>
+			<DirectorySelector
+				directory={scratchDisk.exports}
+				onChange={updateExports} />
+		</label>
+		<label>
+			<span>Preview Cache</span>
+			<DirectorySelector
+				directory={scratchDisk.previews}
+				onChange={updatePreview} />
+		</label>
 		</FieldsetWrapper>
 	)
 }
