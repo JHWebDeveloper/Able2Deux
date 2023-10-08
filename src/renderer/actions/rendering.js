@@ -1,8 +1,7 @@
 import { toggleSaveLocation, updateMediaStateById } from 'actions'
-import * as STATUS from 'status'
 import toastr from 'toastr'
 
-import { TOASTR_OPTIONS } from 'constants'
+import { STATUS, TOASTR_OPTIONS } from 'constants'
 
 import {
 	buildSource,
