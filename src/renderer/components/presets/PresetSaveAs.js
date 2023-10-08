@@ -4,14 +4,21 @@ import toastr from 'toastr'
 import '../../css/preset_save_as.css'
 
 import { PresetsProvider, PresetsContext } from 'store'
-import { MEDIA_TYPES, TOASTR_OPTIONS, errorToString } from 'utilities'
+
+import { MEDIA_TYPES, TOASTR_OPTIONS } from 'constants'
+
+import {
+	errorToString,
+	createAttributesFromPresetAttributeProperty as createNewAttributesFromMediaState,
+	pipe
+} from 'utilities'
 
 import MainForm from '../form_elements/MainForm'
 import RadioSet from '../form_elements/RadioSet'
 import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
-import SelectAttributes from './SelectAttributes'
-import FilenameOptions from './FilenameOptions'
+import AttributeSelector from './AttributeSelector'
+import PresetOptions from './PresetOptions'
 
 const { interop } = window.ABLE2
 
@@ -30,204 +37,49 @@ const SAVE_TYPE_BUTTONS = Object.freeze([
 	}
 ])
 
-const attributeToPreset = ([attribute, value], attributes) => {
-	const attributeData = {
-		include: true,
-		attribute,
-		value
-	}
+const removeOutterAttributes = attributes => attributes.filter(attr => attr.include)
 
-	switch (attribute) {
-		case 'audioVideoTracks':
-			attributeData.label = 'Export As'
-			attributeData.order = 0
-			break
-		case 'audioExportFormat':
-			attributeData.label = 'Format'
-			attributeData.order = 1
-			break
-		case 'arc':
-			attributeData.label = 'AR Correction'
-			attributeData.order = 3
-			break
+const includeAttributesByMediaState = mediaState => attributes => attributes.map(attr => {
+	switch (attr.attribute) {
+		case 'overlay':
 		case 'background':
-			attributeData.label = 'Background'
-			attributeData.include = attributes.arc !== 'none'
-			attributeData.order = 4
+			attr.include = mediaState.arc !== 'none'
 			break
 		case 'bgColor':
-			attributeData.label = 'Background Color'
-			attributeData.include = attributes.arc !== 'none' && attributes.background === 'color'
-			attributeData.order = 5
+			attr.include = mediaState.arc !== 'none' && mediaState.background === 'color'
 			break
 		case 'backgroundMotion':
-			attributeData.label = 'Background Motion'
-			attributeData.include = attributes.arc !== 'none' && attributes.background !== 'alpha' && attributes.background !== 'color'
-			attributeData.order = 6
-			break
-		case 'overlay':
-			attributeData.label = 'Overlay'
-			attributeData.include = attributes.arc !== 'none'
-			attributeData.order = 7
+			attr.include = mediaState.arc !== 'none' && mediaState.background !== 'alpha' && mediaState.background !== 'color'
 			break
 		case 'sourceName':
-			attributeData.label = 'Source'
-			attributeData.include = !!attributes.sourceName
-			attributeData.order = 8
-			break
 		case 'sourcePrefix':
-			attributeData.label = 'Add "Source: " to beginning'
-			attributeData.include = !!attributes.sourceName
-			attributeData.order = 9
-			break
 		case 'sourceOnTop':
-			attributeData.label = 'Place source at top of video'
-			attributeData.include = !!attributes.sourceName
-			attributeData.order = 10
-			break
-		case 'centering':
-			attributeData.label = 'Centering'
-			attributeData.order = 11
-			break
-		case 'positionX':
-			attributeData.label = 'Position X'
-			attributeData.order = 12
-			break
-		case 'positionY':
-			attributeData.label = 'Position Y'
-			attributeData.order = 13
-			break
-		case 'scaleX':
-			attributeData.label = 'Scale X'
-			attributeData.order = 14
-			break
-		case 'scaleY':
-			attributeData.label = 'Scale Y'
-			attributeData.order = 15
-			break
-		case 'scaleLink':
-			attributeData.label = 'Link Scale X & Y'
-			attributeData.order = 16
-			break
-		case 'cropT':
-			attributeData.label = 'Crop Top'
-			attributeData.order = 17
-			break
-		case 'cropB':
-			attributeData.label = 'Crop Bottom'
-			attributeData.order = 18
-			break
-		case 'cropL':
-			attributeData.label = 'Crop Left'
-			attributeData.order = 19
-			break
-		case 'cropR':
-			attributeData.label = 'Crop Right'
-			attributeData.order = 20
-			break
-		case 'cropLinkTB':
-			attributeData.label = 'Link Crop Top & Bottom'
-			attributeData.order = 21
-			break
-		case 'cropLinkLR':
-			attributeData.label = 'Link Crop Left & Right'
-			attributeData.order = 22
-			break
-		case 'reflect':
-			attributeData.label = 'Reflect'
-			attributeData.order = 23
-			break
-		case 'transpose':
-			attributeData.label = 'Rotate'
-			attributeData.order = 24
-			break
-		case 'freeRotateMode':
-			attributeData.label = 'Free Rotate Mode'
-			attributeData.order = 25
-			break
-		case 'angle':
-			attributeData.label = 'Free Rotate Angle'
-			attributeData.order = 26
+			attr.include = !!mediaState.sourceName
 			break
 		case 'rotatedCentering':
-			attributeData.label = 'Free Rotate Centering'
-			attributeData.include = attributes.freeRotateMode === 'inside_bounds'
-			attributeData.order = 27
-			break
-		case 'keyingEnabled':
-			attributeData.label = 'Keying On/Off'
-			attributeData.order = 28
+			attr.include = mediaState.freeRotateMode === 'inside_bounds'
 			break
 		case 'keyingType':
-			attributeData.label = 'Key Type'
-			attributeData.include = attributes.keyingEnabled
-			attributeData.order = 29
-			break
 		case 'keyingColor':
-			attributeData.label = 'Key Color'
-			attributeData.include = attributes.keyingEnabled
-			attributeData.order = 30
-			break
 		case 'keyingSimilarity':
-			attributeData.label = 'Similarity'
-			attributeData.include = attributes.keyingEnabled
-			attributeData.order = 31
-			break
 		case 'keyingBlend':
-			attributeData.label = 'Blend'
-			attributeData.include = attributes.keyingEnabled
-			attributeData.order = 32
-			break
 		case 'keyingThreshold':
-			attributeData.label = 'Threshold'
-			attributeData.include = attributes.keyingEnabled
-			attributeData.order = 33
-			break
 		case 'keyingTolerance':
-			attributeData.label = 'Tolerance'
-			attributeData.include = attributes.keyingEnabled
-			attributeData.order = 34
-			break
 		case 'keyingSoftness':
-			attributeData.label = 'Softness'
-			attributeData.include = attributes.keyingEnabled
-			attributeData.order = 35
-			break
-		case 'ccEnabled':
-			attributeData.label = 'Color Correction On/Off'
-			attributeData.order = 36
+			attr.include = mediaState.keyingEnabled
 			break
 		case 'ccRGB':
-			attributeData.label = 'RGB'
-			attributeData.include = attributes.ccEnabled
-			attributeData.order = 37
-			break
 		case 'ccR':
-			attributeData.label = 'R'
-			attributeData.include = attributes.ccEnabled
-			attributeData.order = 38
-			break
 		case 'ccG':
-			attributeData.label = 'G'
-			attributeData.include = attributes.ccEnabled
-			attributeData.order = 39
-			break
 		case 'ccB':
-			attributeData.label = 'B'
-			attributeData.include = attributes.ccEnabled
-			attributeData.order = 40
+			attr.include = mediaState.ccEnabled
 			break
 		default:
-			attributeData.label = attribute
+			attr.include = true
 	}
 
-	return attributeData
-}
-
-const mapAttributesToPreset = attributes => Object
-	.entries(attributes)
-	.map(entries => attributeToPreset(entries, attributes))
-	.sort((a, b) => a.order - b.order)
+	return attr
+})
 
 const mapPresetToAttributes = preset => preset.reduce((acc, { include, attribute, value }) => {
 	if (include) acc[attribute] = value
@@ -241,19 +93,30 @@ const PresetSaveAs = () => {
 		saveType: 'newPreset',
 		presetName: '',
 		selectedPreset: '',
-		presets: [],
+		attributes: [],
 		presetNamePrepend: '',
 		presetNameAppend: '',
 		limitTo: [...MEDIA_TYPES]
 	})
 
-	const { saveType, presetName, selectedPreset, presets, presetNamePrepend, presetNameAppend, limitTo } = state
-	const saveEnabled = (saveType === 'newPreset' && presetName.length || selectedPreset) && presets.some(({ include }) => include) && limitTo.length
+	const { saveType, presetName, selectedPreset, attributes, presetNamePrepend, presetNameAppend, limitTo } = state
+	const saveEnabled = (saveType === 'newPreset' && presetName.length || selectedPreset) && attributes.some(({ include }) => include) && limitTo.length
 
 	const updateStateFromEvent = useCallback(e => {
 		updateState(currentState => ({
 			...currentState,
 			[e.target.name]: e.target.value
+		}))
+	}, [])
+
+	const toggleLimitTo = useCallback(e => {
+		const { name, checked } = e?.target || e
+
+		updateState(currentState => ({
+			...currentState,
+			limitTo: !checked
+				? currentState.limitTo.filter(mediaType => mediaType !== name)
+				: [...currentState.limitTo, name].toSorted()
 		}))
 	}, [])
 
@@ -263,7 +126,7 @@ const PresetSaveAs = () => {
 				type: 'preset',
 				limitTo,
 				attributes: {
-					...mapPresetToAttributes(presets),
+					...mapPresetToAttributes(attributes),
 					...presetNamePrepend ? { presetNamePrepend } : {},
 					...presetNameAppend ? { presetNameAppend } : {}
 				},
@@ -283,11 +146,15 @@ const PresetSaveAs = () => {
 
 	useEffect(() => {
 		(async () => {
-			const { presetNamePrepend, presetNameAppend, ...presets } = await interop.getPresetToSave()
+			let { presetNamePrepend, presetNameAppend, ...mediaState } = await interop.getPresetToSave()
 
 			updateState(currentState => ({
 				...currentState,
-				presets: mapAttributesToPreset(presets),
+				attributes: pipe(
+					createNewAttributesFromMediaState,
+					removeOutterAttributes,
+					includeAttributesByMediaState(mediaState)
+				)(mediaState),
 				presetNamePrepend: presetNamePrepend ?? '',
 				presetNameAppend: presetNameAppend ?? ''
 			}))
@@ -340,29 +207,30 @@ const PresetSaveAs = () => {
 						</FieldsetWrapper>
 					)}
 				</section>
-				<section className="preset-settings">
+				<section className="tabbed-nav rounded-tabs no-rounded-edges">
 					<HashRouter>
 						<nav>
 							<NavLink to="/" title="Attributes">Attributes</NavLink>
-							<NavLink to="/options" title="Filename Options">Filename Options</NavLink>
+							<NavLink to="/options" title="Options">Options</NavLink>
 						</nav>
 						<div>
-							<Routes>
-								<Route path="/" element={
-									<SelectAttributes
-										presets={presets}
-										updateState={updateState} />
-								} />
-								<Route path="/options" element={
-									<FilenameOptions
-										presetNamePrepend={presetNamePrepend}
-										presetNameAppend={presetNameAppend}
-										limitTo={limitTo}
-										updateStateFromEvent={updateStateFromEvent}
-										updateState={updateState} />
-								} />
-								<Route />
-							</Routes>
+							<div>
+								<Routes>
+									<Route path="/" element={
+										<AttributeSelector
+											attributes={attributes}
+											updateState={updateState} />
+									} />
+									<Route path="/options" element={
+										<PresetOptions
+											presetNamePrepend={presetNamePrepend}
+											presetNameAppend={presetNameAppend}
+											limitTo={limitTo}
+											updatePresetName={updateStateFromEvent}
+											toggleLimitTo={toggleLimitTo} />
+									} />
+								</Routes>
+							</div>
 						</div>
 					</HashRouter>
 				</section>
