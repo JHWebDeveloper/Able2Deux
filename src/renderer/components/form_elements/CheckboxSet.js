@@ -4,7 +4,7 @@ import { arrayOf, bool, func, number, shape, string } from 'prop-types'
 import FieldsetWrapper from './FieldsetWrapper'
 import Checkbox from './Checkbox'
 
-const SelectAllCheckbox = ({ checkboxes, toggleSelectAll }) => {
+const SelectAllCheckbox = ({ checkboxes, toggleSelectAll, switchIcon }) => {
 	const allSelected = useMemo(() => (
 		checkboxes.every(({ checked }) => checked)
 	), [checkboxes])
@@ -13,7 +13,8 @@ const SelectAllCheckbox = ({ checkboxes, toggleSelectAll }) => {
 		<Checkbox
 			label="Select All"
 			checked={allSelected}
-			onChange={toggleSelectAll} />
+			onChange={toggleSelectAll}
+			switchIcon={switchIcon} />
 	)
 }
 
@@ -24,7 +25,8 @@ const CheckboxSet = ({
 	checkboxes,
 	onChange: onChangeFallback,
 	toggleSelectAll,
-	selectAllThreshold = 1
+	selectAllThreshold = 1,
+	switchIcon
 }) => {
 	const setKey = useId()
 	const offsetKey = toggleSelectAll ? 0 : 1
@@ -40,7 +42,8 @@ const CheckboxSet = ({
 					<SelectAllCheckbox
 						key={`${setKey}_0`}
 						checkboxes={checkboxes}
-						toggleSelectAll={toggleSelectAll} />
+						toggleSelectAll={toggleSelectAll}
+						switchIcon={switchIcon} />
 				) : <></>}
 				{checkboxes.map(({ hidden, label, Component, checked, name, onChange }, i) => {
 					const key = `${setKey}_${i + offsetKey}`
@@ -54,7 +57,8 @@ const CheckboxSet = ({
 							checked={checked}
 							name={name}
 							onChange={onChange || onChangeFallback}
-							Component={Component} />
+							Component={Component}
+							switchIcon={switchIcon} />
 					)
 				})}
 			</>
@@ -79,7 +83,8 @@ CheckboxSet.propTypes = {
 	label: string.isRequired,
 	onChange: func,
 	toggleSelectAll: func,
-	selectAllThreshold: number
+	selectAllThreshold: number,
+	switchIcon: bool
 }
 
 export default CheckboxSet
