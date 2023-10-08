@@ -12,62 +12,23 @@ h1 {
   font-size: 18px;
 }
 
-main, .preset-settings {
+main {
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-main, section > div { row-gap: inherit; }
+main { row-gap: inherit; }
 
-section {
+.preset-name {
   display: grid;
-  overflow: inherit;
   row-gap: 9px;
   align-content: start;
-}
-
-.preset-name,
-.preset-settings > div {
   padding-inline: 18px;
 }
 
-.preset-settings {
-  flex: 1;
-  background-color: var(--background-alt-1);
-}
-
-.preset-settings > :is(nav, div) { display: grid; }
-
-.preset-settings > nav {
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-}
-
-.preset-settings > nav > a {
-  display: block;
-  padding: 9px;
-  text-align: center;
-  font-weight: 500;
-}
-
-.preset-settings > nav > a:not(.active) { background-color: var(--background); }
-
-.preset-settings > div {
-  overflow: hidden auto;
-  flex: inherit;
-  align-content: start;
-  height: 100%;
-  padding-bottom: 12px;
-}
-
 .preset-name .panel-input { background-color: #fff; }
-
-@media (prefers-color-scheme: dark) {
-  .preset-name .panel-input { background-color: var(--background-alt-1); }
-  .preset-settings .panel-input { background-color: var(--background); }
-}
 
 footer {
   display: inherit;
