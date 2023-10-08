@@ -19,7 +19,7 @@ import SaveAndClose from './SaveAndClose'
 
 const konami = createKonamiListener()
 
-const MainAndFooter = () => {
+const Preferences = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
 	const { disableRateLimit } = preferences
 
@@ -43,36 +43,40 @@ const MainAndFooter = () => {
 	return (
 		<>
 			<MainForm>
-				<Routes>
-					<Route path="/" element={<GeneralSettings />} />
-					<Route path="/acquisition" element={<AcquisitionSettings />} />
-					<Route path="/formatting" element={<FormattingSettings />} />
-					<Route path="/preview" element={<PreviewSettings />} />
-					<Route path="/rendering" element={<Rendering />} />
-					<Route path="/save-locations" element={<SaveLocations />} />
-				</Routes>
-			</MainForm>
+				<section className="tabbed-nav">
+					<HashRouter>
+						<nav>
+							<NavLink to="/" title="General">General</NavLink>
+							<NavLink to="/acquisition" title="Acquisition">Acquisition</NavLink>
+							<NavLink to="/formatting" title="Formatting">Formatting</NavLink>
+							<NavLink to="/preview" title="Preview">Preview</NavLink>
+							<NavLink to="/rendering" title="Rendering">Rendering</NavLink>
+							<NavLink to="/save-locations" title="Save Locations">Save Locations</NavLink>
+						</nav>
+						<div>
+							<div>
+								<Routes>
+									<Route path="/" element={<GeneralSettings />} />
+									<Route path="/acquisition" element={<AcquisitionSettings />} />
+									<Route path="/formatting" element={<FormattingSettings />} />
+									<Route path="/preview" element={<PreviewSettings />} />
+									<Route path="/rendering" element={<Rendering />} />
+									<Route path="/save-locations" element={<SaveLocations />} />
+								</Routes>
+							</div>
+						</div>
+					</HashRouter>
+				</section>
+			</MainForm> 
 			<SaveAndClose
 				preferences={preferences}
 				dispatch={dispatch} />
-		</> 
+		</>
 	)
 }
 
-const Preferences = () => (
-	<HashRouter>
-		<nav>
-			<NavLink to="/" title="General">General</NavLink>
-			<NavLink to="/acquisition" title="Acquisition">Acquisition</NavLink>
-			<NavLink to="/formatting" title="Formatting">Formatting</NavLink>
-			<NavLink to="/preview" title="Preview">Preview</NavLink>
-			<NavLink to="/rendering" title="Rendering">Rendering</NavLink>
-			<NavLink to="/save-locations" title="Save Locations">Save Locations</NavLink>
-		</nav>
-		<PrefsProvider>
-			<MainAndFooter />
-		</PrefsProvider>
-	</HashRouter>
+export default () => (
+	<PrefsProvider>
+		<Preferences />
+	</PrefsProvider>
 )
-
-export default Preferences
