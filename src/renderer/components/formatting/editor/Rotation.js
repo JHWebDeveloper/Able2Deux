@@ -10,6 +10,8 @@ import {
 	saveAsPreset
 } from 'actions'
 
+import { RADIO_SET } from 'constants'
+
 import {
 	createObjectPicker,
 	createSettingsMenu,
@@ -22,54 +24,14 @@ import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
 import FreeRotate from './FreeRotate'
 
-const TRANSPOSE_BUTTONS = Object.freeze([
-	{
-		label: '0°',
-		value: ''
-	},
-	{
-		label: '90°cw',
-		value: 'transpose=1'
-	},
-	{
-		label: '90°ccw',
-		value: 'transpose=2'
-	},
-	{
-		label: '180°',
-		value: 'transpose=2,transpose=2'
-	}
-])
+const createReflectButtons = isSideways => {
+	const reflectButtons = [...RADIO_SET.reflect]
 
-const FREE_ROTATE_MODE_BUTTONS = Object.freeze([
-	{
-		label: 'Inside Bounds',
-		value: 'inside_bounds'
-	},
-	{
-		label: 'With Bounds',
-		value: 'with_bounds'
-	}
-])
+	reflectButtons[1].value = isSideways ? 'vflip' : 'hflip'
+	reflectButtons[2].value = isSideways ? 'hflip' : 'vflip'
 
-const createReflectButtons = isSideways => [
-	{
-		label: 'None',
-		value: ''
-	},
-	{
-		label: 'Horizontally',
-		value: isSideways ? 'vflip' : 'hflip'
-	},
-	{
-		label: 'Vertically',
-		value: isSideways ? 'hflip' : 'vflip'
-	},
-	{
-		label: 'Both',
-		value: 'hflip,vflip'
-	}
-]
+	return reflectButtons
+}
 
 const extractRotationProps = createObjectPicker(['transpose', 'reflect', 'freeRotateMode', 'angle', 'rotatedCentering'])
 
@@ -98,14 +60,14 @@ const Rotation = memo(props => {
 				name="transpose"
 				state={transpose}
 				onChange={updateRotateMedia}
-				buttons={TRANSPOSE_BUTTONS}/>
+				buttons={RADIO_SET.transpose}/>
 			{props.showFreeRotate ? <>
 				<RadioSet
 					label="Free Rotate Mode"
 					name="freeRotateMode"
 					state={freeRotateMode}
 					onChange={updateSelectionFromEvent}
-					buttons={FREE_ROTATE_MODE_BUTTONS} />
+					buttons={RADIO_SET.freeRotateMode} />
 				<FreeRotate
 					angle={props.angle}
 					center={props.rotatedCentering}
