@@ -1,49 +1,21 @@
 #root {
 	overflow-y: hidden;
-	display: grid;
-	grid-template-rows: min-content auto 67px;
+	display: flex;
+	flex-direction: column;
 	padding: 0;
 }
 
-nav { display: flex; }
-
-nav > a, main, footer { padding: 18px; }
-
-nav > a {
-	display: inline-block;
-	flex: 1;
-	font-weight: 500;
-	white-space: nowrap;
-	text-decoration: none;
-	text-align: center;
-}
-
-nav > a:is(.active, :hover),
 main {
-	background-color: var(--background-alt-1);
+	flex: 1;
+	overflow-y: inherit;
 }
 
-main { overflow: auto; }
-
-fieldset { margin-bottom: 12px; }
-
-fieldset:nth-child(n + 2) { margin-top: 12px; }
-
-.input-option,
-.scratch-disk {
-	margin-bottom: 9px;
+.scratch-disks {
+	display: inherit;
+	row-gap: inherit;
 }
 
-.input-option {
-	display: grid;
-	grid-auto-flow: column;
-	grid-auto-columns: min-content;
-	align-items: baseline;
-}
-
-.scratch-disk { display: block; }
-
-label:not([for]) { display: block; }
+.scratch-disks > label { width: 100%; }
 
 :not(.radio-set) > label {
 	font-weight: 500;
@@ -53,7 +25,6 @@ label:not([for]) { display: block; }
 form > :last-child { margin-bottom: 0; }
 
 main .app-button,
-label > input[type="color"],
 .directory-selector > input,
 .aspect-ratio-markers-grid input {
 	height: 24px;
@@ -64,11 +35,6 @@ main .app-button {
 	padding: 0;
 }
 
-label > input[type="color"] {
-	width: 48px;
-	vertical-align: -5px;
-}
-
 input[name="customFrameRate"] { width: 50px; }
 
 .directory-selector { display: flex; }
@@ -77,6 +43,7 @@ input[name="customFrameRate"] { width: 50px; }
 	flex: 1;
 	margin-left: 6px;
 	background-color: var(--background-alt-2);
+	font-weight: revert;
 }
 
 .sortable-grid {
@@ -162,10 +129,9 @@ button[name="directory-down"] { grid-column: 8; }
 }
 
 footer {
-	bottom: 0;
-	height: 67px;
+	display: flex;
+	column-gap: 12px;
+	padding: 18px;
 }
 
-footer > button { margin-right: 12px; }
-
-footer > button:last-of-type { float: right; }
+footer > button:last-of-type { margin-left: auto; }
