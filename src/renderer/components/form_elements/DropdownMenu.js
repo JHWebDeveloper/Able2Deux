@@ -124,7 +124,6 @@ const DropdownMenu = ({
 			}
 		}
 	} : {
-		title: label,
 		onClick: toggleMenu,
 		onKeyDown(e) {
 			if (e.key === 'Escape') {
