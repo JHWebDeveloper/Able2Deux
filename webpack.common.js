@@ -6,7 +6,7 @@ const postcssPresetEnv = require('postcss-preset-env')
 
 const rendererPath = path.resolve('src', 'renderer')
 const pages = ['index', 'splash', 'update', 'preferences', 'presets', 'preset_save_as', 'help']
-const alias = ['actions', 'css', 'hooks', 'reducer', 'status', 'store', 'utilities']
+const alias = ['actions', 'constants', 'css', 'hooks', 'reducer', 'store', 'utilities']
 
 module.exports = {
 	target: 'web',
