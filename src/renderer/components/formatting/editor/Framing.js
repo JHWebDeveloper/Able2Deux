@@ -11,6 +11,8 @@ import {
 	updateMediaStateBySelection
 } from 'actions'
 
+import { RADIO_SET } from 'constants'
+
 import {
 	classNameBuilder,
 	createObjectPicker,
@@ -24,83 +26,13 @@ import RadioSet from '../../form_elements/RadioSet'
 import ColorInput from '../../form_elements/ColorInput'
 import EyedropperIcon from '../../svg/EyedropperIcon'
 
-const ARC_BUTTONS = Object.freeze([
-	{
-		label: 'None',
-		value: 'none'
-	},
-	{
-		label: 'Fill Frame',
-		value: 'fill'
-	},
-	{
-		label: 'Fit in Frame',
-		value: 'fit'
-	},
-	{
-		label: 'Transform',
-		value: 'transform'
-	}
-])
+const createBackgroundButtons = enable11pmBackgrounds => {
+	const backgroundButtons = RADIO_SET.background.slice(0, 7)
 
-const OVERLAY_BUTTONS = Object.freeze([
-	{
-		label: 'None',
-		value: 'none'
-	},
-	{
-		label: 'TV',
-		value: 'tv'
-	},
-	{
-		label: 'Laptop',
-		value: 'laptop'
-	}
-])
+	if (!enable11pmBackgrounds) backgroundButtons.splice(2, 4)
 
-const BACKGROUND_MOTION_BUTTONS = Object.freeze([
-	{
-		label: 'Animated',
-		value: 'animated'
-	},
-	{
-		label: 'Still',
-		value: 'still'
-	}
-])
-
-const createBackgroundButtons = enable11pmBackgrounds => [
-	{
-		label: 'Blue',
-		value: 'blue'
-	},
-	{
-		label: 'Grey',
-		value: 'grey'
-	},
-	...enable11pmBackgrounds ? [
-		{
-			label: '11pm Blue 1',
-			value: 'light_blue'
-		},
-		{
-			label: '11pm Blue 2',
-			value: 'dark_blue'
-		},
-		{
-			label: '11pm Teal',
-			value: 'teal'
-		},
-		{
-			label: '11pm Tan',
-			value: 'tan'
-		}
-	] : [],
-	{
-		label: 'Transparent',
-		value: 'alpha'
-	}
-]
+	return backgroundButtons
+}
 
 const extractFramingProps = createObjectPicker(['arc', 'background', 'bgColor', 'backgroundMotion', 'overlay'])
 
@@ -157,7 +89,7 @@ const Framing = memo(props => {
 				name="arc"
 				state={arc}
 				onChange={updateSelectionFromEvent}
-				buttons={ARC_BUTTONS} />
+				buttons={RADIO_SET.arc} />
 			<RadioSet
 				label="Background"
 				name="background"
@@ -182,14 +114,14 @@ const Framing = memo(props => {
 				disabled={arc === 'none' || background === 'alpha' || background === 'color'}
 				state={props.backgroundMotion}
 				onChange={updateSelectionFromEvent}
-				buttons={BACKGROUND_MOTION_BUTTONS} />
+				buttons={RADIO_SET.backgroundMotion} />
 			<RadioSet
 				label="Box Overlay"
 				name="overlay"
 				disabled={arc === 'none'}
 				state={overlay}
 				onChange={updateSelectionFromEvent}
-				buttons={OVERLAY_BUTTONS}/>
+				buttons={RADIO_SET.overlay}/>
 		</>
 	)
 }, objectsAreEqual)
