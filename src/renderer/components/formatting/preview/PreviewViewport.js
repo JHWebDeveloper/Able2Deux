@@ -2,9 +2,9 @@ import React, { useCallback } from 'react'
 import { arrayOf, element, func, number, oneOfType } from 'prop-types'
 
 import { updateState } from 'actions'
+import { RATIO_9_16 } from 'constants'
 
 import {
-	RATIO_9_16,
 	clamp,
 	debounce,
 	throttle,
