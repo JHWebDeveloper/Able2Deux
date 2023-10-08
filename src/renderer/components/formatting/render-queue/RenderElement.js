@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { func, number, string } from 'prop-types'
 
-import { COMPLETE } from 'status'
+import { STATUS } from 'constants'
 import { cancelRender } from 'actions'
 import { capitalize, getStatusColor } from 'utilities'
 
@@ -19,7 +19,7 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, renderStatus, 
 			progress.current.value = renderPercent / 100
 		}
 
-		if (renderStatus === COMPLETE) progress.current.value = 1
+		if (renderStatus === STATUS.COMPLETE) progress.current.value = 1
 	}, [renderPercent, renderStatus])
 	
 	return (
@@ -41,7 +41,7 @@ const RenderElement = ({ id, mediaType, filename, exportFilename, renderStatus, 
 				title="Cancel Render"
 				aria-label="Cancel Render"
 				onClick={cancelCurrentRender}
-				disabled={renderStatus === COMPLETE}>close</button>
+				disabled={renderStatus === STATUS.COMPLETE}>close</button>
 		</div>
 	)
 }

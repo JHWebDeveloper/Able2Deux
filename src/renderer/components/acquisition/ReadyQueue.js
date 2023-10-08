@@ -9,9 +9,9 @@ import {
 	removeReferencedMedia
 } from 'actions'
 
+import { STATUS } from 'constants'
 import { useWarning } from 'hooks'
 import { group } from 'utilities'
-import * as STATUS from 'status'
 
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
 import MediaElement from './MediaElement'

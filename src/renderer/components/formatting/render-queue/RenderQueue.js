@@ -4,8 +4,8 @@ import { arrayOf, func, object, oneOf, string } from 'prop-types'
 import toastr from 'toastr'
 
 import { PrefsContext } from 'store'
+import { STATUS } from 'constants'
 import { pipeAsync } from 'utilities'
-import * as STATUS from 'status'
 
 import {
 	cancelRender,

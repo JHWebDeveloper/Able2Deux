@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { bool, func, number, string } from 'prop-types'
 
-import * as STATUS from 'status'
+import { STATUS } from 'constants'
 
 import {
 	capitalize,

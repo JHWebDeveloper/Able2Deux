@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { bool, func, number } from 'prop-types'
 import toastr from 'toastr'
 
-import * as STATUS from 'status'
+import { STATUS } from 'constants'
 
 import {
 	loadRecording,
