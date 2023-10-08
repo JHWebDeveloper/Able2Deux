@@ -144,6 +144,14 @@ fieldset:disabled > :is(input, input::placeholder, div) { color: inherit; }
 
 fieldset:disabled > :is(input, div) { border-color: var(--disabled); }
 
+.radio-set {
+	display: grid;
+	grid-auto-rows: min-content;
+	row-gap: 3px;
+}
+
+.radio-set > label { font-size: 12px; }
+
 legend, label { white-space: nowrap; }
 
 legend {
@@ -159,20 +167,20 @@ legend {
 
 label { width: min-content; }
 
-label > :is(input[type="checkbox"], input[type="radio"], span, svg) { vertical-align: middle; }
+.disabled label { color: var(--disabled); }
 
-label > :is(input:not([type="checkbox"], [type="radio"]), select) {
+
+.label-with-input {
+	display: grid;
+	grid-auto-flow: column;
+	align-items: center;
+	column-gap: 5px;
+}
+
+label > :is(input[type="text"], input[type="number"], select) {
 	font-weight: revert;
-	margin-left: 5px;
-	height: auto;
 	vertical-align: baseline;
 }
-
-label > :is(input[type="checkbox"], input[type="radio"]) + :is(input, select) {
-	margin-left: revert;
-}
-
-.disabled label { color: var(--disabled); }
 
 input, select {
 	background-color: transparent;
@@ -207,10 +215,6 @@ input[type="text"].timecode {
 	text-align: center;
 }
 
-label > :is(input:is([type="checkbox"], [type="radio"]), svg) {
-	margin-right: 5px;
-}
-
 input:is([type="checkbox"], [type="radio"]) {
 	overflow: hidden;
 	width: 18px;
@@ -239,6 +243,11 @@ input[type="radio"]:checked::after { content: 'radio_button_checked'; }
 input[type="checkbox"].switch {	margin-right: -18px; }
 
 input[type="checkbox"].switch::after { opacity: 0; }
+
+input[type="color"] {
+	width: 42px;
+	height: 18px;
+}
 
 input[type="color"]::-webkit-color-swatch-wrapper {
 	padding: 0;
@@ -293,12 +302,6 @@ input[type="color"]:disabled::-webkit-color-swatch { opacity: 0.25; }
 	column-gap: 6px;
 }
 
-.radio-set > label {
-	display: block;
-	margin: 0 3px 3px;
-	font-size: 12px;
-}
-
 svg.toggle-switch-disabled { fill: var(--disabled); }
 
 svg.toggle-switch-disabled > .exclude-disabled { fill: var(--primary); }
@@ -333,6 +336,61 @@ svg.toggle-switch-disabled > .exclude-disabled { fill: var(--primary); }
 }
 
 .insert-last.insert::before { top: -3px; }
+
+.tabbed-nav {
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.tabbed-nav > nav,
+.tabbed-nav > div > div {
+	display: grid;
+}
+
+.tabbed-nav > nav {
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.tabbed-nav > nav > a {
+  display: inherit;
+	align-items: center;
+  padding: 9px;
+  font-weight: 500;
+	text-align: center;
+}
+
+.tabbed-nav.rounded-tabs > nav > a { border-radius: 5px 5px 0 0; }
+.tabbed-nav.rounded-tabs.no-rounded-edges > nav > a:first-child { border-top-left-radius: 0; }
+.tabbed-nav.rounded-tabs.no-rounded-edges > nav > a:last-child { border-top-right-radius: 0; }
+
+.tabbed-nav > nav > a.active,
+.tabbed-nav > div {
+	background-color: var(--background-alt-1);
+}
+
+.tabbed-nav > div,
+.tabbed-nav > div > div {
+	height: 100%;
+}
+
+.tabbed-nav > div {
+	overflow: hidden;
+  flex: 1;
+	padding: 18px 12px;
+}
+
+.tabbed-nav > div > div {
+	overflow: hidden auto;
+	row-gap: 9px;
+  align-content: start;
+}
+
+.tabbed-nav.rounded-tabs:not(.no-rounded-edges) > div { border-radius: 5px; }
+.tabbed-nav.rounded-tabs:not(.no-rounded-edges):has(nav > a.active:first-child) > div { border-top-left-radius: 0; }
+.tabbed-nav.rounded-tabs:not(.no-rounded-edges):has(nav > a.active:last-child) > div { border-top-right-radius: 0; }
 
 .overlow-ellipsis {
 	overflow: hidden;
