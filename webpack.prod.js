@@ -5,9 +5,9 @@ const { EnvironmentPlugin } = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
-const commonRenderer = require('./webpack.common')
+const MAIN_PATH = path.resolve('src', 'main')
 
-const mainPath = path.resolve('src', 'main')
+const commonRenderer = require('./webpack.common')
 
 const commonMain = {
 	mode: 'production',
@@ -24,7 +24,7 @@ const commonMain = {
 
 const mainConfig = merge(commonMain, {
 	target: 'electron-main',
-	entry: mainPath,
+	entry: MAIN_PATH,
 	output: {
 		path: path.resolve('build'),
 		filename: 'main.js'
@@ -36,7 +36,7 @@ const mainConfig = merge(commonMain, {
 		new CopyWebpackPlugin({
 			patterns: [
 				{
-					from: path.join(mainPath, 'backgrounds'),
+					from: path.join(MAIN_PATH, 'backgrounds'),
 					to: path.join('assets', 'backgrounds')
 				},
 				{
@@ -50,7 +50,7 @@ const mainConfig = merge(commonMain, {
 
 const preloadConfig = merge(commonMain, {
 	target: 'electron-preload',
-	entry: path.join(mainPath, 'preload', 'preload.js'),
+	entry: path.join(MAIN_PATH, 'preload', 'preload.js'),
 	output: {
 		path: path.resolve('build'),
 		filename: 'preload.js'
