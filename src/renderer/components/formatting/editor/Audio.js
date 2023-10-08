@@ -8,6 +8,8 @@ import {
 	saveAsPreset
 } from 'actions'
 
+import { RADIO_SET } from 'constants'
+
 import {
 	createObjectPicker,
 	createSettingsMenu,
@@ -17,36 +19,6 @@ import {
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import RadioSet from '../../form_elements/RadioSet'
-
-const AUDIO_VIDEO_TRACKS_BUTTONS = Object.freeze([
-	{
-		label: 'Video + Audio',
-		value: 'video_audio'
-	},
-	{
-		label: 'Video Only',
-		value: 'video'
-	},
-	{
-		label: 'Audio Only',
-		value: 'audio'
-	}
-])
-
-const AUDIO_EXPORT_FORMAT_BUTTONS = Object.freeze([
-	{
-		label: '.wav',
-		value: 'wav'
-	},
-	{
-		label: '.mp3',
-		value: 'mp3'
-	},
-	{
-		label: '.mp4 + color bars',
-		value: 'bars'
-	}
-])
 
 const extractAudioProps = createObjectPicker(['audioVideoTracks', 'audioExportFormat'])
 
@@ -58,7 +30,7 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, updateSele
 				name="audioVideoTracks"
 				state={audioVideoTracks}
 				onChange={updateSelectionFromEvent}
-				buttons={AUDIO_VIDEO_TRACKS_BUTTONS} />
+				buttons={RADIO_SET.audioVideoTracks} />
 		) : <></>}
 		<RadioSet
 			label="Format"
@@ -66,7 +38,7 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, updateSele
 			disabled={audioVideoTracks !== 'audio' && mediaType !== 'audio'}
 			state={audioExportFormat}
 			onChange={updateSelectionFromEvent}
-			buttons={AUDIO_EXPORT_FORMAT_BUTTONS} />
+			buttons={RADIO_SET.audioExportFormat} />
 	</>
 ), objectsAreEqual)
 
