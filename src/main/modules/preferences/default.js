@@ -190,6 +190,7 @@ defaultPresets.presets.push(
 		limitToOverwrite: false,
 		limitTo,
 		hidden: false,
+		attributes: {},
 		presetIds: [
 			defaultPresets.presets[0].id,
 			defaultPresets.presets[2].id
