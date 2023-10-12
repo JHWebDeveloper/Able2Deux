@@ -13,7 +13,7 @@ const AccordionPanel = ({ heading, id, className = '', buttons = [], children })
 	
 	return (
 		<section className={classNameBuilder({
-			'formatting-panel': true,
+			'panel': true,
 			accordion: true,
 			open
 		})}>
