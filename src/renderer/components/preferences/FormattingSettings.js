@@ -8,39 +8,15 @@ import {
 	updateState
 } from 'actions'
 
+import { RADIO_SET } from 'constants'
+
 import RadioSet from '../form_elements/RadioSet'
 import NumberInput from '../form_elements/NumberInput'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 
-const ARC_BUTTONS = Object.freeze([
-	{
-		label: 'None',
-		value: 'none'
-	},
-	{
-		label: 'Fill Frame',
-		value: 'fill'
-	},
-	{
-		label: 'Fit in Frame',
-		value: 'fit'
-	},
-	{
-		label: 'Transform',
-		value: 'transform'
-	}
-])
-
 const BACKGROUND_MOTION_BUTTONS = Object.freeze([
-	{
-		label: 'Animated',
-		value: 'animated'
-	},
-	{
-		label: 'Still',
-		value: 'still'
-	},
+	...RADIO_SET.backgroundMotion,
 	{
 		label: 'Auto',
 		value: 'auto'
@@ -70,7 +46,7 @@ const FormattingSettings = () => {
 				name="arc"
 				state={editorSettings.arc}
 				onChange={updateEditorSettingsDispatch}
-				buttons={ARC_BUTTONS} />
+				buttons={RADIO_SET.arc} />
 			<RadioSet
 				label="Default Background Motion"
 				name="backgroundMotion"
