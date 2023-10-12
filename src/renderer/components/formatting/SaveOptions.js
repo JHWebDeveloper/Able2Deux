@@ -8,7 +8,7 @@ import CheckboxSet from '../form_elements/CheckboxSet'
 const SaveOptions = ({ multipleItems, saveLocations, dispatch }) => (
 	<div
 		id="save-options"
-		className="formatting-panel"
+		className="panel"
 		style={{ gridRow: multipleItems ? 3 : '2 / span 2' }}>
 		<CheckboxSet
 			label="Save Locations"

@@ -103,7 +103,7 @@ const MediaSelector = ({
 	return (
 		<div
 			id="media-selector"
-			className="formatting-panel"
+			className="panel"
 			onKeyDown={onKeyDown}>
 			<MediaInfo
 				thumbnail={focused.thumbnail}
