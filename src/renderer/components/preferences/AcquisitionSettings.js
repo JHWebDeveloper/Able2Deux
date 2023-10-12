@@ -8,21 +8,12 @@ import {
 	updateStateFromEvent
 } from 'actions'
 
+import { RADIO_SET } from 'constants'
+
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 import NumberInput from '../form_elements/NumberInput'
-
-const OPTIMIZE_BUTTONS = Object.freeze([
-	{
-		label: 'Optimize Video Quality',
-		value: 'quality'
-	},
-	{
-		label: 'Optimize Download Time',
-		value: 'download'
-	}
-])
 
 const SCREENSHOT_BUTTONS = Object.freeze([
 	{
@@ -51,11 +42,11 @@ const AcquisitionSettings = () => {
 	return (
 		<>
 			<RadioSet
-				label="Default Download Mode"
+				label="Default Download Optimization"
 				name="optimize"
 				state={preferences.optimize}
 				onChange={e => dispatch(updateStateFromEvent(e))}
-				buttons={OPTIMIZE_BUTTONS} />
+				buttons={RADIO_SET.optimize} />
 			<RadioSet
 				label="Default Screen Capture Mode"
 				name="screenshot"
