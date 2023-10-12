@@ -3,7 +3,7 @@ import { arrayOf, bool, element, func, shape, string } from 'prop-types'
 
 import FieldsetWrapper from './FieldsetWrapper'
 
-const RadioSet = ({ label, hideLabel, disabled, name, state, onChange, buttons = [] }) => {
+const RadioSet = ({ label, hideLabel, horizontal, disabled, name, state, onChange, buttons = [] }) => {
 	const setKey = useId()
 
 	return (
@@ -11,6 +11,7 @@ const RadioSet = ({ label, hideLabel, disabled, name, state, onChange, buttons =
 			label={label}
 			className="radio-set"
 			hideLabel={hideLabel}
+			horizontal={horizontal}
 			disabled={disabled}>
 			{buttons.map(({ label, value, component }, i) => (
 				<label
@@ -34,6 +35,7 @@ const RadioSet = ({ label, hideLabel, disabled, name, state, onChange, buttons =
 RadioSet.propTypes = {
 	label: string.isRequired,
 	hideLabel: bool,
+	horizontal: bool,
 	disabled: bool,
 	name: string.isRequired,
 	state: string.isRequired,

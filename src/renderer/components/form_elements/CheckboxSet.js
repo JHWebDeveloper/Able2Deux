@@ -21,6 +21,7 @@ const SelectAllCheckbox = ({ checkboxes, toggleSelectAll, switchIcon }) => {
 const CheckboxSet = ({
 	label,
 	hideLabel,
+	horizontal,
 	disabled,
 	checkboxes,
 	onChange: onChangeFallback,
@@ -36,6 +37,7 @@ const CheckboxSet = ({
 			label={label}
 			className="radio-set"
 			hideLabel={hideLabel}
+			horizontal={horizontal}
 			disabled={disabled}>
 			<>
 				{toggleSelectAll && checkboxes.length > selectAllThreshold ? (
@@ -84,7 +86,8 @@ CheckboxSet.propTypes = {
 	onChange: func,
 	toggleSelectAll: func,
 	selectAllThreshold: number,
-	switchIcon: bool
+	switchIcon: bool,
+	horizontal: bool
 }
 
 export default CheckboxSet
