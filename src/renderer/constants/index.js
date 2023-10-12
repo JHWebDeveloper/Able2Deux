@@ -561,10 +561,22 @@ export const DEFAULT_BATCH_PRESET_STATE = {
 
 // ---- RECORDS --------
 
-export const RADIO_SET = Object.freeze(MEDIA_ATTRIBUTES.reduce((acc, { attribute, inputType }) => {
-  if (Array.isArray(inputType)) acc[attribute] = [...inputType]
-  return acc
-}, {}))
+export const RADIO_SET = Object.freeze({
+	...MEDIA_ATTRIBUTES.reduce((acc, { attribute, inputType }) => {
+		if (Array.isArray(inputType)) acc[attribute] = [...inputType]
+		return acc
+	}, {}),
+	optimize: [
+		{
+			label: 'Optimize Video Quality',
+			value: 'quality'
+		},
+		{
+			label: 'Optimize Download Time',
+			value: 'download'
+		}
+	]
+})
 
 export const TOASTR_OPTIONS = Object.freeze({
 	closeButton: true,
