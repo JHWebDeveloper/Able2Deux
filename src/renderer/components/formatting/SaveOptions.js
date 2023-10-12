@@ -10,10 +10,8 @@ const SaveOptions = ({ multipleItems, saveLocations, dispatch }) => (
 		id="save-options"
 		className="formatting-panel"
 		style={{ gridRow: multipleItems ? 3 : '2 / span 2' }}>
-		<h2>Save Locations</h2>
 		<CheckboxSet
-			label="Select Folder"
-			hideLabel
+			label="Save Locations"
 			checkboxes={saveLocations.map(({ id, label, hidden, checked }) => ({
 				label,
 				hidden,
