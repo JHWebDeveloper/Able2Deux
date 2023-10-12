@@ -226,8 +226,9 @@ const ColorCorrection = memo(props => {
 			</div>
 			<RadioSet
 				label="Color Channel"
-				hideLabel
 				name="ccSelectedCurve"
+				hideLabel
+				horizontal
 				disabled={!ccEnabled}
 				state={ccSelectedCurve}
 				buttons={COLOR_CHANNEL_BUTTONS}
