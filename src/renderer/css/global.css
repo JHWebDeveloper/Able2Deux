@@ -144,6 +144,13 @@ fieldset:disabled > :is(input, input::placeholder, div) { color: inherit; }
 
 fieldset:disabled > :is(input, div) { border-color: var(--disabled); }
 
+fieldset.hide-label { font-weight: 500; }
+
+fieldset.horizontal {
+	grid-auto-columns: minmax(min-content, 1fr);
+	grid-auto-flow: column;
+}
+
 .radio-set {
 	display: grid;
 	grid-auto-rows: min-content;
@@ -159,7 +166,7 @@ legend {
 	font-size: 14px;
 }
 
-.hide-label > legend {
+fieldset.hide-label > legend {
 	position: absolute;
 	pointer-events: none;
 	font-size: 0;
@@ -169,13 +176,14 @@ label { width: min-content; }
 
 .disabled label { color: var(--disabled); }
 
-
 .label-with-input {
 	display: grid;
 	grid-auto-flow: column;
 	align-items: center;
 	column-gap: 5px;
 }
+
+:not(.radio-set) > .label-with-input > span { font-weight: 500; }
 
 label > :is(input[type="text"], input[type="number"], select) {
 	font-weight: revert;
@@ -185,6 +193,12 @@ label > :is(input[type="text"], input[type="number"], select) {
 input, select {
 	background-color: transparent;
 	color: var(--primary);
+}
+
+.panel {
+	position: relative;
+	border-radius: 5px;
+	background-color: var(--background-alt-1);
 }
 
 .panel-input {
