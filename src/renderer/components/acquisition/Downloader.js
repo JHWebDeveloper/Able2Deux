@@ -46,6 +46,7 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				iconStyle={STYLE_INCREASE_ICON_SIZE} />
 			<RadioSet
 				label="Optimize"
+				className="bold-labels"
 				hideLabel
 				name="optimize"
 				state={optimize}
