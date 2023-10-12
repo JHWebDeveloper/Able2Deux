@@ -11,12 +11,6 @@
 
 #media-manager > div { overflow-y: hidden; }
 
-.formatting-panel {
-	position: relative;
-	border-radius: 5px;
-	background-color: var(--background-alt-1);
-}
-
 #media-selector {
 	display: inherit;
 	grid-auto-rows: min-content auto min-content;
@@ -175,23 +169,25 @@ button[name$="selectAll"] {
 	padding-left: 12px;
 }
 
-#save-options {
-	display: inherit;
-	gap: 6px;
-	padding: 9px 12px;
+#save-options { padding: 9px 12px; }
+
+#save-options > fieldset { overflow: hidden auto; }
+
+#save-options legend {
+	font-size: revert;
+	margin-bottom: 9px;
 }
 
-#save-options { grid-template-rows: min-content auto; }
-#save-options > div { overflow-y: auto; }
-#save-options > fieldset { max-width: 100%; }
-
 #save-options label {
+	grid-template-columns: min-content auto;
+	font-size: 14px;
+	width: fit-content;
+	max-width: 100%;
+}
+
+#save-options label > span {
 	overflow: hidden;
 	text-overflow: ellipsis;
-	display: block;
-	width: 100%;
-	margin-bottom: 6px;
-	font-size: 14px;
 }
 
 #save {
@@ -253,7 +249,7 @@ button[name$="selectAll"] {
 	margin-bottom: 9px;
 }
 
-.editor-options input:is([type="number"], [type="color"]) {
+.editor-options input[type="number"] {
 	height: 18px;
 	width: 42px;
 }
@@ -494,14 +490,6 @@ button[title="Reset Curves"] {
 button[title="Reset Curves"]:active { color: #fff; }
 
 #colorCorrection > :is(fieldset, .curves, .slider) { grid-column: 2; }
-
-#colorCorrection > fieldset {
-	grid-template-columns: repeat(4, 1fr);
-	font-weight: 500;
-}
-
-/* hide legend but keep for screen readers */
-#colorCorrection > fieldset > legend { font-size: 0; }
 
 
 /* ---- CURVES STYLES -------- */
