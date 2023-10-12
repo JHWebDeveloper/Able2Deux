@@ -2,20 +2,10 @@ import React, { useCallback, useMemo } from 'react'
 import { bool, func, number, oneOfType, string } from 'prop-types'
 
 import { download, updateState, updateStateFromEvent } from 'actions'
+import { RADIO_SET } from 'constants'
 
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
 import RadioSet from '../form_elements/RadioSet'
-
-const OPTIMIZE_BUTTONS = Object.freeze([
-	{
-		label: 'Optimize Video Quality',
-		value: 'quality'
-	},
-	{
-		label: 'Optimize Download Time',
-		value: 'download'
-	}
-])
 
 const STYLE_INCREASE_ICON_SIZE = Object.freeze({
 	scale: '1.35',
@@ -60,7 +50,7 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				name="optimize"
 				state={optimize}
 				onChange={dispatchWithEvent}
-				buttons={OPTIMIZE_BUTTONS} />
+				buttons={RADIO_SET.optimize} />
 		</div>
 	)
 }
