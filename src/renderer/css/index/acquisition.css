@@ -27,12 +27,7 @@
 
 #downloader > button { grid-row: 2; }
 
-#downloader > fieldset {
-	font-weight: 500;
-	font-size: 12px;
-}
-
-#downloader > fieldset > label { margin-bottom: 0; }
+#downloader > fieldset { row-gap: 0; }
 
 #uploader {
 	position: relative;
