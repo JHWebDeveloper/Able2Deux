@@ -3,12 +3,11 @@ import { arrayOf, bool, element, oneOfType, string } from 'prop-types'
 
 import { classNameBuilder } from 'utilities'
 
-const FieldsetWrapper = ({ label, className, hideLabel, horizontal, disabled, children }) => (
+const FieldsetWrapper = ({ label, className, hideLabel, disabled, children }) => (
 	<fieldset
 		className={classNameBuilder({
 			[className]: className,
-			'hide-label': hideLabel,
-			horizontal
+			'hide-label': hideLabel
 		})}
 		disabled={disabled}>
 		<legend>{label}<span aria-hidden>:</span></legend>
