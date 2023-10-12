@@ -1,17 +1,32 @@
 import React, { useId } from 'react'
 import { arrayOf, bool, element, func, shape, string } from 'prop-types'
 
+import { classNameBuilder } from 'utilities'
+
 import FieldsetWrapper from './FieldsetWrapper'
 
-const RadioSet = ({ label, hideLabel, horizontal, disabled, name, state, onChange, buttons = [] }) => {
+const RadioSet = ({
+	label,
+	className,
+	hideLabel,
+	horizontal,
+	disabled,
+	name,
+	state,
+	onChange,
+	buttons = []
+}) => {
 	const setKey = useId()
 
 	return (
 		<FieldsetWrapper
 			label={label}
-			className="radio-set"
+			className={classNameBuilder({
+				'radio-set': true,
+				[className]: !!className,
+				horizontal
+			})}
 			hideLabel={hideLabel}
-			horizontal={horizontal}
 			disabled={disabled}>
 			{buttons.map(({ label, value, component }, i) => (
 				<label

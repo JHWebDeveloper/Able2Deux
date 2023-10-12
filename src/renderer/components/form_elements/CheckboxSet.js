@@ -1,17 +1,24 @@
 import React, { useId, useMemo } from 'react'
 import { arrayOf, bool, func, number, shape, string } from 'prop-types'
 
+import { classNameBuilder } from 'utilities'
+
 import FieldsetWrapper from './FieldsetWrapper'
 import Checkbox from './Checkbox'
 
-const SelectAllCheckbox = ({ checkboxes, toggleSelectAll, switchIcon }) => {
+const SelectAllCheckbox = ({
+	selectAllLabel = 'Select All',
+	checkboxes,
+	toggleSelectAll,
+	switchIcon
+}) => {
 	const allSelected = useMemo(() => (
 		checkboxes.every(({ checked }) => checked)
 	), [checkboxes])
 
 	return (
 		<Checkbox
-			label="Select All"
+			label={selectAllLabel}
 			checked={allSelected}
 			onChange={toggleSelectAll}
 			switchIcon={switchIcon} />
@@ -20,6 +27,8 @@ const SelectAllCheckbox = ({ checkboxes, toggleSelectAll, switchIcon }) => {
 
 const CheckboxSet = ({
 	label,
+	selectAllLabel,
+	className,
 	hideLabel,
 	horizontal,
 	disabled,
@@ -35,14 +44,18 @@ const CheckboxSet = ({
 	return (
 		<FieldsetWrapper
 			label={label}
-			className="radio-set"
+			className={classNameBuilder({
+				'radio-set': true,
+				[className]: !!className,
+				horizontal
+			})}
 			hideLabel={hideLabel}
-			horizontal={horizontal}
 			disabled={disabled}>
 			<>
 				{toggleSelectAll && checkboxes.length > selectAllThreshold ? (
 					<SelectAllCheckbox
 						key={`${setKey}_0`}
+						selectAllLabel={selectAllLabel}
 						checkboxes={checkboxes}
 						toggleSelectAll={toggleSelectAll}
 						switchIcon={switchIcon} />
@@ -75,6 +88,7 @@ const commonPropTypes = {
 		checked: bool,
 		onChange: func
 	})),
+	selectAllLabel: string,
 	toggleSelectAll: func
 }
 
