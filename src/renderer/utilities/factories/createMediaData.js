@@ -10,7 +10,7 @@ export const createCurvePoint = (x, y, limit = false) => ({
 	y
 })
 
- const createDefaultCurvePoints = () => [
+export const createDefaultCurvePoints = () => [
 	createCurvePoint(0, 256, true),
 	createCurvePoint(256, 0, true)
 ]
