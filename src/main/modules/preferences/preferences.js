@@ -144,6 +144,21 @@ export const loadPresets = async ({ referencesOnly, presorted }) => {
 	return presets
 }
 
+const mergePresetNames = (mergeType, presetName = '', referencedPesetName = '') => {
+	if (!presetName.length) return referencedPesetName
+
+	switch (mergeType) {
+		case 'replace':
+			return presetName
+		case 'prepend':
+			return `${presetName}${referencedPesetName}`
+		case 'append':
+			return `${referencedPesetName}${presetName}`
+		default:
+			return referencedPesetName
+	}
+}
+
 const flattenBatchPresets = (presets, preset, parentIds = []) => preset.type === 'batchPreset'
 	? preset.presetIds
 		.filter(refId => !parentIds.includes(refId))
@@ -152,8 +167,23 @@ const flattenBatchPresets = (presets, preset, parentIds = []) => preset.type ===
 			...referencedPreset,
 			limitTo: (preset.limitToOverwrite ? preset : referencedPreset).limitTo,
 			attributes: {
-				...referencedPreset.attributes,
-				...preset.attributes
+				...preset.attributeMergeType === 'fallback' ? {
+					...preset.attributes,
+					...referencedPreset.attributes
+				} : {
+					...referencedPreset.attributes,
+					...preset.attributes
+				},
+				presetNamePrepend: mergePresetNames(
+					preset.presetNamePrependMergeType,
+					preset.attributes.presetNamePrepend,
+					referencedPreset.attributes.presetNamePrepend
+				),
+				presetNameAppend: mergePresetNames(
+					preset.presetNameAppendMergeType,
+					preset.attributes.presetNameAppend,
+					referencedPreset.attributes.presetNameAppend
+				)
 			}
 		}))
 	: [preset]
