@@ -75,10 +75,10 @@ export const updateSaveLocation = (id, properties) => ({
 	}
 })
 
-export const cleanupPrefsAndSave = saveAndClose => ({
+export const cleanupPrefsAndSave = closeOnSave => ({
 	type: ACTION.CLEANUP_PREFS_AND_SAVE,
 	callback() {
-		if (saveAndClose) {
+		if (closeOnSave) {
 			interop.closePreferences()
 		} else {
 			toastr.success('Preferences saved', false, { ...TOASTR_OPTIONS, timeOut: 2000 })
