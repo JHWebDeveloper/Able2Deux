@@ -1,15 +1,14 @@
 import React, { useCallback } from 'react'
 import { func, object } from 'prop-types'
 
-import { cleanupPrefsAndSave, restoreDefaultPrefs } from 'actions'
+import { cleanupPrefsAndSave, closePrefs, restoreDefaultPrefs } from 'actions'
 import { useWarning, useSaveWarning } from 'hooks'
-import { objectsAreEqual } from 'utilities'
 
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
 
 const { interop } = window.ABLE2
 
-const SaveAndClose = ({ preferences, dispatch }) => {
+const SaveAndClose = ({ dispatch }) => {
 	const restoreDefaultPrefsWarning = useWarning({
 		message: 'Restore Default Preferences?',
 		detail: 'Once saved, this cannot be undone. Proceed?',
@@ -33,11 +32,9 @@ const SaveAndClose = ({ preferences, dispatch }) => {
 		}
 	})
 
-	const closePrefs = useCallback(async () => {
-		closeWithoutSaveWarning({
-			skip: objectsAreEqual(await interop.requestPrefs(), preferences)
-		})
-	}, [preferences])
+	const checkUnsavedAndClosePrefs = useCallback(() => {
+		dispatch(closePrefs(closeWithoutSaveWarning))
+	}, [])
 
 	return (
 		<footer>
@@ -53,11 +50,11 @@ const SaveAndClose = ({ preferences, dispatch }) => {
 			<ButtonWithIcon
 				label="Close"
 				icon="close"
-				onClick={closePrefs} />
+				onClick={checkUnsavedAndClosePrefs} />
 			<ButtonWithIcon
 				label="Restore Default"
 				icon="settings_backup_restore"
-				onClick={() => restoreDefaultPrefsWarning()} />
+				onClick={restoreDefaultPrefsWarning} />
 		</footer>
 	)
 }
