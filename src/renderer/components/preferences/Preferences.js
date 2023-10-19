@@ -54,7 +54,7 @@ const Preferences = () => {
 							<NavLink to="/save-locations" title="Save Locations">Save Locations</NavLink>
 						</nav>
 						<div>
-							<div>
+							<div className="nav-panel-grid">
 								<Routes>
 									<Route path="/" element={<GeneralSettings />} />
 									<Route path="/acquisition" element={<AcquisitionSettings />} />
@@ -68,15 +68,13 @@ const Preferences = () => {
 					</HashRouter>
 				</section>
 			</MainForm> 
-			<SaveAndClose
-				preferences={preferences}
-				dispatch={dispatch} />
+			<SaveAndClose dispatch={dispatch} />
 		</>
 	)
 }
 
 export default () => (
-	<PrefsProvider>
+	<PrefsProvider enableSync>
 		<Preferences />
 	</PrefsProvider>
 )
