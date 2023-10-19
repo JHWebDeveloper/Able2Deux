@@ -61,7 +61,7 @@ export const useSaveWarning = ({
 			const { response } = await warning({
 				message,
 				detail,
-				buttons: ['Close', 'Save & Close', 'Cancel']
+				buttons: ['Save & Close', 'Close', 'Cancel']
 			})
 
 			if (response > 1) return
