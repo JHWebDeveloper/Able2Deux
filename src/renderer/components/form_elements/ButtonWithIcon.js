@@ -1,10 +1,11 @@
 import React from 'react'
 import { bool, func, object, string } from 'prop-types'
 
-const ButtonWithIcon = ({ label, icon, title, onClick, disabled, autoFocus = false, iconStyle = {} }) => (
+const ButtonWithIcon = ({ label, icon, name, title, onClick, disabled, autoFocus = false, iconStyle = {} }) => (
 	<button
 		type="button"
 		className="app-button symbol-left"
+		name={name}
 		title={title ?? label}
 		aria-label={title ?? label}
 		onClick={onClick}
@@ -18,6 +19,7 @@ const ButtonWithIcon = ({ label, icon, title, onClick, disabled, autoFocus = fal
 ButtonWithIcon.propTypes = {
 	label: string.isRequired,
 	icon: string.isRequired,
+	name: string,
 	title: string,
 	onClick: func.isRequired,
 	disabled: bool,
