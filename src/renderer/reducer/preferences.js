@@ -8,7 +8,7 @@ import { errorToString } from 'utilities'
 // ---- REDUCER --------
 
 export const prefsReducer = (state, action) => { 
-	const { type, payload, callback } = action
+	const { type, payload } = action
 
 	switch (type) {
 		case ACTION.UPDATE_STATE:
@@ -32,9 +32,11 @@ export const prefsReducer = (state, action) => {
 		case ACTION.MOVE_SORTABLE_ELEMENT:
 			return shared.moveSortableElement(state, payload)
 		case ACTION.CLEANUP_PREFS_AND_SAVE:
-			return cleanupPrefsAndSave(state, callback)
+			return cleanupPrefsAndSave(state, payload)
 		case ACTION.REMOVE_LOCATION_AND_SAVE:
 			return removeLocationAndSave(state, payload)
+		case ACTION.CLOSE_PREFS:
+			return closePrefs(state, payload)
 		default:
 			return state
 	}
@@ -91,7 +93,7 @@ const updateSortableElementField = (state, payload) => ({
 	} : obj)
 })
 
-const cleanupPrefsAndSave = (state, callback) => {
+const cleanupPrefsAndSave = (state, { callback }) => {
 	const nextState = {
 		...state,
 		aspectRatioMarkers: state.aspectRatioMarkers
@@ -119,4 +121,9 @@ const removeLocationAndSave = (state, payload) => {
 	savePrefs(nextState)
 
 	return nextState
+}
+
+const closePrefs = (state, { callback }) => {
+	callback(state)
+	return state
 }

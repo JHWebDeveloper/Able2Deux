@@ -4,6 +4,7 @@ import { v1 as uuid } from 'uuid'
 import * as ACTION from 'actions/types'
 import { addNewSortableElement } from 'actions'
 import { TOASTR_OPTIONS } from 'constants'
+import { objectsAreEqual } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -77,11 +78,13 @@ export const updateSaveLocation = (id, properties) => ({
 
 export const cleanupPrefsAndSave = closeOnSave => ({
 	type: ACTION.CLEANUP_PREFS_AND_SAVE,
-	callback() {
-		if (closeOnSave) {
-			interop.closePreferences()
-		} else {
-			toastr.success('Preferences saved', false, { ...TOASTR_OPTIONS, timeOut: 2000 })
+	payload: {
+		callback() {
+			if (closeOnSave) {
+				interop.closePreferences()
+			} else {
+				toastr.success('Preferences saved', false, { ...TOASTR_OPTIONS, timeOut: 2000 })
+			}
 		}
 	}
 })
@@ -106,4 +109,19 @@ export const restoreDefaultPrefs = () => async dispatch => {
 		type: ACTION.UPDATE_STATE,
 		payload: defaults
 	})
+}
+
+export const closePrefs = saveWarning => async dispatch => {
+  const lastSave = await interop.requestPrefs()
+
+  dispatch({
+    type: ACTION.CLOSE_PREFS,
+    payload: {
+      callback(currentState) {
+        saveWarning({
+          skip: objectsAreEqual(lastSave, currentState)
+        })
+      }
+    }
+  })
 }
