@@ -19,7 +19,6 @@ FieldsetWrapper.propTypes = {
 	label: string.isRequired,
 	className: string,
 	hideLabel: bool,
-	horizontal: bool,
 	disabled: bool,
 	children: oneOfType([element, arrayOf(element)]).isRequired
 }
