@@ -70,7 +70,7 @@ const SliderThumb = forwardRef(({
 		if (nextMousePos === prevMousePos) return false
 
 		let nextThumbPos = prevMousePos
-		let point = false
+		let point = 0
 
 		if (e.shiftKey && nextMousePos < prevMousePos) {
 			nextThumbPos = thumbPos.current - microStep
