@@ -1,27 +1,26 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { bool, func, number, string } from 'prop-types'
 
-import { selectMedia } from 'actions'
-import { classNameBuilder } from 'utilities'
+import { removeMedia, selectMedia } from 'actions'
+import { classNameBuilder, refocusBatchItem } from 'utilities'
 
 import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown'
 
 const BatchItem = ({
 	index,
 	id,
-	refId,
 	title,
-	tempFilePath,
 	focused,
 	anchored,
 	selected,
-	removeMediaWarning,
+	warnRemoveMedia,
 	createDropdown,
 	onKeyDown,
 	dispatch
 }) => {
 	const selectMediaBtn = useRef(null)
-	const selectBtnTitle = focused ? title : 'Select Media'
+	const selectBtnTitle = `Select ${title}`
+	const removeBtnTitle = `Remove ${title}`
 
 	const selectMediaOnClick = useCallback(e => {
 		dispatch(selectMedia(index, e, { focused, anchored, selected }))
@@ -34,6 +33,14 @@ const BatchItem = ({
 		}
 	}, [index, focused, anchored, selected])
 
+	const removeMediaWarning = useCallback(() => warnRemoveMedia({
+		message: `${removeBtnTitle}?`,
+		onConfirm() {
+			dispatch(removeMedia({ id, index }))
+			refocusBatchItem()
+		}
+	}), [title, id, index, warnRemoveMedia])
+
 	useEffect(() => {
 		if (focused) selectMediaBtn.current.focus()
 	}, [focused, index])
@@ -41,42 +48,40 @@ const BatchItem = ({
 	return (
 		<div
 			className={classNameBuilder({
-				'batch-item': true,
+				'sortable-list-item': true,
 				selected,
 				focused
 			})}
-			onKeyDown={e => onKeyDown(id, index, title, e)}>
+			onKeyDown={e => onKeyDown(removeMediaWarning, e)}>
 			<button
+				ref={selectMediaBtn}
 				type="button"
 				name="select-media"
 				className="overlow-ellipsis"
-				ref={selectMediaBtn}
 				title={selectBtnTitle}
 				aria-label={selectBtnTitle}
 				onClick={selectMediaOnClick}
 				onKeyDown={selectMediaOnKeyDown}>{title}</button>	
-			<MediaOptionsDropdown buttons={() => createDropdown(id, refId, title, tempFilePath, index)} />
+			<MediaOptionsDropdown buttons={() => createDropdown(removeMediaWarning)} />
 			<button
 				type="button"
-				title="Remove Media"
 				name="remove-media"
-				aria-label="Remove Media"
+				title={removeBtnTitle}
+				aria-label={removeBtnTitle}
 				className="symbol"
-				onClick={() => removeMediaWarning({ id, index, title })}>close</button>
+				onClick={removeMediaWarning}>close</button>
 		</div>
 	)
 }
 
 BatchItem.propTypes = {
+	index: number.isRequired,
 	id: string.isRequired,
-	refId: string.isRequired,
 	focused: bool.isRequired,
 	anchored: bool.isRequired,
 	selected: bool.isRequired,
 	title: string.isRequired,
-	tempFilePath: string.isRequired,
-	index: number.isRequired,
-	removeMediaWarning: func.isRequired,
+	warnRemoveMedia: func.isRequired,
 	createDropdown: func.isRequired,
 	onKeyDown: func.isRequired,
 	dispatch: func.isRequired
