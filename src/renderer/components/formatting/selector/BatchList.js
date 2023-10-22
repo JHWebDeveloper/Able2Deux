@@ -10,7 +10,6 @@ import {
 	moveSortableElement,
 	moveSelectedMedia,
 	pasteAttributes,
-	removeMedia,
 	saveAsPreset,
 	selectDuplicates,
 	selectMedia
@@ -22,8 +21,7 @@ import {
 	eraseIds,
 	extractRelevantMediaProps,
 	isArrowNext,
-	isArrowPrev,
-	refocusBatchItem
+	isArrowPrev
 } from 'utilities'
 
 import DraggableList from '../../form_elements/DraggableList'
@@ -48,6 +46,14 @@ const BatchList = ({
 		}
 	}, [allItemsSelected])
 
+	const dispatchCopyAttributes = useCallback(id => {
+		dispatch(copyAttributes(id, extractRelevantMediaProps, eraseIds))
+	}, [])
+
+	const dispatchPasteAttributes = useCallback(id => {
+		dispatch(pasteAttributes(id))
+	}, [])
+
 	const warnApplyToMultiple = useWarning({
 		name: 'applyToAll',
 		detail: 'This will overwrite the settings except for filenames and start and end timecodes. This cannot be undone. Proceed?'
@@ -70,17 +76,13 @@ const BatchList = ({
 		action: applyToSelection(id, extractRelevantMediaProps)
 	}), [])
 
+	const moveMedia = useCallback((oldPos, newPos) => {
+		dispatch(moveSortableElement('media', oldPos, newPos))
+	}, [])
+
 	const warnRemoveMedia = useWarning({ name: 'remove' }, [])
 
-	const removeMediaWarning = useCallback(({ id, index, title }) => warnRemoveMedia({
-		message: `Remove "${title}"?`,
-		onConfirm() {
-			dispatch(removeMedia({ id, index }))
-			refocusBatchItem()
-		}
-	}), [warnRemoveMedia])
-
-	const createDropdown = useCallback((id, refId, title, tempFilePath, index) => {
+	const createDropdown = useCallback((index, id, refId, tempFilePath, removeMedia) => {
 		const isFirst = index === 0
 		const isLast = index === media.length - 1
 		const isOnly = isFirst && isLast
@@ -94,7 +96,7 @@ const BatchList = ({
 				hide: isOnly,
 				shortcut: `${ctrlOrCmdKeySymbol}C`,
 				action() {
-					dispatch(copyAttributes(id, extractRelevantMediaProps, eraseIds))
+					dispatchCopyAttributes(id)
 				}
 			},
 			{
@@ -103,7 +105,7 @@ const BatchList = ({
 				hide: clipboardIsEmpty,
 				shortcut: `${ctrlOrCmdKeySymbol}V`,
 				action() {
-					dispatch(pasteAttributes(id))
+					dispatchPasteAttributes(id)
 				}
 			},
 			{
@@ -132,7 +134,7 @@ const BatchList = ({
 				hide: isFirst,
 				shortcut: '⌥↑',
 				action() {
-					dispatch(moveSortableElement('media', index, index - 1))
+					moveMedia(index, index - 1)
 				}
 			},
 			{
@@ -141,7 +143,7 @@ const BatchList = ({
 				hide: isLast,
 				shortcut: '⌥↓',
 				action() {
-					dispatch(moveSortableElement('media', index, index + 2))
+					moveMedia(index, index + 2)
 				}
 			},
 			{
@@ -189,9 +191,7 @@ const BatchList = ({
 				type: 'button',
 				label: 'Remove Media',
 				shortcut: '⌫',
-				action() {
-					removeMediaWarning({ id, index, title })
-				}
+				action: removeMedia
 			},
 			{ type: 'spacer' },
 			{
@@ -204,22 +204,22 @@ const BatchList = ({
 		]
 	}, [clipboard, multipleItemsSelected, allItemsSelected, createPresetMenu, media.length])
 
-	const onBatchItemKeyDown = useCallback((id, index, title, e) => {
+	const onBatchItemKeyDown = useCallback((index, id, removeMedia, e) => {
 		const isFirst = index === 0
 		const isLast = index === media.length - 1
 		const isOnly = isFirst && isLast
 		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
 
 		if (ctrlOrCmd && !isOnly && e.key === 'c') {
-			dispatch(copyAttributes(id, extractRelevantMediaProps))
+			dispatchCopyAttributes(id)
 		} else if (ctrlOrCmd && e.key === 'v') {
-			dispatch(pasteAttributes(id))
+			dispatchPasteAttributes(id)
 		} else if (e.altKey && isArrowPrev(e)) {
 			e.preventDefault()
-			dispatch(moveSortableElement('media', index, index - 1))
+			moveMedia(index, index - 1)
 		} else if (e.altKey && isArrowNext(e)) {
 			e.preventDefault()
-			dispatch(moveSortableElement('media', index, index + 2))
+			moveMedia(index, index + 2)
 		} else if (isArrowPrev(e)) {
 			e.preventDefault()
 			dispatch(selectMedia(index - 1, e, { arrowKeyDir: 'prev' }))
@@ -231,7 +231,7 @@ const BatchList = ({
 			dispatch(duplicateMedia(index))
 		} else if (!e.shiftKey && (e.key === 'Backspace' || e.ket === 'Delete')) {
 			e.stopPropagation()
-			removeMediaWarning({ id, index, title })
+			removeMedia()
 		}
 	}, [media.length])
 
@@ -243,15 +243,13 @@ const BatchList = ({
 						key={item.id}
 						index={i}
 						id={item.id}
-						refId={item.refId}
 						title={item.title}
-						tempFilePath={item.tempFilePath}
 						focused={item.focused}
 						anchored={item.anchored}
 						selected={item.selected}
-						removeMediaWarning={removeMediaWarning}
-						createDropdown={createDropdown}
-						onKeyDown={onBatchItemKeyDown}
+						warnRemoveMedia={warnRemoveMedia}
+						createDropdown={removeMedia => createDropdown(i, item.id, item.refId, item.tempFilePath, removeMedia)}
+						onKeyDown={(removeMedia, e) => onBatchItemKeyDown(i, item.id, removeMedia, e)}
 						clipboard={clipboard}
 						dispatch={dispatch} />
 				))}
