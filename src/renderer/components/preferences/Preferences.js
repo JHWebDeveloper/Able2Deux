@@ -74,7 +74,7 @@ const Preferences = () => {
 }
 
 export default () => (
-	<PrefsProvider enableSync>
+	<PrefsProvider>
 		<Preferences />
 	</PrefsProvider>
 )
