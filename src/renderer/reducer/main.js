@@ -156,7 +156,7 @@ const selectMediaByShiftClick = (media, { clickedIndex }) => {
 
 	let start = Math.min(focusedIndex, anchoredIndex)
 	let end = Math.max(focusedIndex, anchoredIndex)
-
+ 
 	media = media.map((item, i) => i >= start && i <= end ? {
 		...item,
 		focused: false,
@@ -238,25 +238,25 @@ const selectMediaByClick = (media, { clickedIndex, clickedInFocus, clickedInSele
 }
 
 const selectMedia = (state, payload) => {
-	const { ctrlOrCmd, shift, arrowKeyDir } = payload
+	const { ctrlOrCmd, shift, arrowKeyDir, clickedIndex } = payload
 	let media = []
 
 	// check selection status of related target if from keydown event
 	switch (arrowKeyDir) {
 		case 'prev':
-			payload.selected = state.media[payload.clickedIndex - 1]?.selected
+			payload.selected = state.media[clickedIndex - 1]?.selected
 			break
 		case 'next':
-			payload.selected = state.media[payload.clickedIndex + 1]?.selected
+			payload.selected = state.media[clickedIndex + 1]?.selected
 			break
 		default:
 			break
 	}
 
 	// loop selection if target is out of bounds
-	if (payload.clickedIndex < 0) {
+	if (clickedIndex < 0) {
 		payload.clickedIndex = state.media.length - 1
-	} else if (payload.clickedIndex >= state.media.length) {
+	} else if (clickedIndex >= state.media.length) {
 		payload.clickedIndex = 0
 	}
 
