@@ -137,6 +137,11 @@
 
 #preview-controls > div:last-child { justify-content: flex-end; }
 
+#preview .dropdown-content {
+	background-color: var(--preview-background);
+	color: var(--preview-text);
+}
+
 button.ar-marker { padding-inline: 3px; }
 
 .dropdown-content button.ar-marker {
