@@ -2,6 +2,18 @@ export * as STATUS from './status'
 
 import { STATUS } from 'constants'
 
+// ---- NUMBERS --------
+
+export const RATIO_9_16 = 0.5625
+
+export const TAU = Math.PI * 2
+
+// ---- TUPLES --------
+
+export const MEDIA_TYPES = Object.freeze(['audio', 'gif', 'image', 'video'])
+
+export const MEDIA_LABEL = Object.freeze(['Audio', 'Motion Graphics', 'Images', 'Video'])
+
 // ---- SCHEMAS --------
 
 const DEFAULT_COLOR_CURVES = Object.freeze([
@@ -538,26 +550,27 @@ export const DEFAULT_MEDIA_STATE = Object.freeze({
   }, {})
 })
 
-const COMMON_PRESET_STATE = {
+const COMMON_PRESET_STATE = Object.freeze({
 	id: '',
 	label: '',
 	hidden: false,
-	limitTo: ['audio', 'gif', 'image', 'video'],
-}
+	limitTo: [...MEDIA_TYPES],
+})
 
-export const DEFAULT_PRESET_STATE = {
+export const DEFAULT_PRESET_STATE = Object.freeze({
 	...COMMON_PRESET_STATE,
 	type: 'preset'
-}
+})
 
-export const DEFAULT_BATCH_PRESET_STATE = {
+export const DEFAULT_BATCH_PRESET_STATE = Object.freeze({
 	...COMMON_PRESET_STATE,
 	type: 'batchPreset',
+	attributeMergeType: 'overwrite',
 	limitToOverwrite: false,
 	presetNamePrependMergeType: 'replace',
 	presetNameAppendMergeType: 'replace',
 	presetIds: []
-}
+})
 
 // ---- RECORDS --------
 
@@ -580,18 +593,9 @@ export const RADIO_SET = Object.freeze({
 
 export const TOASTR_OPTIONS = Object.freeze({
 	closeButton: true,
-	positionClass: 'toast-bottom-right',
+	extendedTimeOut: 0,
 	hideDuration: 150,
-	timeOut: 0,
-	extendedTimeOut: 0
+	positionClass: 'toast-top-right',
+	preventDuplicates: true,
+	timeOut: 0
 })
-
-// ---- TUPLES --------
-
-export const MEDIA_TYPES = Object.freeze(['audio', 'gif', 'image', 'video'])
-
-// ---- NUMBERS --------
-
-export const RATIO_9_16 = 0.5625
-
-export const TAU = Math.PI * 2
