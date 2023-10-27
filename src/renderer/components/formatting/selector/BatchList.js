@@ -229,7 +229,7 @@ const BatchList = ({
 		} else if (ctrlOrCmd && !e.shiftKey && e.key === 'd') {
 			e.stopPropagation()
 			dispatch(duplicateMedia(index))
-		} else if (!e.shiftKey && (e.key === 'Backspace' || e.ket === 'Delete')) {
+		} else if (!e.shiftKey && (e.key === 'Backspace' || e.key === 'Delete')) {
 			e.stopPropagation()
 			removeMedia()
 		}
