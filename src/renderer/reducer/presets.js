@@ -33,8 +33,8 @@ export const presetsReducer = (state, action) => {
 			return loadPresetsForEditing(state, payload)
 		case ACTION.ADD_NEW_PRESET:
 			return addNewPreset(state, payload)
-		case ACTION.DELETE_PRESET:
-			return deletePreset(state, payload)
+		case ACTION.REMOVE_PRESET:
+			return removePreset(state, payload)
 		case ACTION.DUPLICATE_PRESET:
 			return duplicatePreset(state, payload)
 		case ACTION.SELECT_PRESET_BY_ID:
@@ -107,7 +107,7 @@ const addNewPreset = (state, { element, offset = 0 }) => (
 	})
 )
 
-const deletePreset = (state, { id }) => {
+const removePreset = (state, { id }) => {
 	const len = state.presets.length
 
 	if (len < 2) return { ...state, presets: [] }
