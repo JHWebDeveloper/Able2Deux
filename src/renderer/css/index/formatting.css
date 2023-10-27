@@ -37,38 +37,7 @@
 #media-selector > div:nth-of-type(2) {
 	overflow-y: auto;
 	position: relative;
-	padding-block: 10px 6px; /* using padding instead of grid-grid gap so drag and drop markers are visible */
 }
-
-.batch-item {
-	display: grid;
-	grid-template-columns: min-content auto min-content;
-	position: inherit;
-	border-radius: 5px;
-	background-color: var(--background);
-}
-
-.selected,
-.batch-item:not(.focused):hover {
-	background-color: var(--background-alt-2);
-}
-
-.selected,
-.focused {
-	color: var(--background);
-}
-
-.focused { background-color: var(--primary); }
-
-.batch-item > .dropdown { order: 1; }
-
-button[name="select-media"] {
-	order: 2;
-	text-align: left;
-	font-weight: 500;
-}
-
-button[name="remove-media"] { order: 3; }
 
 #media-selector > div:nth-child(3) {
 	display: flex;
@@ -79,88 +48,6 @@ button[name$="selectAll"] {
 	height: 24px;
 	padding-inline: 12px
 }
-
-
-/* ---- DROPDOWN MENU -------- */
-
-.dropdown {
-	display: block;
-	height: inherit;
-	font-size: 12px;
-}
-
-.dropdown span { display: inherit; }
-
-.dropdown-button-label { pointer-events: none; }
-
-#editor-options .dropdown-button-label { margin: 7px; }
-
-.dropdown-button-label > span { font-family: 'Material Icons'; }
-
-.dropdown-content {
-	overflow-y: auto;
-	position: fixed;
-	z-index: 998;
-	max-height: 100vh;
-	max-width: min-content;
-	margin: 3px 0;
-	padding-block: 5px;
-	border-radius: 5px;
-	box-shadow: 0 0 3px var(--primary);
-	background-color: var(--background);
-	color: var(--primary);
-	font-weight: 500;
-}
-
-.dropdown-content:focus-within { z-index: 999; }
-
-.submenu .dropdown-content { margin: -5px 0; }
-
-#preview .dropdown-content {
-	background-color: var(--preview-background);
-	color: var(--preview-text);
-}
-
-.dropdown-content > :is(button, span[role~="button"]):hover {
-	background-color: var(--secondary);
-	color: var(--background);
-}
-
-.dropdown-content > button,
-.dropdown-content .dropdown-button-label {
-	display: grid;
-	grid-template-columns: auto min-content;
-	gap: 0 9px;
-	padding: 3px 9px;
-	white-space: nowrap;
-	width: 100%;
-}
-
-.dropdown-content > button { text-align: left; }
-
-.dropdown-content :is(kbd, .dropdown-button-label > span) {
-	text-align: right;
-}
-
-.spacer {
-	position: relative;
-	display: inherit;
-	height: 1px;
-	margin: 5px;
-	background-color: var(--background-alt-2);
-}
-
-.spacer > span {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	translate: -50% -50%;
-	padding-inline: 3px;
-	background-color: var(--background);
-	color: var(--background-alt-2);
-	font-size: 8px;
-}
-
 
 /* ---- BATCH NAME AND SAVE OPTIONS -------- */
 
@@ -230,7 +117,7 @@ button[name$="selectAll"] {
 	overflow-y: auto;
 	scrollbar-gutter: stable;
 	width: calc(100% + 18px);
-	margin-right: -18pc;
+	margin-right: -18px;
 	position: relative;
 }
 
@@ -471,6 +358,10 @@ button[name="scaleLink"] {
 	align-items: center;
 	align-content: center;
 	height: 100%;
+}
+
+#colorCorrection > fieldset {
+	grid-auto-columns: minmax(min-content, 1fr);
 }
 
 #colorCorrection button {
