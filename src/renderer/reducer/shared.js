@@ -22,16 +22,10 @@ export const toggleSortableElementCheckbox = (state, payload) => {
 	}
 }
 
-export const addSortableElement = (state, payload) => {
-	const elements = [...state[payload.nest]]
-
-	elements.splice(payload.pos, 0, payload.element)
-	
-	return {
-		...state,
-		[payload.nest]: elements
-	}
-}
+export const addSortableElement = (state, payload) => ({
+	...state,
+	[payload.nest]: state[payload.nest].toSpliced(payload.pos, 0, payload.element)
+})
 
 export const removeSortableElement = (state, payload) => ({
 	...state,
