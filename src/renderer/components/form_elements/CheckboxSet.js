@@ -60,7 +60,7 @@ const CheckboxSet = ({
 						toggleSelectAll={toggleSelectAll}
 						switchIcon={switchIcon} />
 				) : <></>}
-				{checkboxes.map(({ hidden, label, Component, checked, name, onChange }, i) => {
+				{checkboxes.map(({ hidden, label, component, checked, name, onChange }, i) => {
 					const key = `${setKey}_${i + offsetKey}`
 
 					return hidden ? (
@@ -72,7 +72,7 @@ const CheckboxSet = ({
 							checked={checked}
 							name={name}
 							onChange={onChange || onChangeFallback}
-							Component={Component}
+							component={component}
 							switchIcon={switchIcon} />
 					)
 				})}
