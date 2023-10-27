@@ -136,38 +136,38 @@ const RenderOutput = () => {
 				onChange={dispatchToggleCheckbox}
 				switchIcon/>
 			<Checkbox
-				label="Filter Unsafe Characters for Aspera"
+				label="Filter Unsafe Filename Characters for Aspera"
 				name="asperaSafe"
 				checked={preferences.asperaSafe}
 				onChange={dispatchToggleCheckbox}
 				switchIcon />
 			<Checkbox
-				label="Replace Spaces with"
+				label="Replace Filename Spaces with"
 				name="replaceSpaces"
 				checked={replaceSpaces}
 				onChange={dispatchToggleCheckbox}
-				Component={
+				component={
 					<SelectInput
 						name="spaceReplacement"
 						title="Select space replacement character"
 						value={preferences.spaceReplacement}
 						onChange={updateStateFromEvent}
-						disabled={replaceSpaces}
+						disabled={!replaceSpaces}
 						options={SPACE_REPLACEMENT_OPTIONS} />
 				}
 				switchIcon />
 			<Checkbox
-				label="Convert Case to"
+				label="Convert Filename Case to"
 				name="convertCase"
 				checked={convertCase}
 				onChange={dispatchToggleCheckbox}
-				Component={
+				component={
 					<SelectInput
 						name="casing"
 						title="Select filename case"
 						value={preferences.casing}
 						onChange={updateStateFromEvent}
-						disabled={convertCase}
+						disabled={!convertCase}
 						options={CASE_OPTIONS} />
 				}
 				switchIcon />
