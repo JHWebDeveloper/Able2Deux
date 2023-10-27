@@ -60,6 +60,10 @@ button.toast-close-button:hover {
   right: 12px;
   bottom: 12px;
 }
+.toast-top-right {
+  top: 12px;
+  right: 12px;
+}
 #toast-container {
   position: fixed;
   z-index: 999999;
