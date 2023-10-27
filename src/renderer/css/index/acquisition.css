@@ -10,7 +10,7 @@
 }
 
 
-/* ---- DOWNLOADER AND UPLOADER -------- */
+/* ---- DOWNLOADER -------- */
 
 #downloader {
 	grid-template-rows: min-content min-content;
@@ -28,6 +28,8 @@
 #downloader > button { grid-row: 2; }
 
 #downloader > fieldset { row-gap: 0; }
+
+/* ---- UPLOADER -------- */
 
 #uploader {
 	position: relative;
@@ -282,8 +284,6 @@ button[name="screenshot"] { height: 26px; }
 }
 
 #ready-queue > div.populated { background-color: var(--background-alt-2); }
-
-#ready-queue .insert-last { flex: 1; }
 
 #ready-queue > div:last-of-type {
 	grid-row: 2;
