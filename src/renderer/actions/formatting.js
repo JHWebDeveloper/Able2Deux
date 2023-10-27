@@ -17,8 +17,7 @@ import {
 	createDefaultCurvePoints,
 	errorToString,
 	pipe,
-	pipeAsync,
-	refocusBatchItem
+	pipeAsync
 } from 'utilities'
 
 const { interop } = window.ABLE2
@@ -39,8 +38,6 @@ export const selectMedia = (clickedIndex, e = {}, selectionData = {}) => dispatc
 			ctrlOrCmd
 		}
 	})
-
-	if (ctrlOrCmd) refocusBatchItem()
 }
 
 export const selectAllMedia = focusIndex => ({
