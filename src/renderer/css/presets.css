@@ -1,16 +1,81 @@
+#root,
+.preset-selector,
+.preset-editor {
+  display: flex;
+  flex-direction: column;
+}
+
+#root { row-gap: 18px; }
+
 main {
+  overflow: hidden;
+  flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto min-content;
-  grid-gap: 18px;
+  grid-template-columns: minmax(243px, 1fr) 2fr;
+  column-gap: 12px;
   height: 100%;
 }
 
-main > div {
-  display: inherit
+.preset-selector {
+  padding: 9px 5px;
+  font-size: 12px;
 }
 
-.preset-selector {
-  background: var(--background-alt-2);
+.preset-selector > h2 {
+  margin-left: 5px;
+  font-size: 16px;
+}
+
+.preset-item {
+  display: grid;
+  grid-template-columns: auto min-content;
+  column-gap: 5px;
+  background-color: var(--background);
   border-radius: 5px;
+}
+
+.preset-item.focused {
+  background-color: var(--primary);
+  color: var(--background);
+}
+
+.preset-item > button:first-child {
+  text-align: left;
+  padding-left: 6px;
+  font-weight: 500;
+}
+
+.preset-basic-options {
+  display: grid;
+  row-gap: inherit;
+  padding: 18px;
+}
+
+.preset-basic-options label > span { font-size: 14px; }
+
+.preset-editor { 
+  overflow: hidden;
+  row-gap: 9px;
+}
+
+.tabbed-nav .radio-set > label:has(input[type="text"]) {
+  display: flex;
+  width: 100%;
+}
+
+.tabbed-nav .radio-set > label > input[type="text"] { flex: 1; }
+
+.overwrite-limit-to {
+  display: flex;
+  align-items: center;
+  column-gap: 9px;
+}
+
+.overwrite-limit-to > span {
+  rotate: -90deg;
+}
+
+footer {
+  display: flex;
+	column-gap: 12px;
 }
