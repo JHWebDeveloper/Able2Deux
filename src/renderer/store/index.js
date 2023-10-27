@@ -1,4 +1,6 @@
+export * from './dragging'
 export * from './main'
 export * from './panels'
 export * from './preferences'
+export * from './preset_save_as'
 export * from './presets'
