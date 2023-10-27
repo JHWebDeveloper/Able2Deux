@@ -28,7 +28,7 @@ const SaveAndClose = ({ dispatch }) => {
 			interop.closePreferences()
 		},
 		onSave() {
-			savePrefs(true)
+			savePrefs()
 		}
 	})
 
