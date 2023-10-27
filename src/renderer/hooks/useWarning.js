@@ -65,7 +65,7 @@ export const useSaveWarning = ({
 			})
 
 			if (response > 1) return
-			if (response === 1) return onSave()
+			if (response === 0) onSave()
 		}
 
 		onConfirm()
