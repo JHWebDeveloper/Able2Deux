@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { bool, func, number, string } from 'prop-types'
 
 import { removeMedia, selectMedia } from 'actions'
-import { classNameBuilder, refocusBatchItem } from 'utilities'
+import { classNameBuilder } from 'utilities'
 
 import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown'
 
@@ -37,7 +37,6 @@ const BatchItem = ({
 		message: `${removeBtnTitle}?`,
 		onConfirm() {
 			dispatch(removeMedia({ id, index }))
-			refocusBatchItem()
 		}
 	}), [title, id, index, warnRemoveMedia])
 
@@ -56,7 +55,7 @@ const BatchItem = ({
 			<button
 				ref={selectMediaBtn}
 				type="button"
-				name="select-media"
+				name="select-selectable-item"
 				className="overlow-ellipsis"
 				title={selectBtnTitle}
 				aria-label={selectBtnTitle}
@@ -65,7 +64,7 @@ const BatchItem = ({
 			<MediaOptionsDropdown buttons={() => createDropdown(removeMediaWarning)} />
 			<button
 				type="button"
-				name="remove-media"
+				name="remove-selectable-item"
 				title={removeBtnTitle}
 				aria-label={removeBtnTitle}
 				className="symbol"
