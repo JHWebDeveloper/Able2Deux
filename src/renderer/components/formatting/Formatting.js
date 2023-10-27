@@ -14,7 +14,7 @@ import {
 	updateState
 } from 'actions'
 
-import { arrayCount } from 'utilities'
+import { arrayCount, focusSelectableItem } from 'utilities'
 
 import MediaSelector from './selector/MediaSelector'
 import BatchName from './BatchName'
@@ -55,8 +55,12 @@ const Formatting = () => {
 	}, [])
 
 	useEffect(() => {
-		if (!focused.id) dispatch((selectAllByDefault ? selectAllMedia : selectMedia)(0))
-	}, [focused])
+		if (focused.id) {
+			focusSelectableItem('#media-manager')
+		} else {
+			dispatch((selectAllByDefault ? selectAllMedia : selectMedia)(0))
+		}
+	}, [focused.id])
 
 	return (
 		<>
