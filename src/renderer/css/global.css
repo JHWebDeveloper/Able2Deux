@@ -502,7 +502,15 @@ button[name="remove-selectable-item"] { order: 3; }
 
 .dropdown :is(span, button) { display: grid; }
 
-.dropdown-button-label { pointer-events: none; }
+.dropdown-button-label {
+	pointer-events: none;
+}
+
+:not(.submenu) > .dropdown-button-label {
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+}
 
 .dropdown-button-label > span { font-family: 'Material Icons'; }
 
