@@ -11,8 +11,7 @@ const { interop } = window.ABLE2
 
 const initState = {
 	version: 1,
-	presets: [],
-	batchPresets: []
+	presets: []
 }
 
 export const PresetsContext = createContext()
