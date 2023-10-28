@@ -2,6 +2,14 @@ import { ipcRenderer } from 'electron'
 
 import { sendMessage } from './sendMessage'
 
+export const closePresetSaveAs = () => {
+	ipcRenderer.send('closePresetSaveAs')
+}
+
+export const closePresets = () => {
+	ipcRenderer.send('closePresets')
+}
+
 export const requestPresets = (referencesOnly, presorted) => sendMessage({
 	sendMsg: 'requestPresets',
 	recieveMsg: 'presetsRecieved',
@@ -16,20 +24,23 @@ export const getPresetAttributes = presetId => sendMessage({
 	data: { presetId }
 })
 
-export const openPresetsSaveAs = preset => {
+export const openPresetSaveAs = preset => {
 	ipcRenderer.send('openPresetSaveAs', { preset })
-}
-
-export const closePresetSaveAs = () => {
-	ipcRenderer.send('closePresetSaveAs')
 }
 
 export const getPresetToSave = () => ipcRenderer.invoke('getPresetToSave')
 
-export const savePreset = data => sendMessage({
+export const savePreset = (preset, saveType) => sendMessage({
 	sendMsg: 'savePreset',
 	recieveMsg: 'presetSaved',
 	errMsg: 'savePresetErr',
+	data: { preset, saveType }
+})
+
+export const savePresets = data => sendMessage({
+	sendMsg: 'savePresets',
+	recieveMsg: 'presetsSaved',
+	errMsg: 'savePresetsErr',
 	data
 })
 
