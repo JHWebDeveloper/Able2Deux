@@ -57,8 +57,8 @@ export const presetsReducer = (state, action) => {
 			return toggleAllPresetAttributes(state, payload)
 		case ACTION.ADD_PRESET_TO_BATCH:
 			return addPresetToBatch(state, payload)
-		case ACTION.SORT_PRESET_IN_BATCH:
-			return sortPresetInBatch(state, payload)
+		case ACTION.MOVE_PRESET_IN_BATCH:
+			return movePresetInBatch(state, payload)
 		case ACTION.FLATTEN_BATCH_PRESET:
 			return flattenBatchPreset(state, payload)
 		case ACTION.CLEANUP_PRESETS_AND_SAVE:
@@ -246,7 +246,7 @@ const addPresetToBatch = (state, { index, batchPresetId, presetId }) => {
 	}
 }
 
-const sortPresetInBatch = (state, payload) => ({
+const movePresetInBatch = (state, payload) => ({
 	...state,
 	presets: state.presets.map(item => item.focused ? {
 		...shared.moveSortableElement(item, {
