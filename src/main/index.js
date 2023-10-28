@@ -4,7 +4,7 @@ import log from 'electron-log'
 import { pathToFileURL } from 'url'
 import path from 'path'
 
-import { initPreferencesAndPresets, loadPrefs, loadPresets, savePrefs, getDefaultPrefs, loadTheme, getPresetAttributes, createPreset, updatePreset } from './modules/preferences/preferences'
+import { initPreferencesAndPresets, loadPrefs, loadPresets, savePrefs, getDefaultPrefs, loadTheme, getPresetAttributes, createPreset, updatePreset, savePresets } from './modules/preferences/preferences'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -347,16 +347,17 @@ const mainMenuTemplate = [
 			{
 				label: 'Presets',
 				click() {
-					const { x, y, width, height } = mainWin.getNormalBounds()
+					const width = 770
+					const height =  794
 
 					presets = openWindow({
 						parent: mainWin,
-						x: x + 20,
-						y: y + 20,
 						width,
 						height,
-						minWidth: mac ? 746 : 762,
-						minHeight: 620
+						minWidth: width,
+						minHeight: height,
+						resizable: dev,
+						modal: true
 					})
 
 					presets.loadURL(createURL('presets'))
@@ -558,9 +559,9 @@ ipcMain.on('requestPrefs', async evt => {
 
 ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
 
-ipcMain.on('savePrefs', async (evt, prefs) => {
+ipcMain.on('savePrefs', async (evt, data) => {
 	try {
-		await savePrefs(prefs)
+		await savePrefs(data)
 
 		try {
 			await Promise.all([
@@ -571,21 +572,25 @@ ipcMain.on('savePrefs', async (evt, prefs) => {
 			console.error(err)
 		}
 
+		const updatedPrefs = await loadPrefs()
+
+		mainWin.webContents.send('syncPrefs', updatedPrefs)
+		presets?.webContents?.send('syncPrefs', updatedPrefs)
+
 		evt.reply('prefsSaved')
-		mainWin.webContents.send('syncPrefs', prefs)
 	} catch (err) {
 		console.error(err)
 		evt.reply('savePrefsErr', new Error('An error occurred while attempting to save preferences.'))
 	}
 })
 
-ipcMain.on('savePrefsSilently', async (evt, newPrefs) => {
+ipcMain.on('savePrefsSilently', async (evt, data) => {
 	try {
 		const oldPrefs = await loadPrefs()
 	
 		await savePrefs({
 			...oldPrefs,
-			...newPrefs
+			...data
 		})
 	} catch (err) {
 		console.error(err)
@@ -654,22 +659,47 @@ ipcMain.on('openPresetSaveAs', async (evt, data) => {
 
 ipcMain.on('savePreset', async (evt, data) => {
 	try {
-		if ('id' in data) {
-			await updatePreset(data)
-		} else {
+		if (data.saveType === 'newPreset') {
 			await createPreset(data)
+		} else {
+			await updatePreset(data)
 		}
 
-		mainWin.webContents.send('syncPresets', await loadPresets({
+		mainWin.webContents.send('syncPresets', loadPresets({
 			referencesOnly: true,
 			presorted: true
 		}))
+
+		if (presets) presets.webContents.send('syncPrefs', await loadPresets())
 		
 		evt.reply('presetSaved')
 	} catch (err) {
 		console.error(err)
 		evt.reply('savePresetErr', new Error('An error occurred while attempting to save preset.'))
 	}
+})
+
+ipcMain.on('savePresets', async (evt, data) => {
+	try {
+		await savePresets(data)
+
+		const updatedPresets = await loadPresets({
+			referencesOnly: true,
+			presorted: true
+		})
+
+		mainWin.webContents.send('syncPresets', updatedPresets)
+		presetSaveAs?.webContents?.send('syncPrefs', updatedPresets)
+
+		evt.reply('presetsSaved')
+	} catch (err) {
+		console.error(err)
+		evt.reply('savePresetsErr', new Error('An error occurred while attempting to save presets.'))
+	}
+})
+
+ipcMain.on('closePresets', () => {
+	presets.close()
 })
 
 // ---- IPC ROUTES: UPDATE ------------
