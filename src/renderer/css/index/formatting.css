@@ -113,6 +113,8 @@ button[name$="selectAll"] {
   vertical-align: -5px;
 }
 
+.accordion > h2 > .dropdown > .dropdown-button-label { aspect-ratio: 1 / 1; }
+
 #editor-options {
 	overflow-y: auto;
 	scrollbar-gutter: stable;
