@@ -12,9 +12,9 @@ const initState = {
 	presets: []
 }
 
-export const PresetsSaveAsContext = createContext()
+export const PresetSaveAsContext = createContext()
 
-export const PresetsSaveAsProvider = ({ children }) => {
+export const PresetSaveAsProvider = ({ children }) => {
 	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
 
 	useEffect(() => {
@@ -30,11 +30,11 @@ export const PresetsSaveAsProvider = ({ children }) => {
 	}, [])
 
 	return (
-		<PresetsSaveAsContext.Provider value={{
+		<PresetSaveAsContext.Provider value={{
 			presets: state,
 			dispatch
 		}}>
 			{ children }
-		</PresetsSaveAsContext.Provider>
+		</PresetSaveAsContext.Provider>
 	)
 }

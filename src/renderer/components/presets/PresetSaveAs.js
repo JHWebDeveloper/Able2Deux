@@ -6,8 +6,8 @@ import '../../css/preset_save_as.css'
 import {
 	PresetsProvider,
 	PresetsContext,
-	PresetsSaveAsProvider,
-	PresetsSaveAsContext
+	PresetSaveAsProvider,
+	PresetSaveAsContext
 } from 'store'
 
 import { togglePresetLimitTo, updatePresetStateBySelection } from 'actions'
@@ -41,7 +41,7 @@ const SAVE_TYPE_BUTTONS = Object.freeze([
 
 const PresetSaveAs = () => {
 	const { presets: existingPresets = [] } = useContext(PresetsContext).presets
-	const { presets: { presets: [ newPreset = {} ] }, dispatch } = useContext(PresetsSaveAsContext)
+	const { presets: { presets: [ newPreset = {} ] }, dispatch } = useContext(PresetSaveAsContext)
 	const [ saveType, setSaveType ] = useState('newPreset')
 	const [ selectedPreset, setSelectedPreset ] = useState('')
 
@@ -179,8 +179,8 @@ const PresetSaveAs = () => {
 
 export default () => (
 	<PresetsProvider referencesOnly presorted>
-		<PresetsSaveAsProvider>
+		<PresetSaveAsProvider>
 			<PresetSaveAs />
-		</PresetsSaveAsProvider>
+		</PresetSaveAsProvider>
 	</PresetsProvider>
 )
