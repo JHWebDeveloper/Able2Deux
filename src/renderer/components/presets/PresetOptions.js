@@ -1,36 +1,20 @@
-import React, { useCallback } from 'react'
-import { arrayOf, func, oneOf, string } from 'prop-types'
+import React from 'react'
+import { arrayOf, oneOf, string } from 'prop-types'
 
-import { MEDIA_TYPES } from 'utilities'
+import { MEDIA_TYPES, MEDIA_LABEL } from 'constants'
 
 import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 import CheckboxSet from '../form_elements/CheckboxSet'
 
-const MEDIA_LABEL = Object.freeze(['Audio', 'Motion Graphics', 'Images', 'Video'])
-
-const PresetOptions = ({ presetNamePrepend, presetNameAppend, limitTo, updateState, updateStateFromEvent }) => {
-	const toggleLimitTo = useCallback(e => {
-		const { name, checked } = e?.target || e
-
-		updateState(currentState => ({
-			...currentState,
-			limitTo: !checked
-				? currentState.limitTo.filter(mediaType => mediaType !== name)
-				: [...currentState.limitTo, name].toSorted()
-		}))
-	}, [])
-
-	const toggleSelectAllLimitTo = useCallback(e => {
-		const { checked } = e?.target || e
-
-		updateState(currentState => ({
-			...currentState,
-			limitTo: checked ? [...MEDIA_TYPES] : []
-		}))
-	}, [])
-
+const PresetOptions = ({
+	presetNamePrepend = '',
+	presetNameAppend = '',
+	limitTo = [],
+	updatePresetState,
+	toggleLimitTo
+}) => {
 	return (
-		<>
+		<div className="nav-panel-grid">
 			<FieldsetWrapper label="Prepend to Filename">
 				<input
 					type="text"
@@ -39,7 +23,7 @@ const PresetOptions = ({ presetNamePrepend, presetNameAppend, limitTo, updateSta
 					placeholder="If none, leave blank"
 					maxLength={251}
 					value={presetNamePrepend}
-					onChange={updateStateFromEvent} />
+					onChange={updatePresetState} />
 			</FieldsetWrapper>
 			<FieldsetWrapper label="Append to Filename">
 				<input
@@ -49,27 +33,25 @@ const PresetOptions = ({ presetNamePrepend, presetNameAppend, limitTo, updateSta
 					placeholder="If none, leave blank"
 					maxLength={251}
 					value={presetNameAppend}
-					onChange={updateStateFromEvent} />
+					onChange={updatePresetState} />
 			</FieldsetWrapper>
+			<hr />
 			<CheckboxSet
-				label="Only Apply Presets To"
+				label="Only Apply Preset To"
 				onChange={toggleLimitTo}
-				toggleSelectAll={toggleSelectAllLimitTo}
 				checkboxes={MEDIA_TYPES.map((mediaType, i) => ({
 					label: MEDIA_LABEL[i],
 					name: mediaType,
 					checked: limitTo.includes(mediaType)
 				}))} />
-		</>
+		</div>
 	)
 }
 
 PresetOptions.propTypes = {
 	presetNamePrepend: string,
 	presetNameAppend: string,
-	limitTo: arrayOf(oneOf(['audio', 'gif', 'image', 'video'])),
-	updateState: func.isRequired,
-	updateStateFromEvent: func.isRequired
+	limitTo: arrayOf(oneOf(['audio', 'gif', 'image', 'video']))
 }
 
 export default PresetOptions
