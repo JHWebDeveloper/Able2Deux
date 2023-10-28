@@ -1,35 +1,24 @@
 import React, { useCallback } from 'react'
-import { arrayOf, bool, exact, func, number, oneOfType, string } from 'prop-types'
+import { arrayOf, bool, exact, func, number, oneOfType, shape, string } from 'prop-types'
+
+import { toggleAllPresetAttributes, toggleIncludePresetAttribute } from 'actions'
 
 import CheckboxSet from '../form_elements/CheckboxSet'
 
-const AttributeSelector = ({ attributes, updateState }) => {
-	const toggleIncludeAttribute = useCallback((e, checked) => {
-		const { name } = e?.target || e
-
-		updateState(currentState => ({
-			...currentState,
-			attributes: currentState.attributes.map(item => item.attribute === name ? {
-				...item,
-				include: checked ?? !item.include
-			} : item)
-		}))
+const AttributeSelector = ({ attributes = [], dispatch }) => {
+	const dispatchToggleIncludePresetAttribute = useCallback(e => {
+		dispatch(toggleIncludePresetAttribute(e.target.name))
 	}, [])
 
-	const toggleSelectAllAttributes = useCallback(e => {
-		const { checked } = e?.target || e
-
-		updateState(currentState => ({
-			...currentState,
-			attributes: currentState.attributes.map(item => ({ ...item, include: checked }))
-		}))
+	const dispatchToggleAllPresetAttributes = useCallback(e => {
+		dispatch(toggleAllPresetAttributes(e.target.checked))
 	}, [])
 
 	return (
 		<CheckboxSet
 			label="Select attributes to include"
-			onChange={toggleIncludeAttribute}
-			toggleSelectAll={toggleSelectAllAttributes}
+			onChange={dispatchToggleIncludePresetAttribute}
+			toggleSelectAll={dispatchToggleAllPresetAttributes}
 			checkboxes={attributes.map(({ label, include, attribute }) => ({
 				label,
 				name: attribute,
@@ -39,7 +28,7 @@ const AttributeSelector = ({ attributes, updateState }) => {
 }
 
 AttributeSelector.propTypes = {
-	attributes: arrayOf(exact({
+	attributes: arrayOf(shape({
 		attribute: string,
 		label: string,
 		include: bool,
@@ -52,7 +41,7 @@ AttributeSelector.propTypes = {
 			y: number
 		}))])
 	})),
-	updateState: func.isRequired
+	dispatch: func.isRequired
 }
 
 export default AttributeSelector
