@@ -167,7 +167,7 @@ export const saveAsPreset = (id, ...extractors) => ({
 		openPresetSaveAs(attributes) {
 			const { presetNamePrepend, presetNameAppend } = attributes
 
-			interop.openPresetsSaveAs({
+			interop.openPresetSaveAs({
 				...pipe(...extractors)(attributes),
 				...presetNamePrepend ? { presetNamePrepend } : {},
 				...presetNameAppend ? { presetNameAppend } : {}
