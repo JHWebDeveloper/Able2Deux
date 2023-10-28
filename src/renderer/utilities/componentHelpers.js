@@ -79,12 +79,14 @@ export const limitTCChars = colonMax => e => {
 	}
 }
 
-export const refocusBatchItem = () => {
-	document.querySelector('.focused > button[name="select-media"]')?.focus()
+export const focusSelectableItem = (parentElement = '#root') => {
+	document.querySelector(`${parentElement} .focused > button[name="select-selectable-item"]`)?.focus()
 }
 
 export const replaceIds = (() => {
 	const _replaceIds = (obj, replaceWith) => {
+		if (typeof obj === 'string') return obj
+
 		obj = structuredClone(obj)
 
 		if ('id' in obj) obj.id = replaceWith ?? uuid()
