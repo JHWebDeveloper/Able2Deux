@@ -194,34 +194,38 @@ export const getPresetAttributes = async ({ presetId }) => {
 	return flattenBatchPresets(presets, presets.find(preset => preset.id === presetId))
 }
 
-export const createPreset = async ({ type, label, attributes, limitTo }) => {
+export const createPreset = async ({ preset }) => {
 	const presets = JSON.parse(await fsp.readFile(presetsPath))
 	
 	presets.presets.unshift({
 		id: uuid(),
+		type: 'preset',
 		hidden: false,
-		type,
-		label,
-		attributes,
-		limitTo
+		...preset
 	})
 
 	return fsp.writeFile(presetsPath, JSON.stringify(presets))
 }
 
-export const updatePreset = async ({ id, attributes, overwrite }) => {
+export const updatePreset = async ({ preset, saveType }) => {
 	const presets = JSON.parse(await fsp.readFile(presetsPath))
 
-	presets.presets = presets.presets.map(item => item.id === id ? {
+	presets.presets = presets.presets.map(item => item.id === preset.id ? {
 		...item,
-		attributes: overwrite ? attributes : {
+		...preset,
+		attributes: saveType === 'merge' ? {
 			...item.attributes,
-			...attributes
-		}
+			...preset.attributes
+		} : preset.attributes
 	} : item)
 
 	return fsp.writeFile(presetsPath, JSON.stringify(presets))
 }
+
+export const savePresets = async presets => fsp.writeFile(presetsPath, JSON.stringify({
+	...presets,
+	version: defaultPresets.version
+}))
 
 // ---- SHARED --------
 
