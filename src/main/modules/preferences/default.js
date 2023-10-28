@@ -22,7 +22,10 @@ export const defaultPrefs = {
 		removeAll: true,
 		applyToAll: true,
 		sourceOnTop: true,
-		startOver: true
+		startOver: true,
+		removePreset: true,
+		removeReferencedPreset: true,
+		removePresetFromBatch: true
 	},
 	optimize: 'quality',
 	screenshot: false,
@@ -121,7 +124,7 @@ export const defaultPresets = {
 			limitTo,
 			attributes: {
 				background: 'blue',
-				presetNameAppend: '- EWN BG Blue'
+				presetNameAppend: 'EWN BG Blue'
 			}
 		},
 		{
@@ -132,7 +135,7 @@ export const defaultPresets = {
 			limitTo,
 			attributes: {
 				background: 'grey',
-				presetNameAppend: '- EWN BG Grey'
+				presetNameAppend: 'EWN BG Grey'
 			}
 		},
 		{
@@ -143,7 +146,7 @@ export const defaultPresets = {
 			limitTo,
 			attributes: {
 				background: 'light_blue',
-				presetNameAppend: '- TNT BG Light Blue'
+				presetNameAppend: 'TNT BG Light Blue'
 			}
 		},
 		{
@@ -154,7 +157,7 @@ export const defaultPresets = {
 			limitTo,
 			attributes: {
 				background: 'dark_blue',
-				presetNameAppend: '- TNT BG Dark Blue'
+				presetNameAppend: 'TNT BG Dark Blue'
 			}
 		},
 		{
@@ -165,7 +168,7 @@ export const defaultPresets = {
 			limitTo,
 			attributes: {
 				background: 'teal',
-				presetNameAppend: '- TNT BG Teal'
+				presetNameAppend: 'TNT BG Teal'
 			}
 		},
 		{
@@ -176,7 +179,7 @@ export const defaultPresets = {
 			limitTo,
 			attributes: {
 				background: 'tan',
-				presetNameAppend: '- TNT BG Tan'
+				presetNameAppend: 'TNT BG Tan'
 			}
 		}
 	]
@@ -187,9 +190,12 @@ defaultPresets.presets.push(
 		id: uuid(),
 		type: 'batchPreset',
 		label: 'EWN+TNT Background',
-		limitToOverwrite: false,
-		limitTo,
 		hidden: false,
+		attributeMergeType: 'overwrite',
+		presetNamePrependMergeType: 'replace',
+		presetNameAppendMergeType: 'replace',
+		limitTo,
+		limitToOverwrite: false,
 		attributes: {},
 		presetIds: [
 			defaultPresets.presets[0].id,
@@ -201,8 +207,11 @@ defaultPresets.presets.push(
 		type: 'batchPreset',
 		label: 'All Backgrounds',
 		hidden: false,
-		limitToOverwrite: false,
+		attributeMergeType: 'overwrite',
+		presetNamePrependMergeType: 'replace',
+		presetNameAppendMergeType: 'replace',
 		limitTo,
+		limitToOverwrite: false,
 		attributes: {},
 		presetIds: defaultPresets.presets.map(({ id }) => id)
 	}
