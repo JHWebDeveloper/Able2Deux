@@ -1,59 +1,252 @@
-import React, { useCallback, useId } from 'react'
+import React, { useCallback, useContext } from 'react'
 
-import { selectPreset } from 'actions'
-import { classNameBuilder } from 'utilities'
+import { PrefsContext } from 'store'
+
+import {
+	removePreset,
+	duplicatePreset,
+	moveSortableElement,
+	selectPresetById,
+	selectPresetByIndex,
+	updatePresetStateById
+} from 'actions'
+
+import { useWarning } from 'hooks'
+
+import {
+	classNameBuilder,
+	detectCircularReference,
+	isArrowNext,
+	isArrowPrev
+} from 'utilities'
 
 import DraggableList from '../form_elements/DraggableList'
+import MediaOptionsDropdown from '../form_elements/MediaOptionsDropdown'
 
-const PresetItem = ({ focused, label, index, selectPreset }) => (
-	<div className={classNameBuilder({
-		'preset-item': true,
-		focused
-	})}>
-		<button
-			type="button"
-			onClick={() => selectPreset(index)}>{label}</button>
-		<button
-			type="button"
-			className="symbol">close</button>
-	</div>
-)
+const REMOVE_PRESET_DETAIL = 'This cannot be undone. Proceed?'
+const REMOVE_REFERENCED_PRESET_DETAIL = `This preset is referenced in one or more batch presets. Deleting this preset will also delete these references. ${REMOVE_PRESET_DETAIL}`
 
-const PresetSelector = ({ allPresets, dispatch }) => {
-	const presetKey = useId()
-	const batchPresetKey = useId()
-	const presets = allPresets.filter(({ type }) => type === 'preset')
-	const batchPresets = allPresets.filter(({ type }) => type === 'batchPreset')
-	const presetsLength = presets.length
-	
-	const dispatchSelectPreset = useCallback(index => {
-		dispatch(selectPreset(index))
+const { interop } = window.ABLE2
+
+const SelectPresetItem = ({
+	focused,
+	label,
+	id,
+	warnRemovePreset,
+	createOptionsMenu,
+	onKeyDown,
+	dispatch
+}) => {
+	const selectBtnTitle = `Select ${label}`
+	const removeBtnTitle = `Remove ${label}`
+
+	const removePreset = useCallback(() => warnRemovePreset({
+		message: `${removeBtnTitle}?`,
+		onConfirm() {
+			dispatch(removePreset(id))
+		} 
+	}), [label, id, warnRemovePreset])
+
+	return (
+		<div
+			className={classNameBuilder({
+				'sortable-list-item': true,
+				focused
+			})}
+			onKeyDown={e => onKeyDown(removePreset, e)}>
+			<button
+				type="button"
+				name="select-selectable-item"
+				className="overlow-ellipsis"
+				title={selectBtnTitle}
+				aria-label={selectBtnTitle}
+				onClick={() => dispatch(selectPresetById(id))}>{label}</button>
+			<MediaOptionsDropdown buttons={() => createOptionsMenu(removePreset)} />
+			<button
+				type="button"
+				name="remove-selectable-item"
+				className="symbol"
+				title={removeBtnTitle}
+				aria-label={removeBtnTitle}
+				onClick={removePreset}>close</button>
+		</div>
+	)
+}
+
+const PresetSelector = ({
+	presets,
+	batchPresets,
+	presetsLength,
+	batchPresetsLength,
+	dispatch
+}) => {
+	const { warnings } = useContext(PrefsContext).preferences
+
+	const movePreset = useCallback((oldPos, newPos) => {
+		if (newPos > presetsLength) return
+
+		dispatch(moveSortableElement('presets', oldPos, newPos))
+	}, [presetsLength])
+
+	const moveBatchPreset = useCallback((oldPos, newPos) => {
+		const offsetNewPos = newPos + presetsLength
+
+		if (offsetNewPos < presetsLength) return
+
+		dispatch(moveSortableElement('presets', oldPos + presetsLength, offsetNewPos))
+	}, [presetsLength])
+
+	const selectPreset = useCallback(index => {
+		dispatch(selectPresetByIndex(index))
 	}, [])
 
+	const selectBatchPreset = useCallback(index => {
+		selectPreset(index + presetsLength)
+	}, [presetsLength])
+
+	const dispatchDuplicatePreset = useCallback(index => {
+		dispatch(duplicatePreset(index))
+	}, [])
+
+	const warnRemovePreset = useWarning({
+		name: 'removePreset',
+		detail: REMOVE_PRESET_DETAIL
+	}, [])
+
+	const warnRemoveReferencedPreset = useWarning({
+		name: 'removeReferencedPreset',
+		detail: REMOVE_REFERENCED_PRESET_DETAIL
+	}, [])
+
+	const getWarningType = hasReferences => hasReferences && warnings.removeReferencedPreset
+		? warnRemoveReferencedPreset
+		: warnRemovePreset
+
+	const createOptionsMenu = useCallback((index, presetLength, id, type, removePreset) => {
+		const isFirst = index === 0
+		const isLast = index === presetLength - 1
+
+		return [
+			{
+				type: 'button',
+				label: 'Move Up',
+				hide: isFirst,
+				shortcut: '⌥↑',
+				action() {
+					(type === 'batchPreset' ? moveBatchPreset : movePreset)(index, index - 1)
+				}
+			},
+			{
+				type: 'button',
+				label: 'Move Down',
+				hide: isLast,
+				shortcut: '⌥↓',
+				action() {
+					(type === 'batchPreset' ? moveBatchPreset : movePreset)(index, index + 2)
+				}
+			},
+			{
+				type: 'spacer',
+				hide: isFirst && isLast
+			},
+			{
+				type: 'button',
+				label: 'Duplicate Preset',
+				shortcut: `${interop.isMac ? '⌘' : '⌃'}D`,
+				action() {
+					dispatchDuplicatePreset(index)
+				}
+			},
+			{ type: 'spacer' },
+			{
+				type: 'submenu',
+				label: 'Add to Batch Preset',
+				hide: !batchPresets.length,
+				submenu: () => batchPresets
+					.filter(item => !detectCircularReference(batchPresets, item.id, id))
+					.map(item => ({
+						type: 'button',
+						label: item.label,
+						action() {
+							dispatch(updatePresetStateById(item.id, {
+								presetIds: [...item.presetIds, id]
+							}))
+						}
+					}))
+			},
+			{
+				type: 'spacer',
+				hide: !batchPresets.length,
+			},
+			{
+				type: 'button',
+				label: 'Remove Preset',
+				shortcut: '⌫',
+				action: removePreset
+			}
+		]
+	}, [batchPresets, presetsLength])
+
+	const onKeyDown = useCallback((index, type, removePreset, e) => {
+		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
+
+		if (e.altKey && isArrowPrev(e)) {
+			e.preventDefault();
+			(type === 'batchPreset' ? moveBatchPreset : movePreset)(index, index - 1)
+		} else if (e.altKey && isArrowNext(e)) {
+			e.preventDefault();
+			(type === 'batchPreset' ? moveBatchPreset : movePreset)(index, index + 2)
+		} else if (isArrowPrev(e)) {
+			e.preventDefault();
+			(type === 'batchPreset' ? selectBatchPreset : selectPreset)(index - 1)
+		} else if (isArrowNext(e)) {
+			e.preventDefault();
+			(type === 'batchPreset' ? selectBatchPreset : selectPreset)(index + 1)
+		} else if (ctrlOrCmd && !e.shiftKey && e.key === 'd') {
+			dispatchDuplicatePreset(index)
+		} else if (e.key === 'Backspace' || e.key === 'Delete') {
+			removePreset()
+		}
+	}, [presetsLength])
+
   return (
-    <div className="preset-selector">
-			<h2>Presets</h2>
-			<DraggableList>
-				{presets.map((item, i) => (
-					<PresetItem
-						key={`${presetKey}_${i}`}
-						focused={item.focused}
-						label={item.label}
-						index={i}
-						selectPreset={dispatchSelectPreset} />
-				))}
-			</DraggableList>
-			<h2>Batch Presets</h2>
-			<DraggableList>
-				{batchPresets.map((item, i) => (
-					<PresetItem
-						key={`${batchPresetKey}_${i}`}
-						focused={item.focused}
-						label={item.label}
-						index={i + presetsLength}
-						selectPreset={dispatchSelectPreset} />
-				))}
-			</DraggableList>
+    <div className="preset-selector panel">
+			{presetsLength ? <>
+				<h2>Presets</h2>
+				<DraggableList
+					sortingAction={movePreset}
+					hasSharedContext>
+					{presets.map(({ id, focused, label, type, hasReferences }, i) => (
+						<SelectPresetItem
+							key={id}
+							id={id}
+							focused={focused}
+							label={label}
+							warnRemovePreset={getWarningType(hasReferences)}
+							createOptionsMenu={removePreset => createOptionsMenu(i, presetsLength, id, type, removePreset)}
+							onKeyDown={(removePreset, e) => onKeyDown(i, type, removePreset, e)}
+							dispatch={dispatch} />
+					))}
+				</DraggableList>
+			</> : <></>}
+			{batchPresetsLength ? <>
+				<h2>Batch Presets</h2>
+				<DraggableList
+					sortingAction={moveBatchPreset}
+					hasSharedContext>
+					{batchPresets.map(({ id, focused, label, type, hasReferences }, i) => (
+						<SelectPresetItem
+							key={id}
+							id={id}
+							focused={focused}
+							label={label}
+							warnRemovePreset={getWarningType(hasReferences)}
+							createOptionsMenu={removePreset => createOptionsMenu(i, batchPresetsLength, id, type, removePreset)}
+							onKeyDown={(removePreset, e) => onKeyDown(i, type, removePreset, e)}
+							dispatch={dispatch} />
+					))}
+				</DraggableList>
+			</> : <></>}
     </div>
   )
 }
