@@ -93,19 +93,17 @@ const loadPresetsForEditing = (state, payload) => ({
 	}))
 })
 
-const addNewPreset = (state, { element, offset = 0 }) => (
-	shared.addSortableElement({
-		...state,
-		presets: state.presets.map(item => ({
-			...item,
-			focused: false
-		}))
-	}, {
-		element: replaceIds(element),
-		nest: 'presets',
-    pos: offset
-	})
-)
+const addNewPreset = (state, { element, offset = 0 }) => shared.addSortableElement({
+	...state,
+	presets: state.presets.map(item => ({
+		...item,
+		focused: false
+	}))
+}, {
+	element: replaceIds(element),
+	nest: 'presets',
+	pos: offset
+})
 
 const removePreset = (state, { id }) => {
 	const len = state.presets.length
@@ -154,37 +152,37 @@ const selectPresetByIndex = (state, { index }) => {
 		index = 0
 	}
 
-	return ({
+	return {
 		...state,
 		presets: state.presets.map((item, i) => ({
 			...item,
 			focused: i === index
 		}))
-	})
+	}
 }
 
 const updatePresetStateBySelection = (state, { properties }) => ({
 	...state,
-	presets: state.presets.map(item => item.focused ? ({
+	presets: state.presets.map(item => item.focused ? {
 		...item,
 		...properties
-	}) : item)
+	} : item)
 })
 
 const updatePresetStateById = (state, { id, properties }) => ({
 	...state,
-	presets: state.presets.map(item => item.id === id ? ({
+	presets: state.presets.map(item => item.id === id ? {
 		...item,
 		...properties
-	}) : item)
+	} : item)
 })
 
 const togglePresetState = (state, { property }) => ({
 	...state,
-	presets: state.presets.map(item => item.focused ? ({
+	presets: state.presets.map(item => item.focused ? {
 		...item,
 		[property]: !item[property]
-	}) : item)
+	} : item)
 })
 
 const togglePresetLimitTo = (state, { mediaType }) => ({
@@ -198,11 +196,11 @@ const togglePresetLimitTo = (state, { mediaType }) => ({
 })
 
 const editAttribute = (state, attribute, callback) => ({
-  ...state,
-	presets: state.presets.map(item => item.focused ? ({
+	...state,
+	presets: state.presets.map(item => item.focused ? {
 		...item,
 		attributes: item.attributes.map(attr => attr.attribute === attribute ? callback(attr) : attr)
-	}) : item)
+	} : item)
 })
 
 const togglePresetAttribute = (state, { attribute, key = 'value' }) => editAttribute(state, attribute, attr => ({
@@ -212,13 +210,13 @@ const togglePresetAttribute = (state, { attribute, key = 'value' }) => editAttri
 
 const toggleAllPresetAttributes = (state, { checked }) => ({
 	...state,
-	presets: state.presets.map(item => item.focused ? ({
+	presets: state.presets.map(item => item.focused ? {
 		...item,
 		attributes: item.attributes.map(attr => ({
 			...attr,
 			include: checked
 		}))
-	}) : item)
+	} : item)
 })
 
 const updatePresetAttribute = (state, { attribute, value }) => editAttribute(state, attribute, attr => ({
@@ -251,21 +249,21 @@ const movePresetInBatch = (state, payload) => ({
 	presets: state.presets.map(item => item.focused ? {
 		...shared.moveSortableElement(item, {
 			...payload,
-			nest: 'presetIds',
+			nest: 'presetIds'
 		})
 	} : item)
 })
 
 const flattenBatchPreset = (state, { parentId, childId }) => ({
 	...state,
-	presets: state.presets.map(item => item.id === parentId ? ({
+	presets: state.presets.map(item => item.id === parentId ? {
 		...item,
 		presetIds: item.presetIds.toSpliced(
 			item.presetIds.indexOf(childId),
 			1,
 			...state.presets.find(({ id }) => id === childId).presetIds
 		)
-	}) : item)
+	} : item)
 })
 
 const savePresets = async (presets, callback) => {

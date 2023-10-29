@@ -17,20 +17,20 @@ export const MEDIA_LABEL = Object.freeze(['Audio', 'Motion Graphics', 'Images', 
 // ---- SCHEMAS --------
 
 const DEFAULT_COLOR_CURVES = Object.freeze([
-  {
-    id: '',
-    hidden: false,
-    limit: true,
-    x: 0,
-    y: 256
-  },
-  {
-    id: '',
-    hidden: false,
-    limit: true,
-    x: 256,
-    y: 0
-  }
+	{
+		id: '',
+		hidden: false,
+		limit: true,
+		x: 0,
+		y: 256
+	},
+	{
+		id: '',
+		hidden: false,
+		limit: true,
+		x: 256,
+		y: 0
+	}
 ])
 
 export const MEDIA_ATTRIBUTES = Object.freeze([
@@ -41,15 +41,15 @@ export const MEDIA_ATTRIBUTES = Object.freeze([
 		inputType: [
 			{
 				label: 'Video+Audio',
-				value: 'video_audio',
+				value: 'video_audio'
 			},
 			{
 				label: 'Video Only',
-				value: 'video',
+				value: 'video'
 			},
 			{
 				label: 'Audio Only',
-				value: 'audio',
+				value: 'audio'
 			}
 		]
 	},
@@ -57,122 +57,122 @@ export const MEDIA_ATTRIBUTES = Object.freeze([
 		attribute: 'audioExportFormat',
 		label: 'Audio Format',
 		value: 'wav',
-    inputType: [
-      {
-        label: '.wav',
-        value: 'wav'
-      },
-      {
-        label: '.mp3',
-        value: 'mp3'
-      },
-      {
-        label: '.mp4 + color bars',
-        value: 'bars'
-      }
-    ]
+		inputType: [
+			{
+				label: '.wav',
+				value: 'wav'
+			},
+			{
+				label: '.mp3',
+				value: 'mp3'
+			},
+			{
+				label: '.mp4 + color bars',
+				value: 'bars'
+			}
+		]
 	},
 	{
 		attribute: 'arc',
 		label: 'AR Correction',
 		value: 'none',
 		inputType: [
-      {
-        label: 'None',
-        value: 'none'
-      },
-      {
-        label: 'Fill Frame',
-        value: 'fill'
-      },
-      {
-        label: 'Fit in Frame',
-        value: 'fit'
-      },
-      {
-        label: 'Transform',
-        value: 'transform'
-      }
+			{
+				label: 'None',
+				value: 'none'
+			},
+			{
+				label: 'Fill Frame',
+				value: 'fill'
+			},
+			{
+				label: 'Fit in Frame',
+				value: 'fit'
+			},
+			{
+				label: 'Transform',
+				value: 'transform'
+			}
 		]
 	},
 	{
 		attribute: 'background',
 		label: 'Background',
 		value: 'blue',
-    inputType: [
-      {
-        label: 'Blue',
-        value: 'blue'
-      },
-      {
-        label: 'Grey',
-        value: 'grey'
-      },
-      {
-        label: '11pm Blue 1',
-        value: 'light_blue'
-      },
-      {
-        label: '11pm Blue 2',
-        value: 'dark_blue'
-      },
-      {
-        label: '11pm Teal',
-        value: 'teal'
-      },
-      {
-        label: '11pm Tan',
-        value: 'tan'
-      },
-      {
-        label: 'Transparent',
-        value: 'alpha'
-      },
-      {
-        label: 'Color',
-        value: 'color'
-      }
-    ]
+		inputType: [
+			{
+				label: 'Blue',
+				value: 'blue'
+			},
+			{
+				label: 'Grey',
+				value: 'grey'
+			},
+			{
+				label: '11pm Blue 1',
+				value: 'light_blue'
+			},
+			{
+				label: '11pm Blue 2',
+				value: 'dark_blue'
+			},
+			{
+				label: '11pm Teal',
+				value: 'teal'
+			},
+			{
+				label: '11pm Tan',
+				value: 'tan'
+			},
+			{
+				label: 'Transparent',
+				value: 'alpha'
+			},
+			{
+				label: 'Color',
+				value: 'color'
+			}
+		]
 	},
 	{
 		attribute: 'bgColor',
 		label: 'Background Color',
 		value: '#000000',
-    inputType: 'color'
+		inputType: 'color'
 	},
 	{
 		attribute: 'backgroundMotion',
 		label: 'Background Motion',
 		value: 'animated',
-    inputType: [
-      {
-        label: 'Animated',
-        value: 'animated'
-      },
-      {
-        label: 'Still',
-        value: 'still'
-      }
-    ]
+		inputType: [
+			{
+				label: 'Animated',
+				value: 'animated'
+			},
+			{
+				label: 'Still',
+				value: 'still'
+			}
+		]
 	},
 	{
 		attribute: 'overlay',
 		label: 'Overlay',
 		value: 'none',
-    inputType: [
-      {
-        label: 'None',
-        value: 'none'
-      },
-      {
-        label: 'TV',
-        value: 'tv'
-      },
-      {
-        label: 'Laptop',
-        value: 'laptop'
-      }
-    ]
+		inputType: [
+			{
+				label: 'None',
+				value: 'none'
+			},
+			{
+				label: 'TV',
+				value: 'tv'
+			},
+			{
+				label: 'Laptop',
+				value: 'laptop'
+			}
+		]
 	},
 	{
 		attribute: 'sourceName',
@@ -307,62 +307,62 @@ export const MEDIA_ATTRIBUTES = Object.freeze([
 		attribute: 'reflect',
 		label: 'Reflect',
 		value: '',
-    inputType: [
-      {
-        label: 'None',
-        value: ''
-      },
-      {
-        label: 'Horizontally',
-        value: 'hflip'
-      },
-      {
-        label: 'Vertically',
-        value: 'vflip'
-      },
-      {
-        label: 'Both',
-        value: 'hflip,vflip'
-      }
-    ]
+		inputType: [
+			{
+				label: 'None',
+				value: ''
+			},
+			{
+				label: 'Horizontally',
+				value: 'hflip'
+			},
+			{
+				label: 'Vertically',
+				value: 'vflip'
+			},
+			{
+				label: 'Both',
+				value: 'hflip,vflip'
+			}
+		]
 	},
 	{
 		attribute: 'transpose',
 		label: 'Rotate',
 		value: '',
-    inputType: [
-      {
-        label: '0°',
-        value: ''
-      },
-      {
-        label: '90°cw',
-        value: 'transpose=1'
-      },
-      {
-        label: '90°ccw',
-        value: 'transpose=2'
-      },
-      {
-        label: '180°',
-        value: 'transpose=2,transpose=2'
-      }
-    ]
+		inputType: [
+			{
+				label: '0°',
+				value: ''
+			},
+			{
+				label: '90°cw',
+				value: 'transpose=1'
+			},
+			{
+				label: '90°ccw',
+				value: 'transpose=2'
+			},
+			{
+				label: '180°',
+				value: 'transpose=2,transpose=2'
+			}
+		]
 	},
 	{
 		attribute: 'freeRotateMode',
 		label: 'Free Rotate Mode',
 		value: 'inside_bounds',
-    inputType: [
-      {
-        label: 'Inside Bounds',
-        value: 'inside_bounds'
-      },
-      {
-        label: 'With Bounds',
-        value: 'with_bounds'
-      }
-    ]
+		inputType: [
+			{
+				label: 'Inside Bounds',
+				value: 'inside_bounds'
+			},
+			{
+				label: 'With Bounds',
+				value: 'with_bounds'
+			}
+		]
 	},
 	{
 		attribute: 'angle',
@@ -394,20 +394,20 @@ export const MEDIA_ATTRIBUTES = Object.freeze([
 		attribute: 'keyingType',
 		label: 'Key Type',
 		value: 'colorkey',
-    inputType: [
-      {
-        label: 'Color Key',
-        value: 'colorkey'
-      },
-      {
-        label: 'Chroma Key',
-        value: 'chromakey'
-      },
-      {
-        label: 'Luma Key',
-        value: 'lumakey'
-      }
-    ]
+		inputType: [
+			{
+				label: 'Color Key',
+				value: 'colorkey'
+			},
+			{
+				label: 'Chroma Key',
+				value: 'chromakey'
+			},
+			{
+				label: 'Luma Key',
+				value: 'lumakey'
+			}
+		]
 	},
 	{
 		attribute: 'keyingColor',
@@ -502,59 +502,59 @@ export const MEDIA_ATTRIBUTES = Object.freeze([
 })))
 
 export const DEFAULT_MEDIA_STATE = Object.freeze({
-  id: '',
-  refId: '',
-  focused: false,
-  anchored: false,
-  selected: false,
-  acquisitionType: '',
-  mediaType: 'video',
-  hasAlpha: false,
-  hasAudio: true,
-  url: '',
-  isLive: false,
-  sourceFilePath: '',
-  tempFilePath: '',
-  thumbnail: '',
-  timecode: 0,
-  exportFilename: '',
-  status: STATUS.PENDING,
-  downloadETA: 0,
-  downloadPercent: 0,
-  renderStatus: STATUS.PENDING,
-  renderPercent: 0,
-  title: '',
-  duration: 0,
-  totalFrames: 0,
-  width: 0,
-  height: 0,
-  aspectRatio: '',
-  originalWidth: 0,
-  originalHeight: 0,
-  originalAspectRatio: '',
-  fps: 1,
-  channelLayout: '',
-  sampleRate: '',
-  bitRate: '',
-  filename: '',
-  start: 0,
-  end: 0,
-  keyingHidden: false,
-  ccHidden: false,
-  ccSelectedCurve: 'ccRGB',
-  presetNamePrepend: '',
+	id: '',
+	refId: '',
+	focused: false,
+	anchored: false,
+	selected: false,
+	acquisitionType: '',
+	mediaType: 'video',
+	hasAlpha: false,
+	hasAudio: true,
+	url: '',
+	isLive: false,
+	sourceFilePath: '',
+	tempFilePath: '',
+	thumbnail: '',
+	timecode: 0,
+	exportFilename: '',
+	status: STATUS.PENDING,
+	downloadETA: 0,
+	downloadPercent: 0,
+	renderStatus: STATUS.PENDING,
+	renderPercent: 0,
+	title: '',
+	duration: 0,
+	totalFrames: 0,
+	width: 0,
+	height: 0,
+	aspectRatio: '',
+	originalWidth: 0,
+	originalHeight: 0,
+	originalAspectRatio: '',
+	fps: 1,
+	channelLayout: '',
+	sampleRate: '',
+	bitRate: '',
+	filename: '',
+	start: 0,
+	end: 0,
+	keyingHidden: false,
+	ccHidden: false,
+	ccSelectedCurve: 'ccRGB',
+	presetNamePrepend: '',
 	presetNameAppend: '',
-  ...MEDIA_ATTRIBUTES.reduce((acc, { attribute, value }) => {
-    acc[attribute] = value
-    return acc
-  }, {})
+	...MEDIA_ATTRIBUTES.reduce((acc, { attribute, value }) => {
+		acc[attribute] = value
+		return acc
+	}, {})
 })
 
 const COMMON_PRESET_STATE = Object.freeze({
 	id: '',
 	label: '',
 	hidden: false,
-	limitTo: [...MEDIA_TYPES],
+	limitTo: [...MEDIA_TYPES]
 })
 
 export const DEFAULT_PRESET_STATE = Object.freeze({

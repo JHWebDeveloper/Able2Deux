@@ -53,7 +53,7 @@ const PresetSaveAs = () => {
 		limitTo = []
 	} = newPreset
 
-	const saveEnabled = ((saveType === 'newPreset' && label.length) || (saveType !== 'newPreset' && selectedPreset)) && attributes.some(({ include }) => include) && limitTo.length
+	const saveEnabled = (saveType === 'newPreset' && label.length || saveType !== 'newPreset' && selectedPreset) && attributes.some(({ include }) => include) && limitTo.length
 
 	const updatePresetStateFromEvent = useCallback(e => {
 		dispatch(updatePresetStateBySelection({

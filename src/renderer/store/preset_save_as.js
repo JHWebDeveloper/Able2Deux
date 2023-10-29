@@ -1,4 +1,5 @@
 import React, { createContext, useEffect } from 'react'
+import { arrayOf, element, oneOfType } from 'prop-types'
 import toastr from 'toastr'
 
 import { presetsReducer as reducer } from 'reducer'
@@ -37,4 +38,8 @@ export const PresetSaveAsProvider = ({ children }) => {
 			{ children }
 		</PresetSaveAsContext.Provider>
 	)
+}
+
+PresetSaveAsProvider.propTypes = {
+	children: oneOfType([element, arrayOf(element)]).isRequired
 }

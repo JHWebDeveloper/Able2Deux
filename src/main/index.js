@@ -348,7 +348,7 @@ const mainMenuTemplate = [
 				label: 'Presets',
 				click() {
 					const width = 770
-					const height =  794
+					const height = 794
 
 					presets = openWindow({
 						parent: mainWin,

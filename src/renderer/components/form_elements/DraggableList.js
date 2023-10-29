@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useId } from 'react'
-import { arrayOf, element, func } from 'prop-types'
+import { arrayOf, bool, element, func, string } from 'prop-types'
 
 import { DraggingContext, DraggingProvider } from 'store'
 
@@ -78,15 +78,26 @@ const DraggableList = ({
 	)
 }
 
-DraggableList.propTypes = {
-	sortingAction: func.isRequired,
-	children: arrayOf(element).isRequired
-}
-
-export default props => props.hasSharedContext ? (
+// eslint-disable-next-line no-extra-parens
+const DraggableListContext = props => props.hasSharedContext ? (
 	<DraggableList {...props} />
 ) : (	
 	<DraggingProvider>
 		<DraggableList {...props} />
 	</DraggingProvider>
 )
+
+DraggableList.propTypes = {
+	hasSharedContext: bool,
+	allowCrossTableDrops: bool,
+	startMessage: string,
+	sortingAction: func.isRequired,
+	addAction: func,
+	children: arrayOf(element).isRequired
+}
+
+DraggableListContext.propTypes = {
+	hasSharedContext: bool
+}
+
+export default DraggableListContext

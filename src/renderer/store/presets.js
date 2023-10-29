@@ -1,6 +1,6 @@
 import React, { createContext, useEffect } from 'react'
 import toastr from 'toastr'
-import { arrayOf, bool, element, oneOfType } from 'prop-types'
+import { arrayOf, bool, element, func, oneOfType } from 'prop-types'
 
 import { presetsReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
@@ -50,7 +50,9 @@ export const PresetsProvider = ({ loadAction = updateState, referencesOnly, pres
 }
 
 PresetsProvider.propTypes = {
+	loadAction: func,
 	referencesOnly: bool,
 	presorted: bool,
+	enableSync: bool,
 	children: oneOfType([element, arrayOf(element)]).isRequired
 }

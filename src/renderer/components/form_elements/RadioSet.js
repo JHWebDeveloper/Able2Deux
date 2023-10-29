@@ -50,6 +50,7 @@ const RadioSet = ({
 RadioSet.propTypes = {
 	label: string.isRequired,
 	hideLabel: bool,
+	className: string,
 	horizontal: bool,
 	disabled: bool,
 	name: string.isRequired,

@@ -21,24 +21,24 @@ const ScratchDisk = ({ scratchDisk, dispatch }) => {
 		<FieldsetWrapper
 			label="Scratch Disks"
 			className="scratch-disks">
-		<label>
-			<span>Import Cache</span>
-			<DirectorySelector
-				directory={scratchDisk.imports}
-				onChange={updateImports} />
-		</label>
-		<label>
-			<span>Export Cache</span>
-			<DirectorySelector
-				directory={scratchDisk.exports}
-				onChange={updateExports} />
-		</label>
-		<label>
-			<span>Preview Cache</span>
-			<DirectorySelector
-				directory={scratchDisk.previews}
-				onChange={updatePreview} />
-		</label>
+			<label>
+				<span>Import Cache</span>
+				<DirectorySelector
+					directory={scratchDisk.imports}
+					onChange={updateImports} />
+			</label>
+			<label>
+				<span>Export Cache</span>
+				<DirectorySelector
+					directory={scratchDisk.exports}
+					onChange={updateExports} />
+			</label>
+			<label>
+				<span>Preview Cache</span>
+				<DirectorySelector
+					directory={scratchDisk.previews}
+					onChange={updatePreview} />
+			</label>
 		</FieldsetWrapper>
 	)
 }

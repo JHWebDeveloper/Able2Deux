@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { func, object } from 'prop-types'
 
 import { togglePresetLimitTo, togglePresetState } from 'actions'
 
@@ -8,54 +9,61 @@ import BatchPresetEditorTabs from './BatchPresetEditorTabs'
 import PresetEditorTabs from './PresetEditorTabs'
 
 const PresetEditor = ({ focused, updatePresetState, dispatch }) => {
-  const togglePresetStateFromEvent = useCallback(e => {
-    dispatch(togglePresetState(e.target.name))
-  }, [])
+	const togglePresetStateFromEvent = useCallback(e => {
+		dispatch(togglePresetState(e.target.name))
+	}, [])
 
-  const toggleLimitToFromEvent = useCallback(e => {
-    dispatch(togglePresetLimitTo(e.target.name))
-  }, [])
+	const toggleLimitToFromEvent = useCallback(e => {
+		dispatch(togglePresetLimitTo(e.target.name))
+	}, [])
 
-  const { id, hidden, attributes, label, presetIds, ...presetOptions } = focused
+	const { id, hidden, attributes, label, presetIds, ...presetOptions } = focused
 
-  const commonProps = {
-    toggleLimitTo: toggleLimitToFromEvent,
-    updatePresetState,
-    presetOptions,
-    attributes,
-    dispatch
-  }
+	const commonProps = {
+		toggleLimitTo: toggleLimitToFromEvent,
+		updatePresetState,
+		presetOptions,
+		attributes,
+		dispatch
+	}
 
-  return (
-    <div className="preset-editor">
-      <section className="preset-basic-options panel">
-        <FieldsetWrapper label="Preset Name">
-          <input
-            type="text"
-            name="label"
-            className="panel-input"
-            value={label ?? ''}
-            onChange={updatePresetState} />
-        </FieldsetWrapper>
-        <Checkbox
-          name="hidden"
-          label="Show in Dropdown Menu"
-          checked={!hidden}
-          onChange={togglePresetStateFromEvent}
-          switchIcon />
-      </section>
-      {focused.type === 'batchPreset' ? (
-        <BatchPresetEditorTabs
-          id={id}
-          label={label}
-          presetIds={presetIds}
-          togglePresetState={togglePresetStateFromEvent}
-          {...commonProps} />
-      ) : (
-        <PresetEditorTabs {...commonProps} />
-      )}
-    </div>
-  )
+	return (
+		<div className="preset-editor">
+			<section className="preset-basic-options panel">
+				<FieldsetWrapper label="Preset Name">
+					<input
+						type="text"
+						name="label"
+						className="panel-input"
+						value={label ?? ''}
+						onChange={updatePresetState} />
+				</FieldsetWrapper>
+				<Checkbox
+					name="hidden"
+					label="Show in Dropdown Menu"
+					checked={!hidden}
+					onChange={togglePresetStateFromEvent}
+					switchIcon />
+			</section>
+			{focused.type === 'batchPreset' ? (
+				<BatchPresetEditorTabs
+					id={id}
+					label={label}
+					presetIds={presetIds}
+					togglePresetState={togglePresetStateFromEvent}
+					{...commonProps} />
+			// eslint-disable-next-line no-extra-parens
+			) : (
+				<PresetEditorTabs {...commonProps} />
+			)}
+		</div>
+	)
+}
+
+PresetEditor.propTypes = {
+	focused: object,
+	updatePresetState: func.isRequired,
+	dispatch: func.isRequired
 }
 
 export default PresetEditor

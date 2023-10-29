@@ -7,15 +7,15 @@ import { arrayOf, element, oneOfType } from 'prop-types'
  */
 
 const MainForm = ({ children }) => (
-  <main>
-    <form onSubmit={e => e.preventDefault()}>
-      {children}
-    </form>
-  </main>
+	<main>
+		<form onSubmit={e => e.preventDefault()}>
+			{children}
+		</form>
+	</main>
 )
 
 MainForm.propTypes = {
-  children: oneOfType([element, arrayOf(element)]).isRequired
+	children: oneOfType([element, arrayOf(element)]).isRequired
 }
 
 export default MainForm

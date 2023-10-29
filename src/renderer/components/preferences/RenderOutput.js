@@ -63,7 +63,7 @@ const CASE_OPTIONS = Object.freeze([
 const BATCH_NAME_SEPARATOR_OPTIONS = Object.freeze([
 	{
 		label: 'Nothing',
-		value: '',
+		value: ''
 	},
 	{
 		label: 'Spaces',

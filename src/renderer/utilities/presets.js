@@ -75,10 +75,8 @@ export const createPresetFromAttributeSet = attributeSet => {
 		presetNamePrepend,
 		presetNameAppend,
 		attributes,
-		// destructuring to omit
-		focused,
-		hasReferences,
-		// end destructuring to omit
+		focused, // eslint-disable-line no-unused-vars ---- destructuring to omit
+		hasReferences, // eslint-disable-line no-unused-vars ---- ^
 		...options
 	} = attributeSet
 

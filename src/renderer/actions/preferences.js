@@ -112,16 +112,16 @@ export const restoreDefaultPrefs = () => async dispatch => {
 }
 
 export const closePrefs = saveWarning => async dispatch => {
-  const lastSave = await interop.requestPrefs()
+	const lastSave = await interop.requestPrefs()
 
-  dispatch({
-    type: ACTION.CLOSE_PREFS,
-    payload: {
-      callback(currentState) {
-        saveWarning({
-          skip: objectsAreEqual(lastSave, currentState)
-        })
-      }
-    }
-  })
+	dispatch({
+		type: ACTION.CLOSE_PREFS,
+		payload: {
+			callback(currentState) {
+				saveWarning({
+					skip: objectsAreEqual(lastSave, currentState)
+				})
+			}
+		}
+	})
 }

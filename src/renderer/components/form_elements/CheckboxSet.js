@@ -12,6 +12,7 @@ const SelectAllCheckbox = ({
 	toggleSelectAll,
 	switchIcon
 }) => {
+	// eslint-disable-next-line no-extra-parens
 	const allSelected = useMemo(() => (
 		checkboxes.every(({ checked }) => checked)
 	), [checkboxes])
@@ -63,6 +64,7 @@ const CheckboxSet = ({
 				{checkboxes.map(({ hidden, label, component, checked, name, onChange }, i) => {
 					const key = `${setKey}_${i + offsetKey}`
 
+					// eslint-disable-next-line no-extra-parens
 					return hidden ? (
 						<React.Fragment key={key}/>
 					) : (
@@ -81,21 +83,22 @@ const CheckboxSet = ({
 	)
 }
 
-const commonPropTypes = {
+const COMMON_PROP_TYPES = Object.freeze({
 	checkboxes: arrayOf(shape({
 		label: string,
 		name: string,
 		checked: bool,
 		onChange: func
 	})),
+	switchIcon: bool,
 	selectAllLabel: string,
 	toggleSelectAll: func
-}
+})
 
-SelectAllCheckbox.propTypes = commonPropTypes
+SelectAllCheckbox.propTypes = { ...COMMON_PROP_TYPES }
 
 CheckboxSet.propTypes = {
-	...commonPropTypes,
+	...COMMON_PROP_TYPES,
 	label: string.isRequired,
 	onChange: func,
 	toggleSelectAll: func,

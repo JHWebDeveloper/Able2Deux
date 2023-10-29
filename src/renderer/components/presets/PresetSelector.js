@@ -1,9 +1,9 @@
 import React, { useCallback, useContext } from 'react'
+import { arrayOf, bool, func, number, shape, string } from 'prop-types'
 
 import { PrefsContext } from 'store'
 
 import {
-	removePreset,
 	duplicatePreset,
 	moveSortableElement,
 	selectPresetById,
@@ -176,7 +176,7 @@ const PresetSelector = ({
 			},
 			{
 				type: 'spacer',
-				hide: !batchPresets.length,
+				hide: !batchPresets.length
 			},
 			{
 				type: 'button',
@@ -209,8 +209,8 @@ const PresetSelector = ({
 		}
 	}, [presetsLength])
 
-  return (
-    <div className="preset-selector panel">
+	return (
+		<div className="preset-selector panel">
 			{presetsLength ? <>
 				<h2>Presets</h2>
 				<DraggableList
@@ -247,8 +247,30 @@ const PresetSelector = ({
 					))}
 				</DraggableList>
 			</> : <></>}
-    </div>
-  )
+		</div>
+	)
+}
+
+const COMMON_PROP_TYPES = Object.freeze({
+	id: string.isRequired,
+	focused: bool.isRequired,
+	label: string
+})
+
+SelectPresetItem.propTypes = {
+	...COMMON_PROP_TYPES,
+	warnRemovePreset: func.isRequired,
+	createOptionsMenu: func.isRequired,
+	onKeyDown: func.isRequired,
+	dispatch: func.isRequired
+}
+
+PresetSelector.propTypes = {
+	presets: arrayOf(shape(COMMON_PROP_TYPES)),
+	batchPresets: arrayOf(shape(COMMON_PROP_TYPES)),
+	presetsLength: number.isRequired,
+	batchPresetsLength: number.isRequired,
+	dispatch: func.isRequired
 }
 
 export default PresetSelector

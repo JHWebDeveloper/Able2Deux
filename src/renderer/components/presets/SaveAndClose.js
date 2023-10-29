@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { func } from 'prop-types'
 
 import { cleanupPresetsAndSave, closePresets } from 'actions'
 import { useSaveWarning } from 'hooks'
@@ -8,11 +9,11 @@ import ButtonWithIcon from '../form_elements/ButtonWithIcon'
 const { interop } = window.ABLE2
 
 const SaveAndClose = ({ dispatch }) => {
-  const savePresets = useCallback(closeOnSave => {
+	const savePresets = useCallback(closeOnSave => {
 		dispatch(cleanupPresetsAndSave(closeOnSave))
 	}, [])
 
-  const closeWithoutSaveWarning = useSaveWarning({
+	const closeWithoutSaveWarning = useSaveWarning({
 		detail: 'If you close presets without saving, any changes you\'ve made will revert to their previously saved state. Proceed?',
 		onConfirm() {
 			interop.closePresets()
@@ -22,26 +23,30 @@ const SaveAndClose = ({ dispatch }) => {
 		}
 	})
 
-  const checkUnsavedAndClosePresets = useCallback(() => {
-    dispatch(closePresets(closeWithoutSaveWarning))
-  }, [])
+	const checkUnsavedAndClosePresets = useCallback(() => {
+		dispatch(closePresets(closeWithoutSaveWarning))
+	}, [])
 
-  return (
-    <>
-      <ButtonWithIcon
-        label="Save & Close"
-        icon="save"
-        onClick={() => savePresets(true)} />
-      <ButtonWithIcon
-        label="Save"
-        icon="save"
-        onClick={() => savePresets()} />
-      <ButtonWithIcon
-        label="Close"
-        icon="close"
-        onClick={checkUnsavedAndClosePresets} />
-    </>
-  )
+	return (
+		<>
+			<ButtonWithIcon
+				label="Save & Close"
+				icon="save"
+				onClick={() => savePresets(true)} />
+			<ButtonWithIcon
+				label="Save"
+				icon="save"
+				onClick={() => savePresets()} />
+			<ButtonWithIcon
+				label="Close"
+				icon="close"
+				onClick={checkUnsavedAndClosePresets} />
+		</>
+	)
+}
+
+SaveAndClose.propTypes = {
+	dispatch: func.isRequired
 }
 
 export default SaveAndClose
