@@ -79,7 +79,7 @@ const DraggableList = ({
 }
 
 // eslint-disable-next-line no-extra-parens
-const DraggableListContext = props => props.hasSharedContext ? (
+const DraggableListWithContext = props => props.hasSharedContext ? (
 	<DraggableList {...props} />
 ) : (	
 	<DraggingProvider>
@@ -96,8 +96,8 @@ DraggableList.propTypes = {
 	children: arrayOf(element).isRequired
 }
 
-DraggableListContext.propTypes = {
+DraggableListWithContext.propTypes = {
 	hasSharedContext: bool
 }
 
-export default DraggableListContext
+export default DraggableListWithContext
