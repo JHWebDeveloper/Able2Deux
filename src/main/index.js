@@ -17,13 +17,6 @@ import { fileExistsPromise, supportedExtensions } from './modules/utilities'
 const mac = process.platform === 'darwin'
 const dev = process.env.NODE_ENV === 'development'
 const devtools = dev || process.env.DEVTOOLS
-let splashWin = false
-let updateWin = false
-let mainWin = false
-let preferences = false
-let presets = false
-let presetSaveAs = false
-let help = false
 
 process.noDeprecation = !dev
 
@@ -74,6 +67,11 @@ const checkForUpdate = () => {
 	})
 }
 
+// ---- SPLASH AND UPDATE WINDOWS ------------
+
+let splashWin = false
+let updateWin = false
+
 const splashWindowOpts = {
 	width: 400,
 	height: 400,
@@ -123,6 +121,10 @@ const createUpdateWindow = version => {
 	updateWin.loadURL(createURL('update'))
 }
 
+// ---- MAIN WINDOW ------------
+
+let mainWin = false
+
 const createMainWindow = async () => {
 	const { windowWidth, windowHeight } = await loadPrefs()
 
@@ -158,6 +160,148 @@ const createMainWindow = async () => {
 
 	mainWin.on('close', () => mainWin = false)
 }
+
+// ---- PREFERENCES WINDOW ------------
+
+let preferences = false
+
+const createPrefsWindow = () => {
+	enablePrefsMenu(false)
+
+	preferences = openWindow({
+		parent: mainWin,
+		width: mac ? 746 : 762,
+		height: 648,
+		resizable: dev,
+		modal: true
+	})
+
+	preferences.loadURL(createURL('preferences'))
+
+	preferences.once('ready-to-show', async () => {
+		try {
+			await loadTheme()
+		} catch (err) {
+			console.error(err)
+		}
+
+		preferences.show()
+	})
+
+	preferences.on('close', () => {
+		enablePrefsMenu(true)
+		preferences = false
+	})
+
+	preferences.setMenu(null)
+}
+
+// ---- PRESETS WINDOW ------------
+
+let presets = false
+
+const createPresetsWindow = () => {
+	const width = 770
+	const height = 794
+
+	presets = openWindow({
+		parent: mainWin,
+		width,
+		height,
+		minWidth: width,
+		minHeight: height,
+		resizable: dev,
+		modal: true
+	})
+
+	presets.loadURL(createURL('presets'))
+
+	presets.once('ready-to-show', async () => {
+		try {
+			await loadTheme()
+		} catch (err) {
+			console.error(err)
+		}
+
+		presets.show()
+	})
+
+	presets.on('close', () => {
+		presets = false
+	})
+
+	presets.setMenu(null)
+}
+
+// ---- SAVE AS PRESET WINDOW ------------
+
+let presetSaveAs = false
+
+const createPresetSaveAsWindow = () => {
+	ipcMain.once('closePresetSaveAs', () => {
+		presetSaveAs.close()
+	})
+
+	presetSaveAs = openWindow({
+		parent: mainWin,
+		width: 400,
+		height: 648,
+		resizable: dev,
+		modal: true
+	})
+
+	presetSaveAs.loadURL(createURL('preset_save_as'))
+
+	presetSaveAs.once('ready-to-show', async () => {
+		try {
+			await loadTheme()
+		} catch (err) {
+			console.error(err)
+		}
+
+		presetSaveAs.show()
+	})
+
+	presetSaveAs.on('close', () => {
+		ipcMain.removeHandler('getPresetToSave')
+		ipcMain.removeAllListeners('closePresetSaveAs')
+		presetSaveAs = false
+	})
+
+	presetSaveAs.setMenu(null)
+}
+
+// ---- HELP WINDOW ------------
+
+let help = false
+
+const createHelpWindow = () => {
+	const { x, y, width, height } = mainWin.getNormalBounds()
+
+	help = openWindow({
+		parent: mainWin,
+		x: x + 20,
+		y: y + 20,
+		width,
+		height,
+		minWidth: mac ? 746 : 762,
+		minHeight: 620
+	})
+
+	help.loadURL(createURL('help'))
+
+	help.once('ready-to-show', () => {
+		help.show()
+	})
+
+	help.on('close', () => {
+		help = false
+	})
+
+	help.setMenu(null)
+}
+
+// ---- START ABLE2 ------------
 
 const startApp = async () => {
 	createSplashWindow()
@@ -271,36 +415,7 @@ const prefsMenuItem = [
 		label: 'Preferences',
 		id: 'Preferences',
 		accelerator: 'CmdOrCtrl+,',
-		click() {
-			enablePrefsMenu(false)
-
-			preferences = openWindow({
-				parent: mainWin,
-				width: mac ? 746 : 762,
-				height: 648,
-				resizable: dev,
-				modal: true
-			})
-
-			preferences.loadURL(createURL('preferences'))
-
-			preferences.once('ready-to-show', async () => {
-				try {
-					await loadTheme()
-				} catch (err) {
-					console.error(err)
-				}
-
-				preferences.show()
-			})
-
-			preferences.on('close', () => {
-				enablePrefsMenu(true)
-				preferences = false
-			})
-
-			preferences.setMenu(null)
-		}
+		click: createPrefsWindow
 	}
 ]
 
@@ -346,38 +461,7 @@ const mainMenuTemplate = [
 			...mac ? [] : prefsMenuItem,
 			{
 				label: 'Presets',
-				click() {
-					const width = 770
-					const height = 794
-
-					presets = openWindow({
-						parent: mainWin,
-						width,
-						height,
-						minWidth: width,
-						minHeight: height,
-						resizable: dev,
-						modal: true
-					})
-
-					presets.loadURL(createURL('presets'))
-
-					presets.once('ready-to-show', async () => {
-						try {
-							await loadTheme()
-						} catch (err) {
-							console.error(err)
-						}
-		
-						presets.show()
-					})
-		
-					presets.on('close', () => {
-						presets = false
-					})
-		
-					presets.setMenu(null)
-				}
+				click: createPresetsWindow
 			}
 		]
 	},
@@ -386,31 +470,7 @@ const mainMenuTemplate = [
 		submenu: [
 			{
 				label: 'Able2 Help',
-				click() {
-					const { x, y, width, height } = mainWin.getNormalBounds()
-
-					help = openWindow({
-						parent: mainWin,
-						x: x + 20,
-						y: y + 20,
-						width,
-						height,
-						minWidth: mac ? 746 : 762,
-						minHeight: 620
-					})
-
-					help.loadURL(createURL('help'))
-
-					help.once('ready-to-show', () => {
-						help.show()
-					})
-
-					help.on('close', () => {
-						help = false
-					})
-
-					help.setMenu(null)
-				}
+				click: createHelpWindow
 			}
 		]
 	}
@@ -623,38 +683,7 @@ ipcMain.on('getPresetAttributes', async (evt, data) => {
 
 ipcMain.on('openPresetSaveAs', async (evt, data) => {
 	ipcMain.handleOnce('getPresetToSave', () => data.preset)
-
-	ipcMain.once('closePresetSaveAs', () => {
-		presetSaveAs.close()
-	})
-
-	presetSaveAs = openWindow({
-		parent: mainWin,
-		width: 400,
-		height: 648,
-		resizable: dev,
-		modal: true
-	})
-
-	presetSaveAs.loadURL(createURL('preset_save_as'))
-
-	presetSaveAs.once('ready-to-show', async () => {
-		try {
-			await loadTheme()
-		} catch (err) {
-			console.error(err)
-		}
-
-		presetSaveAs.show()
-	})
-
-	presetSaveAs.on('close', () => {
-		ipcMain.removeHandler('getPresetToSave')
-		ipcMain.removeAllListeners('closePresetSaveAs')
-		presetSaveAs = false
-	})
-
-	presetSaveAs.setMenu(null)
+	createPresetSaveAsWindow()
 })
 
 ipcMain.on('savePreset', async (evt, data) => {
