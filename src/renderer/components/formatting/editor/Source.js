@@ -21,9 +21,6 @@ import AccordionPanel from '../../form_elements/AccordionPanel'
 import FieldsetWrapper from '../../form_elements/FieldsetWrapper'
 import Checkbox from '../../form_elements/Checkbox'
 
-const MESSAGE = 'A source on top is not for aesthetics!'
-const DETAIL = 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.'
-
 const extractSourceProps = createObjectPicker(['sourceName', 'sourcePrefix', 'sourceOnTop'])
 
 const Source = memo(props => {
@@ -39,8 +36,8 @@ const Source = memo(props => {
 
 	const warn = useWarning({
 		name: 'sourceOnTop',
-		message: MESSAGE,
-		detail: DETAIL,
+		message: 'A source on top is not for aesthetics!',
+		detail: 'This option shoud only be selected if the source would obscure important details or appear illegible at the bottom of the video. If you are using this option for any other reason please choose cancel.',
 		skip: sourceOnTop
 	}, [id, sourceOnTop])
 

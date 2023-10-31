@@ -23,9 +23,6 @@ import {
 import DraggableList from '../form_elements/DraggableList'
 import MediaOptionsDropdown from '../form_elements/MediaOptionsDropdown'
 
-const REMOVE_PRESET_DETAIL = 'This cannot be undone. Proceed?'
-const REMOVE_REFERENCED_PRESET_DETAIL = `This preset is referenced in one or more batch presets. Deleting this preset will also delete these references. ${REMOVE_PRESET_DETAIL}`
-
 const { interop } = window.ABLE2
 
 const SelectPresetItem = ({
@@ -110,12 +107,12 @@ const PresetSelector = ({
 
 	const warnRemovePreset = useWarning({
 		name: 'removePreset',
-		detail: REMOVE_PRESET_DETAIL
+		detail: 'This cannot be undone. Proceed?'
 	}, [])
 
 	const warnRemoveReferencedPreset = useWarning({
 		name: 'removeReferencedPreset',
-		detail: REMOVE_REFERENCED_PRESET_DETAIL
+		detail: 'This preset is referenced in one or more batch presets. Deleting this preset will also delete these references. This cannot be undone. Proceed?'
 	}, [])
 
 	const getWarningType = hasReferences => hasReferences && warnings.removeReferencedPreset

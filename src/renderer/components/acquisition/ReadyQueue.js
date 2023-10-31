@@ -16,11 +16,6 @@ import { group } from 'utilities'
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
 import MediaElement from './MediaElement'
 
-// ---- store warning strings
-const REMOVE_MEDIA_DETAIL = 'This cannot be undone. Proceed?'
-const REMOVE_ALL_MEDIA_DETAIL = `Any current downloads will be canceled. ${REMOVE_MEDIA_DETAIL}`
-const REMOVE_REFERENCED_MEDIA_DETAIL = `This media file has duplicates referencing it. Deleting this file will also delete these references. ${REMOVE_MEDIA_DETAIL}`
-
 const getUniqueFileRefs = media => group(media, 'refId').reduce((acc, arr) => {
 	const obj = arr.find(({ refId, id }) => refId === id)?.[0] || arr.at(-1)
 
@@ -47,12 +42,12 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 
 	const warnRemoveMedia = useWarning({
 		name: 'remove',
-		detail: REMOVE_MEDIA_DETAIL
+		detail: 'This cannot be undone. Proceed?'
 	}, [])
 
 	const warnRemoveReferencedMedia = useWarning({
 		name: 'removeReferenced',
-		detail: REMOVE_REFERENCED_MEDIA_DETAIL
+		detail: 'This media file has duplicates referencing it. Deleting this file will also delete these references. This cannot be undone. Proceed?'
 	}, [])
 
 	const removeMediaWarning = useCallback(({ title, id, refId, status, references }) => {
@@ -76,8 +71,8 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 
 	const removeAllMediaWarning = useWarning({
 		name: 'removeAll',
-		message: 'Remove all entries?',
-		detail: REMOVE_ALL_MEDIA_DETAIL,
+		message: 'Remove all media items?',
+		detail: 'Any current downloads will be canceled. This cannot be undone. Proceed?',
 		onConfirm() {
 			dispatch(removeAllMediaAndStopDownloads(media))
 		}

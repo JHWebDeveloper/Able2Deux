@@ -23,9 +23,6 @@ import ButtonWithIcon from '../../form_elements/ButtonWithIcon'
 
 const { interop } = window.ABLE2
 
-const START_OVER_MESSAGE = 'Start Over?'
-const START_OVER_DETAIL = 'All entries will be cleared and media deleted. This cannot be undone. Proceed?'
-
 const RenderQueue = props => {
 	const { media, batchNameType, batchName, batchNamePrepend, batchNameAppend, saveLocations, closeRenderQueue, dispatch } = props
 	const { preferences, dispatch: dispatchPrefs } = useContext(PrefsContext)
@@ -72,8 +69,8 @@ const RenderQueue = props => {
 
 	const backToMain = useWarning({
 		name: 'startOver',
-		message: START_OVER_MESSAGE,
-		detail: START_OVER_DETAIL,
+		message: 'Start Over?',
+		detail: 'All media items will be cleared. This cannot be undone. Proceed?',
 		onConfirm() {
 			closeRenderQueue()
 			dispatch(startOver())

@@ -56,7 +56,7 @@ const BatchList = ({
 
 	const warnApplyToMultiple = useWarning({
 		name: 'applyToAll',
-		detail: 'This will overwrite the settings except for filenames and start and end timecodes. This cannot be undone. Proceed?'
+		detail: 'This will overwrite all attributes except for filenames and start and end timecodes. This cannot be undone. Proceed?'
 	}, [])
 
 	const applyToMultipleWarning = useCallback(({ message, action }) => warnApplyToMultiple({
@@ -67,12 +67,12 @@ const BatchList = ({
 	}), [])
 
 	const applyToAllWarning = useCallback(id => applyToMultipleWarning({
-		message: 'Apply current settings to all media items?',
+		message: 'Apply current attributes to all media items?',
 		action: applyToAll(id, extractRelevantMediaProps)
 	}), [])
 
 	const applyToSelectionWarning = useCallback(id => applyToMultipleWarning({
-		message: 'Apply current settings to the selected media items?',
+		message: 'Apply current attributes to the selected media items?',
 		action: applyToSelection(id, extractRelevantMediaProps)
 	}), [])
 
