@@ -137,14 +137,14 @@
 
 #preview-controls > div:last-child { justify-content: flex-end; }
 
-#preview .popup-menu-content {
+#preview .popup-content {
 	background-color: var(--preview-background);
 	color: var(--preview-text);
 }
 
 button.ar-marker { padding-inline: 3px; }
 
-.popup-menu-content button.ar-marker {
+.popup-content button.ar-marker {
 	display: inherit;
 	align-items: inherit;
 	padding: revert;

@@ -161,7 +161,7 @@ const Popup = ({
 		<span
 			ref={menuButton}
 			tabIndex={0}
-			className={submenu ? 'submenu' : 'popup-menu'}
+			className={submenu ? 'submenu' : 'popup'}
 			role="button"
 			aria-label={label}
 			aria-haspopup
@@ -171,7 +171,7 @@ const Popup = ({
 			data-no-drag={showMenu}
 			{...rootMenuOrSubmenuProps}>
 			<span className={classNameBuilder({
-				'popup-menu-button-label': true,
+				'popup-button-label': true,
 				symbol: icon
 			})}>
 				{icon || label}
@@ -179,7 +179,7 @@ const Popup = ({
 			</span>
 			{showMenu ? (
 				<span
-					className="popup-menu-content"
+					className="popup-content"
 					role="menu"
 					aria-label="Options"
 					id={menuId}
