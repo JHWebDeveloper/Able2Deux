@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import { bool, func, number, oneOfType, string } from 'prop-types'
 
 import { download, updateState, updateStateFromEvent } from 'actions'
-import { RADIO_SET } from 'constants'
+import { OPTION_SET } from 'constants'
 
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
 import RadioSet from '../form_elements/RadioSet'
@@ -51,7 +51,7 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				name="optimize"
 				state={optimize}
 				onChange={dispatchWithEvent}
-				options={RADIO_SET.optimize} />
+				options={OPTION_SET.optimize} />
 		</div>
 	)
 }

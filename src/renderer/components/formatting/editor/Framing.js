@@ -11,7 +11,7 @@ import {
 	updateMediaStateBySelection
 } from 'actions'
 
-import { RADIO_SET } from 'constants'
+import { OPTION_SET } from 'constants'
 
 import {
 	classNameBuilder,
@@ -27,7 +27,7 @@ import ColorInput from '../../form_elements/ColorInput'
 import EyedropperIcon from '../../svg/EyedropperIcon'
 
 const createBackgroundButtons = enable11pmBackgrounds => {
-	const backgroundButtons = RADIO_SET.background.slice(0, 7)
+	const backgroundButtons = OPTION_SET.background.slice(0, 7)
 
 	if (!enable11pmBackgrounds) backgroundButtons.splice(2, 4)
 
@@ -89,7 +89,7 @@ const Framing = memo(props => {
 				name="arc"
 				state={arc}
 				onChange={updateSelectionFromEvent}
-				options={RADIO_SET.arc} />
+				options={OPTION_SET.arc} />
 			<RadioSet
 				label="Background"
 				name="background"
@@ -114,14 +114,14 @@ const Framing = memo(props => {
 				disabled={arc === 'none' || background === 'alpha' || background === 'color'}
 				state={props.backgroundMotion}
 				onChange={updateSelectionFromEvent}
-				options={RADIO_SET.backgroundMotion} />
+				options={OPTION_SET.backgroundMotion} />
 			<RadioSet
 				label="Box Overlay"
 				name="overlay"
 				disabled={arc === 'none'}
 				state={overlay}
 				onChange={updateSelectionFromEvent}
-				options={RADIO_SET.overlay}/>
+				options={OPTION_SET.overlay}/>
 		</>
 	)
 }, objectsAreEqual)

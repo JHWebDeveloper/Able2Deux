@@ -10,7 +10,7 @@ import {
 	saveAsPreset
 } from 'actions'
 
-import { RADIO_SET } from 'constants'
+import { OPTION_SET } from 'constants'
 
 import {
 	createObjectPicker,
@@ -25,7 +25,7 @@ import RadioSet from '../../form_elements/RadioSet'
 import FreeRotate from './FreeRotate'
 
 const createReflectButtons = isSideways => {
-	const reflectButtons = [...RADIO_SET.reflect]
+	const reflectButtons = [...OPTION_SET.reflect]
 
 	reflectButtons[1].value = isSideways ? 'vflip' : 'hflip'
 	reflectButtons[2].value = isSideways ? 'hflip' : 'vflip'
@@ -60,14 +60,14 @@ const Rotation = memo(props => {
 				name="transpose"
 				state={transpose}
 				onChange={updateRotateMedia}
-				options={RADIO_SET.transpose}/>
+				options={OPTION_SET.transpose}/>
 			{props.showFreeRotate ? <>
 				<RadioSet
 					label="Free Rotate Mode"
 					name="freeRotateMode"
 					state={freeRotateMode}
 					onChange={updateSelectionFromEvent}
-					options={RADIO_SET.freeRotateMode} />
+					options={OPTION_SET.freeRotateMode} />
 				<FreeRotate
 					angle={props.angle}
 					center={props.rotatedCentering}

@@ -8,7 +8,7 @@ import {
 	updateState
 } from 'actions'
 
-import { RADIO_SET } from 'constants'
+import { OPTION_SET } from 'constants'
 
 import RadioSet from '../form_elements/RadioSet'
 import NumberInput from '../form_elements/NumberInput'
@@ -16,7 +16,7 @@ import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 
 const BACKGROUND_MOTION_BUTTONS = Object.freeze([
-	...RADIO_SET.backgroundMotion,
+	...OPTION_SET.backgroundMotion,
 	{
 		label: 'Auto',
 		value: 'auto'
@@ -46,7 +46,7 @@ const FormattingSettings = () => {
 				name="arc"
 				state={editorSettings.arc}
 				onChange={updateEditorSettingsDispatch}
-				options={RADIO_SET.arc} />
+				options={OPTION_SET.arc} />
 			<RadioSet
 				label="Default Background Motion"
 				name="backgroundMotion"

@@ -8,7 +8,7 @@ import {
 	saveAsPreset
 } from 'actions'
 
-import { RADIO_SET } from 'constants'
+import { OPTION_SET } from 'constants'
 
 import {
 	createObjectPicker,
@@ -30,7 +30,7 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, updateSele
 				name="audioVideoTracks"
 				state={audioVideoTracks}
 				onChange={updateSelectionFromEvent}
-				options={RADIO_SET.audioVideoTracks} />
+				options={OPTION_SET.audioVideoTracks} />
 		) : <></>}
 		<RadioSet
 			label="Format"
@@ -38,7 +38,7 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, updateSele
 			disabled={audioVideoTracks !== 'audio' && mediaType !== 'audio'}
 			state={audioExportFormat}
 			onChange={updateSelectionFromEvent}
-			options={RADIO_SET.audioExportFormat} />
+			options={OPTION_SET.audioExportFormat} />
 	</>
 ), objectsAreEqual)
 

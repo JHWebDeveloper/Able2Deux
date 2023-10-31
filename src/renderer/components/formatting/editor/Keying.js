@@ -9,7 +9,7 @@ import {
 	updateMediaStateBySelection
 } from 'actions'
 
-import { RADIO_SET } from 'constants'
+import { OPTION_SET } from 'constants'
 
 import {
 	classNameBuilder,
@@ -155,7 +155,7 @@ const Keying = memo(props => {
 				disabled={!keyingEnabled}
 				state={keyingType}
 				onChange={updateSelectionFromEvent}
-				options={RADIO_SET.keyingType}/>
+				options={OPTION_SET.keyingType}/>
 			{keyingType === 'lumakey' ? <></> : (
 				<div className={keyingEnabled ? '' : 'disabled'}>
 					<label id="key-color">Color<span aria-hidden>:</span></label>

@@ -8,7 +8,7 @@ import {
 	updateStateFromEvent
 } from 'actions'
 
-import { RADIO_SET } from 'constants'
+import { OPTION_SET } from 'constants'
 
 import RadioSet from '../form_elements/RadioSet'
 import Checkbox from '../form_elements/Checkbox'
@@ -46,7 +46,7 @@ const AcquisitionSettings = () => {
 				name="optimize"
 				state={preferences.optimize}
 				onChange={e => dispatch(updateStateFromEvent(e))}
-				options={RADIO_SET.optimize} />
+				options={OPTION_SET.optimize} />
 			<RadioSet
 				label="Default Screen Capture Mode"
 				name="screenshot"
