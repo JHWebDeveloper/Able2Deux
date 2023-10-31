@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import { TAU } from 'constants'
+import { HALF_PI, TAU } from 'constants'
 import { drawAble2Logo } from 'utilities'
 
 const { interop } = window.ABLE2
-
-const ARC_START = Math.PI / 2
 
 const Update = () => {
 	const [ version, setVersion ] = useState(false)
@@ -42,7 +40,7 @@ const Update = () => {
 		ctx.current.lineWidth = 6
 		ctx.current.lineCap = 'round'
 		ctx.current.beginPath()
-		ctx.current.arc(212, 212, 200, -ARC_START, percent / 100 * TAU - ARC_START, false)
+		ctx.current.arc(212, 212, 200, -HALF_PI, percent / 100 * TAU - HALF_PI, false)
 		ctx.current.stroke()
 	}, [percent])
 
