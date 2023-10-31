@@ -453,7 +453,7 @@ svg.toggle-switch-disabled > .exclude-disabled { fill: var(--primary); }
 
 .sortable-list-item.focused { background-color: var(--primary); }
 
-.sortable-list-item > .dropdown { order: 1; }
+.sortable-list-item > .popup-menu { order: 1; }
 
 .sortable-list-item > button:nth-last-of-type(2) { text-align: left; }
 
@@ -494,27 +494,27 @@ button[name="remove-selectable-item"] { order: 3; }
 
 /* ---- POPUP MENU -------- */
 
-.dropdown {
+.popup-menu {
 	display: block;
 	height: inherit;
 	font-size: 12px;
 }
 
-.dropdown :is(span, button) { display: grid; }
+.popup-menu :is(span, button) { display: grid; }
 
-.dropdown-button-label {
+.popup-menu-button-label {
 	pointer-events: none;
 }
 
-:not(.submenu) > .dropdown-button-label {
+:not(.submenu) > .popup-menu-button-label {
 	height: 100%;
 	justify-content: center;
 	align-items: center;
 }
 
-.dropdown-button-label > span { font-family: 'Material Icons'; }
+.popup-menu-button-label > span { font-family: 'Material Icons'; }
 
-.dropdown-content {
+.popup-menu-content {
 	align-items: center;
 	overflow-y: auto;
 	position: fixed;
@@ -529,17 +529,17 @@ button[name="remove-selectable-item"] { order: 3; }
 	font-weight: 500;
 }
 
-.dropdown-content:focus-within { z-index: 999; }
+.popup-menu-content:focus-within { z-index: 999; }
 
-.submenu .dropdown-content { margin: -5px 0; }
+.submenu .popup-menu-content { margin: -5px 0; }
 
-.dropdown-content > :is(button, span[role~="button"]):hover {
+.popup-menu-content > :is(button, span[role~="button"]):hover {
 	background-color: var(--secondary);
 	color: var(--background);
 }
 
-.dropdown-content > button,
-.dropdown-content .dropdown-button-label {
+.popup-menu-content > button,
+.popup-menu-content .popup-menu-button-label {
 	grid-template-columns: auto min-content;
 	gap: 0 9px;
 	padding: 3px 9px;
@@ -547,9 +547,9 @@ button[name="remove-selectable-item"] { order: 3; }
 	width: 100%;
 }
 
-.dropdown-content > button { text-align: left; }
+.popup-menu-content > button { text-align: left; }
 
-.dropdown-content :is(kbd, .dropdown-button-label > span) {
+.popup-menu-content :is(kbd, .popup-menu-button-label > span) {
 	text-align: right;
 }
 
