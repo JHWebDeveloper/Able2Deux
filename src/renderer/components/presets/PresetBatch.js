@@ -58,7 +58,7 @@ const PresetBatchItem = ({
 				className="overlow-ellipsis"
 				onClick={() => selectPreset(index)}
 				onDoubleClick={() => selectSourcePreset(id)}>{label}</button>
-			<PopupMenu buttons={() => createOptionsMenu(removePreset)} />
+			<PopupMenu options={() => createOptionsMenu(removePreset)} />
 			<button
 				type="button"
 				name="remove-selectable-item"

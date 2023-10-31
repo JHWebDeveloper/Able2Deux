@@ -111,7 +111,7 @@ const MediaSelectorOptions = ({
 
 	return (
 		<div>
-			<PopupMenu buttons={createDropdown} />
+			<PopupMenu options={createDropdown} />
 			{allItemsSelected ? (
 				<ButtonWithIcon
 					label="Deselect All"

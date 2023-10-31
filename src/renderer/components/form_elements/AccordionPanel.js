@@ -32,7 +32,7 @@ const AccordionPanel = ({ heading, id, className = '', buttons = [], children })
 				{buttons.length && open ? (
 					<PopupMenu
 						alignment="bottom right"
-						buttons={buttons} />
+						options={buttons} />
 				) : <></>}
 			</h2>
 			{open ? (

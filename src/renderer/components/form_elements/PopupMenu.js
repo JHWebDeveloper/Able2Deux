@@ -3,10 +3,10 @@ import { arrayOf, bool, func, object, oneOfType, shape, string } from 'prop-type
 
 import Popup from './Popup'
 
-const PopupMenuOptions = ({ buttons, navigateWithKeys, parentMenu }) => {
+const PopupMenuOptions = ({ options, navigateWithKeys, parentMenu }) => {
 	const menuId = useId()
 
-	return (buttons instanceof Function ? buttons() : buttons).map((props, i) => {
+	return (options instanceof Function ? options() : options).map((props, i) => {
 		const { hide, type, label, action, shortcut, submenu } = props
 		const key = `${menuId}_${i}`
 
@@ -42,7 +42,7 @@ const PopupMenuOptions = ({ buttons, navigateWithKeys, parentMenu }) => {
 				return (
 					<PopupMenu
 						key={key}
-						buttons={submenu}
+						options={submenu}
 						alignment="right top"
 						label={label}
 						parentMenu={parentMenu}
@@ -59,7 +59,7 @@ const PopupMenu = ({
 	alignment = 'bottom left',
 	icon = 'more_vert',
 	label,
-	buttons,
+	options,
 	submenu,
 	parentMenu,
 	autoFocus
@@ -72,7 +72,7 @@ const PopupMenu = ({
 		parentMenu={parentMenu}
 		autoFocus={autoFocus}
 		{...submenu ? {} : { icon }}>
-		<PopupMenuOptions buttons={buttons} />
+		<PopupMenuOptions options={options} />
 	</Popup>
 )
 
@@ -83,7 +83,7 @@ const parentMenuPropType = oneOfType([
 	})
 ])
 
-const buttonPropType = shape({
+const optionPropType = shape({
 	action: func,
 	hide: bool,
 	label: string,
@@ -91,16 +91,16 @@ const buttonPropType = shape({
 	type: string
 })
 
-buttonPropType.submenu = oneOfType([func, arrayOf(buttonPropType)])
+optionPropType.submenu = oneOfType([func, arrayOf(optionPropType)])
 
 PopupMenuOptions.propTypes = {
-	buttons: oneOfType([func, arrayOf(buttonPropType)]).isRequired,
+	options: oneOfType([func, arrayOf(optionPropType)]).isRequired,
 	navigateWithKeys: func,
 	parentMenu: parentMenuPropType
 }
 
 PopupMenu.propTypes = {
-	buttons: oneOfType([func, arrayOf(buttonPropType)]).isRequired,
+	options: oneOfType([func, arrayOf(optionPropType)]).isRequired,
 	alignment: string,
 	label: string,
 	icon: string,

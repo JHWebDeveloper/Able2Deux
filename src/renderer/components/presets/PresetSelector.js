@@ -58,7 +58,7 @@ const SelectPresetItem = ({
 				title={selectBtnTitle}
 				aria-label={selectBtnTitle}
 				onClick={() => dispatch(selectPresetById(id))}>{label}</button>
-			<PopupMenu buttons={() => createOptionsMenu(removePreset)} />
+			<PopupMenu options={() => createOptionsMenu(removePreset)} />
 			<button
 				type="button"
 				name="remove-selectable-item"

@@ -61,7 +61,7 @@ const BatchItem = ({
 				aria-label={selectBtnTitle}
 				onClick={selectMediaOnClick}
 				onKeyDown={selectMediaOnKeyDown}>{title}</button>	
-			<PopupMenu buttons={() => createDropdown(removeMediaWarning)} />
+			<PopupMenu options={() => createDropdown(removeMediaWarning)} />
 			<button
 				type="button"
 				name="remove-selectable-item"
