@@ -360,6 +360,9 @@ app.on('open-file', (evt, file) => {
 	}
 })
 
+
+// ---- MENU CONFIG ------------
+
 const openFiles = async () => {
 	const { filePaths, canceled } = await dialog.showOpenDialog({
 		filters: [
@@ -377,9 +380,6 @@ const openFiles = async () => {
 		path: filePath
 	}))
 }
-
-
-// ---- MENU CONFIG ------------
 
 const appleSubmenu = (prefs = []) => [
 	{
