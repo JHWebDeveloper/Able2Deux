@@ -19,7 +19,7 @@ const AttributeSelector = ({ attributes = [], dispatch }) => {
 			label="Select attributes to include"
 			onChange={dispatchToggleIncludePresetAttribute}
 			toggleSelectAll={dispatchToggleAllPresetAttributes}
-			checkboxes={attributes.map(({ label, include, attribute }) => ({
+			options={attributes.map(({ label, include, attribute }) => ({
 				label,
 				name: attribute,
 				checked: include

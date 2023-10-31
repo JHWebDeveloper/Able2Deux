@@ -8,14 +8,14 @@ import Checkbox from './Checkbox'
 
 const SelectAllCheckbox = ({
 	selectAllLabel = 'Select All',
-	checkboxes,
+	options,
 	toggleSelectAll,
 	switchIcon
 }) => {
 	// eslint-disable-next-line no-extra-parens
 	const allSelected = useMemo(() => (
-		checkboxes.every(({ checked }) => checked)
-	), [checkboxes])
+		options.every(({ checked }) => checked)
+	), [options])
 
 	return (
 		<Checkbox
@@ -33,7 +33,7 @@ const CheckboxSet = ({
 	hideLabel,
 	horizontal,
 	disabled,
-	checkboxes,
+	options,
 	onChange: onChangeFallback,
 	toggleSelectAll,
 	selectAllThreshold = 1,
@@ -53,15 +53,15 @@ const CheckboxSet = ({
 			hideLabel={hideLabel}
 			disabled={disabled}>
 			<>
-				{toggleSelectAll && checkboxes.length > selectAllThreshold ? (
+				{toggleSelectAll && options.length > selectAllThreshold ? (
 					<SelectAllCheckbox
 						key={`${setKey}_0`}
 						selectAllLabel={selectAllLabel}
-						checkboxes={checkboxes}
+						options={options}
 						toggleSelectAll={toggleSelectAll}
 						switchIcon={switchIcon} />
 				) : <></>}
-				{checkboxes.map(({ hidden, label, component, checked, name, onChange }, i) => {
+				{options.map(({ hidden, label, component, checked, name, onChange }, i) => {
 					const key = `${setKey}_${i + offsetKey}`
 
 					// eslint-disable-next-line no-extra-parens
@@ -84,7 +84,7 @@ const CheckboxSet = ({
 }
 
 const COMMON_PROP_TYPES = Object.freeze({
-	checkboxes: arrayOf(shape({
+	options: arrayOf(shape({
 		label: string,
 		name: string,
 		checked: bool,

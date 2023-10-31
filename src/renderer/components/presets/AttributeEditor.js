@@ -90,7 +90,7 @@ const AttributeEditor = ({ attributes = [], dispatch }) => {
 				switchIcon
 				onChange={dispatchToggleIncludePresetAttribute}
 				toggleSelectAll={dispatchToggleAllPresetAttributes}
-				checkboxes={attributes.map(item => ({
+				options={attributes.map(item => ({
 					label: item.label,
 					name: item.attribute,
 					checked: item.include,

@@ -12,7 +12,7 @@ const SaveOptions = ({ multipleItems, saveLocations, dispatch }) => (
 		style={{ gridRow: multipleItems ? 3 : '2 / span 2' }}>
 		<CheckboxSet
 			label="Save Locations"
-			checkboxes={saveLocations.map(({ id, label, hidden, checked }) => ({
+			options={saveLocations.map(({ id, label, hidden, checked }) => ({
 				label,
 				hidden,
 				checked,

@@ -38,7 +38,7 @@ const PresetOptions = ({
 		<CheckboxSet
 			label="Only Apply Preset To"
 			onChange={toggleLimitTo}
-			checkboxes={MEDIA_TYPES.map((mediaType, i) => ({
+			options={MEDIA_TYPES.map((mediaType, i) => ({
 				label: MEDIA_LABEL[i],
 				name: mediaType,
 				checked: limitTo.includes(mediaType)

@@ -23,7 +23,7 @@ const THEME_BUTTONS = Object.freeze([
 	}
 ])
 
-const createWarningCheckboxes = warnings => [
+const createWarningOptions = warnings => [
 	{
 		label: 'Remove Media',
 		name: 'remove',
@@ -79,7 +79,7 @@ const GeneralSettings = () => {
 		dispatch(toggleWarning(e))
 	}, [])
 
-	const warningCheckboxes = useMemo(() => createWarningCheckboxes(warnings), [warnings])
+	const warningOptions = useMemo(() => createWarningOptions(warnings), [warnings])
 
 	return (
 		<>
@@ -95,7 +95,7 @@ const GeneralSettings = () => {
 			<CheckboxSet
 				label="Warnings"
 				onChange={dispatchToggleWarning}
-				checkboxes={warningCheckboxes} />
+				options={warningOptions} />
 		</>
 	)
 }

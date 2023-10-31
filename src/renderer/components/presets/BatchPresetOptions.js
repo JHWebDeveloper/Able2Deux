@@ -102,7 +102,7 @@ const BatchPresetOptions = ({
 				label="Only Apply Presets To"
 				onChange={toggleLimitTo}
 				disabled={!limitToOverwrite}
-				checkboxes={MEDIA_TYPES.map((mediaType, i) => ({
+				options={MEDIA_TYPES.map((mediaType, i) => ({
 					label: MEDIA_LABEL[i],
 					name: mediaType,
 					checked: limitTo.includes(mediaType)
