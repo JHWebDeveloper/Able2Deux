@@ -6,7 +6,7 @@ import { classNameBuilder } from 'utilities'
 
 import PopupMenu from './PopupMenu'
 
-const AccordionPanel = ({ heading, id, className = '', buttons = [], children }) => {
+const AccordionPanel = ({ heading, id, className = '', options = [], children }) => {
 	const [ open, togglePanelOpen ] = usePanelToggle(id)
 	const headingId = `${id}-heading`
 	const title = `${open ? 'Close' : 'Open'} ${heading}`
@@ -29,10 +29,10 @@ const AccordionPanel = ({ heading, id, className = '', buttons = [], children })
 					<span aria-hidden>keyboard_arrow_{open ? 'down' : 'right'}</span>
 					{heading}
 				</button>
-				{buttons.length && open ? (
+				{options.length && open ? (
 					<PopupMenu
 						alignment="bottom right"
-						options={buttons} />
+						options={options} />
 				) : <></>}
 			</h2>
 			{open ? (
@@ -53,7 +53,7 @@ AccordionPanel.propTypes = {
 	id: string.isRequired,
 	className: string,
 	initOpen: bool,
-	buttons: arrayOf(shape({
+	options: arrayOf(shape({
 		role: string,
 		label: string,
 		hide: bool,
