@@ -4,7 +4,7 @@ import { arrayOf, bool, exact, func, number, oneOf, string } from 'prop-types'
 import { toggleAspectRatioMarker, updateState } from 'actions'
 
 import QualityIcon from '../../svg/QualityIcon.js'
-import PopupMenu from '../../form_elements/PopupMenu'
+import Popup from '../../form_elements/Popup'
 
 const toggleTitle = state => state ? 'Hide' : 'Show'
 
@@ -77,7 +77,7 @@ const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, tog
 						buttons={enabledAspectRatioMarkers.slice(0, 2)}
 						toggleColor={toggleColor}
 						dispatch={dispatch} />
-					<PopupMenu
+					<Popup
 						alignment="bottom right"
 						icon="arrow_drop_down"
 						label="More Aspect Ratios">
@@ -85,7 +85,7 @@ const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, tog
 							buttons={enabledAspectRatioMarkers.slice(2)}
 							toggleColor={toggleColor}
 							dispatch={dispatch} />
-					</PopupMenu>
+					</Popup>
 				</>
 			) : (
 				<AspectRatioMarkerButtons
