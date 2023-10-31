@@ -1,7 +1,4 @@
-import * as ACTION from 'actions/types'
-import * as shared from 'reducer/shared'
-
-import { STATUS, RATIO_9_16 } from 'constants'
+import { ACTION, RATIO_9_16, STATUS } from 'constants'
 
 import {
 	arrayCount,
@@ -14,6 +11,8 @@ import {
 	replaceIds,
 	sortCurvePoints
 } from 'utilities'
+
+import * as shared from 'reducer/shared'
 
 // ---- REDUCER --------
 

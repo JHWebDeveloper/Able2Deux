@@ -1,9 +1,8 @@
 import toastr from 'toastr'
 
-import * as shared from 'reducer/shared'
-import * as ACTION from 'actions/types'
-import { TOASTR_OPTIONS } from 'constants'
+import { ACTION, TOASTR_OPTIONS } from 'constants'
 import { errorToString } from 'utilities'
+import * as shared from 'reducer/shared'
 
 // ---- REDUCER --------
 

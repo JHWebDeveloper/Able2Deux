@@ -1,7 +1,6 @@
 import toastr from 'toastr'
 
-import * as ACTION from 'actions/types'
-import { TOASTR_OPTIONS } from 'constants'
+import { ACTION, TOASTR_OPTIONS } from 'constants'
 import { objectsAreEqual } from 'utilities'
 
 const { interop } = window.ABLE2

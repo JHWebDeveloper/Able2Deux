@@ -1,4 +1,4 @@
-import * as ACTION from 'actions/types'
+import { ACTION } from 'constants'
 
 export const panelsReducer = (state, action) => {
 	const { type, payload } = action

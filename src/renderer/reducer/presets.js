@@ -1,8 +1,7 @@
 import toastr from 'toastr'
 
+import { ACTION, TOASTR_OPTIONS } from 'constants'
 import * as shared from 'reducer/shared'
-import * as ACTION from 'actions/types'
-import { TOASTR_OPTIONS } from 'constants'
 
 import {
 	arrayCount,
