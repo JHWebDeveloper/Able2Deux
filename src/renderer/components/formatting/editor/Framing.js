@@ -144,7 +144,7 @@ const FramingPanel = props => {
 			heading="Framing"
 			id="framing"
 			className="editor-options"
-			buttons={settingsMenu}
+			options={settingsMenu}
 			initOpen>
 			<Framing {...props} />
 		</AccordionPanel>

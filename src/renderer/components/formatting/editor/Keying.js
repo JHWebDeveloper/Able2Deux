@@ -229,7 +229,7 @@ const KeyingPanel = props => {
 			heading="Key"
 			id="keying"
 			className="editor-options auto-rows"
-			buttons={settingsMenu}>
+			options={settingsMenu}>
 			<Keying {...props} />
 		</AccordionPanel>
 	)

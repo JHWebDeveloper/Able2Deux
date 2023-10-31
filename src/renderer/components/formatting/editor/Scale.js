@@ -186,7 +186,7 @@ const ScalePanel = props => {
 			heading="Scale"
 			id="scale"
 			className="editor-options auto-rows"
-			buttons={settingsMenu}>
+			options={settingsMenu}>
 			<Scale {...props} />
 		</AccordionPanel>
 	)

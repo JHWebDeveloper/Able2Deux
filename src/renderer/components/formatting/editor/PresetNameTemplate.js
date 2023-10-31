@@ -77,7 +77,7 @@ const PresetNameTemplatePanel = props => {
 			heading="Preset Name Template"
 			id="presetNameTemplate"
 			className="editor-options auto-rows"
-			buttons={settingsMenu}>
+			options={settingsMenu}>
 			<PresetNameTemplate {...props} />
 		</AccordionPanel>
 	)

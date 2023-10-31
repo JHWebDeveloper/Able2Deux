@@ -96,7 +96,7 @@ const RotationPanel = props => {
 			heading="Rotation"
 			id="rotation"
 			className="editor-options"
-			buttons={settingsMenu}>
+			options={settingsMenu}>
 			<Rotation {...props} />
 		</AccordionPanel>
 	)
