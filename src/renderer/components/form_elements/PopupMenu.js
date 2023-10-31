@@ -15,7 +15,7 @@ const getFocusableSibling = (el, prop) => {
 	return sibling?.tabIndex === -1 ? getFocusableSibling(sibling, prop) : sibling
 }
 
-const DropdownMenu = ({
+const PopupMenu = ({
 	submenu = false,
 	alignment = 'left bottom',
 	label = 'Options',
@@ -192,7 +192,7 @@ const DropdownMenu = ({
 	)
 }
 
-DropdownMenu.propTypes = {
+PopupMenu.propTypes = {
 	children: oneOfType([element, arrayOf(element)]),
 	icon: string,
 	label: string,
@@ -207,4 +207,4 @@ DropdownMenu.propTypes = {
 	submenu: bool
 }
 
-export default DropdownMenu
+export default PopupMenu

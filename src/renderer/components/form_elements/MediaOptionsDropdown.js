@@ -1,7 +1,7 @@
 import React, { Fragment, useId } from 'react'
 import { arrayOf, bool, func, object, oneOfType, shape, string } from 'prop-types'
 
-import DropdownMenu from './DropdownMenu'
+import PopupMenu from './PopupMenu'
 
 const MediaOptionButtons = ({ buttons, navigateWithKeys, parentMenu }) => {
 	const menuId = useId()
@@ -64,7 +64,7 @@ const MediaOptionsDropdown = ({
 	parentMenu,
 	autoFocus
 }) => (
-	<DropdownMenu
+	<PopupMenu
 		alignment={alignment}
 		label={label}
 		showTooltip
@@ -73,7 +73,7 @@ const MediaOptionsDropdown = ({
 		autoFocus={autoFocus}
 		{...submenu ? {} : { icon }}>
 		<MediaOptionButtons buttons={buttons} />
-	</DropdownMenu>
+	</PopupMenu>
 )
 
 const parentMenuPropType = oneOfType([
