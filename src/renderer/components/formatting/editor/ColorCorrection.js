@@ -232,7 +232,7 @@ const ColorCorrection = memo(props => {
 				horizontal
 				disabled={!ccEnabled}
 				state={ccSelectedCurve}
-				buttons={COLOR_CHANNEL_BUTTONS}
+				options={COLOR_CHANNEL_BUTTONS}
 				onChange={props.selectCurve} />
 			<Curves
 				ref={curvesRef}

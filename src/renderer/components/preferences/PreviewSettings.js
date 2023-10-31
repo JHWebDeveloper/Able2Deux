@@ -36,7 +36,7 @@ const PreviewSettings = () => {
 			<RadioSet
 				label="Default Quality"
 				name="previewQuality"
-				buttons={QUALITY_BUTTONS}
+				options={QUALITY_BUTTONS}
 				state={preferences.previewQuality.toString()}
 				onChange={setPreviewQuality} />
 			<label className="label-with-input">

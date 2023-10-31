@@ -46,13 +46,13 @@ const FormattingSettings = () => {
 				name="arc"
 				state={editorSettings.arc}
 				onChange={updateEditorSettingsDispatch}
-				buttons={RADIO_SET.arc} />
+				options={RADIO_SET.arc} />
 			<RadioSet
 				label="Default Background Motion"
 				name="backgroundMotion"
 				state={editorSettings.backgroundMotion}
 				onChange={updateEditorSettingsDispatch}
-				buttons={BACKGROUND_MOTION_BUTTONS} />
+				options={BACKGROUND_MOTION_BUTTONS} />
 			<Checkbox
 				label="Select All by Default"
 				name="selectAllByDefault"

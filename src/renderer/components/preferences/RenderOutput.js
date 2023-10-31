@@ -110,13 +110,13 @@ const RenderOutput = () => {
 				name="renderOutput"
 				state={preferences.renderOutput}
 				onChange={updateStateFromEvent}
-				buttons={OUTPUT_BUTTONS} />
+				options={OUTPUT_BUTTONS} />
 			<RadioSet
 				label="Output Frame Rate"
 				name="renderFrameRate"
 				state={preferences.renderFrameRate}
 				onChange={updateStateFromEvent}
-				buttons={[
+				options={[
 					...FRAME_RATE_BUTTONS,
 					{
 						label: 'custom',

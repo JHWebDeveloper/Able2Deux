@@ -30,7 +30,7 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 				name="batchNameType"
 				state={batchNameType}
 				onChange={updateBatchName}
-				buttons={BATCH_NAME_TYPE_BUTTONS} />
+				options={BATCH_NAME_TYPE_BUTTONS} />
 			{batchNameType === 'replace' ? (
 				<FieldsetWrapper label="Batch Name">
 					<input

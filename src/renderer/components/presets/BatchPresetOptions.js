@@ -52,7 +52,7 @@ const BatchPresetOptions = ({
 			name="attributeMergeType"
 			state={attributeMergeType}
 			onChange={updatePresetState}
-			buttons={ATTRIBUTE_MERGE_TYPE_BUTTONS} />
+			options={ATTRIBUTE_MERGE_TYPE_BUTTONS} />
 		<hr />
 		<FieldsetWrapper label="Prepend to Filename">
 			<input
@@ -71,7 +71,7 @@ const BatchPresetOptions = ({
 			horizontal
 			state={presetNamePrependMergeType}
 			onChange={updatePresetState}
-			buttons={PRESET_NAME_MERGE_TYPE_BUTTONS} />
+			options={PRESET_NAME_MERGE_TYPE_BUTTONS} />
 		<FieldsetWrapper label="Append to Filename">
 			<input
 				type="text"
@@ -89,7 +89,7 @@ const BatchPresetOptions = ({
 			horizontal
 			state={presetNameAppendMergeType}
 			onChange={updatePresetState}
-			buttons={PRESET_NAME_MERGE_TYPE_BUTTONS} />
+			options={PRESET_NAME_MERGE_TYPE_BUTTONS} />
 		<hr />
 		<div className="overwrite-limit-to">
 			<Checkbox

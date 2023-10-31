@@ -14,7 +14,7 @@ const RadioSet = ({
 	name,
 	state,
 	onChange,
-	buttons = []
+	options = []
 }) => {
 	const setKey = useId()
 
@@ -28,7 +28,7 @@ const RadioSet = ({
 			})}
 			hideLabel={hideLabel}
 			disabled={disabled}>
-			{buttons.map(({ label, value, component }, i) => (
+			{options.map(({ label, value, component }, i) => (
 				<label
 					key={`${setKey}_${i}`}
 					className="label-with-input">
@@ -56,7 +56,7 @@ RadioSet.propTypes = {
 	name: string.isRequired,
 	state: string.isRequired,
 	onChange: func.isRequired,
-	buttons: arrayOf(shape({
+	options: arrayOf(shape({
 		label: string.isRequired,
 		value: string.isRequired,
 		component: element

@@ -89,14 +89,14 @@ const Framing = memo(props => {
 				name="arc"
 				state={arc}
 				onChange={updateSelectionFromEvent}
-				buttons={RADIO_SET.arc} />
+				options={RADIO_SET.arc} />
 			<RadioSet
 				label="Background"
 				name="background"
 				disabled={arc === 'none'}
 				state={background}
 				onChange={updateSelectionFromEvent}
-				buttons={[
+				options={[
 					...backgroundButtons,
 					{
 						label: 'Color',
@@ -114,14 +114,14 @@ const Framing = memo(props => {
 				disabled={arc === 'none' || background === 'alpha' || background === 'color'}
 				state={props.backgroundMotion}
 				onChange={updateSelectionFromEvent}
-				buttons={RADIO_SET.backgroundMotion} />
+				options={RADIO_SET.backgroundMotion} />
 			<RadioSet
 				label="Box Overlay"
 				name="overlay"
 				disabled={arc === 'none'}
 				state={overlay}
 				onChange={updateSelectionFromEvent}
-				buttons={RADIO_SET.overlay}/>
+				options={RADIO_SET.overlay}/>
 		</>
 	)
 }, objectsAreEqual)

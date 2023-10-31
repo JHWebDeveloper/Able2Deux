@@ -51,7 +51,7 @@ const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
 				name="optimize"
 				state={optimize}
 				onChange={dispatchWithEvent}
-				buttons={RADIO_SET.optimize} />
+				options={RADIO_SET.optimize} />
 		</div>
 	)
 }

@@ -88,7 +88,7 @@ const GeneralSettings = () => {
 				name="theme"
 				state={preferences.theme}
 				onChange={e => dispatch(updateStateFromEvent(e))}
-				buttons={THEME_BUTTONS} />
+				options={THEME_BUTTONS} />
 			<ScratchDisk
 				scratchDisk={preferences.scratchDisk}
 				dispatch={dispatch} />

@@ -30,7 +30,7 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, updateSele
 				name="audioVideoTracks"
 				state={audioVideoTracks}
 				onChange={updateSelectionFromEvent}
-				buttons={RADIO_SET.audioVideoTracks} />
+				options={RADIO_SET.audioVideoTracks} />
 		) : <></>}
 		<RadioSet
 			label="Format"
@@ -38,7 +38,7 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, updateSele
 			disabled={audioVideoTracks !== 'audio' && mediaType !== 'audio'}
 			state={audioExportFormat}
 			onChange={updateSelectionFromEvent}
-			buttons={RADIO_SET.audioExportFormat} />
+			options={RADIO_SET.audioExportFormat} />
 	</>
 ), objectsAreEqual)
 

@@ -54,20 +54,20 @@ const Rotation = memo(props => {
 				name="reflect"
 				state={reflect}
 				onChange={updateReflectMedia}
-				buttons={reflectButtons} />
+				options={reflectButtons} />
 			<RadioSet
 				label="Rotate"
 				name="transpose"
 				state={transpose}
 				onChange={updateRotateMedia}
-				buttons={RADIO_SET.transpose}/>
+				options={RADIO_SET.transpose}/>
 			{props.showFreeRotate ? <>
 				<RadioSet
 					label="Free Rotate Mode"
 					name="freeRotateMode"
 					state={freeRotateMode}
 					onChange={updateSelectionFromEvent}
-					buttons={RADIO_SET.freeRotateMode} />
+					options={RADIO_SET.freeRotateMode} />
 				<FreeRotate
 					angle={props.angle}
 					center={props.rotatedCentering}

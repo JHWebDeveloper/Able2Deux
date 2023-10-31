@@ -46,13 +46,13 @@ const AcquisitionSettings = () => {
 				name="optimize"
 				state={preferences.optimize}
 				onChange={e => dispatch(updateStateFromEvent(e))}
-				buttons={RADIO_SET.optimize} />
+				options={RADIO_SET.optimize} />
 			<RadioSet
 				label="Default Screen Capture Mode"
 				name="screenshot"
 				state={preferences.screenshot ? 'screenshot' : 'screen_record'}
 				onChange={screenshotToBoolean}
-				buttons={SCREENSHOT_BUTTONS} />
+				options={SCREENSHOT_BUTTONS} />
 			<Checkbox
 				label="Timer Enabled by Default"
 				name="timerEnabled"

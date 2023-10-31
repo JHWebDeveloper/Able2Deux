@@ -110,7 +110,7 @@ const PresetSaveAs = () => {
 							name="saveType"
 							state={saveType}
 							onChange={setSaveTypeFromEvent}
-							buttons={SAVE_TYPE_BUTTONS}/>
+							options={SAVE_TYPE_BUTTONS}/>
 					) : <></>}
 					{saveType === 'newPreset' ? (
 						<FieldsetWrapper label="Preset Name">

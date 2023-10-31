@@ -155,7 +155,7 @@ const Keying = memo(props => {
 				disabled={!keyingEnabled}
 				state={keyingType}
 				onChange={updateSelectionFromEvent}
-				buttons={RADIO_SET.keyingType}/>
+				options={RADIO_SET.keyingType}/>
 			{keyingType === 'lumakey' ? <></> : (
 				<div className={keyingEnabled ? '' : 'disabled'}>
 					<label id="key-color">Color<span aria-hidden>:</span></label>
