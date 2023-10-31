@@ -7,7 +7,7 @@ import AccordionPanel from '../form_elements/AccordionPanel'
 import RadioSet from '../form_elements/RadioSet'
 import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 
-const BATCH_NAME_TYPE_BUTTONS = Object.freeze([
+const BATCH_NAME_TYPE_OPTIONS = Object.freeze([
 	{
 		label: 'Replace Filename',
 		value: 'replace'
@@ -30,7 +30,7 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 				name="batchNameType"
 				state={batchNameType}
 				onChange={updateBatchName}
-				options={BATCH_NAME_TYPE_BUTTONS} />
+				options={BATCH_NAME_TYPE_OPTIONS} />
 			{batchNameType === 'replace' ? (
 				<FieldsetWrapper label="Batch Name">
 					<input

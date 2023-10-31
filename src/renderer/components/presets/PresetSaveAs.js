@@ -24,7 +24,7 @@ import PresetOptions from './PresetOptions'
 
 const { interop } = window.ABLE2
 
-const SAVE_TYPE_BUTTONS = Object.freeze([
+const SAVE_TYPE_OPTIONS = Object.freeze([
 	{
 		label: 'New Preset',
 		value: 'newPreset'
@@ -110,7 +110,7 @@ const PresetSaveAs = () => {
 							name="saveType"
 							state={saveType}
 							onChange={setSaveTypeFromEvent}
-							options={SAVE_TYPE_BUTTONS}/>
+							options={SAVE_TYPE_OPTIONS}/>
 					) : <></>}
 					{saveType === 'newPreset' ? (
 						<FieldsetWrapper label="Preset Name">

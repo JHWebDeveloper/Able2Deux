@@ -29,7 +29,7 @@ import RadioSet from '../../form_elements/RadioSet'
 import Curves from '../../form_elements/Curves'
 import SliderDouble from '../../form_elements/SliderDouble'
 
-const COLOR_CHANNEL_BUTTONS = Object.freeze([
+const COLOR_CHANNEL_OPTIONS = Object.freeze([
 	{
 		label: 'RGB',
 		value: 'ccRGB'
@@ -232,7 +232,7 @@ const ColorCorrection = memo(props => {
 				horizontal
 				disabled={!ccEnabled}
 				state={ccSelectedCurve}
-				options={COLOR_CHANNEL_BUTTONS}
+				options={COLOR_CHANNEL_OPTIONS}
 				onChange={props.selectCurve} />
 			<Curves
 				ref={curvesRef}

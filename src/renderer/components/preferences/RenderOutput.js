@@ -8,7 +8,7 @@ import Checkbox from '../form_elements/Checkbox'
 import NumberInput from '../form_elements/NumberInput'
 import SelectInput from '../form_elements/SelectInput'
 
-const OUTPUT_BUTTONS = Object.freeze([
+const OUTPUT_OPTIONS = Object.freeze([
 	{
 		label: '1280x720',
 		value: '1280x720'
@@ -19,7 +19,7 @@ const OUTPUT_BUTTONS = Object.freeze([
 	}
 ])
 
-const FRAME_RATE_BUTTONS = Object.freeze([
+const FRAME_RATE_OPTIONS = Object.freeze([
 	{
 		label: 'Auto',
 		value: 'auto'
@@ -110,14 +110,14 @@ const RenderOutput = () => {
 				name="renderOutput"
 				state={preferences.renderOutput}
 				onChange={updateStateFromEvent}
-				options={OUTPUT_BUTTONS} />
+				options={OUTPUT_OPTIONS} />
 			<RadioSet
 				label="Output Frame Rate"
 				name="renderFrameRate"
 				state={preferences.renderFrameRate}
 				onChange={updateStateFromEvent}
 				options={[
-					...FRAME_RATE_BUTTONS,
+					...FRAME_RATE_OPTIONS,
 					{
 						label: 'custom',
 						value: 'custom',

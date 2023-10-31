@@ -15,7 +15,7 @@ import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 import NumberInput from '../form_elements/NumberInput'
 
-const SCREENSHOT_BUTTONS = Object.freeze([
+const SCREENSHOT_OPTIONS = Object.freeze([
 	{
 		label: 'Screen Record',
 		value: 'screen_record'
@@ -52,7 +52,7 @@ const AcquisitionSettings = () => {
 				name="screenshot"
 				state={preferences.screenshot ? 'screenshot' : 'screen_record'}
 				onChange={screenshotToBoolean}
-				options={SCREENSHOT_BUTTONS} />
+				options={SCREENSHOT_OPTIONS} />
 			<Checkbox
 				label="Timer Enabled by Default"
 				name="timerEnabled"

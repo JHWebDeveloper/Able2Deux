@@ -8,7 +8,7 @@ import RadioSet from '../form_elements/RadioSet'
 import CheckboxSet from '../form_elements/CheckboxSet'
 import Checkbox from '../form_elements/Checkbox'
 
-const ATTRIBUTE_MERGE_TYPE_BUTTONS = Object.freeze([
+const ATTRIBUTE_MERGE_TYPE_OPTIONS = Object.freeze([
 	{
 		label: 'Overwrite nested preset attributes.',
 		value: 'overwrite'
@@ -19,7 +19,7 @@ const ATTRIBUTE_MERGE_TYPE_BUTTONS = Object.freeze([
 	}
 ])
 
-const PRESET_NAME_MERGE_TYPE_BUTTONS = Object.freeze([
+const PRESET_NAME_MERGE_TYPE_OPTIONS = Object.freeze([
 	{
 		label: 'Overwrite',
 		value: 'replace'
@@ -52,7 +52,7 @@ const BatchPresetOptions = ({
 			name="attributeMergeType"
 			state={attributeMergeType}
 			onChange={updatePresetState}
-			options={ATTRIBUTE_MERGE_TYPE_BUTTONS} />
+			options={ATTRIBUTE_MERGE_TYPE_OPTIONS} />
 		<hr />
 		<FieldsetWrapper label="Prepend to Filename">
 			<input
@@ -71,7 +71,7 @@ const BatchPresetOptions = ({
 			horizontal
 			state={presetNamePrependMergeType}
 			onChange={updatePresetState}
-			options={PRESET_NAME_MERGE_TYPE_BUTTONS} />
+			options={PRESET_NAME_MERGE_TYPE_OPTIONS} />
 		<FieldsetWrapper label="Append to Filename">
 			<input
 				type="text"
@@ -89,7 +89,7 @@ const BatchPresetOptions = ({
 			horizontal
 			state={presetNameAppendMergeType}
 			onChange={updatePresetState}
-			options={PRESET_NAME_MERGE_TYPE_BUTTONS} />
+			options={PRESET_NAME_MERGE_TYPE_OPTIONS} />
 		<hr />
 		<div className="overwrite-limit-to">
 			<Checkbox

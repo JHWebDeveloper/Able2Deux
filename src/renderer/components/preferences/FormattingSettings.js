@@ -15,7 +15,7 @@ import NumberInput from '../form_elements/NumberInput'
 import Checkbox from '../form_elements/Checkbox'
 import TimecodeInputSeconds from '../form_elements/TimecodeInputSeconds'
 
-const BACKGROUND_MOTION_BUTTONS = Object.freeze([
+const BACKGROUND_MOTION_OPTIONS = Object.freeze([
 	...OPTION_SET.backgroundMotion,
 	{
 		label: 'Auto',
@@ -52,7 +52,7 @@ const FormattingSettings = () => {
 				name="backgroundMotion"
 				state={editorSettings.backgroundMotion}
 				onChange={updateEditorSettingsDispatch}
-				options={BACKGROUND_MOTION_BUTTONS} />
+				options={BACKGROUND_MOTION_OPTIONS} />
 			<Checkbox
 				label="Select All by Default"
 				name="selectAllByDefault"

@@ -7,7 +7,7 @@ import { updateState, updateStateFromEvent } from 'actions'
 import RadioSet from '../form_elements/RadioSet'
 import AspectRatioMarkers from './AspectRatioMarkers'
 
-const QUALITY_BUTTONS = Object.freeze([
+const QUALITY_OPTIONS = Object.freeze([
 	{
 		label: '100%',
 		value: '1'
@@ -36,7 +36,7 @@ const PreviewSettings = () => {
 			<RadioSet
 				label="Default Quality"
 				name="previewQuality"
-				options={QUALITY_BUTTONS}
+				options={QUALITY_OPTIONS}
 				state={preferences.previewQuality.toString()}
 				onChange={setPreviewQuality} />
 			<label className="label-with-input">
