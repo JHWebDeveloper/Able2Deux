@@ -574,7 +574,7 @@ export const DEFAULT_BATCH_PRESET_STATE = Object.freeze({
 
 // ---- RECORDS --------
 
-export const RADIO_SET = Object.freeze({
+export const OPTION_SET = Object.freeze({
 	...MEDIA_ATTRIBUTES.reduce((acc, { attribute, inputType }) => {
 		if (Array.isArray(inputType)) acc[attribute] = [...inputType]
 		return acc
