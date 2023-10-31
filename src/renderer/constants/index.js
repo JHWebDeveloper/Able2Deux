@@ -1,3 +1,4 @@
+export * as ACTION from './action_types'
 export * as STATUS from './status'
 
 import { STATUS } from 'constants'
