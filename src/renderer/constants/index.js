@@ -7,6 +7,7 @@ import { STATUS } from 'constants'
 
 export const RATIO_9_16 = 0.5625
 
+export const HALF_PI = Math.PI / 2
 export const TAU = Math.PI * 2
 
 // ---- TUPLES --------
