@@ -4,7 +4,7 @@ import { arrayOf, element, func, bool, oneOfType, shape, string } from 'prop-typ
 import { usePanelToggle } from 'hooks'
 import { classNameBuilder } from 'utilities'
 
-import MediaOptionsDropdown from './MediaOptionsDropdown'
+import PopupMenu from './PopupMenu'
 
 const AccordionPanel = ({ heading, id, className = '', buttons = [], children }) => {
 	const [ open, togglePanelOpen ] = usePanelToggle(id)
@@ -30,7 +30,7 @@ const AccordionPanel = ({ heading, id, className = '', buttons = [], children })
 					{heading}
 				</button>
 				{buttons.length && open ? (
-					<MediaOptionsDropdown
+					<PopupMenu
 						alignment="bottom right"
 						buttons={buttons} />
 				) : <></>}

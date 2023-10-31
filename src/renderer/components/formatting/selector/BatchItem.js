@@ -4,7 +4,7 @@ import { bool, func, number, string } from 'prop-types'
 import { removeMedia, selectMedia } from 'actions'
 import { classNameBuilder } from 'utilities'
 
-import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown'
+import PopupMenu from '../../form_elements/PopupMenu'
 
 const BatchItem = ({
 	index,
@@ -61,7 +61,7 @@ const BatchItem = ({
 				aria-label={selectBtnTitle}
 				onClick={selectMediaOnClick}
 				onKeyDown={selectMediaOnKeyDown}>{title}</button>	
-			<MediaOptionsDropdown buttons={() => createDropdown(removeMediaWarning)} />
+			<PopupMenu buttons={() => createDropdown(removeMediaWarning)} />
 			<button
 				type="button"
 				name="remove-selectable-item"

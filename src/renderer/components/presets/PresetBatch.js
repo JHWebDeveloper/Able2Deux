@@ -21,7 +21,7 @@ import {
 } from 'utilities'
 
 import DraggableList from '../form_elements/DraggableList'
-import MediaOptionsDropdown from '../form_elements/MediaOptionsDropdown'
+import PopupMenu from '../form_elements/PopupMenu'
 
 const PresetBatchItem = ({
 	id,
@@ -58,7 +58,7 @@ const PresetBatchItem = ({
 				className="overlow-ellipsis"
 				onClick={() => selectPreset(index)}
 				onDoubleClick={() => selectSourcePreset(id)}>{label}</button>
-			<MediaOptionsDropdown buttons={() => createOptionsMenu(removePreset)} />
+			<PopupMenu buttons={() => createOptionsMenu(removePreset)} />
 			<button
 				type="button"
 				name="remove-selectable-item"

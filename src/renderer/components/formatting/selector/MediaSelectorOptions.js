@@ -3,7 +3,7 @@ import { bool, func } from 'prop-types'
 
 import { applyPresetToSelected, duplicateSelectedMedia } from 'actions'
 
-import MediaOptionsDropdown from '../../form_elements/MediaOptionsDropdown.js'
+import PopupMenu from '../../form_elements/PopupMenu.js'
 import ButtonWithIcon from '../../form_elements/ButtonWithIcon.js'
 
 const { interop } = window.ABLE2
@@ -111,7 +111,7 @@ const MediaSelectorOptions = ({
 
 	return (
 		<div>
-			<MediaOptionsDropdown buttons={createDropdown} />
+			<PopupMenu buttons={createDropdown} />
 			{allItemsSelected ? (
 				<ButtonWithIcon
 					label="Deselect All"
