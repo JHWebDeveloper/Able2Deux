@@ -12,6 +12,20 @@ import { replaceIds } from 'utilities'
  * mediaState = the attribute name and value stored as key/value pairs taken directly from the user input, to be mapped to either of the two formats outlined above.
  */
 
+export const createNewPresetAttributeSet = (presetNo, focused) => ({
+	...DEFAULT_PRESET_STATE,
+	label: `Preset ${presetNo + 1}`,
+	attributes: [...MEDIA_ATTRIBUTES],
+	focused
+})
+
+export const createNewBatchPresetAttributeSet = (presetNo, focused) => ({
+	...DEFAULT_BATCH_PRESET_STATE,
+	label: `Batch Preset ${presetNo + 1}`,
+	attributes: [...MEDIA_ATTRIBUTES],
+	focused
+})
+
 export const mergePresetWithAttributeSet = (presetAttributes, attributeSet) => {
 	const presetEntries = Object.entries(presetAttributes)
 	const attributes = [...attributeSet]
@@ -38,20 +52,6 @@ export const mergePresetWithAttributeSet = (presetAttributes, attributeSet) => {
 
 	return attributes
 }
-
-export const createNewPresetAttributeSet = (presetNo, focused) => ({
-	...DEFAULT_PRESET_STATE,
-	label: `Preset ${presetNo + 1}`,
-	attributes: [...MEDIA_ATTRIBUTES],
-	focused
-})
-
-export const createNewBatchPresetAttributeSet = (presetNo, focused) => ({
-	...DEFAULT_BATCH_PRESET_STATE,
-	label: `Batch Preset ${presetNo + 1}`,
-	attributes: [...MEDIA_ATTRIBUTES],
-	focused
-})
 
 export const createAttributeSetFromPreset = preset => {
 	const { presetNameAppend, presetNamePrepend, ...attributes } = preset.attributes
