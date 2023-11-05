@@ -16,6 +16,10 @@ export const MEDIA_TYPES = Object.freeze(['audio', 'gif', 'image', 'video'])
 
 export const MEDIA_LABEL = Object.freeze(['Audio', 'Motion Graphics', 'Images', 'Video'])
 
+export const TIME_UNIT_L = Object.freeze(['hour', 'minute', 'second', 'frame'])
+
+export const TIME_UNIT_S = Object.freeze(TIME_UNIT_L.map(u => u[0]))
+
 // ---- SCHEMAS --------
 
 const DEFAULT_COLOR_CURVES = Object.freeze([
@@ -523,8 +527,6 @@ export const DEFAULT_MEDIA_STATE = Object.freeze({
 	status: STATUS.PENDING,
 	downloadETA: 0,
 	downloadPercent: 0,
-	renderStatus: STATUS.PENDING,
-	renderPercent: 0,
 	title: '',
 	duration: 0,
 	totalFrames: 0,
