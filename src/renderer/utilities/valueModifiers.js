@@ -1,9 +1,5 @@
+import { TIME_UNIT_S, TIME_UNIT_L } from 'constants'
 import { arrayInterlace, getIntegerLength } from 'utilities'
-
-// ---- CONSTANTS --------
-
-const TIME_UNIT_L = Object.freeze(['hour', 'minute', 'second', 'frame'])
-const TIME_UNIT_S = Object.freeze(TIME_UNIT_L.map(u => u[0]))
 
 // ---- ZERO PADDERS --------
 
@@ -85,6 +81,8 @@ export const format12hr = d => {
 // ---- MISC. --------
 
 export const capitalize = str => `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`
+
+export const errorToString = err => err.toString().replace(/^.*Error: /, '')
 
 export const rgbToHex = ({ r, g, b }) => `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`
 
