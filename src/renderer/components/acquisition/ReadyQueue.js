@@ -14,7 +14,7 @@ import { useWarning } from 'hooks'
 import { group } from 'utilities'
 
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
-import MediaElement from './MediaElement'
+import ReadyQueueItem from './ReadyQueueItem'
 
 const getUniqueFileRefs = media => group(media, 'refId').reduce((acc, arr) => {
 	const obj = arr.find(({ refId, id }) => refId === id)?.[0] || arr.at(-1)
@@ -86,11 +86,11 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 	return (
 		<div id="ready-queue">
 			<div className={uniqueMedia.length ? 'populated' : ''}>
-				{uniqueMedia.map(mediaElement => (
-					<MediaElement
-						key={mediaElement.id}
+				{uniqueMedia.map(item => (
+					<ReadyQueueItem
+						key={item.id}
 						removeMediaWarning={removeMediaWarning}
-						{...mediaElement} />
+						{...item} />
 				))}
 			</div>
 			<div>
