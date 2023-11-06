@@ -48,7 +48,7 @@ button:is([title="Format Media"], [title="Back"]) {
 	margin-right: 12px;
 }
 
-.media-element {
+.queue-item {
 	overflow: hidden;
 	display: grid;
 	grid-template-columns: min-content auto min-content;
@@ -58,21 +58,21 @@ button:is([title="Format Media"], [title="Back"]) {
 	background-color: var(--background);
 }
 
-.media-element:nth-last-child(n+2) { margin-bottom: 12px; }
+.queue-item:nth-last-child(n+2) { margin-bottom: 12px; }
 
-.media-element > :is(span, button) { height: inherit; }
+.queue-item > :is(span, button) { height: inherit; }
 
-.media-element > :is(span:first-of-type, button) { width: 35px; }
+.queue-item > :is(span:first-of-type, button) { width: 35px; }
 
-.media-element > span { display: inherit; }
+.queue-item > span { display: inherit; }
 
-.media-element > span:first-of-type {
+.queue-item > span:first-of-type {
 	justify-content: center;
 	align-content: center;
 	font-family: 'Material Icons';
 }
 
-.media-element > span:nth-of-type(2) {
+.queue-item > span:nth-of-type(2) {
 	grid-template-columns: auto min-content;
 	grid-auto-rows: auto auto;
 	gap: 3px 6px;
@@ -83,12 +83,12 @@ button:is([title="Format Media"], [title="Back"]) {
 	font-size: 12px;
 }
 
-.media-element > span:nth-of-type(2) > span:first-of-type {
+.queue-item > span:nth-of-type(2) > span:first-of-type {
 	display: block;
 	width: auto;
 }
 
-.media-element > span:nth-of-type(2) > span:last-of-type {
+.queue-item > span:nth-of-type(2) > span:last-of-type {
 	padding-top: 2px;
 }
 
@@ -125,6 +125,6 @@ progress:is([data-status="RENDERING"], [data-status="DOWNLOADING"]):indeterminat
 	animation: indeterminate linear 1000ms 1000ms backwards infinite;
 }
 
-.media-element > button { border-radius: 0; }
+.queue-item > button { border-radius: 0; }
 
-.media-element > button:disabled { color: var(--disabled); }
+.queue-item > button:disabled { color: var(--disabled); }

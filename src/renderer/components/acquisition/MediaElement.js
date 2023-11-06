@@ -32,7 +32,7 @@ const MediaElement = props => {
 	}, [downloadPercent, status])
 
 	return (
-		<div className="media-element">
+		<div className="queue-item">
 			<span
 				title={mediaElementTitle}
 				style={{ color }}>lens</span>
