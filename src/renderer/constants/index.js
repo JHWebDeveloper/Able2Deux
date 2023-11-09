@@ -599,7 +599,7 @@ export const TOASTR_OPTIONS = Object.freeze({
 	closeButton: true,
 	extendedTimeOut: 0,
 	hideDuration: 150,
-	positionClass: 'toast-top-right',
+	positionClass: 'toast-bottom-right',
 	preventDuplicates: true,
 	timeOut: 0
 })
