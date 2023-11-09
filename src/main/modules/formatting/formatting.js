@@ -68,28 +68,28 @@ const getBgDuration = background => {
 	}
 }
 
-const copyFileNoOverwrite = async (src, dest, n = 0) => {
-	let _dest = dest
-
+const copyFileNoOverwrite = async (src, dir, n = 0) => {
 	if (n > 0) {
-		const extIndex = dest.lastIndexOf('.')
+		const extIndex = dir.lastIndexOf('.')
 		const maxLength = 250 - getIntegerLength(n)
 		let truncate = 0
 
 		if (extIndex > maxLength) truncate += extIndex - maxLength
 
-		_dest = `${dest.slice(0, extIndex - truncate)} ${n}${dest.slice(extIndex)}`
+		dir = `${dir.slice(0, extIndex - truncate)} ${n}${dir.slice(extIndex)}`
 	}
 
 	try {
-		await fsp.copyFile(src, _dest, fs.constants.COPYFILE_EXCL)
+		await fsp.copyFile(src, dir, fs.constants.COPYFILE_EXCL)
 	} catch (err) {
 		if (err.toString().startsWith('Error: EEXIST: file already exists')) {
-			return copyFileNoOverwrite(src, dest, n + 1)
+			return copyFileNoOverwrite(src, dir, n + 1)
 		} else {
 			throw err
 		}
 	}
+
+	return dir
 }
 
 const sharedVideoOptions = [
@@ -120,7 +120,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		sourceData,
 		renderOutput,
 		renderFrameRate,
-		saveLocations
+		directories
 	} = exportData
 
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
@@ -148,7 +148,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		extension = audioExportFormat
 	} else if (isStill) {
 		outputOptions = [
-			'-pix_fmt rgb24'
+			`-pix_fmt rgb${background === 'alpha' ? 'a' : '24'}`
 		]
 
 		extension = 'png'
@@ -189,22 +189,27 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		.on('end', async () => {
 			try {
 				// eslint-disable-next-line no-extra-parens
-				const res = await Promise.allSettled(saveLocations.map(dir => (
+				const saveStatus = await Promise.allSettled(directories.map(dir => (
 					copyFileNoOverwrite(exportPath, path.join(dir, saveName))
 				)))
 
-				const failed = res.reduce((arr, val, i) => {
-					if (val.status === 'rejected') arr.push(saveLocations[i])
-					return arr
-				}, [])
+				const [ rejected, fulfilled ] = saveStatus.reduce((acc, result, i) => {
+					if (result.status === 'rejected') {
+						acc[0].push(directories[i])
+					} else if (result.status === 'fulfilled') {
+						acc[1].push(result.value)
+					}
 
-				if (saveLocations.length === failed.length) {
+					return acc
+				}, [[], []])
+
+				if (directories.length === rejected.length) {
 					throw new Error(`An error occurred while attempting to save ${saveName} to each selected dir.`)
-				} else if (failed.length) {
-					throw new Error(`An error occurred while attempting to save ${saveName} to the following selected directories: ${failed.join(', ')}.`)
+				} else if (rejected.length) {
+					throw new Error(`An error occurred while attempting to save ${saveName} to the following selected directories: ${rejected.join(', ')}.`)
 				}
 
-				win.webContents.send(`renderComplete_${id}`)
+				win.webContents.send(`renderComplete_${id}`, fulfilled)
 				resolve()
 			} catch (err) {
 				reject(err)
