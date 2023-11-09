@@ -20,7 +20,7 @@
 		"update-ytdlp:win": "cd node_modules/ffmpeg-ffprobe-yt-dlp-static-electron/bin/win && yt-dlp.exe --update-to stable"
 	},
 	"author": "Jonathan Hamilton",
-	"license": "CC-BY-NC-4.0",
+	"license": "CC-BY-ND-4.0",
 	"dependencies": {
 		"@babel/register": "^7.18.9",
 		"axios": "^1.1.3",
