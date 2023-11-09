@@ -86,6 +86,14 @@ export const savePrefs = async prefs => fsp.writeFile(prefsPath, JSON.stringify(
 	version: defaultPrefs.version
 }))
 
+export const removeSaveLocation = async locationId => {
+	let prefs = await loadPrefs()
+
+	prefs.saveLocations = prefs.saveLocations.filter(({ id }) => id !== locationId)
+
+	return savePrefs(prefs)
+}
+
 export const getDefaultPrefs = () => defaultPrefs
 
 export const loadTheme = async () => {
