@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, powerSaveBlocker } from 'electron'
+import { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, powerSaveBlocker, shell } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 import { pathToFileURL } from 'url'
@@ -10,9 +10,10 @@ import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './m
 import { upload } from './modules/acquisition/upload'
 import { getRecordSources, saveScreenRecording } from './modules/acquisition/screenRecorder'
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
+import { validateDirectories } from './modules/formatting/validateDirectories'
 import { renderPreview, copyPreviewToImports } from './modules/formatting/preview'
 import { render, cancelRender } from './modules/formatting/formatting'
-import { fileExistsPromise, supportedExtensions } from './modules/utilities'
+import { clamp, fileExistsPromise, delay, supportedExtensions } from './modules/utilities'
 
 const mac = process.platform === 'darwin'
 const dev = process.env.NODE_ENV === 'development'
@@ -51,20 +52,6 @@ const createURL = (view = 'index') => {
 		: pathToFileURL(path.join(__dirname, 'renderer', `${view}.html`))
 
 	return href
-}
-
-const checkForUpdate = () => {
-	if (!app.isPackaged || mac) return Promise.resolve(false)
-
-	return new Promise(resolve => {
-		autoUpdater.on('update-available', ({ version }) => resolve(version))
-		autoUpdater.on('update-not-available', () => resolve(false))
-		autoUpdater.on('error', err => {
-			console.error(err)
-			resolve(false)
-		})
-		autoUpdater.checkForUpdatesAndNotify()
-	})
 }
 
 // ---- SPLASH AND UPDATE WINDOWS ------------
@@ -132,7 +119,7 @@ const createMainWindow = async () => {
 		width: windowWidth,
 		height: windowHeight,
 		minWidth: mac ? 746 : 762,
-		minHeight: 620
+		minHeight: 624
 	})
 
 	mainWin.loadURL(createURL())
@@ -146,13 +133,17 @@ const createMainWindow = async () => {
 			console.error(err)
 		}
 
+		await delay(3000)
+
 		mainWin.show()
 
 		if (splashWin) splashWin.close()
 		if (dev) mainWin.webContents.openDevTools()
 
 		if (openWithQueue.length) {
-			mainWin.webContents.send('openWith', openWithQueue)
+			mainWin.webContents.send('openWith', {
+				files: openWithQueue
+			})
 		}
 
 		openWithQueue = false
@@ -161,17 +152,81 @@ const createMainWindow = async () => {
 	mainWin.on('close', () => mainWin = false)
 }
 
+// ---- RENDER QUEUE WINDOW ------------
+
+let renderQueue = false
+
+const createRenderQueueWindow = async ({ media, batchName, saveLocations = [] }) => {
+	const { abort, syncPrefs, directories } = await validateDirectories(saveLocations)
+
+	if (abort) return false
+	if (syncPrefs) mainWin.webContents.send('syncPrefs', await loadPrefs())
+
+	windowOpeningMenuOptions.disable()
+
+	ipcMain.handleOnce('getMediaToRender', () => ({ media, batchName, directories }))
+
+	ipcMain.on('closeRenderQueue', async (evt, startOver) => {
+		try {
+			await Promise.all([
+				scratchDisk.previews.clear(),
+				scratchDisk.exports.clear()
+			])
+		} catch (err) {
+			console.error(err)
+		}
+
+		if (startOver) mainWin.webContents.send('startOver')
+		renderQueue.close()
+	})
+
+	renderQueue = openWindow({
+		parent: mainWin,
+		useContentSize: true,
+		width: 700,
+		height: clamp(media.length, 4, 10) * 47 + 97,
+		resizable: dev,
+		modal: true
+	})
+
+	renderQueue.loadURL(createURL('render_queue'))
+
+	renderQueue.once('ready-to-show', async () => {
+		try {
+			await loadTheme()
+		} catch (err) {
+			console.error(err)
+		}
+
+		renderQueue.show()
+	})
+
+	renderQueue.on('close', () => {
+		ipcMain.removeHandler('getMediaToRender')
+		ipcMain.removeAllListeners('closeRenderQueue')
+		renderQueue = false
+		windowOpeningMenuOptions.enable()
+	})
+
+	renderQueue.setMenu(null)
+}
+
 // ---- PREFERENCES WINDOW ------------
 
 let preferences = false
 
 const createPrefsWindow = () => {
-	enablePrefsMenu(false)
+	windowOpeningMenuOptions.disable()
+
+	ipcMain.on('closePrefs', () => {
+		preferences.close()
+	})
 
 	preferences = openWindow({
 		parent: mainWin,
-		width: mac ? 746 : 762,
-		height: 648,
+		useContentSize: true,
+		width: 700,
+		height: 624,
 		resizable: dev,
 		modal: true
 	})
@@ -189,8 +244,9 @@ const createPrefsWindow = () => {
 	})
 
 	preferences.on('close', () => {
-		enablePrefsMenu(true)
+		ipcMain.removeAllListeners('closePrefs')
 		preferences = false
+		windowOpeningMenuOptions.enable()
 	})
 
 	preferences.setMenu(null)
@@ -201,15 +257,17 @@ const createPrefsWindow = () => {
 let presets = false
 
 const createPresetsWindow = () => {
-	const width = 770
-	const height = 794
+	windowOpeningMenuOptions.disable()
+
+	ipcMain.on('closePresets', () => {
+		presets.close()
+	})
 
 	presets = openWindow({
 		parent: mainWin,
-		width,
-		height,
-		minWidth: width,
-		minHeight: height,
+		useContentSize: true,
+		width: 700,
+		height: 672,
 		resizable: dev,
 		modal: true
 	})
@@ -227,7 +285,9 @@ const createPresetsWindow = () => {
 	})
 
 	presets.on('close', () => {
+		ipcMain.removeAllListeners('closePresets')
 		presets = false
+		windowOpeningMenuOptions.enable()
 	})
 
 	presets.setMenu(null)
@@ -237,13 +297,18 @@ const createPresetsWindow = () => {
 
 let presetSaveAs = false
 
-const createPresetSaveAsWindow = () => {
-	ipcMain.once('closePresetSaveAs', () => {
+const createPresetSaveAsWindow = presetData => {
+	windowOpeningMenuOptions.disable()
+
+	ipcMain.handleOnce('getPresetToSave', () => presetData)
+
+	ipcMain.on('closePresetSaveAs', () => {
 		presetSaveAs.close()
 	})
 
 	presetSaveAs = openWindow({
 		parent: mainWin,
+		useContentSize: true,
 		width: 400,
 		height: 648,
 		resizable: dev,
@@ -266,6 +331,7 @@ const createPresetSaveAsWindow = () => {
 		ipcMain.removeHandler('getPresetToSave')
 		ipcMain.removeAllListeners('closePresetSaveAs')
 		presetSaveAs = false
+		windowOpeningMenuOptions.enable()
 	})
 
 	presetSaveAs.setMenu(null)
@@ -302,6 +368,20 @@ const createHelpWindow = () => {
 }
 
 // ---- START ABLE2 ------------
+
+const checkForUpdate = () => {
+	if (!app.isPackaged || mac) return Promise.resolve(false)
+
+	return new Promise(resolve => {
+		autoUpdater.on('update-available', ({ version }) => resolve(version))
+		autoUpdater.on('update-not-available', () => resolve(false))
+		autoUpdater.on('error', err => {
+			console.error(err)
+			resolve(false)
+		})
+		autoUpdater.checkForUpdatesAndNotify()
+	})
+}
 
 const startApp = async () => {
 	createSplashWindow()
@@ -348,20 +428,40 @@ app.on('activate', () => {
 let openWithQueue = []
 
 app.on('open-file', (evt, file) => {
+	if (renderQueue) {
+		return mainWin.webContents.send('openWith', { block: true })
+	}
+
 	const fileData = {
 		name: path.basename(file),
 		path: file
 	}
 
 	if (mainWin) {
-		mainWin.webContents.send('openWith', [fileData])
+		mainWin.webContents.send('openWith', {
+			files: [fileData]
+		})
 	} else {
 		openWithQueue.push(fileData)
 	}
 })
 
-
 // ---- MENU CONFIG ------------
+
+const windowOpeningMenuOptions = (() => {
+	const menuOptionIds = ['edit_preferences', 'edit_presets', 'file_open', 'file_open_import_cache']
+
+	const toggleAllOptions = enabled => {
+		for (const id of menuOptionIds) {
+			Menu.getApplicationMenu().getMenuItemById(id).enabled = enabled
+		}
+	}
+
+	return {
+		enable() { toggleAllOptions(true) },
+		disable() { toggleAllOptions(false) }
+	}
+})()
 
 const openFiles = async () => {
 	const { filePaths, canceled } = await dialog.showOpenDialog({
@@ -405,15 +505,11 @@ const splashWindowMenuTemplate = [{
 	submenu: appleSubmenu()
 }]
 
-const enablePrefsMenu = enabled => {
-	Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = enabled
-}
-
 const prefsMenuItem = [
 	{ type: 'separator' },
 	{
 		label: 'Preferences',
-		id: 'Preferences',
+		id: 'edit_preferences',
 		accelerator: 'CmdOrCtrl+,',
 		click: createPrefsWindow
 	}
@@ -429,6 +525,7 @@ const mainMenuTemplate = [
 		submenu: [
 			{
 				label: 'Open',
+				id: 'file_open',
 				accelerator: 'CmdOrCtrl+O',
 				async click() {
 					const files = await openFiles()
@@ -438,6 +535,7 @@ const mainMenuTemplate = [
 			{ type: 'separator' },
 			{
 				label: 'Open Import Cache',
+				id: 'file_open_import_cache',
 				click() {
 					mainWin.webContents.send('openImportCache')
 				}
@@ -461,6 +559,7 @@ const mainMenuTemplate = [
 			...mac ? [] : prefsMenuItem,
 			{
 				label: 'Presets',
+				id: 'edit_presets',
 				click: createPresetsWindow
 			}
 		]
@@ -471,6 +570,13 @@ const mainMenuTemplate = [
 			{
 				label: 'Able2 Help',
 				click: createHelpWindow
+			},
+			{ type: 'separator' },
+			{
+				label: 'View License',
+				click() {
+					shell.openExternal('http://creativecommons.org/licenses/by-nd/4.0/?ref=chooser-v1')
+				}
 			}
 		]
 	}
@@ -482,7 +588,7 @@ if (devtools) {
 		submenu: [
 			{
 				label: 'Toggle DevTools',
-				click(item, focusedWindow) {
+				click(_, focusedWindow) {
 					focusedWindow.toggleDevTools()
 				}
 			},
@@ -594,9 +700,19 @@ ipcMain.on('copyPreviewToImports', async (evt, data) => {
 
 // ---- IPC ROUTES: RENDER ------------
 
+ipcMain.on('openRenderQueue', async (evt, data) => {
+	try {
+		await createRenderQueueWindow(data)
+		evt.reply('renderQueueOpened')
+	} catch (err) {
+		console.error(err)
+		evt.reply('openRenderQueueErr', new Error('An error occurred while attempting to remove missing save location(s).'))
+	}
+})
+
 ipcMain.on('requestRender', async (evt, data) => {
 	try {
-		await render(data, mainWin)
+		await render(data, renderQueue)
 
 		evt.reply(`renderComplete_${data.id}`)
 	} catch (err) {
@@ -632,10 +748,7 @@ ipcMain.on('savePrefs', async (evt, data) => {
 			console.error(err)
 		}
 
-		const updatedPrefs = await loadPrefs()
-
-		mainWin.webContents.send('syncPrefs', updatedPrefs)
-		presets?.webContents?.send('syncPrefs', updatedPrefs)
+		mainWin.webContents.send('syncPrefs', await loadPrefs())
 
 		evt.reply('prefsSaved')
 	} catch (err) {
@@ -655,10 +768,6 @@ ipcMain.on('savePrefsSilently', async (evt, data) => {
 	} catch (err) {
 		console.error(err)
 	}
-})
-
-ipcMain.on('closePrefs', () => {
-	preferences.close()
 })
 
 // ---- IPC ROUTES: PRESETS ------------
@@ -682,8 +791,7 @@ ipcMain.on('getPresetAttributes', async (evt, data) => {
 })
 
 ipcMain.on('openPresetSaveAs', async (evt, data) => {
-	ipcMain.handleOnce('getPresetToSave', () => data.preset)
-	createPresetSaveAsWindow()
+	createPresetSaveAsWindow(data.preset)
 })
 
 ipcMain.on('savePreset', async (evt, data) => {
@@ -694,12 +802,10 @@ ipcMain.on('savePreset', async (evt, data) => {
 			await updatePreset(data)
 		}
 
-		mainWin.webContents.send('syncPresets', loadPresets({
+		mainWin.webContents.send('syncPresets', await loadPresets({
 			referencesOnly: true,
 			presorted: true
 		}))
-
-		if (presets) presets.webContents.send('syncPrefs', await loadPresets())
 		
 		evt.reply('presetSaved')
 	} catch (err) {
@@ -712,23 +818,16 @@ ipcMain.on('savePresets', async (evt, data) => {
 	try {
 		await savePresets(data)
 
-		const updatedPresets = await loadPresets({
+		mainWin.webContents.send('syncPresets', await loadPresets({
 			referencesOnly: true,
 			presorted: true
-		})
-
-		mainWin.webContents.send('syncPresets', updatedPresets)
-		presetSaveAs?.webContents?.send('syncPrefs', updatedPresets)
+		}))
 
 		evt.reply('presetsSaved')
 	} catch (err) {
 		console.error(err)
 		evt.reply('savePresetsErr', new Error('An error occurred while attempting to save presets.'))
 	}
-})
-
-ipcMain.on('closePresets', () => {
-	presets.close()
 })
 
 // ---- IPC ROUTES: UPDATE ------------
@@ -767,14 +866,6 @@ ipcMain.handle('checkDirectoryExists', async (evt, dir) => {
 	} catch (err) {
 		console.error(err)
 		return false
-	}
-})
-
-ipcMain.on('clearTempFiles', async () => {
-	try {
-		return scratchDisk.clearAll()
-	} catch (err) {
-		console.error(err)
 	}
 })
 
