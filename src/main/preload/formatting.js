@@ -1,8 +1,6 @@
 import { ipcRenderer } from 'electron'
 
-import { requestChannel, sendMessage } from './sendMessage'
-
-// ---- PREVIEW --------
+import { sendMessage } from './sendMessage'
 
 export const requestPreviewStill = async data => ipcRenderer.send('requestPreviewStill', data)
 
@@ -22,23 +20,3 @@ export const copyPreviewToImports = data => sendMessage({
 	errMsg: 'previewCopiedFailed',
 	data
 })
-
-
-// ---- RENDER --------
-
-export const requestRenderChannel = params => {
-	const { data, startCallback, progressCallback } = params
-	
-	return requestChannel({
-		sendMsg: 'requestRender',
-		recieveMsg: `renderComplete_${data.id}`,
-		errMsg: `renderFailed_${data.id}`,
-		data,
-		startMsg: `renderStarted_${data.id}`,
-		progressMsg: `renderProgress_${data.id}`,
-		startCallback,
-		progressCallback
-	})
-}
-
-export const cancelRender = id => ipcRenderer.send('cancelRender', id)
