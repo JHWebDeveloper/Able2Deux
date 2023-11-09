@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const postcssPresetEnv = require('postcss-preset-env')
 
 const RENDERER_PATH = path.resolve('src', 'renderer')
-const PAGES = Object.freeze(['index', 'splash', 'update', 'preferences', 'presets', 'preset_save_as', 'help'])
+const PAGES = Object.freeze(['index', 'help', 'preferences', 'presets', 'preset_save_as', 'render_queue', 'splash', 'update'])
 const ALIAS = Object.freeze(['actions', 'constants', 'css', 'hooks', 'reducer', 'store', 'utilities'])
 
 module.exports = {
