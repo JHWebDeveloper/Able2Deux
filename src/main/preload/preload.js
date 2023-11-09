@@ -5,9 +5,10 @@ import * as acquisition from './acquisition'
 import * as formatting from './formatting'
 import * as preferences from './preferences'
 import * as presets from './presets'
+import * as renderQueue from './renderQueue'
 import * as update from './update'
 
-const interop = Object.assign({}, acquisition, formatting, preferences, presets, update)
+const interop = Object.assign({}, acquisition, formatting, preferences, presets, renderQueue, update)
 
 // ---- GET INFO --------
  
@@ -42,6 +43,10 @@ interop.revealInTempFolder = async filePath => {
 	shell.showItemInFolder(filePath)
 }
 
+interop.revealInSaveLocation = filePath => {
+	shell.showItemInFolder(filePath)
+}
+
 interop.addOpenImportCacheListener = scratchDisk => {
 	ipcRenderer.on('openImportCache', () => {
 		interop.openScratchDisk(scratchDisk, 'able2_imports')
@@ -50,6 +55,10 @@ interop.addOpenImportCacheListener = scratchDisk => {
 
 interop.removeOpenImportCacheListener = () => {
 	ipcRenderer.removeAllListeners('openImportCache')
+}
+
+interop.openLicense = () => {
+	shell.openExternal('http://creativecommons.org/licenses/by-nd/4.0/?ref=chooser-v1')
 }
 
 // --- DIALOGS --------
@@ -88,6 +97,8 @@ interop.warning = ({
 
 // ---- GLOBAL METHODS --------
 
+interop.checkIfDirectoryExists = async dir => ipcRenderer.invoke('checkDirectoryExists', dir)
+
 interop.setContextMenu = () => {
 	const textElement = 'input[type="text"], input[type="number"]'
 	
@@ -98,12 +109,6 @@ interop.setContextMenu = () => {
 			y: e.y
 		})
 	})
-}
-
-interop.checkIfDirectoryExists = async dir => ipcRenderer.invoke('checkDirectoryExists', dir)
-
-interop.clearTempFiles = () => {
-	ipcRenderer.send('clearTempFiles')
 }
 
 // ---- ATTACH ALL TO RENDERER --------
@@ -123,4 +128,3 @@ interop.clearTempFiles = () => {
 		contextBridge.exposeInMainWorld(nameSpace, freeze)
 	}
 })()
-
