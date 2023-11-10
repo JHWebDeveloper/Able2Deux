@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { HashRouter, NavLink, Routes, Route } from 'react-router-dom'
 import toastr from 'toastr'
 import 'css/preferences.css'
@@ -17,14 +17,13 @@ import Rendering from './RenderOutput'
 import SaveLocations from './SaveLocations'
 import SaveAndClose from './SaveAndClose'
 
-const konami = createKonamiListener()
-
 const Preferences = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
 	const { disableRateLimit } = preferences
+	const konami = useRef(createKonamiListener())
 
 	useEffect(() => {
-		konami.listen(() => {
+		konami.current.listen(() => {
 			dispatch(updateState({
 				disableRateLimit: !disableRateLimit
 			}))
@@ -36,7 +35,7 @@ const Preferences = () => {
 		})
 
 		return () => {
-			konami.remove()
+			konami.current.remove()
 		}
 	}, [disableRateLimit])
 
