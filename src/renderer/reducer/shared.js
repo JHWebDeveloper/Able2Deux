@@ -5,6 +5,14 @@ export const updateState = (state, payload) => ({
 	...payload
 })
 
+export const updateMediaStateById = (state, payload) => ({
+	...state,
+	media: state.media.map(item => item.id === payload.id ? {
+		...item,
+		...payload.properties
+	} : item)
+})
+
 export const toggleCheckbox = (state, payload) => ({
 	...state,
 	[payload.property]: !state[payload.property]
