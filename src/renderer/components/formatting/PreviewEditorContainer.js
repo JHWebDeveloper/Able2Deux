@@ -30,7 +30,6 @@ const PreviewEditorContainer = props => {
 				focused={focused}
 				aspectRatioMarkers={props.aspectRatioMarkers}
 				previewQuality={props.previewQuality}
-				previewHeight={props.previewHeight}
 				dispatch={dispatch} />
 			<EditorOptions
 				eyedropper={eyedropper}
@@ -48,7 +47,6 @@ const PreviewEditorContainer = props => {
 PreviewEditorContainer.propTypes = {
 	focused: object.isRequired,
 	previewQuality: oneOf([1, 0.75, 0.5]).isRequired,
-	previewHeight: number.isRequired,
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,
