@@ -84,7 +84,7 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 	}, [])
 
 	return (
-		<div id="ready-queue">
+		<div className="queue-list">
 			<div className={uniqueMedia.length ? 'populated' : ''}>
 				{uniqueMedia.map(item => (
 					<ReadyQueueItem
