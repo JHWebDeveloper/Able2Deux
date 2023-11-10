@@ -8,12 +8,7 @@ import {
 	PresetsProvider
 } from 'store'
 
-import {
-	selectAllMedia,
-	selectMedia,
-	updateState
-} from 'actions'
-
+import { selectAllMedia, selectMedia } from 'actions'
 import { arrayCount, focusSelectableItem } from 'utilities'
 
 import MediaSelector from './selector/MediaSelector'
@@ -21,7 +16,6 @@ import BatchName from './BatchName'
 import SaveOptions from './SaveOptions'
 import SaveButtons from './SaveButtons'
 import PreviewEditorContainer from './PreviewEditorContainer'
-import RenderQueue from './render-queue/RenderQueue'
 
 const Formatting = () => {
 	const {
@@ -34,8 +28,6 @@ const Formatting = () => {
 		saveLocations,
 		aspectRatioMarkers,
 		previewQuality,
-		previewHeight,
-		rendering,
 		clipboard,
 		dispatch
 	} = useContext(MainContext)
@@ -49,10 +41,6 @@ const Formatting = () => {
 	const selectionCount = arrayCount(media, item => item.selected)
 	const multipleItemsSelected = selectionCount > 1
 	const allItemsSelected = selectionCount === media.length
-
-	const setRendering = useCallback(isRendering => {
-		dispatch(updateState({ rendering: isRendering }))
-	}, [])
 
 	useEffect(() => {
 		if (focused.id) {
@@ -85,29 +73,25 @@ const Formatting = () => {
 					multipleItems={multipleItems}
 					saveLocations={saveLocations}
 					dispatch={dispatch} />
-				<SaveButtons setRendering={setRendering} />
+				<SaveButtons
+					media={media}
+					saveLocations={saveLocations}
+					batchName={{
+						batchNameType,
+						batchName,
+						batchNamePrepend,
+						batchNameAppend
+					}} />
 			</div>
 			<PreviewEditorContainer
 				focused={focused}
 				aspectRatioMarkers={aspectRatioMarkers}
 				previewQuality={previewQuality}
-				previewHeight={previewHeight}
 				multipleItems={multipleItems}
 				multipleItemsSelected={multipleItemsSelected}
 				allItemsSelected={allItemsSelected}
 				split={split}
 				dispatch={dispatch} />
-			{rendering ? (
-				<RenderQueue
-					media={media}
-					batchNameType={batchNameType}
-					batchName={batchName}
-					batchNamePrepend={batchNamePrepend}
-					batchNameAppend={batchNameAppend}
-					saveLocations={saveLocations}
-					closeRenderQueue={() => setRendering(false)}
-					dispatch={dispatch} />
-			) : <></>}
 		</>
 	)
 }
