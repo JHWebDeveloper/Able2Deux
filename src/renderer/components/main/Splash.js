@@ -5,6 +5,8 @@ import { drawAble2Logo } from 'utilities'
 
 const { interop } = window.ABLE2
 
+import License from './License'
+
 const Splash = () => {
 	const cnv = useRef(null)
 
@@ -19,7 +21,7 @@ const Splash = () => {
 		<>
 			<canvas ref={cnv}></canvas>
 			<h1>Able2{interop.version ? ` v${interop.version}` : ''}</h1>
-			<p>Developed by Jonathan Hamilton</p>
+			<License />
 		</>
 	)
 }

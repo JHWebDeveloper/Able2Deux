@@ -5,6 +5,8 @@ import { drawAble2Logo } from 'utilities'
 
 const { interop } = window.ABLE2
 
+import License from './License'
+
 const Update = () => {
 	const [ version, setVersion ] = useState(false)
 	const [ percent, setPercent ] = useState(0)
@@ -70,6 +72,7 @@ const Update = () => {
 				<h1>Update found!</h1>
 				<p>Downloading Able2{version ? ` v${version}` : ''}</p>
 			</>}
+			<License />
 		</>
 	)
 }
