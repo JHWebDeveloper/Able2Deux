@@ -364,8 +364,3 @@ export const toggleSaveLocation = (id, property) => ({
 		id
 	}
 })
-
-export const startOver = () => dispatch => {
-	dispatch({ type: ACTION.START_OVER })
-	interop.clearTempFiles()
-}
