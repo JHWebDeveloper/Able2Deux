@@ -6,6 +6,7 @@ import { PrefsContext } from 'store'
 import {
 	duplicatePreset,
 	moveSortableElement,
+	removePreset,
 	selectPresetById,
 	selectPresetByIndex,
 	updatePresetStateById
@@ -37,7 +38,7 @@ const SelectPresetItem = ({
 	const selectBtnTitle = `Select ${label}`
 	const removeBtnTitle = `Remove ${label}`
 
-	const removePreset = useCallback(() => warnRemovePreset({
+	const removePresetWithWarning = useCallback(() => warnRemovePreset({
 		message: `${removeBtnTitle}?`,
 		onConfirm() {
 			dispatch(removePreset(id))
@@ -50,7 +51,7 @@ const SelectPresetItem = ({
 				'sortable-list-item': true,
 				focused
 			})}
-			onKeyDown={e => onKeyDown(removePreset, e)}>
+			onKeyDown={e => onKeyDown(removePresetWithWarning, e)}>
 			<button
 				type="button"
 				name="select-selectable-item"
@@ -58,14 +59,14 @@ const SelectPresetItem = ({
 				title={selectBtnTitle}
 				aria-label={selectBtnTitle}
 				onClick={() => dispatch(selectPresetById(id))}>{label}</button>
-			<PopupMenu options={() => createOptionsMenu(removePreset)} />
+			<PopupMenu options={() => createOptionsMenu(removePresetWithWarning)} />
 			<button
 				type="button"
 				name="remove-selectable-item"
 				className="symbol"
 				title={removeBtnTitle}
 				aria-label={removeBtnTitle}
-				onClick={removePreset}>close</button>
+				onClick={removePresetWithWarning}>close</button>
 		</div>
 	)
 }
