@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import toastr from 'toastr'
 import { arrayOf, bool, element, oneOfType } from 'prop-types'
 
@@ -62,11 +62,13 @@ export const PrefsContext = createContext()
 
 export const PrefsProvider = ({ enableSync, children }) => {
 	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
+	const [ prefsLoaded, setPrefsLoaded ] = useState(false)
 
 	useEffect(() => {
 		(async () => {
 			try {
 				dispatch(updateState(await interop.requestPrefs()))
+				setPrefsLoaded(true)
 			} catch (err) {
 				toastr.error(err, false, TOASTR_OPTIONS)
 			}
@@ -86,6 +88,7 @@ export const PrefsProvider = ({ enableSync, children }) => {
 	return (
 		<PrefsContext.Provider value={{
 			preferences: state,
+			prefsLoaded,
 			dispatch
 		}}>
 			{children}
