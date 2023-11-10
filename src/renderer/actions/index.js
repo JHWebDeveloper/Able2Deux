@@ -4,7 +4,7 @@ export * from './acquisition'
 export * from './formatting'
 export * from './preferences'
 export * from './presets'
-export * from './rendering'
+export * from './renderQueue'
 
 // ---- 1ST LEVEL STATE --------
 
