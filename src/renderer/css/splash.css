@@ -3,6 +3,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	text-align: center;
 }
 
 canvas {
@@ -23,3 +24,19 @@ button {
 button:first-of-type { margin-right: 9px; }
 
 .draggable { -webkit-app-region: drag; }
+
+.license {
+	font-size: 12px;
+	line-height: 24px;
+}
+
+.license > a {
+	display: inherit;
+	cursor: pointer;
+}
+
+.license > a > img {
+	height: 22px;
+	margin-left: 3px;
+  vertical-align: -6px;
+}
