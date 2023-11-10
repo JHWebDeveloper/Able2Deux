@@ -1,17 +1,13 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import 'css/index/index.css'
 
 import { 
-	MainContext,
 	MainProvider,
 	PanelsProvider,
 	PrefsContext,
 	PrefsProvider
 } from 'store'
-
-import { updateState } from 'actions'
-import { createObjectPicker, pipe } from 'utilities'
 
 import Header from './Header'
 import MainForm from '../form_elements/MainForm'
@@ -20,35 +16,18 @@ import Formatting from '../formatting/Formatting'
 import SourceSuggestionList from './SourceSuggestionList'
 import GlobalListeners from './GlobalListeners'
 
-const extractDefaultPrefs = createObjectPicker([
-	'saveLocations',
-	'split',
-	'optimize',
-	'timerEnabled',
-	'timer',
-	'screenshot',
-	'previewQuality',
-	'previewHeight',
-	'aspectRatioMarkers'
-])
-
 const Router = () => {
-	const { preferences } = useContext(PrefsContext)
-	const { dispatch } = useContext(MainContext)
+	const { preferences: { scratchDisk }, prefsLoaded } = useContext(PrefsContext)
 
-	useEffect(() => {
-		pipe(extractDefaultPrefs, updateState, dispatch)(preferences)
-	}, [preferences])
-	
-	return (
+	return prefsLoaded ? (
 		<HashRouter>
-			<GlobalListeners />
+			<GlobalListeners scratchDisk={scratchDisk} />
 			<Routes>
 				<Route path="/" element={<Acquisition />}/>
 				<Route path="/formatting" element={<Formatting />}/>
 			</Routes>
 		</HashRouter>
-	)
+	) : <></>
 }
 
 const App = () => (
