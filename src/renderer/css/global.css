@@ -138,6 +138,8 @@ body {
 
 #root { padding: 18px; }
 
+main { height: 100%; }
+
 /* --- INPUT WRAPPERS AND LABELS --- */
 
 fieldset { position: relative; }
@@ -492,6 +494,117 @@ button[name="remove-selectable-item"] { order: 3; }
 	background-clip: content-box;
 }
 
+/* ---- QUEUE LIST -------- */
+
+.queue-list {
+	display: grid;
+	grid-template-rows: auto min-content;
+	grid-column: 2;
+	gap: 18px;
+	grid-row: span 4;
+	height: 100%;
+}
+
+.queue-list > div:first-of-type {
+	overflow-y: auto;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: auto;
+	padding: 12px;
+	border-radius: 5px;
+	background-color: var(--background-alt-1);
+	transition: background-color 250ms;
+}
+
+.queue-list > div.populated { background-color: var(--background-alt-2); }
+
+.queue-item {
+	overflow: hidden;
+	flex: 0 0 min-content;
+	display: grid;
+	grid-template-columns: min-content auto min-content;
+	grid-auto-rows: 1fr 1fr;
+	height: 35px;
+	border-radius: 5px;
+	background-color: var(--background);
+}
+
+.queue-item:nth-last-child(n+2) { margin-bottom: 12px; }
+
+.queue-item > :is(span, button) { height: inherit; }
+
+.queue-item > :is(span:first-of-type, button) { width: 35px; }
+
+.queue-item > span { display: inherit; }
+
+.queue-item > span:first-of-type {
+	justify-content: center;
+	align-content: center;
+	font-family: 'Material Icons';
+}
+
+.queue-item > span:nth-of-type(2) {
+	grid-template-columns: auto min-content;
+	grid-auto-rows: auto auto;
+	gap: 3px 6px;
+	align-content: center;
+	padding-right: 6px;
+	color: var(--primary);
+	font-weight: 500;
+	font-size: 12px;
+}
+
+.queue-item > span:nth-of-type(2) > span:first-of-type {
+	display: block;
+	width: auto;
+}
+
+.queue-item > span:nth-of-type(2) > span:last-of-type {
+	padding-top: 2px;
+}
+
+.queue-item progress {
+	overflow: hidden;
+	grid-column: 1 / span 2;
+	position: relative;
+	width: 100%;
+	height: 10px;
+	border-radius: 2px;
+}
+
+.queue-item progress::-webkit-progress-bar {
+	background-color: var(--background-alt-1);
+}
+
+.queue-item progress::-webkit-progress-value {
+	background-color: var(--primary);
+}
+
+@keyframes indeterminate {
+	0%   { translate: -100%; scale: 1; }
+	50%  { translate: 500%; scale: 7.5; }
+	100% { translate: 1000%; scale: 1; }
+}
+
+.queue-item progress:is([data-status="RENDERING"], [data-status="DOWNLOADING"]):indeterminate::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	width: 10%;
+	height: inherit;
+	background-color: var(--primary);
+	animation: indeterminate linear 1000ms 1000ms backwards infinite;
+}
+
+.queue-item > button { border-radius: 0; }
+
+.queue-item > button:disabled { color: var(--disabled); }
+
+.queue-item > .popup { aspect-ratio: 1 / 1; }
+
+.queue-item > .popup > .popup-button-label { font-size: initial; }
+
 /* ---- POPUP MENU -------- */
 
 .popup {
@@ -519,7 +632,7 @@ button[name="remove-selectable-item"] { order: 3; }
 	overflow-y: auto;
 	position: fixed;
 	z-index: 998;
-	max-height: 100vh;
+	max-height: calc(100vh - 12px);
 	margin: 3px 0;
 	padding-block: 5px;
 	border-radius: 5px;
@@ -572,7 +685,14 @@ button[name="remove-selectable-item"] { order: 3; }
 	font-size: 8px;
 }
 
-/* --- MISC. --- */
+/* --- FOOTER WITH ACTIONS ------- */
+
+.action-buttons {
+	display: flex;
+	column-gap: 12px;
+}
+
+/* --- MISC. ------- */
 
 hr {
 	margin-block: 9px;
