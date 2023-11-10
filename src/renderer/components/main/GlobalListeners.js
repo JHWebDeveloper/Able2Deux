@@ -1,10 +1,8 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import toastr from 'toastr'
 
-import { MainContext, PrefsContext } from 'store'
-import { upload } from 'actions'
-import { TOASTR_OPTIONS } from 'constants'
+import { MainContext } from 'store'
+import { removeAllMedia, upload } from 'actions'
 import { debounce, pipeAsync } from 'utilities'
 
 const { interop } = window.ABLE2
@@ -13,9 +11,8 @@ const saveWindowSize = debounce(() => {
 	interop.saveWindowSize(window.outerWidth, window.outerHeight)
 }, 500)
 
-const GlobalListeners = () => {
-	const { rendering, dispatch } = useContext(MainContext)
-	const { scratchDisk } = useContext(PrefsContext).preferences
+const GlobalListeners = ({ scratchDisk }) => {
+	const { dispatch } = useContext(MainContext)
 	const navigate = useNavigate()
 
 	useEffect(() => {
@@ -25,8 +22,8 @@ const GlobalListeners = () => {
 	}, [scratchDisk])
 
 	useEffect(() => {
-		interop.setOpenWithListener(files => {
-			if (rendering) return toastr.error('Files cannot be opened while Able2 is rendering.', false, TOASTR_OPTIONS)
+		interop.setOpenWithListener(({ block, files }) => {
+			if (block) return false
 
 			navigate('/')
 
@@ -36,7 +33,15 @@ const GlobalListeners = () => {
 		})
 
 		return interop.removeOpenWithListener
-	}, [rendering])
+	}, [])
+
+	useEffect(() => {
+		interop.setStartOverListener(() => {
+			dispatch(removeAllMedia())
+		})
+
+		return interop.removeStartOverListener
+	}, [])
 
 	useEffect(() => {
 		window.addEventListener('resize', saveWindowSize)
