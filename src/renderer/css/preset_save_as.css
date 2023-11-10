@@ -16,10 +16,8 @@ main {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  row-gap: inherit; 
 }
-
-main { row-gap: inherit; }
 
 .preset-name {
   display: grid;
