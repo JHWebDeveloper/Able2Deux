@@ -1,11 +1,10 @@
-import { toggleSaveLocation, updateMediaStateById } from 'actions'
+import { updateMediaStateById } from 'actions'
 import toastr from 'toastr'
 
-import { STATUS, TOASTR_OPTIONS } from 'constants'
+import { ACTION, STATUS, TOASTR_OPTIONS } from 'constants'
 
 import {
 	buildSource,
-	createPromiseQueue,
 	errorToString,
 	format12hr,
 	framesToShortTC,
@@ -16,12 +15,6 @@ import {
 } from 'utilities'
 
 const { interop } = window.ABLE2
-
-const updateRenderStatus = (id, renderStatus) => updateMediaStateById(id, { renderStatus })
-
-const updateRenderProgress = ({ id, percent: renderPercent }) => updateMediaStateById(id, { renderPercent })
-
-const renderQueue = createPromiseQueue()
 
 // ---- FILL MISSING FILENAMES --------
 
@@ -154,12 +147,12 @@ const sanitizeFilenames = asperaSafe => media => media.map(item => ({
 		.trimEnd()
 }))
 
-const replaceSpaces = (replace, replacement) => media => replace ? media.map(item => ({
+const replaceFilenameSpaces = (replace, replacement) => media => replace ? media.map(item => ({
 	...item,
 	filename: item.filename.replaceAll(' ', replacement)
 })) : media
 
-const convertCase = (convert, casing) => media => {
+const convertFilenameCase = (convert, casing) => media => {
 	if (!convert) return media
 
 	const converter = casing === 'uppercase' ? 'toUpperCase' : 'toLowerCase'
@@ -216,130 +209,96 @@ const preventDuplicateFilenames = media => {
 
 // ---- RENDER --------
 
-const renderItem = (args, dispatch) => {
-	const { saveLocations, renderOutput, renderFrameRate, customFrameRate, autoPNG } = args
+const addRenderProps = media => media.map(item => ({
+	...item,
+	renderStatus: STATUS.PENDING,
+	renderPercent: 0,
+	exportPaths: []
+}))
 
-	return async item => {
-		const { id, arc, aspectRatio, sourceName, sourcePrefix, sourceOnTop, background } = item
+export const prepareMediaForRender = ({
+	asperaSafe,
+	batchName,
+	batchNameSeparator,
+	casing,
+	convertCase,
+	directories,
+	media,
+	replaceSpaces,
+	spaceReplacement
+}) => ({
+	type: ACTION.UPDATE_STATE,
+	payload: {
+		media: pipe(
+			fillMissingFilenames,
+			applyBatchName(batchName),
+			applyPresetName(batchNameSeparator),
+			replaceFilenameTokens,
+			sanitizeFilenames(asperaSafe),
+			replaceFilenameSpaces(replaceSpaces, spaceReplacement),
+			convertFilenameCase(convertCase, casing),
+			preventDuplicateFilenames,
+			addRenderProps
+		)(media),
+		directories
+	}
+})
 
-		if (sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
-			item.sourceData = buildSource({ sourceName, sourcePrefix, sourceOnTop, renderOutput, background })
-		}
-	
-		try {
-			await interop.requestRenderChannel({
-				data: {
-					...item,
-					renderOutput,
-					renderFrameRate,
-					customFrameRate,
-					autoPNG,
-					saveLocations
-				},
-				startCallback() {
-					dispatch(updateRenderStatus(id, STATUS.RENDERING))
-				},
-				progressCallback(data) {
-					dispatch(updateRenderProgress(data))
-				}
-			})
-	
-			dispatch(updateRenderStatus(id, STATUS.COMPLETE))
-		} catch (err) {
-			const errStr = errorToString(err)
+const updateRenderStatus = (id, renderStatus) => updateMediaStateById(id, { renderStatus })
 
-			if (errStr === 'CANCELLED') {
-				dispatch(updateRenderStatus(id, STATUS.CANCELLED))
-			} else {
-				dispatch(updateRenderStatus(id, STATUS.FAILED))
-				toastr.error(errStr, false, TOASTR_OPTIONS)
+const updateRenderProgress = ({ id, percent: renderPercent }) => updateMediaStateById(id, { renderPercent })
+
+export const createRenderAction = ({
+	autoPNG,
+	customFrameRate,
+	renderFrameRate,
+	renderOutput,
+	directories
+}) => item => async dispatch => {
+	const { id, arc, aspectRatio, sourceName, sourcePrefix, sourceOnTop, background } = item
+
+	if (sourceName && !(arc === 'none' && aspectRatio !== '16:9')) {
+		item.sourceData = buildSource({ sourceName, sourcePrefix, sourceOnTop, renderOutput, background })
+	}
+
+	try {
+		const exportPaths = await interop.requestRenderChannel({
+			data: {
+				...item,
+				autoPNG,
+				customFrameRate,
+				renderFrameRate,
+				renderOutput,
+				directories
+			},
+			startCallback() {
+				dispatch(updateRenderStatus(id, STATUS.RENDERING))
+			},
+			progressCallback(data) {
+				dispatch(updateRenderProgress(data))
 			}
+		})
+
+		dispatch(updateMediaStateById(id, {
+			renderStatus: STATUS.COMPLETE,
+			exportPaths
+		}))
+	} catch (err) {
+		const errStr = errorToString(err)
+
+		if (errStr === STATUS.CANCELLED) {
+			dispatch(updateRenderStatus(id, STATUS.CANCELLED))
+		} else {
+			dispatch(updateRenderStatus(id, STATUS.FAILED))
+			toastr.error(errStr, false, TOASTR_OPTIONS)
 		}
 	}
 }
 
-export const render = args => async dispatch => {
-	const { goBack, removeLocation } = args
-	let { media, saveLocations } = args
-
-	saveLocations = saveLocations.filter(({ hidden, checked }) => !hidden && checked)
-
-	// Check for non-existent directories and prompt to abort render if found
-
-	for await (const location of saveLocations) {
-		const exists = await interop.checkIfDirectoryExists(location.directory)
-
-		if (exists) continue
-
-		dispatch(toggleSaveLocation(location.id))
-
-		const { response, checkboxChecked } = await interop.directoryNotFoundAlert(location.directory)
-
-		if (response > 0) return !goBack()
-
-		if (checkboxChecked) removeLocation(location.id)
-
-		saveLocations = saveLocations.filter(({ id }) => id !== location.id)
-	}
-
-	/*
-		If save locations are selected or available, promote key directory to top level and remove duplicates.
-		If not, prompt to choose a directory
-	*/
-
-	if (saveLocations.length) {
-		saveLocations = [...new Set(saveLocations.map(({ directory }) => directory))]
-	} else {
-		const { filePaths, canceled } = await interop.chooseDirectory()
-
-		if (canceled) return !goBack()
-
-		saveLocations.push(filePaths[0])
-	}
-
-	// prepare filenames
-
-	media = pipe(
-		fillMissingFilenames,
-		applyBatchName(args),
-		applyPresetName(args.batchNameSeparator),
-		replaceFilenameTokens,
-		sanitizeFilenames(args.asperaSafe),
-		replaceSpaces(args.replaceSpaces, args.spaceReplacement),
-		convertCase(args.convertCase, args.casing),
-		preventDuplicateFilenames
-	)(media)
-
-	for (const item of media) {
-		dispatch(updateMediaStateById(item.id, {
-			exportFilename: item.filename
-		}))
-	}
-
-	// add to promise queue and begin render
-
-	const renderItemReady = renderItem({
-		saveLocations,
-		renderOutput: args.renderOutput,
-		renderFrameRate: args.renderFrameRate,
-		customFrameRate: args.customFrameRate,
-		autoPNG: args.autoPNG
-	}, dispatch)
-
-	for (const item of media) {
-		renderQueue.add(item.id, () => renderItemReady(item))
-	}
-
-	renderQueue
-		.updateConcurrent(args.concurrent)
-		.start()
-}
-
-export const cancelRender = (id, renderStatus) => async dispatch => {
-	if (renderStatus === STATUS.COMPLETE) return false
-
+export const createCancelRenderAction = promiseQueue => (id, renderStatus) => dispatch => {
+	if (renderStatus !== STATUS.RENDERING && renderStatus !== STATUS.PENDING) return false
 	if (renderStatus === STATUS.RENDERING) return interop.cancelRender(id)
-	if (renderStatus === STATUS.PENDING) renderQueue.remove(id)
+	if (renderStatus === STATUS.PENDING) promiseQueue.remove(id)
 
 	dispatch(updateRenderStatus(id, STATUS.CANCELLED))
 }
