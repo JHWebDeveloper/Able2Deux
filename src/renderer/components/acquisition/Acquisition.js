@@ -11,9 +11,9 @@ import ReadyQueue from './ReadyQueue'
 const Acquisition = () => {
 	const [ recording, setRecording ] = useState(false)
 	const { url, optimize, screenshot, timer, timerEnabled, media, dispatch } = useContext(MainContext)
-	const { preferences } = useContext(PrefsContext)
+	const { disableRateLimit, renderOutput, screenRecorderFrameRate, warnings } = useContext(PrefsContext).preferences
 
-	const output = useMemo(() => preferences.renderOutput.split('x')[1], [preferences.renderOutput])
+	const output = useMemo(() => renderOutput.split('x')[1], [renderOutput])
 
 	return (
 		<>
@@ -21,13 +21,13 @@ const Acquisition = () => {
 				url={url}
 				optimize={optimize}
 				output={output}
-				disableRateLimit={preferences.disableRateLimit}
+				disableRateLimit={disableRateLimit}
 				dispatch={dispatch} />
 			<Uploader dispatch={dispatch} />
 			<ScreenRecorder
 				recording={recording}
 				setRecording={setRecording}
-				frameRate={preferences.screenRecorderFrameRate}
+				frameRate={screenRecorderFrameRate}
 				screenshot={screenshot}
 				timer={timer}
 				timerEnabled={timerEnabled}
@@ -35,7 +35,7 @@ const Acquisition = () => {
 			<ReadyQueue
 				media={media}
 				recording={recording}
-				warnings={preferences.warnings}
+				warnings={warnings}
 				dispatch={dispatch} />
 		</>
 	)
