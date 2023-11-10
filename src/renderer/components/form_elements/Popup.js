@@ -15,6 +15,35 @@ const getFocusableSibling = (el, prop) => {
 	return sibling?.tabIndex === -1 ? getFocusableSibling(sibling, prop) : sibling
 }
 
+const PopUpContainer = ({ menuId, position, setPosition, submenu, children }) => {
+	const container = useRef(null)
+
+	useEffect(() => {
+		const { top, height } = container.current.getBoundingClientRect()
+		const { innerHeight } = window
+
+		if (top + height > innerHeight) {
+			setPosition(currentPosition => ({
+				...currentPosition,
+				top: toPx(innerHeight - height)
+			}))
+		}
+	}, [])
+
+	return (
+		<span
+			ref={container}
+			className="popup-content"
+			role="menu"
+			aria-label="Options"
+			id={menuId}
+			style={position}
+			{...submenu ? { onMouseLeave(e) { e.stopPropagation() } } : {}}>
+			{children}
+		</span>
+	)
+}
+
 const Popup = ({
 	submenu = false,
 	alignment = 'left bottom',
@@ -178,15 +207,13 @@ const Popup = ({
 				{submenu ? <span>chevron_right</span> : <></>}
 			</span>
 			{showMenu ? (
-				<span
-					className="popup-content"
-					role="menu"
-					aria-label="Options"
-					id={menuId}
-					style={position}
-					{...submenu ? { onMouseLeave(e) { e.stopPropagation() } } : {}}>
+				<PopUpContainer
+					menuId={menuId}
+					position={position}
+					setPosition={setPosition}
+					submenu={submenu}>
 					{cloneElement(children, { navigateWithKeys, parentMenu: parentMenu || menuButton })}
-				</span>
+				</PopUpContainer>
 			) : <></>}
 		</span>
 	)
