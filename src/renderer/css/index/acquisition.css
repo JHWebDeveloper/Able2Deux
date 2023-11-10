@@ -261,35 +261,6 @@ button[name="screenshot"] { height: 26px; }
 	object-position: center;
 }
 
-/* ---- READY QUEUE -------- */
-
-#ready-queue {
-	grid-template-rows: auto min-content;
-	grid-column: 2;
-	gap: 18px;
-	grid-row: span 4;
-	height: 100%;
-}
-
-#ready-queue > div:first-of-type {
-	overflow-y: auto;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	height: auto;
-	padding: 12px;
-	border-radius: 5px;
-	background-color: var(--background-alt-1);
-	transition: background-color 250ms;
-}
-
-#ready-queue > div.populated { background-color: var(--background-alt-2); }
-
-#ready-queue > div:last-of-type {
-	grid-row: 2;
-	white-space: nowrap;
-}
-
 button[title="Stop Stream"] { font-size: 20px; }
 
 button[title="Stop Stream"]:active { color: #0cf700; }
