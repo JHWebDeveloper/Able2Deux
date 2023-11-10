@@ -21,7 +21,7 @@ import Controls from './Controls'
 
 const { interop } = window.ABLE2
 
-const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previewQuality, previewHeight, dispatch }) => {
+const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previewQuality, dispatch }) => {
 	const { renderOutput, gridColor } = useContext(PrefsContext).preferences
 	const [ previewSize, setPreviewSize ] = useState({})
 	const [ previewStill, setPreviewStill ] = useState('')
@@ -112,10 +112,7 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 	
 	return (
 		<>
-			<PreviewViewport
-				applyDimensions={applyDimensions}
-				previewHeight={previewHeight}
-				dispatch={dispatch}>
+			<PreviewViewport applyDimensions={applyDimensions}>
 				<div id="preview-container" ref={container}>
 					{previewStill ? (
 						<PreviewCanvas
@@ -157,7 +154,6 @@ const PreviewPanel = props => (
 const propTypes = {
 	focused: object.isRequired,
 	previewQuality: oneOf([1, 0.75, 0.5]).isRequired,
-	previewHeight: number.isRequired,
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,
