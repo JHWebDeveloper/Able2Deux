@@ -11,8 +11,6 @@ export * from '../../shared/utilities'
 
 // ---- CALCULATORS --------
 
-export const clamp = (val, min, max) => Math.max(min, Math.min(max, val))
-
 export const pythagorean = (a, b) => a ** 2 + b ** 2 // omitting square root for performance
 
 // ---- ARRAY METHOD EXTENSIONS --------
