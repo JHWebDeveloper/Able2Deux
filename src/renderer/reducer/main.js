@@ -27,7 +27,7 @@ export const mainReducer = (state, action) => {
 		case ACTION.UPDATE_MEDIA_STATE_BY_SELECTION:
 			return updateMediaStateBySelection(state, payload)
 		case ACTION.UPDATE_MEDIA_STATE_BY_ID:
-			return updateMediaStateById(state, payload)
+			return shared.updateMediaStateById(state, payload)
 		case ACTION.TOGGLE_MEDIA_CHECKBOX:
 			return toggleMediaCheckbox(state, payload)
 		case ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX:
@@ -98,8 +98,6 @@ export const mainReducer = (state, action) => {
 			return resetCurve(state, payload)
 		case ACTION.CLEANUP_CURVE:
 			return cleanupCurve(state, payload)
-		case ACTION.START_OVER:
-			return startOver(state)
 		default:
 			return state
 	}
@@ -110,14 +108,6 @@ export const mainReducer = (state, action) => {
 const updateMediaStateBySelection = (state, payload) => ({
 	...state,
 	media: state.media.map(item => item.selected ? {
-		...item,
-		...payload.properties
-	} : item)
-})
-
-const updateMediaStateById = (state, payload) => ({
-	...state,
-	media: state.media.map(item => item.id === payload.id ? {
 		...item,
 		...payload.properties
 	} : item)
