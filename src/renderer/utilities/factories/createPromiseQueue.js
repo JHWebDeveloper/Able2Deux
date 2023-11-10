@@ -15,7 +15,7 @@ export const createPromiseQueue = (concurrent = 1) => {
 	return {
 		add(fn, id) {
 			_queue.push({
-				id,
+				id: id ?? uuid(),
 				async promise() {
 					await fn()
 					_active--
@@ -23,7 +23,7 @@ export const createPromiseQueue = (concurrent = 1) => {
 				}
 			})
 
-			return this
+			return id
 		},
 		remove(id) {
 			_queue = _queue.filter(promise => promise.id !== id)
