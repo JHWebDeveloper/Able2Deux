@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import toastr from 'toastr'
 import { arrayOf, bool, element, func, oneOfType } from 'prop-types'
 
@@ -18,11 +18,13 @@ export const PresetsContext = createContext()
 
 export const PresetsProvider = ({ loadAction = updateState, referencesOnly, presorted, enableSync, children }) => {
 	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
+	const [ presetsLoaded, setPresetsLoaded ] = useState(false)
 
 	useEffect(() => {
 		(async () => {
 			try {
 				dispatch(loadAction(await interop.requestPresets(referencesOnly, presorted)))
+				setPresetsLoaded(true)
 			} catch (err) {
 				toastr.error(err, false, TOASTR_OPTIONS)
 			}
@@ -42,6 +44,7 @@ export const PresetsProvider = ({ loadAction = updateState, referencesOnly, pres
 	return (
 		<PresetsContext.Provider value={{
 			presets: state,
+			presetsLoaded,
 			dispatch
 		}}>
 			{ children }
