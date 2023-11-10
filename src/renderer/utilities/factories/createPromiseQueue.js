@@ -1,3 +1,5 @@
+import { v1 as uuid } from 'uuid'
+
 export const createPromiseQueue = (concurrent = 1) => {
 	let _concurrent = concurrent
 	let _active = 0
@@ -11,18 +13,15 @@ export const createPromiseQueue = (concurrent = 1) => {
 	}
 
 	return {
-		updateConcurrent(concurrent) {
-			_concurrent = concurrent
-			return this
-		},
-		add(id, fn) {
-			const promise = async () => {
-				await fn()
-				_active--
-				_next()
-			}
-
-			_queue.push({ id, promise })
+		add(fn, id) {
+			_queue.push({
+				id,
+				async promise() {
+					await fn()
+					_active--
+					_next()
+				}
+			})
 
 			return this
 		},
