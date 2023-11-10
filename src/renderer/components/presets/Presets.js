@@ -4,6 +4,7 @@ import 'css/presets.css'
 
 import {
 	DraggingProvider,
+	PrefsContext,
 	PrefsProvider,
 	PresetsProvider,
 	PresetsContext
@@ -103,10 +104,19 @@ const Presets = () => {
 	)
 }
 
+const PresetsMountWithAsyncDependencies = () => {
+	const { presetsLoaded } = useContext(PresetsContext)
+	const { prefsLoaded } = useContext(PrefsContext)
+
+	return presetsLoaded && prefsLoaded
+		? <Presets />
+		: <></>
+}
+
 export default () => (
 	<PrefsProvider enableSync>
 		<PresetsProvider loadAction={loadPresetsForEditing}>
-			<Presets />
+			<PresetsMountWithAsyncDependencies />
 		</PresetsProvider>
 	</PrefsProvider>
 )
