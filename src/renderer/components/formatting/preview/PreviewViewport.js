@@ -1,6 +1,7 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { arrayOf, element, func, number, oneOfType } from 'prop-types'
 
+import { PrefsContext } from 'store'
 import { updateState } from 'actions'
 import { RATIO_9_16 } from 'constants'
 
@@ -11,7 +12,9 @@ import {
 	toPx
 } from 'utilities'
 
-const PreviewViewport = ({ previewHeight, applyDimensions, dispatch, children }) => {
+const PreviewViewport = ({ applyDimensions, children }) => {
+	const { preferences: { previewHeight }, dispatch } = useContext(PrefsContext)
+
 	const updatePreviewHeight = useCallback(height => {
 		dispatch(updateState({ previewHeight: height }))
 	}, [])
@@ -59,9 +62,7 @@ const PreviewViewport = ({ previewHeight, applyDimensions, dispatch, children })
 }
 
 PreviewViewport.propTypes = {
-	previewHeight: number.isRequired,
 	applyDimensions: func.isRequired,
-	dispatch: func.isRequired,
 	children: oneOfType([element, arrayOf(element)]).isRequired
 }
 
