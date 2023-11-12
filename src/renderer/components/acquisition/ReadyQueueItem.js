@@ -9,8 +9,18 @@ import {
 	secondsToTC
 } from 'utilities'
 
-const MediaElement = props => {
-	const { id, refId, status, title, isLive, downloadETA, downloadPercent, removeMediaWarning, references } = props
+const RenderQueueItem = ({
+	id,
+	refId,
+	status,
+	title,
+	isLive,
+	downloadETA,
+	downloadPercent,
+	removeMediaWarning,
+	references,
+	dispatch
+}) => {
 	const downloading = status === STATUS.DOWNLOADING
 	const color = useMemo(() => getStatusColor(status), [status])
 	const progress = useRef(null)
@@ -18,7 +28,7 @@ const MediaElement = props => {
 	const downloadBtnTitle = downloading ? isLive ? 'Stop Stream' : 'Cancel Download' : 'Remove'
 
 	const removeElement = useCallback(() => {
-		removeMediaWarning({ id, refId, status, title, references })
+		removeMediaWarning({ id, refId, status, title, references }, dispatch)
 	}, [status, title, references, removeMediaWarning])
 
 	const stopLiveDownload = useCallback(() => {
@@ -57,7 +67,7 @@ const MediaElement = props => {
 	)
 }
 
-MediaElement.propTypes = {
+RenderQueueItem.propTypes = {
 	id: string.isRequired,
 	refId: string.isRequired,
 	status: string.isRequired,
@@ -66,7 +76,7 @@ MediaElement.propTypes = {
 	downloadETA: number,
 	downloadPercent: number,
 	removeMediaWarning: func.isRequired,
-	references: number.isRequired
+	references: number
 }
 
-export default MediaElement
+export default RenderQueueItem
