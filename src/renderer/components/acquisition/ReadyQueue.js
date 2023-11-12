@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import { arrayOf, bool, func, object, shape } from 'prop-types'
 
 import {
-	removeFailedAcquisitions,
+	removeAllMedia,
 	removeAllMediaAndStopDownloads,
 	removeMedia,
 	removeReferencedMedia
@@ -27,18 +27,14 @@ const getUniqueFileRefs = media => group(media, 'refId').reduce((acc, arr) => {
 	return acc
 }, [])
 
-const checkMediaReady = ({ status }) => status === STATUS.READY || status === STATUS.FAILED
-const checkMediaFailed = ({ status }) => status === STATUS.FAILED
+const checkActiveImports = ({ status }) => status !== STATUS.FAILED
 
-const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
+const ReadyQueue = ({ pendingMedia, media, recording,  warnings, dispatch, importQueueDispatch }) => {
 	const navigate = useNavigate()
-
 	const uniqueMedia = useMemo(() => getUniqueFileRefs(media), [media])
-
-	// eslint-disable-next-line no-extra-parens
-	const notReady = useMemo(() => (
-		recording || !uniqueMedia.length || !uniqueMedia.every(checkMediaReady) || uniqueMedia.every(checkMediaFailed)
-	), [recording, uniqueMedia])
+	const uniqueMediaLength = uniqueMedia.length
+	const pendingMediaLength = pendingMedia.length
+	const notReady = recording || !uniqueMediaLength || (!!pendingMediaLength && pendingMedia.some(checkActiveImports))
 
 	const warnRemoveMedia = useWarning({
 		name: 'remove',
@@ -50,15 +46,15 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 		detail: 'This media file has duplicates referencing it. Deleting this file will also delete these references. This cannot be undone. Proceed?'
 	}, [])
 
-	const removeMediaWarning = useCallback(({ title, id, refId, status, references }) => {
+	const removeMediaWarning = useCallback(({ title, id, refId, status, references = 1 }, toDispatch) => {
 		const hasRefs = references > 1
 
 		const args = {
 			message: `Remove ${title}?`,
 			onConfirm: hasRefs ? () => {
-				dispatch(removeReferencedMedia(refId))
+				toDispatch(removeReferencedMedia(refId))
 			} : () => {
-				dispatch(removeMedia({ id, status }))
+				toDispatch(removeMedia({ id, status }))
 			}
 		}
 
@@ -69,27 +65,28 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 		}
 	}, [warnings.removeReferenced, removeReferencedMedia, warnRemoveMedia])
 
+	const removeAllPendingMedia = () => {
+		importQueueDispatch(removeAllMediaAndStopDownloads(pendingMedia))
+	}
+
 	const removeAllMediaWarning = useWarning({
 		name: 'removeAll',
 		message: 'Remove all media items?',
 		detail: 'Any current downloads will be canceled. This cannot be undone. Proceed?',
 		onConfirm() {
-			dispatch(removeAllMediaAndStopDownloads(media))
+			removeAllPendingMedia()
+			dispatch(removeAllMedia())
 		}
-	}, [media])
-
-	const removeFailedAcquisitionsAndRedirect = useCallback(() => {
-		dispatch(removeFailedAcquisitions())
-		navigate('/formatting')
-	}, [])
+	})
 
 	return (
 		<div className="queue-list">
 			<div className={uniqueMedia.length ? 'populated' : ''}>
-				{uniqueMedia.map(item => (
+				{[...pendingMedia, ...uniqueMedia].map((item, i) => (
 					<ReadyQueueItem
 						key={item.id}
 						removeMediaWarning={removeMediaWarning}
+						dispatch={i < pendingMediaLength ? importQueueDispatch : dispatch}
 						{...item} />
 				))}
 			</div>
@@ -98,14 +95,17 @@ const ReadyQueue = ({ media, recording, warnings, dispatch }) => {
 					label="Format"
 					icon="tune"
 					title="Format Media"
-					onClick={removeFailedAcquisitionsAndRedirect}
+					onClick={() => {
+						removeAllPendingMedia()
+						navigate('/formatting')
+					}}
 					disabled={notReady} />
 				<ButtonWithIcon
 					label="Remove All"
 					icon="delete"
 					title="Remove All Media"
 					onClick={() => removeAllMediaWarning()}
-					disabled={!uniqueMedia.length} />
+					disabled={!pendingMediaLength && !uniqueMediaLength} />
 			</div>
 		</div>
 	)
