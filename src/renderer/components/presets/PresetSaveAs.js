@@ -1,7 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { HashRouter, NavLink, Routes, Route } from 'react-router-dom'
 import toastr from 'toastr'
-import '../../css/preset_save_as.css'
+
+import 'css/preset_save_as.css'
 
 import {
 	PresetsProvider,
