@@ -47,9 +47,7 @@ export const mainReducer = (state, action) => {
 		case ACTION.REMOVE_SELECTED_MEDIA:
 			return removeSelectedMedia(state)
 		case ACTION.REMOVE_ALL_MEDIA:
-			return removeAllMedia(state)
-		case ACTION.REMOVE_FAILED_ACQUISITIONS:
-			return removeFailedAcquisitions(state)
+			return shared.removeAllElements(state)
 		case ACTION.SELECT_MEDIA:
 			return selectMedia(state, payload)
 		case ACTION.SELECT_ALL_MEDIA:
@@ -125,11 +123,6 @@ const toggleMediaCheckbox = (state, payload) => {
 		} : item)
 	}
 }
-
-const startOver = state => ({
-	...state,
-	media: []
-})
 
 // ---- SELECT MEDIA --------
 
@@ -539,16 +532,6 @@ const removeSelectedMedia = state => (
 		selected ? removeMedia(acc, { id, updateSelection: true }) : acc
 	), structuredClone(state))
 )
-
-const removeAllMedia = state => ({
-	...state,
-	media: []
-})
-
-const removeFailedAcquisitions = state => ({
-	...state,
-	media: state.media.filter(item => item.status !== STATUS.FAILED)
-})
 
 // ---- SCALE --------
 
