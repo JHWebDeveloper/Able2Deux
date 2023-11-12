@@ -46,10 +46,16 @@ input[name="customFrameRate"] { width: 50px; }
 	font-weight: revert;
 }
 
-.sortable-grid {
+.sortable-grid,
+.sortable-grid > .sortable-list > div {
 	display: grid;
+	column-gap: 6px;
+}
+
+.sortable-grid {
 	position: relative;
-	grid-auto-rows: auto;
+	row-gap: 3px;
+	grid-template-rows: min-content auto;
 }
 
 .sortable-grid::after {
@@ -62,10 +68,12 @@ input[name="customFrameRate"] { width: 50px; }
 	height: 67px;
 }
 
-.sortable-grid > div {
-	display: inherit;
-	grid-template-columns: inherit;
-	gap: inherit;
+.sortable-grid > .sortable-list {
+	grid-column: 1 / -1;
+	padding-top: 0;
+}
+
+.sortable-grid > .sortable-list > div {
 	background-color: var(--background-alt-1);
 }
 
@@ -78,16 +86,11 @@ input[name="customFrameRate"] { width: 50px; }
 	margin: 0;
 }
 
-:is(.aspect-ratio-markers-grid, .save-locations-grid) > :is(div, span) {
-	grid-column: 1 / -1;
-	align-items: center;
-}
-
 :is(.aspect-ratio-markers-grid, .save-locations-grid) > label { font-size: 10px; }
 
-.aspect-ratio-markers-grid {
+.aspect-ratio-markers-grid,
+.aspect-ratio-markers-grid > .sortable-list > div {
 	grid-template-columns: repeat(3, 24px) 75px 62px 4px 62px repeat(3, 24px);
-	gap: 3px;
 }
 
 #ar-markers-label { grid-column: 4; }
@@ -105,7 +108,8 @@ button[name="marker-down"] { grid-column: 9; }
 	fill: var(--secondary);
 }
 
-.save-locations-grid {
+.save-locations-grid,
+.save-locations-grid > .sortable-list > div {
 	grid-template-columns: repeat(4, 24px) auto 287px repeat(3, 24px);
 	column-gap: 6px;
 }
@@ -113,8 +117,6 @@ button[name="marker-down"] { grid-column: 9; }
 #save-locations-default { grid-column: 2; }
 #save-locations-label { grid-column: 5; }
 #save-locations-folder { grid-column: 6; }
-
-.save-locations-grid label { margin-bottom: 6px; }
 
 .save-locations-grid div:only-of-type > .directory-selector {
 	grid-column: span 4;
