@@ -176,10 +176,6 @@ export const saveAsPreset = (id, ...extractors) => ({
 
 // ---- REMOVE MEDIA --------
 
-export const removeAllMedia = () => ({
-	type: ACTION.REMOVE_ALL_MEDIA
-})
-
 export const removeSelectedMedia = () => ({
 	type: ACTION.REMOVE_SELECTED_MEDIA
 })

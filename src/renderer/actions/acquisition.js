@@ -62,8 +62,8 @@ export const removeAllMediaAndStopDownloads = media => dispatch => {
 	}
 }
 
-export const removeFailedAcquisitions = () => ({
-	type: ACTION.REMOVE_FAILED_ACQUISITIONS
+export const removeAllMedia = () => ({
+	type: ACTION.REMOVE_ALL_MEDIA
 })
 
 // ---- DOWNLOAD ------------
@@ -163,7 +163,7 @@ export const upload = ({ name, path }) => async dispatch => {
 	} catch (err) {
 		return toastr.error(errorToString(err), false, TOASTR_OPTIONS)
 	}
-
+	
 	dispatch(addMedia(mediaData))
 
 	const { id } = mediaData
