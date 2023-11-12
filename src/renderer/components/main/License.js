@@ -1,12 +1,18 @@
+/* eslint-disable react/no-unknown-property */
+
 import React from 'react'
 
 const { interop } = window.ABLE2
 
+const NAMESPACE_ATTRIBUTES = Object.freeze({
+	'xmlns:cc': 'http://creativecommons.org/ns#',
+	'xmlns:dct': 'http://purl.org/dc/terms/'
+})
+
 const License = () => (
 	<p
 		className="license"
-		xmlnsCc="http://creativecommons.org/ns#"
-		xmlnsDct="http://purl.org/dc/terms/">
+		{...NAMESPACE_ATTRIBUTES}>
 		<span property="dct:title">Able2</span> by <span property="cc:attributionName">Jonathan Hamilton</span> is licensed under <br/>
 		<a onClick={interop.openLicense}>
 			CC BY-ND 4.0 
