@@ -5,43 +5,43 @@ export const updateState = (state, payload) => ({
 	...payload
 })
 
-export const updateMediaStateById = (state, payload) => ({
+export const updateMediaStateById = (state, { id, properties }) => ({
 	...state,
-	media: state.media.map(item => item.id === payload.id ? {
+	media: state.media.map(item => item.id === id ? {
 		...item,
-		...payload.properties
+		...properties
 	} : item)
 })
 
-export const toggleCheckbox = (state, payload) => ({
+export const toggleCheckbox = (state, { property }) => ({
 	...state,
-	[payload.property]: !state[payload.property]
+	[property]: !state[property]
 })
 
-export const toggleSortableElementCheckbox = (state, payload) => {
-	const { property = 'checked' } = payload
-
-	return {
-		...state,
-		[payload.nest]: state[payload.nest].map(obj => obj.id === payload.id ? {
-			...obj,
-			[property]: !obj[property]
-		} : obj)
-	}
-}
-
-export const addSortableElement = (state, payload) => ({
+export const toggleSortableElementCheckbox = (state, { nest = 'media', property = 'checked', id }) => ({
 	...state,
-	[payload.nest]: state[payload.nest].toSpliced(payload.pos, 0, payload.element)
+	[nest]: state[nest].map(item => item.id === id ? {
+		...item,
+		[property]: !item[property]
+	} : item)
 })
 
-export const removeSortableElement = (state, payload) => ({
+export const addSortableElement = (state, { nest = 'media', pos, element }) => ({
 	...state,
-	[payload.nest]: state[payload.nest].filter(({ id }) => id !== payload.id)
+	[nest]: state[nest].toSpliced(pos, 0, element)
 })
 
-export const moveSortableElement = (state, payload) => {
-	let { nest, oldPos, newPos } = payload
+export const removeSortableElement = (state, { nest = 'media' , id }) => ({
+	...state,
+	[nest]: state[nest].filter(item => item.id !== id)
+})
+
+export const removeAllElements = (state, { nest = 'media' } = {}) => ({
+	...state,
+	[nest]: []
+})
+
+export const moveSortableElement = (state, { nest = 'media', oldPos, newPos }) => {
 	const elements = [...state[nest]]
 	const targetElement = elements.splice(oldPos, 1)[0]
 
