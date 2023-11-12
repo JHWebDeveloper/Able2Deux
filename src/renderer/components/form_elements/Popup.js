@@ -219,10 +219,10 @@ const Popup = ({
 	)
 }
 
-const COMMON_PROP_TYPES = {
+const COMMON_PROP_TYPES = Object.freeze({
 	submenu: bool,
 	children: oneOfType([element, arrayOf(element)])
-}
+})
 
 PopUpContainer.propTypes = {
 	...COMMON_PROP_TYPES,
