@@ -1,4 +1,5 @@
 export * from './dragging'
+export * from './importQueue'
 export * from './main'
 export * from './panels'
 export * from './preferences'

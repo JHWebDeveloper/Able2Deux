@@ -59,7 +59,7 @@ export const RenderQueueProvider = ({ children }) => {
 			...state,
 			dispatch
 		}}>
-			{prefsLoaded ? children : null}
+			{children}
 		</RenderQueueContext.Provider>
 	)
 }
