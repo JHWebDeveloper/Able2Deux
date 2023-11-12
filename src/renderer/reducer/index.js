@@ -1,4 +1,5 @@
 export * from './main'
+export * from './importQueue'
 export * from './panels'
 export * from './preferences'
 export * from './presets'
