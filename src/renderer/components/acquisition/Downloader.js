@@ -14,12 +14,19 @@ const STYLE_INCREASE_ICON_SIZE = Object.freeze({
 
 const validURLRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
 
-const Downloader = ({ url, optimize, output, disableRateLimit, dispatch }) => {
+const Downloader = ({
+	url,
+	optimize,
+	output,
+	disableRateLimit,
+	dispatch,
+	importQueueDispatch
+}) => {
 	const isInvalidURL = useMemo(() => !validURLRegex.test(url), [url])
 
 	const startDownload = useCallback(() => {
 		dispatch(updateState({ url: '' }))
-		dispatch(download({ url, optimize, output, disableRateLimit }))
+		importQueueDispatch(download({ url, optimize, output, disableRateLimit }))
 	}, [url, optimize, output, disableRateLimit])
 
 	const dispatchWithEvent = useCallback(e => {
