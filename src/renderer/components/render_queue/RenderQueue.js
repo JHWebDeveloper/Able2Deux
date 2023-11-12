@@ -1,5 +1,7 @@
 import React, { useContext, useMemo, useRef } from 'react'
 
+import 'css/render_queue.css'
+
 import { PrefsContext, PrefsProvider, RenderQueueContext, RenderQueueProvider } from 'store'
 import { createCancelRenderAction, createRenderAction } from 'actions'
 import { createPromiseQueue } from 'utilities'
