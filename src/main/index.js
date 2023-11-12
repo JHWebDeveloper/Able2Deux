@@ -133,7 +133,7 @@ const createMainWindow = async () => {
 			console.error(err)
 		}
 
-		await delay(3000)
+		if (!dev) await delay(3000)
 
 		mainWin.show()
 
