@@ -68,7 +68,8 @@ Downloader.propTypes = {
 	optimize: string.isRequired,
 	output: string.isRequired,
 	disableRateLimit: oneOfType([bool, number]),
-	dispatch: func.isRequired
+	dispatch: func.isRequired,
+	importQueueDispatch: func.isRequired
 }
 
 export default Downloader

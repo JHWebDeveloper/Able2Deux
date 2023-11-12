@@ -29,7 +29,7 @@ SaveButtons.propTypes = {
 		batchNameType: oneOf(['replace', 'prepend_append']),
 		batchName: string,
 		batchNamePrepend: string,
-		batchNameAppend: string,
+		batchNameAppend: string
 	}).isRequired,
 	saveLocations: arrayOf(exact({
 		checked: bool,

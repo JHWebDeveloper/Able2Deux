@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import { arrayOf, element, func, number, oneOfType } from 'prop-types'
+import { arrayOf, element, func, oneOfType } from 'prop-types'
 
 import { PrefsContext } from 'store'
 import { updateState } from 'actions'

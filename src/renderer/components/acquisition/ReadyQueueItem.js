@@ -76,7 +76,8 @@ RenderQueueItem.propTypes = {
 	downloadETA: number,
 	downloadPercent: number,
 	removeMediaWarning: func.isRequired,
-	references: number
+	references: number,
+	dispatch: func.isRequired
 }
 
 export default RenderQueueItem

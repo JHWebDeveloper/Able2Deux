@@ -5,7 +5,7 @@ import { importQueueReducer as reducer } from 'reducer'
 import { useAugmentedDispatch } from 'hooks'
 
 const initState = {
-  media: []
+	media: []
 }
 
 export const ImportQueueContext = createContext()

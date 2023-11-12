@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { shape, string } from 'prop-types'
 
 import { MainContext } from 'store'
 import { removeAllMedia, upload } from 'actions'
@@ -52,6 +53,12 @@ const GlobalListeners = ({ scratchDisk }) => {
 	}, [])
 
 	return <></>
+}
+
+GlobalListeners.propTypes = {
+	scratchDisk: shape({
+		imports: string.isRequired
+	}).isRequired
 }
 
 export default GlobalListeners

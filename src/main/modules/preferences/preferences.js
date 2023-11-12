@@ -87,7 +87,7 @@ export const savePrefs = async prefs => fsp.writeFile(prefsPath, JSON.stringify(
 }))
 
 export const removeSaveLocation = async locationId => {
-	let prefs = await loadPrefs()
+	const prefs = await loadPrefs()
 
 	prefs.saveLocations = prefs.saveLocations.filter(({ id }) => id !== locationId)
 

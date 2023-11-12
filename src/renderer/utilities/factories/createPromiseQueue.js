@@ -1,7 +1,7 @@
 import { v1 as uuid } from 'uuid'
 
 export const createPromiseQueue = (concurrent = 1) => {
-	let _concurrent = concurrent
+	const _concurrent = concurrent
 	let _active = 0
 	let _queue = []
 

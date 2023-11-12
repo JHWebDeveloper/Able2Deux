@@ -1,5 +1,5 @@
 import React, { cloneElement, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
-import { arrayOf, bool, element, func, object, oneOf, oneOfType, shape, string } from 'prop-types'
+import { arrayOf, bool, element, exact, func, number, object, oneOf, oneOfType, shape, string } from 'prop-types'
 
 import {
 	classNameBuilder,
@@ -219,8 +219,20 @@ const Popup = ({
 	)
 }
 
+const COMMON_PROP_TYPES = {
+	submenu: bool,
+	children: oneOfType([element, arrayOf(element)])
+}
+
+PopUpContainer.propTypes = {
+	...COMMON_PROP_TYPES,
+	menuId: string.isRequired,
+	position: exact({ top: number, left: number }).isRequired,
+	setPosition: func.isRequired
+}
+
 Popup.propTypes = {
-	children: oneOfType([element, arrayOf(element)]),
+	...COMMON_PROP_TYPES,
 	icon: string,
 	label: string,
 	alignment: oneOf(['top left', 'top right', 'bottom left', 'bottom right', 'right top', 'right bottom', 'left top', 'left bottom']),
@@ -230,8 +242,7 @@ Popup.propTypes = {
 		shape({
 			current: object
 		})
-	]),
-	submenu: bool
+	])
 }
 
 export default Popup

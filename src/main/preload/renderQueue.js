@@ -3,13 +3,13 @@ import { ipcRenderer } from 'electron'
 import { sendMessage, requestChannel } from './sendMessage'
 
 export const openRenderQueue = data => sendMessage({
-  sendMsg: 'openRenderQueue',
-  recieveMsg: 'renderQueueOpened',
-  errMsg: 'openRenderQueue',
-  data
+	sendMsg: 'openRenderQueue',
+	recieveMsg: 'renderQueueOpened',
+	errMsg: 'openRenderQueue',
+	data
 })
 
-export const getMediaToRender= () => ipcRenderer.invoke('getMediaToRender')
+export const getMediaToRender = () => ipcRenderer.invoke('getMediaToRender')
 
 export const requestRenderChannel = params => {
 	const { data, startCallback, progressCallback } = params
@@ -36,6 +36,6 @@ export const setStartOverListener = callback => {
 	})
 }
 
-export const removeStartOverListener  = () => {
+export const removeStartOverListener = () => {
 	ipcRenderer.removeAllListeners('startOver')
 }

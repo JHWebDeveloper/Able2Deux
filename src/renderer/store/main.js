@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 import { arrayOf, element, oneOfType } from 'prop-types'
 
 import { mainReducer as reducer } from 'reducer'

@@ -29,12 +29,12 @@ const getUniqueFileRefs = media => group(media, 'refId').reduce((acc, arr) => {
 
 const checkActiveImports = ({ status }) => status !== STATUS.FAILED
 
-const ReadyQueue = ({ pendingMedia, media, recording,  warnings, dispatch, importQueueDispatch }) => {
+const ReadyQueue = ({ pendingMedia, media, recording, warnings, dispatch, importQueueDispatch }) => {
 	const navigate = useNavigate()
 	const uniqueMedia = useMemo(() => getUniqueFileRefs(media), [media])
 	const uniqueMediaLength = uniqueMedia.length
 	const pendingMediaLength = pendingMedia.length
-	const notReady = recording || !uniqueMediaLength || (!!pendingMediaLength && pendingMedia.some(checkActiveImports))
+	const notReady = recording || !uniqueMediaLength || !!pendingMediaLength && pendingMedia.some(checkActiveImports)
 
 	const warnRemoveMedia = useWarning({
 		name: 'remove',
@@ -112,13 +112,15 @@ const ReadyQueue = ({ pendingMedia, media, recording,  warnings, dispatch, impor
 }
 
 ReadyQueue.propTypes = {
+	pendingMedia: arrayOf(object),
 	media: arrayOf(object),
 	recording: bool.isRequired,
 	warnings: shape({
 		remove: bool.isRequired,
 		removeAll: bool.isRequired
 	}).isRequired,
-	dispatch: func.isRequired
+	dispatch: func.isRequired,
+	importQueueDispatch: func.isRequired
 }
 
 export default ReadyQueue

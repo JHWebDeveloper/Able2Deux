@@ -11,48 +11,45 @@ import { useAugmentedDispatch } from 'hooks'
 const { interop } = window.ABLE2
 
 const initState = {
-  media: [],
-  directories: []
+	media: [],
+	directories: []
 }
 
 export const RenderQueueContext = createContext()
 
 export const RenderQueueProvider = ({ children }) => {
 	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
-  
-  const {
-    preferences: {
-      asperaSafe,
-      batchNameSeparator,
-      casing,
-      convertCase,
-      replaceSpaces,
-      spaceReplacement
-    },
-    prefsLoaded
-  } = useContext(PrefsContext)
+	
+	const {
+		asperaSafe,
+		batchNameSeparator,
+		casing,
+		convertCase,
+		replaceSpaces,
+		spaceReplacement
+	} = useContext(PrefsContext).preferences
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { media, batchName, directories } = await interop.getMediaToRender()
+	useEffect(() => {
+		(async () => {
+			try {
+				const { media, batchName, directories } = await interop.getMediaToRender()
 
-        dispatch(prepareMediaForRender({
-          media,
-          batchName, 
-          directories,
-          asperaSafe,
-          batchNameSeparator,
-          casing,
-          convertCase,
-          replaceSpaces,
-          spaceReplacement
-        }))
-      } catch (err) {
-        toastr.error(err, false, TOASTR_OPTIONS)
-      }
-    })()
-  }, [])
+				dispatch(prepareMediaForRender({
+					media,
+					batchName, 
+					directories,
+					asperaSafe,
+					batchNameSeparator,
+					casing,
+					convertCase,
+					replaceSpaces,
+					spaceReplacement
+				}))
+			} catch (err) {
+				toastr.error(err, false, TOASTR_OPTIONS)
+			}
+		})()
+	}, [])
 
 	return (
 		<RenderQueueContext.Provider value={{

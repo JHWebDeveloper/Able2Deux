@@ -31,7 +31,7 @@ export const addSortableElement = (state, { nest = 'media', pos, element }) => (
 	[nest]: state[nest].toSpliced(pos, 0, element)
 })
 
-export const removeSortableElement = (state, { nest = 'media' , id }) => ({
+export const removeSortableElement = (state, { nest = 'media', id }) => ({
 	...state,
 	[nest]: state[nest].filter(item => item.id !== id)
 })
