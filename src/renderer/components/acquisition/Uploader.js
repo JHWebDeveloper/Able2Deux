@@ -12,9 +12,9 @@ const dragLeave = e => {
 	e.target.parentElement.classList.remove('drag-enter')
 }
 
-const Uploader = ({ dispatch }) => {
+const Uploader = ({ importQueueDispatch }) => {
 	const prepFilesForUpload = useCallback(files => {
-		const _pipe = pipeAsync(upload, dispatch)
+		const _pipe = pipeAsync(upload, importQueueDispatch)
 
 		for (const file of files) _pipe(file)
 	}, [])
@@ -45,7 +45,7 @@ const Uploader = ({ dispatch }) => {
 }
 
 Uploader.propTypes = {
-	dispatch: func.isRequired
+	importQueueDispatch: func.isRequired
 }
 
 export default Uploader
