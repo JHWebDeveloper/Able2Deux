@@ -4,6 +4,7 @@ import {
 	arrayCount,
 	calcRotatedBoundingBox,
 	clamp,
+	createHistoryStack,
 	degToRad,
 	detectMediaIsSideways,
 	findNearestIndex,
@@ -16,7 +17,7 @@ import * as shared from 'reducer/shared'
 
 // ---- REDUCER --------
 
-export const mainReducer = (state, action) => {
+export const mainReducer = createHistoryStack().connectReducer((state, action, history) => {
 	const { type, payload } = action
 
 	switch (type) {
@@ -96,10 +97,16 @@ export const mainReducer = (state, action) => {
 			return resetCurve(state, payload)
 		case ACTION.CLEANUP_CURVE:
 			return cleanupCurve(state, payload)
+		case ACTION.UNDO:
+			return history.undo()
+		case ACTION.REDO:
+			return history.redo()
+		case ACTION.CLEAR_UNDO_HISTORY:
+			return history.clear()
 		default:
 			return state
 	}
-}
+})
 
 // ---- GENERIC MEDIA STATE --------
 

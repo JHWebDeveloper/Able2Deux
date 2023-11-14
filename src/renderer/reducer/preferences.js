@@ -1,12 +1,12 @@
 import toastr from 'toastr'
 
 import { ACTION, TOASTR_OPTIONS } from 'constants'
-import { errorToString } from 'utilities'
+import { createHistoryStack, errorToString } from 'utilities'
 import * as shared from 'reducer/shared'
 
 // ---- REDUCER --------
 
-export const prefsReducer = (state, action) => { 
+export const prefsReducer = createHistoryStack().connectReducer((state, action, history) => { 
 	const { type, payload } = action
 
 	switch (type) {
@@ -36,10 +36,16 @@ export const prefsReducer = (state, action) => {
 			return removeLocationAndSave(state, payload)
 		case ACTION.CLOSE_PREFS:
 			return closePrefs(state, payload)
+		case ACTION.UNDO:
+			return history.undo()
+		case ACTION.REDO:
+			return history.redo()
+		case ACTION.CLEAR_UNDO_HISTORY:
+			return history.clear()
 		default:
 			return state
 	}
-}
+})
 
 // ---- "REACTIONS" --------
 
