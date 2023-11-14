@@ -24,6 +24,7 @@ import {
 } from 'utilities'
 
 import MainForm from '../form_elements/MainForm'
+import UndoRedoListener from '../main/UndoRedoListener'
 import PresetSelector from './PresetSelector'
 import PresetEditor from './PresetEditor'
 import ButtonWithIcon from '../form_elements/ButtonWithIcon'
@@ -73,6 +74,7 @@ const Presets = () => {
 
 	return (
 		<>
+			<UndoRedoListener dispatch={dispatch} />
 			<MainForm>
 				<DraggingProvider>
 					<PresetSelector

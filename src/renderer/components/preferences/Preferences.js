@@ -9,6 +9,7 @@ import { TOASTR_OPTIONS } from 'constants'
 import { createKonamiListener } from 'utilities'
 
 import MainForm from '../form_elements/MainForm'
+import UndoRedoListener from '../main/UndoRedoListener'
 import GeneralSettings from './GeneralSettings'
 import AcquisitionSettings from './AcquisitionSettings'
 import FormattingSettings from './FormattingSettings'
@@ -44,6 +45,9 @@ const Preferences = () => {
 			<MainForm>
 				<section className="tabbed-nav">
 					<HashRouter>
+						<UndoRedoListener
+							dispatch={dispatch}
+							clearOnRouteChange />
 						<nav>
 							<NavLink to="/" title="General">General</NavLink>
 							<NavLink to="/acquisition" title="Acquisition">Acquisition</NavLink>
