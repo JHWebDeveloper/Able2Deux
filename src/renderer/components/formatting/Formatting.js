@@ -9,7 +9,7 @@ import {
 } from 'store'
 
 import { selectAllMedia, selectMedia } from 'actions'
-import { arrayCount, focusSelectableItem } from 'utilities'
+import { arrayCount, focusSelectableItem, omitFromHistory, pipe } from 'utilities'
 
 import MediaSelector from './selector/MediaSelector'
 import BatchName from './BatchName'
@@ -46,7 +46,7 @@ const Formatting = () => {
 		if (focused.id) {
 			focusSelectableItem('#media-manager')
 		} else {
-			dispatch((selectAllByDefault ? selectAllMedia : selectMedia)(0))
+			pipe(selectAllByDefault ? selectAllMedia : selectMedia, omitFromHistory, dispatch)(0)
 		}
 	}, [focused.id])
 
