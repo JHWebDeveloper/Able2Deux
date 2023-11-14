@@ -84,6 +84,14 @@ export const capitalize = str => `${str[0].toUpperCase()}${str.slice(1).toLowerC
 
 export const errorToString = err => err.toString().replace(/^.*Error: /, '')
 
+export const omitFromHistory = action => ({
+	...action,
+	payload: {
+		...action.payload,
+		omitFromHistory: true
+	}
+})
+
 export const rgbToHex = ({ r, g, b }) => `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`
 
 export const toPx = val => `${val}px`
