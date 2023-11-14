@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { HashRouter, NavLink, Routes, Route } from 'react-router-dom'
 import toastr from 'toastr'
 
@@ -11,11 +11,12 @@ import {
 	PresetSaveAsContext
 } from 'store'
 
-import { togglePresetLimitTo, updatePresetStateBySelection } from 'actions'
+import { togglePresetLimitTo, updatePresetStateBySelection, updateState } from 'actions'
 import { TOASTR_OPTIONS } from 'constants'
-import { errorToString, createPresetFromAttributeSet } from 'utilities'
+import { errorToString, createPresetFromAttributeSet, omitFromHistory, pipe } from 'utilities'
 
 import MainForm from '../form_elements/MainForm'
+import UndoRedoListener from '../main/UndoRedoListener'
 import RadioSet from '../form_elements/RadioSet'
 import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 import SelectInput from '../form_elements/SelectInput'
@@ -42,9 +43,7 @@ const SAVE_TYPE_OPTIONS = Object.freeze([
 
 const PresetSaveAs = () => {
 	const { presets: existingPresets = [] } = useContext(PresetsContext).presets
-	const { presets: { presets: [ newPreset = {} ] }, dispatch } = useContext(PresetSaveAsContext)
-	const [ saveType, setSaveType ] = useState('newPreset')
-	const [ selectedPreset, setSelectedPreset ] = useState('')
+	const { saveType, selectedPreset,  presets: [ newPreset = {} ], dispatch } = useContext(PresetSaveAsContext)
 
 	const {
 		label = '',
@@ -56,6 +55,12 @@ const PresetSaveAs = () => {
 
 	const saveEnabled = (saveType === 'newPreset' && label.length || saveType !== 'newPreset' && selectedPreset) && attributes.some(({ include }) => include) && limitTo.length
 
+	const updateStateFromEvent = useCallback(e => {
+		dispatch(updateState({
+			[e.target.name]: e.target.value
+		}))
+	}, [])
+
 	const updatePresetStateFromEvent = useCallback(e => {
 		dispatch(updatePresetStateBySelection({
 			[e.target.name]: e.target.value
@@ -66,18 +71,9 @@ const PresetSaveAs = () => {
 		dispatch(togglePresetLimitTo(e.target.name))
 	}, [])
 
-	const setSaveTypeFromEvent = useCallback(e => {
-		setSaveType(e.target.value)
-	}, [])
-
-	const setSelectedPresetFromEvent = useCallback(e => {
-		setSelectedPreset(e.target.value)
-	}, [])
-
 	const savePreset = async () => {
 		try {
 			await interop.savePreset(createPresetFromAttributeSet({
-				limitTo,
 				presetNamePrepend,
 				presetNameAppend,
 				attributes,
@@ -85,6 +81,9 @@ const PresetSaveAs = () => {
 					label
 				} : {
 					id: selectedPreset
+				},
+				...saveType === 'merge' ? {} : {
+					limitTo,
 				}
 			}), saveType)
 	
@@ -95,11 +94,16 @@ const PresetSaveAs = () => {
 	}
 
 	useEffect(() => {
-		if (saveType !== 'newPreset' && !selectedPreset) setSelectedPreset(existingPresets[0].id)
+		if (saveType !== 'newPreset' && !selectedPreset) {
+			pipe(updateState, omitFromHistory, dispatch)({
+				selectedPreset: existingPresets[0].id
+			})
+		}
 	}, [saveType, existingPresets])
 
 	return (
 		<>
+			<UndoRedoListener dispatch={dispatch} />
 			<header>
 				<h1>Save Preset</h1>
 			</header>
@@ -110,7 +114,7 @@ const PresetSaveAs = () => {
 							label="Save Type"
 							name="saveType"
 							state={saveType}
-							onChange={setSaveTypeFromEvent}
+							onChange={updateStateFromEvent}
 							options={SAVE_TYPE_OPTIONS}/>
 					) : <></>}
 					{saveType === 'newPreset' ? (
@@ -128,7 +132,7 @@ const PresetSaveAs = () => {
 							<SelectInput
 								name="selectedPreset"
 								value={selectedPreset}
-								onChange={setSelectedPresetFromEvent}
+								onChange={updateStateFromEvent}
 								options={existingPresets} />
 						</FieldsetWrapper>
 					)}
@@ -153,7 +157,8 @@ const PresetSaveAs = () => {
 											presetNameAppend={presetNameAppend}
 											limitTo={limitTo}
 											updatePresetState={updatePresetStateFromEvent}
-											toggleLimitTo={togglePresetLimitToFromEvent} />
+											toggleLimitTo={togglePresetLimitToFromEvent}
+											hideLimitTo={saveType === 'merge'} />
 									} />
 								</Routes>
 							</div>
