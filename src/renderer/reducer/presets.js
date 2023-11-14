@@ -7,6 +7,7 @@ import {
 	arrayCount,
 	createAttributeSetFromMediaState,
 	createAttributeSetFromPreset,
+	createHistoryStack,
 	createPresetFromAttributeSet,
 	detectCircularReference,
 	errorToString,
@@ -18,7 +19,7 @@ import {
 
 // ---- REDUCER --------
 
-export const presetsReducer = (state, action) => { 
+export const presetsReducer = createHistoryStack().connectReducer((state, action, history) => { 
 	const { type, payload } = action
 
 	switch (type) {
@@ -26,8 +27,6 @@ export const presetsReducer = (state, action) => {
 			return shared.updateState(state, payload)
 		case ACTION.MOVE_SORTABLE_ELEMENT:
 			return shared.moveSortableElement(state, payload)
-		case ACTION.LOAD_PRESET_FOR_SAVING:
-			return loadPresetForSaving(state, payload)
 		case ACTION.LOAD_PRESETS_FOR_EDITING:
 			return loadPresetsForEditing(state, payload)
 		case ACTION.ADD_NEW_PRESET:
@@ -64,10 +63,39 @@ export const presetsReducer = (state, action) => {
 			return cleanupPresetsAndSave(state, payload)
 		case ACTION.CLOSE_PRESETS:
 			return closePresets(state, payload)
+		case ACTION.UNDO:
+			return history.undo()
+		case ACTION.REDO:
+			return history.redo()
 		default:
 			return state
 	}
-}
+})
+
+export const presetSaveAsReducer = createHistoryStack().connectReducer((state, action, history) => {
+	const { type, payload } = action
+
+	switch (type) {
+		case ACTION.UPDATE_STATE:
+			return shared.updateState(state, payload)
+		case ACTION.LOAD_PRESET_FOR_SAVING:
+			return loadPresetForSaving(state, payload)
+		case ACTION.UPDATE_PRESET_STATE_BY_SELECTION:
+			return updatePresetStateBySelection(state, payload)
+		case ACTION.TOGGLE_PRESET_ATTRIBUTE:
+			return togglePresetAttribute(state, payload)
+		case ACTION.TOGGLE_ALL_PRESET_ATTRIBUTES:
+			return toggleAllPresetAttributes(state, payload)
+		case ACTION.TOGGLE_PRESET_LIMIT_TO:
+			return togglePresetLimitTo(state, payload)
+		case ACTION.UNDO:
+			return history.undo()
+		case ACTION.REDO:
+			return history.redo()
+		default:
+			return state
+	}
+})
 
 const loadPresetForSaving = (state, { mediaState }) => ({
 	...state,
