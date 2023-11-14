@@ -22,21 +22,17 @@ const { interop } = window.ABLE2
 
 // ---- SELECT MEDIA --------
 
-export const selectMedia = (clickedIndex, e = {}, selectionData = {}) => dispatch => {
-	const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
-
-	dispatch({
-		type: ACTION.SELECT_MEDIA,
-		payload: {
-			clickedIndex,
-			clickedInFocus: selectionData.focused,
-			clickedIsAnchored: selectionData.anchored,
-			clickedInSelection: selectionData.selected,
-			shift: e.shiftKey,
-			ctrlOrCmd
-		}
-	})
-}
+export const selectMedia = (clickedIndex, e = {}, selectionData = {}) => ({
+	type: ACTION.SELECT_MEDIA,
+	payload: {
+		clickedIndex,
+		clickedInFocus: selectionData.focused,
+		clickedIsAnchored: selectionData.anchored,
+		clickedInSelection: selectionData.selected,
+		shift: e.shiftKey,
+		ctrlOrCmd: interop.isMac ? e.metaKey : e.ctrlKey
+	}
+})
 
 export const selectAllMedia = focusIndex => ({
 	type: ACTION.SELECT_ALL_MEDIA,
@@ -170,7 +166,8 @@ export const saveAsPreset = (id, ...extractors) => ({
 				...presetNamePrepend ? { presetNamePrepend } : {},
 				...presetNameAppend ? { presetNameAppend } : {}
 			})
-		}
+		},
+		omitFromHistory: true
 	}
 })
 
@@ -215,7 +212,7 @@ export const reflectMedia = e => ({
 
 // ---- COLOR CORRECTION --------
 
-export const addCurvePoint = (id, curveName, pointData) => ({
+export const addCurvePoint = ({ id, curveName, pointData }) => ({
 	type: ACTION.ADD_CURVE_POINT,
 	payload: {
 		id,
@@ -224,7 +221,7 @@ export const addCurvePoint = (id, curveName, pointData) => ({
 	}
 })
 
-export const addOrUpdateCurvePoint = (id, curveName, pointData) => ({
+export const addOrUpdateCurvePoint = ({ id, curveName, pointData }) => ({
 	type: ACTION.ADD_OR_UPDATE_CURVE_POINT,
 	payload: {
 		id,
@@ -233,7 +230,7 @@ export const addOrUpdateCurvePoint = (id, curveName, pointData) => ({
 	}
 })
 
-export const deleteCurvePoint = (id, curveName, pointId) => ({
+export const deleteCurvePoint = ({ id, curveName, pointId }) => ({
 	type: ACTION.DELETE_CURVE_POINT,
 	payload: {
 		id,
@@ -293,7 +290,9 @@ export const colorBalance = (eyedropper, curves) => dispatch => {
 
 export const cleanupCurve = curveName => ({
 	type: ACTION.CLEANUP_CURVE,
-	payload: { curveName }
+	payload: {
+		curveName
+	}
 })
 
 // ---- EXTRACT STILL --------
