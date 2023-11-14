@@ -40,3 +40,5 @@ select[name="selectedPreset"] {
   width: 100%;
   height: 25px;
 }
+
+.toast-bottom-right { bottom: 66px; }
