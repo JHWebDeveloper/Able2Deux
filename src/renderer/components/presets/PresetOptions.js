@@ -11,7 +11,8 @@ const PresetOptions = ({
 	presetNameAppend = '',
 	limitTo = [],
 	updatePresetState,
-	toggleLimitTo
+	toggleLimitTo,
+	hideLimitTo
 }) => (
 	<div className="nav-panel-grid">
 		<FieldsetWrapper label="Prepend to Filename">
@@ -34,15 +35,17 @@ const PresetOptions = ({
 				value={presetNameAppend}
 				onChange={updatePresetState} />
 		</FieldsetWrapper>
-		<hr />
-		<CheckboxSet
-			label="Only Apply Preset To"
-			onChange={toggleLimitTo}
-			options={MEDIA_TYPES.map((mediaType, i) => ({
-				label: MEDIA_LABEL[i],
-				name: mediaType,
-				checked: limitTo.includes(mediaType)
-			}))} />
+		{hideLimitTo ? <></> : <>
+			<hr />
+			<CheckboxSet
+				label="Only Apply Preset To"
+				onChange={toggleLimitTo}
+				options={MEDIA_TYPES.map((mediaType, i) => ({
+					label: MEDIA_LABEL[i],
+					name: mediaType,
+					checked: limitTo.includes(mediaType)
+				}))} />
+		</>}
 	</div>
 )
 
