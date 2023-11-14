@@ -1,5 +1,5 @@
 import React, { cloneElement, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
-import { arrayOf, bool, element, exact, func, number, object, oneOf, oneOfType, shape, string } from 'prop-types'
+import { arrayOf, bool, element, func, object, oneOf, oneOfType, shape, string } from 'prop-types'
 
 import {
 	classNameBuilder,
@@ -15,7 +15,7 @@ const getFocusableSibling = (el, prop) => {
 	return sibling?.tabIndex === -1 ? getFocusableSibling(sibling, prop) : sibling
 }
 
-const PopUpContainer = ({ menuId, position, setPosition, submenu, children }) => {
+const PopupContainer = ({ menuId, position, setPosition, submenu, children }) => {
 	const container = useRef(null)
 
 	useEffect(() => {
@@ -207,13 +207,13 @@ const Popup = ({
 				{submenu ? <span>chevron_right</span> : <></>}
 			</span>
 			{showMenu ? (
-				<PopUpContainer
+				<PopupContainer
 					menuId={menuId}
 					position={position}
 					setPosition={setPosition}
 					submenu={submenu}>
 					{cloneElement(children, { navigateWithKeys, parentMenu: parentMenu || menuButton })}
-				</PopUpContainer>
+				</PopupContainer>
 			) : <></>}
 		</span>
 	)
@@ -224,10 +224,15 @@ const COMMON_PROP_TYPES = Object.freeze({
 	children: oneOfType([element, arrayOf(element)])
 })
 
-PopUpContainer.propTypes = {
+PopupContainer.propTypes = {
 	...COMMON_PROP_TYPES,
 	menuId: string.isRequired,
-	position: exact({ top: number, left: number }).isRequired,
+	position: shape({
+		top: string,
+		right: string,
+		bottom: string,
+		left: string
+	}).isRequired,
 	setPosition: func.isRequired
 }
 
