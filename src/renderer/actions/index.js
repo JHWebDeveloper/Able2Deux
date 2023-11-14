@@ -6,6 +6,29 @@ export * from './preferences'
 export * from './presets'
 export * from './renderQueue'
 
+// ---- UNDO/REDO --------
+
+export const undo = () => ({
+	type: ACTION.UNDO,
+	payload: {
+		omitFromHistory: true
+	}
+})
+
+export const redo = () => ({
+	type: ACTION.REDO,
+	payload: {
+		omitFromHistory: true
+	}
+})
+
+export const clearUndoHistory = () => ({
+	type: ACTION.CLEAR_UNDO_HISTORY,
+	payload: {
+		omitFromHistory: true
+	}
+})
+
 // ---- 1ST LEVEL STATE --------
 
 export const updateState = payload => ({
