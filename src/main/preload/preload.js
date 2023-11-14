@@ -111,6 +111,23 @@ interop.setContextMenu = () => {
 	})
 }
 
+// ---- UNDO/REDO --------
+
+interop.setUndoRedoListeners = ({ undo, redo }) => {
+	ipcRenderer.on('changeStateHistory', (evt, action) => {
+		switch (action) {
+			case 'undo':
+				return undo()
+			case 'redo':
+				return redo()
+		}
+	})
+}
+
+interop.removeUndoRedoListeners = () => {
+	ipcRenderer.removeAllListeners('changeHistory')
+}
+
 // ---- ATTACH ALL TO RENDERER --------
 
 (async () => {
