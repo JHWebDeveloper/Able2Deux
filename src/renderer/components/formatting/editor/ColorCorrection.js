@@ -19,7 +19,9 @@ import {
 	createObjectPicker,
 	createSettingsMenu,
 	eraseIds,
-	objectsAreEqual
+	objectsAreEqual,
+	omitFromHistory,
+	pipe
 } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -89,17 +91,19 @@ const ColorCorrection = memo(props => {
 	}, [id, active])
 
 	// ---- Curves ----
+
+	const curveName = ccSelectedCurve
 	
 	const dispatchAddCurvePoint = useCallback(pointData => {
-		dispatch(addCurvePoint(id, ccSelectedCurve, pointData))
+		pipe(addCurvePoint, omitFromHistory, dispatch)({ id, curveName, pointData })
 	}, [id, ccSelectedCurve])
 	
 	const dispatchAddOrUpdateCurvePoint = useCallback(pointData => {
-		dispatch(addOrUpdateCurvePoint(id, ccSelectedCurve, pointData))
+		pipe(addOrUpdateCurvePoint, omitFromHistory, dispatch)({ id, curveName, pointData })
 	}, [id, ccSelectedCurve])
 
 	const dispatchDeleteCurvePoint = useCallback(pointId => {
-		dispatch(deleteCurvePoint(id, ccSelectedCurve, pointId))
+		dispatch(deleteCurvePoint({ id, curveName, pointId }))
 	}, [id, ccSelectedCurve])
 	
 	const dispatchCleanupCurve = useCallback(() => {
