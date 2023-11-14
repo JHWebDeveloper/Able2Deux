@@ -547,8 +547,29 @@ const mainMenuTemplate = [
 	{
 		label: 'Edit',
 		submenu: [
-			{ role: 'undo' },
-			{ role: 'redo' },
+			{
+				label: 'Undo',
+				accelerator: 'CmdOrCtrl+Z',
+				click() {
+					BrowserWindow.getFocusedWindow().webContents.send('changeStateHistory', 'undo')
+				}
+			},
+			{
+				label: 'Redo',
+				accelerator: 'CmdOrCtrl+Shift+Z',
+				click() {
+					BrowserWindow.getFocusedWindow().webContents.send('changeStateHistory', 'redo')
+				}
+			},
+			{
+				label: 'Redo',
+				accelerator: 'CmdOrCtrl+R',
+				visible: false,   
+        acceleratorWorksWhenHidden: true,
+				click() {
+					BrowserWindow.getFocusedWindow().webContents.send('changeStateHistory', 'redo')
+				}
+			},
 			{ type: 'separator' },
 			{ role: 'cut' },
 			{ role: 'copy' },
@@ -591,8 +612,7 @@ if (devtools) {
 				click(_, focusedWindow) {
 					focusedWindow.toggleDevTools()
 				}
-			},
-			{ role: 'reload' }
+			}
 		]
 	})
 }
