@@ -43,7 +43,7 @@ const SAVE_TYPE_OPTIONS = Object.freeze([
 
 const PresetSaveAs = () => {
 	const { presets: existingPresets = [] } = useContext(PresetsContext).presets
-	const { saveType, selectedPreset,  presets: [ newPreset = {} ], dispatch } = useContext(PresetSaveAsContext)
+	const { saveType, selectedPreset, presets: [ newPreset = {} ], dispatch } = useContext(PresetSaveAsContext)
 
 	const {
 		label = '',
@@ -83,7 +83,7 @@ const PresetSaveAs = () => {
 					id: selectedPreset
 				},
 				...saveType === 'merge' ? {} : {
-					limitTo,
+					limitTo
 				}
 			}), saveType)
 	

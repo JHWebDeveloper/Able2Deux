@@ -564,8 +564,8 @@ const mainMenuTemplate = [
 			{
 				label: 'Redo',
 				accelerator: 'CmdOrCtrl+R',
-				visible: false,   
-        acceleratorWorksWhenHidden: true,
+				visible: false,
+				acceleratorWorksWhenHidden: true,
 				click() {
 					BrowserWindow.getFocusedWindow().webContents.send('changeStateHistory', 'redo')
 				}

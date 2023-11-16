@@ -1,5 +1,5 @@
 import React from 'react'
-import { arrayOf, func, oneOf, string } from 'prop-types'
+import { arrayOf, bool, func, oneOf, string } from 'prop-types'
 
 import { MEDIA_TYPES, MEDIA_LABEL } from 'constants'
 
@@ -54,6 +54,7 @@ PresetOptions.propTypes = {
 	presetNameAppend: string,
 	limitTo: arrayOf(oneOf(MEDIA_TYPES)),
 	updatePresetState: func.isRequired,
+	hideLimitTo: bool,
 	toggleLimitTo: func.isRequired
 }
 

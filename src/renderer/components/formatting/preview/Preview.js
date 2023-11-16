@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { arrayOf, bool, exact, func, number, object, oneOf, string } from 'prop-types'
+import { func, object } from 'prop-types'
 import { v1 as uuid } from 'uuid'
 import 'css/index/preview.css'
 
