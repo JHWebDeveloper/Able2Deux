@@ -1,6 +1,6 @@
 export * from './main'
 export * from './importQueue'
-export * from './panels'
 export * from './preferences'
 export * from './presets'
 export * from './renderQueue'
+export * from './workspace'
