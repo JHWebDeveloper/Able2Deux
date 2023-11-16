@@ -26,7 +26,7 @@ autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 
 if (!dev) {
-	log.catchErrors({ showDialog: false })
+	log.errorHandler.startCatching({ showDialog: false })
 	console.error = log.error
 }
 
@@ -45,6 +45,22 @@ const openWindow = (opts = {}) => new BrowserWindow({
 	},
 	...opts
 })
+
+const createModalWindowOptions = (w, h, parentWin) => {
+	const { x, y, width, height } = parentWin.getBounds()
+	
+	return {
+		modal: true,
+		frame: false,
+		parent: mainWin,
+		x: x + (width - w) / 2,
+		y: y + (height - y) / 2,
+		width: w,
+		height: h,
+		useContentSize: true,
+		resizable: dev
+	}
+}
 
 const createURL = (view = 'index') => {
 	const { href } = dev
@@ -180,14 +196,7 @@ const createRenderQueueWindow = async ({ media, batchName, saveLocations = [] })
 		renderQueue.close()
 	})
 
-	renderQueue = openWindow({
-		parent: mainWin,
-		useContentSize: true,
-		width: 700,
-		height: clamp(media.length, 4, 10) * 47 + 97,
-		resizable: dev,
-		modal: true
-	})
+	renderQueue = openWindow(createModalWindowOptions(700, clamp(media.length, 4, 10) * 47 + 97, mainWin))
 
 	renderQueue.loadURL(createURL('render_queue'))
 
@@ -222,14 +231,7 @@ const createPrefsWindow = () => {
 		preferences.close()
 	})
 
-	preferences = openWindow({
-		parent: mainWin,
-		useContentSize: true,
-		width: 700,
-		height: 624,
-		resizable: dev,
-		modal: true
-	})
+	preferences = openWindow(createModalWindowOptions(700, 624, mainWin))
 
 	preferences.loadURL(createURL('preferences'))
 
@@ -263,14 +265,7 @@ const createPresetsWindow = () => {
 		presets.close()
 	})
 
-	presets = openWindow({
-		parent: mainWin,
-		useContentSize: true,
-		width: 700,
-		height: 672,
-		resizable: dev,
-		modal: true
-	})
+	presets = openWindow(createModalWindowOptions(700, 672, mainWin))
 
 	presets.loadURL(createURL('presets'))
 
@@ -306,14 +301,7 @@ const createPresetSaveAsWindow = presetData => {
 		presetSaveAs.close()
 	})
 
-	presetSaveAs = openWindow({
-		parent: mainWin,
-		useContentSize: true,
-		width: 400,
-		height: 648,
-		resizable: dev,
-		modal: true
-	})
+	presetSaveAs = openWindow(createModalWindowOptions(400, 648, mainWin))
 
 	presetSaveAs.loadURL(createURL('preset_save_as'))
 
