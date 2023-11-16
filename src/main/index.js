@@ -777,6 +777,21 @@ ipcMain.on('savePrefs', async (evt, data) => {
 	}
 })
 
+ipcMain.on('clearScratchDisks', async evt => {
+	try {
+		await scratchDisk.clearAll()
+
+		mainWin.webContents.send('startOver', {
+			clearUndos: true
+		})
+
+		evt.reply('scratchDisksCleared')
+	} catch (err) {
+		console.error(err)
+		evt.reply('clearScratchErr', new Error('An error occurred while attempting to clear scratch disks.'))
+	}
+})
+
 // ---- IPC ROUTES: PRESETS ------------
 
 ipcMain.on('requestPresets', async (evt, data) => {
