@@ -15,7 +15,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Ability to select multiple media clips for editing. Able2 previously could only edit 1 clip or all clips. Not it can edit 1, all or some. Use <kbd>Shift</kbd>+Click to select multiple media clips in sequence and <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to select out of order. Use <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to deselect selected clips.
 - Select All and Deselect All buttons in place of the Edit All checkbox.
 - Edit All dropdown menu with options: Select All, Deselect All, Duplicate Selected/All, Apply Preset to Selected/All, Apply Preset to Selected/All as Duplicate, Remove Selected/All.
-- New media dropdown options: Apply Attributes to Selected, Select Duplicates, Apply Preset, Apply Preset as Duplicate, Save as Preset
+- New media dropdown options: Apply Attributes to Selected, Select Duplicates, Apply Preset, Apply Preset as Duplicate, Save as Preset.
 - New panel dropdown options: Apply to Selected, Save as Preset.
 - Render queue now displays a "View in Explorer|Finder" button next to each successfully rendered item. A popup menu of directories displays if multiple save locations were selected.
 - Select All by Default setting in the preferences.
@@ -28,7 +28,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Batch name panel is now collapsible and text can be prepended/appended to the filename simultaneously instead of one or the other.
 - Deleting a displayed media clip will now auto display the nearest selected clip in the current media selection. If no other clips are selected, it will display the next clip in sequence like normal.
 - Dropdown menus can be navigated with arrow keys and closed with the escape key.
-- $s, $e, $r and $c timecode tokens now include frames and are concatenated with 1 letter units (e.g. 01h02m03s04f)
+- $s, $e, $r and $c timecode tokens now include frames and are concatenated with 1 letter units (e.g. 01h02m03s04f).
 - Formatting Panels Open/Closed state and Preview Quality now retain their last state when Able2 is reopened.
 
 ### Updated
@@ -39,7 +39,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Focus rings are back.
 - Bug where images with a transparent background were missing an alpha channel.
 - Grid Color selector width is back to normal.
-- Crop values adjust correctly when reflecting a clip rotated 90deg or -90deg
+- Crop values adjust correctly when reflecting a clip rotated 90deg or -90deg.
 
 ### Removed
 - Edit All checkbox and Edit All by Default preference setting. Edit All has been completely replaced by the multi selection feature outlines above.
