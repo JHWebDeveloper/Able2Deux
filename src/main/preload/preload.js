@@ -7,8 +7,9 @@ import * as preferences from './preferences'
 import * as presets from './presets'
 import * as renderQueue from './renderQueue'
 import * as update from './update'
+import * as workspace from './workspace'
 
-const interop = Object.assign({}, acquisition, formatting, preferences, presets, renderQueue, update)
+const interop = Object.assign({}, acquisition, formatting, preferences, presets, renderQueue, update, workspace)
 
 // ---- GET INFO --------
  
