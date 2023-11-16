@@ -38,12 +38,11 @@ const ReadyQueue = ({ pendingMedia, media, recording, warnings, dispatch, import
 
 	const warnRemoveMedia = useWarning({
 		name: 'remove',
-		detail: 'This cannot be undone. Proceed?'
 	}, [])
 
 	const warnRemoveReferencedMedia = useWarning({
 		name: 'removeReferenced',
-		detail: 'This media file has duplicates referencing it. Deleting this file will also delete these references. This cannot be undone. Proceed?'
+		detail: 'This media file has duplicates referencing it. Deleting this file will also delete these references. Proceed?'
 	}, [])
 
 	const removeMediaWarning = useCallback(({ title, id, refId, status, references = 1 }, toDispatch) => {
@@ -72,7 +71,7 @@ const ReadyQueue = ({ pendingMedia, media, recording, warnings, dispatch, import
 	const removeAllMediaWarning = useWarning({
 		name: 'removeAll',
 		message: 'Remove all media items?',
-		detail: 'Any current downloads will be canceled. This cannot be undone. Proceed?',
+		detail: 'Any current downloads will be canceled (This cannot be undone). Proceed?',
 		onConfirm() {
 			removeAllPendingMedia()
 			dispatch(removeAllMedia())

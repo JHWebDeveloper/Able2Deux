@@ -56,7 +56,7 @@ const BatchList = ({
 
 	const warnApplyToMultiple = useWarning({
 		name: 'applyToAll',
-		detail: 'This will overwrite all attributes except for filenames and start and end timecodes. This cannot be undone. Proceed?'
+		detail: 'This will overwrite all attributes except for filenames and start and end timecodes. Proceed?'
 	}, [])
 
 	const applyToMultipleWarning = useCallback(({ message, action }) => warnApplyToMultiple({

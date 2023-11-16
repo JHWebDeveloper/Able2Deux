@@ -8,7 +8,7 @@ const { warning } = window.ABLE2.interop
 export const useWarning = ({
 	name: warningName,
 	message: fixedMessage,
-	detail: fixedDetail = 'This cannot be undone. Proceed?',
+	detail: fixedDetail,
 	onConfirm: fixedOnConfirm,
 	skip: fixedSkip,
 	hasCheckbox = true

@@ -106,7 +106,6 @@ const PresetBatch = ({ id, focusedIndex, setFocusedIndex, presetIds, label, disp
 	}, [])
 
 	const warnRemovePresetFromBatch = useWarning({
-		detail: 'This cannot be undone. Proceed?',
 		name: 'removePresetFromBatch'
 	})
 

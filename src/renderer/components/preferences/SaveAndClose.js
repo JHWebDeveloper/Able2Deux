@@ -11,7 +11,6 @@ const { interop } = window.ABLE2
 const SaveAndClose = ({ dispatch }) => {
 	const restoreDefaultPrefsWarning = useWarning({
 		message: 'Restore Default Preferences?',
-		detail: 'Once saved, this cannot be undone. Proceed?',
 		hasCheckbox: false,
 		onConfirm() {
 			dispatch(restoreDefaultPrefs())

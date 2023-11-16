@@ -108,12 +108,11 @@ const PresetSelector = ({
 
 	const warnRemovePreset = useWarning({
 		name: 'removePreset',
-		detail: 'This cannot be undone. Proceed?'
 	}, [])
 
 	const warnRemoveReferencedPreset = useWarning({
 		name: 'removeReferencedPreset',
-		detail: 'This preset is referenced in one or more batch presets. Deleting this preset will also delete these references. This cannot be undone. Proceed?'
+		detail: 'This preset is referenced in one or more batch presets. Deleting this preset will also delete these references. Proceed?'
 	}, [])
 
 	const getWarningType = hasReferences => hasReferences && warnings.removeReferencedPreset
