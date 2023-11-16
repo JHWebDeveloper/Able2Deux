@@ -6,8 +6,16 @@ import { updateMediaStateById } from 'actions'
 import FrameSelector from './FrameSelector'
 import GridSelector from './GridSelector'
 
-const Controls = props => {
-	const { focused, isAudio, dispatch } = props
+const Controls = ({
+	focused,
+	isAudio,
+	aspectRatioMarkers,
+	grid,
+	gridColor,
+	previewQuality,
+	dispatch,
+	workspaceDispatch
+}) => {
 	const { id, timecode, start, end, totalFrames } = focused
 
 	const onKeyDown = useCallback(e => {
@@ -54,12 +62,11 @@ const Controls = props => {
 			) : <></>}
 			{isAudio ? <></> : (
 				<GridSelector
-					previewQuality={props.previewQuality}
-					grid={props.grid}
-					aspectRatioMarkers={props.aspectRatioMarkers}
-					gridColor={props.gridColor}
-					toggleGrid={props.toggleGrid}
-					dispatch={dispatch} />
+					aspectRatioMarkers={aspectRatioMarkers}
+					grid={grid}
+					gridColor={gridColor}
+					previewQuality={previewQuality}
+					dispatch={workspaceDispatch} />
 			)}
 		</div>
 	)
@@ -68,8 +75,6 @@ const Controls = props => {
 Controls.propTypes = {
 	focused: object.isRequired,
 	isAudio: bool.isRequired,
-	grid: bool.isRequired,
-	previewQuality: oneOf([1, 0.75, 0.5]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,
@@ -77,9 +82,12 @@ Controls.propTypes = {
 		selected: bool,
 		ratio: arrayOf(number)
 	})).isRequired,
+	grid: bool.isRequired,
 	gridColor: string.isRequired,
+	previewQuality: oneOf([1, 0.75, 0.5]),
 	toggleGrid: func,
-	dispatch: func.isRequired
+	dispatch: func.isRequired,
+	workspaceDispatch: func.isRequired
 }
 
 export default Controls
