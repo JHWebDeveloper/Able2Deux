@@ -1,14 +1,14 @@
 import { useCallback, useContext } from 'react'
 
-import { PanelsContext } from 'store'
-import { togglePanelOpen } from 'actions'
+import { WorkspaceContext } from 'store'
+import { updatePanelState } from 'actions'
 
 export const usePanelToggle = panelName => {
-	const { [panelName]: { open }, dispatch } = useContext(PanelsContext)
+	const { panels: { [panelName]: { open } }, dispatch } = useContext(WorkspaceContext)
 
 	const togglePanel = useCallback(() => {
-		dispatch(togglePanelOpen(panelName))
-	}, [panelName])
+		dispatch(updatePanelState(panelName, !open))
+	}, [panelName, open])
 
 	return [ open, togglePanel ]
 }
