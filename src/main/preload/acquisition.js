@@ -66,7 +66,7 @@ export const requestUpload = data => sendMessage({
 
 export const setOpenWithListener = callback => {
 	ipcRenderer.on('openWith', (evt, files) => {
-		callback(files)
+		callback({ files })
 	})
 }
 
