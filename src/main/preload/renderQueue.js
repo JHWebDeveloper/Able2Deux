@@ -31,8 +31,8 @@ export const cancelRender = id => ipcRenderer.send('cancelRender', id)
 export const closeRenderQueue = startOver => ipcRenderer.send('closeRenderQueue', startOver)
 
 export const setStartOverListener = callback => {
-	ipcRenderer.on('startOver', () => {
-		callback()
+	ipcRenderer.on('startOver', (evt, { clearUndos } = {}) => {
+		callback(clearUndos)
 	})
 }
 
