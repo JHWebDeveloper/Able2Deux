@@ -107,7 +107,7 @@ const PresetSelector = ({
 	}, [])
 
 	const warnRemovePreset = useWarning({
-		name: 'removePreset',
+		name: 'removePreset'
 	}, [])
 
 	const warnRemoveReferencedPreset = useWarning({

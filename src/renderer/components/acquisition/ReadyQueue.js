@@ -37,7 +37,7 @@ const ReadyQueue = ({ pendingMedia, media, recording, warnings, dispatch, import
 	const notReady = recording || !uniqueMediaLength || !!pendingMediaLength && pendingMedia.some(checkActiveImports)
 
 	const warnRemoveMedia = useWarning({
-		name: 'remove',
+		name: 'remove'
 	}, [])
 
 	const warnRemoveReferencedMedia = useWarning({
