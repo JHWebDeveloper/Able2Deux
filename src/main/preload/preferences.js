@@ -38,3 +38,9 @@ export const enablePrefs = () => {
 export const disablePrefs = () => {
 	ipcRenderer.send('disablePrefs')
 }
+
+export const clearScratchDisks = () => sendMessage({
+	sendMsg: 'clearScratchDisks',
+	recieveMsg: 'scratchDisksCleared',
+	errMsg: 'clearScratchDisksErr'
+})
