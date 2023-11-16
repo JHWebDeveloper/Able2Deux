@@ -31,6 +31,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - $s, $e, $r and $c timecode tokens now include frames and are concatenated with 1 letter units (e.g. 01h02m03s04f)
 - Formatting Panels Open/Closed state and Preview Quality now retain their last state when Able2 is reopened.
 
+### Updated
+- Updated internal downloader to latest stable version.
+
 ### Fixed
 - Focus rings are back.
 - Bug where images with a transparent background were missing an alpha channel.
@@ -40,6 +43,21 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ### Removed
 - Edit All checkbox and Edit All by Default preference setting. Edit All has been completely replaced by the multi selection feature outlines above.
 - Default Preview Quality preference setting. Preview Quality is now auto saved and retained.
+
+## [2.3.6] - 9.26.2023
+
+### Updated
+- Updated internal downloader to latest stable version.
+
+## [2.3.5] - 9.8.2023
+
+### Updated
+- Updated internal downloader to latest beta. Facebook is working again.
+
+## [2.3.4] - 8.28.2023
+
+### Updated
+- Updated internal downloader to latest beta. Facebook is still not working, but a certain site-that-will-not-be-named should be working again.
 
 ## [2.3.3] - 7.6.2023
 
