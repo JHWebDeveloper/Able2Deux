@@ -31,14 +31,6 @@ export const removePrefsSyncListener = () => {
 	ipcRenderer.removeAllListeners('syncPrefs')
 }
 
-export const saveWindowSize = (windowWidth, windowHeight) => {
-	ipcRenderer.send('savePrefsSilently', { windowWidth, windowHeight })
-}
-
-export const savePreviewHeight = previewHeight => {
-	ipcRenderer.send('savePrefsSilently', { previewHeight })
-}
-
 export const enablePrefs = () => {
 	ipcRenderer.send('enablePrefs')
 }
