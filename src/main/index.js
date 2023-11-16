@@ -46,13 +46,14 @@ const openWindow = (opts = {}) => new BrowserWindow({
 	...opts
 })
 
-const createModalWindowOptions = (w, h, parentWin) => {
-	const { x, y, width, height } = parentWin.getBounds()
+const createModalWindowOptions = (w, h, parent) => {
+	const { x, y, width, height } = parent.getBounds()
 	
 	return {
 		modal: true,
+		parent,
 		frame: false,
-		parent: mainWin,
+		center: false,
 		x: x + (width - w) / 2,
 		y: y + (height - y) / 2,
 		width: w,
