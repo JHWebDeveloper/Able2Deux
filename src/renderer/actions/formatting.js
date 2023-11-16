@@ -3,7 +3,8 @@ import toastr from 'toastr'
 import {
 	addMedia,
 	updateMediaStateById,
-	updateMediaStateBySelection
+	updateMediaStateBySelection,
+	updateState
 } from 'actions'
 
 import { ACTION, TOASTR_OPTIONS } from 'constants'
@@ -337,10 +338,20 @@ export const extractStill = (sourceMediaData, e) => async dispatch => {
 
 // ---- OTHER EDITOR ACTIONS --------
 
-export const togglePanelOpen = panelName => ({
-	type: ACTION.TOGGLE_PANEL_OPEN,
-	payload: { panelName }
-})
+export const updateWorkspaceState = properties => async dispatch => {
+	await interop.saveWorkspaceState(properties)
+
+	dispatch(updateState(properties))
+}
+
+export const updatePanelState = (panelName, open) => async dispatch => {
+	await interop.savePanelState(panelName, { open })
+
+	dispatch({
+		type: ACTION.UPDATE_PANEL_STATE,
+		payload: { panelName, open }
+	})
+}
 
 export const toggleAspectRatioMarker = id => ({
 	type: ACTION.TOGGLE_SORTABLE_ELEMENT_CHECKBOX,
