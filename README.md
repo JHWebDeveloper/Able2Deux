@@ -17,7 +17,8 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Select All and Deselect All buttons in place of the Edit All checkbox.
 - Edit All dropdown menu with options: Select All, Deselect All, Duplicate Selected/All, Apply Preset to Selected/All, Apply Preset to Selected/All as Duplicate, Remove Selected/All.
 - New media dropdown options: Apply Attributes to Selected, Select Duplicates, Apply Preset, Apply Preset as Duplicate, Save as Preset
-- New panel dropdown options: Apply to Selected, Save as Preset
+- New panel dropdown options: Apply to Selected, Save as Preset.
+- Render queue now displays a "View in Explorer|Finder" button next to each successfully rendered item. A popup menu of directories displays if multiple save locations were selected.
 - Select All by Default setting in the preferences.
 - Dropdown menus now display their keyboard shortcut to the right if available.
 - Creative Commons License Agreement and Help > View License menu option.
@@ -33,6 +34,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Updated
 - Updated internal downloader to latest stable version.
+- Electron 27
 
 ### Fixed
 - Focus rings are back.
