@@ -17,6 +17,8 @@ main {
 
 .scratch-disks > label { width: 100%; }
 
+button[name="clearScratchDisks"] { width: min-content; }
+
 :not(.radio-set) > label {
 	font-weight: 500;
 	font-size: 14px;
@@ -24,15 +26,10 @@ main {
 
 form > :last-child { margin-bottom: 0; }
 
-main .app-button,
 .directory-selector > input,
-.aspect-ratio-markers-grid input {
+.aspect-ratio-markers-grid input,
+.sortable-grid .app-button {
 	height: 24px;
-}
-
-main .app-button {
-	width: 24px;
-	padding: 0;
 }
 
 input[name="customFrameRate"] { width: 50px; }
@@ -84,6 +81,11 @@ input[name="customFrameRate"] { width: 50px; }
 	height: 24px;
 	width: 24px;
 	margin: 0;
+}
+
+.sortable-grid .app-button {
+	width: 24px;
+	padding: 0;
 }
 
 :is(.aspect-ratio-markers-grid, .save-locations-grid) > label { font-size: 10px; }
