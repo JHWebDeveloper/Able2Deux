@@ -9,7 +9,10 @@ import { debounce, pipeAsync } from 'utilities'
 const { interop } = window.ABLE2
 
 const saveWindowSize = debounce(() => {
-	interop.saveWindowSize(window.outerWidth, window.outerHeight)
+	interop.saveWorkspaceState({
+		windowWidth: window.outerWidth,
+		windowHeight: window.outerHeight
+	})
 }, 500)
 
 const GlobalListeners = ({ scratchDisk }) => {
