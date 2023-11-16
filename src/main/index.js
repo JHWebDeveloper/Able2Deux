@@ -4,7 +4,7 @@ import log from 'electron-log'
 import { pathToFileURL } from 'url'
 import path from 'path'
 
-import { initPreferencesAndPresets, loadPrefs, loadPresets, savePrefs, getDefaultPrefs, loadTheme, getPresetAttributes, createPreset, updatePreset, savePresets } from './modules/preferences/preferences'
+import { initDataStores, loadPrefs, loadPresets, savePrefs, getDefaultPrefs, loadTheme, getPresetAttributes, createPreset, updatePreset, savePresets, saveWorkspace, saveWorkspacePanel, loadWorkspace } from './modules/preferences/preferences'
 import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
@@ -113,7 +113,7 @@ const createUpdateWindow = version => {
 let mainWin = false
 
 const createMainWindow = async () => {
-	const { windowWidth, windowHeight } = await loadPrefs()
+	const { windowWidth, windowHeight } = await loadWorkspace()
 
 	mainWin = openWindow({
 		width: windowWidth,
@@ -387,7 +387,7 @@ const startApp = async () => {
 	createSplashWindow()
 
 	try {
-		await initPreferencesAndPresets()
+		await initDataStores()
 		await initScratchDisk()
 	} catch (err) {
 		console.error(err)
@@ -777,19 +777,6 @@ ipcMain.on('savePrefs', async (evt, data) => {
 	}
 })
 
-ipcMain.on('savePrefsSilently', async (evt, data) => {
-	try {
-		const oldPrefs = await loadPrefs()
-	
-		await savePrefs({
-			...oldPrefs,
-			...data
-		})
-	} catch (err) {
-		console.error(err)
-	}
-})
-
 // ---- IPC ROUTES: PRESETS ------------
 
 ipcMain.on('requestPresets', async (evt, data) => {
@@ -847,6 +834,33 @@ ipcMain.on('savePresets', async (evt, data) => {
 	} catch (err) {
 		console.error(err)
 		evt.reply('savePresetsErr', new Error('An error occurred while attempting to save presets.'))
+	}
+})
+
+// ---- IPC ROUTES: WORKSPACE ------------
+
+ipcMain.on('requestWorkspace', async evt => {
+	try {
+		evt.reply('workspaceRecieved', await loadWorkspace())
+	} catch (err) {
+		console.error(err)
+		evt.reply('workspaceErr', new Error('An error occurred while attempting to workspace settings.'))
+	}
+})
+
+ipcMain.on('saveWorkspace', async (evt, data) => {
+	try {	
+		await saveWorkspace(data)
+	} catch (err) {
+		console.error(err)
+	}
+})
+
+ipcMain.on('saveWorkspacePanel', async (evt, data) => {	
+	try {
+		await saveWorkspacePanel(data)
+	} catch (err) {
+		console.error(err)
 	}
 })
 
