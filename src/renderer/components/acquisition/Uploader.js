@@ -24,6 +24,7 @@ const Uploader = ({ importQueueDispatch }) => {
 	}, [])
 
 	const dropFiles = useCallback(e => {
+		e.preventDefault()
 		prepFilesForUpload(Array.from(e.dataTransfer.files))
 		dragLeave(e)
 	}, [])
