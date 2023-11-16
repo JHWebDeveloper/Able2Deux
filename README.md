@@ -10,7 +10,6 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ## [Unreleased][2.4.0] - TBD
 
 ### Added
-
 - Presets! Able2 can now store and apply preset media attributes to media clips. There are two types of Presets. Presets and Batch Presets. Batch Presets allow users to create multiple versions of a single or multiple media clips in a single click. Both Presets and Batch Presets can be created, modified, sorted and deleted in the new Preset Editor window.
 - Undo and Redo. Able2 now supports undo history for nearly every action. Select Edit > Undo|Redo or press <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+<kbd>Z</kbd> to Undo or <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> to Redo (to match Avid, Redo via <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+<kbd>R</kbd> is also supported).
 - Ability to select multiple media clips for editing. Able2 previously could only edit 1 clip or all clips. Not it can edit 1, all or some. Use <kbd>Shift</kbd>+Click to select multiple media clips in sequence and <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to select out of order. Use <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to deselect selected clips.
@@ -45,6 +44,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ### Removed
 - Edit All checkbox and Edit All by Default preference setting. Edit All has been completely replaced by the multi selection feature outlines above.
 - Default Preview Quality preference setting. Preview Quality is now auto saved and retained.
+- Live stream downloads, hopefully temporarily. Feature has not worked since switching internal downloaders.
 
 ## [2.3.6] - 9.26.2023
 
