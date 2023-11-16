@@ -3,7 +3,7 @@ import { promises as fsp } from 'fs'
 import path from 'path'
 import { v1 as uuid } from 'uuid'
 
-import { defaultPrefs, defaultPresets } from './default'
+import { defaultPrefs, defaultPresets, defaultWorkspace } from './default'
 import { fileExistsPromise, innerMergeObjectKeys } from '../utilities'
 
 const prefsDir = process.env.NODE_ENV === 'development'
@@ -104,7 +104,7 @@ export const loadTheme = async () => {
 
 // ---- PRESETS --------
 
-export const presetsPath = path.join(prefsDir, 'presets.json')
+const presetsPath = path.join(prefsDir, 'presets.json')
 
 const partitionPresets = presets => ({
 	...presets,
@@ -235,15 +235,59 @@ export const savePresets = async presets => fsp.writeFile(presetsPath, JSON.stri
 	version: defaultPresets.version
 }))
 
+// ---- WORKSPACE --------
+
+const workspacePath = path.join(prefsDir, 'workspace.json')
+
+const initWorkspace = async () => {
+	const workspaceExists = await fileExistsPromise(workspacePath)
+
+	if (!workspaceExists) {
+		return fsp.writeFile(workspacePath, JSON.stringify(defaultWorkspace))
+	}
+}
+
+export const loadWorkspace = async () => JSON.parse(await fsp.readFile(workspacePath))
+
+const writeToWorkspace = async workspace => fsp.writeFile(workspacePath, JSON.stringify({
+	...workspace,
+	version: defaultWorkspace.version
+}))
+
+export const saveWorkspace = async data => {
+	const workspace = await loadWorkspace()
+
+	writeToWorkspace({
+		...workspace,
+		...data
+	})
+}
+
+export const saveWorkspacePanel = async ({ panelName, properties }) => {
+	const workspace = await loadWorkspace()
+	
+	writeToWorkspace({
+		...workspace,
+		panels: {
+			...workspace.panels,
+			[panelName]: {
+				...workspace.panels[panelName],
+				...properties
+			}
+		}
+	})
+}
+
 // ---- SHARED --------
 
-export const initPreferencesAndPresets = async () => {
+export const initDataStores = async () => {
 	const prefsDirExists = await fileExistsPromise(prefsDir)
 
 	if (!prefsDirExists) await fsp.mkdir(prefsDir)
 
 	return Promise.all([
 		initPreferences(),
-		initPresets()
+		initPresets(),
+		initWorkspace()
 	])
 }
