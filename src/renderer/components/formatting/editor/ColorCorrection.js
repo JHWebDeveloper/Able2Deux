@@ -140,16 +140,24 @@ const ColorCorrection = memo(props => {
 	const whitePt = useMemo(() => props[ccSelectedCurve].at(-1), [ccSelectedCurve, ccRGB, ccR, ccG, ccB])
 
 	const setBlackPoint = useCallback(({ value }) => {
-		dispatch(addOrUpdateCurvePoint(id, ccSelectedCurve, {
-			...blackPt,
-			x: value
+		dispatch(addOrUpdateCurvePoint({
+			id,
+			curveName: ccSelectedCurve,
+			pointData: {
+				...blackPt,
+				x: value
+			}
 		}))
 	}, [id, ccSelectedCurve, blackPt])
 
 	const setWhitePoint = useCallback(({ value }) => {
-		dispatch(addOrUpdateCurvePoint(id, ccSelectedCurve, {
-			...whitePt,
-			x: value
+		dispatch(addOrUpdateCurvePoint({
+			id,
+			curveName: ccSelectedCurve,
+			pointData: {
+				...whitePt,
+				x: value
+			}
 		}))
 	}, [id, ccSelectedCurve, whitePt])
 
