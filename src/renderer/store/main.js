@@ -19,9 +19,6 @@ const initState = {
 	batchName: '',
 	batchNamePrepend: '',
 	batchNameAppend: '',
-	previewQuality: 1,
-	previewHeight: 540,
-	aspectRatioMarkers: [],
 	saveLocations: []
 }
 
@@ -31,10 +28,7 @@ const extractDefaultPrefs = createObjectPicker([
 	'optimize',
 	'timerEnabled',
 	'timer',
-	'screenshot',
-	'previewQuality',
-	'previewHeight',
-	'aspectRatioMarkers'
+	'screenshot'
 ])
 
 export const MainContext = createContext()
