@@ -43,8 +43,13 @@ export const scratchDisk = {
 		path: '',
 		clear: id => clearFiles(scratchDisk.previews.path, id)
 	},
-	clearAll: () => Promise.all([
+	clearAllByAge: () => Promise.all([
 		scratchDisk.imports.clearByAge(),
+		scratchDisk.exports.clear(),
+		scratchDisk.previews.clear()
+	]),
+	clearAll: () => Promise.all([
+		scratchDisk.imports.clear(),
 		scratchDisk.exports.clear(),
 		scratchDisk.previews.clear()
 	])
@@ -52,7 +57,7 @@ export const scratchDisk = {
 
 export const initScratchDisk = async () => {
 	await updateScratchDisk()
-	await scratchDisk.clearAll() 
+	await scratchDisk.clearAllByAge() 
 }
 
 export const updateScratchDisk = async () => {
