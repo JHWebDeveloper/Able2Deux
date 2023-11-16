@@ -1,7 +1,11 @@
 import React, { useCallback, useMemo } from 'react'
 import { arrayOf, bool, exact, func, number, oneOf, string } from 'prop-types'
 
-import { toggleAspectRatioMarker, updateState } from 'actions'
+import {
+	toggleAspectRatioMarker,
+	toggleCheckbox,
+	updateWorkspaceState
+} from 'actions'
 
 import QualityIcon from '../../svg/QualityIcon.js'
 import Popup from '../../form_elements/Popup'
@@ -33,7 +37,13 @@ const AspectRatioMarkerButtons = ({ buttons, toggleColor, dispatch, navigateWith
 	})
 )
 
-const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, toggleGrid, dispatch }) => {
+const GridSelector = ({
+	aspectRatioMarkers,
+	grid,
+	gridColor,
+	previewQuality,
+	dispatch
+}) => {
 	const previewQualityBtnTitle = `Preview Quality: ${previewQuality * 100}%`
 	const gridBtnTitle = `${toggleTitle(grid)} Grid`
 
@@ -47,8 +57,12 @@ const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, tog
 
 		if (q > 1) q = 0.5
 
-		dispatch(updateState({ previewQuality: q }))
+		dispatch(updateWorkspaceState({ previewQuality: q }))
 	}, [previewQuality])
+
+	const toggleGrid = useCallback(e => {
+		dispatch(toggleCheckbox(e))
+	}, [grid])
 
 	const toggleColor = useCallback(gridSelected => ({
 		color: gridSelected ? gridColor : 'currentColor'
@@ -67,10 +81,11 @@ const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, tog
 			<button
 				type="button"
 				className="symbol"
+				name="grid"
 				title={gridBtnTitle}
 				aria-label={gridBtnTitle}
 				style={toggleColor(grid)}
-				onClick={() => toggleGrid()}>grid_on</button>
+				onClick={toggleGrid}>grid_on</button>
 			{enabledAspectRatioMarkers.length > 3 ? (
 				<>
 					<AspectRatioMarkerButtons
@@ -98,8 +113,6 @@ const GridSelector = ({ previewQuality, grid, aspectRatioMarkers, gridColor, tog
 }
 
 GridSelector.propTypes = {
-	grid: bool.isRequired,
-	previewQuality: oneOf([1, 0.75, 0.5]),
 	aspectRatioMarkers: arrayOf(exact({
 		id: string,
 		label: string,
@@ -107,8 +120,10 @@ GridSelector.propTypes = {
 		selected: bool,
 		ratio: arrayOf(number)
 	})).isRequired,
+	grid: bool.isRequired,
 	gridColor: string.isRequired,
-	toggleGrid: func.isRequired,
+	previewQuality: oneOf([1, 0.75, 0.5]),
+	toggleGrid: func,
 	dispatch: func.isRequired
 }
 

@@ -1,7 +1,6 @@
-import React, { useCallback, useContext } from 'react'
-import { arrayOf, element, func, oneOfType } from 'prop-types'
+import React, { useCallback } from 'react'
+import { arrayOf, element, func, number, oneOfType } from 'prop-types'
 
-import { PrefsContext } from 'store'
 import { updateState } from 'actions'
 import { RATIO_9_16 } from 'constants'
 
@@ -12,9 +11,9 @@ import {
 	toPx
 } from 'utilities'
 
-const PreviewViewport = ({ applyDimensions, children }) => {
-	const { preferences: { previewHeight }, dispatch } = useContext(PrefsContext)
+const { interop } = window.ABLE2
 
+const PreviewViewport = ({ applyDimensions, previewHeight, dispatch, children }) => {
 	const updatePreviewHeight = useCallback(height => {
 		dispatch(updateState({ previewHeight: height }))
 	}, [])
@@ -31,7 +30,9 @@ const PreviewViewport = ({ applyDimensions, children }) => {
 		const renderPreviewOnResize = debounce(applyDimensions, 500)
 
 		const onMouseUp = () => {
-			window.ABLE2.interop.savePreviewHeight(viewPort.clientHeight)
+			interop.saveWorkspaceState({
+				previewHeight: viewPort.clientHeight
+			})
 
 			document.body.style.removeProperty('cursor')
 
@@ -63,6 +64,8 @@ const PreviewViewport = ({ applyDimensions, children }) => {
 
 PreviewViewport.propTypes = {
 	applyDimensions: func.isRequired,
+	previewHeight: number.isRequired,
+	dispatch: func.isRequired,
 	children: oneOfType([element, arrayOf(element)]).isRequired
 }
 

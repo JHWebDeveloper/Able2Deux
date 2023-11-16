@@ -3,8 +3,7 @@ import { arrayOf, bool, exact, func, number, object, oneOf, string } from 'prop-
 import { v1 as uuid } from 'uuid'
 import 'css/index/preview.css'
 
-import { PrefsContext } from 'store'
-import { useToggle } from 'hooks'
+import { PrefsContext, WorkspaceContext } from 'store'
 
 import {
 	buildSource,
@@ -21,11 +20,11 @@ import Controls from './Controls'
 
 const { interop } = window.ABLE2
 
-const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previewQuality, dispatch }) => {
+const Preview = ({ focused, eyedropper, setEyedropper, dispatch }) => {
 	const { renderOutput, gridColor } = useContext(PrefsContext).preferences
+	const { aspectRatioMarkers, grid, previewHeight, previewQuality, dispatch: workspaceDispatch } = useContext(WorkspaceContext)
 	const [ previewSize, setPreviewSize ] = useState({})
 	const [ previewStill, setPreviewStill ] = useState('')
-	const [ grid, toggleGrid ] = useToggle()
 	const container = useRef(null)
 	const requestIdQueue = useRef([])
 
@@ -112,7 +111,10 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 	
 	return (
 		<>
-			<PreviewViewport applyDimensions={applyDimensions}>
+			<PreviewViewport
+				applyDimensions={applyDimensions}
+				previewHeight={previewHeight}
+				dispatch={workspaceDispatch}>
 				<div id="preview-container" ref={container}>
 					{previewStill ? (
 						<PreviewCanvas
@@ -132,12 +134,12 @@ const Preview = ({ focused, eyedropper, setEyedropper, aspectRatioMarkers, previ
 			<Controls
 				focused={focused}
 				isAudio={isAudio}
-				grid={grid}
 				aspectRatioMarkers={aspectRatioMarkers}
-				previewQuality={previewQuality}
+				grid={grid}
 				gridColor={gridColor}
-				toggleGrid={toggleGrid}
-				dispatch={dispatch} />
+				previewQuality={previewQuality}
+				dispatch={dispatch}
+				workspaceDispatch={workspaceDispatch} />
 		</>
 	)
 }
@@ -153,14 +155,6 @@ const PreviewPanel = props => (
 
 const propTypes = {
 	focused: object.isRequired,
-	previewQuality: oneOf([1, 0.75, 0.5]).isRequired,
-	aspectRatioMarkers: arrayOf(exact({
-		id: string,
-		label: string,
-		disabled: bool,
-		selected: bool,
-		ratio: arrayOf(number)
-	})).isRequired,
 	eyedropper: object.isRequired,
 	setEyedropper: func.isRequired,
 	dispatch: func.isRequired
