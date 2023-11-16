@@ -142,9 +142,14 @@ export const getURLInfo = ({ id, url, disableRateLimit }) => new Promise((resolv
 			reject(createURLError(url))
 		}
 
+		if (info.is_live || info.protocol === 'm3u8') {
+			return reject('Live downloads are disabled for the time being due to an unknown bug. You may use the screen record feature as an alternative.')
+		}
+
 		resolve({
 			title: info.title.replace(/\n/g, ''),
-			isLive: info.is_live || info.protocol === 'm3u8'
+			isLive: false
+			// isLive: info.is_live || info.protocol === 'm3u8'
 		})
 	})
 
