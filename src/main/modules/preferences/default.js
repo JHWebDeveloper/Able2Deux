@@ -9,8 +9,6 @@ const tempDirectory = process.env.NODE_ENV === 'development'
 export const defaultPrefs = {
 	version: 12,
 	theme: 'system',
-	windowWidth: 830,
-	windowHeight: 800,
 	scratchDisk: {
 		imports: tempDirectory,
 		exports: tempDirectory,
@@ -41,8 +39,6 @@ export const defaultPrefs = {
 	sliderSnapPoints: true,
 	split: 270,
 	scaleSliderMax: 400,
-	previewHeight: 540,
-	previewQuality: 1,
 	gridColor: '#ff00ff',
 	aspectRatioMarkers: [
 		{
@@ -216,3 +212,56 @@ defaultPresets.presets.push(
 		presetIds: defaultPresets.presets.map(({ id }) => id)
 	}
 )
+
+export const defaultWorkspace = {
+	version: 1,
+	windowWidth: 830,
+	windowHeight: 800,
+	previewHeight: 540,
+	previewQuality: 1,
+	grid: false,
+	panels: {
+		batchName: {
+			open: false
+		},
+		preview: {
+			open: true
+		},
+		fileOptions: {
+			open: true
+		},
+		audio: {
+			open: false
+		},
+		framing: {
+			open: true
+		},
+		source: {
+			open: true
+		},
+		centering: {
+			open: true
+		},
+		position: {
+			open: false
+		},
+		scale: {
+			open: false
+		},
+		crop: {
+			open: false
+		},
+		rotation: {
+			open: false
+		},
+		keying: {
+			open: false
+		},
+		colorCorrection: {
+			open: false
+		},
+		presetNameTemplate: {
+			open: false
+		}
+	}
+}
