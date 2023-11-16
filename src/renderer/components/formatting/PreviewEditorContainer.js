@@ -1,14 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { arrayOf, bool, exact, func, number, object, oneOf, string } from 'prop-types'
+import { bool, func, number, object } from 'prop-types'
 
 import Preview from './preview/Preview'
 import EditorOptions from './editor/EditorOptions'
 
 const eyedropperInit = { active: false, pixelData: false }
 
-const PreviewEditorContainer = props => {
+const PreviewEditorContainer = ({
+	focused,
+	split,
+	multipleItems,
+	multipleItemsSelected,
+	allItemsSelected,
+	dispatch
+}) => {
 	const [ eyedropper, setEyedropper ] = useState(eyedropperInit)
-	const { focused, dispatch } = props
 
 	const resetEyedropperOnEscape = useCallback(e => {
 		if (e.key === 'Escape') setEyedropper(eyedropperInit)
@@ -28,16 +34,14 @@ const PreviewEditorContainer = props => {
 				eyedropper={eyedropper}
 				setEyedropper={setEyedropper}
 				focused={focused}
-				aspectRatioMarkers={props.aspectRatioMarkers}
-				previewQuality={props.previewQuality}
 				dispatch={dispatch} />
 			<EditorOptions
 				eyedropper={eyedropper}
 				setEyedropper={setEyedropper}
-				split={props.split}
-				multipleItems={props.multipleItems}
-				multipleItemsSelected={props.multipleItemsSelected}
-				allItemsSelected={props.allItemsSelected}
+				split={split}
+				multipleItems={multipleItems}
+				multipleItemsSelected={multipleItemsSelected}
+				allItemsSelected={allItemsSelected}
 				dispatch={dispatch}
 				{...focused} />
 		</div>
@@ -46,14 +50,6 @@ const PreviewEditorContainer = props => {
 
 PreviewEditorContainer.propTypes = {
 	focused: object.isRequired,
-	previewQuality: oneOf([1, 0.75, 0.5]).isRequired,
-	aspectRatioMarkers: arrayOf(exact({
-		id: string,
-		label: string,
-		disabled: bool,
-		selected: bool,
-		ratio: arrayOf(number)
-	})).isRequired,
 	split: number,
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
