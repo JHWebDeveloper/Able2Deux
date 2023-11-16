@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { shape, string } from 'prop-types'
 
 import { MainContext } from 'store'
-import { removeAllMedia, upload } from 'actions'
+import { clearUndoHistory, removeAllMedia, upload } from 'actions'
 import { debounce, pipeAsync } from 'utilities'
 
 const { interop } = window.ABLE2
@@ -40,8 +40,9 @@ const GlobalListeners = ({ scratchDisk }) => {
 	}, [])
 
 	useEffect(() => {
-		interop.setStartOverListener(() => {
+		interop.setStartOverListener(clearUndos => {
 			dispatch(removeAllMedia())
+			if (clearUndos) dispatch(clearUndoHistory())
 		})
 
 		return interop.removeStartOverListener
