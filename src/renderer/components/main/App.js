@@ -5,9 +5,9 @@ import 'css/index/index.css'
 import {
 	MainContext,
 	MainProvider,
-	PanelsProvider,
 	PrefsContext,
-	PrefsProvider
+	PrefsProvider,
+	WorkspaceProvider
 } from 'store'
 
 import Header from './Header'
@@ -42,9 +42,9 @@ const App = () => (
 		<MainForm>
 			<PrefsProvider enableSync>
 				<MainProvider>
-					<PanelsProvider>
+					<WorkspaceProvider>
 						<Router />
-					</PanelsProvider>
+					</WorkspaceProvider>
 				</MainProvider>
 			</PrefsProvider>
 		</MainForm>
