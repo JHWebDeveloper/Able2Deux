@@ -26,8 +26,6 @@ const Formatting = () => {
 		batchNameAppend,
 		split,
 		saveLocations,
-		aspectRatioMarkers,
-		previewQuality,
 		clipboard,
 		dispatch
 	} = useContext(MainContext)
@@ -85,8 +83,6 @@ const Formatting = () => {
 			</div>
 			<PreviewEditorContainer
 				focused={focused}
-				aspectRatioMarkers={aspectRatioMarkers}
-				previewQuality={previewQuality}
 				multipleItems={multipleItems}
 				multipleItemsSelected={multipleItemsSelected}
 				allItemsSelected={allItemsSelected}
