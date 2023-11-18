@@ -521,7 +521,6 @@ export const DEFAULT_MEDIA_STATE = Object.freeze({
 	isLive: false,
 	sourceFilePath: '',
 	tempFilePath: '',
-	thumbnail: '',
 	timecode: 0,
 	exportFilename: '',
 	status: STATUS.PENDING,
