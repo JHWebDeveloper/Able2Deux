@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { number, oneOf, oneOfType, string } from 'prop-types'
 
 import {
@@ -7,21 +7,29 @@ import {
 	scrollText
 } from 'utilities'
 
-const MediaInfo = props => {
-	const {
-		thumbnail,
-		title,
-		width,
-		height,
-		aspectRatio,
-		totalFrames,
-		fps,
-		channelLayout,
-		sampleRate,
-		bitRate
-	} = props
+const { interop } = window.ABLE2
 
+const MediaInfo = ({
+	refId,
+	mediaType,
+	title,
+	width,
+	height,
+	aspectRatio,
+	totalFrames,
+	fps,
+	channelLayout,
+	sampleRate,
+	bitRate
+}) => {
+	const [ thumbnail, setThumbnail ] = useState()
 	const h2 = useRef(null)
+
+	useEffect(() => {
+		(async () => {
+			setThumbnail(await interop.requestThumbnail(mediaType === 'audio' ? false : refId))
+		})()
+	}, [refId])
 
 	useEffect(() => {
 		const textAnimation = scrollText(h2.current)
@@ -52,7 +60,6 @@ const MediaInfo = props => {
 }
 
 MediaInfo.propTypes = {
-	thumbnail: string,
 	title: string,
 	width: number,
 	height: number,
