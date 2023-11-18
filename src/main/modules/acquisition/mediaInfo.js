@@ -2,43 +2,10 @@ import path from 'path'
 import getRGBAPalette from 'get-rgba-palette'
 import getPixels from 'get-pixels'
 
+import { createPNGCopyAsScreenshot, createScreenshot } from './thumbnails'
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
-import { base64EncodeOrPlaceholder, supportedImageCodecs } from '../utilities'
-
-const createScreenshot = (id, tempFilePath) => new Promise(resolve => {
-	const screenshot = `${id}.thumbnail.png`
-
-	ffmpeg(tempFilePath).on('end', () => {
-		resolve(path.join(scratchDisk.imports.path, screenshot))
-	}).on('error', err => {
-		console.error(err)
-		resolve(false) // ignore error for thumbnails
-	}).screenshots({
-		timemarks: ['50%'],
-		folder: scratchDisk.imports.path,
-		filename: screenshot,
-		size: '384x?'
-	})
-})
-
-const createPNGCopy = (id, tempFilePath, mediaType) => new Promise(resolve => {
-	const png = path.join(scratchDisk.imports.path, `${id}.thumbnail.png`)
-	const opt = []
-
-	if (mediaType === 'gif') opt.push('-frames 1')
-
-	ffmpeg(tempFilePath)
-		.outputOption(opt)
-		.output(png)
-		.size('384x?')
-		.on('error', err => {
-			console.error(err)
-			resolve(false)
-		})
-		.on('end', () => resolve(png))
-		.run()
-})
+import { supportedImageCodecs } from '../utilities'
 
 const gcd = (a, b) => b === 0 ? a : gcd(b, a % b)
 
@@ -223,23 +190,19 @@ export const getMediaInfo = async (id, tempFilePath, streamData, forcedFPS) => {
 	}
 
 	if (mediaType === 'video') {
-		const thumbnail = await createScreenshot(id, tempFilePath)
+		await createScreenshot(id, tempFilePath)
+
 		const { avg_frame_rate } = videoStream
 		const fps = forcedFPS || (checkMetadata(avg_frame_rate) ? frameRateToNumber(avg_frame_rate) : 0)
 		const totalFrames = mediaData.duration * fps
 
 		Object.assign(mediaData, {
-			thumbnail: await base64EncodeOrPlaceholder(thumbnail),
 			end: totalFrames,
 			totalFrames,
 			fps
 		})
 	} else if (mediaType === 'image' || mediaType === 'gif') {
-		const thumbnail = await createPNGCopy(id, tempFilePath, mediaType)
-
-		mediaData.thumbnail = await base64EncodeOrPlaceholder(thumbnail)
-	} else {
-		mediaData.thumbnail = await base64EncodeOrPlaceholder(false)
+		await createPNGCopyAsScreenshot(id, tempFilePath, mediaType)
 	}
 
 	return mediaData
