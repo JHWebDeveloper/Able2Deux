@@ -10,6 +10,7 @@ import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './m
 import { upload } from './modules/acquisition/upload'
 import { getRecordSources, saveScreenRecording } from './modules/acquisition/screenRecorder'
 import { checkFileType, getMediaInfo } from './modules/acquisition/mediaInfo'
+import { getThumbnailBase64 } from './modules/acquisition/thumbnails'
 import { validateDirectories } from './modules/formatting/validateDirectories'
 import { renderPreview, copyPreviewToImports } from './modules/formatting/preview'
 import { render, cancelRender } from './modules/formatting/formatting'
@@ -686,7 +687,9 @@ ipcMain.on('saveScreenRecording', async (evt, data) => {
 	}
 })
 
-// ---- IPC ROUTES: PREVIEW ------------
+// ---- IPC ROUTES: FORMATTING/PREVIEW ------------
+
+ipcMain.handle('requestThumbnail', async (evt, id) => getThumbnailBase64(id))
 
 ipcMain.on('requestPreviewStill', async (evt, data) => {
 	try {
