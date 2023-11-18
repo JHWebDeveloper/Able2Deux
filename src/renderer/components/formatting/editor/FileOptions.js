@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 import { func, number, oneOf, string } from 'prop-types'
 
+import { MEDIA_TYPES } from 'constants'
 import { objectsAreEqual } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
@@ -58,7 +59,7 @@ const FileOptionsPanel = props => (
 
 const propTypes = {
 	id: string.isRequired,
-	mediaType: oneOf(['video', 'image', 'gif', 'audio']).isRequired,
+	mediaType: oneOf(MEDIA_TYPES).isRequired,
 	filename: string.isRequired,
 	start: number.isRequired,
 	end: number.isRequired,

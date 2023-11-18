@@ -11,7 +11,7 @@ import {
 	updateMediaStateBySelection
 } from 'actions'
 
-import { OPTION_SET } from 'constants'
+import { MEDIA_TYPES, OPTION_SET } from 'constants'
 
 import {
 	classNameBuilder,
@@ -176,7 +176,7 @@ const propTypes = {
 		})])
 	}).isRequired,
 	setEyedropper: func.isRequired,
-	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
+	mediaType: oneOf(MEDIA_TYPES),
 	updateSelectionFromEvent: func.isRequired,
 	dispatch: func.isRequired
 }

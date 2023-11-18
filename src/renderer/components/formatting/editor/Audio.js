@@ -8,7 +8,7 @@ import {
 	saveAsPreset
 } from 'actions'
 
-import { OPTION_SET } from 'constants'
+import { MEDIA_TYPES, OPTION_SET } from 'constants'
 
 import {
 	createObjectPicker,
@@ -71,7 +71,7 @@ const propTypes = {
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
-	mediaType: oneOf(['video', 'image', 'gif', 'audio']).isRequired,
+	mediaType: oneOf(MEDIA_TYPES).isRequired,
 	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']).isRequired,
 	audioExportFormat: oneOf(['wav', 'mp3', 'bars']).isRequired,
 	updateSelectionFromEvent: func.isRequired,

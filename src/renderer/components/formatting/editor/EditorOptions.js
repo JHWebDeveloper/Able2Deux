@@ -7,6 +7,8 @@ import {
 	updateMediaStateBySelection
 } from 'actions'
 
+import { MEDIA_TYPES } from 'constants'
+
 import FileOptions from './FileOptions'
 import PresetNameTemplate from './PresetNameTemplate'
 import Audio from './Audio'
@@ -171,7 +173,7 @@ EditorOptions.propTypes = {
 	id: string,
 	multipleItems: bool,
 	multipleItemsSelected: bool,
-	mediaType: oneOf(['video', 'image', 'gif', 'audio']),
+	mediaType: oneOf(MEDIA_TYPES),
 	hasAudio: bool,
 	width: number,
 	height: number,

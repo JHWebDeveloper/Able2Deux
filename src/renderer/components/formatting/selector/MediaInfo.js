@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { number, oneOf, oneOfType, string } from 'prop-types'
 
+import { MEDIA_TYPES } from 'constants' 
+
 import {
 	capitalize,
 	framesToTC,
@@ -60,6 +62,8 @@ const MediaInfo = ({
 }
 
 MediaInfo.propTypes = {
+	refId: string,
+	mediaType: oneOf(MEDIA_TYPES),
 	title: string,
 	width: number,
 	height: number,
