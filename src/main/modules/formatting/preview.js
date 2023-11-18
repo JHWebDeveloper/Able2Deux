@@ -5,11 +5,11 @@ import { v1 as uuid } from 'uuid'
 import * as filter from './filters'
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
+import { createPNGCopyAsScreenshot } from '../acquisition/thumbnails'
 
 import {
 	assetsPath,
 	base64Encode,
-	base64EncodeOrPlaceholder, 
 	getOverlayInnerDimensions,
 	objectPick
 } from '../utilities'
@@ -196,10 +196,10 @@ export const copyPreviewToImports = async ({ oldId, hasAlpha }) => {
 	const newPath = path.join(scratchDisk.imports.path, `${newId}.${extension}`)
 
 	await fsp.copyFile(oldPath, newPath)
+	await createPNGCopyAsScreenshot(newId, newPath, 'image')
 
 	return {
 		id: newId,
-		thumbnail: await base64EncodeOrPlaceholder(newPath),
 		tempFilePath: newPath
 	}
 }
