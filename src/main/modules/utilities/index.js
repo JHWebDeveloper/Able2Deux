@@ -13,10 +13,12 @@ export const assetsPath = fixPathForAsarUnpack(process.env.NODE_ENV === 'develop
 export const base64Encode = async file => `data:image/png;base64,${await fsp.readFile(file, 'base64')}`
 
 export const base64EncodeOrPlaceholder = async file => {
-	if (file) try {
-		return base64Encode(file)
-	} catch (err) {
-		console.error(err)
+	if (file) {
+		try {
+			return await base64Encode(file)
+		} catch (err) {
+			console.error(err)
+		}
 	}
 
 	return placeholder
