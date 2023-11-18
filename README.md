@@ -30,6 +30,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Dropdown menus can be navigated with arrow keys and closed with the escape key.
 - $s, $e, $r and $c timecode tokens now include frames and are concatenated with 1 letter units (e.g. 01h02m03s04f).
 - Formatting Panels Open/Closed state and Preview Quality now retain their last state when Able2 is reopened.
+- Replaced the Twitter logo with the stupid X thing.
 
 ### Updated
 - Updated internal downloader to latest stable version.
