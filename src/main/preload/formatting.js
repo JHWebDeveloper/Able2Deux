@@ -2,6 +2,8 @@ import { ipcRenderer } from 'electron'
 
 import { sendMessage } from './sendMessage'
 
+export const requestThumbnail = async id => ipcRenderer.invoke('requestThumbnail', id)
+
 export const requestPreviewStill = async data => ipcRenderer.send('requestPreviewStill', data)
 
 export const setPreviewListeners = callback => {
