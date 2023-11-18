@@ -992,12 +992,16 @@ const setContextMenu = () => {
 	}
 
 	return (evt, { isTextElement, x, y }) => {
+		const focusedWindow = BrowserWindow.getFocusedWindow()
+
+		if (!focusedWindow) return false
+
 		pos = [x, y]
 
 		if (isTextElement) {
-			textEditor.popup(BrowserWindow.getFocusedWindow())
+			textEditor.popup(focusedWindow)
 		} else if (devtools) {
-			inspectMenu.popup(BrowserWindow.getFocusedWindow())
+			inspectMenu.popup(focusedWindow)
 		}
 	}
 }
