@@ -83,7 +83,7 @@ const MediaSelectorOptions = ({
 				type: 'submenu',
 				label: 'Apply Preset to All as Duplicate',
 				hide: !showApplyPresetOptions || multipleItemsSelected,
-				submenu: createPresetMenu(presetIds => applyPresetToSelected({ presetIds, applyToAll: true, duplicate: true }))
+				submenu: createPresetMenu(presetId => applyPresetToSelected({ presetId, applyToAll: true, duplicate: true }))
 			},
 			{
 				type: 'spacer',
