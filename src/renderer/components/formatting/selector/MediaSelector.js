@@ -106,7 +106,8 @@ const MediaSelector = ({
 			className="panel"
 			onKeyDown={onKeyDown}>
 			<MediaInfo
-				thumbnail={focused.thumbnail}
+				refId={focused.refId}
+				mediaType={focused.mediaType}
 				title={focused.title}
 				width={focused.originalWidth}
 				height={focused.originalHeight}
