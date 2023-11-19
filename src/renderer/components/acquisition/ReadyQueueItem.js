@@ -31,10 +31,6 @@ const RenderQueueItem = ({
 		removeMediaWarning({ id, refId, status, title, references }, dispatch)
 	}, [status, title, references, removeMediaWarning])
 
-	const stopLiveDownload = useCallback(() => {
-		window.ABLE2.interop.stopLiveDownload(id)
-	}, [])
-
 	useEffect(() => {
 		if (downloading && downloadPercent > 0 && downloadPercent <= 1) {
 			progress.current.value = downloadPercent
@@ -60,7 +56,7 @@ const RenderQueueItem = ({
 				className="symbol"
 				title={downloadBtnTitle}
 				aria-label={downloadBtnTitle}
-				onClick={isLive ? stopLiveDownload : removeElement}>
+				onClick={removeElement}>
 				{downloading && isLive ? 'stop' : 'close'}
 			</button>
 		</div>
