@@ -36,7 +36,9 @@ const PreviewCanvas = ({ previewStill, previewSize, eyedropper, setEyedropper })
 			ctx.current.drawImage(img.current, 0, 0, cnv.current.width, cnv.current.height)
 		}
 
-		return () => img.current.onload = ''
+		return () => {
+			img.current.onload = ''
+		}
 	}, [previewSize])
 
 	useEffect(() => {
