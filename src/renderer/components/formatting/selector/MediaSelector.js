@@ -73,7 +73,13 @@ const MediaSelector = ({
 			action() {
 				dispatch(action(id))
 			}
-		}))
+		})),
+		{ type: 'spacer' },
+		{
+			type: 'button',
+			label: 'Edit Presets',
+			action: interop.openPresets
+		}
 	], [presets, batchPresets])
 
 	const showApplyPresetOptions = useMemo(() => !!(presets.length || batchPresets.length), [presets, batchPresets])
