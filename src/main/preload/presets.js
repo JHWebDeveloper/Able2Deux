@@ -37,6 +37,10 @@ export const savePreset = (preset, saveType) => sendMessage({
 	data: { preset, saveType }
 })
 
+export const openPresets = () => {
+	ipcRenderer.send('openPresets')
+}
+
 export const savePresets = data => sendMessage({
 	sendMsg: 'savePresets',
 	recieveMsg: 'presetsSaved',
