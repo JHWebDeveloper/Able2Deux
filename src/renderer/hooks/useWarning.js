@@ -3,7 +3,7 @@ import { useCallback, useContext } from 'react'
 import { PrefsContext } from 'store'
 import { disableWarningAndSave } from 'actions'
 
-const { warning } = window.ABLE2.interop
+const { interop } = window.ABLE2
 
 export const useWarning = ({
 	name: warningName,
@@ -27,7 +27,7 @@ export const useWarning = ({
 		skip = fixedSkip
 	} = {}) => {
 		if (!skip && (!warningName || warnings[warningName])) {
-			const { response, checkboxChecked } = await warning({
+			const { response, checkboxChecked } = await interop.warning({
 				message,
 				detail,
 				hasCheckbox
@@ -58,7 +58,7 @@ export const useSaveWarning = ({
 		skip = fixedSkip
 	} = {}) => {
 		if (!skip) {
-			const { response } = await warning({
+			const { response } = await interop.warning({
 				message,
 				detail,
 				buttons: ['Save & Close', 'Close', 'Cancel']
