@@ -19,10 +19,6 @@ interop.isMac = process.platform === 'darwin'
 
 // ---- ELECTRON METHODS --------
 
-interop.bringToFront = () => {
-	ipcRenderer.send('bringToFront')
-}
-
 interop.quit = () => {
 	ipcRenderer.send('quit')
 }
@@ -97,8 +93,6 @@ interop.warning = ({
 })
 
 // ---- GLOBAL METHODS --------
-
-interop.checkIfDirectoryExists = async dir => ipcRenderer.invoke('checkDirectoryExists', dir)
 
 interop.setContextMenu = () => {
 	const textElement = 'input[type="text"], input[type="number"]'
