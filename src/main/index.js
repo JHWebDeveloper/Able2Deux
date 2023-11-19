@@ -859,6 +859,8 @@ ipcMain.on('openPresetSaveAs', async (evt, data) => {
 	createPresetSaveAsWindow(data.preset)
 })
 
+ipcMain.on('openPresets', createPresetsWindow)
+
 // ---- IPC ROUTES: WORKSPACE ------------
 
 ipcMain.on('requestWorkspace', async evt => {
