@@ -4,6 +4,8 @@ import { ACTION, TOASTR_OPTIONS } from 'constants'
 import { createHistoryStack, errorToString } from 'utilities'
 import * as shared from 'reducer/shared'
 
+const { interop } = window.ABLE2
+
 // ---- REDUCER --------
 
 export const prefsReducer = createHistoryStack().connectReducer((state, action, history) => { 
@@ -51,7 +53,7 @@ export const prefsReducer = createHistoryStack().connectReducer((state, action, 
 
 const savePrefs = async (prefs, callback) => {
 	try {
-		await window.ABLE2.interop.savePrefs(prefs)
+		await interop.savePrefs(prefs)
 		callback?.()
 	} catch (err) {
 		toastr.error(errorToString(err), false, TOASTR_OPTIONS)

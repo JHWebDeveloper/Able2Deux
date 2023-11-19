@@ -17,6 +17,8 @@ import {
 	replaceIds
 } from 'utilities'
 
+const { interop } = window.ABLE2
+
 // ---- REDUCER --------
 
 export const presetsReducer = createHistoryStack().connectReducer((state, action, history) => { 
@@ -295,7 +297,7 @@ const flattenBatchPreset = (state, { parentId, childId }) => ({
 
 const savePresets = async (presets, callback) => {
 	try {
-		await window.ABLE2.interop.savePresets(presets)
+		await interop.savePresets(presets)
 		callback?.()
 	} catch (err) {
 		toastr.error(errorToString(err), false, TOASTR_OPTIONS)

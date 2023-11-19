@@ -12,6 +12,8 @@ const dragLeave = e => {
 	e.target.parentElement.classList.remove('drag-enter')
 }
 
+const { interop } = window.ABLE2
+
 const Uploader = ({ importQueueDispatch }) => {
 	const prepFilesForUpload = useCallback(files => {
 		const _pipe = pipeAsync(upload, importQueueDispatch)
@@ -20,7 +22,7 @@ const Uploader = ({ importQueueDispatch }) => {
 	}, [])
 
 	const openFiles = useCallback(async () => {
-		prepFilesForUpload(await window.ABLE2.interop.openFiles())
+		prepFilesForUpload(await interop.openFiles())
 	}, [])
 
 	const dropFiles = useCallback(e => {

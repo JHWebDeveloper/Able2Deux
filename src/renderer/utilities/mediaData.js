@@ -2,6 +2,8 @@ import { v1 as uuid } from 'uuid'
 
 import { DEFAULT_MEDIA_STATE } from 'constants'
 
+const { interop } = window.ABLE2
+
 export const createCurvePoint = (x, y, limit = false) => ({
 	id: uuid(),
 	hidden: false,
@@ -16,7 +18,7 @@ export const createDefaultCurvePoints = () => [
 ]
 
 export const createMediaData = async params => {
-	const { editorSettings } = await window.ABLE2.interop.requestPrefs()
+	const { editorSettings } = await interop.requestPrefs()
 
 	params.id = params.id || uuid()
 	params.refId = params.id
