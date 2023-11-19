@@ -195,6 +195,13 @@ export const fitToFrameAuto = (sizingMethod, frameW, frameH) => ({
 	payload: { sizingMethod, frameW, frameH }
 })
 
+// ---- CROP --------
+
+export const cropSelected = (property, value) => ({
+	type: ACTION.CROP_SELECTED,
+	payload: { property, value }
+})
+
 // ---- ROTATION --------
 
 export const rotateMedia = e => ({
