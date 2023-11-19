@@ -31,14 +31,6 @@ export const removePrefsSyncListener = () => {
 	ipcRenderer.removeAllListeners('syncPrefs')
 }
 
-export const enablePrefs = () => {
-	ipcRenderer.send('enablePrefs')
-}
-
-export const disablePrefs = () => {
-	ipcRenderer.send('disablePrefs')
-}
-
 export const clearScratchDisks = () => sendMessage({
 	sendMsg: 'clearScratchDisks',
 	recieveMsg: 'scratchDisksCleared',
