@@ -8,7 +8,6 @@ import { sendMessage, requestChannel } from './sendMessage'
 
 export * from './screenRecorder'
 
-
 // ---- DOWNLOAD --------
 
 export const getURLInfo = data => sendMessage({
@@ -37,10 +36,9 @@ export const cancelDownload = id => {
 	ipcRenderer.send('cancelDownload', id)
 }
 
-export const stopLiveDownload = id => {
-	ipcRenderer.send('stopLiveDownload', id)
-}
-
+// export const stopLiveDownload = id => {
+// 	ipcRenderer.send('stopLiveDownload', id)
+// }
 
 // ---- UPLOAD --------
 
