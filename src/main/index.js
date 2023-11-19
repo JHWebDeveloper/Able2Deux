@@ -14,7 +14,7 @@ import { getThumbnailBase64 } from './modules/acquisition/thumbnails'
 import { validateDirectories } from './modules/formatting/validateDirectories'
 import { renderPreview, copyPreviewToImports } from './modules/formatting/preview'
 import { render, cancelRender } from './modules/formatting/formatting'
-import { clamp, fileExistsPromise, delay, supportedExtensions } from './modules/utilities'
+import { clamp, delay, supportedExtensions } from './modules/utilities'
 
 const mac = process.platform === 'darwin'
 const dev = process.env.NODE_ENV === 'development'
@@ -72,6 +72,13 @@ const createURL = (view = 'index') => {
 	return href
 }
 
+const removeListeners = (...listeners) => {
+	for (const listener of listeners) {
+		ipcMain.removeAllListeners(listener)
+	}
+	console.log(ipcMain.eventNames())
+}
+
 // ---- SPLASH AND UPDATE WINDOWS ------------
 
 let splashWin = false
@@ -99,6 +106,10 @@ const createSplashWindow = () => {
 }
 
 const createUpdateWindow = version => {
+	ipcMain.on('quit', () => {
+		app.exit(0)
+	})
+
 	updateWin = openWindow(splashWindowOpts)
 
 	updateWin.on('ready-to-show', () => {
@@ -108,7 +119,10 @@ const createUpdateWindow = version => {
 		updateWin.webContents.send('updateStarted', version)
 	})
 
-	updateWin.on('close', () => updateWin = false)
+	updateWin.on('close', () => {
+		ipcMain.removeAllListeners('quit')
+		updateWin = false
+	})
 
 	autoUpdater.on('download-progress', ({ percent }) => {
 		updateWin.webContents.send('updateProgress', percent)
@@ -184,6 +198,18 @@ const createRenderQueueWindow = async ({ media, batchName, saveLocations = [] })
 
 	ipcMain.handleOnce('getMediaToRender', () => ({ media, batchName, directories }))
 
+	ipcMain.on('requestRender', async (evt, data) => {
+		try {
+			await render(data, renderQueue)
+	
+			evt.reply(`renderComplete_${data.id}`)
+		} catch (err) {
+			evt.reply(`renderFailed_${data.id}`, err)
+		}
+	})
+	
+	ipcMain.on('cancelRender', (evt, id) => cancelRender(id))
+
 	ipcMain.on('closeRenderQueue', async (evt, startOver) => {
 		try {
 			await Promise.all([
@@ -212,9 +238,9 @@ const createRenderQueueWindow = async ({ media, batchName, saveLocations = [] })
 		renderQueue.show()
 	})
 
-	renderQueue.on('close', () => {
+	renderQueue.once('close', () => {
 		ipcMain.removeHandler('getMediaToRender')
-		ipcMain.removeAllListeners('closeRenderQueue')
+		removeListeners('requestRender', 'cancelRender', 'closeRenderQueue')
 		renderQueue = false
 		windowOpeningMenuOptions.enable()
 	})
@@ -228,6 +254,45 @@ let preferences = false
 
 const createPrefsWindow = () => {
 	windowOpeningMenuOptions.disable()
+
+	ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
+
+	ipcMain.on('clearScratchDisks', async evt => {
+		try {
+			await scratchDisk.clearAll()
+	
+			mainWin.webContents.send('startOver', {
+				clearUndos: true
+			})
+	
+			evt.reply('scratchDisksCleared')
+		} catch (err) {
+			console.error(err)
+			evt.reply('clearScratchErr', new Error('An error occurred while attempting to clear scratch disks.'))
+		}
+	})
+
+	ipcMain.on('savePrefs', async (evt, data) => {
+		try {
+			await savePrefs(data)
+
+			try {
+				await Promise.all([
+					updateScratchDisk(),
+					loadTheme()
+				])
+			} catch (err) {
+				console.error(err)
+			}
+
+			mainWin.webContents.send('syncPrefs', await loadPrefs())
+
+			evt.reply('prefsSaved')
+		} catch (err) {
+			console.error(err)
+			evt.reply('savePrefsErr', new Error('An error occurred while attempting to save preferences.'))
+		}
+	})
 
 	ipcMain.on('closePrefs', () => {
 		preferences.close()
@@ -248,7 +313,8 @@ const createPrefsWindow = () => {
 	})
 
 	preferences.on('close', () => {
-		ipcMain.removeAllListeners('closePrefs')
+		ipcMain.removeHandler('requestDefaultPrefs')
+		removeListeners('clearScratchDisks', 'savePrefs', 'closePrefs')
 		preferences = false
 		windowOpeningMenuOptions.enable()
 	})
@@ -263,6 +329,22 @@ let presets = false
 const createPresetsWindow = () => {
 	windowOpeningMenuOptions.disable()
 
+	ipcMain.on('savePresets', async (evt, data) => {
+		try {
+			await savePresets(data)
+	
+			mainWin.webContents.send('syncPresets', await loadPresets({
+				referencesOnly: true,
+				presorted: true
+			}))
+	
+			evt.reply('presetsSaved')
+		} catch (err) {
+			console.error(err)
+			evt.reply('savePresetsErr', new Error('An error occurred while attempting to save presets.'))
+		}
+	})
+
 	ipcMain.on('closePresets', () => {
 		presets.close()
 	})
@@ -271,7 +353,7 @@ const createPresetsWindow = () => {
 
 	presets.loadURL(createURL('presets'))
 
-	presets.once('ready-to-show', async () => {
+	presets.on('ready-to-show', async () => {
 		try {
 			await loadTheme()
 		} catch (err) {
@@ -282,7 +364,7 @@ const createPresetsWindow = () => {
 	})
 
 	presets.on('close', () => {
-		ipcMain.removeAllListeners('closePresets')
+		removeListeners('savePresets', 'closePresets')
 		presets = false
 		windowOpeningMenuOptions.enable()
 	})
@@ -298,6 +380,26 @@ const createPresetSaveAsWindow = presetData => {
 	windowOpeningMenuOptions.disable()
 
 	ipcMain.handleOnce('getPresetToSave', () => presetData)
+
+	ipcMain.on('savePreset', async (evt, data) => {
+		try {
+			if (data.saveType === 'newPreset') {
+				await createPreset(data)
+			} else {
+				await updatePreset(data)
+			}
+	
+			mainWin.webContents.send('syncPresets', await loadPresets({
+				referencesOnly: true,
+				presorted: true
+			}))
+			
+			evt.reply('presetSaved')
+		} catch (err) {
+			console.error(err)
+			evt.reply('savePresetErr', new Error('An error occurred while attempting to save preset.'))
+		}
+	})
 
 	ipcMain.on('closePresetSaveAs', () => {
 		presetSaveAs.close()
@@ -319,7 +421,7 @@ const createPresetSaveAsWindow = presetData => {
 
 	presetSaveAs.on('close', () => {
 		ipcMain.removeHandler('getPresetToSave')
-		ipcMain.removeAllListeners('closePresetSaveAs')
+		removeListeners('savePreset', 'closePresetSaveAs')
 		presetSaveAs = false
 		windowOpeningMenuOptions.enable()
 	})
@@ -722,18 +824,6 @@ ipcMain.on('openRenderQueue', async (evt, data) => {
 	}
 })
 
-ipcMain.on('requestRender', async (evt, data) => {
-	try {
-		await render(data, renderQueue)
-
-		evt.reply(`renderComplete_${data.id}`)
-	} catch (err) {
-		evt.reply(`renderFailed_${data.id}`, err)
-	}
-})
-
-ipcMain.on('cancelRender', (evt, id) => cancelRender(id))
-
 // ---- IPC ROUTES: PREFERENCES ------------
 
 ipcMain.on('requestPrefs', async evt => {
@@ -742,45 +832,6 @@ ipcMain.on('requestPrefs', async evt => {
 	} catch (err) {
 		console.error(err)
 		evt.reply('prefsErr', new Error('An error occurred while attempting to load preferences.'))
-	}
-})
-
-ipcMain.handle('requestDefaultPrefs', getDefaultPrefs)
-
-ipcMain.on('savePrefs', async (evt, data) => {
-	try {
-		await savePrefs(data)
-
-		try {
-			await Promise.all([
-				updateScratchDisk(),
-				loadTheme()
-			])
-		} catch (err) {
-			console.error(err)
-		}
-
-		mainWin.webContents.send('syncPrefs', await loadPrefs())
-
-		evt.reply('prefsSaved')
-	} catch (err) {
-		console.error(err)
-		evt.reply('savePrefsErr', new Error('An error occurred while attempting to save preferences.'))
-	}
-})
-
-ipcMain.on('clearScratchDisks', async evt => {
-	try {
-		await scratchDisk.clearAll()
-
-		mainWin.webContents.send('startOver', {
-			clearUndos: true
-		})
-
-		evt.reply('scratchDisksCleared')
-	} catch (err) {
-		console.error(err)
-		evt.reply('clearScratchErr', new Error('An error occurred while attempting to clear scratch disks.'))
 	}
 })
 
@@ -806,42 +857,6 @@ ipcMain.on('getPresetAttributes', async (evt, data) => {
 
 ipcMain.on('openPresetSaveAs', async (evt, data) => {
 	createPresetSaveAsWindow(data.preset)
-})
-
-ipcMain.on('savePreset', async (evt, data) => {
-	try {
-		if (data.saveType === 'newPreset') {
-			await createPreset(data)
-		} else {
-			await updatePreset(data)
-		}
-
-		mainWin.webContents.send('syncPresets', await loadPresets({
-			referencesOnly: true,
-			presorted: true
-		}))
-		
-		evt.reply('presetSaved')
-	} catch (err) {
-		console.error(err)
-		evt.reply('savePresetErr', new Error('An error occurred while attempting to save preset.'))
-	}
-})
-
-ipcMain.on('savePresets', async (evt, data) => {
-	try {
-		await savePresets(data)
-
-		mainWin.webContents.send('syncPresets', await loadPresets({
-			referencesOnly: true,
-			presorted: true
-		}))
-
-		evt.reply('presetsSaved')
-	} catch (err) {
-		console.error(err)
-		evt.reply('savePresetsErr', new Error('An error occurred while attempting to save presets.'))
-	}
 })
 
 // ---- IPC ROUTES: WORKSPACE ------------
@@ -891,25 +906,6 @@ ipcMain.on('checkForUpdateBackup', async () => {
 	}
 })
 
-// ---- IPC ROUTES: UTILITY ------------
-
-ipcMain.on('removeMediaFile', async (evt, id) => {
-	try {
-		await scratchDisk.imports.clear(id)
-	} catch (err) {
-		console.error(err)
-	}
-})
-
-ipcMain.handle('checkDirectoryExists', async (evt, dir) => {
-	try {
-		return fileExistsPromise(dir)
-	} catch (err) {
-		console.error(err)
-		return false
-	}
-})
-
 // ---- IPC ROUTES: APP ------------
 
 ipcMain.handle('getVersion', () => app.getVersion())
@@ -920,10 +916,6 @@ ipcMain.on('bringToFront', () => {
 
 ipcMain.on('hide', () => {
 	mainWin.hide()
-})
-
-ipcMain.on('quit', () => {
-	app.exit(0)
 })
 
 const sleep = (() => {
@@ -949,13 +941,6 @@ ipcMain.handle('showOpenDialog', (evt, opts) => dialog.showOpenDialog(opts))
 ipcMain.handle('showMessageBox', (evt, opts) => dialog.showMessageBox(opts))
 
 // ---- IPC ROUTES: MENU ------------
-
-const togglePrefsIPC = state => () => {
-	Menu.getApplicationMenu().getMenuItemById('Preferences').enabled = state
-}
-
-ipcMain.on('enablePrefs', togglePrefsIPC(true))
-ipcMain.on('disablePrefs', togglePrefsIPC(false))
 
 const setContextMenu = () => {
 	const textEditor = new Menu()
