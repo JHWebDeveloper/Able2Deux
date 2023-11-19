@@ -4,11 +4,11 @@ import {
 	arrayCount,
 	calcRotatedBoundingBox,
 	clamp,
+	constrainPairedValue,
 	createHistoryStack,
 	degToRad,
 	detectMediaIsSideways,
 	findNearestIndex,
-	pipe,
 	replaceIds,
 	sortCurvePoints
 } from 'utilities'
@@ -83,6 +83,8 @@ export const mainReducer = createHistoryStack().connectReducer((state, action, h
 			return fitSelectedMediaToFrameHeight(state, payload)
 		case ACTION.FIT_TO_FRAME_AUTO:
 			return fitSelectedMediaToFrameAuto(state, payload)
+		case ACTION.CROP_SELECTED:
+			return cropSelected(state, payload)
 		case ACTION.ROTATE_MEDIA:
 			return rotateSelectedMedia(state, payload)
 		case ACTION.REFLECT_MEDIA:
@@ -411,16 +413,16 @@ const splitMedia = (state, payload) => {
 
 // ---- APPLY PRESET --------
 
-const constrainPairedValue = media => (keyA, keyB) => preset => {
-	if (!(keyA in preset ^ keyB in preset)) return preset
+const constrainPairedPresetValue = (itemL, itemR, keyA, keyB) => {
+	const oneKeyOnly = !!(keyA in itemR ^ keyB in itemR)
 
-	if (preset[keyA] > media[keyB]) {
-		preset[keyA] = media[keyB] - 0.025
-	} else if (preset[keyB] < media[keyA]) {
-		preset[keyB] = media[keyA] + 0.025
+	if (oneKeyOnly && itemR[keyA] > itemL[keyB]) {
+		return constrainPairedValue(keyA, keyB, true)(itemL, itemR[keyA])
+	} else if (oneKeyOnly && itemR[keyB] < itemL[keyA]) {
+		return constrainPairedValue(keyB, keyA)(itemL, itemR[keyB])
 	}
 
-	return preset
+	return {}
 }
 
 const mergePresetWithMedia = (item, preset) => {
@@ -454,12 +456,11 @@ const applyPreset = (state, payload) => {
 
 			if (!preset.limitTo.includes(item.mediaType)) continue
 
-			const _constrainPairedValue = constrainPairedValue(item)
-
-			preset = pipe(
-				_constrainPairedValue('cropT', 'cropB'),
-				_constrainPairedValue('cropL', 'cropR')
-			)(preset.attributes)
+			preset = {
+				...preset,
+				...constrainPairedPresetValue(item, preset.attributes, 'cropT', 'cropB'),
+				...constrainPairedPresetValue(item, preset.attributes, 'cropL', 'cropR')
+			}
 
 			if (!duplicate && j === lastPresetIndex) {
 				media[mediaIndex] = {
@@ -612,6 +613,68 @@ const fitSelectedMediaToFrameAuto = (state, { sizingMethod, frameW, frameH }) =>
 		}
 	})
 })
+
+// ---- CROP --------
+
+const cropSelected = (state, { property, value }) => {
+	let constrain = null
+	
+	switch (property) {
+		case 'cropT':
+			constrain = constrainPairedValue(property, 'cropB', true)
+			break
+		case 'cropB':
+			constrain = constrainPairedValue(property, 'cropT')
+			break
+		case 'cropL':
+			constrain = constrainPairedValue(property, 'cropR', true)
+			break
+		case 'cropR':
+			constrain = constrainPairedValue(property, 'cropL')
+			break
+		default:
+			return state
+	}
+
+	return {
+		...state,
+		media: state.media.map(item => item.selected ? ({
+			...item,
+			...constrain(item, value)
+		}) : item)
+	}
+}
+
+// const cropSelected = (state, { property, value }) => {
+// 	let compliment = ''
+
+// 	switch (property) {
+// 		case 'cropT':
+// 			compliment = 'cropB'
+// 			break
+// 		case 'cropB':
+// 			compliment = 'cropT'
+// 			break
+// 		case 'cropL':
+// 			compliment = 'cropR'
+// 			break
+// 		case 'cropR':
+// 			compliment = 'cropL'
+// 			break
+// 		default:
+// 			return state
+// 	}
+
+// 	return {
+// 		...state,
+// 		media: state.media.map(item => ({
+// 			...item,
+// 			...constrainPairedValue(item)(property, compliment)({
+// 				[property]: value
+// 			})
+// 		}))
+// 	}
+// }
 
 // ---- ROTATION --------
 
