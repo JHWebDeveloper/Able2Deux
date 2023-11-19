@@ -96,6 +96,16 @@ export const objectsAreEqual = (objL, objR) => {
 	return true
 }
 
+export const constrainPairedValue = (keyA, keyB, movingRight, buffer = 0.1) => {
+	const constrainFn = movingRight
+		? (v1, v2) => v1 >= v2 ? v2 - buffer : v1
+		: (v1, v2) => v1 <= v2 ? v2 + buffer : v1
+
+	return (item, value) => ({
+		[keyA]: constrainFn(value, item[keyB])
+	})
+}
+
 // ---- FUNCTION UTILITIES --------
 
 export const pipe = (...fns) => val => fns.reduce((acc, fn) => fn(acc), val)
