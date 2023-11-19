@@ -5,6 +5,7 @@ import {
 	applyToAll,
 	applyToSelection,
 	copyAttributes,
+	cropSelected,
 	saveAsPreset,
 	updateMediaStateBySelection
 } from 'actions'
@@ -35,7 +36,24 @@ const SLIDER_STATIC_PROPS = Object.freeze({
 const extractCropProps = createObjectPicker(['cropT', 'cropL', 'cropB', 'cropR', 'cropLinkTB', 'cropLinkLR'])
 
 const Crop = memo(props => {
-	const { cropT, cropR, cropB, cropL, cropLinkTB, cropLinkLR, updateSelectionFromEvent, toggleSelectionCheckbox, dispatch } = props
+	const {
+		cropT,
+		cropR,
+		cropB,
+		cropL,
+		cropLinkTB,
+		cropLinkLR,
+		multipleItemsSelected,
+		updateSelectionFromEvent,
+		toggleSelectionCheckbox,
+		dispatch
+	} = props
+
+	const updateCropMultiSelection = useCallback(e => {
+		const { name, value } = e?.target || e
+
+		dispatch(cropSelected(name, value))
+	})
 
 	const updateCropBiDirectional = useCallback((d1, d2, { name, value }) => {
 		const isD1 = name === d1
@@ -61,14 +79,18 @@ const Crop = memo(props => {
 	const TBProps = useMemo(() => ({
 		onChange: cropLinkTB
 			? vals => updateCropBiDirectional('cropT', 'cropB', vals)
-			: updateSelectionFromEvent
-	}), [cropLinkTB, cropT, cropB])
+			: multipleItemsSelected
+				? updateCropMultiSelection
+				: updateSelectionFromEvent
+	}), [cropLinkTB, cropT, cropB, multipleItemsSelected])
 
 	const LRProps = useMemo(() => ({
 		onChange: cropLinkLR
 			? vals => updateCropBiDirectional('cropL', 'cropR', vals)
-			: updateSelectionFromEvent
-	}), [cropLinkLR, cropL, cropR])
+			: multipleItemsSelected
+				? updateCropMultiSelection
+				: updateSelectionFromEvent
+	}), [cropLinkLR, cropL, cropR, multipleItemsSelected])
 
 	const propsT = {
 		...T_STATIC_PROPS,
