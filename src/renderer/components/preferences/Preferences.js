@@ -35,9 +35,7 @@ const Preferences = () => {
 				{ ...TOASTR_OPTIONS, timeOut: 2000 })
 		})
 
-		return () => {
-			konami.current.remove()
-		}
+		return konami.current.remove
 	}, [disableRateLimit])
 
 	return (

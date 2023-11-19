@@ -63,9 +63,7 @@ const Preview = ({ focused, eyedropper, setEyedropper, dispatch }) => {
 	useEffect(() => {
 		interop.setPreviewListeners(checkResponseId)
 
-		return () => {
-			interop.removePreviewListeners()
-		}
+		return interop.removePreviewListeners
 	}, [])
 
 	// ---- Initialize preview size based on window dimensions and update on resize

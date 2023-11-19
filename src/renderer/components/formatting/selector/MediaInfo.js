@@ -36,9 +36,7 @@ const MediaInfo = ({
 	useEffect(() => {
 		const textAnimation = scrollText(h2.current)
 
-		return () => {
-			textAnimation.disconnect()
-		}
+		return textAnimation.disconnect
 	}, [title])
 
 	return (

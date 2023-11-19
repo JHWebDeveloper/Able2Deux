@@ -79,9 +79,7 @@ export const PrefsProvider = ({ enableSync, children }) => {
 			dispatch(updateState(newPrefs))
 		})
 
-		return () => {
-			interop.removePrefsSyncListener()
-		}
+		return interop.removePrefsSyncListener
 	}, [])
 
 	return (

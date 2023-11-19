@@ -36,9 +36,7 @@ export const PresetsProvider = ({ loadAction = updateState, referencesOnly, pres
 			dispatch(loadAction(newPresets))
 		})
 
-		return () => {
-			interop.removePresetsSyncListener()
-		}
+		return interop.removePresetsSyncListener
 	}, [])
 
 	return (

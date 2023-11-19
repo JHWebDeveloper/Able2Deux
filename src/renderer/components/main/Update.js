@@ -28,9 +28,7 @@ const Update = () => {
 			}
 		})
 
-		return () => {
-			interop.removeUpdateListeners()
-		}
+		return interop.removeUpdateListeners
 	}, [])
 
 	useEffect(() => {

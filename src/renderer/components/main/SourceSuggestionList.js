@@ -20,9 +20,7 @@ const SourceSuggestionList = () => {
 
 		getSourceSuggestions()
 
-		return () => {
-			controller.abort()
-		}
+		return controller.abort
 	}, [])
 
 	return (
