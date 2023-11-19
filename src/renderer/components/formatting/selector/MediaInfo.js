@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { number, oneOf, oneOfType, string } from 'prop-types'
 
 import { MEDIA_TYPES } from 'constants' 
@@ -9,7 +9,7 @@ import {
 	scrollText
 } from 'utilities'
 
-const { interop } = window.ABLE2
+import Thumbnail from './Thumbnail'
 
 const MediaInfo = ({
 	refId,
@@ -24,14 +24,7 @@ const MediaInfo = ({
 	sampleRate,
 	bitRate
 }) => {
-	const [ thumbnail, setThumbnail ] = useState()
 	const h2 = useRef(null)
-
-	useEffect(() => {
-		(async () => {
-			setThumbnail(await interop.requestThumbnail(mediaType === 'audio' ? false : refId))
-		})()
-	}, [refId])
 
 	useEffect(() => {
 		const textAnimation = scrollText(h2.current)
@@ -41,10 +34,10 @@ const MediaInfo = ({
 
 	return (
 		<div>
-			<img
-				src={thumbnail}
-				alt={title}
-				draggable="false" />
+			<Thumbnail
+				refId={refId}
+				mediaType={mediaType}
+				title={title} />
 			<h2 className="overlow-ellipsis" ref={h2}>{title}</h2>
 			<ul>
 				{!!totalFrames && fps ? <li>{framesToTC(totalFrames, fps)}</li> : <></>}
