@@ -18,6 +18,7 @@ const Thumbnail = ({ mediaType, refId, title }) => {
 		<img
 			src={thumbnail}
 			alt={title}
+			decoding="async"
 			draggable="false" />
 	)
 }
