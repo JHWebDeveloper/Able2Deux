@@ -21,7 +21,8 @@ import {
 	eraseIds,
 	extractRelevantMediaProps,
 	isArrowNext,
-	isArrowPrev
+	isArrowPrev,
+	objectIsEmpty
 } from 'utilities'
 
 import DraggableList from '../../form_elements/DraggableList'
@@ -38,6 +39,8 @@ const BatchList = ({
 	clipboard,
 	dispatch
 }) => {
+	const clipboardIsEmpty = objectIsEmpty(clipboard)
+
 	const sortingAction = useCallback((oldPos, newPos, { selected }, e) => {
 		if (!selected || e.altKey || allItemsSelected) {
 			dispatch(moveSortableElement('media', oldPos, newPos))
@@ -87,7 +90,6 @@ const BatchList = ({
 		const isLast = index === media.length - 1
 		const isOnly = isFirst && isLast
 		const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
-		const clipboardIsEmpty = !Object.keys(clipboard).length
 
 		return [
 			{
@@ -202,7 +204,7 @@ const BatchList = ({
 				}
 			}
 		]
-	}, [clipboard, multipleItemsSelected, allItemsSelected, createPresetMenu, media.length])
+	}, [clipboardIsEmpty, multipleItemsSelected, allItemsSelected, createPresetMenu, media.length])
 
 	const onBatchItemKeyDown = useCallback((index, id, removeMedia, e) => {
 		const isFirst = index === 0
