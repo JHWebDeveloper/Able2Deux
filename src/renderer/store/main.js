@@ -8,12 +8,14 @@ import { useAugmentedDispatch } from 'hooks'
 import { createObjectPicker, pipe } from 'utilities'
 
 const initState = {
+	fixed: {
+		clipboard: {}
+	},
 	url: '',
 	optimize: 'quality',
 	screenshot: false,
 	timer: 60,
 	timerEnabled: false,
-	clipboard: {},
 	media: [],
 	batchNameType: 'replace',
 	batchName: '',
