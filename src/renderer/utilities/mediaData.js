@@ -17,23 +17,23 @@ export const createDefaultCurvePoints = () => [
 	createCurvePoint(256, 0, true)
 ]
 
-export const createMediaData = async params => {
+export const createMediaData = async args => {
 	const { editorSettings } = await interop.requestPrefs()
 
-	params.id = params.id || uuid()
-	params.refId = params.id
+	args.id = args.id || uuid()
+	args.refId = args.id
 
 	if (editorSettings.backgroundMotion === 'auto') {
-		editorSettings.backgroundMotion = params.mediaType === 'image' ? 'still' : 'animated'
+		editorSettings.backgroundMotion = args.mediaType === 'image' ? 'still' : 'animated'
 	}
 
 	return {
 		...DEFAULT_MEDIA_STATE,
+		...editorSettings,
+		...args,
 		ccRGB: createDefaultCurvePoints(),
 		ccR: createDefaultCurvePoints(),
 		ccG: createDefaultCurvePoints(),
-		ccB: createDefaultCurvePoints(),
-		...editorSettings,
-		...params
+		ccB: createDefaultCurvePoints()
 	}
 }
