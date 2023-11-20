@@ -9,7 +9,13 @@ import {
 } from 'store'
 
 import { selectAllMedia, selectMedia } from 'actions'
-import { arrayCount, focusSelectableItem, omitFromHistory, pipe } from 'utilities'
+
+import {
+	arrayCount,
+	focusSelectableItem,
+	omitFromHistory,
+	pipe
+} from 'utilities'
 
 import MediaSelector from './selector/MediaSelector'
 import BatchName from './BatchName'
@@ -19,6 +25,7 @@ import PreviewEditorContainer from './PreviewEditorContainer'
 
 const Formatting = () => {
 	const {
+		fixed: { clipboard },
 		media,
 		batchNameType,
 		batchName,
@@ -26,7 +33,6 @@ const Formatting = () => {
 		batchNameAppend,
 		split,
 		saveLocations,
-		clipboard,
 		dispatch
 	} = useContext(MainContext)
 
