@@ -106,6 +106,8 @@ export const constrainPairedValue = (keyA, keyB, movingRight, buffer = 0.1) => {
 	})
 }
 
+export const objectIsEmpty = obj => !Object.keys(obj).length
+
 // ---- FUNCTION UTILITIES --------
 
 export const pipe = (...fns) => val => fns.reduce((acc, fn) => fn(acc), val)
