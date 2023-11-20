@@ -27,7 +27,18 @@ const EditorOptions = props => {
 
 	if (!id) return <></>
 
-	const { multipleItems, multipleItemsSelected, background, mediaType, aspectRatio, arc, audioVideoTracks, eyedropper, setEyedropper, dispatch } = props
+	const {
+		multipleItems,
+		multipleItemsSelected,
+		background,
+		mediaType,
+		aspectRatio,
+		arc,
+		audioVideoTracks,
+		eyedropper,
+		setEyedropper,
+		dispatch
+	} = props
 
 	const updateMediaFromEvent = useCallback(e => {
 		const { name, value } = e?.target || e
