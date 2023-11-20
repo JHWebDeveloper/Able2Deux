@@ -308,16 +308,19 @@ const selectDuplicates = (state, payload) => ({
 
 // ---- COPY/PASTE PROPERTIES --------
 
-const copyAttributes = (state, payload) => ({
+const copyAttributes = (state, { extractAttributes, id }) => ({
 	...state,
-	clipboard: payload.extractAttributes(state.media.find(item => item.id === payload.id))
+	fixed: {
+		...state.fixed,
+		clipboard: extractAttributes(state.media.find(item => item.id === id))
+	}
 })
 
-const pasteAttributes = (state, payload) => ({
+const pasteAttributes = (state, { id }) => ({
 	...state,
-	media: state.media.map(item => item.id === payload.id ? {
+	media: state.media.map(item => item.id === id ? {
 		...item,
-		...replaceIds(state.clipboard)
+		...replaceIds(state.fixed.clipboard)
 	} : item)
 })
 
