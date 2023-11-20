@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useContext } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 import { arrayOf, element, oneOfType } from 'prop-types'
 
 import { workspaceReducer as reducer } from 'reducer'
