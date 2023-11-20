@@ -104,7 +104,8 @@ export const copyAttributes = (id, ...extractors) => ({
 	type: ACTION.COPY_ATTRIBUTES,
 	payload: {
 		id,
-		extractAttributes: attributes => pipe(...extractors)(attributes)
+		extractAttributes: attributes => pipe(...extractors)(attributes),
+		omitFromHistory: true
 	}
 })
 
