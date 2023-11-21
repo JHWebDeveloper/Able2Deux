@@ -76,7 +76,6 @@ const removeListeners = (...listeners) => {
 	for (const listener of listeners) {
 		ipcMain.removeAllListeners(listener)
 	}
-	console.log(ipcMain.eventNames())
 }
 
 // ---- SPLASH AND UPDATE WINDOWS ------------
