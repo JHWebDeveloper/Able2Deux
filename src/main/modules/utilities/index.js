@@ -1,6 +1,7 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
 import { fixPathForAsarUnpack } from 'electron-util'
+
 import { PLACEHOLDER } from '../constants'
 
 export * from './fileSupportLists'
