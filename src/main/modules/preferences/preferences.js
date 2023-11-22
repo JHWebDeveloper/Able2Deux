@@ -1,31 +1,32 @@
-import { app, nativeTheme } from 'electron'
+import { nativeTheme } from 'electron'
 import { promises as fsp } from 'fs'
-import path from 'path'
 import { v1 as uuid } from 'uuid'
 
 import { defaultPrefs, defaultPresets, defaultWorkspace } from './default'
-import { fileExistsPromise, innerMergeObjectKeys } from '../utilities'
 
-const prefsDir = process.env.NODE_ENV === 'development'
-	? path.join(__dirname, '..', '..', 'data')
-	: path.join(app.getPath('appData'), 'able2', 'prefs')
+import {
+	DATA_STORE_PATH,
+	PREFERENCES_PATH,
+	PRESETS_PATH,
+	WORKSPACE_PATH
+} from '../constants'
+
+import { fileExistsPromise, innerMergeObjectKeys } from '../utilities'
 
 // ---- PREFERENCES --------
 
-export const prefsPath = path.join(prefsDir, 'preferences.json')
-
 const initPreferences = async () => {
-	const prefsExists = await fileExistsPromise(prefsPath)
+	const prefsExists = await fileExistsPromise(PREFERENCES_PATH)
 
 	if (!prefsExists) {
-		return fsp.writeFile(prefsPath, JSON.stringify(defaultPrefs))
+		return fsp.writeFile(PREFERENCES_PATH, JSON.stringify(defaultPrefs))
 	}
 
-	const prefs = JSON.parse(await fsp.readFile(prefsPath))
+	const prefs = JSON.parse(await fsp.readFile(PREFERENCES_PATH))
 
 	// legacy convert Able2 v1 prefs to v2
 	if (!prefs.version) {
-		return fsp.writeFile(prefsPath, JSON.stringify({
+		return fsp.writeFile(PREFERENCES_PATH, JSON.stringify({
 			...defaultPrefs,
 			renderOutput: prefs?.renderOutput ?? defaultPrefs.renderOutput,
 			saveLocations: prefs?.directories ?? defaultPrefs.saveLocations,
@@ -72,16 +73,20 @@ const initPreferences = async () => {
 	}
 
 	if (prefs.version < 12) {
-		return fsp.writeFile(prefsPath, JSON.stringify({
+		return fsp.writeFile(PREFERENCES_PATH, JSON.stringify({
 			...innerMergeObjectKeys(defaultPrefs, prefs),
 			version: 12
 		}))
 	}
 }
 
-export const loadPrefs = async () => JSON.parse(await fsp.readFile(prefsPath))
+export const loadPrefs = async () => {
+	const { version, ...preferences } = JSON.parse(await fsp.readFile(PREFERENCES_PATH))
 
-export const savePrefs = async prefs => fsp.writeFile(prefsPath, JSON.stringify({
+	return preferences
+}
+
+export const savePrefs = async prefs => fsp.writeFile(PREFERENCES_PATH, JSON.stringify({
 	...prefs,
 	version: defaultPrefs.version
 }))
@@ -104,8 +109,6 @@ export const loadTheme = async () => {
 
 // ---- PRESETS --------
 
-const presetsPath = path.join(prefsDir, 'presets.json')
-
 const partitionPresets = presets => ({
 	...presets,
 	...presets.presets.reduce((acc, preset) => {
@@ -126,10 +129,10 @@ const partitionPresets = presets => ({
 })
 
 const initPresets = async () => {
-	const presetsExists = await fileExistsPromise(presetsPath)
+	const presetsExists = await fileExistsPromise(PRESETS_PATH)
 
 	if (!presetsExists) {
-		return fsp.writeFile(presetsPath, JSON.stringify(defaultPresets))
+		return fsp.writeFile(PRESETS_PATH, JSON.stringify(defaultPresets))
 	}
 }
 
@@ -139,7 +142,7 @@ const getPresetReferences = presets => presets.reduce((acc, { id, type, label, h
 }, [])
 
 export const loadPresets = async ({ referencesOnly, presorted }) => {
-	let presets = JSON.parse(await fsp.readFile(presetsPath))
+	let { version, ...presets } = JSON.parse(await fsp.readFile(PRESETS_PATH))
 
 	if (referencesOnly) {
 		presets.presets = getPresetReferences(presets.presets)
@@ -197,13 +200,13 @@ const flattenBatchPresets = (presets, preset, parentIds = []) => preset.type ===
 	: [preset]
 
 export const getPresetAttributes = async ({ presetId }) => {
-	const { presets } = JSON.parse(await fsp.readFile(presetsPath))
+	const { presets } = JSON.parse(await fsp.readFile(PRESETS_PATH))
 
 	return flattenBatchPresets(presets, presets.find(preset => preset.id === presetId))
 }
 
 export const createPreset = async ({ preset }) => {
-	const presets = JSON.parse(await fsp.readFile(presetsPath))
+	const presets = JSON.parse(await fsp.readFile(PRESETS_PATH))
 	
 	presets.presets.unshift({
 		id: uuid(),
@@ -212,11 +215,11 @@ export const createPreset = async ({ preset }) => {
 		...preset
 	})
 
-	return fsp.writeFile(presetsPath, JSON.stringify(presets))
+	return fsp.writeFile(PRESETS_PATH, JSON.stringify(presets))
 }
 
 export const updatePreset = async ({ preset, saveType }) => {
-	const presets = JSON.parse(await fsp.readFile(presetsPath))
+	const presets = JSON.parse(await fsp.readFile(PRESETS_PATH))
 
 	presets.presets = presets.presets.map(item => item.id === preset.id ? {
 		...item,
@@ -227,29 +230,31 @@ export const updatePreset = async ({ preset, saveType }) => {
 		} : preset.attributes
 	} : item)
 
-	return fsp.writeFile(presetsPath, JSON.stringify(presets))
+	return fsp.writeFile(PRESETS_PATH, JSON.stringify(presets))
 }
 
-export const savePresets = async presets => fsp.writeFile(presetsPath, JSON.stringify({
+export const savePresets = async presets => fsp.writeFile(PRESETS_PATH, JSON.stringify({
 	...presets,
 	version: defaultPresets.version
 }))
 
 // ---- WORKSPACE --------
 
-const workspacePath = path.join(prefsDir, 'workspace.json')
-
 const initWorkspace = async () => {
-	const workspaceExists = await fileExistsPromise(workspacePath)
+	const workspaceExists = await fileExistsPromise(WORKSPACE_PATH)
 
 	if (!workspaceExists) {
-		return fsp.writeFile(workspacePath, JSON.stringify(defaultWorkspace))
+		return fsp.writeFile(WORKSPACE_PATH, JSON.stringify(defaultWorkspace))
 	}
 }
 
-export const loadWorkspace = async () => JSON.parse(await fsp.readFile(workspacePath))
+export const loadWorkspace = async () => {
+	const { version, ...workspace } = JSON.parse(await fsp.readFile(WORKSPACE_PATH))
 
-const writeToWorkspace = async workspace => fsp.writeFile(workspacePath, JSON.stringify({
+	return workspace
+}
+
+const writeToWorkspace = async workspace => fsp.writeFile(WORKSPACE_PATH, JSON.stringify({
 	...workspace,
 	version: defaultWorkspace.version
 }))
@@ -281,9 +286,9 @@ export const saveWorkspacePanel = async ({ panelName, properties }) => {
 // ---- SHARED --------
 
 export const initDataStores = async () => {
-	const prefsDirExists = await fileExistsPromise(prefsDir)
+	const dataStorePathExists = await fileExistsPromise(DATA_STORE_PATH)
 
-	if (!prefsDirExists) await fsp.mkdir(prefsDir)
+	if (!dataStorePathExists) await fsp.mkdir(DATA_STORE_PATH)
 
 	return Promise.all([
 		initPreferences(),
