@@ -32,32 +32,57 @@ const clearFilesByAge = async (dir, age) => {
 export const scratchDisk = {
 	imports: {
 		path: '',
-		clear: id => clearFiles(scratchDisk.imports.path, id),
-		clearByAge: () => clearFilesByAge(scratchDisk.imports.path, 144e4)
+		clear(id) {
+			return clearFiles(this.path, id)
+		},
+		clearByAge() {
+			return clearFilesByAge(this.path, 144e4)
+		}
 	},
 	exports: {
 		path: '',
-		clear: id => clearFiles(scratchDisk.exports.path, id)
+		clear(id) {
+			return clearFiles(this.path, id)
+		}
 	},
 	previews: {
 		path: '',
-		clear: id => clearFiles(scratchDisk.previews.path, id)
+		clear(id) {
+			return clearFiles(this.path, id)
+		}
 	},
-	clearAllByAge: () => Promise.all([
-		scratchDisk.imports.clearByAge(),
-		scratchDisk.exports.clear(),
-		scratchDisk.previews.clear()
-	]),
-	clearAll: () => Promise.all([
-		scratchDisk.imports.clear(),
-		scratchDisk.exports.clear(),
-		scratchDisk.previews.clear()
-	])
-}
-
-export const initScratchDisk = async () => {
-	await updateScratchDisk()
-	await scratchDisk.clearAllByAge() 
+	clearAllByAge() {
+		return Promise.all([
+			this.imports.clearByAge(),
+			this.exports.clear(),
+			this.previews.clear()
+		])
+	},
+	clearAll() {
+		return Promise.all([
+			this.imports.clear(),
+			this.exports.clear(),
+			this.previews.clear()
+		])
+	},
+	async init() {
+		await updateScratchDisk()
+		await this.clearAllByAge() 
+	},
+	async update() {
+		const prefs = JSON.parse(await fsp.readFile(prefsPath))
+		const opts = { recursive: true }
+	
+		this.imports.path = path.join(prefs.scratchDisk.imports, 'able2_imports')
+		this.exports.path = path.join(prefs.scratchDisk.exports, 'able2_exports')
+		this.previews.path = path.join(prefs.scratchDisk.previews, 'able2_previews')
+	
+		return Promise.all([
+			fsp.mkdir(this.imports.path, opts),
+			fsp.mkdir(this.exports.path, opts),
+			fsp.mkdir(this.previews.path, opts)
+		])
+	}
 }
 
 export const updateScratchDisk = async () => {
