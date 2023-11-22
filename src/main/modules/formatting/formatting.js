@@ -4,11 +4,8 @@ import fs, { promises as fsp } from 'fs'
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 
-import {
-	assetsPath,
-	getIntegerLength,
-	getOverlayInnerDimensions
-} from '../utilities'
+import { ASSETS_PATH } from 'constants'
+import { getIntegerLength, getOverlayInnerDimensions } from '../utilities'
 
 import * as filter from './filters'
 
@@ -274,13 +271,13 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				.inputOption('-f lavfi')
 		} else if (addBgLayer) {
 			renderCmd
-				.input(path.join(assetsPath, renderHeight, `${background}.${backgroundMotion === 'still' ? 'png' : 'mp4'}`))
+				.input(path.join(ASSETS_PATH, renderHeight, `${background}.${backgroundMotion === 'still' ? 'png' : 'mp4'}`))
 				.inputOption('-stream_loop -1')
 		}
 
 		if (arc !== 'none' && overlay !== 'none') {
 			renderCmd
-				.input(path.join(assetsPath, renderHeight, `${overlay}.png`))
+				.input(path.join(ASSETS_PATH, renderHeight, `${overlay}.png`))
 				.input(`color=c=black:size=${renderWidth}x${renderHeight}:rate=59.94`)
 				.inputOption('-f lavfi')
 
