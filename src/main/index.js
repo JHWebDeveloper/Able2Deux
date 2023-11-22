@@ -5,7 +5,7 @@ import { pathToFileURL } from 'url'
 import path from 'path'
 
 import { initDataStores, loadPrefs, loadPresets, savePrefs, getDefaultPrefs, loadTheme, getPresetAttributes, createPreset, updatePreset, savePresets, saveWorkspace, saveWorkspacePanel, loadWorkspace } from './modules/preferences/preferences'
-import { initScratchDisk, scratchDisk, updateScratchDisk } from './modules/scratchDisk'
+import { scratchDisk } from './modules/scratchDisk'
 import { getURLInfo, downloadVideo, cancelDownload, stopLiveDownload } from './modules/acquisition/download'
 import { upload } from './modules/acquisition/upload'
 import { getRecordSources, saveScreenRecording } from './modules/acquisition/screenRecorder'
@@ -278,7 +278,7 @@ const createPrefsWindow = () => {
 
 			try {
 				await Promise.all([
-					updateScratchDisk(),
+					scratchDisk.update(),
 					loadTheme()
 				])
 			} catch (err) {
@@ -480,7 +480,7 @@ const startApp = async () => {
 
 	try {
 		await initDataStores()
-		await initScratchDisk()
+		await scratchDisk.init()
 	} catch (err) {
 		console.error(err)
 	}
