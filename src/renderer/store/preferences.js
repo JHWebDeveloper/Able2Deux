@@ -51,6 +51,7 @@ const initState = {
 	spaceReplacement: '_',
 	convertCase: false,
 	casing: 'lowercase',
+	dateTimeSource: 'renderStarted',
 	batchNameSeparator: ' ',
 	concurrent: 2,
 	saveLocations: [],
