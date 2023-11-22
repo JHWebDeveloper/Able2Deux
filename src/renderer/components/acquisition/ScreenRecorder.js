@@ -39,6 +39,8 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 	}, [recording, screenshot])
 
 	const startRecording = useCallback(streamId => {
+		const importStarted = new Date()
+
 		interop.startRecording({
 			streamId,
 			frameRate,
@@ -48,7 +50,10 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 				dispatch(loadRecording(recordId))
 			},
 			onComplete(recordId, mediaData) {
-				dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
+				dispatch(updateMediaStatus(recordId, STATUS.READY, {
+					...mediaData,
+					importStarted
+				}))
 			},
 			onError(err, recordId) {
 				if (recordId) dispatch(updateMediaStatus(recordId, STATUS.FAILED))
@@ -59,12 +64,17 @@ const ScreenRecorder = ({ recording, setRecording, frameRate, screenshot, timer,
 	}, [frameRate, timer, timerEnabled])
 
 	const captureScreenshot = useCallback(streamId => {
+		const importStarted = new Date()
+
 		interop.captureScreenshot({
 			streamId,
 			frameRate,
 			async onCapture(recordId, mediaData) {
 				await dispatch(loadRecording(recordId, true))
-				dispatch(updateMediaStatus(recordId, STATUS.READY, mediaData))
+				dispatch(updateMediaStatus(recordId, STATUS.READY, {
+					...mediaData,
+					importStarted
+				}))
 			},
 			onError(err, recordId) {
 				if (recordId) dispatch(updateMediaStatus(recordId, STATUS.FAILED))
