@@ -6,6 +6,7 @@ import { objectsAreEqual } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
 import FieldsetWrapper from '../../form_elements/FieldsetWrapper'
+import TextInputWithTokenInsertion from '../../form_elements/TextInputWithTokenInsertion'
 import StartEnd from './StartEnd'
 import Split from './Split'
 
@@ -14,7 +15,13 @@ const FileOptions = memo(props => {
 
 	return (
 		<>
-			<FieldsetWrapper label="Filename">
+			<TextInputWithTokenInsertion
+				label="Filename"
+				name="filename"
+				value={props.filename}
+				maxLength={251}
+				onChange={props.updateFilename} />
+			{/* <FieldsetWrapper label="Filename">
 				<input
 					type="text"
 					name="filename"
@@ -24,7 +31,7 @@ const FileOptions = memo(props => {
 					value={props.filename}
 					maxLength={251}
 					onChange={props.updateFilename} />
-			</FieldsetWrapper>
+			</FieldsetWrapper> */}
 			{mediaType === 'video' || mediaType === 'audio' ? <>
 				<StartEnd
 					id={id}

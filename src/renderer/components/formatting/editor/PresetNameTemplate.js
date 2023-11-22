@@ -10,36 +10,26 @@ import {
 import { createObjectPicker, objectsAreEqual } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
-import FieldsetWrapper from '../../form_elements/FieldsetWrapper'
+import TextInputWithTokenInsertion from '../../form_elements/TextInputWithTokenInsertion'
 
 const extractPresetNameProps = createObjectPicker(['presetNamePrepend', 'presetNameAppend'])
 
 const PresetNameTemplate = memo(({ presetNamePrepend, presetNameAppend, updateSelectionFromEvent }) => (
 	<>
-		<FieldsetWrapper label="Prepend to Filename">
-			<input
-				type="text"
-				name="presetNamePrepend"
-				className="panel-input"
-				title="Prepend to Filename"
-				aria-label="Prepend to Filename"
-				placeholder="If none, leave blank"
-				value={presetNamePrepend}
-				maxLength={251}
-				onChange={updateSelectionFromEvent} />
-		</FieldsetWrapper>
-		<FieldsetWrapper label="Append to Filename">
-			<input
-				type="text"
-				name="presetNameAppend"
-				className="panel-input"
-				title="Append to Filename"
-				aria-label="Append to Filename"
-				placeholder="If none, leave blank"
-				value={presetNameAppend}
-				maxLength={251}
-				onChange={updateSelectionFromEvent} />
-		</FieldsetWrapper>
+		<TextInputWithTokenInsertion
+			label="Prepend to Filename"
+			name="presetNamePrepend"
+			value={presetNamePrepend}
+			maxLength={251}
+			placeholder="If none, leave blank"
+			onChange={updateSelectionFromEvent} />
+		<TextInputWithTokenInsertion
+			label="Append to Filename"
+			name="presetNameAppend"
+			value={presetNameAppend}
+			maxLength={251}
+			placeholder="If none, leave blank"
+			onChange={updateSelectionFromEvent} />
 	</>
 ), objectsAreEqual)
 

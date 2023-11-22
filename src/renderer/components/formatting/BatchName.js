@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
 import { func, string, oneOf } from 'prop-types'
 
-import { updateStateFromEvent } from 'actions'
+import { updateState } from 'actions'
 
 import AccordionPanel from '../form_elements/AccordionPanel'
 import RadioSet from '../form_elements/RadioSet'
-import FieldsetWrapper from '../form_elements/FieldsetWrapper'
+import TextInputWithTokenInsertion from '../form_elements/TextInputWithTokenInsertion'
 
 const BATCH_NAME_TYPE_OPTIONS = Object.freeze([
 	{
@@ -20,7 +20,11 @@ const BATCH_NAME_TYPE_OPTIONS = Object.freeze([
 
 const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend, dispatch }) => {
 	const updateBatchName = useCallback(e => {
-		dispatch(updateStateFromEvent(e))
+		const { name, value } = e?.target || e
+
+		dispatch(updateState({
+			[name]: value
+		}))
 	}, [])
 
 	return (
@@ -32,38 +36,29 @@ const BatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend
 				onChange={updateBatchName}
 				options={BATCH_NAME_TYPE_OPTIONS} />
 			{batchNameType === 'replace' ? (
-				<FieldsetWrapper label="Batch Name">
-					<input
-						type="text"
-						name="batchName"
-						className="panel-input"
-						value={batchName}
-						maxLength={251}
-						onChange={updateBatchName}
-						placeholder="If none, leave blank" />
-				</FieldsetWrapper>
+				<TextInputWithTokenInsertion
+					label="Batch Name"
+					name="batchName"
+					value={batchName}
+					maxLength={251}
+					placeholder="If none, leave blank"
+					onChange={updateBatchName} />
 			) : (
 				<>
-					<FieldsetWrapper label="Prepend to Filename">
-						<input
-							type="text"
-							name="batchNamePrepend"
-							className="panel-input"
-							value={batchNamePrepend}
-							maxLength={251}
-							onChange={updateBatchName}
-							placeholder="If none, leave blank" />
-					</FieldsetWrapper>
-					<FieldsetWrapper label="Append to Filename">
-						<input
-							type="text"
-							name="batchNameAppend"
-							className="panel-input"
-							value={batchNameAppend}
-							maxLength={251}
-							onChange={updateBatchName}
-							placeholder="If none, leave blank" />
-					</FieldsetWrapper>
+					<TextInputWithTokenInsertion
+						label="Prepend to Filename"
+						name="batchNamePrepend"
+						value={batchNamePrepend}
+						maxLength={251}
+						placeholder="If none, leave blank"
+						onChange={updateBatchName} />
+					<TextInputWithTokenInsertion
+						label="Append to Filename"
+						name="batchNameAppend"
+						value={batchNameAppend}
+						maxLength={251}
+						placeholder="If none, leave blank"
+						onChange={updateBatchName} />
 				</>
 			)}
 		</>

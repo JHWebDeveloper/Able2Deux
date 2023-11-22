@@ -4,6 +4,7 @@ import { arrayOf, bool, func, oneOf, string } from 'prop-types'
 import { MEDIA_TYPES, MEDIA_LABEL } from 'constants'
 
 import FieldsetWrapper from '../form_elements/FieldsetWrapper'
+import TextInputWithTokenInsertion from '../form_elements/TextInputWithTokenInsertion'
 import CheckboxSet from '../form_elements/CheckboxSet'
 
 const PresetOptions = ({
@@ -15,26 +16,20 @@ const PresetOptions = ({
 	hideLimitTo
 }) => (
 	<div className="nav-panel-grid">
-		<FieldsetWrapper label="Prepend to Filename">
-			<input
-				type="text"
-				className="panel-input"
-				name="presetNamePrepend"
-				placeholder="If none, leave blank"
-				maxLength={251}
-				value={presetNamePrepend}
-				onChange={updatePresetState} />
-		</FieldsetWrapper>
-		<FieldsetWrapper label="Append to Filename">
-			<input
-				type="text"
-				className="panel-input"
-				name="presetNameAppend"
-				placeholder="If none, leave blank"
-				maxLength={251}
-				value={presetNameAppend}
-				onChange={updatePresetState} />
-		</FieldsetWrapper>
+		<TextInputWithTokenInsertion
+			label="Prepend to Filename"
+			name="presetNamePrepend"
+			value={presetNamePrepend}
+			maxLength={251}
+			placeholder="If none, leave blank"
+			onChange={updatePresetState} />
+		<TextInputWithTokenInsertion
+			label="Append to Filename"
+			name="presetNameAppend"
+			value={presetNameAppend}
+			maxLength={251}
+			placeholder="If none, leave blank"
+			onChange={updatePresetState} />
 		{hideLimitTo ? <></> : <>
 			<hr />
 			<CheckboxSet
