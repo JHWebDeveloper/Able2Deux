@@ -12,7 +12,8 @@ const { interop } = window.ABLE2
 
 const initState = {
 	media: [],
-	directories: []
+	directories: [],
+	mediaLoaded: false
 }
 
 export const RenderQueueContext = createContext()
@@ -21,15 +22,21 @@ export const RenderQueueProvider = ({ children }) => {
 	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
 	
 	const {
-		asperaSafe,
-		batchNameSeparator,
-		casing,
-		convertCase,
-		replaceSpaces,
-		spaceReplacement
-	} = useContext(PrefsContext).preferences
+		preferences: {
+			asperaSafe,
+			batchNameSeparator,
+			casing,
+			convertCase,
+			dateTimeSource,
+			replaceSpaces,
+			spaceReplacement
+		},
+		prefsLoaded
+	} = useContext(PrefsContext)
 
 	useEffect(() => {
+		if (!prefsLoaded) return
+
 		(async () => {
 			try {
 				const { media, batchName, directories } = await interop.getMediaToRender()
@@ -42,6 +49,7 @@ export const RenderQueueProvider = ({ children }) => {
 					batchNameSeparator,
 					casing,
 					convertCase,
+					dateTimeSource,
 					replaceSpaces,
 					spaceReplacement
 				}))
@@ -49,7 +57,7 @@ export const RenderQueueProvider = ({ children }) => {
 				toastr.error(err, false, TOASTR_OPTIONS)
 			}
 		})()
-	}, [])
+	}, [prefsLoaded])
 
 	return (
 		<RenderQueueContext.Provider value={{
