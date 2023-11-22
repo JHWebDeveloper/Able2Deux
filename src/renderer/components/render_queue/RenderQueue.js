@@ -10,8 +10,11 @@ import RenderQueueItem from './RenderQueueItem'
 import RenderQueueActions from './RenderQueueActions'
 
 const RenderQueue = () => {
-	const { autoPNG, concurrent, customFrameRate, renderFrameRate, renderOutput } = useContext(PrefsContext).preferences
-	const { media, directories, dispatch } = useContext(RenderQueueContext)
+	const { preferences: { autoPNG, concurrent, customFrameRate, renderFrameRate, renderOutput }, prefsLoaded } = useContext(PrefsContext)
+	const { media, directories, mediaLoaded, dispatch } = useContext(RenderQueueContext)
+
+	if (!prefsLoaded || !mediaLoaded) return <></>
+
 	const promiseQueue = useRef(createPromiseQueue(concurrent))
 
 	const renderMedia = useMemo(() => createRenderAction({
@@ -46,18 +49,10 @@ const RenderQueue = () => {
 	)
 }
 
-const RenderQueueMountWithAsyncDependencies = () => {
-	const { prefsLoaded } = useContext(PrefsContext)
-
-	return prefsLoaded
-		? <RenderQueue />
-		: <></>
-}
-
 export default () => (
 	<PrefsProvider>
 		<RenderQueueProvider>
-			<RenderQueueMountWithAsyncDependencies />
+			<RenderQueue />
 		</RenderQueueProvider>
 	</PrefsProvider>
 )
