@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router'
 import { arrayOf, bool, exact, object, oneOf, string } from 'prop-types'
 
@@ -8,6 +8,19 @@ const { interop } = window.ABLE2
 
 const SaveButtons = ({ media, batchName, saveLocations }) => {
 	const navigate = useNavigate()
+
+	const startRender = useCallback(mediaToRender => {
+		const renderStarted = new Date()
+
+		interop.openRenderQueue({
+			media: mediaToRender.map(item => ({
+				...item,
+				renderStarted
+			})),
+			batchName,
+			saveLocations
+		})
+	}, [])
 	
 	return (
 		<div id="save">
@@ -18,7 +31,7 @@ const SaveButtons = ({ media, batchName, saveLocations }) => {
 			<ButtonWithIcon
 				label="Save"
 				icon="save"
-				onClick={() => interop.openRenderQueue({ media, batchName, saveLocations })} />
+				onClick={() => startRender(media)} />
 		</div>
 	)
 }
