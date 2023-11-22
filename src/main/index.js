@@ -14,7 +14,8 @@ import { getThumbnailBase64 } from './modules/acquisition/thumbnails'
 import { validateDirectories } from './modules/formatting/validateDirectories'
 import { renderPreview, copyPreviewToImports } from './modules/formatting/preview'
 import { render, cancelRender } from './modules/formatting/formatting'
-import { clamp, delay, supportedExtensions } from './modules/utilities'
+import { SUPPORTED_EXTENSIONS } from './modules/constants'
+import { clamp, delay } from './modules/utilities'
 
 const mac = process.platform === 'darwin'
 const dev = process.env.NODE_ENV === 'development'
@@ -557,10 +558,10 @@ const windowOpeningMenuOptions = (() => {
 const openFiles = async () => {
 	const { filePaths, canceled } = await dialog.showOpenDialog({
 		filters: [
-			{ name: 'All Media Files', extensions: [ ...supportedExtensions.images, ...supportedExtensions.video, ...supportedExtensions.audio ] },
-			{ name: 'Video Files', extensions: supportedExtensions.video },
-			{ name: 'Image Files', extensions: supportedExtensions.images },
-			{ name: 'Audio Files', extensions: supportedExtensions.audio },
+			{ name: 'All Media Files', extensions: SUPPORTED_EXTENSIONS.all },
+			{ name: 'Video Files', extensions: SUPPORTED_EXTENSIONS.video },
+			{ name: 'Image Files', extensions: SUPPORTED_EXTENSIONS.images },
+			{ name: 'Audio Files', extensions: SUPPORTED_EXTENSIONS.audio },
 			{ name: 'All Files', extensions: ['*'] }
 		],
 		properties: ['openFile', 'multiSelections', 'createDirectory']
