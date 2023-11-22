@@ -1,7 +1,7 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
 import { fixPathForAsarUnpack } from 'electron-util'
-import placeholder from './placeholder'
+import { PLACEHOLDER } from '../constants'
 
 export * from './fileSupportLists'
 export * from '../../../shared/utilities'
@@ -21,7 +21,7 @@ export const base64EncodeOrPlaceholder = async file => {
 		}
 	}
 
-	return placeholder
+	return PLACEHOLDER
 }
 
 export const fileExistsPromise = async fileOrDir => {
