@@ -13,9 +13,10 @@ const interop = Object.assign({}, acquisition, formatting, preferences, presets,
 
 // ---- GET INFO --------
  
+interop.IS_MAC = process.platform === 'darwin'
+
 interop.getFileName = file => path.parse(file).name
 
-interop.isMac = process.platform === 'darwin'
 
 // ---- ELECTRON METHODS --------
 
