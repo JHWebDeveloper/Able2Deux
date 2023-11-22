@@ -1,15 +1,9 @@
 import { promises as fsp } from 'fs'
-import path from 'path'
-import { fixPathForAsarUnpack } from 'electron-util'
 
 import { PLACEHOLDER } from '../constants'
 
 export * from './fileSupportLists'
 export * from '../../../shared/utilities'
-
-export const assetsPath = fixPathForAsarUnpack(process.env.NODE_ENV === 'development'
-	? path.join(__dirname, '..', '..', 'backgrounds')
-	: path.join(__dirname, 'assets', 'backgrounds'))
 
 export const base64Encode = async file => `data:image/png;base64,${await fsp.readFile(file, 'base64')}`
 
