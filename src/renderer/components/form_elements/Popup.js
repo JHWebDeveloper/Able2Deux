@@ -199,10 +199,12 @@ const Popup = ({
 			onBlur={closeMenuOnBlur}
 			data-no-drag={showMenu}
 			{...rootMenuOrSubmenuProps}>
-			<span className={classNameBuilder({
-				'popup-button-label': true,
-				symbol: icon
-			})}>
+			<span
+				className={classNameBuilder({
+					'popup-button-label': true,
+					symbol: icon
+				})}
+				{...submenu ? {} : { title: label }}>
 				{icon || label}
 				{submenu ? <span>chevron_right</span> : <></>}
 			</span>
