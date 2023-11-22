@@ -1,7 +1,12 @@
+import { app } from 'electron'
+import path from 'path'
+import { fixPathForAsarUnpack } from 'electron-util'
+import { ffmpeg, ffprobe, ytdlp } from 'ffmpeg-ffprobe-yt-dlp-static-electron'
+
 export * from './placeholder'
 export * from '../../../shared/constants.js'
 
-export const DEFAULT_LIMIT_TO = Object.freeze(['gif', 'image', 'video'])
+// ---- FILE TYPE LISTS --------
 
 export const SUPPORTED_IMAGE_CODECS = Object.freeze([
 	'alias_pix',
@@ -47,3 +52,29 @@ export const SUPPORTED_EXTENSIONS = Object.freeze({
     return [...this.audio, ...this.images, ...this.video]
   }
 })
+
+// ---- PATHS --------
+
+export const TEMP_DIRECTORY_PATH = process.env.NODE_ENV === 'development'
+	? path.join(__dirname, '..', '..', 'temp')
+	: app.getPath('temp')
+
+export const ASSETS_PATH = fixPathForAsarUnpack(process.env.NODE_ENV === 'development'
+	? path.join(__dirname, '..', '..', 'backgrounds')
+	: path.join(__dirname, 'assets', 'backgrounds'))
+
+export const DATA_STORE_PATH = process.env.NODE_ENV === 'development'
+	? path.join(__dirname, '..', '..', 'data')
+	: path.join(app.getPath('appData'), 'able2', 'prefs')
+
+export const PREFERENCES_PATH = path.join(DATA_STORE_PATH, 'preferences.json')
+export const PRESETS_PATH = path.join(DATA_STORE_PATH, 'presets.json')
+export const WORKSPACE_PATH = path.join(DATA_STORE_PATH, 'workspace.json')
+
+export const YTDLP_PATH = fixPathForAsarUnpack(ytdlp.path)
+export const FFMPEG_PATH = fixPathForAsarUnpack(ffmpeg.path)
+export const FFPROBE_PATH = fixPathForAsarUnpack(ffprobe.path)
+
+// ---- TUPLES --------
+
+export const DEFAULT_LIMIT_TO = Object.freeze(['gif', 'image', 'video'])
