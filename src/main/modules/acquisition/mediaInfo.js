@@ -205,5 +205,7 @@ export const getMediaInfo = async (id, tempFilePath, streamData, forcedFPS) => {
 		await createPNGCopyAsScreenshot(id, tempFilePath, mediaType)
 	}
 
+	mediaData.importCompleted = new Date()
+
 	return mediaData
 }
