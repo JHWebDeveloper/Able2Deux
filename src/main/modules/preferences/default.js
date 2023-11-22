@@ -1,45 +1,22 @@
 import { app } from 'electron'
-import path from 'path'
 import { v1 as uuid } from 'uuid'
 
-const tempDirectory = process.env.NODE_ENV === 'development'
-	? path.join(__dirname, '..', '..', 'temp')
-	: app.getPath('temp')
+import {
+	DEFAULT_LIMIT_TO,
+	INIT_PREFS_STATE,
+	INIT_PRESETS_STATE,
+	INIT_WORKSPACE_STATE,
+	TEMP_DIRECTORY_PATH
+} from '../constants'
 
 export const defaultPrefs = {
+	...INIT_PREFS_STATE,
 	version: 12,
-	theme: 'system',
 	scratchDisk: {
-		imports: tempDirectory,
-		exports: tempDirectory,
-		previews: tempDirectory
+		imports: TEMP_DIRECTORY_PATH,
+		exports: TEMP_DIRECTORY_PATH,
+		previews: TEMP_DIRECTORY_PATH
 	},
-	warnings: {
-		remove: true,
-		removeReferenced: true,
-		removeAll: true,
-		applyToAll: true,
-		sourceOnTop: true,
-		startOver: true,
-		removePreset: true,
-		removeReferencedPreset: true,
-		removePresetFromBatch: true
-	},
-	optimize: 'quality',
-	screenshot: false,
-	timerEnabled: false,
-	screenRecorderFrameRate: 60,
-	timer: 60,
-	editorSettings: {
-		arc: 'none',
-		backgroundMotion: 'animated'
-	},
-	selectAllByDefault: false,
-	enable11pmBackgrounds: false,
-	sliderSnapPoints: true,
-	split: 270,
-	scaleSliderMax: 400,
-	gridColor: '#ff00ff',
 	aspectRatioMarkers: [
 		{
 			id: uuid(),
@@ -84,18 +61,6 @@ export const defaultPrefs = {
 			ratio: [2.39, 1]
 		}
 	],
-	renderOutput: '1280x720',
-	renderFrameRate: 'auto',
-	customFrameRate: 23.98,
-	autoPNG: true,
-	batchNameSeparator: ' ',
-	replaceSpaces: false,
-	spaceReplacement: '_',
-	convertCase: false,
-	casing: 'lowercase',
-	dateTimeSource: 'renderStarted',
-	asperaSafe: true,
-	concurrent: 2,
 	saveLocations: [
 		{
 			id: uuid(),
@@ -104,13 +69,11 @@ export const defaultPrefs = {
 			directory: app.getPath('desktop'),
 			label: 'Save to Desktop'
 		}
-	],
-	disableRateLimit: false
+	]
 }
 
-const limitTo = ['gif', 'image', 'video']
-
 export const defaultPresets = {
+	...INIT_PRESETS_STATE,
 	version: 1,
 	presets: [
 		{
@@ -118,7 +81,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'EWN BG Blue',
 			hidden: false,
-			limitTo,
+			limitTo: [...DEFAULT_LIMIT_TO],
 			attributes: {
 				background: 'blue',
 				presetNameAppend: 'EWN BG Blue'
@@ -129,7 +92,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'EWN BG Grey',
 			hidden: true,
-			limitTo,
+			limitTo: [...DEFAULT_LIMIT_TO],
 			attributes: {
 				background: 'grey',
 				presetNameAppend: 'EWN BG Grey'
@@ -140,7 +103,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'TNT BG Light Blue',
 			hidden: false,
-			limitTo,
+			limitTo: [...DEFAULT_LIMIT_TO],
 			attributes: {
 				background: 'light_blue',
 				presetNameAppend: 'TNT BG Light Blue'
@@ -151,7 +114,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'TNT BG Dark Blue',
 			hidden: true,
-			limitTo,
+			limitTo: [...DEFAULT_LIMIT_TO],
 			attributes: {
 				background: 'dark_blue',
 				presetNameAppend: 'TNT BG Dark Blue'
@@ -162,7 +125,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'TNT BG Teal',
 			hidden: true,
-			limitTo,
+			limitTo: [...DEFAULT_LIMIT_TO],
 			attributes: {
 				background: 'teal',
 				presetNameAppend: 'TNT BG Teal'
@@ -173,7 +136,7 @@ export const defaultPresets = {
 			type: 'preset',
 			label: 'TNT BG Tan',
 			hidden: true,
-			limitTo,
+			limitTo: [...DEFAULT_LIMIT_TO],
 			attributes: {
 				background: 'tan',
 				presetNameAppend: 'TNT BG Tan'
@@ -191,7 +154,7 @@ defaultPresets.presets.push(
 		attributeMergeType: 'overwrite',
 		presetNamePrependMergeType: 'replace',
 		presetNameAppendMergeType: 'replace',
-		limitTo,
+		limitTo: [...DEFAULT_LIMIT_TO],
 		limitToOverwrite: false,
 		attributes: {},
 		presetIds: [
@@ -207,7 +170,7 @@ defaultPresets.presets.push(
 		attributeMergeType: 'overwrite',
 		presetNamePrependMergeType: 'replace',
 		presetNameAppendMergeType: 'replace',
-		limitTo,
+		limitTo: [...DEFAULT_LIMIT_TO],
 		limitToOverwrite: false,
 		attributes: {},
 		presetIds: defaultPresets.presets.map(({ id }) => id)
@@ -215,54 +178,6 @@ defaultPresets.presets.push(
 )
 
 export const defaultWorkspace = {
-	version: 1,
-	windowWidth: 830,
-	windowHeight: 800,
-	previewHeight: 540,
-	previewQuality: 1,
-	grid: false,
-	panels: {
-		batchName: {
-			open: false
-		},
-		preview: {
-			open: true
-		},
-		fileOptions: {
-			open: true
-		},
-		audio: {
-			open: false
-		},
-		framing: {
-			open: true
-		},
-		source: {
-			open: true
-		},
-		centering: {
-			open: true
-		},
-		position: {
-			open: false
-		},
-		scale: {
-			open: false
-		},
-		crop: {
-			open: false
-		},
-		rotation: {
-			open: false
-		},
-		keying: {
-			open: false
-		},
-		colorCorrection: {
-			open: false
-		},
-		presetNameTemplate: {
-			open: false
-		}
-	}
+	...INIT_WORKSPACE_STATE,
+	version: 1
 }
