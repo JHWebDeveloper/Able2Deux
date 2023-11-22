@@ -1,3 +1,4 @@
+export * from './placeholder'
 export * from '../../../shared/constants.js'
 
 export const DEFAULT_LIMIT_TO = Object.freeze(['gif', 'image', 'video'])
