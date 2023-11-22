@@ -93,6 +93,7 @@ export const defaultPrefs = {
 	spaceReplacement: '_',
 	convertCase: false,
 	casing: 'lowercase',
+	dateTimeSource: 'renderStarted',
 	asperaSafe: true,
 	concurrent: 2,
 	saveLocations: [
