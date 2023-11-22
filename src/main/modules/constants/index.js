@@ -48,9 +48,9 @@ export const SUPPORTED_EXTENSIONS = Object.freeze({
 	audio: ['aa', 'aac', 'ac3', 'aiff', 'ape', 'au', 'flac', 'mp2', 'mp3', 'm4a', 'm4b', 'm4p', 'oga', 'opus', 'ra', 'sln', 'tta', 'voc', 'wav', 'wma', 'wv', 'xwma', '8svx'],
 	images: ['apng', 'bmp', 'gif', 'jfi', 'jfif', 'jpeg', 'jpg', 'jp2', 'j2c', 'mjpeg', 'mng', 'pbm', 'pgm', 'png', 'pnm', 'ppm', 'psb', 'psd', 'tga', 'tif', 'tiff', 'webp'],
 	video: ['asf', 'avi', 'evo', 'flv', 'f4v', 'mkv', 'mov', 'mpe', 'mpeg', 'mpv', 'mp4', 'mts', 'mxf', 'm2ts', 'm4v', 'ogg', 'ogv', 'rm', 'ts', 'vob', 'webm', 'wmv', '3gp', '3g2'],
-  get all() {
-    return [...this.audio, ...this.images, ...this.video]
-  }
+	get all() {
+		return [...this.audio, ...this.images, ...this.video]
+	}
 })
 
 // ---- PATHS --------

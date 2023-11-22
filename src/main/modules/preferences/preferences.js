@@ -81,7 +81,8 @@ const initPreferences = async () => {
 }
 
 export const loadPrefs = async () => {
-	const { version, ...preferences } = JSON.parse(await fsp.readFile(PREFERENCES_PATH))
+	// destructuring to omit version
+	const { version, ...preferences } = JSON.parse(await fsp.readFile(PREFERENCES_PATH)) // eslint-disable-line no-unused-vars
 
 	return preferences
 }
@@ -142,7 +143,8 @@ const getPresetReferences = presets => presets.reduce((acc, { id, type, label, h
 }, [])
 
 export const loadPresets = async ({ referencesOnly, presorted }) => {
-	let { version, ...presets } = JSON.parse(await fsp.readFile(PRESETS_PATH))
+	// destructuring to omit version
+	let { version, ...presets } = JSON.parse(await fsp.readFile(PRESETS_PATH)) // eslint-disable-line no-unused-vars
 
 	if (referencesOnly) {
 		presets.presets = getPresetReferences(presets.presets)
@@ -249,7 +251,8 @@ const initWorkspace = async () => {
 }
 
 export const loadWorkspace = async () => {
-	const { version, ...workspace } = JSON.parse(await fsp.readFile(WORKSPACE_PATH))
+	// destructuring to omit version
+	const { version, ...workspace } = JSON.parse(await fsp.readFile(WORKSPACE_PATH)) // eslint-disable-line no-unused-vars
 
 	return workspace
 }

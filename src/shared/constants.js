@@ -49,7 +49,7 @@ const INIT_PREFS_STATE = Object.freeze({
 })
 
 const INIT_PRESETS_STATE = Object.freeze({
-  presets: []
+	presets: []
 })
 
 const INIT_WORKSPACE_STATE = Object.freeze({
@@ -105,7 +105,7 @@ const INIT_WORKSPACE_STATE = Object.freeze({
 })
 
 module.exports = {
-  INIT_PREFS_STATE,
-  INIT_PRESETS_STATE,
-  INIT_WORKSPACE_STATE
+	INIT_PREFS_STATE,
+	INIT_PRESETS_STATE,
+	INIT_WORKSPACE_STATE
 }
