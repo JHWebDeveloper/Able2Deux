@@ -62,8 +62,10 @@ const PresetSaveAs = () => {
 	}, [])
 
 	const updatePresetStateFromEvent = useCallback(e => {
+		const { name, value } = e?.target || e
+		
 		dispatch(updatePresetStateBySelection({
-			[e.target.name]: e.target.value
+			[name]: value
 		}))
 	}, [])
 
