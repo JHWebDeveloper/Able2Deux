@@ -107,7 +107,7 @@ export const checkFileType = async (file, preGeneratedMetadata) => {
 	const audioSupport = !!codecs[audioStream?.codec_name]?.canDecode
 	const streamData = { hasAudio: !!audioStream }
 
-	if (audioSupport && (!videoStream || SUPPORTED_IMAGE_CODECSCodecs.includes(videoStream?.codec_name))) { // audio only or audio with album artwork
+	if (audioSupport && (!videoStream || SUPPORTED_IMAGE_CODECS.includes(videoStream?.codec_name))) { // audio only or audio with album artwork
 		streamData.mediaType = 'audio'
 	} else if (videoSupport && (audioSupport || !audioStream)) { // video+audio or video only
 		streamData.mediaType = getVisualMediaType(videoStream.codec_name, path.extname(file))
