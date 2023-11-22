@@ -1,16 +1,14 @@
 import { spawn } from 'child_process'
-import { fixPathForAsarUnpack } from 'electron-util'
-import { ffmpeg, ffprobe, ytdlp } from 'ffmpeg-ffprobe-yt-dlp-static-electron'
 import fluentFfmpeg from 'fluent-ffmpeg'
 
-const asar = {
-	ytdl: fixPathForAsarUnpack(ytdlp.path),
-	ffmpeg: fixPathForAsarUnpack(ffmpeg.path),
-	ffprobe: fixPathForAsarUnpack(ffprobe.path)
-}
+import {
+	YTDLP_PATH,
+	FFMPEG_PATH,
+	FFPROBE_PATH 
+} from './constants'
 
-const ytdlpSpawn = opts => spawn(asar.ytdl, [
-	'--ffmpeg-location', asar.ffmpeg,
+const ytdlpSpawn = opts => spawn(YTDLP_PATH, [
+	'--ffmpeg-location', FFMPEG_PATH,
 	'--retries', '3',
 	'--socket-timeout', '30',
 	'--no-warnings',
@@ -19,8 +17,8 @@ const ytdlpSpawn = opts => spawn(asar.ytdl, [
 	...opts
 ])
 
-fluentFfmpeg.setFfmpegPath(asar.ffmpeg)
-fluentFfmpeg.setFfprobePath(asar.ffprobe)
+fluentFfmpeg.setFfmpegPath(FFMPEG_PATH)
+fluentFfmpeg.setFfprobePath(FFPROBE_PATH)
 
 export {
 	ytdlpSpawn as ytdlp,
