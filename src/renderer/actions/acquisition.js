@@ -5,11 +5,7 @@ import { updateMediaStateById } from 'actions'
 
 import { TOASTR_OPTIONS } from 'constants'
 
-import {
-	createMediaData,
-	errorToString,
-	format12hr
-} from 'utilities'
+import { createMediaData, errorToString } from 'utilities'
 
 const { interop } = window.ABLE2
 
@@ -88,7 +84,8 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 			title: url,
 			status: STATUS.DOWNLOAD_PENDING,
 			filename: 'download',
-			acquisitionType: 'download'
+			acquisitionType: 'download',
+			importStarted: new Date(),
 		})
 	} catch (err) {
 		return toastr.error(errorToString(err), false, TOASTR_OPTIONS)
@@ -158,6 +155,7 @@ export const upload = ({ name, path }) => async dispatch => {
 			filename: interop.getFileName(name),
 			sourceFilePath: path,
 			acquisitionType: 'upload',
+			importStarted: new Date(),
 			...streamData
 		})
 	} catch (err) {
@@ -184,8 +182,7 @@ export const upload = ({ name, path }) => async dispatch => {
 // ---- SCREEN RECORD ------------
 
 export const loadRecording = (id, screenshot) => async dispatch => {
-	const d = new Date()
-	const title = `Able2 Screen${screenshot ? 'shot' : ' Record'} ${format12hr(d)} ${d.toDateString()}`
+	const title = `Able2 Screen${screenshot ? 'shot' : ' Record'} $d $t`
 	let mediaData = {}
 
 	try {

@@ -77,20 +77,21 @@ const applyBatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameA
 
 // ---- REPLACE FILENAME TOKENS --------
 
-const getTokenReplacerFns = (i, l, { start, end, duration, fps, instances = [], versions = [], refId, id }) => {
-	const d = new Date()
+const getTokenReplacerFns = (index, length, dateTimeSource, media) => {
+	const { start, end, duration, fps, instances = [], versions = [], refId, id } = media
+	const date = media?.[dateTimeSource] ?? new Date()
 
 	return new Map(Object.entries({
-		'$d': () => d.toDateString(),
-		'$D': () => d.toLocaleDateString().replace(/\//g, '-'),
-		'$t': () => format12hr(d),
-		'$T': () => `${d.getHours()}${d.getMinutes()}`,
+		'$d': () => date.toDateString(),
+		'$D': () => date.toLocaleDateString().replace(/\//g, '-'),
+		'$t': () => format12hr(date),
+		'$T': () => `${date.getHours()}${date.getMinutes()}`,
 		'$i': () => zeroizeAuto(instances.indexOf(refId) + 1, instances.length),
 		'$v': () => zeroizeAuto(versions.indexOf(id) + 1, versions.length),
-		'$n': () => zeroizeAuto(i + 1, l),
+		'$n': () => zeroizeAuto(index + 1, length),
 		'$li': () => instances.length,
 		'$lv': () => versions.length,
-		'$l': () => l,
+		'$l': () => length,
 		'$s': () => framesToShortTC(start, fps),
 		'$e': () => framesToShortTC(end, fps),
 		'$r': () => framesToShortTC(duration * fps, fps),
@@ -100,14 +101,14 @@ const getTokenReplacerFns = (i, l, { start, end, duration, fps, instances = [], 
 
 const removeEscapeChars = filename => filename.replace(/\\(?=\$(d|D|t|T|n|i|v|l(i|v)?|s|e|r|c))/g, '')
 
-export const replaceTokens = (filename, i = 0, media) => {
+export const replaceTokens = (filename, index = 0, dateTimeSource, media) => {
 	if (filename.length < 2) return filename
 
 	const matches = [...new Set(filename.match(/(?<!\\)\$(d|D|t|T|n|i|v|l(i|v)?|s|e|r|c)/g))].sort().reverse()
 
 	if (!media.length) return removeEscapeChars(filename)
 
-	const item = media[i]
+	const item = media[index]
 
 	if (matches.includes('$i') || matches.includes('$li')) {
 		item.instances = [...new Set(media.map(({ refId }) => refId))]
@@ -120,7 +121,7 @@ export const replaceTokens = (filename, i = 0, media) => {
 		}, [])
 	}
 
-	const replacer = getTokenReplacerFns(i, media.length, item)
+	const replacer = getTokenReplacerFns(index, media.length, dateTimeSource, item)
 	
 	for (const match of matches) {
 		filename = filename.replace(new RegExp(`(?<!\\\\)\\${match}`, 'g'), replacer.get(match)())
@@ -129,9 +130,9 @@ export const replaceTokens = (filename, i = 0, media) => {
 	return removeEscapeChars(filename)
 }
 
-const replaceFilenameTokens = media => media.map((item, i) => ({
+const replaceFilenameTokens = dateTimeSource => media => media.map((item, i) => ({
 	...item,
-	filename: replaceTokens(item.filename, i, media)
+	filename: replaceTokens(item.filename, i, dateTimeSource, media)
 }))
 
 // ---- CLEAN AND FORMAT FILENAME --------
@@ -222,6 +223,7 @@ export const prepareMediaForRender = ({
 	batchNameSeparator,
 	casing,
 	convertCase,
+	dateTimeSource,
 	directories,
 	media,
 	replaceSpaces,
@@ -233,14 +235,15 @@ export const prepareMediaForRender = ({
 			fillMissingFilenames,
 			applyBatchName(batchName),
 			applyPresetName(batchNameSeparator),
-			replaceFilenameTokens,
+			replaceFilenameTokens(dateTimeSource),
 			sanitizeFilenames(asperaSafe),
 			replaceFilenameSpaces(replaceSpaces, spaceReplacement),
 			convertFilenameCase(convertCase, casing),
 			preventDuplicateFilenames,
 			addRenderProps
 		)(media),
-		directories
+		directories,
+		mediaLoaded: true
 	}
 })
 
@@ -251,9 +254,9 @@ const updateRenderProgress = ({ id, percent: renderPercent }) => updateMediaStat
 export const createRenderAction = ({
 	autoPNG,
 	customFrameRate,
+	directories,
 	renderFrameRate,
-	renderOutput,
-	directories
+	renderOutput
 }) => item => async dispatch => {
 	const { id, arc, aspectRatio, sourceName, sourcePrefix, sourceOnTop, background } = item
 
