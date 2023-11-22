@@ -17,6 +17,9 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 - Edit All dropdown menu with options: Select All, Deselect All, Duplicate Selected/All, Apply Preset to Selected/All, Apply Preset to Selected/All as Duplicate, Remove Selected/All.
 - New media dropdown options: Apply Attributes to Selected, Select Duplicates, Apply Preset, Apply Preset as Duplicate, Save as Preset.
 - New panel dropdown options: Apply to Selected, Save as Preset.
+- Insert Replacement Token menu next to Filename, Batch Name and new Preset Name text fields. User no longer needs to remember what the tokens are or that they exist.
+- New tokens $i, &li, &v and $lv for instance and version numbering of media clips.
+- Date and Time Source setting in the preferences. User can now select whether that date and time tokens are replaced by import started, import completed or export started time.
 - Render queue now displays a "View in Explorer|Finder" button next to each successfully rendered item. A popup menu of directories displays if multiple save locations were selected.
 - Select All by Default setting in the preferences.
 - Dropdown menus now display their keyboard shortcut to the right if available.
