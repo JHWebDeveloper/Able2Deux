@@ -2,7 +2,7 @@ import React from 'react'
 
 const { interop } = window.ABLE2
 
-const cmdORCtrl = interop.isMac ? 'Cmd' : 'Ctrl'
+const cmdORCtrl = interop.IS_MAC ? 'Cmd' : 'Ctrl'
 
 const Formatting = () => (
 	<section id="formatting">
@@ -70,7 +70,7 @@ const Formatting = () => (
 		<p>The Edit All switch can be found at the bottom of the Media Selector. It will only appear if more than one media item is present. When Edit All is enabled, changes to any media item will be applied to all others in the batch.</p>
 		<p>It is important to note that Edit All is not the same as Apply to All. Only changes made AFTER enabling Edit All will be applied to all. To apply current settings to all media, see the previous section.</p>
 		<p>Filename, Start and End are the only settings unique to their media item and are unaffected by Edit All.</p>
-		<p>Edit All can be switched on by default under {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences</p>
+		<p>Edit All can be switched on by default under {interop.IS_MAC ? 'Able2' : 'Edit'} &gt; Preferences</p>
 		<h3 id="preview-window">Preview Window</h3>
 		<p>When a media item is selected, the Preview Window will display a thumbnail preview of the media with current settings applied.</p>
 		<p>For audio exports, the preview window displays split channel waveform data.</p>
@@ -127,7 +127,7 @@ const Formatting = () => (
 		<p>All settings that have been applied to the video will be retained by the screengrab. To avoid this, hold the shift key when clicking the screengrab button. With the execption of the filename, all settings for the new screengrab will be reset to their default states.</p>
 		<h4 id="grids">Grids</h4>
 		<p>The Preview Window has four grid overlays that can be toggled on or off the first of which is a standard 16:9 title safe grid with thirds and center markers (<i>grid_on</i>). The other grid buttons will reveal markers for aspect ratios 4:3, 1:1, and 9:16.</p>
-		<p>The grid color can be changed and additional grid buttons for 1.85:1 and 2.39:1 can be enabled under {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences.</p>
+		<p>The grid color can be changed and additional grid buttons for 1.85:1 and 2.39:1 can be enabled under {interop.IS_MAC ? 'Able2' : 'Edit'} &gt; Preferences.</p>
 		<h3 id="media-formatting-sections">Media Formatting Sections</h3>
 		<p>Under the preview window are a number of collapsible sections each containing options to format the media for export.</p>
 		<h4 id="file">File</h4>
@@ -213,7 +213,7 @@ const Formatting = () => (
 		<p>The link button, enabled by default, will preserve to media&apos;s current proportions as you adjust either slider.</p>
 		<p>Both sliders have a small button adjacent to them. While the link is enabled, the X slider&apos;s button will resize the media to fit inside the frame width while the Y slider&apos;s button will resize the media to fit inside the frame height. If the link is disabled, the buttons will stretch the media to the frame dimensions instead of fit.</p>
 		<p>Both scale percentages can be manually entered into the each slider&apos;s adjacent number field. These fields accept decimal values, can be set higher than the slider&apos;s maximum value, and can be incremented by pressing the up and down arrow keys.</p>
-		<p>Both sliders default maximum value is 400%. This can be increased or decreased under {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences.</p>
+		<p>Both sliders default maximum value is 400%. This can be increased or decreased under {interop.IS_MAC ? 'Able2' : 'Edit'} &gt; Preferences.</p>
 		<p>The sliders and number fields increment by 1%. Holding shift will reduce increments to 0.1% allowing for finer adjustments.</p>
 		<h4 id="crop">Crop</h4>
 		<p>Accessible when AR Correction is set to Transform</p>
@@ -321,7 +321,7 @@ const Formatting = () => (
 		</table>
 		<h3 id="save-locations">Save Locations</h3>
 		<p>Select the directories where Able2 will save the export(s).</p>
-		<p>Save Locations are customizable under {interop.isMac ? 'Able2' : 'Edit'} &gt; Preferences. For more details see Save Locations the Preferences section.</p>
+		<p>Save Locations are customizable under {interop.IS_MAC ? 'Able2' : 'Edit'} &gt; Preferences. For more details see Save Locations the Preferences section.</p>
 		<p>When clicking Save, if all Save Locations are unchecked and/or not found, you will be prompted to choose a directory.</p>
 	</section>
 )

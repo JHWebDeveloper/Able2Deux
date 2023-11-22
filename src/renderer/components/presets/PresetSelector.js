@@ -149,7 +149,7 @@ const PresetSelector = ({
 			{
 				type: 'button',
 				label: 'Duplicate Preset',
-				shortcut: `${interop.isMac ? '⌘' : '⌃'}D`,
+				shortcut: `${interop.IS_MAC ? '⌘' : '⌃'}D`,
 				action() {
 					dispatchDuplicatePreset(index)
 				}
@@ -185,7 +185,7 @@ const PresetSelector = ({
 	}, [batchPresets, presetsLength])
 
 	const onKeyDown = useCallback((index, type, removePreset, e) => {
-		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
+		const ctrlOrCmd = interop.IS_MAC ? e.metaKey : e.ctrlKey
 
 		if (e.altKey && isArrowPrev(e)) {
 			e.preventDefault();

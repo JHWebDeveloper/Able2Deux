@@ -93,7 +93,7 @@ const MediaSelector = ({
 	}, [])
 
 	const onKeyDown = useCallback(e => {
-		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
+		const ctrlOrCmd = interop.IS_MAC ? e.metaKey : e.ctrlKey
 
 		if (e.shiftKey && ctrlOrCmd && e.key === 'a') {
 			dispatchDeselectAllMedia()

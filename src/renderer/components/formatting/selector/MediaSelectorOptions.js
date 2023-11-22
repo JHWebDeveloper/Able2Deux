@@ -25,7 +25,7 @@ const MediaSelectorOptions = ({
 	dispatch
 }) => {
 	const createDropdown = useCallback(() => {
-		const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
+		const ctrlOrCmdKeySymbol = interop.IS_MAC ? '⌘' : '⌃'
 
 		return [
 			{

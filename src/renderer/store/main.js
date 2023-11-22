@@ -7,7 +7,7 @@ import { updateState } from 'actions'
 import { useAugmentedDispatch } from 'hooks'
 import { createObjectPicker, pipe } from 'utilities'
 
-const initState = {
+const INIT_STATE = Object.freeze({
 	fixed: {
 		clipboard: {}
 	},
@@ -22,7 +22,7 @@ const initState = {
 	batchNamePrepend: '',
 	batchNameAppend: '',
 	saveLocations: []
-}
+})
 
 const extractDefaultPrefs = createObjectPicker([
 	'saveLocations',
@@ -36,7 +36,7 @@ const extractDefaultPrefs = createObjectPicker([
 export const MainContext = createContext()
 
 export const MainProvider = ({ children }) => {
-	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
+	const [ state, dispatch ] = useAugmentedDispatch(reducer, INIT_STATE)
 	const { preferences, prefsLoaded } = useContext(PrefsContext)
 	const { aspectRatioMarkers, saveLocations } = preferences
 

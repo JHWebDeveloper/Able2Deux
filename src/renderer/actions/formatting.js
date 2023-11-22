@@ -31,7 +31,7 @@ export const selectMedia = (clickedIndex, e = {}, selectionData = {}) => ({
 		clickedIsAnchored: selectionData.anchored,
 		clickedInSelection: selectionData.selected,
 		shift: e.shiftKey,
-		ctrlOrCmd: interop.isMac ? e.metaKey : e.ctrlKey
+		ctrlOrCmd: interop.IS_MAC ? e.metaKey : e.ctrlKey
 	}
 })
 

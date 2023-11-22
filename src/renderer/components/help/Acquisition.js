@@ -52,7 +52,7 @@ const Acquisition = () => (
 		<p>Alternatively you can take a still image of your screen instead of a video. Click the switch to the right of the record button so that the <i>camera_alt</i> icon is selected (The <i style={{ transform: 'rotate(90deg)' }}>local_movies</i> icon will be selected by default). Once screenshot is selected, click the record button and select a record source.</p>
 		<p>Once a record source is selected, the Able2 window will disappear, take the screenshot and reappear. The screenshot will now be listed in the ready queue.</p>
 		<p>The stop timer has no effect in screenshot mode and will be disabled.</p>
-		{/* {interop.isMac ?
+		{/* {interop.IS_MAC ?
 			<>
 				<h4 id="audio-support-for-mac">Audio Support for Mac</h4>
 				<p>Due to limitations on Mac devices a free third-party program called Soundflower is required for recording device audio with video.</p>

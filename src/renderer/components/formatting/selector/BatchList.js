@@ -89,7 +89,7 @@ const BatchList = ({
 		const isFirst = index === 0
 		const isLast = index === media.length - 1
 		const isOnly = isFirst && isLast
-		const ctrlOrCmdKeySymbol = interop.isMac ? '⌘' : '⌃'
+		const ctrlOrCmdKeySymbol = interop.IS_MAC ? '⌘' : '⌃'
 
 		return [
 			{
@@ -210,7 +210,7 @@ const BatchList = ({
 		const isFirst = index === 0
 		const isLast = index === media.length - 1
 		const isOnly = isFirst && isLast
-		const ctrlOrCmd = interop.isMac ? e.metaKey : e.ctrlKey
+		const ctrlOrCmd = interop.IS_MAC ? e.metaKey : e.ctrlKey
 
 		if (ctrlOrCmd && !isOnly && e.key === 'c') {
 			dispatchCopyAttributes(id)

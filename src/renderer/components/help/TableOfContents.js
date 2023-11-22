@@ -18,7 +18,7 @@ const TableOfContents = () => (
 				<ul>
 					<li><a href="#stop-timer" title="Go to Stop Timer">Stop Timer</a></li>
 					<li><a href="#screenshot-mode" title="Go to Screenshot Mode">Screenshot Mode</a></li>
-					{interop.isMac ? <>
+					{interop.IS_MAC ? <>
 						<li><a href="#audio-support-for-mac" title="Go to Audio Support for Mac">Audio Support for Mac</a></li>
 						<ul>
 							<li><a href="#before-starting-a-screen-record" title="Go to Before Starting a Screen Record">Before Starting a Screen Record</a></li>

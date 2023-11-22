@@ -16,7 +16,7 @@ const { interop } = window.ABLE2
 const RenderQueueItem = ({ item, promiseQueue, isLast, renderMedia, cancelRender, dispatch }) => {
 	const { id, filename, mediaType, renderStatus, renderPercent, exportPaths } = item
 	const color = useMemo(() => getStatusColor(renderStatus), [renderStatus])
-	const folderButtonTitle = `View in ${interop.isMac ? 'Finder' : 'Explorer'}`
+	const folderButtonTitle = `View in ${interop.IS_MAC ? 'Finder' : 'Explorer'}`
 	const renderComplete = renderStatus === STATUS.COMPLETE
 
 	const progressValue = useMemo(() => {

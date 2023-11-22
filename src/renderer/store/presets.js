@@ -4,20 +4,15 @@ import { arrayOf, bool, element, func, oneOfType } from 'prop-types'
 
 import { presetsReducer as reducer } from 'reducer'
 import { updateState } from 'actions'
-import { TOASTR_OPTIONS } from 'constants'
+import { INIT_PRESETS_STATE, TOASTR_OPTIONS } from 'constants'
 import { useAugmentedDispatch } from 'hooks'
 
 const { interop } = window.ABLE2
 
-const initState = {
-	version: 1,
-	presets: []
-}
-
 export const PresetsContext = createContext()
 
 export const PresetsProvider = ({ loadAction = updateState, referencesOnly, presorted, enableSync, children }) => {
-	const [ state, dispatch ] = useAugmentedDispatch(reducer, initState)
+	const [ state, dispatch ] = useAugmentedDispatch(reducer, INIT_PRESETS_STATE)
 	const [ presetsLoaded, setPresetsLoaded ] = useState(false)
 
 	useEffect(() => {
