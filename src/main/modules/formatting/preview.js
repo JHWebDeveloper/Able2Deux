@@ -6,9 +6,9 @@ import * as filter from './filters'
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 import { createPNGCopyAsScreenshot } from '../acquisition/thumbnails'
+import { ASSETS_PATH } from '../constants'
 
 import {
-	assetsPath,
 	base64Encode,
 	getOverlayInnerDimensions,
 	objectPick
@@ -48,18 +48,18 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 	const addBgLayer = arc === 'fit' || arc === 'transform' || fillNeedsBg
 
 	if (addBgLayer && background === 'alpha') {
-		command.input(path.join(assetsPath, renderHeight, 'alpha.jpg'))
+		command.input(path.join(ASSETS_PATH, renderHeight, 'alpha.jpg'))
 	} else if (addBgLayer && background === 'color') {
 		command
 			.input(`color=c=${exportData.bgColor}:s=${renderWidth}x${renderHeight}`)
 			.inputOption('-f lavfi')
 	} else if (addBgLayer) {
-		command.input(path.join(assetsPath, renderHeight, `${background}.jpg`))
+		command.input(path.join(ASSETS_PATH, renderHeight, `${background}.jpg`))
 	}
 
 	if (arc !== 'none' && overlay !== 'none') {
 		command
-			.input(path.join(assetsPath, renderHeight, `${overlay}.png`))
+			.input(path.join(ASSETS_PATH, renderHeight, `${overlay}.png`))
 			.input(`color=c=black:s=${renderWidth}x${renderHeight}`)
 			.inputOption('-f lavfi')
 
