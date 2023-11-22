@@ -133,9 +133,12 @@ button[name$="selectAll"] {
 	font-size: 12px;
 }
 
+.editor-options fieldset:has(input[type="text"]) {
+	margin-bottom: 9px;
+}
+
 .editor-options input[type="text"] {
 	font-size: 16px;
-	margin-bottom: 9px;
 }
 
 .editor-options input[type="number"] {
