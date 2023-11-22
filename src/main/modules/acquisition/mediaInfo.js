@@ -5,7 +5,7 @@ import getPixels from 'get-pixels'
 import { createPNGCopyAsScreenshot, createScreenshot } from './thumbnails'
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
-import { supportedImageCodecs } from '../utilities'
+import { SUPPORTED_IMAGE_CODECS } from '../constants'
 
 const gcd = (a, b) => b === 0 ? a : gcd(b, a % b)
 
@@ -24,7 +24,7 @@ const calcAspectRatio = (a, b) => {
 const getVisualMediaType = (codec, ext) => {
 	if (/^gif|apng$/i.test(codec) || /^mjpegb?$/i.test(codec) && /^mjpe?g$/i.test(ext)) {
 		return 'gif'
-	} else if (supportedImageCodecs.includes(codec)) {
+	} else if (SUPPORTED_IMAGE_CODECS.includes(codec)) {
 		return 'image'
 	} else {
 		return 'video'
@@ -107,7 +107,7 @@ export const checkFileType = async (file, preGeneratedMetadata) => {
 	const audioSupport = !!codecs[audioStream?.codec_name]?.canDecode
 	const streamData = { hasAudio: !!audioStream }
 
-	if (audioSupport && (!videoStream || supportedImageCodecs.includes(videoStream?.codec_name))) { // audio only or audio with album artwork
+	if (audioSupport && (!videoStream || SUPPORTED_IMAGE_CODECSCodecs.includes(videoStream?.codec_name))) { // audio only or audio with album artwork
 		streamData.mediaType = 'audio'
 	} else if (videoSupport && (audioSupport || !audioStream)) { // video+audio or video only
 		streamData.mediaType = getVisualMediaType(videoStream.codec_name, path.extname(file))
