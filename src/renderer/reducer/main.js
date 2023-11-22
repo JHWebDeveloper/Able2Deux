@@ -648,37 +648,6 @@ const cropSelected = (state, { property, value }) => {
 	}
 }
 
-// const cropSelected = (state, { property, value }) => {
-// 	let compliment = ''
-
-// 	switch (property) {
-// 		case 'cropT':
-// 			compliment = 'cropB'
-// 			break
-// 		case 'cropB':
-// 			compliment = 'cropT'
-// 			break
-// 		case 'cropL':
-// 			compliment = 'cropR'
-// 			break
-// 		case 'cropR':
-// 			compliment = 'cropL'
-// 			break
-// 		default:
-// 			return state
-// 	}
-
-// 	return {
-// 		...state,
-// 		media: state.media.map(item => ({
-// 			...item,
-// 			...constrainPairedValue(item)(property, compliment)({
-// 				[property]: value
-// 			})
-// 		}))
-// 	}
-// }
-
 // ---- ROTATION --------
 
 const CROP_PROPS = Object.freeze(['cropT', 'cropL', 'cropB', 'cropR'])
