@@ -1,7 +1,7 @@
 import { promises as fsp } from 'fs'
 import path from 'path'
 
-import { prefsPath } from './preferences/preferences'
+import { PREFERENCES_PATH } from './constants'
 
 const clearFiles = async (dir, id) => {
 	let files = await fsp.readdir(dir)
@@ -66,11 +66,11 @@ export const scratchDisk = {
 		])
 	},
 	async init() {
-		await updateScratchDisk()
+		await this.update()
 		await this.clearAllByAge() 
 	},
 	async update() {
-		const prefs = JSON.parse(await fsp.readFile(prefsPath))
+		const prefs = JSON.parse(await fsp.readFile(PREFERENCES_PATH))
 		const opts = { recursive: true }
 	
 		this.imports.path = path.join(prefs.scratchDisk.imports, 'able2_imports')
@@ -83,19 +83,4 @@ export const scratchDisk = {
 			fsp.mkdir(this.previews.path, opts)
 		])
 	}
-}
-
-export const updateScratchDisk = async () => {
-	const prefs = JSON.parse(await fsp.readFile(prefsPath))
-	const opts = { recursive: true }
-
-	scratchDisk.imports.path = path.join(prefs.scratchDisk.imports, 'able2_imports')
-	scratchDisk.exports.path = path.join(prefs.scratchDisk.exports, 'able2_exports')
-	scratchDisk.previews.path = path.join(prefs.scratchDisk.previews, 'able2_previews')
-
-	return Promise.all([
-		fsp.mkdir(scratchDisk.imports.path, opts),
-		fsp.mkdir(scratchDisk.exports.path, opts),
-		fsp.mkdir(scratchDisk.previews.path, opts)
-	])
 }
