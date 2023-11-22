@@ -641,10 +641,10 @@ const cropSelected = (state, { property, value }) => {
 
 	return {
 		...state,
-		media: state.media.map(item => item.selected ? ({
+		media: state.media.map(item => item.selected ? {
 			...item,
 			...constrain(item, value)
-		}) : item)
+		} : item)
 	}
 }
 

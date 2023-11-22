@@ -109,7 +109,6 @@ const popup = insertToken => [
 			insertToken('$i of $li')
 		}
 	},
-	,
 	{
 		type: 'button',
 		label: '$v of $lv',

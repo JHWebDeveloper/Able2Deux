@@ -5,7 +5,6 @@ import { MEDIA_TYPES } from 'constants'
 import { objectsAreEqual } from 'utilities'
 
 import AccordionPanel from '../../form_elements/AccordionPanel'
-import FieldsetWrapper from '../../form_elements/FieldsetWrapper'
 import TextInputWithTokenInsertion from '../../form_elements/TextInputWithTokenInsertion'
 import StartEnd from './StartEnd'
 import Split from './Split'
@@ -21,17 +20,6 @@ const FileOptions = memo(props => {
 				value={props.filename}
 				maxLength={251}
 				onChange={props.updateFilename} />
-			{/* <FieldsetWrapper label="Filename">
-				<input
-					type="text"
-					name="filename"
-					className="panel-input"
-					title="Filename"
-					aria-label="Filename"
-					value={props.filename}
-					maxLength={251}
-					onChange={props.updateFilename} />
-			</FieldsetWrapper> */}
 			{mediaType === 'video' || mediaType === 'audio' ? <>
 				<StartEnd
 					id={id}

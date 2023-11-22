@@ -37,16 +37,16 @@ const FRAME_RATE_OPTIONS = Object.freeze([
 const DATE_TIME_SOURCE_OPTIONS = Object.freeze([
 	{
 		label: 'Import Started',
-		value: 'importStarted',
+		value: 'importStarted'
 	},
 	{
 		label: 'Import Completed',
-		value: 'importCompleted',
+		value: 'importCompleted'
 	},
 	{
 		label: 'Render Started',
-		value: 'renderStarted',
-	},
+		value: 'renderStarted'
+	}
 ])
 
 const SPACE_REPLACEMENT_OPTIONS = Object.freeze([

@@ -85,7 +85,7 @@ export const download = ({ url, optimize, output, disableRateLimit }) => async d
 			status: STATUS.DOWNLOAD_PENDING,
 			filename: 'download',
 			acquisitionType: 'download',
-			importStarted: new Date(),
+			importStarted: new Date()
 		})
 	} catch (err) {
 		return toastr.error(errorToString(err), false, TOASTR_OPTIONS)

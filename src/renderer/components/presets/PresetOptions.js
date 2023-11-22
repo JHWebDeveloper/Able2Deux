@@ -3,7 +3,6 @@ import { arrayOf, bool, func, oneOf, string } from 'prop-types'
 
 import { MEDIA_TYPES, MEDIA_LABEL } from 'constants'
 
-import FieldsetWrapper from '../form_elements/FieldsetWrapper'
 import TextInputWithTokenInsertion from '../form_elements/TextInputWithTokenInsertion'
 import CheckboxSet from '../form_elements/CheckboxSet'
 
