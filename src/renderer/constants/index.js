@@ -510,6 +510,9 @@ export const MEDIA_ATTRIBUTES = Object.freeze([
 export const DEFAULT_MEDIA_STATE = Object.freeze({
 	id: '',
 	refId: '',
+	importStarted: null,
+	importCompleted: null,
+	renderStarted: null,
 	focused: false,
 	anchored: false,
 	selected: false,
