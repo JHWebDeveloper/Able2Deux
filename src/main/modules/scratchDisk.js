@@ -66,10 +66,6 @@ const createScratchDisk = () => {
 				this.previews.clear()
 			])
 		},
-		async init() {
-			await this.update()
-			await this.clearAllByAge() 
-		},
 		async update() {
 			const prefs = JSON.parse(await fsp.readFile(PREFERENCES_PATH))
 			const opts = { recursive: true }
@@ -83,6 +79,10 @@ const createScratchDisk = () => {
 				fsp.mkdir(this.exports.path, opts),
 				fsp.mkdir(this.previews.path, opts)
 			])
+		},
+		async init() {
+			await this.update()
+			await this.clearAllByAge() 
 		}
 	}
 }
