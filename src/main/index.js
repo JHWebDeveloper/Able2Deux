@@ -17,17 +17,17 @@ import { render, cancelRender } from './modules/formatting/formatting'
 import { SUPPORTED_EXTENSIONS } from './modules/constants'
 import { clamp, delay } from './modules/utilities'
 
-const mac = process.platform === 'darwin'
-const dev = process.env.NODE_ENV === 'development'
-const devtools = dev || process.env.DEVTOOLS
+const IS_MAC = process.platform === 'darwin'
+const IS_DEV = process.env.NODE_ENV === 'development'
+const DEVTOOLS_ON = IS_DEV || process.env.DEVTOOLS
 
-process.noDeprecation = !dev
+process.noDeprecation = !IS_DEV
 
 autoUpdater.autoDownload = false
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 
-if (!dev) {
+if (!IS_DEV) {
 	log.errorHandler.startCatching({ showDialog: false })
 	console.error = log.error
 }
@@ -36,12 +36,12 @@ const openWindow = (opts = {}) => new BrowserWindow({
 	show: false,
 	backgroundColor: '#eee',
 	webPreferences: {
-		nodeIntegration: dev,
-		contextIsolation: !dev,
+		nodeIntegration: IS_DEV,
+		contextIsolation: !IS_DEV,
 		enableEval: false,
 		enableRemoteModule: false,
 		sandbox: false,
-		preload: dev
+		preload: IS_DEV
 			? path.join(__dirname, 'preload', 'babelRegister.js')
 			: path.join(__dirname, 'preload.js')
 	},
@@ -61,12 +61,12 @@ const createModalWindowOptions = (w, h, parent) => {
 		width: w,
 		height: h,
 		useContentSize: true,
-		resizable: dev
+		resizable: IS_DEV
 	}
 }
 
 const createURL = (view = 'index') => {
-	const { href } = dev
+	const { href } = IS_DEV
 		? new URL(`http://localhost:${process.env.PORT}/${view}.html`)
 		: pathToFileURL(path.join(__dirname, 'renderer', `${view}.html`))
 
@@ -87,7 +87,7 @@ let updateWin = false
 const splashWindowOpts = {
 	width: 400,
 	height: 400,
-	resizable: dev,
+	resizable: IS_DEV,
 	frame: false,
 	maximizable: false
 }
@@ -95,7 +95,7 @@ const splashWindowOpts = {
 const createSplashWindow = () => {
 	splashWin = openWindow(splashWindowOpts)
 
-	if (mac) Menu.setApplicationMenu(Menu.buildFromTemplate(splashWindowMenuTemplate))
+	if (IS_MAC) Menu.setApplicationMenu(Menu.buildFromTemplate(splashWindowMenuTemplate))
 
 	splashWin.on('ready-to-show', () => {
 		splashWin.show()
@@ -150,7 +150,7 @@ const createMainWindow = async () => {
 	mainWin = openWindow({
 		width: windowWidth,
 		height: windowHeight,
-		minWidth: mac ? 746 : 762,
+		minWidth: IS_MAC ? 746 : 762,
 		minHeight: 624
 	})
 
@@ -165,12 +165,12 @@ const createMainWindow = async () => {
 			console.error(err)
 		}
 
-		if (!dev) await delay(3000)
+		if (!IS_DEV) await delay(3000)
 
 		mainWin.show()
 
 		if (splashWin) splashWin.close()
-		if (dev) mainWin.webContents.openDevTools()
+		if (IS_DEV) mainWin.webContents.openDevTools()
 
 		if (openWithQueue.length) {
 			mainWin.webContents.send('openWith', {
@@ -442,7 +442,7 @@ const createHelpWindow = () => {
 		y: y + 20,
 		width,
 		height,
-		minWidth: mac ? 746 : 762,
+		minWidth: IS_MAC ? 746 : 762,
 		minHeight: 620
 	})
 
@@ -462,7 +462,7 @@ const createHelpWindow = () => {
 // ---- START ABLE2 ------------
 
 const checkForUpdate = () => {
-	if (!app.isPackaged || mac) return Promise.resolve(false)
+	if (!app.isPackaged || IS_MAC) return Promise.resolve(false)
 
 	return new Promise(resolve => {
 		autoUpdater.on('update-available', ({ version }) => resolve(version))
@@ -510,7 +510,7 @@ if (!lock) {
 }
 
 app.on('window-all-closed', () => {
-	if (!mac) app.quit()
+	if (!IS_MAC) app.quit()
 })
 
 app.on('activate', () => {
@@ -608,7 +608,7 @@ const prefsMenuItem = [
 ]
 
 const mainMenuTemplate = [
-	...mac ? [{
+	...IS_MAC ? [{
 		label: app.name,
 		submenu: appleSubmenu(prefsMenuItem)
 	}] : [],
@@ -633,7 +633,7 @@ const mainMenuTemplate = [
 				}
 			},
 			{ type: 'separator' },
-			mac ? { role: 'close' } : { role: 'quit' }
+			IS_MAC ? { role: 'close' } : { role: 'quit' }
 		]
 	},
 	{
@@ -669,7 +669,7 @@ const mainMenuTemplate = [
 			{ type: 'separator' },
 			{ role: 'selectall' },
 			{ type: 'separator' },
-			...mac ? [] : prefsMenuItem,
+			...IS_MAC ? [] : prefsMenuItem,
 			{
 				label: 'Presets',
 				id: 'edit_presets',
@@ -695,7 +695,7 @@ const mainMenuTemplate = [
 	}
 ]
 
-if (devtools) {
+if (DEVTOOLS_ON) {
 	mainMenuTemplate.push({
 		label: 'Developer Tools',
 		submenu: [
@@ -949,7 +949,7 @@ const setContextMenu = () => {
 	let pos = [0, 0]
 	let inspectMenu = []
 
-	const inspect = !devtools ? [] : [
+	const inspect = !DEVTOOLS_ON ? [] : [
 		new MenuItem({
 			id: 0,
 			label: 'Inspect Element',
@@ -969,7 +969,7 @@ const setContextMenu = () => {
 		new MenuItem({ role: 'selectAll' })
 	]
 
-	if (devtools) {
+	if (DEVTOOLS_ON) {
 		inspectMenu = new Menu()
 		inspectMenu.append(...inspect)
 	}
@@ -987,7 +987,7 @@ const setContextMenu = () => {
 
 		if (isTextElement) {
 			textEditor.popup(focusedWindow)
-		} else if (devtools) {
+		} else if (DEVTOOLS_ON) {
 			inspectMenu.popup(focusedWindow)
 		}
 	}
