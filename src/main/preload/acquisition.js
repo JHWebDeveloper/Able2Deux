@@ -3,7 +3,6 @@ import { v1 as uuid } from 'uuid'
 
 import { sendMessage, requestChannel } from './sendMessage'
 
-
 // ---- SCREEN RECORDER --------
 
 export * from './screenRecorder'

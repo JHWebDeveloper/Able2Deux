@@ -17,7 +17,6 @@ interop.IS_MAC = process.platform === 'darwin'
 
 interop.getFileName = file => path.parse(file).name
 
-
 // ---- ELECTRON METHODS --------
 
 interop.quit = () => {
