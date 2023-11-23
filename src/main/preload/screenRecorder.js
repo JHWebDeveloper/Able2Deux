@@ -7,7 +7,7 @@ import { sendMessage } from './sendMessage'
 
 const logError = (() => {
 	if (process.env.NODE_ENV === 'production') {
-		log.catchErrors({ showDialog: false })
+		log.errorHandler.startCatching({ showDialog: false })
 		return log.error
 	} else {
 		return console.error
