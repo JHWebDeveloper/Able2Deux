@@ -66,7 +66,7 @@ const CenteringPanel = ({ id, multipleItems, multipleItemsSelected, dispatch, ..
 
 const sharedPropTypes = {
 	centering: oneOfType([oneOf(['']), number]).isRequired,
-	updateSelectionFromEvent: func.isRequired,
+	updateSelectionFromEvent: func.isRequired
 }
 
 CenteringPanel.propTypes = {

@@ -46,6 +46,7 @@ Split.propTypes = {
 	start: number.isRequired,
 	end: number.isRequired,
 	fps: number.isRequired,
+	filename: string,
 	dispatch: func.isRequired
 }
 

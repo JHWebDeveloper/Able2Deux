@@ -69,7 +69,7 @@ const sharedPropTypes = {
 	mediaType: oneOf(MEDIA_TYPES).isRequired,
 	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']).isRequired,
 	audioExportFormat: oneOf(['wav', 'mp3', 'bars']).isRequired,
-	updateSelectionFromEvent: func.isRequired,
+	updateSelectionFromEvent: func.isRequired
 }
 
 AudioPanel.propTypes = {
