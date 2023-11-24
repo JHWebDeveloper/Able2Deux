@@ -42,9 +42,7 @@ const Audio = memo(({ mediaType, audioVideoTracks, audioExportFormat, updateSele
 	</>
 ), objectsAreEqual)
 
-const AudioPanel = props => {
-	const { id, multipleItems, multipleItemsSelected, mediaType, dispatch } = props
-
+const AudioPanel = ({ id, multipleItems, multipleItemsSelected, dispatch, ...rest }) => {
 	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
@@ -61,8 +59,8 @@ const AudioPanel = props => {
 			id="audio"
 			className="editor-options auto-columns"
 			options={settingsMenu}
-			initOpen={mediaType === 'audio'}>
-			<Audio {...props} />
+			initOpen={rest.mediaType === 'audio'}>
+			<Audio {...rest} />
 		</AccordionPanel>
 	)
 }

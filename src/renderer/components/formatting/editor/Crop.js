@@ -175,8 +175,8 @@ const Crop = memo(props => {
 	)
 }, objectsAreEqual)
 
-const CropPanel = props => {
-	const { id, multipleItems, multipleItemsSelected, dispatch } = props
+const CropPanel = ({ id, multipleItems, ...rest }) => {
+	const { multipleItemsSelected, dispatch } = rest
 
 	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
@@ -194,7 +194,7 @@ const CropPanel = props => {
 			id="crop"
 			className="editor-options auto-rows"
 			options={settingsMenu}>
-			<Crop {...props} />
+			<Crop {...rest} />
 		</AccordionPanel>
 	)
 }

@@ -35,8 +35,16 @@ const createReflectButtons = isSideways => {
 
 const extractRotationProps = createObjectPicker(['transpose', 'reflect', 'freeRotateMode', 'angle', 'rotatedCentering'])
 
-const Rotation = memo(props => {
-	const { transpose, reflect, freeRotateMode, updateSelectionFromEvent, dispatch } = props
+const Rotation = memo(({
+	transpose,
+	reflect,
+	showFreeRotate,
+	freeRotateMode,
+	angle,
+	rotatedCentering,
+	updateSelectionFromEvent,
+	dispatch
+}) => {
 	const reflectButtons = useMemo(() => createReflectButtons(detectMediaIsSideways(transpose)), [transpose])
 
 	const updateReflectMedia = useCallback(e => {
@@ -61,7 +69,7 @@ const Rotation = memo(props => {
 				state={transpose}
 				onChange={updateRotateMedia}
 				options={OPTION_SET.transpose}/>
-			{props.showFreeRotate ? <>
+			{showFreeRotate ? <>
 				<RadioSet
 					label="Free Rotate Mode"
 					name="freeRotateMode"
@@ -69,8 +77,8 @@ const Rotation = memo(props => {
 					onChange={updateSelectionFromEvent}
 					options={OPTION_SET.freeRotateMode} />
 				<FreeRotate
-					angle={props.angle}
-					center={props.rotatedCentering}
+					angle={angle}
+					center={rotatedCentering}
 					disableCenter={freeRotateMode === 'with_bounds'}
 					updateSelectionFromEvent={updateSelectionFromEvent} />
 			</> : <></>}
@@ -78,8 +86,8 @@ const Rotation = memo(props => {
 	)
 }, objectsAreEqual)
 
-const RotationPanel = props => {
-	const { id, multipleItems, multipleItemsSelected, dispatch } = props
+const RotationPanel = ({ id, multipleItems, multipleItemsSelected, ...rest }) => {
+	const { dispatch } = rest
 
 	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
@@ -97,7 +105,7 @@ const RotationPanel = props => {
 			id="rotation"
 			className="editor-options"
 			options={settingsMenu}>
-			<Rotation {...props} />
+			<Rotation {...rest} />
 		</AccordionPanel>
 	)
 }

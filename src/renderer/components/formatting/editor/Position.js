@@ -48,9 +48,7 @@ const Position = memo(({ positionX, positionY, updateSelectionFromEvent }) => {
 	)
 }, objectsAreEqual)
 
-const PositionPanel = props => {
-	const { id, multipleItems, multipleItemsSelected, dispatch } = props
-
+const PositionPanel = ({ id, multipleItems, multipleItemsSelected, dispatch, ...rest }) => {
 	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
@@ -67,7 +65,7 @@ const PositionPanel = props => {
 			id="position"
 			className="editor-options auto-rows"
 			options={settingsMenu}>
-			<Position {...props} />
+			<Position {...rest} />
 		</AccordionPanel>
 	)
 }

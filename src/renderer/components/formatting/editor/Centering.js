@@ -41,9 +41,7 @@ const Centering = memo(({ centering, updateSelectionFromEvent }) => {
 	)
 }, objectsAreEqual)
 
-const CenteringPanel = props => {
-	const { id, multipleItems, multipleItemsSelected, dispatch } = props
-
+const CenteringPanel = ({ id, multipleItems, multipleItemsSelected, dispatch, ...rest }) => {
 	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
 		createSettingsMenu(multipleItems, multipleItemsSelected, [
@@ -61,7 +59,7 @@ const CenteringPanel = props => {
 			className="editor-options auto-rows"
 			options={settingsMenu}
 			initOpen>
-			<Centering {...props} />
+			<Centering {...rest} />
 		</AccordionPanel>
 	)
 }

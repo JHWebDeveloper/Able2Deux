@@ -168,8 +168,8 @@ const Scale = memo(({ scaleX, scaleY, scaleLink, multipleItemsSelected, updateSe
 	)
 }, objectsAreEqual)
 
-const ScalePanel = props => {
-	const { id, multipleItems, multipleItemsSelected, dispatch } = props
+const ScalePanel = ({ id, multipleItems, ...rest }) => {
+	const { multipleItemsSelected, dispatch } = rest
 
 	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
@@ -187,7 +187,7 @@ const ScalePanel = props => {
 			id="scale"
 			className="editor-options auto-rows"
 			options={settingsMenu}>
-			<Scale {...props} />
+			<Scale {...rest} />
 		</AccordionPanel>
 	)
 }

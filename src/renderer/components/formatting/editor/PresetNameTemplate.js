@@ -33,9 +33,7 @@ const PresetNameTemplate = memo(({ presetNamePrepend, presetNameAppend, updateSe
 	</>
 ), objectsAreEqual)
 
-const PresetNameTemplatePanel = props => {
-	const { multipleItems, multipleItemsSelected, id, dispatch } = props
-
+const PresetNameTemplatePanel = ({ multipleItems, multipleItemsSelected, id, dispatch, ...rest }) => {
 	const settingsMenu = useMemo(() => multipleItems ? [
 		{
 			type: 'button',
@@ -68,7 +66,7 @@ const PresetNameTemplatePanel = props => {
 			id="presetNameTemplate"
 			className="editor-options auto-rows"
 			options={settingsMenu}>
-			<PresetNameTemplate {...props} />
+			<PresetNameTemplate {...rest} />
 		</AccordionPanel>
 	)
 }

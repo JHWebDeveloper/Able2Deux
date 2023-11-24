@@ -285,8 +285,8 @@ const ColorCorrection = memo(props => {
 	)
 }, objectsAreEqual)
 
-const ColorCorrectionPanel = props => {
-	const { id, multipleItems, multipleItemsSelected, dispatch } = props
+const ColorCorrectionPanel = ({ multipleItems, multipleItemsSelected, ...rest }) => {
+	const { id, dispatch } = rest
 
 	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
@@ -304,7 +304,7 @@ const ColorCorrectionPanel = props => {
 			id="colorCorrection"
 			className="editor-options"
 			options={settingsMenu}>
-			<ColorCorrection {...props} />
+			<ColorCorrection {...rest} />
 		</AccordionPanel>
 	)
 }

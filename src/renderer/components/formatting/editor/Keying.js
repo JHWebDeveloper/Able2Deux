@@ -211,8 +211,8 @@ const Keying = memo(props => {
 	)
 }, objectsAreEqual)
 
-const KeyingPanel = props => {
-	const { id, multipleItems, multipleItemsSelected, dispatch } = props
+const KeyingPanel = ({ multipleItems, multipleItemsSelected, ...rest }) => {
+	const { id, dispatch } = rest
 
 	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
@@ -230,7 +230,7 @@ const KeyingPanel = props => {
 			id="keying"
 			className="editor-options auto-rows"
 			options={settingsMenu}>
-			<Keying {...props} />
+			<Keying {...rest} />
 		</AccordionPanel>
 	)
 }

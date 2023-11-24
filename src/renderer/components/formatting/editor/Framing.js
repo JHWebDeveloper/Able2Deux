@@ -57,9 +57,18 @@ const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropp
 	</div>
 )
 
-const Framing = memo(props => {
+const Framing = memo(({
+	arc,
+	background,
+	bgColor,
+	backgroundMotion,
+	overlay,
+	eyedropper,
+	setEyedropper,
+	updateSelectionFromEvent,
+	dispatch
+}) => {
 	const { enable11pmBackgrounds } = useContext(PrefsContext).preferences
-	const { arc, background, bgColor, overlay, eyedropper, setEyedropper, updateSelectionFromEvent, dispatch } = props
 	const { active, pixelData } = eyedropper
 
 	const backgroundButtons = useMemo(() => createBackgroundButtons(enable11pmBackgrounds), [enable11pmBackgrounds])
@@ -112,7 +121,7 @@ const Framing = memo(props => {
 				label="BG Motion"
 				name="backgroundMotion"
 				disabled={arc === 'none' || background === 'alpha' || background === 'color'}
-				state={props.backgroundMotion}
+				state={backgroundMotion}
 				onChange={updateSelectionFromEvent}
 				options={OPTION_SET.backgroundMotion} />
 			<RadioSet
@@ -126,8 +135,8 @@ const Framing = memo(props => {
 	)
 }, objectsAreEqual)
 
-const FramingPanel = props => {
-	const { id, multipleItems, multipleItemsSelected, dispatch } = props
+const FramingPanel = ({ id, multipleItems, multipleItemsSelected, ...rest }) => {
+	const { dispatch } = rest
 
 	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
@@ -146,7 +155,7 @@ const FramingPanel = props => {
 			className="editor-options"
 			options={settingsMenu}
 			initOpen>
-			<Framing {...props} />
+			<Framing {...rest} />
 		</AccordionPanel>
 	)
 }

@@ -23,9 +23,15 @@ import Checkbox from '../../form_elements/Checkbox'
 
 const extractSourceProps = createObjectPicker(['sourceName', 'sourcePrefix', 'sourceOnTop'])
 
-const Source = memo(props => {
-	const { id, sourceName, sourcePrefix, sourceOnTop, background, updateSelectionFromEvent, toggleSelectionCheckbox } = props
-
+const Source = memo(({
+	id,
+	sourceName,
+	sourcePrefix,
+	sourceOnTop,
+	background,
+	updateSelectionFromEvent,
+	toggleSelectionCheckbox
+}) => {
 	const maxLength = useMemo(() => {
 		let len = has11pmBackground(background) ? sourceOnTop ? 44 : 38 : 51
 
@@ -76,8 +82,8 @@ const Source = memo(props => {
 	)
 }, objectsAreEqual)
 
-const SourcePanel = props => {
-	const { id, multipleItems, multipleItemsSelected, dispatch } = props
+const SourcePanel = ({ multipleItems, multipleItemsSelected, dispatch, ...rest }) => {
+	const { id } = rest
 
 	// eslint-disable-next-line no-extra-parens
 	const settingsMenu = useMemo(() => (
@@ -96,7 +102,7 @@ const SourcePanel = props => {
 			className="editor-options"
 			options={settingsMenu}
 			initOpen>
-			<Source {...props} />
+			<Source {...rest} />
 		</AccordionPanel>
 	)
 }
