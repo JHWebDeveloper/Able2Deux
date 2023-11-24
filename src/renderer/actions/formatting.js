@@ -68,7 +68,7 @@ export const duplicateSelectedMedia = duplicateAll => ({
 	payload: { duplicateAll }
 })
 
-export const splitMedia = (id, split, start, end) => async dispatch => {
+export const splitMedia = ({ id, split, start, end, filename: sourceClipFilename }) => async dispatch => {
 	const amount = Math.ceil((end - start) / split)
 
 	if (amount > 50) {
@@ -79,12 +79,14 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 
 		if (response) return false  
 	}
-
+	
+	const filename = `${sourceClipFilename} - Clip $v of $lv`
 	const timecodes = []
 	const len = end - split
 	let i = start
 
 	while (i < len) timecodes.push({
+		filename,
 		timecode: i,
 		start: i,
 		end: i += split
@@ -95,7 +97,7 @@ export const splitMedia = (id, split, start, end) => async dispatch => {
 		payload: { id, timecodes }
 	})
 
-	dispatch(updateMediaStateById(id, { start: i }))
+	dispatch(updateMediaStateById(id, { filename, start: i }))
 }
 
 // ---- COPY/PASTE PROPERTIES --------
