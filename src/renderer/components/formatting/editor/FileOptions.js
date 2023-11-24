@@ -9,38 +9,48 @@ import TextInputWithTokenInsertion from '../../form_elements/TextInputWithTokenI
 import StartEnd from './StartEnd'
 import Split from './Split'
 
-const FileOptions = memo(props => {
-	const { id, mediaType, start, end, totalFrames, fps, dispatch } = props
-
-	return (
-		<>
-			<TextInputWithTokenInsertion
-				label="Filename"
-				name="filename"
-				value={props.filename}
-				maxLength={251}
-				onChange={props.updateFilename} />
-			{mediaType === 'video' || mediaType === 'audio' ? <>
-				<StartEnd
-					id={id}
-					start={start}
-					end={end}
-					totalFrames={totalFrames}
-					fps={fps}
-					updateStartEnd={props.updateSelectionFromEvent}
-					dispatch={dispatch} />
-				<Split
-					id={id}
-					split={props.split}
-					start={start}
-					end={end}
-					fps={fps}
-					duration={props.duration}
-					dispatch={dispatch} />
-			</> : <></>}
-		</>
-	)
-}, objectsAreEqual)
+const FileOptions = memo(({
+	id,
+	mediaType,
+	filename,
+	start,
+	end,
+	duration,
+	totalFrames,
+	fps,
+	split,
+	updateFilename,
+	updateSelectionFromEvent,
+	dispatch
+}) => (
+	<>
+		<TextInputWithTokenInsertion
+			label="Filename"
+			name="filename"
+			value={filename}
+			maxLength={251}
+			onChange={updateFilename} />
+		{mediaType === 'video' || mediaType === 'audio' ? <>
+			<StartEnd
+				id={id}
+				start={start}
+				end={end}
+				totalFrames={totalFrames}
+				fps={fps}
+				updateStartEnd={updateSelectionFromEvent}
+				dispatch={dispatch} />
+			<Split
+				id={id}
+				split={split}
+				start={start}
+				end={end}
+				fps={fps}
+				filename={filename}
+				duration={duration}
+				dispatch={dispatch} />
+		</> : <></>}
+	</>
+), objectsAreEqual)
 
 const FileOptionsPanel = props => (
 	<AccordionPanel
