@@ -83,7 +83,7 @@ const CheckboxSet = ({
 	)
 }
 
-const COMMON_PROP_TYPES = Object.freeze({
+const sharedPropTypes = {
 	options: arrayOf(shape({
 		label: string,
 		name: string,
@@ -93,12 +93,12 @@ const COMMON_PROP_TYPES = Object.freeze({
 	switchIcon: bool,
 	selectAllLabel: string,
 	toggleSelectAll: func
-})
+}
 
-SelectAllCheckbox.propTypes = { ...COMMON_PROP_TYPES }
+SelectAllCheckbox.propTypes = { ...sharedPropTypes }
 
 CheckboxSet.propTypes = {
-	...COMMON_PROP_TYPES,
+	...sharedPropTypes,
 	label: string.isRequired,
 	onChange: func,
 	toggleSelectAll: func,

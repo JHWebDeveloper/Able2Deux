@@ -248,14 +248,14 @@ const PresetSelector = ({
 	)
 }
 
-const COMMON_PROP_TYPES = Object.freeze({
+const sharedPropTypes = {
 	id: string.isRequired,
 	focused: bool.isRequired,
 	label: string
-})
+}
 
 SelectPresetItem.propTypes = {
-	...COMMON_PROP_TYPES,
+	...sharedPropTypes,
 	warnRemovePreset: func.isRequired,
 	createOptionsMenu: func.isRequired,
 	onKeyDown: func.isRequired,
@@ -263,8 +263,8 @@ SelectPresetItem.propTypes = {
 }
 
 PresetSelector.propTypes = {
-	presets: arrayOf(shape(COMMON_PROP_TYPES)),
-	batchPresets: arrayOf(shape(COMMON_PROP_TYPES)),
+	presets: arrayOf(shape(sharedPropTypes)),
+	batchPresets: arrayOf(shape(sharedPropTypes)),
 	presetsLength: number.isRequired,
 	batchPresetsLength: number.isRequired,
 	dispatch: func.isRequired

@@ -221,13 +221,13 @@ const Popup = ({
 	)
 }
 
-const COMMON_PROP_TYPES = Object.freeze({
+const sharedPropTypes = {
 	submenu: bool,
 	children: oneOfType([element, arrayOf(element)])
-})
+}
 
 PopupContainer.propTypes = {
-	...COMMON_PROP_TYPES,
+	...sharedPropTypes,
 	menuId: string.isRequired,
 	position: shape({
 		top: string,
@@ -239,7 +239,7 @@ PopupContainer.propTypes = {
 }
 
 Popup.propTypes = {
-	...COMMON_PROP_TYPES,
+	...sharedPropTypes,
 	icon: string,
 	label: string,
 	alignment: oneOf(['top left', 'top right', 'bottom left', 'bottom right', 'right top', 'right bottom', 'left top', 'left bottom']),

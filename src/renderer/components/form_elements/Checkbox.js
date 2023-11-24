@@ -54,19 +54,19 @@ const Checkbox = ({
 	</CheckboxWrapper>
 )
 
-const COMMON_PROP_TYPES = Object.freeze({
+const sharedPropTypes = {
 	label: string,
 	component: element,
 	className: string
-})
+}
 
 CheckboxWrapper.propTypes = {
-	...COMMON_PROP_TYPES,
+	...sharedPropTypes,
 	children: oneOfType([element, arrayOf(element)]).isRequired
 }
 
 Checkbox.propTypes = {
-	...COMMON_PROP_TYPES,
+	...sharedPropTypes,
 	name: string,
 	title: string,
 	checked: bool.isRequired,

@@ -223,13 +223,13 @@ const PresetBatch = ({ id, focusedIndex, setFocusedIndex, presetIds, label, disp
 	)
 }
 
-const COMMON_PROP_TYPES = Object.freeze({
+const sharedPropTypes = {
 	id: string.isRequired,
 	label: string
-})
+}
 
 PresetBatchItem.propTypes = {
-	...COMMON_PROP_TYPES,
+	...sharedPropTypes,
 	index: number.isRequired,
 	focused: bool.isRequired,
 	parentLabel: string,
@@ -242,7 +242,7 @@ PresetBatchItem.propTypes = {
 }
 
 PresetBatch.propTypes = {
-	...COMMON_PROP_TYPES,
+	...sharedPropTypes,
 	focusedIndex: number.isRequired,
 	presetIds: arrayOf(string),
 	setFocusedIndex: func.isRequired,

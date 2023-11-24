@@ -106,7 +106,7 @@ const AttributeEditor = ({ attributes = [], dispatch }) => {
 	)
 }
 
-const COMMON_PROP_TYPES = Object.freeze({
+const sharedPropTypes = {
 	inputType: string.isRequired,
 	attribute: string.isRequired,
 	value: oneOfType([bool, number, object, string]).isRequired,
@@ -114,17 +114,17 @@ const COMMON_PROP_TYPES = Object.freeze({
 		min: number,
 		max: number
 	})
-})
+}
 
 AttributeInput.propTypes = {
-	...COMMON_PROP_TYPES,
+	...sharedPropTypes,
 	onChange: func.isRequired,
 	onChangeToggle: func.isRequired,
 	disabled: bool
 }
 
 AttributeEditor.propTypes = {
-	attributes: arrayOf(shape(COMMON_PROP_TYPES)),
+	attributes: arrayOf(shape(sharedPropTypes)),
 	dispatch: func.isRequired
 }
 
