@@ -5,13 +5,19 @@ import { splitMedia, updateState } from 'actions'
 
 import TimecodeInputSeconds from '../../form_elements/TimecodeInputSeconds'
 
-const Split = ({ id, split, start, end, fps, dispatch }) => {
+const Split = ({ id, split, start, end, fps, filename, dispatch }) => {
 	const updateSplitDuration = useCallback(({ value }) => {
 		dispatch(updateState({ split: value }))
 	}, [id])
 
 	const splitIntoSubclips = useCallback(() => {
-		dispatch(splitMedia(id, split * fps, start, end))
+		dispatch(splitMedia({
+			split: split * fps,
+			id,
+			start,
+			end,
+			filename
+		}))
 	}, [id, split, fps, start, end])
 
 	return (
