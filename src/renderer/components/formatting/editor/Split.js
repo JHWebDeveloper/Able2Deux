@@ -18,7 +18,7 @@ const Split = ({ id, split, start, end, fps, filename, dispatch }) => {
 			end,
 			filename
 		}))
-	}, [id, split, fps, start, end])
+	}, [id, split, fps, start, end, filename])
 
 	return (
 		<div className="split-grid">
