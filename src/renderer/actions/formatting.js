@@ -79,8 +79,8 @@ export const splitMedia = ({ id, split, start, end, filename: sourceClipFilename
 
 		if (response) return false  
 	}
-	
-	const filename = `${sourceClipFilename} - Clip $v of $lv`
+
+	const filename = `${sourceClipFilename} - Part $v of $lv`
 	const timecodes = []
 	const len = end - split
 	let i = start
