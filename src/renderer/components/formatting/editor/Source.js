@@ -107,20 +107,23 @@ const SourcePanel = ({ multipleItems, multipleItemsSelected, dispatch, ...rest }
 	)
 }
 
-const propTypes = {
+const sharedPropTypes = {
 	id: string.isRequired,
-	multipleItems: bool.isRequired,
-	multipleItemsSelected: bool.isRequired,
 	sourceName: string.isRequired,
 	sourcePrefix: bool.isRequired,
 	sourceOnTop: bool.isRequired,
 	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
 	updateSelectionFromEvent: func.isRequired,
-	toggleSelectionCheckbox: func.isRequired,
+	toggleSelectionCheckbox: func.isRequired
+}
+
+SourcePanel.propTypes = {
+	...sharedPropTypes,
+	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
 	dispatch: func.isRequired
 }
 
-Source.propTypes = propTypes
-SourcePanel.propTypes = propTypes
+Source.propTypes = sharedPropTypes
 
 export default SourcePanel

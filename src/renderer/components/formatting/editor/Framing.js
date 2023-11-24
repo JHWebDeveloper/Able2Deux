@@ -167,10 +167,7 @@ BackgroundColorPicker.propTypes = {
 	eyedropperActive: bool.isRequired
 }
 
-const propTypes = {
-	id: string.isRequired,
-	multipleItems: bool.isRequired,
-	multipleItemsSelected: bool.isRequired,
+const sharedPropTypes = {
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
 	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
 	backgroundMotion: oneOf(['animated', 'still', 'auto']).isRequired,
@@ -190,7 +187,13 @@ const propTypes = {
 	dispatch: func.isRequired
 }
 
-Framing.propTypes = propTypes
-FramingPanel.propTypes = propTypes
+FramingPanel.propTypes = {
+	...sharedPropTypes,
+	id: string.isRequired,
+	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired
+}
+
+Framing.propTypes = sharedPropTypes
 
 export default FramingPanel

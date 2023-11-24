@@ -199,9 +199,7 @@ FitButton.propTypes = {
 	onClick: func.isRequired
 }
 
-const propTypes = {
-	id: string.isRequired,
-	multipleItems: bool.isRequired,
+const sharedPropTypes = {
 	multipleItemsSelected: bool.isRequired,
 	scaleX: oneOfType([oneOf(['']), number]).isRequired,
 	scaleY: oneOfType([oneOf(['']), number]).isRequired,
@@ -211,7 +209,12 @@ const propTypes = {
 	dispatch: func.isRequired
 }
 
-Scale.propTypes = propTypes
-ScalePanel.propTypes = propTypes
+ScalePanel.propTypes = {
+	...sharedPropTypes,
+	id: string.isRequired,
+	multipleItems: bool.isRequired
+}
+
+Scale.propTypes = sharedPropTypes
 
 export default ScalePanel

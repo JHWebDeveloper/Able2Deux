@@ -317,7 +317,7 @@ const pointPropType = exact({
 	y: number
 })
 
-const propTypes = {
+const sharedPropTypes = {
 	id: string.isRequired,
 	ccEnabled: bool.isRequired,
 	ccHidden: bool.isRequired,
@@ -335,14 +335,17 @@ const propTypes = {
 		})])
 	}).isRequired,
 	setEyedropper: func.isRequired,
-	multipleItems: bool.isRequired,
-	multipleItemsSelected: bool.isRequired,
 	toggleSelectionCheckbox: func.isRequired,
 	selectCurve: func.isRequired,
 	dispatch: func.isRequired
 }
 
-ColorCorrection.propTypes = propTypes
-ColorCorrectionPanel.propTypes = propTypes
+ColorCorrectionPanel.propTypes = {
+	...sharedPropTypes,
+	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired
+}
+
+ColorCorrection.propTypes = sharedPropTypes
 
 export default ColorCorrectionPanel

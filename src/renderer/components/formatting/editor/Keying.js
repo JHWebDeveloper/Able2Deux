@@ -250,7 +250,7 @@ ColorKeySliders.propTypes = {
 	disabled: bool.isRequired
 }
 
-const propTypes = {
+const sharedPropTypes = {
 	id: string.isRequired,
 	keyingBlend: number.isRequired,
 	keyingColor: string.isRequired,
@@ -270,14 +270,17 @@ const propTypes = {
 		})])
 	}).isRequired,
 	setEyedropper: func.isRequired,
-	multipleItems: bool.isRequired,
-	multipleItemsSelected: bool.isRequired,
 	updateSelectionFromEvent: func.isRequired,
 	toggleSelectionCheckbox: func.isRequired,
 	dispatch: func.isRequired
 }
 
-Keying.propTypes = propTypes
-KeyingPanel.propTypes = propTypes
+KeyingPanel.propTypes = {
+	...sharedPropTypes,
+	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired
+}
+
+Keying.propTypes = sharedPropTypes
 
 export default KeyingPanel

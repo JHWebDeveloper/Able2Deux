@@ -110,10 +110,7 @@ const RotationPanel = ({ id, multipleItems, multipleItemsSelected, ...rest }) =>
 	)
 }
 
-const propTypes = {
-	id: string,
-	multipleItems: bool.isRequired,
-	multipleItemsSelected: bool.isRequired,
+const sharedPropTypes = {
 	transpose: oneOf(['', 'transpose=1', 'transpose=2,transpose=2', 'transpose=2']),
 	reflect: oneOf(['', 'hflip', 'vflip', 'hflip,vflip']),
 	freeRotateMode: oneOf(['inside_bounds', 'with_bounds']),
@@ -124,7 +121,13 @@ const propTypes = {
 	dispatch: func.isRequired
 }
 
-Rotation.propTypes = propTypes
-RotationPanel.propTypes = propTypes
+RotationPanel.propTypes = {
+	...sharedPropTypes,
+	id: string,
+	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired
+}
+
+Rotation.propTypes = sharedPropTypes
 
 export default RotationPanel

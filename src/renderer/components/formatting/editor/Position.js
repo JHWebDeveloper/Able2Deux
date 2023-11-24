@@ -70,17 +70,20 @@ const PositionPanel = ({ id, multipleItems, multipleItemsSelected, dispatch, ...
 	)
 }
 
-const propTypes = {
+const sharedPropTypes = {
+	positionX: oneOfType([oneOf(['']), number]).isRequired,
+	positionY: oneOfType([oneOf(['']), number]).isRequired,
+	updateSelectionFromEvent: func.isRequired
+}
+
+PositionPanel.propTypes = {
+	...sharedPropTypes,
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
-	positionX: oneOfType([oneOf(['']), number]).isRequired,
-	positionY: oneOfType([oneOf(['']), number]).isRequired,
-	updateSelectionFromEvent: func.isRequired,
 	dispatch: func.isRequired
 }
 
-Position.propTypes = propTypes
-PositionPanel.propTypes = propTypes
+Position.propTypes = sharedPropTypes
 
 export default PositionPanel

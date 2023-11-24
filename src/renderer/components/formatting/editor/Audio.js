@@ -65,18 +65,21 @@ const AudioPanel = ({ id, multipleItems, multipleItemsSelected, dispatch, ...res
 	)
 }
 
-const propTypes = {
-	id: string.isRequired,
-	multipleItems: bool.isRequired,
-	multipleItemsSelected: bool.isRequired,
+const sharedPropTypes = {
 	mediaType: oneOf(MEDIA_TYPES).isRequired,
 	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']).isRequired,
 	audioExportFormat: oneOf(['wav', 'mp3', 'bars']).isRequired,
 	updateSelectionFromEvent: func.isRequired,
+}
+
+AudioPanel.propTypes = {
+	...sharedPropTypes,
+	id: string.isRequired,
+	multipleItems: bool.isRequired,
+	multipleItemsSelected: bool.isRequired,
 	dispatch: func.isRequired
 }
 
-Audio.propTypes = propTypes
-AudioPanel.propTypes = propTypes
+Audio.propTypes = sharedPropTypes
 
 export default AudioPanel

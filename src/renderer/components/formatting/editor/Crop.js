@@ -199,9 +199,7 @@ const CropPanel = ({ id, multipleItems, ...rest }) => {
 	)
 }
 
-const propTypes = {
-	id: string.isRequired,
-	multipleItems: bool.isRequired,
+const sharedPropTypes = {
 	multipleItemsSelected: bool.isRequired,
 	cropT: oneOfType([oneOf(['']), number]).isRequired,
 	cropB: oneOfType([oneOf(['']), number]).isRequired,
@@ -214,7 +212,12 @@ const propTypes = {
 	dispatch: func.isRequired
 }
 
-Crop.propTypes = propTypes
-CropPanel.propTypes = propTypes
+CropPanel.propTypes = {
+	...sharedPropTypes,
+	id: string.isRequired,
+	multipleItems: bool.isRequired
+}
+
+Crop.propTypes = sharedPropTypes
 
 export default CropPanel

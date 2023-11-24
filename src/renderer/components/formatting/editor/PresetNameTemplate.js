@@ -33,7 +33,7 @@ const PresetNameTemplate = memo(({ presetNamePrepend, presetNameAppend, updateSe
 	</>
 ), objectsAreEqual)
 
-const PresetNameTemplatePanel = ({ multipleItems, multipleItemsSelected, id, dispatch, ...rest }) => {
+const PresetNameTemplatePanel = ({ id, multipleItems, multipleItemsSelected, dispatch, ...rest }) => {
 	const settingsMenu = useMemo(() => multipleItems ? [
 		{
 			type: 'button',
@@ -71,17 +71,20 @@ const PresetNameTemplatePanel = ({ multipleItems, multipleItemsSelected, id, dis
 	)
 }
 
-const propTypes = {
+const sharedPropTypes = {
+	presetNamePrepend: string,
+	presetNameAppend: string,
+	updateSelectionFromEvent: func.isRequired
+}
+
+PresetNameTemplatePanel.propTypes = {
+	...sharedPropTypes,
 	id: string.isRequired,
 	multipleItems: bool.isRequired,
 	multipleItemsSelected: bool.isRequired,
-	presetNamePrepend: string,
-	presetNameAppend: string,
-	updateSelectionFromEvent: func.isRequired,
 	dispatch: func.isRequired
 }
 
-PresetNameTemplate.propTypes = propTypes
-PresetNameTemplatePanel.propTypes = propTypes
+PresetNameTemplate.propTypes = sharedPropTypes
 
 export default PresetNameTemplatePanel
