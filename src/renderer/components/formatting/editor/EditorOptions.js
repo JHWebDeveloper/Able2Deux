@@ -71,6 +71,7 @@ const EditorOptions = props => {
 	return (
 		<div id="editor-options">
 			<FileOptions
+				id={id}
 				filename={props.filename}
 				start={props.start}
 				end={props.end}
@@ -79,8 +80,8 @@ const EditorOptions = props => {
 				duration={props.duration}
 				split={props.split}
 				mediaType={mediaType}
-				updateFilename={updateMediaFromEvent}
-				{...commonProps} />
+				updateMediaFromEvent={updateMediaFromEvent}
+				dispatch={dispatch} />
 			{props.hasAudio ? (
 				<Audio
 					audioVideoTracks={audioVideoTracks}
