@@ -19,8 +19,7 @@ const FileOptions = memo(({
 	totalFrames,
 	fps,
 	split,
-	updateFilename,
-	updateSelectionFromEvent,
+	updateMediaFromEvent,
 	dispatch
 }) => (
 	<>
@@ -29,7 +28,7 @@ const FileOptions = memo(({
 			name="filename"
 			value={filename}
 			maxLength={251}
-			onChange={updateFilename} />
+			onChange={updateMediaFromEvent} />
 		{mediaType === 'video' || mediaType === 'audio' ? <>
 			<StartEnd
 				id={id}
@@ -37,7 +36,7 @@ const FileOptions = memo(({
 				end={end}
 				totalFrames={totalFrames}
 				fps={fps}
-				updateStartEnd={updateSelectionFromEvent}
+				updateStartEnd={updateMediaFromEvent}
 				dispatch={dispatch} />
 			<Split
 				id={id}
@@ -72,8 +71,7 @@ const propTypes = {
 	fps: number.isRequired,
 	duration: number.isRequired,
 	split: number.isRequired,
-	updateFilename: func.isRequired,
-	updateSelectionFromEvent: func.isRequired,
+	updateMediaFromEvent: func.isRequired,
 	dispatch: func.isRequired
 }
 
