@@ -9,7 +9,7 @@ import { arrayOf, element, oneOfType } from 'prop-types'
 const MainForm = ({ children }) => (
 	<main>
 		<form onSubmit={e => e.preventDefault()}>
-			{children}
+			{ children }
 		</form>
 	</main>
 )

@@ -64,7 +64,7 @@ export const RenderQueueProvider = ({ children }) => {
 			...state,
 			dispatch
 		}}>
-			{children}
+			{ children }
 		</RenderQueueContext.Provider>
 	)
 }

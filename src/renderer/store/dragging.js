@@ -8,7 +8,7 @@ export const DraggingProvider = ({ children }) => {
 
 	return (
 		<DraggingContext.Provider value={{ dragOrigin, setDragOrigin }}>
-			{children}
+			{ children }
 		</DraggingContext.Provider>
 	)
 }

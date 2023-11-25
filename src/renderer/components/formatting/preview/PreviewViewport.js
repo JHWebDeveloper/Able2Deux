@@ -53,7 +53,7 @@ const PreviewViewport = ({ applyDimensions, previewHeight, dispatch, children })
 	return (
 		<div id="preview-viewport">
 			<div style={{ height: toPx(previewHeight) }}>
-				{children}
+				{ children }
 			</div>
 			<span onMouseDown={onMouseDown} tabIndex="0">
 				<span aria-hidden>drag_handle</span>

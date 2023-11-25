@@ -11,7 +11,7 @@ const FieldsetWrapper = ({ label, className, hideLabel, disabled, children }) =>
 		})}
 		disabled={disabled}>
 		<legend>{label}<span aria-hidden>:</span></legend>
-		{children}
+		{ children }
 	</fieldset>
 )
 

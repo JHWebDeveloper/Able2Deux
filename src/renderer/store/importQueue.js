@@ -18,7 +18,7 @@ export const ImportQueueProvider = ({ children }) => {
 			...state,
 			dispatch
 		}}>
-			{children}
+			{ children }
 		</ImportQueueContext.Provider>
 	)
 }

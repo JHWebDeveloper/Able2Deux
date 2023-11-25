@@ -49,7 +49,7 @@ export const MainProvider = ({ children }) => {
 			...state,
 			dispatch
 		}}>
-			{children}
+			{ children }
 		</MainContext.Provider>
 	)
 }

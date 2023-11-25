@@ -39,7 +39,7 @@ const PopupContainer = ({ menuId, position, setPosition, submenu, children }) =>
 			id={menuId}
 			style={position}
 			{...submenu ? { onMouseLeave(e) { e.stopPropagation() } } : {}}>
-			{children}
+			{ children }
 		</span>
 	)
 }

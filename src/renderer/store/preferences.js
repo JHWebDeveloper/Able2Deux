@@ -40,7 +40,7 @@ export const PrefsProvider = ({ enableSync, children }) => {
 			prefsLoaded,
 			dispatch
 		}}>
-			{children}
+			{ children }
 		</PrefsContext.Provider>
 	)
 }

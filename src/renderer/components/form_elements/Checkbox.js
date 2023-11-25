@@ -10,13 +10,13 @@ const CheckboxWrapper = ({ label, className, children, component }) => label ? (
 		'label-with-input': true,
 		[className]: !!className
 	})}>
-		{children}
+		{ children }
 		<span>{label}</span>
 		{component}
 	</label>
 ) : (
 	<span className={className}>
-		{children}
+		{ children }
 		{component}
 	</span>
 )
