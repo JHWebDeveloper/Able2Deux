@@ -4,7 +4,7 @@ import fs, { promises as fsp } from 'fs'
 import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 
-import { ASSETS_PATH } from 'constants'
+import { ASSETS_PATH } from '../constants'
 import { getIntegerLength, getOverlayInnerDimensions } from '../utilities'
 
 import * as filter from './filters'
