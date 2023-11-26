@@ -46,7 +46,7 @@ const RenderQueue = () => {
 	)
 }
 
-const RenderQueueWrapper = () => {
+const RenderQueueMountWithAsyncDependencies = () => {
 	const { prefsLoaded } = useContext(PrefsContext)
 	const { mediaLoaded } = useContext(RenderQueueContext)
 
@@ -58,7 +58,7 @@ const RenderQueueWrapper = () => {
 export default () => (
 	<PrefsProvider>
 		<RenderQueueProvider>
-			<RenderQueueWrapper />
+			<RenderQueueMountWithAsyncDependencies />
 		</RenderQueueProvider>
 	</PrefsProvider>
 )
