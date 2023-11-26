@@ -58,6 +58,10 @@ interop.openLicense = () => {
 	shell.openExternal('http://creativecommons.org/licenses/by-nd/4.0/?ref=chooser-v1')
 }
 
+interop.openFacebook = () => {
+	shell.openExternal('https://www.facebook.com/profile.php?id=61551725265321')
+}
+
 // --- DIALOGS --------
 
 interop.chooseDirectory = async () => {
