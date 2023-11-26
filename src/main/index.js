@@ -59,9 +59,10 @@ const createModalWindowOptions = (w, h, parent) => {
 		x: x + (width - w) / 2,
 		y: y + (height - y) / 2,
 		width: w,
+		minWidth: w,
 		height: h,
-		useContentSize: true,
-		resizable: IS_DEV
+		minHeight: h,
+		useContentSize: true
 	}
 }
 
@@ -224,7 +225,10 @@ const createRenderQueueWindow = async ({ media, batchName, saveLocations = [] })
 		renderQueue.close()
 	})
 
-	renderQueue = openWindow(createModalWindowOptions(700, clamp(media.length, 4, 10) * 47 + 97, mainWin))
+	renderQueue = openWindow({
+		...createModalWindowOptions(700, clamp(media.length, 4, 10) * 47 + 125, mainWin),
+		minHeight: 313
+	})
 
 	renderQueue.loadURL(createURL('render_queue'))
 
@@ -269,28 +273,6 @@ const createPrefsWindow = () => {
 		} catch (err) {
 			console.error(err)
 			evt.reply('clearScratchErr', new Error('An error occurred while attempting to clear scratch disks.'))
-		}
-	})
-
-	ipcMain.on('savePrefs', async (evt, data) => {
-		try {
-			await savePrefs(data)
-
-			try {
-				await Promise.all([
-					scratchDisk.update(),
-					loadTheme()
-				])
-			} catch (err) {
-				console.error(err)
-			}
-
-			mainWin.webContents.send('syncPrefs', await loadPrefs())
-
-			evt.reply('prefsSaved')
-		} catch (err) {
-			console.error(err)
-			evt.reply('savePrefsErr', new Error('An error occurred while attempting to save preferences.'))
 		}
 	})
 
@@ -832,6 +814,28 @@ ipcMain.on('requestPrefs', async evt => {
 	} catch (err) {
 		console.error(err)
 		evt.reply('prefsErr', new Error('An error occurred while attempting to load preferences.'))
+	}
+})
+
+ipcMain.on('savePrefs', async (evt, data) => {
+	try {
+		await savePrefs(data)
+
+		try {
+			await Promise.all([
+				scratchDisk.update(),
+				loadTheme()
+			])
+		} catch (err) {
+			console.error(err)
+		}
+
+		mainWin.webContents.send('syncPrefs', await loadPrefs())
+
+		evt.reply('prefsSaved')
+	} catch (err) {
+		console.error(err)
+		evt.reply('savePrefsErr', new Error('An error occurred while attempting to save preferences.'))
 	}
 })
 
