@@ -12,11 +12,12 @@ import {
 
 import Header from './Header'
 import MainForm from '../form_elements/MainForm'
-import Acquisition from '../acquisition/Acquisition'
-import Formatting from '../formatting/Formatting'
 import SourceSuggestionList from './SourceSuggestionList'
 import GlobalListeners from './GlobalListeners'
 import UndoRedoListener from './UndoRedoListener'
+import WelcomeMessage from './WelcomeMessage'
+import Acquisition from '../acquisition/Acquisition'
+import Formatting from '../formatting/Formatting'
 
 const Router = () => {
 	const { dispatch } = useContext(MainContext)
@@ -28,6 +29,7 @@ const Router = () => {
 			<UndoRedoListener
 				clearOnRouteChange
 				dispatch={dispatch} />
+			<WelcomeMessage />
 			<Routes>
 				<Route path="/" element={<Acquisition />}/>
 				<Route path="/formatting" element={<Formatting />}/>
