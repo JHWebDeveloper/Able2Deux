@@ -666,6 +666,12 @@ const mainMenuTemplate = [
 				label: 'Able2 Help',
 				click: createHelpWindow
 			},
+			{
+				label: 'Able2 on Facebook',
+				click() {
+					shell.openExternal('https://www.facebook.com/profile.php?id=61551725265321')
+				}
+			},
 			{ type: 'separator' },
 			{
 				label: 'View License',
