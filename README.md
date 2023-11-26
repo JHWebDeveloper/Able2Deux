@@ -12,13 +12,13 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ### Added
 - Presets! Able2 can now store and apply preset media attributes to media clips. There are two types of Presets. Presets and Batch Presets. Batch Presets allow users to create multiple versions of a single or multiple media clips in a single click. Both Presets and Batch Presets can be created, modified, sorted and deleted in the new Preset Editor window.
 - Undo and Redo. Able2 now supports undo history for nearly every action. Select Edit > Undo|Redo or press <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+<kbd>Z</kbd> to Undo or <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> to Redo (to match Avid, Redo via <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+<kbd>R</kbd> is also supported).
-- Ability to select multiple media clips for editing. Able2 previously could only edit 1 clip or all clips. Not it can edit 1, all or some. Use <kbd>Shift</kbd>+Click to select multiple media clips in sequence and <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to select out of order. Use <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to deselect selected clips.
+- Ability to select multiple media clips for editing. Able2 previously could only edit 1 clip or all clips. Now it can edit 1, all or some. Use <kbd>Shift</kbd>+Click to select multiple media clips in sequence and <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to select out of order. Use <kbd>Ctrl</kbd>|<kbd>Cmd</kbd>+Click to deselect selected clips.
 - Select All and Deselect All buttons in place of the Edit All checkbox.
 - Edit All dropdown menu with options: Select All, Deselect All, Duplicate Selected/All, Apply Preset to Selected/All, Apply Preset to Selected/All as Duplicate, Remove Selected/All.
 - New media dropdown options: Apply Attributes to Selected, Select Duplicates, Apply Preset, Apply Preset as Duplicate, Save as Preset.
 - New panel dropdown options: Apply to Selected, Save as Preset.
 - Insert Replacement Token menu next to Filename, Batch Name and new Preset Name text fields. User no longer needs to remember what the tokens are or that they exist.
-- New tokens $i, &li, &v and $lv for instance and version numbering of media clips.
+- New tokens $i, $li, $v and $lv for instance and version numbering of media clips.
 - Date and Time Source setting in the preferences. User can now select whether that date and time tokens are replaced by import started (default), import completed or export started time.
 - Render queue now displays a "View in Explorer|Finder" button next to each successfully rendered item. A popup menu of directories displays if multiple save locations were selected.
 - Select All by Default setting in the preferences.
