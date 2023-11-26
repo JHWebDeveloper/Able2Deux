@@ -10,11 +10,8 @@ import RenderQueueItem from './RenderQueueItem'
 import RenderQueueActions from './RenderQueueActions'
 
 const RenderQueue = () => {
-	const { preferences: { autoPNG, concurrent, customFrameRate, renderFrameRate, renderOutput }, prefsLoaded } = useContext(PrefsContext)
-	const { media, directories, mediaLoaded, dispatch } = useContext(RenderQueueContext)
-
-	if (!prefsLoaded || !mediaLoaded) return <></>
-
+	const { autoPNG, concurrent, customFrameRate, renderFrameRate, renderOutput } = useContext(PrefsContext).preferences
+	const { media, directories, dispatch } = useContext(RenderQueueContext)
 	const promiseQueue = useRef(createPromiseQueue(concurrent))
 
 	const renderMedia = useMemo(() => createRenderAction({
@@ -49,10 +46,19 @@ const RenderQueue = () => {
 	)
 }
 
+const RenderQueueWrapper = () => {
+	const { prefsLoaded } = useContext(PrefsContext)
+	const { mediaLoaded } = useContext(RenderQueueContext)
+
+	return prefsLoaded && mediaLoaded
+		? <RenderQueue />
+		: <></>
+}
+
 export default () => (
 	<PrefsProvider>
 		<RenderQueueProvider>
-			<RenderQueue />
+			<RenderQueueWrapper />
 		</RenderQueueProvider>
 	</PrefsProvider>
 )
