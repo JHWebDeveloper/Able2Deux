@@ -14,7 +14,7 @@ import { getThumbnailBase64 } from './modules/acquisition/thumbnails'
 import { validateDirectories } from './modules/formatting/validateDirectories'
 import { renderPreview, copyPreviewToImports } from './modules/formatting/preview'
 import { render, cancelRender } from './modules/formatting/formatting'
-import { SUPPORTED_EXTENSIONS } from './modules/constants'
+import { FACEBOOK_URL, LICENSE_URL, SUPPORTED_EXTENSIONS } from './modules/constants'
 import { clamp, delay } from './modules/utilities'
 
 const IS_MAC = process.platform === 'darwin'
@@ -669,14 +669,14 @@ const mainMenuTemplate = [
 			{
 				label: 'Able2 on Facebook',
 				click() {
-					shell.openExternal('https://www.facebook.com/profile.php?id=61551725265321')
+					shell.openExternal(FACEBOOK_URL)
 				}
 			},
 			{ type: 'separator' },
 			{
 				label: 'View License',
 				click() {
-					shell.openExternal('http://creativecommons.org/licenses/by-nd/4.0/?ref=chooser-v1')
+					shell.openExternal(LICENSE_URL)
 				}
 			}
 		]

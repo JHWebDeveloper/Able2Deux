@@ -1,6 +1,8 @@
 import { shell, ipcRenderer, contextBridge } from 'electron'
 import path from 'path'
 
+import { LICENSE_URL, FACEBOOK_URL } from '../../shared/constants'
+
 import * as acquisition from './acquisition'
 import * as formatting from './formatting'
 import * as preferences from './preferences'
@@ -55,11 +57,11 @@ interop.removeOpenImportCacheListener = () => {
 }
 
 interop.openLicense = () => {
-	shell.openExternal('http://creativecommons.org/licenses/by-nd/4.0/?ref=chooser-v1')
+	shell.openExternal(LICENSE_URL)
 }
 
 interop.openFacebook = () => {
-	shell.openExternal('https://www.facebook.com/profile.php?id=61551725265321')
+	shell.openExternal(FACEBOOK_URL)
 }
 
 // --- DIALOGS --------
