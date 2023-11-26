@@ -1,3 +1,7 @@
+
+const FACEBOOK_URL = 'https://www.facebook.com/profile.php?id=61551725265321'
+const LICENSE_URL = 'http://creativecommons.org/licenses/by-nd/4.0/?ref=chooser-v1'
+
 const INIT_PREFS_STATE = Object.freeze({
 	theme: 'system',
 	scratchDisk: {
@@ -53,6 +57,7 @@ const INIT_PRESETS_STATE = Object.freeze({
 })
 
 const INIT_WORKSPACE_STATE = Object.freeze({
+	welcomMessageAcknowledged: false,
 	windowWidth: 830,
 	windowHeight: 800,
 	previewHeight: 540,
@@ -105,6 +110,8 @@ const INIT_WORKSPACE_STATE = Object.freeze({
 })
 
 module.exports = {
+	LICENSE_URL,
+	FACEBOOK_URL,
 	INIT_PREFS_STATE,
 	INIT_PRESETS_STATE,
 	INIT_WORKSPACE_STATE
