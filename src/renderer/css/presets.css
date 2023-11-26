@@ -79,5 +79,3 @@ footer {
   display: flex;
 	column-gap: 12px;
 }
-
-.toast-bottom-right { bottom: 66px; }

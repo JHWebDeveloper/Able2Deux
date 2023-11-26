@@ -139,5 +139,3 @@ footer {
 }
 
 footer > button:last-of-type { margin-left: auto; }
-
-.toast-bottom-right { bottom: 66px; }
