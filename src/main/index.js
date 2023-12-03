@@ -296,7 +296,7 @@ const createPrefsWindow = () => {
 
 	preferences.on('close', () => {
 		ipcMain.removeHandler('requestDefaultPrefs')
-		removeListeners('clearScratchDisks', 'savePrefs', 'closePrefs')
+		removeListeners('clearScratchDisks', 'closePrefs')
 		preferences = false
 		windowOpeningMenuOptions.enable()
 	})
