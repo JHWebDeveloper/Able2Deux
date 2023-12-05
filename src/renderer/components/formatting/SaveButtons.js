@@ -20,7 +20,7 @@ const SaveButtons = ({ media, batchName, saveLocations }) => {
 			batchName,
 			saveLocations
 		})
-	}, [])
+	}, [batchName, saveLocations])
 	
 	return (
 		<div id="save">
