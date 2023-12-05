@@ -54,7 +54,7 @@ const applyPresetName = separator => media => media.map(item => {
 	}
 })
 
-const applyBatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend, batchNameSeparator }) => media => {
+const applyBatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameAppend }, batchNameSeparator) => media => {
 	if (
 		media.length < 2 ||
 		batchNameType === 'replace' && !batchName ||
@@ -233,7 +233,7 @@ export const prepareMediaForRender = ({
 	payload: {
 		media: pipe(
 			fillMissingFilenames,
-			applyBatchName(batchName),
+			applyBatchName(batchName, batchNameSeparator),
 			applyPresetName(batchNameSeparator),
 			replaceFilenameTokens(dateTimeSource),
 			sanitizeFilenames(asperaSafe),
