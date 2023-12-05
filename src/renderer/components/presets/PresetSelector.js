@@ -186,19 +186,20 @@ const PresetSelector = ({
 
 	const onKeyDown = useCallback((index, offset, type, removePreset, e) => {
 		const ctrlOrCmd = interop.IS_MAC ? e.metaKey : e.ctrlKey
+		const isBatchPreset = type === 'batchPreset'
 
 		if (e.altKey && isArrowPrev(e)) {
 			e.preventDefault();
-			(type === 'batchPreset' ? moveBatchPreset : movePreset)(index, index - 1)
+			(isBatchPreset ? moveBatchPreset : movePreset)(index, index - 1)
 		} else if (e.altKey && isArrowNext(e)) {
 			e.preventDefault();
-			(type === 'batchPreset' ? moveBatchPreset : movePreset)(index, index + 2)
+			(isBatchPreset ? moveBatchPreset : movePreset)(index, index + 2)
 		} else if (isArrowPrev(e)) {
 			e.preventDefault();
-			(type === 'batchPreset' ? selectBatchPreset : selectPreset)(index - 1)
+			(isBatchPreset ? selectBatchPreset : selectPreset)(index - 1)
 		} else if (isArrowNext(e)) {
 			e.preventDefault();
-			(type === 'batchPreset' ? selectBatchPreset : selectPreset)(index + 1)
+			(isBatchPreset ? selectBatchPreset : selectPreset)(index + 1)
 		} else if (ctrlOrCmd && !e.shiftKey && e.key === 'd') {
 			dispatchDuplicatePreset(index + offset)
 		} else if (e.key === 'Backspace' || e.key === 'Delete') {
