@@ -119,7 +119,7 @@ const PresetSelector = ({
 		? warnRemoveReferencedPreset
 		: warnRemovePreset
 
-	const createOptionsMenu = useCallback((index, presetLength, id, type, removePreset) => {
+	const createOptionsMenu = useCallback((index, offset, presetLength, id, type, removePreset) => {
 		const isFirst = index === 0
 		const isLast = index === presetLength - 1
 
@@ -151,7 +151,7 @@ const PresetSelector = ({
 				label: 'Duplicate Preset',
 				shortcut: `${interop.IS_MAC ? '⌘' : '⌃'}D`,
 				action() {
-					dispatchDuplicatePreset(index)
+					dispatchDuplicatePreset(index + offset)
 				}
 			},
 			{ type: 'spacer' },
@@ -184,7 +184,7 @@ const PresetSelector = ({
 		]
 	}, [batchPresets, presetsLength])
 
-	const onKeyDown = useCallback((index, type, removePreset, e) => {
+	const onKeyDown = useCallback((index, offset, type, removePreset, e) => {
 		const ctrlOrCmd = interop.IS_MAC ? e.metaKey : e.ctrlKey
 
 		if (e.altKey && isArrowPrev(e)) {
@@ -200,7 +200,7 @@ const PresetSelector = ({
 			e.preventDefault();
 			(type === 'batchPreset' ? selectBatchPreset : selectPreset)(index + 1)
 		} else if (ctrlOrCmd && !e.shiftKey && e.key === 'd') {
-			dispatchDuplicatePreset(index)
+			dispatchDuplicatePreset(index + offset)
 		} else if (e.key === 'Backspace' || e.key === 'Delete') {
 			removePreset()
 		}
@@ -220,8 +220,8 @@ const PresetSelector = ({
 							focused={focused}
 							label={label}
 							warnRemovePreset={getWarningType(hasReferences)}
-							createOptionsMenu={removePreset => createOptionsMenu(i, presetsLength, id, type, removePreset)}
-							onKeyDown={(removePreset, e) => onKeyDown(i, type, removePreset, e)}
+							createOptionsMenu={removePreset => createOptionsMenu(i, 0, presetsLength, id, type, removePreset)}
+							onKeyDown={(removePreset, e) => onKeyDown(i, 0, type, removePreset, e)}
 							dispatch={dispatch} />
 					))}
 				</DraggableList>
@@ -238,8 +238,8 @@ const PresetSelector = ({
 							focused={focused}
 							label={label}
 							warnRemovePreset={getWarningType(hasReferences)}
-							createOptionsMenu={removePreset => createOptionsMenu(i, batchPresetsLength, id, type, removePreset)}
-							onKeyDown={(removePreset, e) => onKeyDown(i, type, removePreset, e)}
+							createOptionsMenu={removePreset => createOptionsMenu(i, presetsLength, batchPresetsLength, id, type, removePreset)}
+							onKeyDown={(removePreset, e) => onKeyDown(i, presetsLength, type, removePreset, e)}
 							dispatch={dispatch} />
 					))}
 				</DraggableList>
