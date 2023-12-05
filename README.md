@@ -37,7 +37,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 
 ### Updated
 - Updated internal downloader to latest stable version.
-- Electron 27
+- Electron 28
 
 ### Fixed
 - Focus rings are back.
