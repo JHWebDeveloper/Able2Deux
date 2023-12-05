@@ -455,24 +455,24 @@ const applyPreset = (state, payload) => {
 		const lastPresetIndex = presetsLength - 1
 
 		for (let j = 0; j < presetsLength; j++) {
-			let preset = applicablePresets[j]
+			let { attributes, limitTo } = applicablePresets[j]
 
-			if (!preset.limitTo.includes(item.mediaType)) continue
+			if (!limitTo.includes(item.mediaType)) continue
 
-			preset = {
-				...preset,
-				...constrainPairedPresetValue(item, preset.attributes, 'cropT', 'cropB'),
-				...constrainPairedPresetValue(item, preset.attributes, 'cropL', 'cropR')
+			attributes = {
+				...attributes,
+				...constrainPairedPresetValue(item, attributes, 'cropT', 'cropB'),
+				...constrainPairedPresetValue(item, attributes, 'cropL', 'cropR')
 			}
 
 			if (!duplicate && j === lastPresetIndex) {
 				media[mediaIndex] = {
-					...mergePresetWithMedia(item, replaceIds(preset)),
+					...mergePresetWithMedia(item, replaceIds(attributes)),
 					id: item.id
 				}
 			} else {
 				media.splice(mediaIndex++, 0, replaceIds({
-					...mergePresetWithMedia(item, preset),
+					...mergePresetWithMedia(item, attributes),
 					...UNSELECTED_PROPS
 				}))
 			}
