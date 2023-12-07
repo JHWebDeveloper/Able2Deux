@@ -7,7 +7,7 @@ Able2 is an all-in-one News Editor's video acquisition tool. Able2 is able to do
 This repo is intended for portfolio viewing purposes only. For official releases please download from the following repo:
 https://github.com/JHWebDeveloper/Able2-public-resources
 
-## [Unreleased][2.4.0] - TBD
+## [2.4.0] - 12.7.2023
 
 ### Added
 - Presets! Able2 can now store and apply preset media attributes to media clips. There are two types of Presets. Presets and Batch Presets. Batch Presets allow users to create multiple versions of a single or multiple media clips in a single click. Both Presets and Batch Presets can be created, modified, sorted and deleted in the new Preset Editor window.
