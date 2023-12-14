@@ -49,7 +49,7 @@ const openWindow = (opts = {}) => new BrowserWindow({
 })
 
 const createModalWindowOptions = (w, h, parent) => ({
-	modal: IS_MAC,
+	modal: true,
 	parent,
 	width: w,
 	minWidth: w,
