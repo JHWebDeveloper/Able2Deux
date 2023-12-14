@@ -61,7 +61,7 @@ export const useSaveWarning = ({
 			const { response } = await interop.warning({
 				message,
 				detail,
-				buttons: ['Save & Close', 'Close', 'Cancel']
+				buttons: ['Save and Close', 'Close', 'Cancel']
 			})
 
 			if (response > 1) return
