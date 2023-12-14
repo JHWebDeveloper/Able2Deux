@@ -48,23 +48,15 @@ const openWindow = (opts = {}) => new BrowserWindow({
 	...opts
 })
 
-const createModalWindowOptions = (w, h, parent) => {
-	const { x, y, width, height } = parent.getBounds()
-	
-	return {
-		modal: true,
-		parent,
-		frame: false,
-		center: false,
-		x: x + (width - w) / 2,
-		y: y + (height - y) / 2,
-		width: w,
-		minWidth: w,
-		height: h,
-		minHeight: h,
-		useContentSize: true
-	}
-}
+const createModalWindowOptions = (w, h, parent) => ({
+	modal: IS_MAC,
+	parent,
+	width: w,
+	minWidth: w,
+	height: h,
+	minHeight: h,
+	useContentSize: true
+})
 
 const createURL = (view = 'index') => {
 	const { href } = IS_DEV
