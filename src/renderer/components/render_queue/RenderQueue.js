@@ -10,7 +10,7 @@ import RenderQueueItem from './RenderQueueItem'
 import RenderQueueActions from './RenderQueueActions'
 
 const RenderQueue = () => {
-	const { autoPNG, concurrent, customFrameRate, renderFrameRate, renderOutput } = useContext(PrefsContext).preferences
+	const { autoPNG, concurrent, customFrameRate, h264Preset, renderFrameRate, renderOutput } = useContext(PrefsContext).preferences
 	const { media, directories, dispatch } = useContext(RenderQueueContext)
 	const promiseQueue = useRef(createPromiseQueue(concurrent))
 
@@ -18,6 +18,7 @@ const RenderQueue = () => {
 		autoPNG,
 		customFrameRate,
 		directories,
+		h264Preset,
 		renderFrameRate,
 		renderOutput
 	}), [])
