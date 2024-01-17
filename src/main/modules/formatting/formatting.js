@@ -90,7 +90,6 @@ const copyFileNoOverwrite = async (src, dir, n = 0) => {
 }
 
 const sharedVideoOptions = [
-	'-b:v 7000k',
 	'-preset:v ultrafast',
 	'-c:a aac',
 	'-b:a 192k',
@@ -154,6 +153,8 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			'-c:v prores_ks',
 			'-pix_fmt yuva444p10le',
 			'-profile:v 4444',
+			'-vendor apl0',
+			'-qscale:v 11',
 			'-f mov',
 			...sharedVideoOptions
 		]
@@ -162,7 +163,6 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 	} else {
 		outputOptions = [
 			'-c:v libx264',
-			'-crf 18',
 			'-pix_fmt yuv420p',
 			'-f mp4',
 			...sharedVideoOptions
