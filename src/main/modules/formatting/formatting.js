@@ -90,7 +90,6 @@ const copyFileNoOverwrite = async (src, dir, n = 0) => {
 }
 
 const sharedVideoOptions = [
-	'-preset:v ultrafast',
 	'-c:a aac',
 	'-b:a 192k',
 	'-ar 48000',
@@ -162,6 +161,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		extension = 'mov'
 	} else {
 		outputOptions = [
+			`-preset:v ${exportData.h264Preset}`,
 			'-c:v libx264',
 			'-pix_fmt yuv420p',
 			'-f mp4',

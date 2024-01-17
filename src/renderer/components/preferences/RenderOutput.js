@@ -98,6 +98,46 @@ const BATCH_NAME_SEPARATOR_OPTIONS = Object.freeze([
 	}
 ])
 
+const H264_PRESET_OPTIONS = Object.freeze([
+	{
+		label: 'Ultra Fast',
+		value: 'ultrafast'
+	},
+	{
+		label: 'Super Fast',
+		value: 'superfast'
+	},
+	{
+		label: 'Very Fast',
+		value: 'veryfast'
+	},
+	{
+		label: 'Faster',
+		value: 'faster'
+	},
+	{
+		label: 'Fast',
+		value: 'fast'
+	},
+	{
+		label: 'Medium',
+		value: 'medium'
+	},
+	{
+		label: 'Slow',
+		value: 'slow'
+	}
+	,
+	{
+		label: 'Slower',
+		value: 'slower'
+	},
+	{
+		label: 'Very Slow',
+		value: 'veryslow'
+	}
+])
+
 const RenderOutput = () => {
 	const { preferences, dispatch } = useContext(PrefsContext)
 	const { convertCase, replaceSpaces } = preferences
@@ -200,6 +240,15 @@ const RenderOutput = () => {
 					value={preferences.batchNameSeparator}
 					onChange={updateStateFromEvent}
 					options={BATCH_NAME_SEPARATOR_OPTIONS} />
+			</label>
+			<label className="label-with-input">
+				<span>H.264 Export Preset</span>
+				<SelectInput
+					name="h264Preset"
+					title="Select H.264 Export Preset"
+					value={preferences.h264Preset}
+					onChange={updateStateFromEvent}
+					options={H264_PRESET_OPTIONS} />
 			</label>
 			<label className="label-with-input">
 				<span>Concurrent Renders</span>
