@@ -39,6 +39,8 @@ const INIT_PREFS_STATE = Object.freeze({
 	renderOutput: '1280x720',
 	renderFrameRate: 'auto',
 	customFrameRate: 23.98,
+	concurrent: 2,
+	h264Preset: 'ultrafast',
 	autoPNG: true,
 	batchNameSeparator: ' ',
 	replaceSpaces: false,
@@ -47,7 +49,6 @@ const INIT_PREFS_STATE = Object.freeze({
 	casing: 'lowercase',
 	dateTimeSource: 'importStarted',
 	asperaSafe: true,
-	concurrent: 2,
 	saveLocations: [],
 	disableRateLimit: false
 })
