@@ -255,6 +255,7 @@ export const createRenderAction = ({
 	autoPNG,
 	customFrameRate,
 	directories,
+	h264Preset,
 	renderFrameRate,
 	renderOutput
 }) => item => async dispatch => {
@@ -269,10 +270,11 @@ export const createRenderAction = ({
 			data: {
 				...item,
 				autoPNG,
+				directories,
 				customFrameRate,
+				h264Preset,
 				renderFrameRate,
-				renderOutput,
-				directories
+				renderOutput
 			},
 			startCallback() {
 				dispatch(updateRenderStatus(id, STATUS.RENDERING))
