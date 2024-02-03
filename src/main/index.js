@@ -206,7 +206,7 @@ const createRenderQueueWindow = async ({ media, batchName, saveLocations = [] })
 	ipcMain.on('closeRenderQueue', async (evt, startOver) => {
 		try {
 			await Promise.all([
-				scratchDisk.previews.clear(),
+				startOver ? scratchDisk.previews.clear() : Promise.resolve(),
 				scratchDisk.exports.clear()
 			])
 		} catch (err) {
