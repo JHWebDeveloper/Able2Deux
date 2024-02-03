@@ -5,7 +5,7 @@ import { ffmpeg } from '../binaries'
 import { scratchDisk } from '../scratchDisk'
 
 import { ASSETS_PATH } from '../constants'
-import { getIntegerLength, getOverlayInnerDimensions } from '../utilities'
+import { getIntegerLength } from '../utilities'
 
 import * as filter from './filters'
 
@@ -33,21 +33,21 @@ const checkIsAudio = ({ mediaType, audioVideoTracks }) => (
 )
 
 // eslint-disable-next-line no-extra-parens
-const checkNeedsAlpha = ({ mediaType, arc, background, overlay, hasAlpha }) => (
-	mediaType !== 'audio' && background === 'alpha' && arc !== 'none' && !(arc === 'fill' && overlay === 'none' && !hasAlpha)
+const checkNeedsAlpha = ({ mediaType, arc, background, hasAlpha }) => (
+	mediaType !== 'audio' && background === 'alpha' && arc !== 'none' && !(arc === 'fill' && !hasAlpha)
 )
 
 const checkIsStill = exportData => {
 	if (exportData.mediaType !== 'image' || !exportData.autoPNG) return false
 
-	const { arc, backgroundMotion, background, overlay, hasAlpha, aspectRatio } = exportData
+	const { arc, backgroundMotion, background, hasAlpha, aspectRatio } = exportData
 
 	return (
 		arc === 'none' ||
 		backgroundMotion === 'still' ||
 		background === 'color' ||
 		background === 'alpha' ||
-		overlay === 'none' && (!hasAlpha && (arc === 'fill' || arc === 'fit' && aspectRatio === '16:9'))
+		!hasAlpha && (arc === 'fill' || arc === 'fit' && aspectRatio === '16:9')
 	)
 }
 
@@ -58,10 +58,8 @@ const getBgDuration = background => {
 		case 'teal':
 		case 'tan':
 			return 6.967
-		case 'blue':
-			return 7.033
 		default:
-			return 7
+			return 30
 	}
 }
 
@@ -111,7 +109,6 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 		arc,
 		background,
 		backgroundMotion,
-		overlay,
 		sourceData,
 		renderOutput,
 		renderFrameRate,
@@ -126,7 +123,6 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 
 	let outputOptions = []
 	let extension = ''
-	let overlayDim = false
 
 	if (isAudio && audioExportFormat !== 'bars') {
 		outputOptions = audioExportFormat === 'wav' ? [
@@ -262,7 +258,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			renderCmd.input(sourcePng)
 		}
 
-		const fillNeedsBg = arc === 'fill' && (hasAlpha || overlay !== 'none' || exportData.keyingEnabled || sourceData?.is11pm)
+		const fillNeedsBg = arc === 'fill' && (hasAlpha || exportData.keyingEnabled)
 		const addBgLayer = arc === 'fit' || arc === 'transform' || fillNeedsBg
 
 		if (addBgLayer && (background === 'alpha' || background === 'color')) {
@@ -275,19 +271,9 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 				.inputOption('-stream_loop -1')
 		}
 
-		if (arc !== 'none' && overlay !== 'none') {
-			renderCmd
-				.input(path.join(ASSETS_PATH, renderHeight, `${overlay}.png`))
-				.input(`color=c=black:size=${renderWidth}x${renderHeight}:rate=59.94`)
-				.inputOption('-f lavfi')
-
-			overlayDim = getOverlayInnerDimensions(renderHeight, overlay)
-		}
-
 		renderCmd.complexFilter(filter[arc]({
 			renderHeight,
 			renderWidth,
-			overlayDim,
 			hasAlpha,
 			sourceData,
 			width: exportData.width,

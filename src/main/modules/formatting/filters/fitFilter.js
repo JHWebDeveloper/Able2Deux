@@ -12,11 +12,11 @@ const cmdChunks = [
 ]
 
 export const fit = (filterData, isPreview, previewSize) => {
-	const { keying, rotation, colorCurves, sourceData, overlayDim, renderWidth, renderHeight } = filterData
+	const { keying, rotation, colorCurves, sourceData, renderWidth, renderHeight } = filterData
 
 	const keyFilter = buildKeyFilter(isPreview, keying)
 	const commonFilter = buildCommonFilter(isPreview, rotation, colorCurves)
-	const filter = `[0:v]${keyFilter}${commonFilter},scale=w=${renderWidth}:h=${renderHeight}${cmdChunks[0]}${getBGLayerNumber(sourceData, overlayDim)}${cmdChunks[1]}${shortestAndFormat}`
+	const filter = `[0:v]${keyFilter}${commonFilter},scale=w=${renderWidth}:h=${renderHeight}${cmdChunks[0]}${getBGLayerNumber(sourceData)}${cmdChunks[1]}${shortestAndFormat}`
 
-	return finalize({ filter, sourceData, overlayDim, isPreview, previewSize })
+	return finalize({ filter, sourceData, isPreview, previewSize })
 }

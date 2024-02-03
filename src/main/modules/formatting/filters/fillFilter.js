@@ -13,7 +13,7 @@ const cmdChunks = [
 ]
 
 export const fill = (filterData, isPreview, previewSize) => {
-	const { keying, rotation, colorCurves, sourceData, overlayDim, renderWidth, renderHeight, hasAlpha } = filterData
+	const { keying, rotation, colorCurves, sourceData, renderWidth, renderHeight, hasAlpha } = filterData
 	let { centering } = filterData
 
 	centering /= -100
@@ -23,8 +23,8 @@ export const fill = (filterData, isPreview, previewSize) => {
 	let filter = `[0:v]${keyFilter}${commonFilter},scale=w=${renderWidth}:h=${renderHeight}${cmdChunks[0]}${renderWidth}:${renderHeight}:(iw-ow)/2+${centering}${cmdChunks[1]}${centering}*(ih-oh)/2`
 
 	if (hasAlpha || keying.enabled) {
-		filter = `${filter}[fg];[${getBGLayerNumber(sourceData, overlayDim)}${cmdChunks[2]}${shortestAndFormat}`
+		filter = `${filter}[fg];[${getBGLayerNumber(sourceData)}${cmdChunks[2]}${shortestAndFormat}`
 	}
 
-	return finalize({ filter, sourceData, overlayDim, isPreview, previewSize })
+	return finalize({ filter, sourceData, isPreview, previewSize })
 }

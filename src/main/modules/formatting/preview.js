@@ -8,20 +8,15 @@ import { scratchDisk } from '../scratchDisk'
 import { createPNGCopyAsScreenshot } from '../acquisition/thumbnails'
 import { ASSETS_PATH } from '../constants'
 
-import {
-	base64Encode,
-	getOverlayInnerDimensions,
-	objectPick
-} from '../utilities'
+import { base64Encode, objectPick } from '../utilities'
 
 export const createPreviewStill = exportData => new Promise((resolve, reject) => {
-	const { id, renderOutput, hasAlpha, isAudio, arc, background, overlay, sourceData } = exportData
+	const { id, renderOutput, hasAlpha, isAudio, arc, background, sourceData } = exportData
 	const [ renderWidth, renderHeight ] = renderOutput.split('x')
 
 	const outputExtension = isAudio ? 'png' : 'jpg'
 	const previewSourcePath = path.join(scratchDisk.previews.path, `${id}.preview-source.${hasAlpha ? 'tiff' : outputExtension}`)
 	const previewPath = path.join(scratchDisk.previews.path, `${id}.preview.${outputExtension}`)
-	let overlayDim = false
 
 	const command = ffmpeg(previewSourcePath)
 		.outputOption('-q:v 2')
@@ -44,7 +39,7 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 		command.input(sourcePng)
 	}
 
-	const fillNeedsBg = arc === 'fill' && (hasAlpha || overlay !== 'none' || exportData.keyingEnabled || sourceData.is11pm)
+	const fillNeedsBg = arc === 'fill' && (hasAlpha || exportData.keyingEnabled)
 	const addBgLayer = arc === 'fit' || arc === 'transform' || fillNeedsBg
 
 	if (addBgLayer && background === 'alpha') {
@@ -57,20 +52,10 @@ export const createPreviewStill = exportData => new Promise((resolve, reject) =>
 		command.input(path.join(ASSETS_PATH, renderHeight, `${background}.jpg`))
 	}
 
-	if (arc !== 'none' && overlay !== 'none') {
-		command
-			.input(path.join(ASSETS_PATH, renderHeight, `${overlay}.png`))
-			.input(`color=c=black:s=${renderWidth}x${renderHeight}`)
-			.inputOption('-f lavfi')
-
-		overlayDim = getOverlayInnerDimensions(renderHeight, overlay)
-	}
-
 	command
 		.complexFilter(filter[arc]({
 			renderHeight,
 			renderWidth,
-			overlayDim,
 			hasAlpha,
 			sourceData,
 			width: exportData.width,

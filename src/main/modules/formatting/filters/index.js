@@ -45,34 +45,7 @@ export const buildCommonFilter = (isPreview, rotation, curves) => {
 	return filter
 }
 
-export const getBGLayerNumber = (sourceData, overlayDim) => {
-	let bgNo = overlayDim ? 3 : 1
-
-	if (sourceData) bgNo++
-
-	return bgNo
-}
-
-const buildSrcLayer = (() => {
-	const cmdChunks = [
-		'[srcbg];[tosrc][srcbg]overlay=',
-		':shortest=1:format=auto[tosrc2];[tosrc2]'
-	]
-
-	return sourceData => {
-		let filter = '[tosrc];'
-
-		if (sourceData.is11pm) {
-			const { x, y, width, height } = sourceData
-
-			filter = `${filter}[2:v]crop=${width}:${height}:${x}:${y}${cmdChunks[0]}${x}:${y}${cmdChunks[1]}`
-		} else {
-			filter = `${filter}[tosrc]`
-		}
-
-		return `${filter}[1:v]overlay`
-	}
-})()
+export const getBGLayerNumber = sourceData => sourceData ? 2 : 1
 
 export const previewResize = (() => {
 	const cmdChunks = ':force_original_aspect_ratio=decrease'
@@ -84,15 +57,11 @@ export const previewMixdown = size => `[final];[final]${previewResize(size)}`
 
 export const finalize = (() => {
 	const cmdChunks = [
-		'[tooverlay];[tooverlay]scale=w=',
-		':force_original_aspect_ratio=increase[scaled];[',
-		':v][scaled]overlay=(main_w-overlay_w)/2:',
-		':shortest=1[positioned];[positioned]['
+		'[tosrc];[tosrc][1:v]overlay'
 	]
 
-	return ({ filter, sourceData, overlayDim, isPreview, previewSize }) => {
-		if (sourceData) filter = `${filter}${buildSrcLayer(sourceData)}`
-		if (overlayDim) filter = `${filter}${cmdChunks[0]}${overlayDim.width}:h=${overlayDim.height}${cmdChunks[1]}${sourceData ? 2 : 1}${cmdChunks[2]}${overlayDim.y}${cmdChunks[3]}${sourceData ? 3 : 2}:v]overlay`
+	return ({ filter, sourceData, isPreview, previewSize }) => {
+		if (sourceData) filter = `${filter}${cmdChunks[0]}`
 		if (isPreview) filter = `${filter}${previewMixdown(previewSize)}`
 
 		return filter
