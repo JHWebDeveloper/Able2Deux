@@ -8,6 +8,57 @@ const buildSourceName = (src, prefix, maxLength) => (
 const buildGenericSource = (() => {
 	const layout = {
 		'720': onTop => ({
+			fontSize: 10,
+			txtX: onTop ? 37.333333 : 1242.666667, 
+			txtY: onTop ? 170 : 562,
+			maxW: 322,
+			pad: 18,
+			boxY: onTop ? 148 : 539.333333,
+			boxH: 33.333333
+		}),
+		'1080': onTop => ({
+			fontSize: 15,
+			txtX: onTop ? 56 : 1864,
+			txtY: onTop ? 255 : 843,
+			maxW: 483,
+			pad: 28,
+			boxY: onTop ? 222 : 809,
+			boxH: 50
+		})
+	}
+
+	return ({ ctx, sourceName, sourcePrefix, sourceOnTop, width, height }) => {
+		const { fontSize, txtX, txtY, maxW, pad, boxY, boxH } = layout[height](sourceOnTop)
+
+		const src = buildSourceName(sourceName, sourcePrefix, 60)
+
+		ctx.font = `700 ${toPx(fontSize)} Inter`
+		ctx.save()
+		ctx.globalCompositeOperation = 'source-over'
+		ctx.textAlign = sourceOnTop ? 'left' : 'right',
+		ctx.textBaseline = 'bottom'
+		ctx.lineWidth = 2
+		ctx.strokeStyle = '#000000'
+		ctx.shadowColor = '#000000'
+		ctx.shadowOffsetX = Math.cos(5.35816) + 1 // Converted from .psd that has the shadow angle at 127° and distance at 1px
+		ctx.shadowOffsetY = Math.sin(5.35816) + 1
+		ctx.strokeText(src, txtX, txtY, maxW)
+		ctx.fillText(src, txtX, txtY, maxW)
+		ctx.restore()
+
+		const txtW = Math.min(ctx.measureText(src).width, maxW)
+		const boxW = (sourceOnTop ? txtX : width - txtX) + txtW + pad
+
+		ctx.fillStyle = 'rgba(0,0,0,0.4)'
+		ctx.fillRect(sourceOnTop ? 0 : width - boxW, boxY, boxW, boxH)
+
+		return {}
+	}
+})()
+
+const build11pmSource = (() => {
+	const layout = {
+		'720': onTop => ({
 			fontSize: 25,
 			txtX: 640, 
 			txtY: onTop ? 53 : 664,
@@ -27,10 +78,10 @@ const buildGenericSource = (() => {
 		})
 	}
 
-	return (ctx, sourceName, prefix, height, onTop) => {
-		const { fontSize, txtX, txtY, minW, pad, boxY, boxH } = layout[height](onTop)
+	return ({ ctx, sourceName, sourcePrefix, height, sourceOnTop }) => {
+		const { fontSize, txtX, txtY, minW, pad, boxY, boxH } = layout[height](sourceOnTop)
 
-		const src = buildSourceName(sourceName, prefix, 60)
+		const src = buildSourceName(sourceName, sourcePrefix, 60)
 
 		ctx.font = `${toPx(fontSize)} Gotham`
 		ctx.textAlign = 'center'
@@ -45,58 +96,13 @@ const buildGenericSource = (() => {
 	}
 })()
 
-const build11pmSource = (() => { 
-	const layout = {
-		'720': onTop => ({
-			fontSize: 23.72,
-			txtX: 1088,
-			txtY: onTop ? 95 : 641,
-			maxW: onTop ? 1087 : 984,
-			padL: 16,
-			padR: 193,
-			boxY: onTop ? 70 : 617,
-			boxH: 33
-		}),
-		'1080': onTop => ({
-			fontSize: 35.95,
-			txtX: 1632,
-			txtY: onTop ? 142 : 961.5,
-			maxW: onTop ? 1630.5 : 1476,
-			padL: 24,
-			padR: 289.5,
-			boxY: onTop ? 105 : 925.5,
-			boxH: 49.5
-		})
-	}
-
-	return (ctx, sourceName, prefix, height, onTop) => {
-		const { fontSize, txtX, txtY, maxW, padL, padR, boxY, boxH } = layout[height](onTop)
-
-		const src = buildSourceName(sourceName, prefix, onTop ? 53 : 47).toUpperCase()
-
-		ctx.font = `500 ${toPx(fontSize)} Gotham`
-		ctx.textAlign = 'right'
-		ctx.fillText(src, txtX, txtY)
-
-		const txtW = ctx.measureText(src).width
-		const boxW = Math.min(maxW, txtW + padL + padR)
-		const boxX = txtX - txtW - padL
-
-		return {
-			x: boxX,
-			y: boxY,
-			width: boxW,
-			height: boxH
-		}
-	}
-})()
-
-export const buildSource = ({ sourceName, sourcePrefix, sourceOnTop, renderOutput, background }) => {
-	const is11pm = has11pmBackground(background)
+export const buildSource = ({ sourceName, sourcePrefix, sourceOnTop, renderOutput, is11pm, background }) => {
+	is11pm = is11pm ?? has11pmBackground(background)
 
 	const cnv = document.createElement('canvas')
 	const ctx = cnv.getContext('2d')
 	const [ width, height ] = renderOutput.split('x')
+	const srcArgs = { ctx, sourceName, sourcePrefix, sourceOnTop, width, height }
 
 	cnv.width = width
 	cnv.height = height
@@ -104,11 +110,25 @@ export const buildSource = ({ sourceName, sourcePrefix, sourceOnTop, renderOutpu
 	ctx.globalCompositeOperation = 'destination-over'
 	ctx.fillStyle = '#ffffff'
 
-	const srcBoxData = (is11pm ? build11pmSource : buildGenericSource)(ctx, sourceName, sourcePrefix, height, sourceOnTop)
+	if (is11pm) {
+		build11pmSource(srcArgs)
+	} else {
+		buildGenericSource(srcArgs)
+	}
 
 	return {
-		base64: cnv.toDataURL().replace(/^data:image\/\w+;base64,/, ''),
-		is11pm,
-		...srcBoxData
+		base64: cnv.toDataURL().replace(/^data:image\/\w+;base64,/, '')
 	}
+}
+
+const toFontURL = font => `url(./assets/font/${font}.woff2)`
+
+export const preloadSourceFont = async is11pm => {
+	const font = is11pm
+		? new FontFace('Gotham', toFontURL('Gotham-Book'))
+		: new FontFace('Inter', toFontURL('Inter-Bold'), { weight: 700 })
+
+	await font.load()
+
+	document.fonts.add(font)
 }
