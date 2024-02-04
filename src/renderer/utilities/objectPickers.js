@@ -5,7 +5,7 @@ import { objectPick } from 'utilities'
 const AUDIO_PROPS = Object.freeze(['audioVideoTracks', 'audioExportFormat'])
 const COLOR_CORRECTION_PROPS = Object.freeze(['ccEnabled', 'ccRGB', 'ccR', 'ccG', 'ccB'])
 const CROP_PROPS = Object.freeze(['cropT', 'cropL', 'cropB', 'cropR'])
-const FRAMING_PROPS = Object.freeze(['arc', 'background', 'bgColor', 'backgroundMotion', 'overlay'])
+const FRAMING_PROPS = Object.freeze(['arc', 'background', 'bgColor', 'backgroundMotion'])
 const KEYING_PROPS = Object.freeze(['keyingEnabled', 'keyingType', 'keyingColor'])
 const CHROMA_KEY_PROPS = Object.freeze(['keyingSimilarity', 'keyingBlend'])
 const LUMA_KEY_PROPS = Object.freeze(['keyingThreshold', 'keyingTolerance', 'keyingSoftness'])
