@@ -34,21 +34,6 @@ const FRAME_RATE_OPTIONS = Object.freeze([
 	}
 ])
 
-const DATE_TIME_SOURCE_OPTIONS = Object.freeze([
-	{
-		label: 'Import Started',
-		value: 'importStarted'
-	},
-	{
-		label: 'Import Completed',
-		value: 'importCompleted'
-	},
-	{
-		label: 'Render Started',
-		value: 'renderStarted'
-	}
-])
-
 const SPACE_REPLACEMENT_OPTIONS = Object.freeze([
 	{
 		label: 'Nothing (Remove Spaces)',
@@ -184,12 +169,6 @@ const RenderOutput = () => {
 							onChange={updateStateFromEvent} />
 					}
 				]} />
-			<RadioSet
-				label="Date and Time Source"
-				name="dateTimeSource"
-				state={preferences.dateTimeSource}
-				onChange={updateStateFromEvent}
-				options={DATE_TIME_SOURCE_OPTIONS} />
 			<Checkbox
 				label="Auto Export Still Video as .png"
 				name="autoPNG"
