@@ -28,6 +28,13 @@
 	font-style: normal;
 }
 
+@font-face {
+	font-family: Inter;
+	src: url('../font/Inter-Bold.woff2') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+}
+
 /* --- RESET --- */
 
 *:where(:not(html, canvas, img, svg):not(svg *)) {
