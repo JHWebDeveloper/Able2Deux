@@ -10,6 +10,9 @@ import {
 	WorkspaceProvider
 } from 'store'
 
+import { usePreloadFont } from 'hooks'
+import { CANVAS_FONTS } from 'constants'
+
 import Header from './Header'
 import MainForm from '../form_elements/MainForm'
 import SourceSuggestionList from './SourceSuggestionList'
@@ -22,8 +25,9 @@ import Formatting from '../formatting/Formatting'
 const Router = () => {
 	const { dispatch } = useContext(MainContext)
 	const { preferences: { scratchDisk }, prefsLoaded } = useContext(PrefsContext)
+	const [ fontsLoaded ] = usePreloadFont(CANVAS_FONTS)
 
-	return prefsLoaded ? (
+	return prefsLoaded && fontsLoaded ? (
 		<HashRouter>
 			<GlobalListeners scratchDisk={scratchDisk} />
 			<UndoRedoListener
