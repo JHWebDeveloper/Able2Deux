@@ -77,15 +77,34 @@ const applyBatchName = ({ batchNameType, batchName, batchNamePrepend, batchNameA
 
 // ---- REPLACE FILENAME TOKENS --------
 
-const getTokenReplacerFns = (index, length, dateTimeSource, media) => {
-	const { start, end, duration, fps, instances = [], versions = [], refId, id } = media
-	const date = media?.[dateTimeSource] ?? new Date()
+const getTokenReplacerFns = (index, length, {
+	importStarted,
+	importCompleted,
+	renderStarted,
+	start,
+	end,
+	duration,
+	fps,
+	instances = [],
+	versions = [],
+	refId,
+	id
+}) => {
+	renderStarted = renderStarted ?? new Date()
 
 	return new Map(Object.entries({
-		'$d': () => date.toDateString(),
-		'$D': () => date.toLocaleDateString().replace(/\//g, '-'),
-		'$t': () => format12hr(date),
-		'$T': () => `${date.getHours()}${date.getMinutes()}`,
+		'$ds': () => importStarted.toDateString(),
+		'$Ds': () => importStarted.toLocaleDateString().replace(/\//g, '-'),
+		'$dc': () => importCompleted.toDateString(),
+		'$Dc': () => importCompleted.toLocaleDateString().replace(/\//g, '-'),
+		'$d': () => renderStarted.toDateString(),
+		'$D': () => renderStarted.toLocaleDateString().replace(/\//g, '-'),
+		'$ts': () => format12hr(importStarted),
+		'$Ts': () => `${importStarted.getHours()}${importStarted.getMinutes()}`,
+		'$tc': () => format12hr(importCompleted),
+		'$Tc': () => `${importCompleted.getHours()}${importCompleted.getMinutes()}`,
+		'$t': () => format12hr(renderStarted),
+		'$T': () => `${renderStarted.getHours()}${renderStarted.getMinutes()}`,
 		'$i': () => zeroizeAuto(instances.indexOf(refId) + 1, instances.length),
 		'$v': () => zeroizeAuto(versions.indexOf(id) + 1, versions.length),
 		'$n': () => zeroizeAuto(index + 1, length),
@@ -99,12 +118,12 @@ const getTokenReplacerFns = (index, length, dateTimeSource, media) => {
 	}))
 }
 
-const removeEscapeChars = filename => filename.replace(/\\(?=\$(d|D|t|T|n|i|v|l(i|v)?|s|e|r|c))/g, '')
+const removeEscapeChars = filename => filename.replace(/\\(?=\$((d|D|t|T)(s|c)?|n|i|v|l(i|v)?|s|e|r|c))/g, '')
 
-export const replaceTokens = (filename, index = 0, dateTimeSource, media) => {
+export const replaceTokens = (filename, index = 0, media) => {
 	if (filename.length < 2) return filename
 
-	const matches = [...new Set(filename.match(/(?<!\\)\$(d|D|t|T|n|i|v|l(i|v)?|s|e|r|c)/g))].sort().reverse()
+	const matches = [...new Set(filename.match(/(?<!\\)\$((d|D|t|T)(s|c)?|n|i|v|l(i|v)?|s|e|r|c)/g))].sort().reverse()
 
 	if (!media.length) return removeEscapeChars(filename)
 
@@ -121,7 +140,7 @@ export const replaceTokens = (filename, index = 0, dateTimeSource, media) => {
 		}, [])
 	}
 
-	const replacer = getTokenReplacerFns(index, media.length, dateTimeSource, item)
+	const replacer = getTokenReplacerFns(index, media.length, item)
 	
 	for (const match of matches) {
 		filename = filename.replace(new RegExp(`(?<!\\\\)\\${match}`, 'g'), replacer.get(match)())
@@ -130,9 +149,9 @@ export const replaceTokens = (filename, index = 0, dateTimeSource, media) => {
 	return removeEscapeChars(filename)
 }
 
-const replaceFilenameTokens = dateTimeSource => media => media.map((item, i) => ({
+const replaceFilenameTokens = media => media.map((item, i) => ({
 	...item,
-	filename: replaceTokens(item.filename, i, dateTimeSource, media)
+	filename: replaceTokens(item.filename, i, media)
 }))
 
 // ---- CLEAN AND FORMAT FILENAME --------
@@ -223,7 +242,6 @@ export const prepareMediaForRender = ({
 	batchNameSeparator,
 	casing,
 	convertCase,
-	dateTimeSource,
 	directories,
 	media,
 	replaceSpaces,
@@ -235,7 +253,7 @@ export const prepareMediaForRender = ({
 			fillMissingFilenames,
 			applyBatchName(batchName, batchNameSeparator),
 			applyPresetName(batchNameSeparator),
-			replaceFilenameTokens(dateTimeSource),
+			replaceFilenameTokens,
 			sanitizeFilenames(asperaSafe),
 			replaceFilenameSpaces(replaceSpaces, spaceReplacement),
 			convertFilenameCase(convertCase, casing),
