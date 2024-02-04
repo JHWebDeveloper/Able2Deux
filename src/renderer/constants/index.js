@@ -3,6 +3,7 @@ export * as STATUS from './status'
 export * from '../../shared/constants'
 
 import { STATUS } from 'constants'
+import { toFontURL } from 'utilities/valueModifiers'
 
 // ---- NUMBERS --------
 
@@ -20,6 +21,11 @@ export const MEDIA_LABEL = Object.freeze(['Audio', 'Motion Graphics', 'Images', 
 export const TIME_UNIT_L = Object.freeze(['hour', 'minute', 'second', 'frame'])
 
 export const TIME_UNIT_S = Object.freeze(TIME_UNIT_L.map(u => u[0]))
+
+export const CANVAS_FONTS = Object.freeze([
+	['Gotham', toFontURL('Gotham-Book')],
+	['Inter', toFontURL('Inter-Bold'), { weight: 700 }]
+])
 
 // ---- SCHEMAS --------
 
@@ -112,10 +118,6 @@ export const MEDIA_ATTRIBUTES = Object.freeze([
 				value: 'blue'
 			},
 			{
-				label: 'Grey',
-				value: 'grey'
-			},
-			{
 				label: '11pm Blue 1',
 				value: 'light_blue'
 			},
@@ -159,25 +161,6 @@ export const MEDIA_ATTRIBUTES = Object.freeze([
 			{
 				label: 'Still',
 				value: 'still'
-			}
-		]
-	},
-	{
-		attribute: 'overlay',
-		label: 'Overlay',
-		value: 'none',
-		inputType: [
-			{
-				label: 'None',
-				value: 'none'
-			},
-			{
-				label: 'TV',
-				value: 'tv'
-			},
-			{
-				label: 'Laptop',
-				value: 'laptop'
 			}
 		]
 	},
