@@ -95,7 +95,6 @@ const EditorOptions = props => {
 					background={background}
 					backgroundMotion={props.backgroundMotion}
 					bgColor={props.bgColor}
-					overlay={props.overlay}
 					mediaType={mediaType}
 					eyedropper={eyedropper}
 					setEyedropper={setEyedropper}
@@ -201,10 +200,9 @@ EditorOptions.propTypes = {
 	audioVideoTracks: oneOf(['video_audio', 'video', 'audio']),
 	audioExportFormat: oneOf(['wav', 'mp3', 'bars']),
 	arc: oneOf(['none', 'fit', 'fill', 'transform']),
-	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']),
+	background: oneOf(['blue', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']),
 	backgroundMotion: oneOf(['animated', 'still', 'auto']),
 	bgColor: string,
-	overlay: oneOf(['none', 'tv', 'laptop']),
 	sourceName: string,
 	sourcePrefix: bool,
 	sourceOnTop: bool,

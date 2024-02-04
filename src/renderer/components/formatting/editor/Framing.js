@@ -27,14 +27,14 @@ import ColorInput from '../../form_elements/ColorInput'
 import EyedropperIcon from '../../svg/EyedropperIcon'
 
 const createBackgroundButtons = enable11pmBackgrounds => {
-	const backgroundButtons = OPTION_SET.background.slice(0, 7)
+	const backgroundButtons = OPTION_SET.background.slice(0, 6)
 
-	if (!enable11pmBackgrounds) backgroundButtons.splice(2, 4)
+	if (!enable11pmBackgrounds) backgroundButtons.splice(1, 4)
 
 	return backgroundButtons
 }
 
-const extractFramingProps = createObjectPicker(['arc', 'background', 'bgColor', 'backgroundMotion', 'overlay'])
+const extractFramingProps = createObjectPicker(['arc', 'background', 'bgColor', 'backgroundMotion'])
 
 const BackgroundColorPicker = ({ bgColor, updateBgColor, selectBgColor, eyedropperActive }) => (
 	<div className="color-picker">
@@ -62,7 +62,6 @@ const Framing = memo(({
 	background,
 	bgColor,
 	backgroundMotion,
-	overlay,
 	eyedropper,
 	setEyedropper,
 	updateSelectionFromEvent,
@@ -124,13 +123,6 @@ const Framing = memo(({
 				state={backgroundMotion}
 				onChange={updateSelectionFromEvent}
 				options={OPTION_SET.backgroundMotion} />
-			<RadioSet
-				label="Box Overlay"
-				name="overlay"
-				disabled={arc === 'none'}
-				state={overlay}
-				onChange={updateSelectionFromEvent}
-				options={OPTION_SET.overlay}/>
 		</>
 	)
 }, objectsAreEqual)
@@ -152,7 +144,7 @@ const FramingPanel = ({ id, multipleItems, multipleItemsSelected, ...rest }) => 
 		<AccordionPanel
 			heading="Framing"
 			id="framing"
-			className="editor-options"
+			className="editor-options auto-columns"
 			options={settingsMenu}
 			initOpen>
 			<Framing {...rest} />
@@ -169,10 +161,9 @@ BackgroundColorPicker.propTypes = {
 
 const sharedPropTypes = {
 	arc: oneOf(['none', 'fit', 'fill', 'transform']).isRequired,
-	background: oneOf(['blue', 'grey', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
+	background: oneOf(['blue', 'light_blue', 'dark_blue', 'teal', 'tan', 'alpha', 'color']).isRequired,
 	backgroundMotion: oneOf(['animated', 'still', 'auto']).isRequired,
 	bgColor: string.isRequired,
-	overlay: oneOf(['none', 'tv', 'laptop']),
 	eyedropper: exact({
 		active: oneOf([false, 'white', 'black', 'key', 'background']),
 		pixelData: oneOfType([bool, exact({
