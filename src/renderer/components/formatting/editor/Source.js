@@ -13,7 +13,6 @@ import { useWarning } from 'hooks'
 import {
 	createObjectPicker,
 	createSettingsMenu,
-	has11pmBackground,
 	objectsAreEqual
 } from 'utilities'
 
@@ -28,18 +27,9 @@ const Source = memo(({
 	sourceName,
 	sourcePrefix,
 	sourceOnTop,
-	background,
 	updateSelectionFromEvent,
 	toggleSelectionCheckbox
 }) => {
-	const maxLength = useMemo(() => {
-		let len = has11pmBackground(background) ? sourceOnTop ? 44 : 38 : 51
-
-		if (!sourcePrefix) len += 8
-		
-		return len
-	}, [background, sourcePrefix, sourceOnTop])
-
 	const warn = useWarning({
 		name: 'sourceOnTop',
 		message: 'A source on top is not for aesthetics!',
@@ -65,8 +55,7 @@ const Source = memo(({
 					placeholder="If none, leave blank"
 					list="source-suggestions"
 					value={sourceName}
-					onChange={updateSelectionFromEvent}
-					maxLength={maxLength} />
+					onChange={updateSelectionFromEvent} />
 			</FieldsetWrapper>
 			<Checkbox
 				label={'Add "Source: " to beginning'}
