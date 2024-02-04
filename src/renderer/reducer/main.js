@@ -1,4 +1,8 @@
-import { ACTION, RATIO_9_16 } from 'constants'
+import {
+	ACTION,
+	MEDIA_ATTRIBUTES,
+	RATIO_9_16
+} from 'constants'
 
 import {
 	arrayCount,
@@ -438,6 +442,14 @@ const mergePresetWithMedia = (item, preset) => {
 	}
 }
 
+const filterInvalidPresets = (attributes, validKeys, validValues) => {
+	const appliedEntries = Object.entries(attributes)
+
+	return Object.fromEntries(appliedEntries
+		.filter(([ key ]) => validKeys.includes(key))
+		.filter(([ key, value ]) => !(key in validValues) || validValues[key].includes(value)))
+}
+
 const applyPreset = (state, payload) => {
 	const { presets, mediaIds, duplicate } = payload
 
@@ -445,6 +457,11 @@ const applyPreset = (state, payload) => {
 
 	const mediaIdsLength = mediaIds.length
 	const media = [...state.media]
+	const validKeys = MEDIA_ATTRIBUTES.map(({ attribute }) => attribute)
+	const validValues = MEDIA_ATTRIBUTES.reduce((acc, { attribute, inputType }) => {
+		if (Array.isArray(inputType)) acc[attribute] = inputType.map(({ value }) => value) 
+		return acc
+	}, {})
 
 	for (let i = 0; i < mediaIdsLength; i++) {
 		const mediaId = mediaIds[i]
@@ -460,7 +477,7 @@ const applyPreset = (state, payload) => {
 			if (!limitTo.includes(item.mediaType)) continue
 
 			attributes = {
-				...attributes,
+				...filterInvalidPresets(attributes, validKeys, validValues),
 				...constrainPairedPresetValue(item, attributes, 'cropT', 'cropB'),
 				...constrainPairedPresetValue(item, attributes, 'cropL', 'cropR')
 			}
