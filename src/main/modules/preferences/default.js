@@ -90,17 +90,6 @@ export const defaultPresets = {
 		{
 			id: uuid(),
 			type: 'preset',
-			label: 'EWN BG Grey',
-			hidden: true,
-			limitTo: [...DEFAULT_LIMIT_TO],
-			attributes: {
-				background: 'grey',
-				presetNameAppend: 'EWN BG Grey'
-			}
-		},
-		{
-			id: uuid(),
-			type: 'preset',
 			label: 'TNT BG Light Blue',
 			hidden: false,
 			limitTo: [...DEFAULT_LIMIT_TO],
