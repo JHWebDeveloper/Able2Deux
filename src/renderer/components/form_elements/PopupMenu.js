@@ -3,7 +3,7 @@ import { arrayOf, bool, func, object, oneOfType, shape, string } from 'prop-type
 
 import Popup from './Popup'
 
-const PopupMenuOptions = ({ options, navigateWithKeys, parentMenu }) => {
+const PopupMenuOptions = ({ options, alignment, navigateWithKeys, parentMenu }) => {
 	const menuId = useId()
 
 	return (options instanceof Function ? options() : options).map((props, i) => {
@@ -43,7 +43,7 @@ const PopupMenuOptions = ({ options, navigateWithKeys, parentMenu }) => {
 					<PopupMenu
 						key={key}
 						options={submenu}
-						alignment="right top"
+						alignment={alignment}
 						label={label}
 						parentMenu={parentMenu}
 						autoFocus={i === 0}
@@ -61,6 +61,7 @@ const PopupMenu = ({
 	label,
 	options,
 	submenu,
+	submenuAlignment = 'right top',
 	parentMenu,
 	autoFocus
 }) => (
@@ -72,7 +73,9 @@ const PopupMenu = ({
 		parentMenu={parentMenu}
 		autoFocus={autoFocus}
 		{...submenu ? {} : { icon }}>
-		<PopupMenuOptions options={options} />
+		<PopupMenuOptions
+			options={options}
+			alignment={submenuAlignment || alignment} />
 	</Popup>
 )
 

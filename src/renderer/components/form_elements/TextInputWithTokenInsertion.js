@@ -1,180 +1,202 @@
-import React, { memo, useCallback, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { func, number, string } from 'prop-types'
-
-import { objectsAreEqual } from 'utilities'
 
 import FieldsetWrapper from './FieldsetWrapper'
 import PopupMenu from './PopupMenu'
 
+const createDateTimeTokenSubMenu = baseToken => {
+	const exportStarted = `$${baseToken}`
+	const importStarted = `${exportStarted}s`
+	const importCompleted = `${exportStarted}c`
+
+	return () => [
+		{
+			type: 'button',
+			label: 'Import Started',
+			shortcut: importStarted,
+			action() {
+				insertToken(importStarted)
+			}
+		},
+		{
+			type: 'button',
+			label: 'Import Completed',
+			shortcut: importCompleted,
+			action() {
+				insertToken(importCompleted)
+			}
+		},
+		{
+			type: 'button',
+			label: 'Export Started',
+			shortcut: exportStarted,
+			action() {
+				insertToken(exportStarted)
+			}
+		}
+	]
+}
+
 const popup = insertToken => [
 	{
-		type: 'spacer',
-		label: 'Date/Timestamps'
-	},
-	{
-		type: 'button',
+		type: 'submenu',
 		label: 'Long Date',
-		shortcut: '$d',
-		action() {
-			insertToken('$d')
-		}
+		submenu: createDateTimeTokenSubMenu('d')
 	},
 	{
-		type: 'button',
+		type: 'submenu',
 		label: 'Short Date',
-		shortcut: '$D',
-		action() {
-			insertToken('$D')
-		}
+		submenu: createDateTimeTokenSubMenu('D')
 	},
 	{
-		type: 'button',
+		type: 'submenu',
 		label: '12hr Timestamp',
-		shortcut: '$t',
-		action() {
-			insertToken('$t')
-		}
+		submenu: createDateTimeTokenSubMenu('t')
 	},
 	{
-		type: 'button',
+		type: 'submenu',
 		label: '24hr Timestamp',
-		shortcut: '$T',
-		action() {
-			insertToken('$T')
-		}
+		submenu: createDateTimeTokenSubMenu('T')
 	},
 	{
-		type: 'spacer',
-		label: 'Numbering'
+		type: 'submenu',
+		label: 'Numbering',
+		submenu: [
+			{
+				type: 'button',
+				label: 'Clip Number',
+				shortcut: '$n',
+				action() {
+					insertToken('$n')
+				}
+			},
+			{
+				type: 'button',
+				label: 'Total Clips',
+				shortcut: '$l',
+				action() {
+					insertToken('$l')
+				}
+			},
+			{
+				type: 'button',
+				label: 'Instance Number',
+				shortcut: '$i',
+				action() {
+					insertToken('$i')
+				}
+			},
+			{
+				type: 'button',
+				label: 'Total Instances',
+				shortcut: '$li',
+				action() {
+					insertToken('$li')
+				}
+			},
+			{
+				type: 'button',
+				label: 'Version Number',
+				shortcut: '$v',
+				action() {
+					insertToken('$v')
+				}
+			},
+			{
+				type: 'button',
+				label: 'Total Versions',
+				shortcut: '$lv',
+				action() {
+					insertToken('$lv')
+				}
+			},
+			{ type: 'spacer' },
+			{
+				type: 'button',
+				label: '$n of $l',
+				action() {
+					insertToken('$n of $l')
+				}
+			},
+			{
+				type: 'button',
+				label: '$i of $li',
+				action() {
+					insertToken('$i of $li')
+				}
+			},
+			{
+				type: 'button',
+				label: '$v of $lv',
+				action() {
+					insertToken('$v of $lv')
+				}
+			}
+		]
 	},
 	{
-		type: 'button',
-		label: 'Clip Number',
-		shortcut: '$n',
-		action() {
-			insertToken('$n')
-		}
-	},
-	{
-		type: 'button',
-		label: 'Total Clips',
-		shortcut: '$l',
-		action() {
-			insertToken('$l')
-		}
-	},
-	{
-		type: 'button',
-		label: 'Instance Number',
-		shortcut: '$i',
-		action() {
-			insertToken('$i')
-		}
-	},
-	{
-		type: 'button',
-		label: 'Total Instances',
-		shortcut: '$li',
-		action() {
-			insertToken('$li')
-		}
-	},
-	{
-		type: 'button',
-		label: 'Version Number',
-		shortcut: '$v',
-		action() {
-			insertToken('$v')
-		}
-	},
-	{
-		type: 'button',
-		label: 'Total Versions',
-		shortcut: '$lv',
-		action() {
-			insertToken('$lv')
-		}
-	},
-	{
-		type: 'button',
-		label: '$n of $l',
-		action() {
-			insertToken('$n of $l')
-		}
-	},
-	{
-		type: 'button',
-		label: '$i of $li',
-		action() {
-			insertToken('$i of $li')
-		}
-	},
-	{
-		type: 'button',
-		label: '$v of $lv',
-		action() {
-			insertToken('$v of $lv')
-		}
-	},
-	{
-		type: 'spacer',
-		label: 'Timecodes'
-	},
-	{
-		type: 'button',
-		label: 'Start Timecode',
-		shortcut: '$s',
-		action() {
-			insertToken('$s')
-		}
-	},
-	{
-		type: 'button',
-		label: 'End Timecode',
-		shortcut: '$e',
-		action() {
-			insertToken('$e')
-		}
-	},
-	{
-		type: 'button',
-		label: 'Source Runtime',
-		shortcut: '$r',
-		action() {
-			insertToken('$r')
-		}
-	},
-	{
-		type: 'button',
-		label: 'Clip Runtime',
-		shortcut: '$c',
-		action() {
-			insertToken('$c')
-		}
-	},
-	{
-		type: 'button',
-		label: '$s - $e',
-		action() {
-			insertToken('$s - $e')
-		}
-	},
-	{
-		type: 'button',
-		label: '$s - $e of $r',
-		action() {
-			insertToken('$s - $e of $r')
-		}
+		type: 'submenu',
+		label: 'Timecodes',
+		submenu: [
+			{
+				type: 'button',
+				label: 'Start Timecode',
+				shortcut: '$s',
+				action() {
+					insertToken('$s')
+				}
+			},
+			{
+				type: 'button',
+				label: 'End Timecode',
+				shortcut: '$e',
+				action() {
+					insertToken('$e')
+				}
+			},
+			{
+				type: 'button',
+				label: 'Source Runtime',
+				shortcut: '$r',
+				action() {
+					insertToken('$r')
+				}
+			},
+			{
+				type: 'button',
+				label: 'Clip Runtime',
+				shortcut: '$c',
+				action() {
+					insertToken('$c')
+				}
+			},
+			{ type: 'spacer' },
+			{
+				type: 'button',
+				label: '$s - $e',
+				action() {
+					insertToken('$s - $e')
+				}
+			},
+			{
+				type: 'button',
+				label: '$s - $e of $r',
+				action() {
+					insertToken('$s - $e of $r')
+				}
+			}
+		]
 	}
 ]
 
-const TextInputWithTokenInsertion = memo(({
+const TextInputWithTokenInsertion = ({
 	label,
 	name,
 	value,
 	maxLength,
 	placeholder,
 	alignment = 'bottom right',
+	submenuAlignment,
 	onChange
 }) => {
 	const textInput = useRef(null)
@@ -218,11 +240,12 @@ const TextInputWithTokenInsertion = memo(({
 					icon="attach_money"
 					label="Insert Replacement Token"
 					alignment={alignment}
+					submenuAlignment={submenuAlignment}
 					options={() => popup(insertToken)} />
 			</span>
 		</FieldsetWrapper>
 	)
-}, objectsAreEqual)
+}
 
 TextInputWithTokenInsertion.propTypes = {
 	label: string.isRequired,
