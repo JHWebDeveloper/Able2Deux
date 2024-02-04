@@ -27,7 +27,6 @@ export const RenderQueueProvider = ({ children }) => {
 			batchNameSeparator,
 			casing,
 			convertCase,
-			dateTimeSource,
 			replaceSpaces,
 			spaceReplacement
 		},
@@ -49,7 +48,6 @@ export const RenderQueueProvider = ({ children }) => {
 					batchNameSeparator,
 					casing,
 					convertCase,
-					dateTimeSource,
 					replaceSpaces,
 					spaceReplacement
 				}))
