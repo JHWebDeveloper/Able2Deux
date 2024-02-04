@@ -28,7 +28,8 @@ const FileOptions = memo(({
 			name="filename"
 			value={filename}
 			maxLength={251}
-			onChange={updateMediaFromEvent} />
+			onChange={updateMediaFromEvent}
+			submenuAlignment="left top" />
 		{mediaType === 'video' || mediaType === 'audio' ? <>
 			<StartEnd
 				id={id}

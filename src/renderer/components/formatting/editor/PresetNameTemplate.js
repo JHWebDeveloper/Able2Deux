@@ -22,14 +22,16 @@ const PresetNameTemplate = memo(({ presetNamePrepend, presetNameAppend, updateSe
 			value={presetNamePrepend}
 			maxLength={251}
 			placeholder="If none, leave blank"
-			onChange={updateSelectionFromEvent} />
+			onChange={updateSelectionFromEvent}
+			submenuAlignment="left top" />
 		<TextInputWithTokenInsertion
 			label="Append to Filename"
 			name="presetNameAppend"
 			value={presetNameAppend}
 			maxLength={251}
 			placeholder="If none, leave blank"
-			onChange={updateSelectionFromEvent} />
+			onChange={updateSelectionFromEvent}
+			submenuAlignment="left top" />
 	</>
 ), objectsAreEqual)
 
