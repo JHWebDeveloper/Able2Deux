@@ -202,47 +202,6 @@ button.link-button > svg { pointer-events: none; }
 	justify-content: center;
 }
 
-/* -- Formatting Panel -- */
-
-#framing {
-	grid-template-columns: repeat(3, min-content);
-	grid-template-rows: repeat(2, min-content);
-	gap: 9px;
-	container: formatting-panel / inline-size;
-}
-
-
-#framing > fieldset:nth-of-type(2) { /* background column */
-	grid-column: 2;
-	grid-row: 1 / span 2;
-}
-
-#framing > fieldset:nth-of-type(3) { /* motion column */
-	grid-column: 1;
-	grid-row: 2;
-	align-self: flex-end;
-}
-
-@container formatting-panel (min-width: 400px) {
-	#framing {
-		grid-template-columns: repeat(4, min-content);
-	}
-
-	#framing > fieldset:nth-of-type(2) { /* background column */
-		grid-column: 2;
-	}
-
-	#framing > fieldset:nth-of-type(3) { /* motion column */
-		grid-column: 3;
-		grid-row: 1;
-		align-self: flex-start;
-	}
-
-	#framing > fieldset:nth-of-type(4) { /* overlay column */
-		grid-column: 4;
-	}
-}
-
 /* -- Position Panel -- */
 
 #position, #centering {
