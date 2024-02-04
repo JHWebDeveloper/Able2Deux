@@ -21,14 +21,16 @@ const PresetOptions = ({
 			value={presetNamePrepend}
 			maxLength={251}
 			placeholder="If none, leave blank"
-			onChange={updatePresetState} />
+			onChange={updatePresetState}
+			submenuAlignment="left top" />
 		<TextInputWithTokenInsertion
 			label="Append to Filename"
 			name="presetNameAppend"
 			value={presetNameAppend}
 			maxLength={251}
 			placeholder="If none, leave blank"
-			onChange={updatePresetState} />
+			onChange={updatePresetState}
+			submenuAlignment="left top" />
 		{hideLimitTo ? <></> : <>
 			<hr />
 			<CheckboxSet
