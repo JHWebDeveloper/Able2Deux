@@ -442,7 +442,7 @@ const mergePresetWithMedia = (item, preset) => {
 	}
 }
 
-const filterInvalidPresets = (attributes, validKeys, validValues) => {
+const filterInvalidAttributes = (attributes, validKeys, validValues) => {
 	const appliedEntries = Object.entries(attributes)
 
 	return Object.fromEntries(appliedEntries
@@ -477,7 +477,7 @@ const applyPreset = (state, payload) => {
 			if (!limitTo.includes(item.mediaType)) continue
 
 			attributes = {
-				...filterInvalidPresets(attributes, validKeys, validValues),
+				...filterInvalidAttributes(attributes, validKeys, validValues),
 				...constrainPairedPresetValue(item, attributes, 'cropT', 'cropB'),
 				...constrainPairedPresetValue(item, attributes, 'cropL', 'cropR')
 			}
