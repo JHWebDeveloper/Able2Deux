@@ -4,6 +4,8 @@ import 'css/render_queue.css'
 
 import { PrefsContext, PrefsProvider, RenderQueueContext, RenderQueueProvider } from 'store'
 import { createCancelRenderAction, createRenderAction } from 'actions'
+import { usePreloadFont } from 'hooks'
+import { CANVAS_FONTS } from 'constants'
 import { createPromiseQueue } from 'utilities'
 
 import RenderQueueItem from './RenderQueueItem'
@@ -50,8 +52,9 @@ const RenderQueue = () => {
 const RenderQueueMountWithAsyncDependencies = () => {
 	const { prefsLoaded } = useContext(PrefsContext)
 	const { mediaLoaded } = useContext(RenderQueueContext)
+	const [ fontsLoaded ] = usePreloadFont(CANVAS_FONTS)
 
-	return prefsLoaded && mediaLoaded
+	return prefsLoaded && mediaLoaded && fontsLoaded
 		? <RenderQueue />
 		: <></>
 }
