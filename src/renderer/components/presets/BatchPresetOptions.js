@@ -60,7 +60,8 @@ const BatchPresetOptions = ({
 			value={presetNamePrepend}
 			maxLength={251}
 			placeholder="If none, leave blank"
-			onChange={updatePresetState} />
+			onChange={updatePresetState}
+			submenuAlignment="left top" />
 		<RadioSet
 			label="Merge with Presets' Prepend to Filename"
 			hideLabel
@@ -75,7 +76,8 @@ const BatchPresetOptions = ({
 			value={presetNameAppend}
 			maxLength={251}
 			placeholder="If none, leave blank"
-			onChange={updatePresetState} />
+			onChange={updatePresetState}
+			submenuAlignment="left top" />
 		<RadioSet
 			label="Merge with Presets' Append to Filename"
 			hideLabel
