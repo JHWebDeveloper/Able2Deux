@@ -47,7 +47,6 @@ const INIT_PREFS_STATE = Object.freeze({
 	spaceReplacement: '_',
 	convertCase: false,
 	casing: 'lowercase',
-	dateTimeSource: 'importStarted',
 	asperaSafe: true,
 	saveLocations: [],
 	disableRateLimit: false
