@@ -102,7 +102,6 @@ export const includeAttributesByMediaState = mediaState => preset => ({
 	...preset,
 	attributes: preset.attributes.map(attr => {
 		switch (attr.attribute) {
-			case 'overlay':
 			case 'background':
 				attr.include = mediaState.arc !== 'none'
 				break
