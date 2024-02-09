@@ -182,7 +182,7 @@ export const upload = ({ name, path }) => async dispatch => {
 // ---- SCREEN RECORD ------------
 
 export const loadRecording = (id, screenshot) => async dispatch => {
-	const title = `Able2 Screen${screenshot ? 'shot' : ' Record'} $d $t`
+	const title = `Able2 Screen${screenshot ? 'shot' : ' Record'} $ds $ts`
 	let mediaData = {}
 
 	try {
