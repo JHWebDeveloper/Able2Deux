@@ -1,6 +1,6 @@
 {
 	"name": "able2",
-	"version": "2.4.2",
+	"version": "2.5.0",
 	"description": "Able2 is an all-in-one News Editor's video acquisition tool customized for the Editors and Photographers of WFTV in Orlando, FL. Able2 is able to download media from various online services, record video and audio from a user's desktop and convert and format video, image and audio files for air.",
 	"main": "build/main.js",
 	"scripts": {
