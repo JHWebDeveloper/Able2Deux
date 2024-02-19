@@ -8,18 +8,18 @@ const buildSourceName = (src, prefix, maxLength) => (
 const buildGenericSource = (() => {
 	const layout = {
 		'720': onTop => ({
-			fontSize: 10,
-			txtX: onTop ? 37.333333 : 1242.666667, 
-			txtY: onTop ? 170 : 562,
+			fontSize: 13.777778,
+			txtX: onTop ? 38 : 1242, 
+			txtY: onTop ? 171.333333 : 563.333333,
 			maxW: 322,
 			pad: 18,
 			boxY: onTop ? 148 : 539.333333,
 			boxH: 33.333333
 		}),
 		'1080': onTop => ({
-			fontSize: 15,
-			txtX: onTop ? 56 : 1864,
-			txtY: onTop ? 255 : 843,
+			fontSize: 20.666667,
+			txtX: onTop ? 57 : 1863,
+			txtY: onTop ? 257 : 845,
 			maxW: 483,
 			pad: 28,
 			boxY: onTop ? 222 : 809,
@@ -32,10 +32,10 @@ const buildGenericSource = (() => {
 
 		const src = buildSourceName(sourceName, sourcePrefix, 60)
 
-		ctx.font = `700 ${toPx(fontSize)} Inter`
+		ctx.font = `${toPx(fontSize)} Inter`
 		ctx.save()
 		ctx.globalCompositeOperation = 'source-over'
-		ctx.textAlign = sourceOnTop ? 'left' : 'right',
+		ctx.textAlign = sourceOnTop ? 'left' : 'right'
 		ctx.textBaseline = 'bottom'
 		ctx.lineWidth = 2
 		ctx.strokeStyle = '#000000'
