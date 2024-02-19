@@ -7,6 +7,33 @@ Able2 is an all-in-one News Editor's video acquisition tool. Able2 is able to do
 This repo is intended for portfolio viewing purposes only. For official releases please download from the following repo:
 https://github.com/JHWebDeveloper/Able2-public-resources
 
+## [Unreleased][2.5.1] - TBD
+
+### Changed
+- Adjusted new source font size, weight and position
+
+## [2.5.0] - 2.16.2024
+
+### Added
+- New blue background
+- New source look
+- New date and time tokens: $ds, $ts (Date/Time import started)
+
+### Changed
+- Consolidated token dropdown and submenu's
+
+### Updated
+- Updated internal downloader to latest stable version.
+
+### Removed
+- Old blue background
+- Grey BG
+- TV and Laptop Overlays (TV may come back in a future version)
+- Date/Time Source option in the preferences (obsolete with new tokens)
+
+### Fixed
+- Bug causing preview to freeze if "Close" is selected after rendering.
+
 ## [2.4.1] - 12.14.2023
 
 ### Fixed
