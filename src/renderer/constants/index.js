@@ -24,7 +24,7 @@ export const TIME_UNIT_S = Object.freeze(TIME_UNIT_L.map(u => u[0]))
 
 export const CANVAS_FONTS = Object.freeze([
 	['Gotham', toFontURL('Gotham-Book')],
-	['Inter', toFontURL('Inter-Bold'), { weight: 700 }]
+	['Inter', toFontURL('Inter-SemiBold')]
 ])
 
 // ---- SCHEMAS --------
