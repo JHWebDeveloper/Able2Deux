@@ -120,6 +120,47 @@ export const checkFileType = async (file, preGeneratedMetadata) => {
 
 const checkMetadata = data => !!data && data !== 'unknown' && data !== 'N/A'
 
+const getDimensionsAndAR = ({
+	sample_aspect_ratio: sar,
+	display_aspect_ratio: dar,
+	width,
+	height
+}) => {
+	let aspectRatio = ''
+	let isAnamorphic = false
+
+	width = checkMetadata(width) ? width : 0
+	height = checkMetadata(height) ? height: 0
+
+	if (width > 0 && height > 0) {
+		aspectRatio = calcAspectRatio(width, height)
+		
+		isAnamorphic = checkMetadata(dar) && !(
+			sar === '1:1' ||
+			sar === '0:1' ||
+			dar === '0:1' ||
+			calcAspectRatio(...dar.split(':').map(parseFloat)) === aspectRatio
+		)
+	}
+
+	if (isAnamorphic) {
+		const [ a, b ] = dar.split(':').map(parseFloat)
+
+		width = a / b * height
+		aspectRatio = calcAspectRatio(width, height)
+	}
+
+	return {
+		width,
+		height,
+		aspectRatio,
+		originalWidth: width,
+		originalHeight: height,
+		originalAspectRatio: aspectRatio,
+		isAnamorphic
+	}
+}
+
 const frameRateToNumber = fps => parseFloat(fps.split('/').reduce((a, b) => a / b).toFixed(2))
 
 export const getMediaInfo = async (id, tempFilePath, streamData, forcedFPS) => {
@@ -169,24 +210,10 @@ export const getMediaInfo = async (id, tempFilePath, streamData, forcedFPS) => {
 		})
 	} else {
 		videoStream = metadata.streams.find(stream => stream.codec_type === 'video')
-		
-		const { width, height } = videoStream
-		const hasW = checkMetadata(width)
-		const hasH = checkMetadata(height)
-		const hasAlpha = await detectAlphaChannel(tempFilePath, mediaType, id)
 
-		Object.assign(mediaData, {
-			width: hasW ? width : 0,
-			height: hasH ? height : 0,
-			aspectRatio: hasW && hasH ? calcAspectRatio(width, height) : '',
-			hasAlpha
-		})
+		Object.assign(mediaData, getDimensionsAndAR(videoStream))
 
-		Object.assign(mediaData, {
-			originalWidth: mediaData.width,
-			originalHeight: mediaData.height,
-			originalAspectRatio: mediaData.aspectRatio
-		})
+		mediaData.hasAlpha = await detectAlphaChannel(tempFilePath, mediaType, id)
 	}
 
 	if (mediaType === 'video') {
