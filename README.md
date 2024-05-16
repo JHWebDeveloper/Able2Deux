@@ -10,7 +10,7 @@ https://github.com/JHWebDeveloper/Able2-public-resources
 ## [Unreleased][2.5.2] - TBD
 
 ### Changed
-- Anamorphic video is now automatically detected and stretched to its display aspect ratio in Fill, Fit and Transform modes. None preserves the anamorphic sample size and metadata.
+- Anamorphic video is now automatically detected and resized to its display aspect ratio in Fill, Fit and Transform modes. None preserves the anamorphic sample size and metadata.
 
 ### Updated
 - Updated internal downloader to latest stable version.
