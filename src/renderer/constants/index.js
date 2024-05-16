@@ -522,6 +522,7 @@ export const DEFAULT_MEDIA_STATE = Object.freeze({
 	originalWidth: 0,
 	originalHeight: 0,
 	originalAspectRatio: '',
+	isAnamorphic: false,
 	fps: 1,
 	channelLayout: '',
 	sampleRate: '',
