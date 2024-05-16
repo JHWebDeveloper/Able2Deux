@@ -684,7 +684,8 @@ if (DEVTOOLS_ON) {
 				click(_, focusedWindow) {
 					focusedWindow.toggleDevTools()
 				}
-			}
+			},
+			{ role: 'reload' }
 		]
 	})
 }
