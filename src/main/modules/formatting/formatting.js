@@ -278,6 +278,7 @@ export const render = (exportData, win) => new Promise((resolve, reject) => {
 			sourceData,
 			width: exportData.width,
 			height: exportData.height,
+			isAnamorphic: exportData.isAnamorphic,
 			centering: exportData.centering,
 			position: {
 				x: exportData.positionX,
