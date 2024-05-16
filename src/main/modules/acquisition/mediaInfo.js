@@ -126,25 +126,31 @@ const getDimensionsAndAR = ({
 	width,
 	height
 }) => {
+	const hasW = checkMetadata(width)
+	const hasH = checkMetadata(height)
+	const hasWH = hasW && hasH
 	let aspectRatio = ''
+	let displayAspectRatio = 1
 	let isAnamorphic = false
 
-	width = checkMetadata(width) ? width : 0
-	height = checkMetadata(height) ? height: 0
+	width = hasW ? width : 0
+	height = hasH ? height : 0
 
-	if (width > 0 && height > 0) {
-		aspectRatio = calcAspectRatio(width, height)
+	if (hasWH) aspectRatio = calcAspectRatio(width, height)
+
+	if (hasWH && checkMetadata(dar)) {
+		displayAspectRatio = dar.split(':').map(parseFloat)
 		
-		isAnamorphic = checkMetadata(dar) && !(
+		isAnamorphic = !(
 			sar === '1:1' ||
 			sar === '0:1' ||
 			dar === '0:1' ||
-			calcAspectRatio(...dar.split(':').map(parseFloat)) === aspectRatio
+			calcAspectRatio(...displayAspectRatio) === aspectRatio
 		)
 	}
 
 	if (isAnamorphic) {
-		const [ a, b ] = dar.split(':').map(parseFloat)
+		const [ a, b ] = displayAspectRatio
 
 		width = a / b * height
 		aspectRatio = calcAspectRatio(width, height)
