@@ -5,6 +5,8 @@ export * from './transformFilter'
 
 export const shortestAndFormat = ':shortest=1:format=auto'
 
+export const buildAnamorphicFilter = isAnamorphic => isAnamorphic ? 'scale=iw*sar:ih,setsar=1[anm];[anm]' : ''
+
 export const buildKeyFilter = (isPreview, keying) => {
 	const { enabled, hidden, type } = keying
 	let filter = ''
