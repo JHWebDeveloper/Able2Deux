@@ -109,7 +109,8 @@ PopupMenu.propTypes = {
 	icon: string,
 	parentMenu: parentMenuPropType,
 	autoFocus: bool,
-	submenu: bool
+	submenu: bool,
+	submenuAlignment: string
 }
 
 export default PopupMenu

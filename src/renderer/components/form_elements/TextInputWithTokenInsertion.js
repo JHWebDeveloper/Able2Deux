@@ -4,7 +4,7 @@ import { func, number, string } from 'prop-types'
 import FieldsetWrapper from './FieldsetWrapper'
 import PopupMenu from './PopupMenu'
 
-const createDateTimeTokenSubMenu = baseToken => {
+const createDateTimeTokenSubMenu = (baseToken, insertToken) => {
 	const exportStarted = `$${baseToken}`
 	const importStarted = `${exportStarted}s`
 	const importCompleted = `${exportStarted}c`
@@ -41,22 +41,22 @@ const popup = insertToken => [
 	{
 		type: 'submenu',
 		label: 'Long Date',
-		submenu: createDateTimeTokenSubMenu('d')
+		submenu: createDateTimeTokenSubMenu('d', insertToken)
 	},
 	{
 		type: 'submenu',
 		label: 'Short Date',
-		submenu: createDateTimeTokenSubMenu('D')
+		submenu: createDateTimeTokenSubMenu('D', insertToken)
 	},
 	{
 		type: 'submenu',
 		label: '12hr Timestamp',
-		submenu: createDateTimeTokenSubMenu('t')
+		submenu: createDateTimeTokenSubMenu('t', insertToken)
 	},
 	{
 		type: 'submenu',
 		label: '24hr Timestamp',
-		submenu: createDateTimeTokenSubMenu('T')
+		submenu: createDateTimeTokenSubMenu('T', insertToken)
 	},
 	{
 		type: 'submenu',
@@ -254,6 +254,7 @@ TextInputWithTokenInsertion.propTypes = {
 	maxLength: number,
 	placeholder: string,
 	alignment: string,
+	submenuAlignment: string,
 	onChange: func.isRequired
 }
 

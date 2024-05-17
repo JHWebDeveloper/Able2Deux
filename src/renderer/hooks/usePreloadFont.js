@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react'
 
 export const usePreloadFont = (fonts = []) => {
-  const [ fontsLoaded, setFontsLoaded ] = useState(false)
+	const [ fontsLoaded, setFontsLoaded ] = useState(false)
 
-  useEffect(() => {
-    (async () => {
-      await Promise.all(fonts.map(async fontAttr => {
-        const font = new FontFace(...fontAttr)
+	useEffect(() => {
+		(async () => {
+			await Promise.all(fonts.map(async fontAttr => {
+				const font = new FontFace(...fontAttr)
 
-        await font.load()
+				await font.load()
 
-        document.fonts.add(font)
-      }))
+				document.fonts.add(font)
+			}))
 
-      setFontsLoaded(true)
-    })()
-  }, [])
+			setFontsLoaded(true)
+		})()
+	}, [])
 
-  return [ fontsLoaded ]
+	return [ fontsLoaded ]
 }
