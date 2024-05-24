@@ -7,7 +7,7 @@ Able2 is an all-in-one News Editor's video acquisition tool. Able2 is able to do
 This repo is intended for portfolio viewing purposes only. For official releases please download from the following repo:
 https://github.com/JHWebDeveloper/Able2-public-resources
 
-## [Unreleased][2.5.2] - TBD
+## [2.5.2] - 5.24.2024
 
 ### Changed
 - Anamorphic video is now automatically detected and resized to its display aspect ratio in Fill, Fit and Transform modes. None preserves the anamorphic sample size and metadata.
