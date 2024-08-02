@@ -7,9 +7,15 @@ Able2 is an all-in-one News Editor's video acquisition tool. Able2 is able to do
 This repo is intended for portfolio viewing purposes only. For official releases please download from the following repo:
 https://github.com/JHWebDeveloper/Able2-public-resources
 
-## [Unreleased][2.5.4] - TBD
+## [Unreleased][2.5.5] - TBD
 
 ### Updated
+- Updated internal downloader to latest stable version.
+
+## [2.5.4] - 7.13.2024
+
+### Updated
+- Updated internal downloader to latest stable version.
 - Electron 31
 
 ## [2.5.3] - 5.28.2024
